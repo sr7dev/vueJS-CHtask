@@ -49,25 +49,20 @@
                 </el-table>
             </el-container>
             <div class="pageBox">
-                <el-pagination
-                        v-if="total>page.pageSize"
-                        @size-change="handleSizeChange"
-                        @current-change="handleCurrentChange"
-                        :current-page="page.pageIndex"
-                        :page-sizes="[10, 20, 50]"
-                        :page-size="page.pageSize"
-                        layout="total, sizes, prev, pager, next, jumper"
-                        :total="total">
-                </el-pagination>
+                <pagination v-show="total>0" :total="total" :page.sync="page.pageIndex" 
+                    :limit.sync="page.pageSize" @pagination="getList" />
             </div>
         </el-tabs>
     </div>
 </template>
 
 <script>
+    import Pagination from '@/components/common/pagination'
     export default {
+        components: { Pagination },
         data(){
             return{
+                listLoading: true,
                 page:{
                     pageIndex: 1,
                     pageSize: 10
@@ -151,7 +146,21 @@
                 ]
             }
         },
+        created() {
+            this.getList();
+        },
         methods:{
+            getList() {
+            this.listLoading = true;
+            // fetchListAPI(this.status, this.page.pageIndex, this.page.pageSize, "credit_gradeid")
+            //   .then(response => {
+                // this.tableData = sampleData;  // this.tableData = response;  
+                this.total = this.tableData.length;
+                setTimeout(() => {
+                    this.listLoading = false
+                }, 0.5 * 1000);
+            // })
+            },
             handleTabClick() {
                 if (this.activeTabName == 'first') {
                     this.tableData = [

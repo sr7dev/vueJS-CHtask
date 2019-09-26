@@ -59,6 +59,17 @@ export default new Router({
           name: "productionSubject",
           component: productionSubject
         },
+        
+        {
+          path: "/threeProductsCertification",
+          name: "threeProductsCertification",
+          component: threeProductsCertification
+        },
+        {
+            path: '/addThreeProducts',
+            name: 'addThreeProducts',
+            component: addThreeProducts
+        },
         // {
         //     path: '/threeProductsCertification',
         //     name: 'threeProductsCertification',
@@ -161,15 +172,5 @@ export default new Router({
         }
       ]
     },
-    {
-      path: "/threeProductsCertification",
-      name: "threeProductsCertification",
-      component: threeProductsCertification
-    },
-    {
-        path: '/addThreeProducts',
-        name: 'addThreeProducts',
-        component: addThreeProducts
-    }
   ]
 });
