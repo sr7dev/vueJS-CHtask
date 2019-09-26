@@ -8,33 +8,49 @@
         </div>
         <div class="box">
             <div class="iptBox">
-                <el-button style="background:#00b282;color: #fff;">梅李镇和和合稻米专业合作社</el-button>
-                <div class="select_label">分类</div>
-                <el-select v-model="value" placeholder="请选择">
-                    <el-option
-                            v-for="item in options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                    </el-option>
-                </el-select>
-                <div class="select_label">认证类别</div>
-                <el-select v-model="value" placeholder="请选择">
-                    <el-option
-                            v-for="item in options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                    </el-option>
-                </el-select>
-                <el-button type="primary" plain style="margin-left: 20px;" @click="goAdd()">添加认证</el-button>
+                <el-button type="primary" :to="{ path: 'addThreeProducts' }">添加</el-button>
+                <div class="select_label">企业名称</div>
+                <el-dropdown>
+                  <el-button>
+                    企业名称<i class="el-icon-arrow-down el-icon--right"></i>
+                  </el-button>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item>全部</el-dropdown-item>
+                    <el-dropdown-item>福鼎茶业</el-dropdown-item>
+                    <el-dropdown-item>万里香大米</el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
+                <div class="select_label">产品分类</div>
+                <el-dropdown>
+                  <el-button>
+                      产品分类<i class="el-icon-arrow-down el-icon--right"></i>
+                  </el-button>
+                  <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item>全部</el-dropdown-item>
+                      <el-dropdown-item>福鼎茶业</el-dropdown-item>
+                      <el-dropdown-item>万里香大米</el-dropdown-item>
+                  </el-dropdown-menu>
+                  </el-dropdown>
+                  <div class="select_label">产品分类</div>
+                  <el-dropdown>
+                    <el-button>
+                        产品分类<i class="el-icon-arrow-down el-icon--right"></i>
+                    </el-button>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item>全部</el-dropdown-item>
+                        <el-dropdown-item>福鼎茶业</el-dropdown-item>
+                        <el-dropdown-item>万里香大米</el-dropdown-item>
+                    </el-dropdown-menu>
+                    </el-dropdown>
             </div>
 
             <el-container>
                 <el-table
                         :data="tableData"
                         style="width: 100%"
-                        :row-class-name="rowIndex">
+                        :row-class-name="rowIndex"
+                        fit
+                      >
                     <el-table-column
                         :formatter="order"
                         label="序号"
@@ -42,45 +58,48 @@
                     </el-table-column>
                     <el-table-column
                         prop="name"
-                        label="产品">
+                        label="企业名称">
                     </el-table-column>
                     <el-table-column
                         prop="classification"
-                        label="分类">
+                        label="产品名称">
                     </el-table-column>
                     <el-table-column
                         prop="type"
-                        label="认证类型">
+                        label="产品分类">
                     </el-table-column>
                     <el-table-column
                         prop="bookNo"
-                        label="证书编号">
+                        label="认证类型">
                     </el-table-column>
-                    <el-table-column
-                            prop="date"
-                            label="证书有效期">
                     </el-table-column>
-                    <el-table-column
-                            prop="limitedPeriod"
-                            label="有效时间">
-                    </el-table-column>
-                    <el-table-column
-                            prop="yield"
-                            label="产量">
+                     <el-table-column
+                      label="操作">
+                      <template slot-scope="scope">
+                        <el-button type="primary">查看</el-button>
+                        <el-button
+                          type="danger"
+                          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                      </template>
                     </el-table-column>
                 </el-table>
             </el-container>
             <div class="pageBox">
-                <el-pagination
-                        v-if="total>page.pageSize"
-                        @size-change="handleSizeChange"
-                        @current-change="handleCurrentChange"
-                        :current-page="page.pageIndex"
-                        :page-sizes="[10, 20, 50]"
-                        :page-size="page.pageSize"
-                        layout="total, sizes, prev, pager, next, jumper"
-                        :total="total">
-                </el-pagination>
+                <template>
+                <div :class="{'hidden':hidden}" class="pagination-container">
+                  <el-pagination
+                    :background="background"
+                    :current-page.sync="currentPage"
+                    :page-size.sync="pageSize"
+                    :layout="layout"
+                    :page-sizes="pageSizes"
+                    :total="total"
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                  />
+  </div>
+</template>
+
             </div>
         </div>
     </div>
@@ -89,81 +108,94 @@
 <script>
     export default {
         data(){
-            return{
-                page:{
-                    pageIndex: 1,
-                    pageSize: 10
-                },
-                total:100,
-                options:[
-                    {
-                        value:'全部',
-                        label:''
-                    }
-                ],
-                tableData: [
-                    {
-                        name: '产品',
-                        classification: '分类',
-                        type: '认证类型',
-                        bookNo:'123456',
-                        date:'2018-09-01至2020-05-01',
-                        limitedPeriod:'1年',
-                        yield:'600'
-                    },
-                    {
-                        name: '产品',
-                        classification: '分类',
-                        type: '认证类型',
-                        bookNo:'123456',
-                        date:'2018-09-01至2020-05-01',
-                        limitedPeriod:'1年',
-                        yield:'600'
-                    },
-                    {
-                        name: '产品',
-                        classification: '分类',
-                        type: '认证类型',
-                        bookNo:'123456',
-                        date:'2018-09-01至2020-05-01',
-                        limitedPeriod:'1年',
-                        yield:'600'
-                    },
-                    {
-                        name: '产品',
-                        classification: '分类',
-                        type: '认证类型',
-                        bookNo:'123456',
-                        date:'2018-09-01至2020-05-01',
-                        limitedPeriod:'1年',
-                        yield:'600'
-                    }
-                ]
-            }
+          return{
+            total:100,
+            page: 1,
+            limit: 10,
+            pageSizes: {
+              type: Array,
+              default() {
+                return [10, 20, 30, 50]
+              }
+            },
+            layout: {
+              type: String,
+              default: 'total, sizes, prev, pager, next, jumper'
+            },
+            background: {
+              type: Boolean,
+              default: true
+            },
+            hidden: {
+              type: Boolean,
+              default: false
+            },
+            tableData: [
+              {
+                  name: '产品',
+                  classification: '分类',
+                  type: '认证类型',
+                  bookNo:'123456',
+                  date:'2018-09-01至2020-05-01',
+                  limitedPeriod:'1年',
+                  yield:'600'
+              },
+              {
+                  name: '产品',
+                  classification: '分类',
+                  type: '认证类型',
+                  bookNo:'123456',
+                  date:'2018-09-01至2020-05-01',
+                  limitedPeriod:'1年',
+                  yield:'600'
+              },
+              {
+                  name: '产品',
+                  classification: '分类',
+                  type: '认证类型',
+                  bookNo:'123456',
+                  date:'2018-09-01至2020-05-01',
+                  limitedPeriod:'1年',
+                  yield:'600'
+              },
+              {
+                  name: '产品',
+                  classification: '分类',
+                  type: '认证类型',
+                  bookNo:'123456',
+                  date:'2018-09-01至2020-05-01',
+                  limitedPeriod:'1年',
+                  yield:'600'
+              },
+            ]
+          }
         },
-        methods:{
-            rowIndex({row, rowIndex}) {
-                row.rowIndex = rowIndex;
+        computed: {
+          currentPage: {
+            get() {
+              return this.page
             },
-            order(row) {
-                return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
-            },
-            //分页数量改变
-            handleSizeChange(val){
-                let that=this
-                that.page.pageSize=val;
-                that.fullPage(1);
-            },
-            //分页索引改变
-            handleCurrentChange(val){
-                let that=this
-                that.page.pageIndex=val
-                that.fullPage(1)
-            },
-            //跳转添加
-            goAdd(){
-                this.$router.push({path: 'addThreeProducts'})
+            set(val) {
+              this.$emit('update:page', val)
             }
+          },
+          pageSize: {
+            get() {
+              return this.limit
+            },
+            set(val) {
+              this.$emit('update:limit', val)
+            }
+          }
+        },
+        methods: {
+          handleSizeChange(val) {
+            this.$emit('pagination', { page: this.currentPage, limit: val })
+
+          },
+          handleCurrentChange(val) {
+            this.$emit('pagination', { page: val, limit: this.pageSize })
+          }
         }
     }
 </script>

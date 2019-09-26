@@ -45,11 +45,6 @@ export default new Router({
                 //     component: threeProductsCertification
                 // },
                 {
-                    path: '/addThreeProducts',
-                    name: 'addThreeProducts',
-                    component: addThreeProducts
-                },
-                {
                     path: '/regulatoryRecord',
                     name: 'regulatoryRecord',
                     component: regulatoryRecord
@@ -141,5 +136,10 @@ export default new Router({
             name: 'threeProductsCertification',
             component: threeProductsCertification,
         },
+        {
+            path: '/addThreeProducts',
+            name: 'addThreeProducts',
+            component: addThreeProducts
+        }
     ]
 })
