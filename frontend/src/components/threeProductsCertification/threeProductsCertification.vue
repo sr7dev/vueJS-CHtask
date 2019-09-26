@@ -51,11 +51,7 @@
                         :row-class-name="rowIndex"
                         fit
                       >
-                    <el-table-column
-                        :formatter="order"
-                        label="序号"
-                        width="180">
-                    </el-table-column>
+                    <el-table-column :formatter="order" label="序号" width="100"></el-table-column>
                     <el-table-column
                         prop="name"
                         label="企业名称">
@@ -72,7 +68,6 @@
                         prop="bookNo"
                         label="认证类型">
                     </el-table-column>
-                    </el-table-column>
                      <el-table-column
                       label="操作">
                       <template slot-scope="scope">
@@ -85,28 +80,20 @@
                 </el-table>
             </el-container>
             <div class="pageBox">
-                <template>
-                <div :class="{'hidden':hidden}" class="pagination-container">
-                  <el-pagination
-                    :background="background"
-                    :current-page.sync="currentPage"
-                    :page-size.sync="pageSize"
-                    :layout="layout"
-                    :page-sizes="pageSizes"
-                    :total="total"
-                    @size-change="handleSizeChange"
-                    @current-change="handleCurrentChange"
-                  />
-  </div>
-</template>
-
+              <pagination v-show="total>0" :total="total" :page.sync="page.pageIndex" 
+                  :limit.sync="page.pageSize" @pagination="getList" />
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import Pagination from '@/components/common/pagination'
     export default {
+      components: { Pagination },
+        created() {
+            this.getList();
+        },
         data(){
           return{
             total:100,
@@ -189,13 +176,23 @@
           }
         },
         methods: {
-          handleSizeChange(val) {
-            this.$emit('pagination', { page: this.currentPage, limit: val })
-
+          getList() {
+            this.listLoading = true;
+            // fetchListAPI(this.status, this.page.pageIndex, this.page.pageSize, "credit_gradeid")
+            //   .then(response => {
+                // this.tableData = sampleData;  // this.tableData = response;  
+                this.total = this.tableData.length;
+                setTimeout(() => {
+                  this.listLoading = false
+                }, 0.5 * 1000);
+            // })
           },
-          handleCurrentChange(val) {
-            this.$emit('pagination', { page: val, limit: this.pageSize })
-          }
+          rowIndex({ row, rowIndex }) {
+            row.rowIndex = rowIndex;
+          },
+          order(row) {
+            return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
+          },
         }
     }
 </script>
