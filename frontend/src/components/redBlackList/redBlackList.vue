@@ -2,17 +2,12 @@
     <div class="container">
         <div class="title">
             <el-breadcrumb separator=" ">
-                <el-breadcrumb-item :to="{ path: '/' }">红黑名单</el-breadcrumb-item>
+                <el-breadcrumb-item>红黑名单</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <div class="box">
-            <div class="iptBox">
-                <el-button
-                        v-on:click="onClickRedList">红名单</el-button>
-                <el-button
-                        style="margin: 0; border-left: transparent;"
-                        v-on:click="onClickBlackList">黑名单</el-button>
-            </div>
+        <el-tabs v-model="activeTabName" type="border-card" @tab-click="handleTabClick">
+            <el-tab-pane label="红名单" name="first"></el-tab-pane>
+            <el-tab-pane label="红名单" name="second"></el-tab-pane>
             <div>
                 <label
                         style="margin-right: 30px">乡镇</label>
@@ -65,7 +60,7 @@
                         :total="total">
                 </el-pagination>
             </div>
-        </div>
+        </el-tabs>
     </div>
 </template>
 
@@ -84,6 +79,7 @@
                         label:''
                     }
                 ],
+                activeTabName: 'first',
                 villageTown: [{
                     value: '全部',
                     label: '全部'
@@ -156,125 +152,127 @@
             }
         },
         methods:{
-            onClickRedList() {
-                this.tableData = [
-                    {
-                        companyName: '产品',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    },
-                    {
-                        companyName: '产品',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    },
-                    {
-                        companyName: '产品',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    },
-                    {
-                        companyName: '产品',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    }, {
-                        companyName: '产品',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    },
-                    {
-                        companyName: '产品',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    }, {
-                        companyName: '产品',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    }, {
-                        companyName: '产品',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    },
-                    {
-                        companyName: '产品',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    }, {
-                        companyName: '产品',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    },
-                ]
-            },
-            onClickBlackList() {
-                this.tableData = [
-                    {
-                        companyName: '产品1',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    },
-                    {
-                        companyName: '产品1',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    },
-                    {
-                        companyName: '产品1',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    },
-                    {
-                        companyName: '产品1',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    }, {
-                        companyName: '产品1',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    },
-                    {
-                        companyName: '产品1',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    }, {
-                        companyName: '产品1',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    }, {
-                        companyName: '产品1',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    },
-                    {
-                        companyName: '产品1',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    }, {
-                        companyName: '产品1',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    },
-                ]
+            handleTabClick() {
+                if (this.activeTabName == 'first') {
+                    this.tableData = [
+                        {
+                            companyName: '产品',
+                            currentCreditRating: '分类',
+                            ratingTime: '2018-09-01至2020-05-01',
+                            ratingUnit:'123456'
+                        },
+                        {
+                            companyName: '产品',
+                            currentCreditRating: '分类',
+                            ratingTime: '2018-09-01至2020-05-01',
+                            ratingUnit:'123456'
+                        },
+                        {
+                            companyName: '产品',
+                            currentCreditRating: '分类',
+                            ratingTime: '2018-09-01至2020-05-01',
+                            ratingUnit:'123456'
+                        },
+                        {
+                            companyName: '产品',
+                            currentCreditRating: '分类',
+                            ratingTime: '2018-09-01至2020-05-01',
+                            ratingUnit:'123456'
+                        }, {
+                            companyName: '产品',
+                            currentCreditRating: '分类',
+                            ratingTime: '2018-09-01至2020-05-01',
+                            ratingUnit:'123456'
+                        },
+                        {
+                            companyName: '产品',
+                            currentCreditRating: '分类',
+                            ratingTime: '2018-09-01至2020-05-01',
+                            ratingUnit:'123456'
+                        }, {
+                            companyName: '产品',
+                            currentCreditRating: '分类',
+                            ratingTime: '2018-09-01至2020-05-01',
+                            ratingUnit:'123456'
+                        }, {
+                            companyName: '产品',
+                            currentCreditRating: '分类',
+                            ratingTime: '2018-09-01至2020-05-01',
+                            ratingUnit:'123456'
+                        },
+                        {
+                            companyName: '产品',
+                            currentCreditRating: '分类',
+                            ratingTime: '2018-09-01至2020-05-01',
+                            ratingUnit:'123456'
+                        }, {
+                            companyName: '产品',
+                            currentCreditRating: '分类',
+                            ratingTime: '2018-09-01至2020-05-01',
+                            ratingUnit:'123456'
+                        },
+                    ]
+                }
+                else {
+                    this.tableData = [
+                        {
+                            companyName: '产品1',
+                            currentCreditRating: '分类',
+                            ratingTime: '2018-09-01至2020-05-01',
+                            ratingUnit:'123456'
+                        },
+                        {
+                            companyName: '产品1',
+                            currentCreditRating: '分类',
+                            ratingTime: '2018-09-01至2020-05-01',
+                            ratingUnit:'123456'
+                        },
+                        {
+                            companyName: '产品1',
+                            currentCreditRating: '分类',
+                            ratingTime: '2018-09-01至2020-05-01',
+                            ratingUnit:'123456'
+                        },
+                        {
+                            companyName: '产品1',
+                            currentCreditRating: '分类',
+                            ratingTime: '2018-09-01至2020-05-01',
+                            ratingUnit:'123456'
+                        }, {
+                            companyName: '产品1',
+                            currentCreditRating: '分类',
+                            ratingTime: '2018-09-01至2020-05-01',
+                            ratingUnit:'123456'
+                        },
+                        {
+                            companyName: '产品1',
+                            currentCreditRating: '分类',
+                            ratingTime: '2018-09-01至2020-05-01',
+                            ratingUnit:'123456'
+                        }, {
+                            companyName: '产品1',
+                            currentCreditRating: '分类',
+                            ratingTime: '2018-09-01至2020-05-01',
+                            ratingUnit:'123456'
+                        }, {
+                            companyName: '产品1',
+                            currentCreditRating: '分类',
+                            ratingTime: '2018-09-01至2020-05-01',
+                            ratingUnit:'123456'
+                        },
+                        {
+                            companyName: '产品1',
+                            currentCreditRating: '分类',
+                            ratingTime: '2018-09-01至2020-05-01',
+                            ratingUnit:'123456'
+                        }, {
+                            companyName: '产品1',
+                            currentCreditRating: '分类',
+                            ratingTime: '2018-09-01至2020-05-01',
+                            ratingUnit:'123456'
+                        },
+                    ]
+                }
             },
             rowIndex({row, rowIndex}) {
                 row.rowIndex = rowIndex;
@@ -302,5 +300,4 @@
 </script>
 
 <style scoped>
-
 </style>
