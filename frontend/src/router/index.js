@@ -153,6 +153,11 @@ export default new Router({
           path: "/cp_inventoryDynamics",
           name: "cp_inventoryDynamics",
           component: cp_inventoryDynamics
+        },
+        {
+          path: '/redBlackList',
+          name: 'redBlackList',
+          component: redBlackList,
         }
       ]
     },
@@ -165,11 +170,6 @@ export default new Router({
         path: '/addThreeProducts',
         name: 'addThreeProducts',
         component: addThreeProducts
-    },
-    {
-      path: '/redBlackList',
-      name: 'redBlackList',
-      component: redBlackList,
     }
   ]
 });
