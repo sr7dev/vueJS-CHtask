@@ -38,7 +38,7 @@
                 <el-menu-item index="/">
                     <span slot="title">信用评级</span>
                 </el-menu-item>
-                <el-menu-item index="/">
+                <el-menu-item index="/redBlackList">
                     <span slot="title">红黑名单</span>
                 </el-menu-item>
                 <el-menu-item index="/threeProductsCertification">
