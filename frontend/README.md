@@ -1,4 +1,4 @@
-# hello-world
+# Intelligent Agriculture
 
 ## Project setup
 ```
