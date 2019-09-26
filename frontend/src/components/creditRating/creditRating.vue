@@ -21,14 +21,14 @@
       </div>
 
       <el-container>
-        <el-table :data="tableData" v-loading="listLoading" fit style="width: 100%;" highlight-current-row :row-class-name="rowIndex">
-          <el-table-column :formatter="order" label="序号" ></el-table-column>
-          <el-table-column prop="approvalGrade" label="名称"></el-table-column>
-          <el-table-column prop="originalGrade" label="原信用评级"></el-table-column>
-          <el-table-column prop="nowGrade" label="现信用评级"></el-table-column>
+        <el-table :data="tableData" v-loading="listLoading" fit style="width: 100%;" highlight-current-row>
+          <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
+          <el-table-column prop="approvalGrade" label="名称" width="150"></el-table-column>
+          <el-table-column prop="originalGrade" label="原信用评级" width="150"></el-table-column>
+          <el-table-column prop="nowGrade" label="现信用评级" width="150"></el-table-column>
           <el-table-column prop="gradeTime" label="评级时间"></el-table-column>
           <el-table-column prop="gradeUnit" label="评级单位"></el-table-column>
-          <el-table-column prop="approvalStatus" label="状态"></el-table-column>
+          <el-table-column prop="approvalStatus" label="状态" width="100"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="{row}">
                 <el-button v-on:click="$router.push(`/creditRating/${row.creditGradeId}`)">查看</el-button>
