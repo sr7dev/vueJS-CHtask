@@ -8,14 +8,16 @@
     <div class="box">
       <div class="iptBox">
         <div class="select_label">乡镇</div>
-        <el-select v-model="township" placeholder="请选择">
+        <el-select v-model="township" placeholder="请选择" @change="filterData()">
           <el-option v-for="item in ['全部', '梅李镇', '古里镇']" :key="item" :label="item" :value="item"></el-option>
         </el-select>
         <div class="select_label">状态</div>
-        <el-select v-model="status" placeholder="请选择">
+        <el-select v-model="status" placeholder="请选择" @change="filterData()">
           <el-option v-for="item in ['全部', '待审批', '已同意', '已拒绝']" :key="item" :label="item" :value="item"></el-option>
         </el-select>
-        <el-button type="outline-primary" v-on:click="filterData()">同步数据</el-button>
+        <div class="select_label">
+            <el-button type="outline-primary" v-on:click="filterData()">同步数据</el-button>
+        </div>
       </div>
 
       <el-container>
@@ -28,12 +30,14 @@
           <el-table-column prop="gradeUnit" label="评级单位"></el-table-column>
           <el-table-column prop="approvalStatus" label="状态"></el-table-column>
           <el-table-column label="操作">
-            <el-tooltip class="item" effect="dark" content="企业详情" placement="top">
-              <el-button v-on:click="$router.push(`/credit-rating/${data.item.creditGradeId}`)">查看</el-button>
-            </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="经营产品" placement="top">
-              <el-button v-on:click="$router.push(`/credit-rating/edit/${data.item.creditGradeId}`)">修改评级</el-button>
-            </el-tooltip>
+            <template slot-scope="{row}">
+                <el-tooltip class="item" effect="dark" content="企业详情" placement="top">
+                <el-button v-on:click="$router.push(`/creditRating/${row.creditGradeId}`)">查看</el-button>
+                </el-tooltip>
+                <el-tooltip class="item" effect="dark" content="经营产品" placement="top">
+                <el-button v-on:click="$router.push(`/creditRating/edit/${row.creditGradeId}`)">修改评级</el-button>
+                </el-tooltip>
+            </template>
           </el-table-column>
         </el-table>
       </el-container>
@@ -72,6 +76,17 @@ export default {
       row.rowIndex = rowIndex;
     },
     
+    filterData() {
+    this.tableData = sampleData;
+    console.log(this.status);
+    if(this.township != '全部') {
+        // this.tableData = this.tableData.filter(item => item.approvalStatus == this.township);
+    }
+    if(this.status != '全部') {
+        this.tableData = this.tableData.filter(item => item.approvalStatus == this.status);
+    }
+
+    },
     getList() {
       this.listLoading = true;
       this.tableData = sampleData

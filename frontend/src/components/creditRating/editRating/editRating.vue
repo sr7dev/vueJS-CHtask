@@ -5,146 +5,121 @@
         <el-breadcrumb-item :to="{ path: '/' }">经营主体</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="box">
-      <div class="iptBox">
-        <div class="select_label">产品</div>
-        <el-select v-model="value" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
-        <div class="select_label">企业规模</div>
-        <el-select v-model="value" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
-      </div>
-
-      <el-container>
-        <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
-          <el-table-column :formatter="order" label="序号" width="180"></el-table-column>
-          <el-table-column prop="name" label="企业名称"></el-table-column>
-          <el-table-column prop="classification" label="企业规模"></el-table-column>
-          <el-table-column prop="type" label="产品类型"></el-table-column>
-          <el-table-column prop="bookNo" label="法定代表人"></el-table-column>
-          <el-table-column prop="date" label="企业地址"></el-table-column>
-          <el-table-column prop="limitedPeriod" label="社会信用统一代码"></el-table-column>
-          <el-table-column prop="yield" label="联系方式"></el-table-column>
-          <el-table-column prop="yield" label="监管对象性质"></el-table-column>
-          <el-table-column label="操作">
-            <el-tooltip class="item" effect="dark" content="企业详情" placement="top">
-              <el-button icon="el-icon-search" circle></el-button>
-            </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="经营产品" placement="top">
-              <el-button icon="el-icon-goods" circle @click="goBussinessProducts"></el-button>
-            </el-tooltip>
-          </el-table-column>
-        </el-table>
-      </el-container>
-      <div class="pageBox">
-        <el-pagination
-          v-if="total>page.pageSize"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="page.pageIndex"
-          :page-sizes="[10, 20, 50]"
-          :page-size="page.pageSize"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total"
-        ></el-pagination>
-      </div>
+    <div class="box">      
+        <template v-if="data">
+          <div class="item-row">
+            <div class="item">
+              <div class="item-label">状态</div>
+              <div class="item-value">{{data.approvalStatus}}</div>
+            </div>
+          </div>
+          <div class="item-row">
+            <div class="item">
+              <div class="item-label">评级时间</div>
+              <div class="item-value">{{data.gradeTime}}</div>
+            </div>
+            <div class="item">
+              <div class="item-label">名称</div>
+              <div class="item-value">{{data.approvalGrade}}</div>
+            </div>
+          </div>
+          <div class="item-row">
+            <div class="item">
+              <div class="item-label">原信用评级</div>
+              <div class="item-value">{{data.originalGrade}}</div>
+            </div>
+          </div>
+          <div class="item-row">
+            <div class="item">
+              <div class="item-label">现信用评级</div>
+              <div class="item-value">
+                <el-select v-model="data.nowGrade" placeholder="请选择">
+                  <el-option v-for="item in ['A级（守信）', 'B级（基本守信）', 'C级（失信）']" 
+                  :key="item" :label="item" :value="item"></el-option>
+                </el-select>
+              </div>
+            </div>
+          </div>
+          <div class="item-row">
+            <div class="item">
+              <div class="item-label">评级单位</div>
+              <div class="item-value">{{data.gradeUnit}}</div>
+            </div>
+          </div>
+          <div class="item-row">
+            <div class="item">
+              <div class="item-label">
+                <input type="file" id="file" style="display: none" ref="file" v-on:change="handleFileUpload()"/>
+                <el-button type="warning" plain @click="chooseFile()">保存修改</el-button>
+              </div>
+              <div class="item-value">{{data.creditCode}} </div>
+              <div class="item-value" v-if="file"> ({{file.name}})</div>
+            </div>
+          </div>
+          <div class="item-row">
+            <div class="item">
+              <div class="item-label">
+                <el-button type="success" plain @click="saveChanges()">同意</el-button>
+              </div>
+              <div class="item-value">
+                <el-button type="danger" plain @click="$router.go(-1)">拒绝</el-button>
+              </div>
+            </div>
+          </div>
+        </template>
+        <template v-if="!data">
+          No matching data!
+        </template>
     </div>
   </div>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      page: {
-        pageIndex: 1,
-        pageSize: 10
+import sampleData from '../_data';
+  export default {
+    name: "EditRating",
+    data() {
+      return {
+        id: -1,
+        file: null,
+        pageName: this.$route.name,
+        datas: sampleData,
+        data: null,
+        options: ["A级（守信）", "B级（基本守信）", "C级（失信）"],
+      }
+    },
+    created() {
+      this.id = this.$route.params.id;
+      const pos = this.datas.findIndex(i=> i.creditGradeId == this.id);
+      if(pos >= 0) {
+        this.data = this.datas[pos];
+      }
+    },
+    methods: {
+      chooseFile() {
+        this.$refs.file.click();
       },
-      total: 100,
-      options: [
-        {
-          value: "全部",
-          label: ""
+      handleFileUpload() {
+        this.file = this.$refs.file.files[0];
+        console.log(this.file);
+      },
+      saveChanges(event) {
+        //event.preventDefault();
+        var formData = new FormData();
+        formData.append('test','df');
+        if(this.file) {
+          formData.append('file', this.file);
         }
-      ],
-      tableData: [
-        {
-          name: "产品",
-          classification: "分类",
-          type: "认证类型",
-          bookNo: "123456",
-          date: "2018-09-01至2020-05-01",
-          limitedPeriod: "1年",
-          yield: "600"
-        },
-        {
-          name: "产品",
-          classification: "分类",
-          type: "认证类型",
-          bookNo: "123456",
-          date: "2018-09-01至2020-05-01",
-          limitedPeriod: "1年",
-          yield: "600"
-        },
-        {
-          name: "产品",
-          classification: "分类",
-          type: "认证类型",
-          bookNo: "123456",
-          date: "2018-09-01至2020-05-01",
-          limitedPeriod: "1年",
-          yield: "600"
-        },
-        {
-          name: "产品",
-          classification: "分类",
-          type: "认证类型",
-          bookNo: "123456",
-          date: "2018-09-01至2020-05-01",
-          limitedPeriod: "1年",
-          yield: "600"
-        }
-      ]
-    };
-  },
-  methods: {
-    rowIndex({ row, rowIndex }) {
-      row.rowIndex = rowIndex;
+        formData.append('data', this.data);
+
+        console.log(formData.getAll('test'));
+
+        // this.$router.go(-1);
+      }
     },
-    order(row) {
-      return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
-    },
-    //分页数量改变
-    handleSizeChange(val) {
-      let that = this;
-      that.page.pageSize = val;
-      that.fullPage(1);
-    },
-    //分页索引改变
-    handleCurrentChange(val) {
-      let that = this;
-      that.page.pageIndex = val;
-      that.fullPage(1);
-    },
-    //去经营产品
-    goBussinessProducts() {
-      this.$router.push({ path: "businessProducts" });
-    }
-  }
-};
+  };
 </script>
 
-<style scoped>
+<style lang="scss">
+@import "./editRating.scss";
 </style>

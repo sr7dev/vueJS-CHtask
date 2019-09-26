@@ -44,12 +44,12 @@ export default new Router({
           component: creditRating
         },
         {
-          path: "/detailsRating/:id",
+          path: "/creditRating/:id",
           name: "detailsRating",
           component: detailsRating
         },
         {
-          path: "/editRating/edit/:id",
+          path: "/creditRating/edit/:id",
           name: "editRating",
           component: editRating
         },
