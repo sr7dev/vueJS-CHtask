@@ -8,20 +8,21 @@
     <div class="box">
       <div class="iptBox">
         <div class="select_label">乡镇</div>
-        <el-select v-model="township" placeholder="请选择" @change="filterData()">
+        <el-select v-model="township" placeholder="请选择" @change="getList()">
           <el-option v-for="item in ['全部', '梅李镇', '古里镇']" :key="item" :label="item" :value="item"></el-option>
         </el-select>
         <div class="select_label">状态</div>
-        <el-select v-model="status" placeholder="请选择" @change="filterData()">
+        <el-select v-model="status" placeholder="请选择" @change="getList()">
           <el-option v-for="item in ['全部', '待审批', '已同意', '已拒绝']" :key="item" :label="item" :value="item"></el-option>
         </el-select>
         <div class="select_label">
-            <el-button type="outline-primary" v-on:click="filterData()">同步数据</el-button>
+            <el-button type="outline-primary" v-on:click="getList()">同步数据</el-button>
         </div>
       </div>
 
       <el-container>
-        <el-table :data="tableData" v-loading="listLoading" fit style="width: 100%;" highlight-current-row>
+        <el-table :data="tableData" v-loading="listLoading" fit style="width: 100%;"
+        :row-class-name="rowIndex" highlight-current-row>
           <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
           <el-table-column prop="approvalGrade" label="名称" width="150"></el-table-column>
           <el-table-column prop="originalGrade" label="原信用评级" width="150"></el-table-column>
@@ -71,45 +72,20 @@ export default {
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
     },
-    
-    filterData() {
-    this.tableData = sampleData;
-    console.log(this.status);
-    if(this.township != '全部') {
-        // this.tableData = this.tableData.filter(item => item.approvalStatus == this.township);
-    }
-    if(this.status != '全部') {
-        this.tableData = this.tableData.filter(item => item.approvalStatus == this.status);
-    }
-
-    },
     getList() {
       this.listLoading = true;
-      this.tableData = sampleData
-      this.total = this.tableData.length;
-      setTimeout(() => {
-        this.listLoading = false
-      }, 0.5 * 1000);
+      // fetchListAPI(this.status, this.page.pageIndex, this.page.pageSize, "credit_gradeid")
+      //   .then(response => {
+          this.tableData = sampleData;  // this.tableData = response;  
+          this.total = this.tableData.length;
+          setTimeout(() => {
+            this.listLoading = false
+          }, 0.5 * 1000);
+      // })
     },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
     },
-    //分页数量改变
-    handleSizeChange(val) {
-      let that = this;
-      that.page.pageSize = val;
-      that.fullPage(1);
-    },
-    //分页索引改变
-    handleCurrentChange(val) {
-      let that = this;
-      that.page.pageIndex = val;
-      that.fullPage(1);
-    },
-    //去经营产品
-    goBussinessProducts() {
-      this.$router.push({ path: "businessProducts" });
-    }
   }
 };
 </script>
