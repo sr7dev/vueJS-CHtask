@@ -35,7 +35,7 @@
                 <el-menu-item index="/">
                     <span slot="title">企业信用档案</span>
                 </el-menu-item>
-                <el-menu-item index="/">
+                <el-menu-item index="/creditRating">
                     <span slot="title">信用评级</span>
                 </el-menu-item>
                 <el-menu-item index="/">
