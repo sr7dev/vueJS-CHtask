@@ -11,6 +11,7 @@ import management from "@/components/management/management";
 import businessProducts from "@/components/management/businessProducts";
 import companyDetails from "@/components/management/companyDetails";
 import redBlackList from '@/components/redBlackList/redBlackList';
+import agriculturalDisability from '@/components/agriculturalDisability/agriculturalDisability';
 
 // 企业
 import cp_productionSubject from "@/components/company/productionSubject/productionSubject"; //生产主体
@@ -153,11 +154,6 @@ export default new Router({
           path: "/cp_inventoryDynamics",
           name: "cp_inventoryDynamics",
           component: cp_inventoryDynamics
-        },
-        {
-          path: '/redBlackList',
-          name: 'redBlackList',
-          component: redBlackList,
         }
       ]
     },
@@ -170,6 +166,32 @@ export default new Router({
         path: '/addThreeProducts',
         name: 'addThreeProducts',
         component: addThreeProducts
+    },
+    {
+      path: "/",
+      name: "home",
+      component: home,
+      redirect: "cp_productionSubject",
+      children: [
+        {
+          path: "/agriculturalDisability",
+          name: "agriculturalDisability",// 农残检测
+          component: agriculturalDisability
+        },
+      ]
+    },
+    {
+      path: "/",
+      name: "home",
+      component: home,
+      redirect: "cp_productionSubject",
+      children: [
+        {
+          path: '/redBlackList',
+          name: 'redBlackList',// 红黑名单
+          component: redBlackList,
+        },
+      ]
     }
   ]
 });
