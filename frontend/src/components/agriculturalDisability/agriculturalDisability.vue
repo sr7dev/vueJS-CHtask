@@ -8,7 +8,7 @@
         <div>
             <div class="iptBox">
                 <div class="select_label">乡镇</div>
-                <el-select v-model="villageTownValue" placeholder="全部" style="width: 150px;">
+                <el-select v-model="villageTownValue" placeholder="全部">
                     <el-option
                             v-for="item in villageTown"
                             :key="item.value"
@@ -18,7 +18,7 @@
                     </el-option>
                 </el-select>
                 <div class="select_label">项目</div>
-                <el-select v-model="projectsValue" placeholder="全部" style="width: 150px;">
+                <el-select v-model="projectsValue" placeholder="全部">
                     <el-option
                             v-for="item in projects"
                             :key="item.value"
@@ -27,7 +27,7 @@
                     </el-option>
                 </el-select>
                 <div class="select_label">样品</div>
-                <el-select v-model="samplesValue" placeholder="全部" style="width: 150px;">
+                <el-select v-model="samplesValue" placeholder="全部">
                     <el-option
                             v-for="item in samples"
                             :key="item.value"
@@ -36,7 +36,7 @@
                     </el-option>
                 </el-select>
                 <div class="select_label">定性</div>
-                <el-select v-model="qualitativesValue" placeholder="全部" style="width: 150px;">
+                <el-select v-model="qualitativesValue" placeholder="全部">
                     <el-option
                             v-for="item in qualitatives"
                             :key="item.value"
@@ -45,7 +45,7 @@
                     </el-option>
                 </el-select>
                 <div class="select_label">检测单位</div>
-                <el-select v-model="detectionUnitValue" placeholder="全部" style="width: 150px;">
+                <el-select v-model="detectionUnitValue" placeholder="全部">
                     <el-option
                             v-for="item in detectionUnit"
                             :key="item.value"
@@ -54,52 +54,96 @@
                     </el-option>
                 </el-select>
             </div>
+            <div class="iptBox">
+                <div class="select_label">开始日期</div>
+                <el-date-picker
+                        type="date"
+                        placeholder="选择日期"
+                        v-model="startDate"
+                        style="width: 300px;"
+                ></el-date-picker>
+                <div class="select_label">结束日期</div>
+                <el-date-picker
+                        type="date"
+                        placeholder="选择日期"
+                        v-model="endDate"
+                        style="width: 300px;"
+                ></el-date-picker>
+                <el-checkbox v-model="bGreenProducts" style="margin-left: 30px">专项1:绿色优质农产品生产基地</el-checkbox>
+                <el-button v-on:click="onClickExport" style="margin-left: 30px">导出表格</el-button>
+                <span style="float: right">总计{{totalSize}}条检测</span>
+            </div>
             <el-container>
                 <el-table
-                        :data="tableData"
+                        :data="agriculturalData"
                         style="width: 100%"
                         :row-class-name="rowIndex">
                     <el-table-column
                             :formatter="order"
                             label="序号"
-                            width="180">
+                            width="80">
                     </el-table-column>
                     <el-table-column
-                            prop="companyName"
-                            label="企业名称">
+                            prop="serialNumber"
+                            label="编号"
+                            width="100">
                     </el-table-column>
                     <el-table-column
-                            prop="currentCreditRating"
-                            label="现信用评级">
+                            prop="detectionItem"
+                            label="检测项目">
                     </el-table-column>
                     <el-table-column
-                            prop="ratingTime"
-                            label="评级时间">
+                            prop="sampleName"
+                            label="样品名称">
                     </el-table-column>
                     <el-table-column
-                            prop="ratingUnit"
-                            label="评级单位">
+                            prop="source"
+                            label="来源">
+                    </el-table-column>
+                    <el-table-column
+                            prop="quantitativeResult"
+                            label="定量结果">
+                    </el-table-column>
+                    <el-table-column
+                            prop="qualitativeResult"
+                            label="定性结果">
+                    </el-table-column>
+                    <el-table-column
+                            prop="detectionTime"
+                            label="检测时间"
+                            width="240">
+                    </el-table-column>
+                    <el-table-column
+                            prop="detectionUnit"
+                            label="检测单位"
+                            width="240">
+                    </el-table-column>
+                    <el-table-column
+                            prop="surveyor"
+                            label="检验员">
+                    </el-table-column>
+                    <el-table-column
+                            prop="particular"
+                            label="专项1">
+                        <template scope="scope">
+                            <i v-if="scope.row.particular" class="el-icon-check"></i>
+                            <i v-else></i>
+                        </template>
                     </el-table-column>
                 </el-table>
             </el-container>
             <div class="pageBox">
-                <el-pagination
-                        v-if="total>page.pageSize"
-                        @size-change="handleSizeChange"
-                        @current-change="handleCurrentChange"
-                        :current-page="page.pageIndex"
-                        :page-sizes="[10, 20, 50]"
-                        :page-size="page.pageSize"
-                        layout="total, sizes, prev, pager, next, jumper"
-                        :total="total">
-                </el-pagination>
+                <pagination v-show="total>0" :total="total" :page.sync="page.pageIndex"
+                            :limit.sync="page.pageSize" @pagination="getList" />
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import Pagination from '@/components/common/pagination'
     export default {
+        components: { Pagination },
         data(){
             return{
                 page:{
@@ -169,38 +213,43 @@
                     label: '品鉴局'
                 }],
                 detectionUnitValue: '',
-                tableData: [
+                startDate: '',
+                endDate: '',
+                bGreenProducts: false,
+                totalSize: '159',
+                agriculturalData: [
                     {
-                        companyName: '产品',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
+                        serialNumber: '产品',
+                        detectionItem: '分类',
+                        sampleName: '2018-09-01至2020-05-01',
+                        source:'123456',
+                        quantitativeResult:'aaaaaa',
+                        qualitativeResult:'ssssss',
+                        detectionTime:'dddddd',
+                        detectionUnit:'fffffffff',
+                        surveyor:'ggggggg',
+                        particular: true
                     },
                 ]
             }
         },
+        created() {
+            this.getList();
+        },
         methods:{
-            handleTabClick() {
-                if (this.activeTabName == 'first') {
-                    this.tableData = [
-                        {
-                            companyName: '产品',
-                            currentCreditRating: '分类',
-                            ratingTime: '2018-09-01至2020-05-01',
-                            ratingUnit:'123456'
-                        },
-                    ]
-                }
-                else {
-                    this.tableData = [
-                        {
-                            companyName: '产品1',
-                            currentCreditRating: '分类',
-                            ratingTime: '2018-09-01至2020-05-01',
-                            ratingUnit:'123456'
-                        },
-                    ]
-                }
+            onClickExport() {
+
+            },
+            getList() {
+                this.listLoading = true;
+                // fetchListAPI(this.status, this.page.pageIndex, this.page.pageSize, "credit_gradeid")
+                //   .then(response => {
+                // this.tableData = sampleData;  // this.tableData = response;
+                this.total = this.agriculturalData.length;
+                setTimeout(() => {
+                    this.listLoading = false
+                }, 0.5 * 1000);
+                // })
             },
             rowIndex({row, rowIndex}) {
                 row.rowIndex = rowIndex;
@@ -208,18 +257,8 @@
             order(row) {
                 return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
             },
-            //分页数量改变
-            handleSizeChange(val){
-                let that=this
-                that.page.pageSize=val;
-            },
-            //分页索引改变
-            handleCurrentChange(val){
-                let that=this
-                that.page.pageIndex=val
-            },
             goAdd(){
-                this.$router.push({path: 'addRedBlackList'})
+                this.$router.push({path: 'addAgriculturalDisability'})
             },
         }
     }
