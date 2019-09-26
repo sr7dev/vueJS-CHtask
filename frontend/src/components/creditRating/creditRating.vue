@@ -22,7 +22,7 @@
 
       <el-container>
         <el-table :data="tableData" v-loading="listLoading" fit style="width: 100%;" highlight-current-row :row-class-name="rowIndex">
-          <el-table-column :formatter="order" label="序号"></el-table-column>
+          <el-table-column :formatter="order" label="序号" ></el-table-column>
           <el-table-column prop="approvalGrade" label="名称"></el-table-column>
           <el-table-column prop="originalGrade" label="原信用评级"></el-table-column>
           <el-table-column prop="nowGrade" label="现信用评级"></el-table-column>
@@ -31,12 +31,8 @@
           <el-table-column prop="approvalStatus" label="状态"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="{row}">
-                <el-tooltip class="item" effect="dark" content="企业详情" placement="top">
                 <el-button v-on:click="$router.push(`/creditRating/${row.creditGradeId}`)">查看</el-button>
-                </el-tooltip>
-                <el-tooltip class="item" effect="dark" content="经营产品" placement="top">
                 <el-button v-on:click="$router.push(`/creditRating/edit/${row.creditGradeId}`)">修改评级</el-button>
-                </el-tooltip>
             </template>
           </el-table-column>
         </el-table>
