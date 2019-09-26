@@ -10,6 +10,7 @@ import rectificationRecord from "@/components/regulatoryRecord/rectificationReco
 import management from "@/components/management/management";
 import businessProducts from "@/components/management/businessProducts";
 import companyDetails from "@/components/management/companyDetails";
+import redBlackList from '@/components/redBlackList/redBlackList';
 
 // 企业
 import cp_productionSubject from "@/components/company/productionSubject/productionSubject"; //生产主体
@@ -164,6 +165,11 @@ export default new Router({
         path: '/addThreeProducts',
         name: 'addThreeProducts',
         component: addThreeProducts
+    },
+    {
+      path: '/redBlackList',
+      name: 'redBlackList',
+      component: redBlackList,
     }
   ]
 });
