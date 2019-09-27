@@ -19,207 +19,283 @@
         </el-row>
         <el-row>
           <el-col :span="6">
+            <el-form-item label="对象类型">
+              <el-input v-model="form.companyType" style="width:60%" disabled></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
             <el-form-item label="乡镇">
               <el-input v-model="form.townShip" style="width:60%" disabled></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="企业">
-              <el-select v-model="form.enterprise" placeholder="请选择">
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
+            <el-form-item label="行业">
+              <el-select v-model="form.agriculturalClassification">
+                <el-option v-for="(item, index) in [{value:0, label:'养殖业'}, {value:1, label:'畜牧业'}, {value:2, label: '种植业'}]"                 
+                    :label="item.label" :value="item.value" :key="index"></el-option>
               </el-select>
-              <el-button type="primary" icon="el-icon-plus" size="mini" class="min-plus"></el-button>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="选择日期">
-              <el-date-picker
-                v-model="form.date"
-                align="right"
-                type="date"
-                placeholder="选择日期"
-              ></el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="检查人">
-              <el-input v-model="form.checker" style="width:60%"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <div class=bg-blue>检查内容与结果</div>
+        <div v-show="form.companyType == '1'">
+          <el-row>
+            <el-col :span="6">
+              <el-form-item label="单位名称">
+                <el-input v-model="form.companyName" style="width:60%"></el-input>
+                <span>必填</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="负责人">
+                <el-input v-model="form.chargePerson" style="width:60%"></el-input>
+                <span>必填</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="地址">
+                <el-input v-model="form.companyAddress" style="width:60%"></el-input>
+                <span>必填</span>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <div class="data-group-border">
+            <el-row>
+              <el-col :span="2">
+                <el-form-item label="种植"></el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="品种">
+                  <el-input v-model="form.productInfo.data_0_0" style="width:60%"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="种植面积">
+                  <el-input v-model="form.productInfo.data_0_1" style="width:60%"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="2">
+                <el-form-item label="（亩）"></el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="2">
+                <el-form-item label="水产品"></el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="品种">
+                  <el-input v-model="form.productInfo.data_1_0" style="width:60%"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="种植面积">
+                  <el-input v-model="form.productInfo.data_1_1" style="width:60%"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="2">
+                <el-form-item label="（亩）"></el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="2">
+                <el-form-item label="畜产品"></el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="品种">
+                  <el-input v-model="form.productInfo.data_2_0" style="width:60%"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="种植面积">
+                  <el-input v-model="form.productInfo.data_2_1" style="width:60%"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="2">
+                <el-form-item label="（头）"></el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="2">
+                <el-form-item label="禽产品"></el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="品种">
+                  <el-input v-model="form.productInfo.data_3_0" style="width:60%"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="种植面积">
+                  <el-input v-model="form.productInfo.data_3_1" style="width:60%"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="2">
+                <el-form-item label="（羽）"></el-form-item>
+              </el-col>
+            </el-row>
+          </div>
+          <el-row>
+            <el-col :span="6">
+              <el-form-item label="三品认证">
+                <el-input v-model="form.qualityStandardId" style="width:60%"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="联系人">
+                <el-input v-model="form.contactPerson" style="width:60%"></el-input>
+                <span>必填</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="联系人手机">
+                <el-input v-model="form.contactMobile" style="width:60%"></el-input>
+                <span>必填</span>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </div>
+        <div v-show="form.companyType == '2'">
+          <el-row>
+            <el-col :span="6">
+              <el-form-item label="姓名">
+                <el-input v-model="form.companyName" style="width:60%"></el-input>
+                <span>必填</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="联系方式">
+                <el-input v-model="form.chargePerson" style="width:60%"></el-input>
+                <span>必填</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="地址">
+                <el-input v-model="form.companyAddress" style="width:60%"></el-input>
+                <span>必填</span>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="6">
+              <el-form-item label="种养殖面积">
+                <el-input v-model="form.companyName" style="width:60%"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="土地来源">
+                <el-input v-model="form.chargePerson" style="width:60%"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <div class="data-group-border">
+            <el-row>
+              <el-col :span="3">
+                <el-form-item label="种植面积（亩）"></el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="稻麦">
+                  <el-input v-model="form.productInfo.data_0_0" style="width:60%"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="蔬菜">
+                  <el-input v-model="form.productInfo.data_0_1" style="width:60%"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="水果">
+                  <el-input v-model="form.productInfo.data_0_2" style="width:60%"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="食用菌">
+                  <el-input v-model="form.productInfo.data_0_3" style="width:60%"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="3">
+                <el-form-item label="水产品养殖面积（亩）"></el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="鱼">
+                  <el-input v-model="form.productInfo.data_1_0" style="width:60%"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="虾蟹">
+                  <el-input v-model="form.productInfo.data_1_1" style="width:60%"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="其他">
+                  <el-input v-model="form.productInfo.data_1_2" style="width:60%"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="3">
+                <el-form-item label="畜养殖规模（头）"></el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="猪">
+                  <el-input v-model="form.productInfo.data_2_0" style="width:60%"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="奶牛">
+                  <el-input v-model="form.productInfo.data_2_1" style="width:60%"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="3">
+                <el-form-item label="禽养殖规模（羽）"></el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="肉禽">
+                  <el-input v-model="form.productInfo.data_3_0" style="width:60%"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="5">
+                <el-form-item label="蛋禽">
+                  <el-input v-model="form.productInfo.data_3_1" style="width:60%"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </div>
+        </div>
         <el-row>
-          <el-col :span="5">
-             <el-form-item label="">
-              <div class="left-margin">生产记录(种养殖档案)</div>
-             </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item label="">
-              <el-radio v-model="form.productionRecord" label="1">有</el-radio>
-              <el-radio v-model="form.productionRecord" label="2">真实完整</el-radio>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item label="">
-              <div class="left-margin">农产品产地准出证明(销售记录)</div>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item label="">
-              <el-radio v-model="form.proofOfProduct" label="1">有</el-radio>
-              <el-radio v-model="form.proofOfProduct" label="2">真实完整</el-radio>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="5">
-             <el-form-item label="">
-              <div class="left-margin">农产品产投入品记录（进、销、使用）</div>
-             </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item label="">
-              <el-radio v-model="form.productInputRecord" label="1">有</el-radio>
-              <el-radio v-model="form.productInputRecord" label="2">真实完整</el-radio>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item label="">
-              <div class="left-margin">检验记录</div>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item label="">
-              <el-radio v-model="form.testRecord" label="1">有</el-radio>
-              <el-radio v-model="form.testRecord" label="2">真实完整</el-radio>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="5">
-             <el-form-item label="">
-              <div class="left-margin">禁用投入品及滥用添加剂行为</div>
-             </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item label="">
-              <el-checkbox v-model="form.isDisableInput">有</el-checkbox>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item label="">
-              <div class="left-margin">“三品一标使用”</div>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item label="">
-              <el-checkbox v-model="form.isThreeProduct">合规</el-checkbox>
+          <el-col :span="12">
+            <el-form-item label="社会信用统一代码">
+              <el-input v-model="form.creditCode" style="width:60%"></el-input>
+              <span>必填</span>
             </el-form-item>
           </el-col>
         </el-row>
 
         <el-row>
           <el-col :span="10">
-            <el-form-item label="常用语" class="left-margin">
-              <el-select v-model="form.commonLang" placeholder="请选择">
-                <el-option
-                  v-for="item in options_tmp"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
+            <el-form-item label="企业荣誉">
+              <el-input type="textarea" :rows="5" v-model="form.companyHonor" style="width:80%"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="5">
-            <el-form-item>
-              <div class="left-margin">现场发现的其他问题</div>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item>
-              <el-input type="textarea" :rows="5" v-model="form.otherProblems"></el-input>
+          <el-col :span="10">
+            <el-form-item label="备注">
+              <el-input type="textarea" :rows="5" v-model="form.remarks" style="width:80%"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
 
         <el-row>
-          <el-col :span="12">
-            <div class="left-margin">
-              <table>
-                <tbody>
-                  <tr>
-                    <td rowspan="2">结论</td>
-                    <td>合格</td>
-                    <td><el-checkbox v-model="form.isQualified"></el-checkbox></td>
-                  </tr>
-                  <tr>
-                    <td>不合格</td>
-                    <td>
-                      <table class="no-border">
-                        <tbody>
-                          <tr>
-                            <td>责令修改</td>
-                            <td><el-input v-model="form.orderToAmend" style="width:100%"></el-input></td></tr>
-                          <tr>
-                            <td>建议处罚</td>
-                            <td><el-input v-model="form.recommendPunishment" style="width:100%"></el-input></td></tr>
-                          <tr>
-                            <td>其他处理</td>
-                            <td><el-input v-model="form.otherProcessing" style="width:100%"></el-input></td></tr>
-                        </tbody>
-                      </table>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </el-col>
-          <el-col :span="11">
-            <table class="image-upload-table">
-              <tbody>
-                <tr>
-                  <td>现场图片</td>
-                  <td>
-                    <el-upload
-                      class="avatar-uploader"
-                      action="#"
-                      list-type="picture-card"
-                      :auto-upload="false"
-                      :on-preview="handlePictureCardPreview"
-                      :before-upload="beforeAvatarUpload">
-                      <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                      <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
-                  </td>
-                </tr>
-                <tr>
-                  <td>签名</td>
-                  <td>
-                    <el-upload
-                      class="avatar-uploader"
-                      action="#"
-                      list-type="picture-card"
-                      :auto-upload="false"
-                      :on-preview="handlePictureCardPreview"
-                      :before-upload="beforeAvatarUpload">
-                      <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                      <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                      </el-upload>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <el-col :span="6">
+            <el-form-item label="是否监管">
+              <el-select v-model="form.doSupervision" placeholder="">
+                <el-option :label="item" :value="item" v-for="(item, index) in ['是', '否']" :key="index"></el-option>
+              </el-select>
+            </el-form-item>
           </el-col>
         </el-row>
 
-        <el-form-item class="left-margin">
+        <el-form-item >
           <el-button type="success" plain @click="onSubmit">保存</el-button>
           <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
@@ -234,54 +310,48 @@ export default {
   data() {
     return {
       form: {
+        townShip: "梅里镇",
+        agriculturalClassification: '养殖业',
+        chargePerson: "",
+        companyAddress: "梅李镇赵市村",
+        companyHonor: "",
+        companyId: "1",
+        companyName: "稻米专业合作社",
         companyType: "1",
-        townShip:"梅里镇",
-        enterprise:"1",
-        date: "",
-        checker:"",
-        productionRecord:"1",
-        productInputRecord:"1",
-        proofOfProduct:"1",
-        testRecord:"1",
-        isDisableInput:true,
-        isThreeProduct:true,
-        commonLang:"1",
-        otherProblems:"",
-        isQualified:true,
-        orderToAmend:"",
-        recommendPunishment:"",
-        otherProcessing:""
+        contactMobile: "",
+        contactPerson: "程晓刚",
+        contactWay: "0512-52380296",
+        createTime: "",
+        createUserId: "",
+        creditCode: "",
+        doSupervision: "",
+        landSource: "",
+        plantArea: "",
+        productInfo: {
+          data_0_0: '',
+          data_0_1: '',
+          data_0_2: '',
+          data_0_3: '',
+          data_1_0: '',
+          data_1_1: '',
+          data_1_2: '',
+          data_2_0: '',
+          data_2_1: '',
+          data_3_0: '',
+          data_3_1: '',
+        },
+        qualityStandardId: "",
+        remarks: "",
+        townId: "",
+        updateTime: "",
+        updateUserId: ""
       },
-      options: [
-        {value:"1", label:"天荷香稻米专业合作社"},
-        {value:"2", label:"福鼎白茶"}
-      ],
-      options_tmp: [
-        {value:"1", label:"天荷香稻"},
-        {value:"2", label:"福鼎白茶"}
-      ], 
-      imageUrl: ''
     };
   },
   methods: {
     onSubmit() {
-      console.log(this.imageUrl);
+      console.log(this.form);
     },
-    handlePictureCardPreview(file) {
-      this.imageUrl = file.url;
-    },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
-
-      if (!isJPG) {
-        this.$message.error('Avatar picture must be JPG format!');
-      }
-      if (!isLt2M) {
-        this.$message.error('Avatar picture size can not exceed 2MB!');
-      }
-      return isJPG && isLt2M;
-    }
   }
 };
 </script>

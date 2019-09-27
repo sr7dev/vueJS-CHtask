@@ -128,6 +128,11 @@ export default new Router({
 
         },
         {
+            path: '/corporateCreditFile',
+            name: 'corporateCreditFile',
+            component: corporateCreditFile
+        },
+        {
             path: '/corporateCreditFile/adminLicenseInfo/:id',
             name: 'adminLicenseInfo',
             component: adminLicenseInfo
