@@ -36,6 +36,10 @@ import adminLicenseInfo from "@/components/corporateCreditFile/adminLicenseInfo/
 
 import productionSubject from "@/components/productionSubject/productionSubject";
 import warehouseEnv from "@/components/productionSubject/warehouseEnv/warehouseEnv";
+import mainProduct from "@/components/productionSubject/mainProduct/mainProduct";
+import thirdPartySamplingRecord from "@/components/productionSubject/mainProduct/thirdPartySamplingRecord/thirdPartySamplingRecord";
+import productBatch from "@/components/productionSubject/mainProduct/productBatch/productBatch";
+import inventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/inventoryDynamics";
 
 Vue.use(Router);
 
@@ -71,6 +75,26 @@ export default new Router({
           path: "/productionSubject/warehouseEnv/:id",
           name: "warehouseEnv",
           component: warehouseEnv
+        },
+        {
+          path: "/productionSubject/mainProduct/:id",
+          name: "mainProduct",
+          component: mainProduct
+        },
+        {
+          path: "/productionSubject/mainProduct/thirdPartySamplingRecord/:id",
+          name: "thirdPartySamplingRecord",
+          component: thirdPartySamplingRecord
+        },
+        {
+          path: "/productionSubject/mainProduct/productBatch/:id",
+          name: "productBatch",
+          component: productBatch
+        },
+        {
+          path: "/productionSubject/mainProduct/inventoryDynamics/:id",
+          name: "inventoryDynamics",
+          component: inventoryDynamics
         },
         {
           path: "/threeProductsCertification",

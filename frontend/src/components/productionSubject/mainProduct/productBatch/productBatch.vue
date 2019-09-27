@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">仓储环境</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/' }">监管对象/主营产品/产品批次</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
@@ -13,15 +13,12 @@
       </div>
       <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
         <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
-        <el-table-column prop="warehouseName" label="仓库名称" width="150"></el-table-column>
-        <el-table-column prop="warehouseAddress" label="仓库地址" width="150"></el-table-column>
-        <el-table-column prop="warehouseArea" label="仓库面积" width="150"></el-table-column>
-        <el-table-column prop="warehouseSize" label="仓库规模"></el-table-column>
-        <el-table-column prop="operations" label="操作"  width="150">
-          <template slot-scope="{row}">
-            <el-button  v-on:click="show(row)">查看</el-button>
-          </template>
-        </el-table-column>
+        <el-table-column prop="batchName" label="批次名称"></el-table-column>
+        <el-table-column prop="batchNumber" label="批次号"></el-table-column>
+        <el-table-column prop="operation" label="作业"></el-table-column>
+        <el-table-column prop="sales" label="销售"></el-table-column>
+        <el-table-column prop="attributeName" label="属性名称"></el-table-column>
+        <el-table-column prop="testReport" label="检测报告"></el-table-column>
       </el-table>
       <div class="pageBox">
         <pagination v-show="total>0" :total="total" :page.sync="page.pageIndex" 
@@ -35,7 +32,7 @@
 import sampleData from './_data';
 import Pagination from '@/components/common/pagination'
 export default {
-  name: 'warehouseEnv',
+  name: 'productBatch',
   components: { Pagination },
   data() {
     return {
@@ -82,5 +79,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import "./warehouseEnv.scss";
+@import "./productBatch.scss";
 </style>

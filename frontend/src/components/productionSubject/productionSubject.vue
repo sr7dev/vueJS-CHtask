@@ -74,7 +74,7 @@
         <el-table-column prop="operations" label="操作"  width="450">
           <template slot-scope="{row}">
             <el-button >修改</el-button>
-            <el-button >产品</el-button>
+            <el-button v-on:click="gotoProductPage(row)">产品</el-button>
             <el-button v-on:click="gotoWarehousingEnvironmentPage(row)">仓储环境</el-button>
             <el-button >详情</el-button>
           </template>
@@ -115,10 +115,13 @@ export default {
     this.getList();
   },
   methods: {
+    gotoProductPage(row) {
+      console.log(row);
+      this.$router.push(`/productionSubject/mainProduct/${row.companyId}`);
+    },
     gotoWarehousingEnvironmentPage(row) {
       console.log(row);
       this.$router.push(`/productionSubject/warehouseEnv/${row.companyId}`);
-
     },
     getList() {
       this.listLoading = true;
