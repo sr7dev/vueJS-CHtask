@@ -2,92 +2,65 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator=" ">
-        <el-breadcrumb-item :to="{ path: '/' }">监管记录</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/' }" class="actived">监管记录</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button type="primary" plain style="margin-left: 20px;" @click="goAdd()">添加监管记录</el-button>
-        <el-button type="primary" plain style="margin-left: 20px;" @click="goAdd()">常用语管理</el-button>
-        <el-button
-          type="primary"
-          plain
-          style="margin-left: 20px;"
-          @click="goAdd()"
-          icon="el-icon-download"
-        >扫码下载客户端</el-button>
-        <el-button
-          type="primary"
-          plain
-          style="margin-left: 20px;"
-          @click="goAdd()"
-          icon="el-icon-download"
-        >说明书下载</el-button>
-        <el-button type="primary" plain style="margin-left: 20px;" @click="goAdd()">返回</el-button>
+        <el-button type="primary" plain v-on:click="$router.push(`/regulatoryRecord/create`)">添加监管记录</el-button>
+        <el-button type="primary" plain>常用语管理</el-button>
+        <el-button type="primary" plain>扫码下载客户端</el-button>
+        <el-button type="primary" plain>说明书下载</el-button>
       </div>
 
       <el-container>
         <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
-          <el-table-column :formatter="order" label="序号" width="180"></el-table-column>
-          <el-table-column prop="name" label="日期"></el-table-column>
-          <el-table-column prop="classification" label="乡镇"></el-table-column>
-          <el-table-column prop="type" label="受检单位"></el-table-column>
-          <el-table-column prop="bookNo" label="检查人"></el-table-column>
-          <el-table-column prop="date" label="结论"></el-table-column>
-          <el-table-column prop="limitedPeriod" label="其他"></el-table-column>
-          <el-table-column prop="yield" label="照片数量"></el-table-column>
-          <el-table-column prop="yield" label="确认"></el-table-column>
-          <el-table-column prop="yield" label="专利1" align="center">
-            <template>
-              <icon class="el-icon-check"></icon>
+          <el-table-column :formatter="order" label="序号"  width="70"></el-table-column>
+          <el-table-column prop="numberDate" label="日期" width="100"></el-table-column>
+          <el-table-column prop="township" label="乡镇" width="70"></el-table-column>
+          <el-table-column prop="unitinspec" label="受检单位"></el-table-column>
+          <el-table-column prop="checker" label="检查人"></el-table-column>
+          <el-table-column prop="inconclusion" label="结论" width="70"></el-table-column>
+          <el-table-column prop="other" label="其他" width="80"></el-table-column>
+          <el-table-column prop="photo" label="照片" width="70"></el-table-column>
+          <el-table-column prop="confirm" label="确认" width="70"></el-table-column>
+          <el-table-column prop="confirm" label="操作">
+            <template slot-scope="{row}">
+              <el-button type="success" plain v-on:click="$router.push(`/regulatoryRecord/${row.id}`)">查看</el-button>
+              <el-button
+                type="danger"
+                 v-on:click="$router.push(`/regulatoryRecord/edit/${row.id}`)" plain>整改记录</el-button>
             </template>
           </el-table-column>
-          <el-table-column prop="yield" label="操作">
-            <!-- <template slot-scope="scope"> -->
+          <el-table-column prop="yield" label="专利1" align="center" width="100">
             <template>
-              <el-tooltip class="item" effect="dark" content="详情" placement="top">
-                <el-button icon="el-icon-search" circle></el-button>
-              </el-tooltip>
-              <el-tooltip
-                v-if="scope.row.record==true"
-                class="item"
-                effect="dark"
-                content="整改记录"
-                placement="top"
-              >
-                <el-button icon="el-icon-document" circle></el-button>
-              </el-tooltip>
-              <el-tooltip v-else class="item" effect="dark" content="整改详情" placement="top">
-                <el-button icon="el-icon-s-order" circle></el-button>
-              </el-tooltip>
+              <i class="el-icon-check"></i>
             </template>
           </el-table-column>
         </el-table>
       </el-container>
       <div class="pageBox">
-        <el-pagination
-          v-if="total>page.pageSize"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="page.pageIndex"
-          :page-sizes="[10, 20, 50]"
-          :page-size="page.pageSize"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total"
-        ></el-pagination>
+         <Pagination v-show="total>0" :total="total" :page.sync="page.pageIndex" 
+            :limit.sync="page.pageSize" @pagination="getList" layout="prev, pager, next, sizes, jumper"/>
       </div>
     </div>
   </div>
+      <!-- layout="total, sizes, prev, pager, next, jumper" -->
 </template>
 
 <script>
+import sampleData from './_data'
+import Pagination from '@/components/common/pagination'
 export default {
+  name: "regulatoryRecord",
+  components: { Pagination },
   data() {
     return {
       page: {
         pageIndex: 1,
         pageSize: 10
       },
+      listLoading: true,
       total: 100,
       options: [
         {
@@ -95,49 +68,11 @@ export default {
           label: ""
         }
       ],
-      tableData: [
-        {
-          name: "产品",
-          classification: "分类",
-          type: "认证类型",
-          bookNo: "123456",
-          date: "2018-09-01至2020-05-01",
-          limitedPeriod: "1年",
-          yield: "600",
-          record: true
-        },
-        {
-          name: "产品",
-          classification: "分类",
-          type: "认证类型",
-          bookNo: "123456",
-          date: "2018-09-01至2020-05-01",
-          limitedPeriod: "1年",
-          yield: "600",
-          record: false
-        },
-        {
-          name: "产品",
-          classification: "分类",
-          type: "认证类型",
-          bookNo: "123456",
-          date: "2018-09-01至2020-05-01",
-          limitedPeriod: "1年",
-          yield: "600",
-          record: false
-        },
-        {
-          name: "产品",
-          classification: "分类",
-          type: "认证类型",
-          bookNo: "123456",
-          date: "2018-09-01至2020-05-01",
-          limitedPeriod: "1年",
-          yield: "600",
-          record: true
-        }
-      ]
+      tableData: sampleData
     };
+  },
+  created() {
+    this.getList();
   },
   methods: {
     rowIndex({ row, rowIndex }) {
@@ -147,23 +82,21 @@ export default {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
     },
     //分页数量改变
-    handleSizeChange(val) {
-      let that = this;
-      that.page.pageSize = val;
-      that.fullPage(1);
-    },
-    //分页索引改变
-    handleCurrentChange(val) {
-      let that = this;
-      that.page.pageIndex = val;
-      that.fullPage(1);
-    },
-    goAdd() {
-      this.$router.push({ path: "addRegulatoryRecord" });
+   getList() {
+    this.listLoading = true;
+    // fetchListAPI(this.status, this.page.pageIndex, this.page.pageSize, "credit_gradeid")
+    //   .then(response => {
+        this.tableData = sampleData;  // this.tableData = response;  
+        this.total = this.tableData.length;
+        setTimeout(() => {
+          this.listLoading = false
+        }, 0.5 * 1000);
+    // })
     }
   }
 };
 </script>
 
-<style scoped>
+<style lang="scss">
+@import "./regulatoryRecord.scss";
 </style>
