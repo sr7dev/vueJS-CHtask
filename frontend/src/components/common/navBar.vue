@@ -22,6 +22,9 @@
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
+        <el-menu-item index="/agriculturalDisability">
+          <router-link  slot="title" to="/agriculturalDisability">农残检测</router-link>
+        </el-menu-item>
         <el-menu-item index="/">
           <router-link  slot="title" to="/unknown">企业信用档案</router-link>  
         </el-menu-item>
