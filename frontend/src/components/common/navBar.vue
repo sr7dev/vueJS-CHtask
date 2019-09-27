@@ -26,7 +26,7 @@
           <router-link  slot="title" to="/agriculturalDisability">农残检测</router-link>
         </el-menu-item>
         <el-menu-item index="/">
-          <router-link  slot="title" to="/unknown">企业信用档案</router-link>  
+          <router-link  slot="title" to="/corporateCreditFile">企业信用档案</router-link>  
         </el-menu-item>
         <el-menu-item index="/creditRating" >
           <router-link  slot="title" to="/creditRating">信用评级</router-link>  

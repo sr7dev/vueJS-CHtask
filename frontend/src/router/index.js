@@ -30,6 +30,10 @@ import creditRating from "@/components/creditRating/creditRating";
 import editRating from "@/components/creditRating/editRating/editRating";
 import detailsRating from "@/components/creditRating/detailsRating/detailsRating";
 
+import corporateCreditFile from "@/components/corporateCreditFile/corporateCreditFile";
+import adminPenaltyInfo from "@/components/corporateCreditFile/adminPenaltyInfo/adminPenaltyInfo";
+import adminLicenseInfo from "@/components/corporateCreditFile/adminLicenseInfo/adminLicenseInfo";
+
 Vue.use(Router);
 
 export default new Router({
@@ -71,15 +75,20 @@ export default new Router({
             name: 'addThreeProducts',
             component: addThreeProducts
         },
-        // {
-        //     path: '/threeProductsCertification',
-        //     name: 'threeProductsCertification',
-        //     component: threeProductsCertification
-        // },
         {
-          path: "/addThreeProducts",
-          name: "addThreeProducts",
-          component: addThreeProducts
+            path: '/corporateCreditFile',
+            name: 'corporateCreditFile',
+            component: corporateCreditFile
+        },
+        {
+            path: '/corporateCreditFile/adminLicenseInfo/:id',
+            name: 'adminLicenseInfo',
+            component: adminLicenseInfo
+        },
+        {
+            path: '/corporateCreditFile/adminPenaltyInfo/:id',
+            name: 'adminPenaltyInfo',
+            component: adminPenaltyInfo
         },
         {
           path: "/regulatoryRecord",
