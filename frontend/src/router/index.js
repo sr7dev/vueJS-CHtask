@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import productionSubject from "@/components/productionSubject/productionSubject";
+
 import home from "@/components/common/home";
 import threeProductsCertification from "@/components/threeProductsCertification/threeProductsCertification";
 import addThreeProducts from "@/components/threeProductsCertification/addThreeProducts";
@@ -34,6 +34,9 @@ import corporateCreditFile from "@/components/corporateCreditFile/corporateCredi
 import adminPenaltyInfo from "@/components/corporateCreditFile/adminPenaltyInfo/adminPenaltyInfo";
 import adminLicenseInfo from "@/components/corporateCreditFile/adminLicenseInfo/adminLicenseInfo";
 
+import productionSubject from "@/components/productionSubject/productionSubject";
+import warehouseEnv from "@/components/productionSubject/warehouseEnv/warehouseEnv";
+
 Vue.use(Router);
 
 export default new Router({
@@ -64,7 +67,11 @@ export default new Router({
           name: "productionSubject",
           component: productionSubject
         },
-        
+        {
+          path: "/productionSubject/warehouseEnv/:id",
+          name: "warehouseEnv",
+          component: warehouseEnv
+        },
         {
           path: "/threeProductsCertification",
           name: "threeProductsCertification",
