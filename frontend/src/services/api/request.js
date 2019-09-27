@@ -100,15 +100,16 @@ class Request {
 
 						return Promise.reject(response);
 					}
+					console.log(response['status']);
+					return Promise.resolve(response);
+					// if (response['status'] === 'success') {
+					// 	return Promise.resolve(response);
+					// }
 
-					if (response['status'] === 'success') {
-						return Promise.resolve(response);
-					}
-
-					return Promise.reject({
-						status: 'error',
-						message: 'No status value set!'
-					})
+					// return Promise.reject({
+					// 	status: 'error',
+					// 	message: 'No status value set!'
+					// })
 				},
 
 				error => {

@@ -5,7 +5,7 @@
                 <el-breadcrumb-item>农残检测</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <div>
+        <div class="box">
             <div class="iptBox">
                 <div class="select_label">乡镇</div>
                 <el-select v-model="villageTownValue" placeholder="全部">
