@@ -73,10 +73,10 @@
         <el-table-column prop="address" label="企业诚信" width="250"></el-table-column>
         <el-table-column prop="operations" label="操作"  width="450">
           <template slot-scope="{row}">
-            <el-button >修改</el-button>
+            <el-button v-on:click="gotoEditProductPage(row)" >修改</el-button>
             <el-button v-on:click="gotoProductPage(row)">产品</el-button>
             <el-button v-on:click="gotoWarehousingEnvironmentPage(row)">仓储环境</el-button>
-            <el-button >详情</el-button>
+            <el-button v-on:click="gotoDetailsProductPage(row)">详情</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -117,6 +117,12 @@ export default {
   methods: {
     gotoAddRegulatoryObject() {
       this.$router.push(`/productionSubject/addRegulatoryObject`);
+    },
+    gotoEditProductPage(row) {
+      this.$router.push(`/productionSubject/editRegulatoryObject/${row.companyId}`);
+    },
+    gotoDetailsProductPage(row) {
+      this.$router.push(`/productionSubject/detailsRegulatoryObject/${row.companyId}`);
     },
     gotoProductPage(row) {
       console.log(row);

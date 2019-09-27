@@ -38,6 +38,9 @@ import adminLicenseInfo from "@/components/corporateCreditFile/adminLicenseInfo/
 
 import productionSubject from "@/components/productionSubject/productionSubject";
 import addRegulatoryObject from "@/components/productionSubject/addRegulatoryObject/addRegulatoryObject";
+import editRegulatoryObject from "@/components/productionSubject/editRegulatoryObject/editRegulatoryObject";
+import detailsRegulatoryObject from "@/components/productionSubject/detailsRegulatoryObject/detailsRegulatoryObject";
+
 
 import warehouseEnv from "@/components/productionSubject/warehouseEnv/warehouseEnv";
 import detailsWarehouse from "@/components/productionSubject/warehouseEnv/detailsWarehouse/detailsWarehouse";
@@ -81,6 +84,17 @@ export default new Router({
           name: "addRegulatoryObject",
           component: addRegulatoryObject
         },
+        {
+          path: "/productionSubject/editRegulatoryObject/:id",
+          name: "editRegulatoryObject",
+          component: editRegulatoryObject
+        },
+        {
+          path: "/productionSubject/detailsRegulatoryObject/:id",
+          name: "detailsRegulatoryObject",
+          component: detailsRegulatoryObject
+        },
+        
         {
           path: "/productionSubject/warehouseEnv/:id",
           name: "warehouseEnv",
