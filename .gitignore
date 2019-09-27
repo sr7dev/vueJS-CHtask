@@ -53,3 +53,5 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+package-lock.json
+node_modules
