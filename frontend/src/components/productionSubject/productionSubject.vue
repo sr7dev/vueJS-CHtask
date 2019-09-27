@@ -55,27 +55,27 @@
       </div>
       <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
         <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
-        <el-table-column prop="name" label="企业名称" width="150"></el-table-column>
+        <el-table-column prop="companyName" label="企业名称" width="150"></el-table-column>
         <el-table-column prop="date" label="法人代表" width="150"></el-table-column>
-        <el-table-column prop="address" label="企业地址" width="250"></el-table-column>
-        <el-table-column prop="address" label="三品认证" width="120">
+        <el-table-column prop="companyAddress" label="企业地址" width="250"></el-table-column>
+        <el-table-column prop="qualityStandardId" label="三品认证" width="120">
           <template><el-button>认证信息</el-button></template>
         </el-table-column>
-        <el-table-column prop="address" label="监管记录" width="120">
+        <el-table-column prop="doSupervision" label="监管记录" width="120">
           <template><el-button>是</el-button></template>
         </el-table-column>
         <el-table-column prop="address" label="农药检测" width="120">
           <template><el-button>认证信息</el-button></template>
         </el-table-column>
-        <el-table-column prop="address" label="联系人" width="250"></el-table-column>
-        <el-table-column prop="address" label="联系方式" width="250"></el-table-column>
+        <el-table-column prop="contactPerson" label="联系人" width="250"></el-table-column>
+        <el-table-column prop="contactWay" label="联系方式" width="250"></el-table-column>
         <el-table-column prop="address" label="所在乡镇" width="250"></el-table-column>
         <el-table-column prop="address" label="企业诚信" width="250"></el-table-column>
-        <el-table-column prop="address" label="操作"  width="450">
-          <template>
+        <el-table-column prop="operations" label="操作"  width="450">
+          <template slot-scope="{row}">
             <el-button >修改</el-button>
             <el-button >产品</el-button>
-            <el-button >仓储环境</el-button>
+            <el-button v-on:click="gotoWarehousingEnvironmentPage(row)">仓储环境</el-button>
             <el-button >详情</el-button>
           </template>
         </el-table-column>
@@ -115,6 +115,11 @@ export default {
     this.getList();
   },
   methods: {
+    gotoWarehousingEnvironmentPage(row) {
+      console.log(row);
+      this.$router.push(`/productionSubject/warehouseEnv/${row.companyId}`);
+
+    },
     getList() {
       this.listLoading = true;
       // fetchListAPI(this.status, this.page.pageIndex, this.page.pageSize, "credit_gradeid")

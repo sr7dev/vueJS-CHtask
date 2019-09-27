@@ -105,6 +105,7 @@ export default {
   },
   created() {
     this.companyName = this.$route.query.company;
+    this.id = this.$route.params.id;
     this.getData(this.$route.params.id);
   },
   methods: {
