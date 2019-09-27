@@ -3,10 +3,12 @@ import Router from "vue-router";
 
 import home from "@/components/common/home";
 import threeProductsCertification from "@/components/threeProductsCertification/threeProductsCertification";
-import addThreeProducts from "@/components/threeProductsCertification/addThreeProducts";
+import addThreeProducts from "@/components/threeProductsCertification/addThreeProducts/addThreeProducts";
+import detailsThreeProducts from "@/components/threeProductsCertification/detailsThreeProducts/detailsThreeProducts";
 import regulatoryRecord from "@/components/regulatoryRecord/regulatoryRecord";
-import addRegulatoryRecord from "@/components/regulatoryRecord/addRegulatoryRecord";
-import rectificationRecord from "@/components/regulatoryRecord/rectificationRecord";
+import addRegulatoryRecord from "@/components/regulatoryRecord/addRegulatoryRecord/addRegulatoryRecord";
+import rectificationRecord from "@/components/regulatoryRecord/rectificationRecord/rectificationRecord";
+import detailsRegulatoryRecord from "@/components/regulatoryRecord/detailsRegulatoryRecord/detailsRegulatoryRecord";
 import management from "@/components/management/management";
 import businessProducts from "@/components/management/businessProducts";
 import companyDetails from "@/components/management/companyDetails";
@@ -67,25 +69,28 @@ export default new Router({
           name: "productionSubject",
           component: productionSubject
         },
+        
         {
           path: "/productionSubject/warehouseEnv/:id",
           name: "warehouseEnv",
           component: warehouseEnv
         },
+
         {
           path: "/threeProductsCertification",
           name: "threeProductsCertification",
           component: threeProductsCertification
         },
         {
-            path: '/addThreeProducts',
+            path: '/threeProductsCertification/create',
             name: 'addThreeProducts',
             component: addThreeProducts
         },
         {
-            path: '/corporateCreditFile',
-            name: 'corporateCreditFile',
-            component: corporateCreditFile
+            path: '/threeProductsCertification/:id',
+            name: 'detailsThreeProducts',
+            component: detailsThreeProducts
+
         },
         {
             path: '/corporateCreditFile/adminLicenseInfo/:id',
@@ -103,14 +108,19 @@ export default new Router({
           component: regulatoryRecord
         },
         {
-          path: "/addRegulatoryRecord",
+          path: "/regulatoryRecord/create",
           name: "addRegulatoryRecord",
           component: addRegulatoryRecord
         },
         {
-          path: "/rectificationRecord",
+          path: "/regulatoryRecord/edit/:id",
           name: "rectificationRecord",
           component: rectificationRecord
+        },
+        {
+          path: "/regulatoryRecord/:id",
+          name: "detailsRegulatoryRecord",
+          component: detailsRegulatoryRecord
         },
         {
           path: "/management",
@@ -183,16 +193,6 @@ export default new Router({
           component: cp_inventoryDynamics
         }
       ]
-    },
-    {
-      path: "/threeProductsCertification",
-      name: "threeProductsCertification",
-      component: threeProductsCertification
-    },
-    {
-        path: '/addThreeProducts',
-        name: 'addThreeProducts',
-        component: addThreeProducts
     },
     {
       path: "/",
