@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">仓储环境</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/' }">监管对象/主营产品/第三方抽检记录</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
@@ -11,17 +11,20 @@
           <el-button type="primary" plain style="margin-left: 20px;" @click="$router.go(-1)">返回</el-button>
         </div>
       </div>
+      <div class="iptBox">
+        <div class="filter-item">
+          银针 第三方质量安全检测记录
+        </div>
+      </div>
       <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
         <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
-        <el-table-column prop="warehouseName" label="仓库名称" width="150"></el-table-column>
-        <el-table-column prop="warehouseAddress" label="仓库地址" width="150"></el-table-column>
-        <el-table-column prop="warehouseArea" label="仓库面积" width="150"></el-table-column>
-        <el-table-column prop="warehouseSize" label="仓库规模"></el-table-column>
-        <el-table-column prop="operations" label="操作"  width="150">
-          <template slot-scope="{row}">
-            <el-button  v-on:click="show(row)">查看</el-button>
-          </template>
-        </el-table-column>
+        <el-table-column prop="date" label="日期" width="150"></el-table-column>
+        <el-table-column prop="sample" label="样品" width="150"></el-table-column>
+        <el-table-column prop="testItems" label="检测项目" width="150"></el-table-column>
+        <el-table-column prop="testResults" label="判定"></el-table-column>
+        <el-table-column prop="determination" label="合格"></el-table-column>
+        <el-table-column prop="testingStandard" label="检测标准"></el-table-column>
+        <el-table-column prop="testingFacility" label="检测机构"></el-table-column>
       </el-table>
       <div class="pageBox">
         <pagination v-show="total>0" :total="total" :page.sync="page.pageIndex" 
@@ -35,7 +38,7 @@
 import sampleData from './_data';
 import Pagination from '@/components/common/pagination'
 export default {
-  name: 'warehouseEnv',
+  name: 'thirdPartySamplingRecord',
   components: { Pagination },
   data() {
     return {
@@ -82,5 +85,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import "./warehouseEnv.scss";
+@import "./thirdPartySamplingRecord.scss";
 </style>
