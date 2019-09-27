@@ -37,7 +37,10 @@ import adminPenaltyInfo from "@/components/corporateCreditFile/adminPenaltyInfo/
 import adminLicenseInfo from "@/components/corporateCreditFile/adminLicenseInfo/adminLicenseInfo";
 
 import productionSubject from "@/components/productionSubject/productionSubject";
+import addRegulatoryObject from "@/components/productionSubject/addRegulatoryObject/addRegulatoryObject";
+
 import warehouseEnv from "@/components/productionSubject/warehouseEnv/warehouseEnv";
+import detailsWarehouse from "@/components/productionSubject/warehouseEnv/detailsWarehouse/detailsWarehouse";
 import mainProduct from "@/components/productionSubject/mainProduct/mainProduct";
 import thirdPartySamplingRecord from "@/components/productionSubject/mainProduct/thirdPartySamplingRecord/thirdPartySamplingRecord";
 import productBatch from "@/components/productionSubject/mainProduct/productBatch/productBatch";
@@ -73,13 +76,21 @@ export default new Router({
           name: "productionSubject",
           component: productionSubject
         },
-        
+        {
+          path: "/productionSubject/addRegulatoryObject",
+          name: "addRegulatoryObject",
+          component: addRegulatoryObject
+        },
         {
           path: "/productionSubject/warehouseEnv/:id",
           name: "warehouseEnv",
           component: warehouseEnv
         },
-
+        {
+          path: "/productionSubject/warehouseEnv/detailsWarehouse/:id",
+          name: "detailsWarehouse",
+          component: detailsWarehouse
+        },
         {
           path: "/productionSubject/mainProduct/:id",
           name: "mainProduct",

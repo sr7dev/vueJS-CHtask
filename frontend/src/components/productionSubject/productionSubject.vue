@@ -49,7 +49,7 @@
           </el-select>
         </div>
         <div class="filter-item">
-          <el-button type="primary" plain style="margin-left: 20px;" @click="goAdd()">添加监管对象</el-button>
+          <el-button type="primary" plain style="margin-left: 20px;" @click="gotoAddRegulatoryObject()">添加监管对象</el-button>
           <div class="allCompany">共计{{total}}家企业</div>
         </div>
       </div>
@@ -115,6 +115,9 @@ export default {
     this.getList();
   },
   methods: {
+    gotoAddRegulatoryObject() {
+      this.$router.push(`/productionSubject/addRegulatoryObject`);
+    },
     gotoProductPage(row) {
       console.log(row);
       this.$router.push(`/productionSubject/mainProduct/${row.companyId}`);
