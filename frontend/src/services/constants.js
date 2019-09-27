@@ -21,4 +21,4 @@ let StorageKeys = {
 
 };
 
-export { Tokens, Urls, StorageKeys };
+export { Urls, StorageKeys };
