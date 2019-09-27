@@ -5,18 +5,18 @@
                 <el-breadcrumb-item>红黑名单</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <el-tabs v-model="activeTabName" type="border-card" @tab-click="handleTabClick">
+        <el-tabs v-model="activeTabName" type="border-card" @tab-click="getList">
             <el-tab-pane label="红名单" name="first"></el-tab-pane>
-            <el-tab-pane label="红名单" name="second"></el-tab-pane>
+            <el-tab-pane label="黑名单" name="second"></el-tab-pane>
             <div>
                 <label
                         style="margin-right: 30px">乡镇</label>
-                <el-select v-model="vtValue" placeholder="Select">
+                <el-select v-model="currTown" placeholder="Select" @change="getList">
                     <el-option
-                            v-for="item in villageTown"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
+                            v-for="item in township"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id">
                     </el-option>
                 </el-select>
             </div>
@@ -31,19 +31,19 @@
                             width="180">
                     </el-table-column>
                     <el-table-column
-                            prop="companyName"
                             label="企业名称">
+                        <template slot-scope="{row}">{{filterCompnay(row.creditCode)}}</template>
                     </el-table-column>
                     <el-table-column
-                            prop="currentCreditRating"
                             label="现信用评级">
+                        <template slot-scope="{row}">{{getGrade(row.nowGrade)}}</template>
                     </el-table-column>
                     <el-table-column
-                            prop="ratingTime"
+                            prop="gradeTime"
                             label="评级时间">
                     </el-table-column>
                     <el-table-column
-                            prop="ratingUnit"
+                            prop="gradeUnit"
                             label="评级单位">
                     </el-table-column>
                 </el-table>
@@ -57,15 +57,18 @@
 </template>
 
 <script>
-    import Pagination from '@/components/common/pagination'
+    import Pagination from '@/components/common/pagination';
+    import Request from "../../services/api/request.js";
+
     export default {
+        name: "redBlackList",
         components: { Pagination },
         data(){
             return{
                 listLoading: true,
                 page:{
                     pageIndex: 1,
-                    pageSize: 10
+                    pageSize: 20
                 },
                 total:100,
                 options:[
@@ -75,213 +78,58 @@
                     }
                 ],
                 activeTabName: 'first',
-                villageTown: [{
-                    value: '全部',
-                    label: '全部'
-                }, {
-                    value: '梅李镇',
-                    label: '梅李镇'
-                }, {
-                    value: '古里镇',
-                    label: '古里镇'
-                }],
-                vtValue: '全部',
-                tableData: [
-                    {
-                        companyName: '产品',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    },
-                    {
-                        companyName: '产品',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    },
-                    {
-                        companyName: '产品',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    },
-                    {
-                        companyName: '产品',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    }, {
-                        companyName: '产品',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    },
-                    {
-                        companyName: '产品',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    }, {
-                        companyName: '产品',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    }, {
-                        companyName: '产品',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    },
-                    {
-                        companyName: '产品',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    }, {
-                        companyName: '产品',
-                        currentCreditRating: '分类',
-                        ratingTime: '2018-09-01至2020-05-01',
-                        ratingUnit:'123456'
-                    },
-                ]
+                township: [{ id: 0, name: "全部" }],
+                currTown: 0,
+                status: 1,
+                tableData: [ ]
             }
         },
         created() {
+            this.getTown();
             this.getList();
+            this.getCompanyProduction();
         },
         methods:{
-            getList() {
-            this.listLoading = true;
-            // fetchListAPI(this.status, this.page.pageIndex, this.page.pageSize, "credit_gradeid")
-            //   .then(response => {
-                // this.tableData = sampleData;  // this.tableData = response;  
-                this.total = this.tableData.length;
-                setTimeout(() => {
-                    this.listLoading = false
-                }, 0.5 * 1000);
-            // })
+            getCompanyProduction() {
+                Request()
+                    .get("/api/company_production/name")
+                    .then(response => {
+                        this.companyProduction = response;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
             },
-            handleTabClick() {
-                if (this.activeTabName == 'first') {
-                    this.tableData = [
-                        {
-                            companyName: '产品',
-                            currentCreditRating: '分类',
-                            ratingTime: '2018-09-01至2020-05-01',
-                            ratingUnit:'123456'
-                        },
-                        {
-                            companyName: '产品',
-                            currentCreditRating: '分类',
-                            ratingTime: '2018-09-01至2020-05-01',
-                            ratingUnit:'123456'
-                        },
-                        {
-                            companyName: '产品',
-                            currentCreditRating: '分类',
-                            ratingTime: '2018-09-01至2020-05-01',
-                            ratingUnit:'123456'
-                        },
-                        {
-                            companyName: '产品',
-                            currentCreditRating: '分类',
-                            ratingTime: '2018-09-01至2020-05-01',
-                            ratingUnit:'123456'
-                        }, {
-                            companyName: '产品',
-                            currentCreditRating: '分类',
-                            ratingTime: '2018-09-01至2020-05-01',
-                            ratingUnit:'123456'
-                        },
-                        {
-                            companyName: '产品',
-                            currentCreditRating: '分类',
-                            ratingTime: '2018-09-01至2020-05-01',
-                            ratingUnit:'123456'
-                        }, {
-                            companyName: '产品',
-                            currentCreditRating: '分类',
-                            ratingTime: '2018-09-01至2020-05-01',
-                            ratingUnit:'123456'
-                        }, {
-                            companyName: '产品',
-                            currentCreditRating: '分类',
-                            ratingTime: '2018-09-01至2020-05-01',
-                            ratingUnit:'123456'
-                        },
-                        {
-                            companyName: '产品',
-                            currentCreditRating: '分类',
-                            ratingTime: '2018-09-01至2020-05-01',
-                            ratingUnit:'123456'
-                        }, {
-                            companyName: '产品',
-                            currentCreditRating: '分类',
-                            ratingTime: '2018-09-01至2020-05-01',
-                            ratingUnit:'123456'
-                        },
-                    ]
-                }
-                else {
-                    this.tableData = [
-                        {
-                            companyName: '产品1',
-                            currentCreditRating: '分类',
-                            ratingTime: '2018-09-01至2020-05-01',
-                            ratingUnit:'123456'
-                        },
-                        {
-                            companyName: '产品1',
-                            currentCreditRating: '分类',
-                            ratingTime: '2018-09-01至2020-05-01',
-                            ratingUnit:'123456'
-                        },
-                        {
-                            companyName: '产品1',
-                            currentCreditRating: '分类',
-                            ratingTime: '2018-09-01至2020-05-01',
-                            ratingUnit:'123456'
-                        },
-                        {
-                            companyName: '产品1',
-                            currentCreditRating: '分类',
-                            ratingTime: '2018-09-01至2020-05-01',
-                            ratingUnit:'123456'
-                        }, {
-                            companyName: '产品1',
-                            currentCreditRating: '分类',
-                            ratingTime: '2018-09-01至2020-05-01',
-                            ratingUnit:'123456'
-                        },
-                        {
-                            companyName: '产品1',
-                            currentCreditRating: '分类',
-                            ratingTime: '2018-09-01至2020-05-01',
-                            ratingUnit:'123456'
-                        }, {
-                            companyName: '产品1',
-                            currentCreditRating: '分类',
-                            ratingTime: '2018-09-01至2020-05-01',
-                            ratingUnit:'123456'
-                        }, {
-                            companyName: '产品1',
-                            currentCreditRating: '分类',
-                            ratingTime: '2018-09-01至2020-05-01',
-                            ratingUnit:'123456'
-                        },
-                        {
-                            companyName: '产品1',
-                            currentCreditRating: '分类',
-                            ratingTime: '2018-09-01至2020-05-01',
-                            ratingUnit:'123456'
-                        }, {
-                            companyName: '产品1',
-                            currentCreditRating: '分类',
-                            ratingTime: '2018-09-01至2020-05-01',
-                            ratingUnit:'123456'
-                        },
-                    ]
-                }
+            getTown() {
+                Request()
+                    .get("/api/town/all")
+                    .then(response => {
+                        this.township = this.township.concat(response);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            },
+            getList() {
+                this.listLoading = true;
+                this.status = this.activeTabName === 'first' ? 1 : 2;
+                Request()
+                    .get("/api/blacklist/all", {
+                        blacklistType: this.status,
+                        pageNo: this.page.pageIndex - 1,
+                        pageSize: this.page.pageSize,
+                        townId: this.currTown
+                    })
+                    .then(response => {
+                        this.tableData = response;
+                        this.total = this.tableData.length;
+                        setTimeout(() => {
+                            this.listLoading = false;
+                        }, 0.5 * 1000);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
             },
             rowIndex({row, rowIndex}) {
                 row.rowIndex = rowIndex;
@@ -289,20 +137,28 @@
             order(row) {
                 return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
             },
-            //分页数量改变
-            handleSizeChange(val){
-                let that=this
-                that.page.pageSize=val;
-                that.fullPage(1);
-            },
-            //分页索引改变
-            handleCurrentChange(val){
-                let that=this
-                that.page.pageIndex=val
-                that.fullPage(1)
-            },
             goAdd(){
                 this.$router.push({path: 'addRedBlackList'})
+            },
+            filterCompnay(credit) {
+                let company = this.companyProduction.find(x => x.creditCode === credit);
+                if (company) {
+                    return company.companyName;
+                } else {
+                    return "";
+                }
+            },
+            getGrade(grade) {
+                switch (grade) {
+                    case 'A':
+                        return '守信';
+                    case 'B':
+                        return '基本守信';
+                    case 'C':
+                        return '失信';
+                    default:
+                        return '守信';
+                }
             },
         }
     }
