@@ -8,23 +8,31 @@
     <div class="box">
       <div class="iptBox">
         <div class="select_label">乡镇</div>
-        <el-select v-model="township" placeholder="请选择" @change="getList()">
-          <el-option v-for="item in ['全部', '梅李镇', '古里镇']" :key="item" :label="item" :value="item"></el-option>
+        <el-select placeholder v-model="currTown">
+          <el-option v-for="town in township" :key="town.id" :label="town.name" :value="town.id"></el-option>
         </el-select>
         <div class="select_label">状态</div>
-        <el-select v-model="status" placeholder="请选择" @change="getList()">
-          <el-option v-for="item in ['全部', '待审批', '已同意', '已拒绝']" :key="item" :label="item" :value="item"></el-option>
+        <el-select v-model="status" placeholder="请选择">
+          <el-option v-for="(item, index) in appStatus" :key="item" :label="item" :value="index"></el-option>
         </el-select>
         <div class="select_label">
-            <el-button type="outline-primary" v-on:click="getList()">同步数据</el-button>
+          <el-button type="outline-primary" v-on:click="getList()">同步数据</el-button>
         </div>
       </div>
 
       <el-container>
-        <el-table :data="tableData" v-loading="listLoading" fit style="width: 100%;"
-        :row-class-name="rowIndex" highlight-current-row>
+        <el-table
+          :data="tableData"
+          v-loading="listLoading"
+          fit
+          style="width: 100%;"
+          :row-class-name="rowIndex"
+          highlight-current-row
+        >
           <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
-          <el-table-column prop="approvalGrade" label="名称" width="150"></el-table-column>
+          <el-table-column label="名称" width="150">
+            <template slot-scope="{row}">{{filterCompnay(row.creditCode)}}</template>
+          </el-table-column>
           <el-table-column prop="originalGrade" label="原信用评级" width="150"></el-table-column>
           <el-table-column prop="nowGrade" label="现信用评级" width="150"></el-table-column>
           <el-table-column prop="gradeTime" label="评级时间"></el-table-column>
@@ -32,60 +40,110 @@
           <el-table-column prop="approvalStatus" label="状态" width="100"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="{row}">
-                <el-button v-on:click="$router.push(`/creditRating/${row.creditGradeId}`)">查看</el-button>
-                <el-button v-on:click="$router.push(`/creditRating/edit/${row.creditGradeId}`)">修改评级</el-button>
+              <el-button v-on:click="$router.push(`/creditRating/${row.creditGradeId}`)">查看</el-button>
+              <el-button
+                v-on:click="$router.push({path: `/creditRating/edit/${row.creditGradeId}`,query: {company:filterCompnay(row.creditCode)}})"
+              >修改评级</el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-container>
       <div class="pageBox">
-        <pagination v-show="total>0" :total="total" :page.sync="page.pageIndex" 
-            :limit.sync="page.pageSize" @pagination="getList" />
+        <pagination
+          v-show="total>0"
+          :total="total"
+          :page.sync="page.pageIndex"
+          :limit.sync="page.pageSize"
+          @pagination="getList"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import sampleData from './_data';
-import Pagination from '@/components/common/pagination'
+import Pagination from "@/components/common/pagination";
+import Request from "../../services/api/request.js";
+
 export default {
-  name: 'creditRating',
+  name: "creditRating",
   components: { Pagination },
   data() {
     return {
-      township: '全部',
-      status: '全部',
+      township: [{ id: 0, name: "全部" }],
+      currTown: 0,
+      appStatus: ["全部", "待审批", "已同意", "已拒绝"],
+      status: 0,
       page: {
         pageIndex: 1,
-        pageSize: 10
+        pageSize: 20
       },
+      companyProduction: [],
       listLoading: true,
       total: 100,
-      tableData: sampleData
+      tableData: []
     };
   },
   created() {
-      this.getList();
+    this.getTown();
+    this.getList();
+    this.getCompanyProduction();
   },
   methods: {
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
     },
+    getCompanyProduction() {
+      Request()
+        .get("/api/company_production/name")
+        .then(response => {
+          this.companyProduction = response;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getTown() {
+      Request()
+        .get("/api/town/all")
+        .then(response => {
+          this.township = this.township.concat(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     getList() {
       this.listLoading = true;
-      // fetchListAPI(this.status, this.page.pageIndex, this.page.pageSize, "credit_gradeid")
-      //   .then(response => {
-          this.tableData = sampleData;  // this.tableData = response;  
+      Request()
+        .get("/api/company_credit_grade/all", {
+          approvalStatus: this.status - 1,
+          pageNo: this.page.pageIndex - 1,
+          pageSize: this.page.pageSize,
+          townId: this.currTown
+        })
+        .then(response => {
+          this.tableData = response;
           this.total = this.tableData.length;
           setTimeout(() => {
-            this.listLoading = false
+            this.listLoading = false;
           }, 0.5 * 1000);
-      // })
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    filterCompnay(credit) {
+      let company = this.companyProduction.find(x => x.creditCode === credit);
+      if (company) {
+        return company.companyName;
+      } else {
+        return "";
+      }
     },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
-    },
+    }
   }
 };
 </script>

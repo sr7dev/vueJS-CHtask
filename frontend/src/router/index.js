@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import productionSubject from "@/components/productionSubject/productionSubject";
+
 import home from "@/components/common/home";
 import threeProductsCertification from "@/components/threeProductsCertification/threeProductsCertification";
 import addThreeProducts from "@/components/threeProductsCertification/addThreeProducts/addThreeProducts";
@@ -32,6 +32,13 @@ import creditRating from "@/components/creditRating/creditRating";
 import editRating from "@/components/creditRating/editRating/editRating";
 import detailsRating from "@/components/creditRating/detailsRating/detailsRating";
 
+import corporateCreditFile from "@/components/corporateCreditFile/corporateCreditFile";
+import adminPenaltyInfo from "@/components/corporateCreditFile/adminPenaltyInfo/adminPenaltyInfo";
+import adminLicenseInfo from "@/components/corporateCreditFile/adminLicenseInfo/adminLicenseInfo";
+
+import productionSubject from "@/components/productionSubject/productionSubject";
+import warehouseEnv from "@/components/productionSubject/warehouseEnv/warehouseEnv";
+
 Vue.use(Router);
 
 export default new Router({
@@ -62,6 +69,13 @@ export default new Router({
           name: "productionSubject",
           component: productionSubject
         },
+        
+        {
+          path: "/productionSubject/warehouseEnv/:id",
+          name: "warehouseEnv",
+          component: warehouseEnv
+        },
+
         {
           path: "/threeProductsCertification",
           name: "threeProductsCertification",
@@ -76,6 +90,17 @@ export default new Router({
             path: '/threeProductsCertification/:id',
             name: 'detailsThreeProducts',
             component: detailsThreeProducts
+
+        },
+        {
+            path: '/corporateCreditFile/adminLicenseInfo/:id',
+            name: 'adminLicenseInfo',
+            component: adminLicenseInfo
+        },
+        {
+            path: '/corporateCreditFile/adminPenaltyInfo/:id',
+            name: 'adminPenaltyInfo',
+            component: adminPenaltyInfo
         },
         {
           path: "/regulatoryRecord",

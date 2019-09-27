@@ -10,7 +10,7 @@
         <div class="item-row">
           <div class="item">
             <div class="item-label">状态</div>
-            <div class="item-value">{{data.approvalStatus}}</div>
+            <div class="item-value">{{allStatus[data.approvalStatus]}}</div>
           </div>
         </div>
         <div class="item-row">
@@ -20,13 +20,13 @@
           </div>
           <div class="item">
             <div class="item-label">名称</div>
-            <div class="item-value">{{data.approvalGrade}}</div>
+            <div class="item-value">{{companyName}}</div>
           </div>
         </div>
         <div class="item-row">
           <div class="item">
             <div class="item-label">原信用评级</div>
-            <div class="item-value">{{data.originalGrade}}</div>
+            <div class="item-value">{{options[grades.indexOf(data.originalGrade)]}}</div>
           </div>
         </div>
         <div class="item-row">
@@ -35,10 +35,10 @@
             <div class="item-value">
               <el-select v-model="data.nowGrade" placeholder="请选择">
                 <el-option
-                  v-for="item in ['A级（守信）', 'B级（基本守信）', 'C级（失信）']"
+                  v-for="(item, optionIndex) in options"
                   :key="item"
                   :label="item"
-                  :value="item"
+                  :value="grades[optionIndex]"
                 ></el-option>
               </el-select>
             </div>
@@ -62,7 +62,9 @@
               />
               <el-button type="warning" plain @click="chooseFile()">保存修改</el-button>
             </div>
-            <div class="item-value">{{data.creditCode}}</div>
+            <div class="item-value" v-if="!file">
+              <el-link @click="downloadFile()">{{data.uploadFileName.replace('/uploads/', '')}}</el-link>
+            </div>
             <div class="item-value" v-if="file">({{file.name}})</div>
           </div>
         </div>
@@ -83,7 +85,10 @@
 </template>
 
 <script>
-import sampleData from "../_data";
+import Request from "../../../services/api/request.js";
+import { Urls } from "../../../services/constants";
+import axios from "axios";
+
 export default {
   name: "EditRating",
   data() {
@@ -91,38 +96,68 @@ export default {
       id: -1,
       file: null,
       pageName: this.$route.name,
-      datas: sampleData,
       data: null,
-      options: ["A级（守信）", "B级（基本守信）", "C级（失信）"]
+      grades: ["A", "B", "C"],
+      options: ["A级（守信）", "B级（基本守信）", "C级（失信）"],
+      allStatus: ["待审批", "已同意", "已拒绝"],
+      companyName: ""
     };
   },
   created() {
+    this.companyName = this.$route.query.company;
     this.id = this.$route.params.id;
-    const pos = this.datas.findIndex(i => i.creditGradeId == this.id);
-    if (pos >= 0) {
-      this.data = this.datas[pos];
-    }
+    this.getData(this.$route.params.id);
   },
   methods: {
+    getData(id) {
+      Request()
+        .get("/api/company_credit_grade/get/" + id)
+        .then(response => {
+          this.data = response;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+
     chooseFile() {
       this.$refs.file.click();
     },
+
     handleFileUpload() {
       this.file = this.$refs.file.files[0];
-      console.log(this.file);
     },
+
     saveChanges(event) {
-      event.preventDefault();
       var formData = new FormData();
-      formData.append("test", "df");
+      formData.append("updatedNowGrade", this.data.nowGrade);
+      formData.append("id", this.data.creditGradeId);
       if (this.file) {
         formData.append("file", this.file);
       }
       formData.append("data", this.data);
+      Request()
+        .put(
+          "/api/company_credit_grade/update/" + this.data.creditGradeId,
+          formData
+        )
+        .then(response => {
+          this.$router.push({ path: "creditRating" });
+        })
+        .catch(error => {});
+    },
 
-      console.log(formData.getAll("test"));
-
-      // this.$router.go(-1);
+    downloadFile() {
+      axios
+        .get(Urls.API_BASE_URL() + this.data.uploadFileName, {
+          responseType: "blob"
+        })
+        .then(({ data }) => {
+          const blob = new Blob([data], {});
+          let link = document.createElement("a");
+          link.href = window.URL.createObjectURL(blob);
+          link.click().catch(error => console.error(error));
+        });
     }
   }
 };
