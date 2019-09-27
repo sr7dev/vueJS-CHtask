@@ -2,7 +2,8 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">仓储环境</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/productionSubject' }">监管对象</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">仓储环境</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
@@ -19,7 +20,7 @@
         <el-table-column prop="warehouseSize" label="仓库规模"></el-table-column>
         <el-table-column prop="operations" label="操作"  width="150">
           <template slot-scope="{row}">
-            <el-button  v-on:click="show(row)">查看</el-button>
+            <el-button  v-on:click="showDetailWarehouse(row)">查看</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -55,9 +56,9 @@ export default {
     this.getList();
   },
   methods: {
-    gotoWarehousingEnvironmentPage(row) {
+    showDetailWarehouse(row) {
       console.log(row);
-      this.$router.push(`/warehouseEnv`)
+      this.$router.push(`/productionSubject/warehouseEnv/detailsWarehouse/${row.id}`)
 
     },
     getList() {
