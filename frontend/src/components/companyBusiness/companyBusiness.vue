@@ -8,24 +8,23 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        
         <div class="filter-item">
           <div class="select_label">行业</div>
-          <el-select v-model="productType" placeholder="请选择">
+          <el-select v-model="productType" placeholder="请选择" @change="getList()">
             <el-option v-for="item in [
                           {value: 0, label: '全部'},
                           {value: 1, label: '农药'}, 
                           {value: 2, label: '种子'}, 
                           {value: 3, label: '饲料'}, 
                           {value: 4, label: '肥料'},
-                        ]" 
+                        ]"
               :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </div>
         
         <div class="filter-item">
           <div class="select_label">行业</div>
-          <el-select v-model="companyScale" placeholder="请选择">
+          <el-select v-model="companyScale" placeholder="请选择" @change="getList()">
             <el-option v-for="item in [
                           {value: 0, label: '全部'},
                           {value: 1, label: '小型企业'}, 
@@ -71,8 +70,8 @@ export default {
   components: { Pagination },
   data() {
     return {
-      companyScale: '',
-      productType: '',
+      companyScale: 0,
+      productType: 0,
       sortBy: 'id',
       page: {
         pageIndex: 1,
@@ -94,10 +93,10 @@ export default {
   methods: {
     getList() {
       this.listLoading = true;
-       Request()
+      Request()
         .get("/api/company_business/all", {
-          // companyScale: this.companyScale,
-          // productType: this.productType,
+          companyScale: this.companyScale,
+          productType: this.productType,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
           sortBy: this.sortBy,
@@ -105,7 +104,6 @@ export default {
         .then(response => {
           this.tableData = response;
           this.total = this.tableData.length;
-          console.log(this.tableData);
           setTimeout(() => {
             this.listLoading = false
           }, 0.5 * 1000);
@@ -124,5 +122,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import './companyBusiness.scss';
+
 </style>
