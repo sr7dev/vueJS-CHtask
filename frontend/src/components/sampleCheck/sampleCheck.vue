@@ -94,7 +94,14 @@ export default {
       this.$router.push(`/sampleCheck/detailsSampleCheckResult/${row.id}`);
     },
     addSample() {
-      this.$router.push(`/sampleCheck/addSampleCheck`);
+      if(this.mode){
+        this.$router.push(`/sampleCheck/addSampleCheck`);
+      } else {
+        this.$router.push(`/sampleCheck/addSampleCheckResult`);
+      }
+    },
+    addSampleResult() {
+      
     },
     getDateString(dt) {
       const date = new Date(dt);

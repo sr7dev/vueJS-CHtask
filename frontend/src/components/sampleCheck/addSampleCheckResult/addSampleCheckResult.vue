@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/productionSubject' }">例行抽样</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/sampleCheck' }">例行抽样</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">添加结果</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -69,6 +69,8 @@ export default {
       data: {
         checkFiles: "",
         checkPerson: "",
+        checkResult: '',
+        checkUnit: '',
         createUserId: 0,
         id: 0,
         sampleId: 0,
@@ -93,6 +95,8 @@ export default {
         .post("/api/sample_check_result/create", {
           "checkFiles": this.data.checkFiles,
           "checkPerson": this.data.checkPerson,
+          "checkResult": this.data.checkResult,
+          "checkUnit": this.data.checkUnit,
           "createUserId": this.data.createUserId,
           "id": this.data.id,
           "sampleId": this.data.sampleId,
