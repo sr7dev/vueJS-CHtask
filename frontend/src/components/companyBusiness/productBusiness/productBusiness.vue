@@ -71,7 +71,7 @@ export default {
       this.listLoading = true;
       Request()
         .get("/api/product_business/all", {
-          companyId: this.id,
+          company_id: this.id,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
           sortBy: this.sortBy

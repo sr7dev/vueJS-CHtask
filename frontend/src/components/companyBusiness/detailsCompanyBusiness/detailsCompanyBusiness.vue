@@ -81,7 +81,7 @@ export default {
           this.data = response;          
           Request()
             .get("/api/product_business/all", {
-              companyId: this.data.id,
+              company_id: this.data.id,
               pageNo: 0,
               pageSize: 20,
             })
