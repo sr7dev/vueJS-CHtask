@@ -351,35 +351,35 @@ export default {
   },
   methods: {
     onSubmit() {
-      const productInfo = JSON.stringify(this.form.productInfo);
+      // const data = JSON.parse(JSON.stringify(this.form));
       Request().post('/api/company_production/create', 
-        {
-          agriculturalClassification: this.form.agriculturalClassification,
-          creditCode: this.form.creditCode,
-          companyId: this.form.companyId,
-          companyType: this.form.companyType,
-          chargePerson: this.form.chargePerson,
-          companyAddress: this.form.companyAddress,
-          companyHonor: this.form.companyHonor,
-          companyName: this.form.companyName,
-          contactMobile: this.form.contactMobile,
-          contactPerson: this.form.contactPerson,
-          contactWay: this.form.contactWay,
-          createTime: this.form.createTime,
-          createUserId: this.form.createUserId,
-          doSupervision: this.form.doSupervision,
-          landSource: this.form.landSource,
-          plantArea: this.form.plantArea,
-          productInfo: productInfo,
-          public_license: this.form.public_license,
-          public_punish: this.form.public_punish,
-          qualityStandardId: this.form.qualityStandardId,
-          quality_standard: this.form.quality_standard,
-          remarks: this.form.remarks,
-          updateTime: this.form.updateTime,
-          townId: this.form.townId,
-          updateUserId: this.form.updateUserId,
-        }
+        // {
+        //   agriculturalClassification: this.form.agriculturalClassification,
+        //   "creditCode": "string",
+        //   "companyId": 0,
+        //   "companyType": "string",
+        //   "chargePerson": "string",
+        //   "companyAddress": "string",
+        //   "companyHonor": "string",
+        //   "companyName": "string",
+        //   "contactMobile": "string",
+        //   "contactPerson": "string",
+        //   "contactWay": "string",
+        //   "createTime": "2019-09-28T01:39:26.863Z",
+        //   "createUserId": 0,
+        //   "doSupervision": "string",
+        //   "landSource": "string",
+        //   "plantArea": 0,
+        //   "productInfo": "string",
+        //   "public_license": 0,
+        //   "public_punish": 0,
+        //   "qualityStandardId": 0,
+        //   "quality_standard": 0,
+        //   "remarks": "string",
+        //   "updateTime": "2019-09-28T01:39:26.863Z",
+        //   "townId": 0,
+        //   "updateUserId": 0
+        // }
       ).then(res => {
         console.log(res);
       })

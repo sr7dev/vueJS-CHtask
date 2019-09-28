@@ -9,6 +9,9 @@ let Urls = {
 			return "http://192.168.2.191:8040"
 		}
 		return "NOTHING"
+	},
+	DOWNLOAD_URL: () => {
+		return "http://192.168.2.191:8040/api"
 	}
 
 };
