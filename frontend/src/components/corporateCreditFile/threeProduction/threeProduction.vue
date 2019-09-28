@@ -13,14 +13,23 @@
       <el-container>
         <el-table :data="tableData" v-loading="listLoading" fit style="width: 100%;"
         :row-class-name="rowIndex" highlight-current-row>
-          <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
-          <el-table-column prop="docCode" label="产品" width="150"></el-table-column>
-          <el-table-column prop="punishName" label="分类" width="150"></el-table-column>
-          <el-table-column prop="cretficationType" label="认证类型" width="150"></el-table-column>
-          <el-table-column prop="serialNubmer" label="证书编号" width="150"></el-table-column>
-          <el-table-column prop="certification" label="证书有效期" width="200"></el-table-column>
-          <el-table-column prop="punishReason" label="有效时间" width="150"></el-table-column>
-          <el-table-column prop="output" label="产量" width="150"></el-table-column>
+          <el-table-column :formatter="order" label="序号" width="150"></el-table-column>
+          <el-table-column prop="productName" label="产品" width="250">
+            <template slot-scope="{row}">{{filterProduct(row.productId)}}</template>
+          </el-table-column>
+          <el-table-column prop="cretficationType" label="分类" width="250">
+            <template slot-scope="{row}">{{appStatus1[row.argriculturalClassification]}}</template>
+          </el-table-column>
+          <el-table-column prop="cretficationCategory" label="认证类型" width="250">
+          </el-table-column>
+          <el-table-column prop="serialNubmer" label="证书编号" width="250"></el-table-column>
+          <el-table-column label="证书有效期" width="300">
+            <template slot-scope="{row}">{{getCertification(row.certificationStartTime, row.certificationEndTime)}}</template>
+          </el-table-column>
+          <el-table-column label="有效时间" width="250">
+            <template slot-scope="{row}">{{getPeriod(row.certificationStartTime, row.certificationEndTime)}}</template>
+          </el-table-column>
+          <el-table-column prop="output" label="产量" width="250"></el-table-column>
         </el-table>
       </el-container>
       <div class="pageBox">
@@ -47,10 +56,14 @@ export default {
       total: 100,
       tableData: [],
       id: -1,
-      
+      productName:'',
+      productCategory: 0,
+      productDetail: [],
+      appStatus1: ["全部", "养殖业", "已同意", "畜牧业", "种植业"],
     };
   },
   created() {
+    this.getProductionDetail();
     this.getList();
     this.id = this.$route.params.id;
   },
@@ -77,6 +90,32 @@ export default {
           console.log(error);
         });
     },
+    getProductionDetail() {
+      Request()
+              .get("/api/product_production/name")
+              .then(response => {
+                this.productDetail = response;
+              })
+              .catch(error => {
+                console.log(error);
+              });
+    },
+    filterProduct(ID) {
+      let product = this.productDetail.find(x => x.productId === ID);
+      if (product) {
+        return product.productName;
+      } else {
+        return "";
+      }
+    },
+    getCertification(startDate, endDate) {
+      return startDate.substr(0, 10) + "至" + endDate.substr(0, 10);
+    },
+    getPeriod(startDate, endDate) {
+      let startYear =  parseInt(startDate.substr(0,4));
+      let endYear =  parseInt(endDate.substr(0,4));
+      return ((endYear - startYear) <= 0 ? 0 : (endYear-startYear)) + "年";
+    },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
     },
@@ -84,4 +123,5 @@ export default {
 };
 </script>
 <style lang="scss">
+  @import "./threeProduction.scss";
 </style>
