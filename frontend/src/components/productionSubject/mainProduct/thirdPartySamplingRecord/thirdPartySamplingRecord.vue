@@ -2,7 +2,8 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">监管对象/主营产品/第三方抽检记录</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/productionSubject' }">监管对象</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">主营产品/第三方抽检记录</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">

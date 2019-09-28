@@ -13,7 +13,7 @@ import management from "@/components/management/management";
 import businessProducts from "@/components/management/businessProducts";
 import companyDetails from "@/components/management/companyDetails";
 import redBlackList from '@/components/redBlackList/redBlackList';
-import agriculturalDisability from '@/components/agriculturalDisability/agriculturalDisability';
+import disabilityCheck from '@/components/disabilityCheck/disabilityCheck';
 
 // 企业
 import cp_productionSubject from "@/components/company/productionSubject/productionSubject"; //生产主体
@@ -37,7 +37,13 @@ import adminPenaltyInfo from "@/components/corporateCreditFile/adminPenaltyInfo/
 import adminLicenseInfo from "@/components/corporateCreditFile/adminLicenseInfo/adminLicenseInfo";
 
 import productionSubject from "@/components/productionSubject/productionSubject";
+import addRegulatoryObject from "@/components/productionSubject/addRegulatoryObject/addRegulatoryObject";
+import editRegulatoryObject from "@/components/productionSubject/editRegulatoryObject/editRegulatoryObject";
+import detailsRegulatoryObject from "@/components/productionSubject/detailsRegulatoryObject/detailsRegulatoryObject";
+
+
 import warehouseEnv from "@/components/productionSubject/warehouseEnv/warehouseEnv";
+import detailsWarehouse from "@/components/productionSubject/warehouseEnv/detailsWarehouse/detailsWarehouse";
 import mainProduct from "@/components/productionSubject/mainProduct/mainProduct";
 import thirdPartySamplingRecord from "@/components/productionSubject/mainProduct/thirdPartySamplingRecord/thirdPartySamplingRecord";
 import productBatch from "@/components/productionSubject/mainProduct/productBatch/productBatch";
@@ -73,13 +79,32 @@ export default new Router({
           name: "productionSubject",
           component: productionSubject
         },
+        {
+          path: "/productionSubject/addRegulatoryObject",
+          name: "addRegulatoryObject",
+          component: addRegulatoryObject
+        },
+        {
+          path: "/productionSubject/editRegulatoryObject/:id",
+          name: "editRegulatoryObject",
+          component: editRegulatoryObject
+        },
+        {
+          path: "/productionSubject/detailsRegulatoryObject/:id",
+          name: "detailsRegulatoryObject",
+          component: detailsRegulatoryObject
+        },
         
         {
           path: "/productionSubject/warehouseEnv/:id",
           name: "warehouseEnv",
           component: warehouseEnv
         },
-
+        {
+          path: "/productionSubject/warehouseEnv/detailsWarehouse/:id",
+          name: "detailsWarehouse",
+          component: detailsWarehouse
+        },
         {
           path: "/productionSubject/mainProduct/:id",
           name: "mainProduct",
@@ -230,9 +255,9 @@ export default new Router({
       redirect: "cp_productionSubject",
       children: [
         {
-          path: "/agriculturalDisability",
-          name: "agriculturalDisability",// 农残检测
-          component: agriculturalDisability
+          path: "/disabilityCheck",
+          name: "disabilityCheck",// 农残检测
+          component: disabilityCheck
         },
       ]
     },

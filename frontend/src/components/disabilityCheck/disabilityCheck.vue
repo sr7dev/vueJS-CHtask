@@ -8,12 +8,12 @@
         <div class="box">
             <div class="iptBox">
                 <div class="select_label">乡镇</div>
-                <el-select v-model="villageTownValue" placeholder="全部">
+                <el-select v-model="currTown" placeholder="全部">
                     <el-option
-                            v-for="item in villageTown"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value"
+                            v-for="item in township"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id"
                             size="large">
                     </el-option>
                 </el-select>
@@ -75,7 +75,7 @@
             </div>
             <el-container>
                 <el-table
-                        :data="agriculturalData"
+                        :data="tableData"
                         style="width: 100%"
                         :row-class-name="rowIndex">
                     <el-table-column
@@ -84,16 +84,16 @@
                             width="80">
                     </el-table-column>
                     <el-table-column
-                            prop="serialNumber"
+                            prop="no"
                             label="编号"
                             width="100">
                     </el-table-column>
                     <el-table-column
-                            prop="detectionItem"
+                            prop="item"
                             label="检测项目">
                     </el-table-column>
                     <el-table-column
-                            prop="sampleName"
+                            prop="sample"
                             label="样品名称">
                     </el-table-column>
                     <el-table-column
@@ -101,25 +101,25 @@
                             label="来源">
                     </el-table-column>
                     <el-table-column
-                            prop="quantitativeResult"
+                            prop="resultDl"
                             label="定量结果">
                     </el-table-column>
                     <el-table-column
-                            prop="qualitativeResult"
+                            prop="resultDx"
                             label="定性结果">
                     </el-table-column>
                     <el-table-column
-                            prop="detectionTime"
+                            prop="detectTime"
                             label="检测时间"
                             width="240">
                     </el-table-column>
                     <el-table-column
-                            prop="detectionUnit"
+                            prop="detectUnit"
                             label="检测单位"
                             width="240">
                     </el-table-column>
                     <el-table-column
-                            prop="surveyor"
+                            prop="operator"
                             label="检验员">
                     </el-table-column>
                     <el-table-column
@@ -141,14 +141,16 @@
 </template>
 
 <script>
-    import Pagination from '@/components/common/pagination'
+    import Pagination from '@/components/common/pagination';
+    import Request from "../../services/api/request.js";
     export default {
+        name: "disabilityCheck",
         components: { Pagination },
         data(){
             return{
                 page:{
                     pageIndex: 1,
-                    pageSize: 10
+                    pageSize: 20
                 },
                 total:100,
                 options:[
@@ -157,18 +159,10 @@
                         label:''
                     }
                 ],
-                activeTabName: 'first',
-                villageTown: [{
-                    value: '全部',
-                    label: '全部'
-                }, {
-                    value: '梅李镇',
-                    label: '梅李镇'
-                }, {
-                    value: '古里镇',
-                    label: '古里镇'
-                }],
-                villageTownValue: '',
+                township: [{ id: 0, name: "全部" }],
+                currTown: 0,
+                status: 1,
+                tableData: [ ],
                 projects: [{
                     value: '全部',
                     label: '全部'
@@ -216,40 +210,46 @@
                 startDate: '',
                 endDate: '',
                 bGreenProducts: false,
-                totalSize: '159',
-                agriculturalData: [
-                    {
-                        serialNumber: '产品',
-                        detectionItem: '分类',
-                        sampleName: '2018-09-01至2020-05-01',
-                        source:'123456',
-                        quantitativeResult:'aaaaaa',
-                        qualitativeResult:'ssssss',
-                        detectionTime:'dddddd',
-                        detectionUnit:'fffffffff',
-                        surveyor:'ggggggg',
-                        particular: true
-                    },
-                ]
+                totalSize: '',
             }
         },
         created() {
+            this.getTown();
             this.getList();
+            // this.getCompanyProduction();
         },
         methods:{
             onClickExport() {
 
             },
+            getTown() {
+                Request()
+                    .get("/api/town/all")
+                    .then(response => {
+                        this.township = this.township.concat(response);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            },
             getList() {
                 this.listLoading = true;
-                // fetchListAPI(this.status, this.page.pageIndex, this.page.pageSize, "credit_gradeid")
-                //   .then(response => {
-                // this.tableData = sampleData;  // this.tableData = response;
-                this.total = this.agriculturalData.length;
-                setTimeout(() => {
-                    this.listLoading = false
-                }, 0.5 * 1000);
-                // })
+                Request()
+                    .get("/api/disability_check/all", {
+                        pageNo: this.page.pageIndex - 1,
+                        pageSize: this.page.pageSize
+                    })
+                    .then(response => {
+                        this.tableData = response;
+                        this.total = this.tableData.length;
+                        this.totalSize = this.total;
+                        setTimeout(() => {
+                            this.listLoading = false;
+                        }, 0.5 * 1000);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
             },
             rowIndex({row, rowIndex}) {
                 row.rowIndex = rowIndex;
@@ -258,7 +258,7 @@
                 return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
             },
             goAdd(){
-                this.$router.push({path: 'addAgriculturalDisability'})
+                this.$router.push({path: 'addDisabilityCheck'})
             },
         }
     }
