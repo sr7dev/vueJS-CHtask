@@ -16,7 +16,7 @@
         </el-row>
         <el-row>
           <el-col :span="8">
-            <img class="content img" :src="url + data.profileImage" alt="">
+            <img class="content img" :src="url + '/api'+ data.profileImage" alt="">
           </el-col>
           <el-col :span="6">
             <div class="title">福鼎白茶</div>
