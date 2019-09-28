@@ -90,7 +90,7 @@
         <el-table-column prop="address" label="所在乡镇" width="120">
           <template slot-scope="{row}">{{getTownship(row.townId)}}</template>
         </el-table-column>
-        <el-table-column prop="nowGrade" label="企业诚信" width="120">
+        <el-table-column prop="nowGrade" label="企业诚信" width="200">
           <template slot-scope="{row}">
             <el-button v-on:click="gotoCreditRatingPage(row)">{{row.nowGrade}}</el-button>
           </template>
@@ -154,8 +154,10 @@ export default {
       return this.townList[pos].name;
     },
     gotoCreditRatingPage(row) {
-      // this.$router.push(`/creditRating/${row.creditCode}`);
-      this.$router.push(`/creditRating`);
+      this.$router.push({
+        path: `/corporateCreditFile/ratingInfo`,
+        query: { creditCode: row.creditCode }
+      });
     },
     gotoAddRegulatoryObject() {
       this.$router.push(`/productionSubject/addRegulatoryObject`);
@@ -181,7 +183,6 @@ export default {
         .get("/api/town/all", {})
         .then(response => {
           this.townList = response;
-          console.log(response);
         })
         .catch(err => {
           console.error(err);
