@@ -13,7 +13,7 @@ import management from "@/components/management/management";
 import businessProducts from "@/components/management/businessProducts";
 import companyDetails from "@/components/management/companyDetails";
 import redBlackList from '@/components/redBlackList/redBlackList';
-import agriculturalDisability from '@/components/agriculturalDisability/agriculturalDisability';
+import disabilityCheck from '@/components/disabilityCheck/disabilityCheck';
 
 // 企业
 import cp_productionSubject from "@/components/company/productionSubject/productionSubject"; //生产主体
@@ -142,9 +142,9 @@ export default new Router({
 
         },
         {
-            path: '/corporateCreditFile',
-            name: 'corporateCreditFile',
-            component: corporateCreditFile
+          path: '/corporateCreditFile',
+          name: 'corporateCreditFile',
+          component: corporateCreditFile
         },
         {
             path: '/corporateCreditFile/adminLicenseInfo/:id',
@@ -255,9 +255,9 @@ export default new Router({
       redirect: "cp_productionSubject",
       children: [
         {
-          path: "/agriculturalDisability",
-          name: "agriculturalDisability",// 农残检测
-          component: agriculturalDisability
+          path: "/disabilityCheck",
+          name: "disabilityCheck",// 农残检测
+          component: disabilityCheck
         },
       ]
     },
