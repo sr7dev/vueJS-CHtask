@@ -14,7 +14,7 @@
       </div>
 
       <el-container>
-        <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
+        <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex" v-loading="listLoading" highlight-current-row>
           <el-table-column :formatter="order" label="序号"  width="70"></el-table-column>
           <el-table-column prop="numberDate" label="日期" width="100"></el-table-column>
           <el-table-column prop="township" label="乡镇" width="70"></el-table-column>
@@ -45,7 +45,6 @@
       </div>
     </div>
   </div>
-      <!-- layout="total, sizes, prev, pager, next, jumper" -->
 </template>
 
 <script>
@@ -68,7 +67,8 @@ export default {
           label: ""
         }
       ],
-      tableData: sampleData
+      tableData: sampleData,
+      listLoading:true
     };
   },
   created() {
