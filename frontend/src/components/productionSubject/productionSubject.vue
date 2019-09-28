@@ -223,7 +223,7 @@ export default {
           this.total = dt.length;
           dt.map(item => {
             this.getNowGrade(item.creditCode).then(res => {
-              item.nowGrade = getGradeString(res);
+              item.nowGrade = this.getGradeString(res);
               this.tableData.push(item);
             });
           });
