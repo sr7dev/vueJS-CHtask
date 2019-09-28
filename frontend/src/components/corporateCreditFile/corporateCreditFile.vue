@@ -45,9 +45,9 @@
               <el-button v-on:click="$router.push(`/corporateCreditFile/adminPenaltyInfo/${row.creditCode}`)">行政许可信息</el-button>
             </template>
           </el-table-column>
-          <el-table-column prop="nowGrade" label="评级信息">
-<!--            <template slot-scope="{row}">{{getGrad(row.creditCode)}}</template>-->
-          </el-table-column>
+<!--          <el-table-column prop="nowGrade" label="评级信息">-->
+<!--&lt;!&ndash;            <template slot-scope="{row}">{{getGrad(row.creditCode)}}</template>&ndash;&gt;-->
+<!--          </el-table-column>-->
           <el-table-column label="三品一标认证" width="200">
             <template slot-scope="{row}">
                 <el-button v-on:click="$router.push(`/creditRating/${row.creditCode}`)">三品一标</el-button>
