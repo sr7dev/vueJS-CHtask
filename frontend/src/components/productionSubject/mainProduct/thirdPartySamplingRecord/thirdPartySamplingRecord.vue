@@ -55,7 +55,7 @@ export default {
       id: -1,
       page: {
         pageIndex: 1,
-        pageSize: 10
+        pageSize: 20
       },
       total: 100,
       radio: "1",
@@ -64,20 +64,18 @@ export default {
   },
   created() {
     this.id = this.$route.params.id;
-    console.log(this.id);
-    this.getList();
+    this.getList(id);
   },
   methods: {
     gotoWarehousingEnvironmentPage(row) {
-      console.log(row);
       this.$router.push(`/warehouseEnv`)
 
     },
-    getList() {
+    getList(id) {
       this.listLoading = true;
        Request()
         .get("/api/product_check_record/all", {
-          product_id: 0,
+          product_id: id,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
         })

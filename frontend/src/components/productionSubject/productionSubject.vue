@@ -218,7 +218,6 @@ export default {
         })
         .then(response => {
           let dt = response;
-          console.log(dt);
           this.tableData = [];
           this.total = dt.length;
           dt.map(item => {

@@ -49,14 +49,11 @@ export default {
   },
   created() {
     this.id = this.$route.params.id;
-    console.log(this.id);
     this.getList();
   },
   methods: {
     gotoWarehousingEnvironmentPage(row) {
-      console.log(row);
       this.$router.push(`/warehouseEnv`)
-
     },
     getList() {
       this.listLoading = true;

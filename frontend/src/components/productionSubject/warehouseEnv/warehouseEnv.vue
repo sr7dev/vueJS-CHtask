@@ -56,14 +56,12 @@ export default {
   },
   methods: {
     showDetailWarehouse(row) {
-      console.log(row);
       this.$router.push({
         path:`/productionSubject/warehouseEnv/detailsWarehouse/${row.id}`,
         query: {company: row}});
     },
     getList(id) {
       this.listLoading = true;
-      console.log(id);
       Request()
         .get("/api/warehose/all",{
           company_id: id,
@@ -74,7 +72,6 @@ export default {
         .then(response => {
           this.tableData = response;
           this.total = this.tableData.length;
-          console.log(this.tableData);
           setTimeout(() => {
             this.listLoading = false
           }, 0.5 * 1000);

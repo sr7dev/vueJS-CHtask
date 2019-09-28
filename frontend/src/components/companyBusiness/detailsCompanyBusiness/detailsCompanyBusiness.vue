@@ -86,7 +86,6 @@ export default {
               pageSize: 20,
             })
             .then(res => {
-              console.log(res);
               this.companyProducts = res;
             })
             .catch(error => {
