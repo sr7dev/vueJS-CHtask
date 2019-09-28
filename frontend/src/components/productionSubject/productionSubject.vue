@@ -154,8 +154,10 @@ export default {
       return this.townList[pos].name;
     },
     gotoCreditRatingPage(row) {
-      // this.$router.push(`/creditRating/${row.creditCode}`);
-      this.$router.push(`/creditRating`);
+      this.$router.push({
+        path: `/corporateCreditFile/ratingInfo`,
+        query: { creditCode: row.creditCode }
+      });
     },
     gotoAddRegulatoryObject() {
       this.$router.push(`/productionSubject/addRegulatoryObject`);

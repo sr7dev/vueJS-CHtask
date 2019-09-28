@@ -37,10 +37,13 @@
           <el-table-column prop="nowGrade" label="现信用评级" width="150"></el-table-column>
           <el-table-column prop="gradeTime" label="评级时间"></el-table-column>
           <el-table-column prop="gradeUnit" label="评级单位"></el-table-column>
-          <el-table-column prop="approvalStatus" label="状态" width="100"></el-table-column>
+          <!-- <el-table-column prop="approvalStatus" label="状态" width="100"></el-table-column> -->
+          <el-table-column label="状态" width="100">
+            <template slot-scope="{row}">{{getStatus(row.approvalStatus)}}</template>
+          </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="{row}">
-              <el-button v-on:click="$router.push(`/creditRating/${row.creditGradeId}`)">查看</el-button>
+              <!-- <el-button v-on:click="$router.push(`/creditRating/${row.creditGradeId}`)">查看</el-button> -->
               <el-button
                 v-on:click="$router.push({path: `/creditRating/edit/${row.creditGradeId}`,query: {company:filterCompnay(row.creditCode)}})"
               >修改评级</el-button>
@@ -132,6 +135,10 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    getStatus(status) {
+      let changedStatus = parseInt(status);
+      return this.appStatus[changedStatus + 1];
     },
     filterCompnay(credit) {
       let company = this.companyProduction.find(x => x.creditCode === credit);
