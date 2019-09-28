@@ -1,19 +1,10 @@
 <template>
-<<<<<<< HEAD
-    <div class="container">
-        <div class="title">
-            <el-breadcrumb separator=" ">
-                <el-breadcrumb-item>农残检测</el-breadcrumb-item>
-            </el-breadcrumb>
-        </div>
-=======
   <div class="container">
     <div class="title">
       <el-breadcrumb separator=" ">
         <el-breadcrumb-item>农残检测</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
->>>>>>> b9691b6e561081d4ca5d4b5f66bd6b2e26c1ff85
     <div class="box">
       <div class="iptBox">
         <div v-if="typeof this.creditCode == 'undefined'" class="select_label">乡镇</div>
@@ -131,27 +122,6 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-    import Pagination from '@/components/common/pagination';
-    import Request from "../../services/api/request.js";
-    export default {
-        name: "disabilityCheck",
-        components: { Pagination },
-        data(){
-            return{
-                creditCode: '',
-                page:{
-                    pageIndex: 1,
-                    pageSize: 20
-                },
-                total:100,
-                options:[
-                    {
-                        value:'全部',
-                        label:''
-                    }
-                ],
-=======
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
 export default {
@@ -171,7 +141,6 @@ export default {
           label: ""
         }
       ],
->>>>>>> b9691b6e561081d4ca5d4b5f66bd6b2e26c1ff85
       township: [{ id: 0, name: "全部" }],
       currTown: "",
       status: 1,
