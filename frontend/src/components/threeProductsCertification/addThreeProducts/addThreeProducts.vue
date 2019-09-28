@@ -265,17 +265,34 @@ export default {
             "certificationEndTime",
             this.ruleFormValue.certificationEndTime
           );
+          formData.append(
+            "createDate",
+            this.ruleFormValue.certificationStartTime
+          );
+          formData.append(
+            "createTime",
+            this.ruleFormValue.certificationStartTime
+          );
+          formData.append(
+            "updateDate",
+            this.ruleFormValue.certificationStartTime
+          );
+          formData.append(
+            "updateTime",
+            this.ruleFormValue.certificationStartTime
+          );
+          formData.append("updater", "string");
+          formData.append("updateUserId", 0);
+          formData.append("createUserId", 0);
+          formData.append("creater", "string");
+          formData.append("id", 0);
           if (this.file) {
             formData.append("files", this.file);
           }
           Request()
-            .post("/api/quality_standard/create", formData, {
-              headers: {
-                "Content-Type": "application/json"
-              }
-            })
+            .post("/api/quality_standard/create", formData)
             .then(response => {
-              this.$router.push({ path: "threeProductsCertification" });
+              this.$router.push({ path: "/threeProductsCertification" });
             })
             .catch(error => {});
         } else {

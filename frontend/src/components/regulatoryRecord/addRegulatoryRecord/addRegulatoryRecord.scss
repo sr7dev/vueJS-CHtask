@@ -5,53 +5,53 @@
   margin-bottom: 20px;
 }
 button {
-  min-width: 40px!important;
+  min-width: 40px !important;
   height: 40px;
 }
-.el-button--primary.min-plus{
-  margin-left :10px!important;
-  padding:5px 5px!important;
+.el-button--primary.min-plus {
+  margin-left: 10px !important;
+  padding: 5px 5px !important;
 }
 textarea {
-  margin-bottom: 20px
+  margin-bottom: 20px;
 }
-.left-margin{
-  margin-left:20px;
-  table{
-    width:80%;
-    border-left:1px solid #ebebeb;
-    border-top:1px solid #ebebeb;
+.left-margin {
+  margin-left: 20px;
+  table {
+    width: 80%;
+    border-left: 1px solid #ebebeb;
+    border-top: 1px solid #ebebeb;
     td {
-      .el-checkbox{
+      .el-checkbox {
         float: left;
-        margin-left:25px;
+        margin-left: 25px;
       }
-      padding:10px;
+      padding: 10px;
       text-align: center;
-      border-right:1px solid #ebebeb;
-      border-bottom:1px solid #ebebeb;
+      border-right: 1px solid #ebebeb;
+      border-bottom: 1px solid #ebebeb;
       border-spacing: 0;
     }
     border-radius: 5px;
-    .no-border{
+    .no-border {
       width: 100%;
-      border:none;
-      td{
-        border:none;
+      border: none;
+      td {
+        border: none;
       }
     }
   }
-  &.el-form-item{
+  &.el-form-item {
     margin-top: 30px;
   }
 }
-.image-upload-table{
+.image-upload-table {
   width: 100%;
   height: 255px;
-  border:1px solid #ebebeb;
+  border: 1px solid #ebebeb;
   border-radius: 5px;
   td {
-    padding-left:20px!important;
+    padding-left: 20px !important;
     div {
       display: inline-block;
       margin-right: 20px;
@@ -67,14 +67,14 @@ textarea {
   overflow: hidden;
 }
 .avatar-uploader .el-upload:hover {
-  border-color: #409EFF;
+  border-color: #409eff;
 }
 .avatar-uploader-icon {
   font-size: 28px;
   color: #8c939d;
   width: 110px;
   height: 85px;
-  line-height: 85px!important;
+  line-height: 85px !important;
   text-align: center;
 }
 .avatar {
@@ -83,12 +83,12 @@ textarea {
   display: block;
 }
 .el-upload--picture-card {
-  width: 110px!important;
-  height: 85px!important;
-  line-height: 85px!important;
+  width: 110px !important;
+  height: 85px !important;
+  line-height: 85px !important;
 }
-.el-upload-list__item.is-ready{
-  width: 110px!important;
-  height: 85px!important;
-  line-height: 85px!important;
+.el-upload-list__item.is-ready {
+  width: 110px !important;
+  height: 85px !important;
+  line-height: 85px !important;
 }

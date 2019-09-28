@@ -46,11 +46,11 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="选择日期">
+            <el-form-item label="选择日期" prop="date">
               <el-date-picker
                 v-model="ruleFormValue.date"
                 align="right"
-                type="date"
+                type="datetime"
                 placeholder="选择日期"
               ></el-date-picker>
             </el-form-item>
@@ -126,7 +126,7 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label>
-              <el-checkbox v-model="ruleFormValue.isDisableInput">有</el-checkbox>
+              <el-checkbox v-model="ruleFormValue.isDisableInput" true-label="1" false-label="0">有</el-checkbox>
             </el-form-item>
           </el-col>
           <el-col :span="5">
@@ -136,7 +136,7 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label>
-              <el-checkbox v-model="ruleFormValue.isThreeProduct">合规</el-checkbox>
+              <el-checkbox v-model="ruleFormValue.isThreeProduct" true-label="1" false-label="0">合规</el-checkbox>
             </el-form-item>
           </el-col>
         </el-row>
@@ -144,14 +144,6 @@
         <el-row>
           <el-col :span="10">
             <el-form-item label="常用语" class="left-margin" prop="commonLang">
-              <!-- <el-select v-model="ruleFormValue.commonLang" placeholder="请选择">
-                <el-option
-                  v-for="item in options_tmp"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>-->
               <el-input v-model="ruleFormValue.commonLang" style="width:30%"></el-input>
             </el-form-item>
           </el-col>
@@ -176,7 +168,11 @@
                     <td rowspan="2">结论</td>
                     <td>合格</td>
                     <td>
-                      <el-checkbox v-model="ruleFormValue.conclusion"></el-checkbox>
+                      <el-checkbox
+                        v-model="ruleFormValue.conclusion"
+                        true-label="1"
+                        false-label="0"
+                      ></el-checkbox>
                     </td>
                   </tr>
                   <tr>
@@ -187,37 +183,31 @@
                           <tr>
                             <td>责令修改</td>
                             <td>
-                              <el-form-item prop="orderToAmend">
-                                <el-input
-                                  v-model="ruleFormValue.orderToAmend"
-                                  style="width:100%"
-                                  :disabled="ruleFormValue.conclusion==true"
-                                ></el-input>
-                              </el-form-item>
+                              <el-input
+                                v-model="ruleFormValue.orderToAmend"
+                                style="width:100%"
+                                :disabled="ruleFormValue.conclusion==true"
+                              ></el-input>
                             </td>
                           </tr>
                           <tr>
                             <td>建议处罚</td>
                             <td>
-                              <el-form-item prop="recommendPunishment">
-                                <el-input
-                                  v-model="ruleFormValue.recommendPunishment"
-                                  style="width:100%"
-                                  :disabled="ruleFormValue.conclusion==true"
-                                ></el-input>
-                              </el-form-item>
+                              <el-input
+                                v-model="ruleFormValue.recommendPunishment"
+                                style="width:100%"
+                                :disabled="ruleFormValue.conclusion==true"
+                              ></el-input>
                             </td>
                           </tr>
                           <tr>
                             <td>其他处理</td>
                             <td>
-                              <el-form-item prop="otherProcessing">
-                                <el-input
-                                  v-model="ruleFormValue.otherProcessing"
-                                  style="width:100%"
-                                  :disabled="ruleFormValue.conclusion==true"
-                                ></el-input>
-                              </el-form-item>
+                              <el-input
+                                v-model="ruleFormValue.otherProcessing"
+                                style="width:100%"
+                                :disabled="ruleFormValue.conclusion==true"
+                              ></el-input>
                             </td>
                           </tr>
                         </tbody>
@@ -234,33 +224,40 @@
                 <tr>
                   <td>现场图片</td>
                   <td>
-                    <el-upload
-                      class="avatar-uploader"
-                      action="#"
-                      list-type="picture-card"
-                      :auto-upload="false"
-                      :on-preview="handlePictureCardPreview"
-                      :before-upload="beforeAvatarUpload"
-                    >
-                      <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-                      <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
+                    <div class="image-box">
+                      <div class="js--image-preview" @click="chooseFile_Live()">
+                        <img :src="imageUrl_Sign" />
+                      </div>
+                      <input
+                        type="file"
+                        id="file"
+                        ref="file_live_1"
+                        class="image-upload"
+                        accept="image/*"
+                        v-on:change="handleFileUpload_Live()"
+                      />
+                    </div>
                   </td>
                 </tr>
                 <tr>
                   <td>签名</td>
                   <td>
-                    <el-upload
-                      class="avatar-uploader"
-                      action="#"
-                      list-type="picture-card"
-                      :auto-upload="false"
-                      :on-preview="handlePictureCardPreview"
-                      :before-upload="beforeAvatarUpload"
+                    <div
+                      class="image-box"
+                      style="width:100px;height:100px;border:1px #001528;border-radius:5px"
                     >
-                      <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-                      <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
+                      <div class="js--image-preview" @click="chooseFile_Sign()">
+                        <img :src="imageUrl_Sign" />
+                      </div>
+                      <input
+                        type="file"
+                        id="file"
+                        ref="file_sign"
+                        class="image-upload"
+                        accept="image/*"
+                        v-on:change="handleFileUpload_Sign()"
+                      />
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -294,22 +291,21 @@ export default {
         productInputRecord: "1",
         proofOfProduct: "1",
         testRecord: "1",
-        isDisableInput: true,
-        isThreeProduct: true,
+        isDisableInput: "1",
+        isThreeProduct: "1",
         commonLang: "",
         otherProblems: "",
-        conclusion: true,
+        conclusion: "1",
         orderToAmend: "",
         recommendPunishment: "",
         otherProcessing: ""
       },
       township: [],
       companyList: [],
-      // options_tmp: [
-      //   { value: "1", label: "天荷香稻" },
-      //   { value: "2", label: "福鼎白茶" }
-      // ],
-      imageUrl: "",
+      imageUrl_Live: "",
+      imageUrl_Sign: "",
+      file_live_1: null,
+      file_sign: null,
       rules: {
         townShip: [
           {
@@ -352,27 +348,6 @@ export default {
             message: "请插入",
             trigger: "change"
           }
-        ],
-        orderToAmend: [
-          {
-            required: true,
-            message: "请插入",
-            trigger: "change"
-          }
-        ],
-        recommendPunishment: [
-          {
-            required: true,
-            message: "请插入",
-            trigger: "change"
-          }
-        ],
-        otherProcessing: [
-          {
-            required: true,
-            message: "请插入",
-            trigger: "change"
-          }
         ]
       }
     };
@@ -405,24 +380,76 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          console.log(this.imageUrl);
+          var formData = new FormData();
+          formData = this.makeFormData();
+          Request()
+            .post("/api/supervision_record/create", formData)
+            .then(response => {
+              // this.$router.push({ path: "/regulatoryRecord" });
+            })
+            .catch(error => {});
         }
       });
     },
-    handlePictureCardPreview(file) {
-      this.imageUrl = file.url;
-    },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
-      const isLt2M = file.size / 1024 / 1024 < 2;
+    makeFormData() {
+      var mainFormData = new FormData();
+      var conclusionData = {
+        order: this.ruleFormValue.orderToAmend
+          ? this.ruleFormValue.orderToAmend
+          : " ",
+        suggestion: this.ruleFormValue.recommendPunishment
+          ? this.ruleFormValue.recommendPunishment
+          : " ",
+        others: this.ruleFormValue.otherProcessing
+          ? this.ruleFormValue.otherProcessing
+          : " "
+      };
+      conclusionData = JSON.stringify(conclusionData);
+      var supervisionInfo = {
+        production: this.ruleFormValue.productionRecord,
+        input: this.ruleFormValue.isDisableInput,
+        abuse: this.ruleFormValue.proofOfProduct,
+        origin: this.ruleFormValue.testRecord,
+        inspection: this.ruleFormValue.productInputRecord,
+        standard: this.ruleFormValue.isThreeProduct
+      };
+      supervisionInfo = JSON.stringify(supervisionInfo);
 
-      if (!isJPG) {
-        this.$message.error("Avatar picture must be JPG format!");
-      }
-      if (!isLt2M) {
-        this.$message.error("Avatar picture size can not exceed 2MB!");
-      }
-      return isJPG && isLt2M;
+      mainFormData.append("companyId", this.ruleFormValue.companyID);
+      mainFormData.append("conclusion", this.ruleFormValue.conclusion);
+      mainFormData.append("conclusionFalseInfo", conclusionData);
+      mainFormData.append("createTime", this.ruleFormValue.date);
+      mainFormData.append("inspector", this.ruleFormValue.checker);
+      mainFormData.append("otherProblems", this.ruleFormValue.otherProblems);
+      mainFormData.append(
+        "productionSubjectType",
+        this.ruleFormValue.companyType
+      );
+      mainFormData.append("supervisionInfo", supervisionInfo);
+      mainFormData.append("townId", this.ruleFormValue.townShip);
+      mainFormData.append("createUserId", "");
+      mainFormData.append("id", 0);
+      mainFormData.append("scenePhotos", "");
+      mainFormData.append("sign", "");
+      mainFormData.append("supervisionRecordTime", this.ruleFormValue.date);
+      mainFormData.append("updateTime", this.ruleFormValue.date);
+      mainFormData.append("updateUserId", "");
+      mainFormData.append("usefulExpressions", "");
+      mainFormData.append("file1", this.file_live_1);
+      mainFormData.append("file2", this.file_sign);
+      return mainFormData;
+    },
+    chooseFile_Live() {
+      this.$refs.file_Live_1.click();
+    },
+    chooseFile_Sign() {
+      this.$refs.file_sign.click();
+    },
+    handleFileUpload_Live() {
+      this.file_live_1 = this.$refs.file_live_1.files[0];
+    },
+    handleFileUpload_Sign() {
+      this.file_sign = this.$refs.file_sign.files[0];
     }
   }
 };

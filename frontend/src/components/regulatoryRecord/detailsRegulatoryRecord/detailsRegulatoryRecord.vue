@@ -8,117 +8,126 @@
     </div>
 
     <div class="box">
-      <el-form ref="form" :model="form">
+      <el-form ref="form" v-if="!listLoading">
         <el-row>
           <el-col :span="12">
-            <el-form-item >
-              <el-radio v-model="form.companyType" label="1"  disabled>企业</el-radio>
-              <el-radio v-model="form.companyType"  label="2"  disabled>农户</el-radio>
+            <el-form-item>
+              <el-radio-group v-model="data.productionSubjectType">
+                <el-radio label="1" disabled>企业</el-radio>
+                <el-radio label="2" disabled>农户</el-radio>
+              </el-radio-group>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
             <el-form-item label="乡镇">
-              <el-input v-model="form.townShip" style="width:60%" disabled></el-input>
+              <el-input v-model="townShip" style="width:60%" disabled></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="企业">
-              <el-select v-model="form.enterprise"  disabled>
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
+              <el-input v-model="companyName" style="width:60%" disabled></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="选择日期">
               <el-date-picker
-                v-model="form.date"
+                v-model="data.createTime"
                 align="right"
-                type="date"
-                placeholder="选择日期"  disabled
+                type="datetime"
+                placeholder="选择日期"
+                disabled
               ></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="检查人">
-              <el-input v-model="form.checker" style="width:60%"></el-input>
+              <el-input v-model="data.inspector" style="width:60%"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <div class=bg-blue>检查内容与结果</div>
+        <div class="bg-blue">检查内容与结果</div>
         <el-row>
           <el-col :span="5">
-             <el-form-item label="">
+            <el-form-item label>
               <div class="left-margin">生产记录(种养殖档案)</div>
-             </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item label="">
-              <el-radio v-model="form.productionRecord" label="1"  disabled>有</el-radio>
-              <el-radio v-model="form.productionRecord"  label="2"  disabled>真实完整</el-radio>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="">
+            <el-form-item label>
+              <el-radio-group v-model="supervisionInfo.production">
+                <el-radio label="1" disabled>有</el-radio>
+                <el-radio label="2" disabled>真实完整</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label>
               <div class="left-margin">农产品产地准出证明(销售记录)</div>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="">
-              <el-radio v-model="form.proofOfProduct" label="1"  disabled>有</el-radio>
-              <el-radio v-model="form.proofOfProduct"  label="2"  disabled>真实完整</el-radio>
+            <el-form-item label>
+              <el-radio-group v-model="supervisionInfo.abuse">
+                <el-radio label="1" disabled>有</el-radio>
+                <el-radio label="2" disabled>真实完整</el-radio>
+              </el-radio-group>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="5">
-             <el-form-item label="">
+            <el-form-item label>
               <div class="left-margin">农产品产投入品记录（进、销、使用）</div>
-             </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item label="">
-              <el-radio v-model="form.productInputRecord" label="1"  disabled>有</el-radio>
-              <el-radio v-model="form.productInputRecord"  label="2"  disabled>真实完整</el-radio>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="">
+            <el-form-item label>
+              <el-radio-group v-model="supervisionInfo.inspection">
+                <el-radio label="1" disabled>有</el-radio>
+                <el-radio label="2" disabled>真实完整</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label>
               <div class="left-margin">检验记录</div>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="">
-              <el-radio v-model="form.testRecord" label="1"  disabled>有</el-radio>
-              <el-radio v-model="form.testRecord"  label="2"  disabled>真实完整</el-radio>
+            <el-form-item label>
+              <el-radio-group v-model="supervisionInfo.origin">
+                <el-radio label="1" disabled>有</el-radio>
+                <el-radio label="2" disabled>真实完整</el-radio>
+              </el-radio-group>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="5">
-             <el-form-item label="">
+            <el-form-item label>
               <div class="left-margin">禁用投入品及滥用添加剂行为</div>
-             </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item label="">
-              <el-checkbox v-model="form.isDisableInput" disabled>有</el-checkbox>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="">
+            <el-form-item label>
+              <el-checkbox v-model="supervisionInfo.input" disabled true-label="1" false-label="0">有</el-checkbox>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label>
               <div class="left-margin">“三品一标使用”</div>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="">
-              <el-checkbox v-model="form.isThreeProduct" disabled>合规</el-checkbox>
+            <el-form-item label>
+              <el-checkbox
+                v-model="supervisionInfo.standard"
+                disabled
+                true-label="1"
+                false-label="0"
+              >合规</el-checkbox>
             </el-form-item>
           </el-col>
         </el-row>
@@ -126,14 +135,7 @@
         <el-row>
           <el-col :span="10">
             <el-form-item label="常用语" class="left-margin">
-              <el-select v-model="form.commonLang" placeholder="请选择">
-                <el-option
-                  v-for="item in options_tmp"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"  disabled
-                ></el-option>
-              </el-select>
+              <el-input disabled style="width:30%" v-model="data.otherProblems"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
@@ -143,7 +145,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item>
-              <el-input type="textarea" :rows="5" v-model="form.otherProblems"  disabled></el-input>
+              <el-input type="textarea" :rows="5" v-model="data.otherProblems" disabled></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -156,7 +158,14 @@
                   <tr>
                     <td rowspan="2">结论</td>
                     <td>合格</td>
-                    <td><el-checkbox v-model="form.isQualified"></el-checkbox></td>
+                    <td>
+                      <el-checkbox
+                        v-model="data.conclusion"
+                        true-label="1"
+                        false-label="0"
+                        disabled
+                      ></el-checkbox>
+                    </td>
                   </tr>
                   <tr>
                     <td>不合格</td>
@@ -165,13 +174,34 @@
                         <tbody>
                           <tr>
                             <td>责令修改</td>
-                            <td><el-input v-model="form.orderToAmend" style="width:100%"></el-input></td></tr>
+                            <td>
+                              <el-input
+                                v-model="conclusionData.order"
+                                style="width:100%"
+                                :disabled="data.conclusion==1"
+                              ></el-input>
+                            </td>
+                          </tr>
                           <tr>
                             <td>建议处罚</td>
-                            <td><el-input v-model="form.recommendPunishment" style="width:100%"></el-input></td></tr>
+                            <td>
+                              <el-input
+                                v-model="conclusionData.suggestion"
+                                style="width:100%"
+                                :disabled="data.conclusion==1"
+                              ></el-input>
+                            </td>
+                          </tr>
                           <tr>
                             <td>其他处理</td>
-                            <td><el-input v-model="form.otherProcessing" style="width:100%"></el-input></td></tr>
+                            <td>
+                              <el-input
+                                v-model="conclusionData.others"
+                                style="width:100%"
+                                :disabled="data.conclusion==1"
+                              ></el-input>
+                            </td>
+                          </tr>
                         </tbody>
                       </table>
                     </td>
@@ -184,42 +214,38 @@
             <table class="image-upload-table">
               <tbody>
                 <tr>
-                  <td>现场图片</td>
+                  <td width="30%">现场图片</td>
                   <td>
-                    <img v-for="item in form.imageItems1" :key="item.url" :src="item.url" class="live-photo"/>
+                    <div class="image-container">
+                      <img class="live_photo" :src="baseURL+'/api'+data.scenePhotos" />
+                      <p v-if="!data.scenePhotos">请选择</p>
+                    </div>
+                    <el-link
+                      v-if="data.scenePhotos"
+                      style=" display: flow-root !important;"
+                      @click="downloadFile_Live()"
+                    >{{data.scenePhotos.replace('/uploads/', '')}}</el-link>
                   </td>
                 </tr>
                 <tr>
-                  <td>签名</td>
+                  <td width="30%">签名</td>
                   <td>
-                    <img v-for="item in form.imageItems2" :key="item.url" :src="item.url" class="live-photo"/>
+                    <div class="image-container">
+                      <img class="sign_photo" :src="baseURL+'/api'+data.sign" />
+                      <p v-if="!data.sign">请选择</p>
+                    </div>
+                    <el-link
+                      style=" display: flow-root !important;"
+                      v-if="data.sign"
+                      @click="downloadFile_Sign()"
+                    >{{data.sign.replace('/uploads/', '')}}</el-link>
                   </td>
                 </tr>
               </tbody>
             </table>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="12">
-            <div class="left-margin">
-              <table class="top-margin">
-                <tbody>
-                  <tr>
-                    <td>
-                      GPS定位
-                    </td>
-                    <td>
-                      <img src="form.gpsImageUrl" class="gps-image"/>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </el-col>
-        </el-row>
-
         <el-form-item class="left-margin">
-          <el-button type="success" plain @click="onSubmit">保存</el-button>
           <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
       </el-form>
@@ -228,60 +254,72 @@
 </template>
 
 <script>
+import Request from "../../../services/api/request.js";
+import { Urls } from "../../../services/constants";
+import axios from "axios";
 export default {
   data() {
     return {
-      form: {
-        companyType: "1",
-        townShip:"梅里镇",
-        enterprise:"1",
-        date: "2019-07-01",
-        checker:"",
-        productionRecord:"1",
-        productInputRecord:"1",
-        proofOfProduct:"1",
-        testRecord:"1",
-        isDisableInput:true,
-        isThreeProduct:true,
-        commonLang:"1",
-        otherProblems:"",
-        isQualified:true,
-        orderToAmend:"减少农药用量和频次",
-        recommendPunishment:"",
-        otherProcessing:"周冬",
-        imageItems1:[],
-        imageItems2:[],
-        gpsImageUrl:""
-      },
-      options: [
-        {value:"1", label:"天荷香稻米专业合作社"},
-        {value:"2", label:"福鼎白茶"}
-      ],
-      options_tmp: [
-        {value:"1", label:"天荷香稻"},
-        {value:"2", label:"福鼎白茶"}
-      ], 
-      imageUrl: ''
+      id: 0,
+      townShip: "",
+      companyName: "",
+      imageUrl: "",
+      data: null,
+      conclusionData: null,
+      supervisionInfo: null,
+      listLoading: false,
+      baseURL: ""
     };
   },
+  created() {
+    this.id = this.$route.params.id;
+    this.townShip = this.$route.query.township;
+    this.companyName = this.$route.query.company;
+    this.getData();
+    this.baseURL = Urls.API_BASE_URL();
+  },
   methods: {
-    onSubmit() {
-      console.log(this.imageUrl);
+    getData() {
+      this.listLoading = true;
+      Request()
+        .get("/api/supervision_record/get/" + this.id, {
+          id: this.id
+        })
+        .then(response => {
+          this.data = response;
+          this.conclusionData = this.data.conclusionFalseInfo;
+          this.supervisionInfo = this.data.supervisionInfo;
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
-    handlePictureCardPreview(file) {
-      this.imageUrl = file.url;
+    downloadFile_Live() {
+      axios
+        .get(Urls.API_BASE_URL() + "/api" + this.data.scenePhotos, {
+          responseType: "blob"
+        })
+        .then(({ data }) => {
+          const blob = new Blob([data], {});
+          let link = document.createElement("a");
+          link.href = window.URL.createObjectURL(blob);
+          link.click().catch(error => console.error(error));
+        });
     },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
-
-      if (!isJPG) {
-        this.$message.error('Avatar picture must be JPG format!');
-      }
-      if (!isLt2M) {
-        this.$message.error('Avatar picture size can not exceed 2MB!');
-      }
-      return isJPG && isLt2M;
+    downloadFile_Sign() {
+      axios
+        .get(Urls.API_BASE_URL() + "/api" + this.data.sign, {
+          responseType: "blob"
+        })
+        .then(({ data }) => {
+          const blob = new Blob([data], {});
+          let link = document.createElement("a");
+          link.href = window.URL.createObjectURL(blob);
+          link.click().catch(error => console.error(error));
+        });
     }
   }
 };
