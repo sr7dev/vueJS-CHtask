@@ -7,7 +7,16 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button type="primary" plain v-on:click="$router.push(`/regulatoryRecord/create`)">添加监管记录</el-button>
+        <el-button
+          type="primary"
+          plain
+          v-if="!companyId"
+          v-on:click="$router.push(`/regulatoryRecord/create`)"
+        >添加监管记录</el-button>
+        <div v-else class="fixed-value">
+          <p v-if="filterCompanyName(companyId)">{{filterCompanyName(companyId)}}</p>
+          <p v-else>没有数据</p>
+        </div>
         <el-button type="primary" plain v-if="!companyId">常用语管理</el-button>
         <el-button type="primary" plain v-if="!companyId">扫码下载客户端</el-button>
         <el-button type="primary" plain v-if="!companyId">说明书下载</el-button>
@@ -26,7 +35,9 @@
           <el-table-column prop="township" label="乡镇" width="70">
             <template slot-scope="{row}">{{filterTownship(row.townId)}}</template>
           </el-table-column>
-          <el-table-column prop="unitinspec" label="受检单位"></el-table-column>
+          <el-table-column prop="unitinspec" label="受检单位">
+            <template slot-scope="{row}">{{filterCompanyName(row.companyId)}}</template>
+          </el-table-column>
           <el-table-column prop="inspector" label="检查人"></el-table-column>
           <el-table-column prop="conclusion" label="结论" width="70"></el-table-column>
           <el-table-column prop="otherProblems" label="其他" width="80"></el-table-column>
@@ -82,15 +93,16 @@ export default {
       total: 100,
       tableData: [],
       listLoading: false,
+      companyList: [],
       companyId: 0,
       township: []
     };
   },
   created() {
     this.companyId = this.$route.params.id;
-    console.log(this.companyId);
     this.getData();
     this.getTown();
+    this.getCompanyProduct();
   },
   methods: {
     //分页数量改变
@@ -123,10 +135,28 @@ export default {
           console.log(error);
         });
     },
+    getCompanyProduct() {
+      Request()
+        .get("/api/company_production/name")
+        .then(response => {
+          this.companyList = this.companyList.concat(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     filterTownship(townId) {
       let town = this.township.find(x => x.id === townId);
       if (town) {
         return town.name;
+      } else {
+        return "";
+      }
+    },
+    filterCompanyName(companyId) {
+      let company = this.township.find(x => x.id === companyId);
+      if (company) {
+        return company.companyName;
       } else {
         return "";
       }
