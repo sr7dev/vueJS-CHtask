@@ -22,8 +22,16 @@
         <el-table-column prop="productCheckTime" label="日期" width="150"></el-table-column>
         <el-table-column prop="specimen" label="样品" width="150"></el-table-column>
         <el-table-column prop="checkItem" label="检测项目" width="150"></el-table-column>
-        <el-table-column prop="checkResult" label="检测结果"></el-table-column>
-        <el-table-column prop="determine" label="判定"></el-table-column>
+        <el-table-column prop="checkResult" label="检测结果">
+          <template slot-scope="{row}">
+            {{row.checkResult==1?'阴性':'阳性'}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="determine" label="判定">
+          <template slot-scope="{row}">
+            {{row.determine?'合格':'不合格'}}
+          </template>
+        </el-table-column>
         <el-table-column prop="checkStandard" label="检测标准"></el-table-column>
         <el-table-column prop="checkOrganization" label="检测机构"></el-table-column>
       </el-table>
@@ -76,7 +84,6 @@ export default {
         .then(response => {
           this.tableData = response;
           this.total = this.tableData.length;
-          console.log(this.tableData);
           setTimeout(() => {
             this.listLoading = false
           }, 0.5 * 1000);
