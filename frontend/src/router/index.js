@@ -142,9 +142,9 @@ export default new Router({
 
         },
         {
-            path: '/corporateCreditFile',
-            name: 'corporateCreditFile',
-            component: corporateCreditFile
+          path: '/corporateCreditFile',
+          name: 'corporateCreditFile',
+          component: corporateCreditFile
         },
         {
             path: '/corporateCreditFile/adminLicenseInfo/:id',
