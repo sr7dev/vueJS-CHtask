@@ -268,7 +268,6 @@ export default {
     },
     getList() {
       this.listLoading = true;
-      console.log("aaa", this.result);
       Request()
         .get("/api/disability_check/all", {
           creditCode: this.$route.query.creditCode,
@@ -277,7 +276,7 @@ export default {
           fromDate: this.startDate,
           toDate: this.endDate,
           sample: this.samplesValue == "全部" ? "" : this.samplesValue,
-          item: this.item == "全部" ? "" : this.item,
+          item: this.itemValue == "全部" ? "" : this.itemValue,
           resultDx: (this.result -1),
           townDivisionCode: this.currTown == 0 ? "" : this.currTown,
           pageNo: this.page.pageIndex - 1,
