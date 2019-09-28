@@ -17,8 +17,8 @@
             <el-menu-item index="/productionSubject">
               <router-link  slot="title" to="/productionSubject">生产主体</router-link>  
             </el-menu-item>
-            <el-menu-item index="/businessProducts">
-              <router-link  slot="title" to="/businessProducts">经营主体</router-link>
+            <el-menu-item index="/companyBusiness">
+              <router-link  slot="title" to="/companyBusiness">经营主体</router-link>
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>

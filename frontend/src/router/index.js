@@ -36,6 +36,7 @@ import corporateCreditFile from "@/components/corporateCreditFile/corporateCredi
 import adminPenaltyInfo from "@/components/corporateCreditFile/adminPenaltyInfo/adminPenaltyInfo";
 import adminLicenseInfo from "@/components/corporateCreditFile/adminLicenseInfo/adminLicenseInfo";
 import threeProduction from "@/components/corporateCreditFile/threeProduction/threeProduction";
+import ratingInfo from "@/components/corporateCreditFile/ratingInfo/ratingInfo";
 
 import productionSubject from "@/components/productionSubject/productionSubject";
 import addRegulatoryObject from "@/components/productionSubject/addRegulatoryObject/addRegulatoryObject";
@@ -50,6 +51,10 @@ import thirdPartySamplingRecord from "@/components/productionSubject/mainProduct
 import productBatch from "@/components/productionSubject/mainProduct/productBatch/productBatch";
 import inventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/inventoryDynamics";
 
+import companyBusiness from "@/components/companyBusiness/companyBusiness";
+import productBusiness from "@/components/companyBusiness/productBusiness/productBusiness";
+import detailsCompanyBusiness from "@/components/companyBusiness/detailsCompanyBusiness/detailsCompanyBusiness";
+
 Vue.use(Router);
 
 export default new Router({
@@ -60,6 +65,21 @@ export default new Router({
       component: home,
       redirect: "cp_productionSubject",
       children: [
+        {
+          path: "/companyBusiness",
+          name: "companyBusiness",
+          component: companyBusiness
+        },
+        {
+          path: "/companyBusiness/productBusiness/:id",
+          name: "productBusiness",
+          component: productBusiness
+        },
+        {
+          path: "/companyBusiness/detailsCompanyBusiness/:id",
+          name: "detailsCompanyBusiness",
+          component: detailsCompanyBusiness
+        },
         {
           path: "/creditRating",
           name: "creditRating",
@@ -95,7 +115,7 @@ export default new Router({
           name: "detailsRegulatoryObject",
           component: detailsRegulatoryObject
         },
-        
+
         {
           path: "/productionSubject/warehouseEnv/:id",
           name: "warehouseEnv",
@@ -132,14 +152,14 @@ export default new Router({
           component: threeProductsCertification
         },
         {
-            path: '/threeProductsCertification/create',
-            name: 'addThreeProducts',
-            component: addThreeProducts
+          path: '/threeProductsCertification/create',
+          name: 'addThreeProducts',
+          component: addThreeProducts
         },
         {
-            path: '/threeProductsCertification/:id',
-            name: 'detailsThreeProducts',
-            component: detailsThreeProducts
+          path: '/threeProductsCertification/:id',
+          name: 'detailsThreeProducts',
+          component: detailsThreeProducts
 
         },
         {
@@ -148,14 +168,19 @@ export default new Router({
           component: corporateCreditFile
         },
         {
-            path: '/corporateCreditFile/adminLicenseInfo/:id',
-            name: 'adminLicenseInfo',
-            component: adminLicenseInfo
+          path: '/corporateCreditFile/adminLicenseInfo/:id',
+          name: 'adminLicenseInfo',
+          component: adminLicenseInfo
         },
         {
-            path: '/corporateCreditFile/adminPenaltyInfo/:id',
-            name: 'adminPenaltyInfo',
-            component: adminPenaltyInfo
+          path: '/corporateCreditFile/adminPenaltyInfo/:id',
+          name: 'adminPenaltyInfo',
+          component: adminPenaltyInfo
+        },
+        {
+          path: '/corporateCreditFile/ratingInfo',
+          name: 'ratingInfo',
+          component: ratingInfo
         },
         {
           path: '/corporateCreditFile/threeProduction/:id',

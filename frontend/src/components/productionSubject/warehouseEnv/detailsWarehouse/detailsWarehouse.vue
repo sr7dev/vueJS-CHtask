@@ -62,6 +62,6 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "./detailsWarehouse.scss";
 </style>

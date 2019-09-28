@@ -10,8 +10,7 @@
                 <div class="iptBox">
                     <el-button>返回</el-button>
                 </div>
-
-                <el-container>
+              <el-container>
                     <el-table
                             :data="tableData"
                             style="width: 100%"
