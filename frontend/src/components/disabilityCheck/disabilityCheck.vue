@@ -9,12 +9,12 @@
       <div class="iptBox">
         <div v-if="typeof this.creditCode == 'undefined'" class="select_label">乡镇</div>
         <div v-else class="select_label" style="display: none">乡镇</div>
-        <el-select v-if="typeof this.creditCode == 'undefined'" v-model="currTown" placeholder="全部">
+        <el-select v-if="typeof this.creditCode == 'undefined'" v-model="currTown" placeholder="全部" @change="getList">
           <el-option
             v-for="item in township"
             :key="item.id"
             :label="item.name"
-            :value="item.name"
+            :value="item.divisionCode"
             size="large"
           ></el-option>
         </el-select>
@@ -33,9 +33,9 @@
           ></el-option>
         </el-select>
         <div class="select_label">定性</div>
-        <el-select v-model="qualitativesValue" placeholder="全部">
+        <el-select v-model="result" placeholder="全部" @change="getList">
           <el-option
-            v-for="item in qualitatives"
+            v-for="item in results"
             :key="item.id"
             :label="item.name"
             :value="item.id"
@@ -141,7 +141,7 @@ export default {
           label: ""
         }
       ],
-      township: [{ id: 0, name: "全部" }],
+      township: [{ id: 0, name: "全部", divisionCode: 0 }],
       currTown: "",
       status: 1,
       tableData: [],
@@ -149,8 +149,11 @@ export default {
       itemValue: "",
       samples: [{ id: 0, sample: "全部" }],
       samplesValue: "",
-      qualitatives: [{ id: "0", name: "全部" }],
-      qualitativesValue: "",
+      results: [{ id: 0, name: "全部" },
+                { id: 1, name: "不合格" },
+                { id: 2, name: "合格 " },
+                { id: 3, name: "疑似" }],
+      result: "",
       detectionUnit: [{ id: "0", detectUnit: "全部" }],
       detectionUnitValue: "",
       startDate: "",
@@ -266,6 +269,7 @@ export default {
     },
     getList() {
       this.listLoading = true;
+      console.log("aaa", this.result);
       Request()
         .get("/api/disability_check/all", {
           creditCode: this.$route.query.creditCode,
@@ -275,6 +279,8 @@ export default {
           toDate: this.endDate,
           sample: this.samplesValue == "全部" ? "" : this.samplesValue,
           item: this.item == "全部" ? "" : this.item,
+          resultDx: (this.result -1),
+          townDivisionCode: this.currTown == 0 ? "" : this.currTown,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize
         })
