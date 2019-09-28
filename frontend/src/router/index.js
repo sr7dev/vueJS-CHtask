@@ -276,7 +276,7 @@ export default new Router({
           path: "/cp_inventoryDynamics",
           name: "cp_inventoryDynamics",
           component: cp_inventoryDynamics
-        }
+        },
       ]
     },
     {
