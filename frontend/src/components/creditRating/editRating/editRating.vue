@@ -142,7 +142,7 @@ export default {
           formData
         )
         .then(response => {
-          this.$router.push({ path: "creditRating" });
+          this.$router.push({ path: "/creditRating" });
         })
         .catch(error => {});
     },
