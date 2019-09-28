@@ -99,9 +99,6 @@ export default {
         .catch(error => {
           console.error(error);
         });
-      // fetchListAPI(this.status, this.page.pageIndex, this.page.pageSize, "credit_gradeid")
-      //   .then(response => {
-      // })
     },
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
