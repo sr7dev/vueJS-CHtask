@@ -9,6 +9,7 @@ import regulatoryRecord from "@/components/regulatoryRecord/regulatoryRecord";
 import addRegulatoryRecord from "@/components/regulatoryRecord/addRegulatoryRecord/addRegulatoryRecord";
 import rectificationRecord from "@/components/regulatoryRecord/rectificationRecord/rectificationRecord";
 import detailsRegulatoryRecord from "@/components/regulatoryRecord/detailsRegulatoryRecord/detailsRegulatoryRecord";
+import commonWords from "@/components/regulatoryRecord/commonWords/commonWords";
 import management from "@/components/management/management";
 import businessProducts from "@/components/management/businessProducts";
 import companyDetails from "@/components/management/companyDetails";
@@ -206,6 +207,11 @@ export default new Router({
           path: "/regulatoryRecord/:id",
           name: "detailsRegulatoryRecord",
           component: detailsRegulatoryRecord
+        },
+        {
+          path: "/commonWords",
+          name: "commonWords",
+          component: commonWords
         },
         {
           path: "/management",
