@@ -55,6 +55,12 @@ import companyBusiness from "@/components/companyBusiness/companyBusiness";
 import productBusiness from "@/components/companyBusiness/productBusiness/productBusiness";
 import detailsCompanyBusiness from "@/components/companyBusiness/detailsCompanyBusiness/detailsCompanyBusiness";
 
+import sampleCheck from "@/components/sampleCheck/sampleCheck";
+import addSampleCheck from "@/components/sampleCheck/addSampleCheck/addSampleCheck";
+import addSampleCheckResult from "@/components/sampleCheck/addSampleCheckResult/addSampleCheckResult";
+import detailsSampleCheck from "@/components/sampleCheck/detailsSampleCheck/detailsSampleCheck";
+import detailsSampleCheckResult from "@/components/sampleCheck/detailsSampleCheckResult/detailsSampleCheckResult";
+
 Vue.use(Router);
 
 export default new Router({
@@ -65,6 +71,31 @@ export default new Router({
       component: home,
       redirect: "cp_productionSubject",
       children: [
+        {
+          path: "/sampleCheck",
+          name: "sampleCheck",
+          component: sampleCheck
+        },
+        {
+          path: "/sampleCheck/addSampleCheck",
+          name: "addSampleCheck",
+          component: addSampleCheck
+        },
+        {
+          path: "/sampleCheck/addSampleCheckResult",
+          name: "addSampleCheckResult",
+          component: addSampleCheckResult
+        },
+        {
+          path: "/sampleCheck/detailsSampleCheck/:id",
+          name: "detailsSampleCheck",
+          component: detailsSampleCheck
+        },
+        {
+          path: "/sampleCheck/detailsSampleCheckResult/:id",
+          name: "detailsSampleCheckResult",
+          component: detailsSampleCheckResult
+        },
         {
           path: "/companyBusiness",
           name: "companyBusiness",
