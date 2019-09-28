@@ -13,44 +13,44 @@
                             v-for="item in township"
                             :key="item.id"
                             :label="item.name"
-                            :value="item.id"
+                            :value="item.name"
                             size="large">
                     </el-option>
                 </el-select>
                 <div class="select_label">项目</div>
-                <el-select v-model="projectsValue" placeholder="全部">
+                <el-select v-model="itemValue" placeholder="全部" @change="getList">
                     <el-option
-                            v-for="item in projects"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
+                            v-for="item in items"
+                            :key="item.id"
+                            :label="item.item"
+                            :value="item.item">
                     </el-option>
                 </el-select>
                 <div class="select_label">样品</div>
-                <el-select v-model="samplesValue" placeholder="全部">
+                <el-select v-model="samplesValue" placeholder="全部" @change="getList">
                     <el-option
                             v-for="item in samples"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
+                            :key="item.id"
+                            :label="item.sample"
+                            :value="item.sample">
                     </el-option>
                 </el-select>
                 <div class="select_label">定性</div>
                 <el-select v-model="qualitativesValue" placeholder="全部">
                     <el-option
                             v-for="item in qualitatives"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id">
                     </el-option>
                 </el-select>
                 <div class="select_label">检测单位</div>
-                <el-select v-model="detectionUnitValue" placeholder="全部">
+                <el-select v-model="detectionUnitValue" placeholder="全部" @change="getList">
                     <el-option
                             v-for="item in detectionUnit"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
+                            :key="item.id"
+                            :label="item.detectUnit"
+                            :value="item.detectUnit">
                     </el-option>
                 </el-select>
             </div>
@@ -61,15 +61,17 @@
                         placeholder="选择日期"
                         v-model="startDate"
                         style="width: 300px;"
-                ></el-date-picker>
+                        @change="getList">
+                </el-date-picker>
                 <div class="select_label">结束日期</div>
                 <el-date-picker
                         type="date"
                         placeholder="选择日期"
                         v-model="endDate"
                         style="width: 300px;"
-                ></el-date-picker>
-                <el-checkbox v-model="bGreenProducts" style="margin-left: 30px">专项1:绿色优质农产品生产基地</el-checkbox>
+                        @change="getList">
+                </el-date-picker>
+                <el-checkbox v-model="bGreenProducts" style="margin-left: 30px"  @change="getList">专项1:绿色优质农产品生产基地</el-checkbox>
                 <el-button v-on:click="onClickExport" style="margin-left: 30px">导出表格</el-button>
                 <span style="float: right">总计{{totalSize}}条检测</span>
             </div>
@@ -160,52 +162,16 @@
                     }
                 ],
                 township: [{ id: 0, name: "全部" }],
-                currTown: 0,
+                currTown: '',
                 status: 1,
-                tableData: [ ],
-                projects: [{
-                    value: '全部',
-                    label: '全部'
-                }, {
-                    value: '农药残留',
-                    label: '农药残留'
-                }, {
-                    value: '甲醛',
-                    label: '甲醛'
-                }],
-                projectsValue: '',
-                samples: [{
-                    value: '全部',
-                    label: '全部'
-                }, {
-                    value: '梅李镇',
-                    label: '梅李镇'
-                }, {
-                    value: '古里镇',
-                    label: '古里镇'
-                }],
+                tableData: [],
+                items: [{ id: 0, item: '全部' }],
+                itemValue: '',
+                samples: [{id:0, sample: '全部' }],
                 samplesValue: '',
-                qualitatives: [{
-                    value: '全部',
-                    label: '全部'
-                }, {
-                    value: '种植',
-                    label: '种植'
-                }, {
-                    value: '养殖',
-                    label: '养殖'
-                }],
+                qualitatives: [{ id: '0', name: '全部' }],
                 qualitativesValue: '',
-                detectionUnit: [{
-                    value: '全部',
-                    label: '全部'
-                }, {
-                    value: '卫生局',
-                    label: '卫生局'
-                }, {
-                    value: '品鉴局',
-                    label: '品鉴局'
-                }],
+                detectionUnit: [{ id: '0', detectUnit: '全部' }],
                 detectionUnitValue: '',
                 startDate: '',
                 endDate: '',
@@ -215,6 +181,9 @@
         },
         created() {
             this.getTown();
+            this.getItem();
+            this.getSample();
+            this.getDetectUnit();
             this.getList();
             // this.getCompanyProduction();
         },
@@ -232,10 +201,51 @@
                         console.log(error);
                     });
             },
+            getItem() {
+                Request()
+                    .get("/api/disability_check/item")
+                    .then(response => {
+                        this.items = this.items.concat(response);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            },
+            getSample() {
+                Request()
+                    .get("/api/disability_check/sample ")
+                    .then(response => {
+                        this.samples = this.samples.concat(response);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            },
+            getDetectUnit() {
+                Request()
+                    .get("/api/disability_check/detect_unit")
+                    .then(response => {
+                        this.detectionUnit = this.detectionUnit.concat(response);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            },
             getList() {
                 this.listLoading = true;
+                // if (this.detectionUnitValue == '全部')
+                //     this.detectionUnitValue = '';
+                // if (this.samplesValue == '全部')
+                //     this.samplesValue = '';
+                // if (this.item == '全部')
+                //     this.item = '';
                 Request()
                     .get("/api/disability_check/all", {
+                        detectUnit: this.detectionUnitValue == '全部' ? '' : this.detectionUnitValue,
+                        fromDate: this.startDate,
+                        toDate: this.endDate,
+                        sample: this.samplesValue == '全部' ? '' : this.samplesValue,
+                        item: this.item == '全部' ? '' : this.item,
                         pageNo: this.page.pageIndex - 1,
                         pageSize: this.page.pageSize
                     })
