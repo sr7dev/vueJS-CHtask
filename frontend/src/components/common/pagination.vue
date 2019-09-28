@@ -90,10 +90,13 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
 .pagination-container {
   background: #fff;
   padding: 32px 16px;
+  .btn-prev, .btn-next {
+    width: 30px;
+  }
 }
 .pagination-container.hidden {
   display: none;

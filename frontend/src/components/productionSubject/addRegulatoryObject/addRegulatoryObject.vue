@@ -305,6 +305,7 @@
 </template>
 
 <script>
+import Request from '@/services/api/request'
 export default {
   name: "addRegulatoryObject",
   data() {
@@ -315,15 +316,15 @@ export default {
         chargePerson: "",
         companyAddress: "梅李镇赵市村",
         companyHonor: "",
-        companyId: "1",
+        companyId: 1,
         companyName: "稻米专业合作社",
-        companyType: "1",
+        companyType: "string",
         contactMobile: "",
         contactPerson: "程晓刚",
         contactWay: "0512-52380296",
         createTime: "",
         createUserId: "",
-        creditCode: "",
+        creditCode: "sdf",
         doSupervision: "",
         landSource: "",
         plantArea: "",
@@ -350,7 +351,65 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log(this.form);
+      // const data = JSON.parse(JSON.stringify(this.form));
+      console.log({
+          agriculturalClassification: this.form.agriculturalClassification,
+          "creditCode": "string",
+          "companyId": 0,
+          "companyType": "string",
+          "chargePerson": "string",
+          "companyAddress": "string",
+          "companyHonor": "string",
+          "companyName": "string",
+          "contactMobile": "string",
+          "contactPerson": "string",
+          "contactWay": "string",
+          "createTime": "2019-09-28T01:39:26.863Z",
+          "createUserId": 0,
+          "doSupervision": "string",
+          "landSource": "string",
+          "plantArea": 0,
+          "productInfo": "string",
+          "public_license": 0,
+          "public_punish": 0,
+          "qualityStandardId": 0,
+          "quality_standard": 0,
+          "remarks": "string",
+          "updateTime": "2019-09-28T01:39:26.863Z",
+          "townId": 0,
+          "updateUserId": 0
+        });
+      Request().post('/api/company_production/create', 
+        {
+          agriculturalClassification: this.form.agriculturalClassification,
+          "creditCode": "string",
+          "companyId": 0,
+          "companyType": "string",
+          "chargePerson": "string",
+          "companyAddress": "string",
+          "companyHonor": "string",
+          "companyName": "string",
+          "contactMobile": "string",
+          "contactPerson": "string",
+          "contactWay": "string",
+          "createTime": "2019-09-28T01:39:26.863Z",
+          "createUserId": 0,
+          "doSupervision": "string",
+          "landSource": "string",
+          "plantArea": 0,
+          "productInfo": "string",
+          "public_license": 0,
+          "public_punish": 0,
+          "qualityStandardId": 0,
+          "quality_standard": 0,
+          "remarks": "string",
+          "updateTime": "2019-09-28T01:39:26.863Z",
+          "townId": 0,
+          "updateUserId": 0
+        }
+      ).then(res => {
+        console.log(res);
+      })
     },
   }
 };
