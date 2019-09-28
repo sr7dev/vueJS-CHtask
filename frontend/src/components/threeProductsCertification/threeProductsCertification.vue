@@ -51,7 +51,7 @@
             <template slot-scope="{row}">{{appStatus1[row.argriculturalClassification]}}</template>
           </el-table-column>
           <el-table-column prop="cretficationCategory" label="认证类型"></el-table-column>
-          <el-table-column prop="creditCode" label="证书编号"></el-table-column>
+          <el-table-column prop="certificationNo" label="证书编号"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="{row}">
               <el-button

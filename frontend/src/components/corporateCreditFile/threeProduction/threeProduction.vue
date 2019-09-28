@@ -22,7 +22,7 @@
           </el-table-column>
           <el-table-column prop="cretficationCategory" label="认证类型" width="">
           </el-table-column>
-          <el-table-column prop="serialNubmer" label="证书编号" width=""></el-table-column>
+          <el-table-column prop="certificationNo" label="证书编号" width=""></el-table-column>
           <el-table-column label="证书有效期" width="">
             <template slot-scope="{row}">{{getCertification(row.certificationStartTime, row.certificationEndTime)}}</template>
           </el-table-column>
