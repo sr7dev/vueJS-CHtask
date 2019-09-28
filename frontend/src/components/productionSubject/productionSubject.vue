@@ -69,7 +69,7 @@
         <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
         <el-table-column prop="companyName" label="企业名称" width="150"></el-table-column>
         <el-table-column prop="chargePerson" label="法人代表" width="150"></el-table-column>
-        <el-table-column prop="companyAddress" label="企业地址" width="250"></el-table-column>
+        <el-table-column prop="companyAddress" label="企业地址"></el-table-column>
         <el-table-column prop="qualityStandardId" label="三品认证" width="120">
           <template>
             <el-button>认证信息</el-button>
@@ -82,7 +82,9 @@
         </el-table-column>
         <el-table-column prop="address" label="农药检测" width="120">
           <template slot-scope="{row}">
-            <el-button>是</el-button>
+            <el-button
+              v-on:click="$router.push({path:`/disabilityCheck/`,query: {creditCode:row.creditCode}})"
+            >是</el-button>
           </template>
         </el-table-column>
         <el-table-column prop="contactPerson" label="联系人" width="120"></el-table-column>
@@ -90,9 +92,9 @@
         <el-table-column prop="address" label="所在乡镇" width="120">
           <template slot-scope="{row}">{{getTownship(row.townId)}}</template>
         </el-table-column>
-        <el-table-column prop="nowGrade" label="企业诚信" width="200">
+        <el-table-column prop="nowGrade" label="企业诚信" width>
           <template slot-scope="{row}">
-            <el-button v-on:click="gotoCreditRatingPage(row)">{{row.nowGrade}}</el-button>
+            <span class="rating-action" v-on:click="gotoCreditRatingPage(row)">{{row.nowGrade}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="operations" label="操作" width="450">
@@ -154,8 +156,10 @@ export default {
       return this.townList[pos].name;
     },
     gotoCreditRatingPage(row) {
-      // this.$router.push(`/creditRating/${row.creditCode}`);
-      this.$router.push(`/creditRating`);
+      this.$router.push({
+        path: `/corporateCreditFile/ratingInfo`,
+        query: { creditCode: row.creditCode }
+      });
     },
     gotoAddRegulatoryObject() {
       this.$router.push(`/productionSubject/addRegulatoryObject`);
@@ -235,16 +239,16 @@ export default {
       let strGrade = "";
       switch (grade) {
         case "A":
-          strGrade = "A级（守信）";
+          strGrade = "A级";
           break;
         case "B":
-          strGrade = "B级（基本守信）";
+          strGrade = "B级";
           break;
         case "C":
-          strGrade = "C级（失信）";
+          strGrade = "C级";
           break;
         default:
-          strGrade = "A级（守信）";
+          strGrade = "A级";
       }
       return strGrade;
     },

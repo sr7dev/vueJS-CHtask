@@ -29,19 +29,24 @@
         </el-table-column>
       </el-table>
       <div class="pageBox">
-        <pagination v-show="total>0" :total="total" :page.sync="page.pageIndex" 
-            :limit.sync="page.pageSize" @pagination="getList" />
+        <pagination
+          v-show="total>0"
+          :total="total"
+          :page.sync="page.pageIndex"
+          :limit.sync="page.pageSize"
+          @pagination="getList"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import sampleData from './_data';
-import Pagination from '@/components/common/pagination'
-import Request from '@/services/api/request'
+import sampleData from "./_data";
+import Pagination from "@/components/common/pagination";
+import Request from "@/services/api/request";
 export default {
-  name: 'inventoryDynamics',
+  name: "inventoryDynamics",
   components: { Pagination },
   data() {
     return {
@@ -53,7 +58,7 @@ export default {
       total: 100,
       radio: "1",
       tableData: sampleData,
-      productName:'',
+      productName: "",
       warehouses: []
     };
   },
@@ -66,13 +71,13 @@ export default {
     getWarehouseName(id) {
       for (let index = 0; index < this.warehouses.length; index++) {
         const element = this.warehouses[index];
-        if(element.id == id) return element.warehouseName;
+        if (element.id == id) return element.warehouseName;
       }
-      return '';
+      return "";
     },
-    gotoWarehousingEnvironmentPage(row) {
-      this.$router.push(`/warehouseEnv`)
-    },
+    // gotoWarehousingEnvironmentPage(row) {
+    //   this.$router.push(`/warehouseEnv`)
+    // },
     getList(id) {
       this.listLoading = true;
       Request()
@@ -80,7 +85,7 @@ export default {
           company_id: 0,
           pageNo: 0,
           pageSize: 20,
-          sortBy: 'id'
+          sortBy: "id"
         })
         .then(response => {
           this.warehouses = response;
@@ -89,26 +94,26 @@ export default {
               product_id: id,
               pageNo: this.page.pageIndex - 1,
               pageSize: this.page.pageSize,
-              sortBy: 'id'
+              sortBy: "id"
             })
             .then(res => {
               this.tableData = res;
               this.total = res.length;
               setTimeout(() => {
-                this.listLoading = false
+                this.listLoading = false;
               }, 0.5 * 1000);
             })
             .catch(error => {
               console.error(error);
             });
-        })
+        });
     },
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
     },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
-    },
+    }
   }
 };
 </script>

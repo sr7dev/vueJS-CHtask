@@ -7,8 +7,9 @@
         </div>
         <div class="box">
             <div class="iptBox">
-                <div class="select_label">乡镇</div>
-                <el-select v-model="currTown" placeholder="全部">
+                <div v-if="typeof this.creditCode == 'undefined'" class="select_label">乡镇</div>
+                <div v-else class="select_label" style="display: none">乡镇</div>
+                <el-select v-if="typeof this.creditCode == 'undefined'" v-model="currTown" placeholder="全部">
                     <el-option
                             v-for="item in township"
                             :key="item.id"
@@ -17,6 +18,7 @@
                             size="large">
                     </el-option>
                 </el-select>
+                <div v-else class="select_label">{{getCompanyName()}}</div>
                 <div class="select_label">项目</div>
                 <el-select v-model="itemValue" placeholder="全部" @change="getList">
                     <el-option
@@ -73,6 +75,8 @@
                 </el-date-picker>
                 <el-checkbox v-model="bGreenProducts" style="margin-left: 30px"  @change="getList">专项1:绿色优质农产品生产基地</el-checkbox>
                 <el-button v-on:click="onClickExport" style="margin-left: 30px">导出表格</el-button>
+                <el-button v-if="typeof this.creditCode != 'undefined'" type="outline-primary" v-on:click="$router.go(-1)">返回</el-button>
+                <el-button v-else type="outline-primary" v-on:click="$router.go(-1)" style="display: none;">返回</el-button>
                 <span style="float: right">总计{{totalSize}}条检测</span>
             </div>
             <el-container>
@@ -87,8 +91,7 @@
                     </el-table-column>
                     <el-table-column
                             prop="no"
-                            label="编号"
-                            width="100">
+                            label="编号">
                     </el-table-column>
                     <el-table-column
                             prop="item"
@@ -150,6 +153,7 @@
         components: { Pagination },
         data(){
             return{
+                creditCode: '',
                 page:{
                     pageIndex: 1,
                     pageSize: 20
@@ -177,6 +181,7 @@
                 endDate: '',
                 bGreenProducts: false,
                 totalSize: '',
+                companyData: []
             }
         },
         created() {
@@ -185,11 +190,22 @@
             this.getSample();
             this.getDetectUnit();
             this.getList();
-            // this.getCompanyProduction();
+            this.getCompanyProduction();
+            this.creditCode = this.$route.query.creditCode;
         },
         methods:{
             onClickExport() {
 
+            },
+            getCompanyProduction() {
+                Request()
+                    .get("/api/company_production/name")
+                    .then(response => {
+                        this.companyData = response;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
             },
             getTown() {
                 Request()
@@ -233,14 +249,9 @@
             },
             getList() {
                 this.listLoading = true;
-                // if (this.detectionUnitValue == '全部')
-                //     this.detectionUnitValue = '';
-                // if (this.samplesValue == '全部')
-                //     this.samplesValue = '';
-                // if (this.item == '全部')
-                //     this.item = '';
                 Request()
                     .get("/api/disability_check/all", {
+                        creditCode: this.$route.query.creditCode,
                         detectUnit: this.detectionUnitValue == '全部' ? '' : this.detectionUnitValue,
                         fromDate: this.startDate,
                         toDate: this.endDate,
@@ -260,6 +271,14 @@
                     .catch(error => {
                         console.log(error);
                     });
+            },
+            getCompanyName() {
+                let product = this.companyData.find(x => x.creditCode === this.creditCode);
+                if (product) {
+                    return product.companyName;
+                } else {
+                    return "";
+                }
             },
             rowIndex({row, rowIndex}) {
                 row.rowIndex = rowIndex;

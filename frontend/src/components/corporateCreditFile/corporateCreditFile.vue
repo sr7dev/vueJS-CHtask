@@ -75,7 +75,9 @@
           </el-table-column>
           <el-table-column label="三品一标认证" width="200">
             <template slot-scope="{row}">
-                <el-button v-on:click="$router.push(`/corporateCreditFile/threeProduction/${row.creditCode}`)">三品一标</el-button>
+              <el-button
+                v-on:click="$router.push(`/corporateCreditFile/threeProduction/${row.creditCode}`)"
+              >三品一标</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -159,6 +161,7 @@ export default {
           console.log(error);
         });
     },
+    /* eslint-disable */
     getList(update = false) {
       this.listLoading = true;
       Request()
@@ -206,6 +209,7 @@ export default {
           console.log(error);
         });
     },
+    /* eslint-enable */
     filterCompnay(credit) {
       let company = this.companyProduction.find(x => x.creditCode === credit);
       if (company) {
