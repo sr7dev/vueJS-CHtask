@@ -2,30 +2,28 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">经营主体</el-breadcrumb-item>
-        <el-breadcrumb-item>经营产品</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/companyBusiness' }">监管对象</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
       <div class="iptBox">
-        
         <div class="filter-item">
           <div class="select_label">行业</div>
-          <el-select v-model="productType" placeholder="请选择">
+          <el-select v-model="productType" placeholder="请选择" @change="getList()">
             <el-option v-for="item in [
                           {value: 0, label: '全部'},
                           {value: 1, label: '农药'}, 
                           {value: 2, label: '种子'}, 
                           {value: 3, label: '饲料'}, 
                           {value: 4, label: '肥料'},
-                        ]" 
+                        ]"
               :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </div>
         
         <div class="filter-item">
           <div class="select_label">行业</div>
-          <el-select v-model="companyScale" placeholder="请选择">
+          <el-select v-model="companyScale" placeholder="请选择" @change="getList()">
             <el-option v-for="item in [
                           {value: 0, label: '全部'},
                           {value: 1, label: '小型企业'}, 
@@ -49,8 +47,8 @@
           <el-table-column prop="supervisionNature" label="监管对象性质" width="180"></el-table-column>
           <el-table-column prop="operations" label="" width="250">
             <template slot-scope="{row}">
-              <el-button  v-on:click="showSamplingRecord(row)">企业详情</el-button>
-              <el-button  v-on:click="showProductBatch(row)">经营产品</el-button>
+              <el-button  v-on:click="gotoDetailPage(row)">企业详情</el-button>
+              <el-button  v-on:click="gotoProductBusinessPage(row)">经营产品</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -71,8 +69,8 @@ export default {
   components: { Pagination },
   data() {
     return {
-      companyScale: '',
-      productType: '',
+      companyScale: 0,
+      productType: 0,
       sortBy: 'id',
       page: {
         pageIndex: 1,
@@ -85,19 +83,23 @@ export default {
           label: ""
         }
       ],
-      tableData: []
+      tableData: [],
+      listLoading: false,
     };
   },
   created() {
     this.getList();
   },
   methods: {
+    gotoProductBusinessPage(row) {
+      this.$router.push(`/companyBusiness/productBusiness/${row.id}`);
+    },
     getList() {
       this.listLoading = true;
-       Request()
+      Request()
         .get("/api/company_business/all", {
-          // companyScale: this.companyScale,
-          // productType: this.productType,
+          companyScale: this.companyScale,
+          productType: this.productType,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
           sortBy: this.sortBy,
@@ -105,7 +107,6 @@ export default {
         .then(response => {
           this.tableData = response;
           this.total = this.tableData.length;
-          console.log(this.tableData);
           setTimeout(() => {
             this.listLoading = false
           }, 0.5 * 1000);
@@ -124,5 +125,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import './companyBusiness.scss';
+
 </style>
