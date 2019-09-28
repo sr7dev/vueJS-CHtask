@@ -49,6 +49,8 @@ import thirdPartySamplingRecord from "@/components/productionSubject/mainProduct
 import productBatch from "@/components/productionSubject/mainProduct/productBatch/productBatch";
 import inventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/inventoryDynamics";
 
+import companyBusiness from "@/components/companyBusiness/companyBusiness";
+
 Vue.use(Router);
 
 export default new Router({
@@ -59,6 +61,12 @@ export default new Router({
       component: home,
       redirect: "cp_productionSubject",
       children: [
+        
+        {
+          path: "/companyBusiness",
+          name: "companyBusiness",
+          component: companyBusiness
+        },
         {
           path: "/creditRating",
           name: "creditRating",
