@@ -35,6 +35,7 @@ import detailsRating from "@/components/creditRating/detailsRating/detailsRating
 import corporateCreditFile from "@/components/corporateCreditFile/corporateCreditFile";
 import adminPenaltyInfo from "@/components/corporateCreditFile/adminPenaltyInfo/adminPenaltyInfo";
 import adminLicenseInfo from "@/components/corporateCreditFile/adminLicenseInfo/adminLicenseInfo";
+import ratingInfo from "@/components/corporateCreditFile/ratingInfo/ratingInfo";
 
 import productionSubject from "@/components/productionSubject/productionSubject";
 import addRegulatoryObject from "@/components/productionSubject/addRegulatoryObject/addRegulatoryObject";
@@ -107,7 +108,7 @@ export default new Router({
           name: "detailsRegulatoryObject",
           component: detailsRegulatoryObject
         },
-        
+
         {
           path: "/productionSubject/warehouseEnv/:id",
           name: "warehouseEnv",
@@ -144,14 +145,14 @@ export default new Router({
           component: threeProductsCertification
         },
         {
-            path: '/threeProductsCertification/create',
-            name: 'addThreeProducts',
-            component: addThreeProducts
+          path: '/threeProductsCertification/create',
+          name: 'addThreeProducts',
+          component: addThreeProducts
         },
         {
-            path: '/threeProductsCertification/:id',
-            name: 'detailsThreeProducts',
-            component: detailsThreeProducts
+          path: '/threeProductsCertification/:id',
+          name: 'detailsThreeProducts',
+          component: detailsThreeProducts
 
         },
         {
@@ -160,14 +161,19 @@ export default new Router({
           component: corporateCreditFile
         },
         {
-            path: '/corporateCreditFile/adminLicenseInfo/:id',
-            name: 'adminLicenseInfo',
-            component: adminLicenseInfo
+          path: '/corporateCreditFile/adminLicenseInfo/:id',
+          name: 'adminLicenseInfo',
+          component: adminLicenseInfo
         },
         {
-            path: '/corporateCreditFile/adminPenaltyInfo/:id',
-            name: 'adminPenaltyInfo',
-            component: adminPenaltyInfo
+          path: '/corporateCreditFile/adminPenaltyInfo/:id',
+          name: 'adminPenaltyInfo',
+          component: adminPenaltyInfo
+        },
+        {
+          path: '/corporateCreditFile/ratingInfo',
+          name: 'ratingInfo',
+          component: ratingInfo
         },
         {
           path: "/regulatoryRecord",
