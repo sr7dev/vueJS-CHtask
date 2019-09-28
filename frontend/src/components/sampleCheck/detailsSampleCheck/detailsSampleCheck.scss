@@ -1,0 +1,21 @@
+.item-row {
+  margin-bottom: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  .item {
+    display: flex;
+    align-items: center;
+    margin-right: 100px;
+    .item-label {
+      margin-right: 20px;
+      min-width: 100px;
+    }
+    .item-value {
+
+    }
+  }
+}
+
+button {
+  min-width: 120px;
+}

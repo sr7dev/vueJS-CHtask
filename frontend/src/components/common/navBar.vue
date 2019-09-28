@@ -40,6 +40,9 @@
         <el-menu-item index="/threeProductsCertification">
           <router-link  slot="title" to="/threeProductsCertification">三品一标管理</router-link>  
         </el-menu-item>
+        <el-menu-item index="/sampleCheck">
+          <router-link  slot="title" to="/sampleCheck">例行抽样管理</router-link>  
+        </el-menu-item>
       </el-menu>
     </el-col>
   </el-row>
