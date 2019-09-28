@@ -12,24 +12,40 @@
           <el-option v-for="item in township" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
         <div class="select_label">类型</div>
-        <el-radio v-model="bTypes" label="1">是</el-radio>
-        <el-radio v-model="bTypes" label="2">否</el-radio>
+        <el-radio v-model="bTypes" label="1" v-on:change="getList(true)">是</el-radio>
+        <el-radio v-model="bTypes" label="2" v-on:change="getList(true)">否</el-radio>
         <div class="select_label">行政许可</div>
         <el-select v-model="public_license" placeholder="请选择" @change="onSelectPubLicense">
-          <el-option v-for="item in publicOptions" :key="item.id" :label="item.name" :value="item.id"></el-option>
+          <el-option
+            v-for="item in publicOptions"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
         </el-select>
         <div class="select_label">行政处罚</div>
         <el-select v-model="public_punish" placeholder="请选择" @change="onSelectPubPunish">
-          <el-option v-for="item in publicOptions" :key="item.id" :label="item.name" :value="item.id"></el-option>
+          <el-option
+            v-for="item in publicOptions"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
         </el-select>
         <div class="select_label">
-            <el-button type="outline-primary" v-on:click="getList()" disabled>导入</el-button>
+          <el-button type="outline-primary" v-on:click="getList()" disabled>导入</el-button>
         </div>
       </div>
 
       <el-container>
-        <el-table :data="tableData" v-loading="listLoading" fit style="width: 100%;"
-        :row-class-name="rowIndex" highlight-current-row>
+        <el-table
+          :data="tableData"
+          v-loading="listLoading"
+          fit
+          style="width: 100%;"
+          :row-class-name="rowIndex"
+          highlight-current-row
+        >
           <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
           <el-table-column label="企业名称" width="150">
             <template slot-scope="{row}">{{filterCompnay(row.creditCode)}}</template>
@@ -37,38 +53,47 @@
           <el-table-column prop="creditCode" label="统一社会信用代码"></el-table-column>
           <el-table-column prop="public_license" label="行政许可信息">
             <template slot-scope="{row}">
-              <el-button v-on:click="$router.push(`/corporateCreditFile/adminLicenseInfo/${row.creditCode}`)">行政许可信息</el-button>
+              <el-button
+                v-on:click="$router.push(`/corporateCreditFile/adminLicenseInfo/${row.creditCode}`)"
+              >行政许可信息</el-button>
             </template>
           </el-table-column>
           <el-table-column prop="public_punish" label="行政处罚信息">
             <template slot-scope="{row}">
-              <el-button v-on:click="$router.push(`/corporateCreditFile/adminPenaltyInfo/${row.creditCode}`)">行政许可信息</el-button>
+              <el-button
+                v-on:click="$router.push(`/corporateCreditFile/adminPenaltyInfo/${row.creditCode}`)"
+              >行政许可信息</el-button>
             </template>
           </el-table-column>
-<!--          <el-table-column prop="nowGrade" label="评级信息">-->
-<!--&lt;!&ndash;            <template slot-scope="{row}">{{getGrad(row.creditCode)}}</template>&ndash;&gt;-->
-<!--          </el-table-column>-->
+          <el-table-column label="评级信息">
+            <template slot-scope="{row}">{{getGrade(row)}}</template>
+          </el-table-column>
           <el-table-column label="三品一标认证" width="200">
             <template slot-scope="{row}">
-                <el-button v-on:click="$router.push(`/creditRating/${row.creditCode}`)">三品一标</el-button>
+              <el-button v-on:click="$router.push(`/creditRating/${row.creditCode}`)">三品一标</el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-container>
       <div class="pageBox">
-        <pagination v-show="total>0" :total="total" :page.sync="page.pageIndex" 
-            :limit.sync="page.pageSize" @pagination="getList" />
+        <pagination
+          v-show="total>0"
+          :total="total"
+          :page.sync="page.pageIndex"
+          :limit.sync="page.pageSize"
+          @pagination="getList"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Pagination from '@/components/common/pagination';
+import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
 
 export default {
-  name: 'creditRating',
+  name: "creditRating",
   components: { Pagination },
   data() {
     return {
@@ -79,19 +104,19 @@ export default {
         { id: 2, name: "无" }
       ],
       currTown: 0,
-      public_license: "全部",
-      public_punish: "全部",
+      public_license: 0,
+      public_punish: 0,
       page: {
         pageIndex: 1,
         pageSize: 20
       },
       listLoading: true,
-      bTypes: false,
+      bTypes: 0,
       status: 0,
       total: 100,
       tableData: [],
       companyProduction: [],
-      gradData: [],
+      gradData: []
     };
   },
   mounted() {
@@ -105,52 +130,9 @@ export default {
     },
     onSelectPubLicense() {
       this.getList();
-      console.log(this.tableData);
-      switch (this.public_license) {
-        case 0:
-          break;
-        case 1:
-          for (let i = 0; i < this.tableData.length; i++) {
-            if (this.tableData[i].public_license <= 0) {
-              this.tableData.splice(i, 1);
-              i--;
-            }
-          }
-          break;
-        case 2:
-          for (let i = 0; i < this.tableData.length; i++) {
-            if (this.tableData[i].public_license != 0) {
-              this.tableData.splice(i, 1);
-              i--;
-            }
-          }
-          break;
-        default:
-      }
     },
     onSelectPubPunish() {
       this.getList();
-      switch (this.public_punish) {
-        case 0:
-          break;
-        case 1:
-          for (let i = 0; i < this.tableData.length; i++) {
-            if (this.tableData[i].public_punish <= 0) {
-              this.tableData.splice(i, 1);
-              i--;
-            }
-          }
-          break;
-        case 2:
-          for (let i = 0; i < this.tableData.length; i++) {
-            if (this.tableData[i].public_punish != 0) {
-              this.tableData.splice(i, 1);
-              i--;
-            }
-          }
-          break;
-        default:
-      }
     },
     getCompanyProduction() {
       Request()
@@ -172,21 +154,39 @@ export default {
           console.log(error);
         });
     },
-    getList() {
+    getList(update = false) {
       this.listLoading = true;
       Request()
         .get("/api/company_production/all", {
+          companyType: this.bTypes,
           approvalStatus: this.status - 1,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
           townId: this.currTown
         })
         .then(response => {
-          this.tableData = response;
-          this.total = this.tableData.length;
-          for (let i = 0; i < this.total; i++) {
-            this.getGrade(this.tableData[i]);
+          var tmpData = response;
+          if (this.publicOptions == 1) {
+            tmpData = tmpData.filter(function(licesnse) {
+              return licesnse.public_license > 0;
+            });
+          } else if (this.public_license == 2) {
+            tmpData = tmpData.filter(function(licesnse) {
+              return licesnse.public_license == 0;
+            });
           }
+          if (this.public_punish == 1) {
+            tmpData = tmpData.filter(function(punish) {
+              return punish.public_punish > 0;
+            });
+          } else if (this.public_punish == 2) {
+            tmpData = tmpData.filter(function(punish) {
+              return punish.public_punish == 0;
+            });
+          }
+          this.tableData = tmpData;
+          this.total = this.tableData.length;
+
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
@@ -216,35 +216,36 @@ export default {
         .then(response => {
           this.gradData = response;
           let nSIze = this.gradData.length;
-          strGrade = this.getGradeString(this.gradData[nSIze-1].nowGrade);
+          strGrade = this.getGradeString(this.gradData[nSIze - 1].nowGrade);
           dataTable.nowGrade = strGrade;
         })
         .catch(error => {
           console.log(error);
           return "";
         });
-      return dataTable;
+
+      return dataTable.nowGrade;
     },
     getGradeString(grade) {
-      let strGrade = '';
+      let strGrade = "";
       switch (grade) {
-        case 'A':
-          strGrade = 'A级（守信）';
+        case "A":
+          strGrade = "A级（守信）";
           break;
-        case 'B':
-          strGrade = 'B级（基本守信）';
+        case "B":
+          strGrade = "B级（基本守信）";
           break;
-        case 'C':
-          strGrade = 'C级（失信）';
+        case "C":
+          strGrade = "C级（失信）";
           break;
         default:
-          strGrade = 'A级（守信）';
+          strGrade = "A级（守信）";
       }
       return strGrade;
     },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
-    },
+    }
   }
 };
 </script>
