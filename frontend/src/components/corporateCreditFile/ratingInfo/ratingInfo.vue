@@ -7,7 +7,7 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <div class="select_label">稻米专业合作社</div>
+        <div class="select_label">{{companyName}}</div>
         <el-button type="outline-primary" v-on:click="$router.go(-1)">返回</el-button>
       </div>
 
@@ -21,11 +21,15 @@
           highlight-current-row
         >
           <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
-          <el-table-column prop="docCode" label="评级时间" width="250"></el-table-column>
-          <el-table-column prop="punishName" label="单位名称" width="150"></el-table-column>
-          <el-table-column prop="addressCode!!!" label="评级" width="150"></el-table-column>
+          <el-table-column prop="gradeTime" label="评级时间"></el-table-column>
+          <el-table-column label="单位名称">
+            <template>{{companyName}}</template>
+          </el-table-column>
+          <el-table-column label="评级">
+            <template slot-scope="{row}">{{getGradeString(row.nowGrade)}}</template>
+          </el-table-column>
           <!-- <el-table-column prop="punishTypeF" label="评级有效期" width="150"></el-table-column> -->
-          <el-table-column prop="punishTypeS" label="评级单位" width="150"></el-table-column>
+          <el-table-column prop="gradeUnit" label="评级单位"></el-table-column>
         </el-table>
       </el-container>
       <div class="pageBox">
@@ -42,7 +46,6 @@
 </template>
 
 <script>
-import sampleData from "../_data";
 import Pagination from "@/components/common/pagination";
 import Request from "../../../services/api/request.js";
 export default {
@@ -56,12 +59,14 @@ export default {
       },
       listLoading: true,
       total: 100,
-      tableData: sampleData,
-      creditCode: ""
+      tableData: [],
+      creditCode: null,
+      companyName: ""
     };
   },
   created() {
     this.creditCode = this.$route.query.creditCode;
+    this.getCompanyName();
     this.getList();
   },
   methods: {
@@ -70,14 +75,16 @@ export default {
     },
     getList() {
       this.listLoading = true;
-      console.log(this.creditCode);
       Request()
         .get("/api/company_credit_grade/all", {
-          creditCode: creditCode
+          creditCode: this.creditCode,
+          approvalStatus: -1,
+          pageNo: 0,
+          pageSize: 20,
+          townId: 0
         })
         .then(response => {
-          console.log(response);
-          // this.tableData = response;
+          this.tableData = response;
           // this.total = this.tableData.length;
           setTimeout(() => {
             this.listLoading = false;
@@ -86,6 +93,35 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    getCompanyName() {
+      Request()
+        .get("/api/company_production/name", {
+          creditCode: this.creditCode
+        })
+        .then(response => {
+          this.companyName = response[0].companyName;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getGradeString(grade) {
+      let strGrade = "";
+      switch (grade) {
+        case "A":
+          strGrade = "A级（守信）";
+          break;
+        case "B":
+          strGrade = "B级（基本守信）";
+          break;
+        case "C":
+          strGrade = "C级（失信）";
+          break;
+        default:
+          strGrade = "A级（守信）";
+      }
+      return strGrade;
     },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
