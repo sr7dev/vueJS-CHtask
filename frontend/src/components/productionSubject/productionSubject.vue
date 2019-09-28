@@ -90,7 +90,7 @@
         <el-table-column prop="address" label="所在乡镇" width="120">
           <template slot-scope="{row}">{{getTownship(row.townId)}}</template>
         </el-table-column>
-        <el-table-column prop="nowGrade" label="企业诚信" width="120">
+        <el-table-column prop="nowGrade" label="企业诚信" width="200">
           <template slot-scope="{row}">
             <el-button v-on:click="gotoCreditRatingPage(row)">{{row.nowGrade}}</el-button>
           </template>
