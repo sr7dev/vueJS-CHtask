@@ -48,13 +48,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="7">
-            <el-form-item label="证书编号">
-              <el-input v-model="data.cretficationNo" disabled></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
         <el-form-item label="认证有效期" style="text-align: center">
           <el-col :span="7">
             <el-date-picker

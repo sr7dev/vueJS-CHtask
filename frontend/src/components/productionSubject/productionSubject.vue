@@ -71,9 +71,8 @@
         <el-table-column prop="chargePerson" label="法人代表" width="150"></el-table-column>
         <el-table-column prop="companyAddress" label="企业地址"></el-table-column>
         <el-table-column prop="qualityStandardId" label="三品认证" width="120">
-          <template slot-scope="{row}">
-            <el-button @click="$router.push(`/corporateCreditFile/threeProduction/${row.creditCode}`)"
-              >认证信息</el-button>
+          <template>
+            <el-button>认证信息</el-button>
           </template>
         </el-table-column>
         <el-table-column prop="doSupervision" label="监管记录" width="120">
