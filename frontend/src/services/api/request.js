@@ -100,7 +100,6 @@ class Request {
 
 						return Promise.reject(response);
 					}
-					console.log(response['status']);
 					return Promise.resolve(response);
 					// if (response['status'] === 'success') {
 					// 	return Promise.resolve(response);
