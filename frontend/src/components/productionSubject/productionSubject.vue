@@ -181,7 +181,6 @@ export default {
         .get("/api/town/all", {})
         .then(response => {
           this.townList = response;
-          console.log(response);
         })
         .catch(err => {
           console.error(err);
@@ -219,6 +218,7 @@ export default {
         })
         .then(response => {
           let dt = response;
+          console.log(dt);
           this.tableData = [];
           this.total = dt.length;
           dt.map(item => {
