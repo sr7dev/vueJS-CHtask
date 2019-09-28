@@ -306,6 +306,7 @@
 
 <script>
 import sampleData from '../_data';
+import Request from '@/services/api/request'
 export default {
   name: "detailsRegulatoryObject",
   data() {
@@ -344,6 +345,6 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "./detailsRegulatoryObject.scss";
 </style>

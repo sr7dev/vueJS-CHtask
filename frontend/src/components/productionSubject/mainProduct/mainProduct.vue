@@ -66,19 +66,20 @@ export default {
   },
   created() {
     this.id = this.$route.params.id;
-    console.log(this.id);
     this.getList();
   },
   methods: {
     showSamplingRecord(row) {
-      this.$router.push(`/productionSubject/mainProduct/thirdPartySamplingRecord/${row.id}`);
+      this.$router.push(`/productionSubject/mainProduct/thirdPartySamplingRecord/${row.productId}`);
     },
     showProductBatch(row) {
-      this.$router.push(`/productionSubject/mainProduct/productBatch/${row.id}`);
+      this.$router.push(`/productionSubject/mainProduct/productBatch/${row.productId}`);
     },
     showInventoryDynamics(row) {
-      this.$router.push(`/productionSubject/mainProduct/inventoryDynamics/${row.id}`);
-
+      this.$router.push({
+        path: `/productionSubject/mainProduct/inventoryDynamics/${row.productId}`,
+        query: {productName: row.productName}
+      });
     },
     getList() {
       this.listLoading = true;
@@ -91,7 +92,6 @@ export default {
         .then(response => {
           this.tableData = response;
           this.total = this.tableData.length;
-          console.log(this.tableData);
           setTimeout(() => {
             this.listLoading = false
           }, 0.5 * 1000);
@@ -99,9 +99,6 @@ export default {
         .catch(error => {
           console.error(error);
         });
-      // fetchListAPI(this.status, this.page.pageIndex, this.page.pageSize, "credit_gradeid")
-      //   .then(response => {
-      // })
     },
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
@@ -113,6 +110,6 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "./mainProduct.scss";
 </style>

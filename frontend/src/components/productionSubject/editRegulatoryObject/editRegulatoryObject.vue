@@ -11,7 +11,7 @@
       <el-form ref="form" :model="form" v-if="form">
         <el-row>
           <el-col :span="12">
-            <el-form-item >
+            <el-form-item>
               <el-radio v-model="form.companyType" label="1">企业</el-radio>
               <el-radio v-model="form.companyType" label="2">农户</el-radio>
             </el-form-item>
@@ -31,8 +31,12 @@
           <el-col :span="6">
             <el-form-item label="行业">
               <el-select v-model="form.agriculturalClassification">
-                <el-option v-for="(item, index) in [{value:0, label:'养殖业'}, {value:1, label:'畜牧业'}, {value:2, label: '种植业'}]"                 
-                    :label="item.label" :value="item.value" :key="index"></el-option>
+                <el-option
+                  v-for="(item, index) in [{value:0, label:'养殖业'}, {value:1, label:'畜牧业'}, {value:2, label: '种植业'}]"
+                  :label="item.label"
+                  :value="item.value"
+                  :key="index"
+                ></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -288,14 +292,19 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="是否监管">
-              <el-select v-model="form.doSupervision" placeholder="">
-                <el-option :label="item" :value="item" v-for="(item, index) in ['是', '否']" :key="index"></el-option>
+              <el-select v-model="form.doSupervision" placeholder>
+                <el-option
+                  :label="item"
+                  :value="item"
+                  v-for="(item, index) in ['是', '否']"
+                  :key="index"
+                ></el-option>
               </el-select>
             </el-form-item>
           </el-col>
         </el-row>
 
-        <el-form-item >
+        <el-form-item>
           <el-button type="success" plain @click="onSubmit">保存</el-button>
           <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
@@ -306,7 +315,7 @@
 </template>
 
 <script>
-import sampleData from '../_data';
+import sampleData from "../_data";
 export default {
   name: "addRegulatoryObject",
   data() {
@@ -317,16 +326,15 @@ export default {
   created() {
     this.companyName = this.$route.query.company;
     this.id = this.$route.params.id;
-    this.getData(this.id);
+    this.getData();
   },
   methods: {
     onSubmit() {
       console.log(this.form);
-
     },
-    getData(id) {
+    getData() {
       let pos = sampleData.findIndex(it_ => it_.companyId == this.id);
-      if(pos != -1) {
+      if (pos != -1) {
         this.form = sampleData[pos];
       } else {
         this.form = null;
@@ -340,11 +348,11 @@ export default {
       //   .catch(error => {
       //     console.log(error);
       //   });
-    },
+    }
   }
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "./editRegulatoryObject.scss";
 </style>

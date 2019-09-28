@@ -81,7 +81,8 @@
                 township: [{ id: 0, name: "全部" }],
                 currTown: 0,
                 status: 1,
-                tableData: [ ]
+                tableData: [],
+                companyProduction: [],
             }
         },
         created() {
@@ -151,13 +152,13 @@
             getGrade(grade) {
                 switch (grade) {
                     case 'A':
-                        return '守信';
+                        return 'A级（守信）';
                     case 'B':
-                        return '基本守信';
+                        return 'B级（基本守信）';
                     case 'C':
-                        return '失信';
+                        return 'C级（失信）';
                     default:
-                        return '守信';
+                        return 'A级（守信）';
                 }
             },
         }

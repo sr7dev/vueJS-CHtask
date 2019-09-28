@@ -13,7 +13,7 @@ import management from "@/components/management/management";
 import businessProducts from "@/components/management/businessProducts";
 import companyDetails from "@/components/management/companyDetails";
 import redBlackList from '@/components/redBlackList/redBlackList';
-import agriculturalDisability from '@/components/agriculturalDisability/agriculturalDisability';
+import disabilityCheck from '@/components/disabilityCheck/disabilityCheck';
 
 // 企业
 import cp_productionSubject from "@/components/company/productionSubject/productionSubject"; //生产主体
@@ -35,6 +35,8 @@ import detailsRating from "@/components/creditRating/detailsRating/detailsRating
 import corporateCreditFile from "@/components/corporateCreditFile/corporateCreditFile";
 import adminPenaltyInfo from "@/components/corporateCreditFile/adminPenaltyInfo/adminPenaltyInfo";
 import adminLicenseInfo from "@/components/corporateCreditFile/adminLicenseInfo/adminLicenseInfo";
+import threeProduction from "@/components/corporateCreditFile/threeProduction/threeProduction";
+import ratingInfo from "@/components/corporateCreditFile/ratingInfo/ratingInfo";
 
 import productionSubject from "@/components/productionSubject/productionSubject";
 import addRegulatoryObject from "@/components/productionSubject/addRegulatoryObject/addRegulatoryObject";
@@ -49,6 +51,16 @@ import thirdPartySamplingRecord from "@/components/productionSubject/mainProduct
 import productBatch from "@/components/productionSubject/mainProduct/productBatch/productBatch";
 import inventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/inventoryDynamics";
 
+import companyBusiness from "@/components/companyBusiness/companyBusiness";
+import productBusiness from "@/components/companyBusiness/productBusiness/productBusiness";
+import detailsCompanyBusiness from "@/components/companyBusiness/detailsCompanyBusiness/detailsCompanyBusiness";
+
+import sampleCheck from "@/components/sampleCheck/sampleCheck";
+import addSampleCheck from "@/components/sampleCheck/addSampleCheck/addSampleCheck";
+import addSampleCheckResult from "@/components/sampleCheck/addSampleCheckResult/addSampleCheckResult";
+import detailsSampleCheck from "@/components/sampleCheck/detailsSampleCheck/detailsSampleCheck";
+import detailsSampleCheckResult from "@/components/sampleCheck/detailsSampleCheckResult/detailsSampleCheckResult";
+
 Vue.use(Router);
 
 export default new Router({
@@ -59,6 +71,46 @@ export default new Router({
       component: home,
       redirect: "cp_productionSubject",
       children: [
+        {
+          path: "/sampleCheck",
+          name: "sampleCheck",
+          component: sampleCheck
+        },
+        {
+          path: "/sampleCheck/addSampleCheck",
+          name: "addSampleCheck",
+          component: addSampleCheck
+        },
+        {
+          path: "/sampleCheck/addSampleCheckResult",
+          name: "addSampleCheckResult",
+          component: addSampleCheckResult
+        },
+        {
+          path: "/sampleCheck/detailsSampleCheck/:id",
+          name: "detailsSampleCheck",
+          component: detailsSampleCheck
+        },
+        {
+          path: "/sampleCheck/detailsSampleCheckResult/:id",
+          name: "detailsSampleCheckResult",
+          component: detailsSampleCheckResult
+        },
+        {
+          path: "/companyBusiness",
+          name: "companyBusiness",
+          component: companyBusiness
+        },
+        {
+          path: "/companyBusiness/productBusiness/:id",
+          name: "productBusiness",
+          component: productBusiness
+        },
+        {
+          path: "/companyBusiness/detailsCompanyBusiness/:id",
+          name: "detailsCompanyBusiness",
+          component: detailsCompanyBusiness
+        },
         {
           path: "/creditRating",
           name: "creditRating",
@@ -94,7 +146,7 @@ export default new Router({
           name: "detailsRegulatoryObject",
           component: detailsRegulatoryObject
         },
-        
+
         {
           path: "/productionSubject/warehouseEnv/:id",
           name: "warehouseEnv",
@@ -131,30 +183,40 @@ export default new Router({
           component: threeProductsCertification
         },
         {
-            path: '/threeProductsCertification/create',
-            name: 'addThreeProducts',
-            component: addThreeProducts
+          path: '/threeProductsCertification/create',
+          name: 'addThreeProducts',
+          component: addThreeProducts
         },
         {
-            path: '/threeProductsCertification/:id',
-            name: 'detailsThreeProducts',
-            component: detailsThreeProducts
+          path: '/threeProductsCertification/:id',
+          name: 'detailsThreeProducts',
+          component: detailsThreeProducts
 
         },
         {
-            path: '/corporateCreditFile',
-            name: 'corporateCreditFile',
-            component: corporateCreditFile
+          path: '/corporateCreditFile',
+          name: 'corporateCreditFile',
+          component: corporateCreditFile
         },
         {
-            path: '/corporateCreditFile/adminLicenseInfo/:id',
-            name: 'adminLicenseInfo',
-            component: adminLicenseInfo
+          path: '/corporateCreditFile/adminLicenseInfo/:id',
+          name: 'adminLicenseInfo',
+          component: adminLicenseInfo
         },
         {
-            path: '/corporateCreditFile/adminPenaltyInfo/:id',
-            name: 'adminPenaltyInfo',
-            component: adminPenaltyInfo
+          path: '/corporateCreditFile/adminPenaltyInfo/:id',
+          name: 'adminPenaltyInfo',
+          component: adminPenaltyInfo
+        },
+        {
+          path: '/corporateCreditFile/ratingInfo',
+          name: 'ratingInfo',
+          component: ratingInfo
+        },
+        {
+          path: '/corporateCreditFile/threeProduction/:id',
+          name: 'threeProduction',
+          component: threeProduction
         },
         {
           path: "/regulatoryRecord",
@@ -245,7 +307,7 @@ export default new Router({
           path: "/cp_inventoryDynamics",
           name: "cp_inventoryDynamics",
           component: cp_inventoryDynamics
-        }
+        },
       ]
     },
     {
@@ -255,9 +317,9 @@ export default new Router({
       redirect: "cp_productionSubject",
       children: [
         {
-          path: "/agriculturalDisability",
-          name: "agriculturalDisability",// 农残检测
-          component: agriculturalDisability
+          path: "/disabilityCheck",
+          name: "disabilityCheck",// 农残检测
+          component: disabilityCheck
         },
       ]
     },

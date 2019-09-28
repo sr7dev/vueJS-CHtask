@@ -22,18 +22,23 @@
         <el-table-column prop="testReport" label="检测报告"></el-table-column>
       </el-table>
       <div class="pageBox">
-        <pagination v-show="total>0" :total="total" :page.sync="page.pageIndex" 
-            :limit.sync="page.pageSize" @pagination="getList" />
+        <pagination
+          v-show="total>0"
+          :total="total"
+          :page.sync="page.pageIndex"
+          :limit.sync="page.pageSize"
+          @pagination="getList"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import sampleData from './_data';
-import Pagination from '@/components/common/pagination'
+import sampleData from "./_data";
+import Pagination from "@/components/common/pagination";
 export default {
-  name: 'productBatch',
+  name: "productBatch",
   components: { Pagination },
   data() {
     return {
@@ -49,24 +54,21 @@ export default {
   },
   created() {
     this.id = this.$route.params.id;
-    console.log(this.id);
     this.getList();
   },
   methods: {
-    gotoWarehousingEnvironmentPage(row) {
-      console.log(row);
-      this.$router.push(`/warehouseEnv`)
-
-    },
+    // gotoWarehousingEnvironmentPage(row) {
+    //   this.$router.push(`/warehouseEnv`)
+    // },
     getList() {
       this.listLoading = true;
       // fetchListAPI(this.status, this.page.pageIndex, this.page.pageSize, "credit_gradeid")
       //   .then(response => {
-          this.tableData = sampleData;  // this.tableData = response;  
-          this.total = this.tableData.length;
-          setTimeout(() => {
-            this.listLoading = false
-          }, 0.5 * 1000);
+      this.tableData = sampleData; // this.tableData = response;
+      this.total = this.tableData.length;
+      setTimeout(() => {
+        this.listLoading = false;
+      }, 0.5 * 1000);
       // })
     },
     rowIndex({ row, rowIndex }) {
@@ -74,11 +76,11 @@ export default {
     },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
-    },
+    }
   }
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "./productBatch.scss";
 </style>

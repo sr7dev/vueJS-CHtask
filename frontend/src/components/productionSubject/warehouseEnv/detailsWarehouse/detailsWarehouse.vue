@@ -29,7 +29,7 @@
         <div class="item-row">
           <div class="item">
             <div class="item-label">仓库规模:</div>
-            <div class="item-value">{{data.warehouseSize}}</div>
+            <div class="item-value">{{data.warehouseScope}}</div>
           </div>
         </div>
         <div class="item-row">
@@ -54,6 +54,7 @@ export default {
     };
   },
   created() {
+    this.data = this.$route.query.company;
     this.id = this.$route.params.id;
     const pos = this.datas.findIndex(i => i.id == this.id);
     if (pos >= 0) {
@@ -62,6 +63,6 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "./detailsWarehouse.scss";
 </style>

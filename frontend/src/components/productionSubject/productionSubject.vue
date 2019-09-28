@@ -1,5 +1,5 @@
 <template>
-  <div class="container" id = "production-subject">
+  <div class="container" id="production-subject">
     <div class="title">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">监管对象</el-breadcrumb-item>
@@ -24,38 +24,44 @@
         <div class="filter-item">
           <div class="select_label">行业</div>
           <el-select v-model="agriculturalClassification" placeholder="请选择">
-            <el-option v-for="item in [
+            <el-option
+              v-for="item in [
                           {value: 0, label: '全部'},
                           {value: 1, label: '养殖业'}, 
                           {value: 2, label: '畜牧业'}, 
                           {value: 3, label: '种植业'}
-                        ]" 
-              :key="item.value" :label="item.label" :value="item.value"></el-option>
+                        ]"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
           </el-select>
         </div>
         <div class="filter-item">
           <div class="select_label">三品认证</div>
           <el-select v-model="quality_standard" placeholder="请选择">
-            <el-option v-for="item in ['全部', '有', '无']" :key="item"
-              :label="item" :value="item" ></el-option>
+            <el-option v-for="item in ['全部', '有', '无']" :key="item" :label="item" :value="item"></el-option>
           </el-select>
         </div>
         <div class="filter-item">
           <div class="select_label">监管记录</div>
           <el-select v-model="supervision_record" placeholder="请选择">
-            <el-option v-for="item in ['全部', '有', '无']" :key="item"
-              :label="item" :value="item"></el-option>
+            <el-option v-for="item in ['全部', '有', '无']" :key="item" :label="item" :value="item"></el-option>
           </el-select>
         </div>
         <div class="filter-item">
           <div class="select_label">农业监测</div>
           <el-select v-model="disability_check" placeholder="请选择">
-            <el-option v-for="item in ['全部', '有', '无']" :key="item"
-              :label="item" :value="item"></el-option>
+            <el-option v-for="item in ['全部', '有', '无']" :key="item" :label="item" :value="item"></el-option>
           </el-select>
         </div>
         <div class="filter-item">
-          <el-button type="primary" plain style="margin-left: 20px;" @click="gotoAddRegulatoryObject()">添加监管对象</el-button>
+          <el-button
+            type="primary"
+            plain
+            style="margin-left: 20px;"
+            @click="gotoAddRegulatoryObject()"
+          >添加监管对象</el-button>
           <div class="allCompany">共计{{total}}家企业</div>
         </div>
       </div>
@@ -63,32 +69,37 @@
         <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
         <el-table-column prop="companyName" label="企业名称" width="150"></el-table-column>
         <el-table-column prop="chargePerson" label="法人代表" width="150"></el-table-column>
-        <el-table-column prop="companyAddress" label="企业地址" width="250"></el-table-column>
+        <el-table-column prop="companyAddress" label="企业地址"></el-table-column>
         <el-table-column prop="qualityStandardId" label="三品认证" width="120">
-          <template><el-button>认证信息</el-button></template>
+          <template>
+            <el-button>认证信息</el-button>
+          </template>
         </el-table-column>
         <el-table-column prop="doSupervision" label="监管记录" width="120">
-          <template><el-button>是</el-button></template>
+          <template>
+            <el-button>是</el-button>
+          </template>
         </el-table-column>
         <el-table-column prop="address" label="农药检测" width="120">
           <template slot-scope="{row}">
-            <el-button>是</el-button>
+            <el-button
+              v-on:click="$router.push({path:`/disabilityCheck/`,query: {creditCode:row.creditCode}})"
+            >是</el-button>
           </template>
         </el-table-column>
         <el-table-column prop="contactPerson" label="联系人" width="120"></el-table-column>
         <el-table-column prop="contactMobile" label="联系方式" width="120"></el-table-column>
         <el-table-column prop="address" label="所在乡镇" width="120">
+          <template slot-scope="{row}">{{getTownship(row.townId)}}</template>
+        </el-table-column>
+        <el-table-column prop="nowGrade" label="企业诚信" width>
           <template slot-scope="{row}">
-            {{getTownship(row.townId)}}
+            <span class="rating-action" v-on:click="gotoCreditRatingPage(row)">{{row.nowGrade}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="nowGrade" label="企业诚信" width="120">
+        <el-table-column prop="operations" label="操作" width="450">
           <template slot-scope="{row}">
-            <el-button v-on:click="gotoCreditRatingPage(row)">{{row.nowGrade}}</el-button>
-          </template></el-table-column>
-        <el-table-column prop="operations" label="操作"  width="450">
-          <template slot-scope="{row}">
-            <el-button v-on:click="gotoEditProductPage(row)" >修改</el-button>
+            <el-button v-on:click="gotoEditProductPage(row)">修改</el-button>
             <el-button v-on:click="gotoProductPage(row)">产品</el-button>
             <el-button v-on:click="gotoWarehousingEnvironmentPage(row)">仓储环境</el-button>
             <el-button v-on:click="gotoDetailsProductPage(row)">详情</el-button>
@@ -96,19 +107,24 @@
         </el-table-column>
       </el-table>
       <div class="pageBox">
-        <pagination v-show="total>0" :total="total" :page.sync="page.pageIndex" 
-            :limit.sync="page.pageSize" @pagination="getList" />
+        <pagination
+          v-show="total>0"
+          :total="total"
+          :page.sync="page.pageIndex"
+          :limit.sync="page.pageSize"
+          @pagination="getList"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import sampleData from './_data';
-import Pagination from '@/components/common/pagination'
-import Request from '@/services/api/request'
+import sampleData from "./_data";
+import Pagination from "@/components/common/pagination";
+import Request from "@/services/api/request";
 export default {
-  name: 'productionSubject',
+  name: "productionSubject",
   components: { Pagination },
   data() {
     return {
@@ -136,21 +152,27 @@ export default {
   methods: {
     getTownship(townId) {
       let pos = this.townList.findIndex(item => item.id == townId);
-      if(pos < 0) return "";
+      if (pos < 0) return "";
       return this.townList[pos].name;
     },
     gotoCreditRatingPage(row) {
-      // this.$router.push(`/creditRating/${row.creditCode}`);
-      this.$router.push(`/creditRating`);
+      this.$router.push({
+        path: `/corporateCreditFile/ratingInfo`,
+        query: { creditCode: row.creditCode }
+      });
     },
     gotoAddRegulatoryObject() {
       this.$router.push(`/productionSubject/addRegulatoryObject`);
     },
     gotoEditProductPage(row) {
-      this.$router.push(`/productionSubject/editRegulatoryObject/${row.companyId}`);
+      this.$router.push(
+        `/productionSubject/editRegulatoryObject/${row.companyId}`
+      );
     },
     gotoDetailsProductPage(row) {
-      this.$router.push(`/productionSubject/detailsRegulatoryObject/${row.companyId}`);
+      this.$router.push(
+        `/productionSubject/detailsRegulatoryObject/${row.companyId}`
+      );
     },
     gotoProductPage(row) {
       this.$router.push(`/productionSubject/mainProduct/${row.companyId}`);
@@ -163,11 +185,10 @@ export default {
         .get("/api/town/all", {})
         .then(response => {
           this.townList = response;
-          console.log(response);
         })
         .catch(err => {
           console.error(err);
-        })
+        });
     },
     async getNowGrade(creditCode) {
       let nowGrade = "";
@@ -180,9 +201,9 @@ export default {
           pageSize: 20,
           townId: 0
         })
-        .then((response) => {
-          if(!response || !response.length) nowGrade = "";
-          else nowGrade = response[0].nowGrade;  
+        .then(response => {
+          if (!response || !response.length) nowGrade = "";
+          else nowGrade = response.pop().nowGrade;
           return nowGrade;
         })
         .catch(error => {
@@ -197,15 +218,15 @@ export default {
           companyType: this.companyType,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
-          townId: 0, //this.currTown
+          townId: 0 //this.currTown
         })
         .then(response => {
-          let dt = response; 
+          let dt = response;
           this.tableData = [];
           this.total = dt.length;
           dt.map(item => {
             this.getNowGrade(item.creditCode).then(res => {
-              item.nowGrade = res;
+              item.nowGrade = this.getGradeString(res);
               this.tableData.push(item);
             });
           });
@@ -214,19 +235,33 @@ export default {
           console.error(error);
         });
     },
+    getGradeString(grade) {
+      let strGrade = "";
+      switch (grade) {
+        case "A":
+          strGrade = "A级";
+          break;
+        case "B":
+          strGrade = "B级";
+          break;
+        case "C":
+          strGrade = "C级";
+          break;
+        default:
+          strGrade = "A级";
+      }
+      return strGrade;
+    },
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
     },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
-    },
-    get_nowgrade(row) {
-      return row.nowGrade;
     }
   }
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "./productionSubject.scss";
 </style>

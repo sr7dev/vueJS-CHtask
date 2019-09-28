@@ -8,102 +8,283 @@
     <div class="box">
       <div class="iptBox">
         <div class="select_label">乡镇</div>
-        <el-select v-model="township" placeholder="请选择" @change="getList()">
-          <el-option v-for="item in ['全部', '梅李镇', '古里镇']" :key="item" :label="item" :value="item"></el-option>
+        <el-select v-model="currTown" placeholder="请选择" @change="getList()">
+          <el-option v-for="item in township" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
+        <div class="select_label">类型</div>
+        <el-radio v-model="bTypes" label="1" v-on:change="getList(true)">是</el-radio>
+        <el-radio v-model="bTypes" label="2" v-on:change="getList(true)">否</el-radio>
         <div class="select_label">行政许可</div>
-        <el-radio v-model="types" label="1">是</el-radio>
-        <el-radio v-model="types" label="2">否</el-radio>
-        <div class="select_label">行政许可</div>
-        <el-select v-model="adminLicense" placeholder="请选择" @change="getList()">
-          <el-option v-for="item in ['全部', '有', '无']" :key="item" :label="item" :value="item"></el-option>
+        <el-select v-model="public_license" placeholder="请选择" @change="onSelectPubLicense">
+          <el-option
+            v-for="item in publicOptions"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
         </el-select>
         <div class="select_label">行政处罚</div>
-        <el-select v-model="adminPenalties" placeholder="请选择" @change="getList()">
-          <el-option v-for="item in ['全部', '有', '无']" :key="item" :label="item" :value="item"></el-option>
+        <el-select v-model="public_punish" placeholder="请选择" @change="onSelectPubPunish">
+          <el-option
+            v-for="item in publicOptions"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
         </el-select>
         <div class="select_label">
-            <el-button type="outline-primary" v-on:click="getList()" disabled>导入</el-button>
+          <el-button type="outline-primary" v-on:click="getList()" disabled>导入</el-button>
         </div>
       </div>
 
       <el-container>
-        <el-table :data="tableData" v-loading="listLoading" fit style="width: 100%;"
-        :row-class-name="rowIndex" highlight-current-row>
+        <el-table
+          :data="tableData"
+          v-loading="listLoading"
+          fit
+          style="width: 100%;"
+          :row-class-name="rowIndex"
+          highlight-current-row
+        >
           <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
-          <el-table-column prop="approvalGrade" label="企业名称" width="150"></el-table-column>
-          <el-table-column prop="originalGrade" label="统一社会信用代码"></el-table-column>
-          <el-table-column prop="nowGrade" label="行政许可信息">
+          <el-table-column label="企业名称" width="150">
+            <template slot-scope="{row}">{{filterCompnay(row.creditCode)}}</template>
+          </el-table-column>
+          <el-table-column prop="creditCode" label="统一社会信用代码"></el-table-column>
+          <el-table-column prop="public_license" label="行政许可信息">
             <template slot-scope="{row}">
-              <el-button v-on:click="$router.push(`/corporateCreditFile/adminLicenseInfo/${row.creditGradeId}`)">行政许可信息</el-button>
+              <el-button
+                v-on:click="$router.push(`/corporateCreditFile/adminLicenseInfo/${row.creditCode}`)"
+              >行政许可信息</el-button>
             </template>
           </el-table-column>
-          <el-table-column prop="gradeTime" label="行政处罚信息">
+          <el-table-column prop="public_punish" label="行政处罚信息">
             <template slot-scope="{row}">
-              <el-button v-on:click="$router.push(`/corporateCreditFile/adminPenaltyInfo/${row.creditGradeId}`)">行政许可信息</el-button>
+              <el-button
+                v-on:click="$router.push(`/corporateCreditFile/adminPenaltyInfo/${row.creditCode}`)"
+              >行政许可信息</el-button>
             </template>
           </el-table-column>
-          <el-table-column prop="gradeUnit" label="评级信息"></el-table-column>
+          <el-table-column label="评级信息">
+            <template slot-scope="{row}">
+              <span
+                class="rating-action"
+                v-on:click="$router.push({path: `/corporateCreditFile/ratingInfo`,query: {creditCode:row.creditCode}})"
+              >{{row.nowGrade}}</span>
+            </template>
+          </el-table-column>
           <el-table-column label="三品一标认证" width="200">
             <template slot-scope="{row}">
-                <el-button v-on:click="$router.push(`/creditRating/${row.creditGradeId}`)">三品一标</el-button>
+              <el-button
+                v-on:click="$router.push(`/corporateCreditFile/threeProduction/${row.creditCode}`)"
+              >三品一标</el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-container>
       <div class="pageBox">
-        <pagination v-show="total>0" :total="total" :page.sync="page.pageIndex" 
-            :limit.sync="page.pageSize" @pagination="getList" />
+        <pagination
+          v-show="total>0"
+          :total="total"
+          :page.sync="page.pageIndex"
+          :limit.sync="page.pageSize"
+          @pagination="getList"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import sampleData from './_data';
-import Pagination from '@/components/common/pagination'
+import Pagination from "@/components/common/pagination";
+import Request from "../../services/api/request.js";
+
 export default {
-  name: 'creditRating',
+  name: "creditRating",
   components: { Pagination },
   data() {
     return {
-      township: '全部',
-      types: '全部',
-      adminLicense: "全部",
-      adminPenalties: "全部",
+      township: [{ id: 0, name: "全部" }],
+      publicOptions: [
+        { id: 0, name: "全部" },
+        { id: 1, name: "有" },
+        { id: 2, name: "无" }
+      ],
+      currTown: 0,
+      public_license: 0,
+      public_punish: 0,
       page: {
         pageIndex: 1,
-        pageSize: 10
+        pageSize: 20
       },
       listLoading: true,
+      bTypes: 0,
+      status: 0,
       total: 100,
-      tableData: sampleData
+      tableData: [],
+      companyProduction: [],
+      gradData: []
     };
   },
-  created() {
-      this.getList();
+  mounted() {
+    this.getTown();
+    this.getList();
+    this.getCompanyProduction();
   },
   methods: {
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
     },
-    getList() {
+    onSelectPubLicense() {
+      this.getList();
+    },
+    onSelectPubPunish() {
+      this.getList();
+    },
+    getCompanyProduction() {
+      Request()
+        .get("/api/company_production/name")
+        .then(response => {
+          this.companyProduction = response;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getTown() {
+      Request()
+        .get("/api/town/all")
+        .then(response => {
+          this.township = this.township.concat(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    /* eslint-disable */
+    getList(update = false) {
       this.listLoading = true;
-      // fetchListAPI(this.status, this.page.pageIndex, this.page.pageSize, "credit_gradeid")
-      //   .then(response => {
-          this.tableData = sampleData;  // this.tableData = response;  
+      Request()
+        .get("/api/company_production/all", {
+          companyType: this.bTypes,
+          approvalStatus: this.status - 1,
+          pageNo: this.page.pageIndex - 1,
+          pageSize: this.page.pageSize,
+          townId: this.currTown
+        })
+        .then(response => {
+          var tmpData = response;
+          if (this.publicOptions == 1) {
+            tmpData = tmpData.filter(function(licesnse) {
+              return licesnse.public_license > 0;
+            });
+          } else if (this.public_license == 2) {
+            tmpData = tmpData.filter(function(licesnse) {
+              return licesnse.public_license == 0;
+            });
+          }
+          if (this.public_punish == 1) {
+            tmpData = tmpData.filter(function(punish) {
+              return punish.public_punish > 0;
+            });
+          } else if (this.public_punish == 2) {
+            tmpData = tmpData.filter(function(punish) {
+              return punish.public_punish == 0;
+            });
+          }
+          this.tableData = [];
+          tmpData.map(item => {
+            this.getNowGrade(item.creditCode).then(res => {
+              item.nowGrade = this.getGradeString(res);
+              this.tableData.push(item);
+            });
+          });
           this.total = this.tableData.length;
+
           setTimeout(() => {
-            this.listLoading = false
+            this.listLoading = false;
           }, 0.5 * 1000);
-      // })
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    /* eslint-enable */
+    filterCompnay(credit) {
+      let company = this.companyProduction.find(x => x.creditCode === credit);
+      if (company) {
+        return company.companyName;
+      } else {
+        return "";
+      }
+    },
+    async getNowGrade(creditCode) {
+      let nowGrade = "";
+      await Request()
+        .get("/api/company_credit_grade/all", {
+          approvalStatus: -1,
+          creditCode: creditCode,
+          // sortBy: 'creditGradeId DESC',
+          pageNo: 0,
+          pageSize: 20,
+          townId: 0
+        })
+        .then(response => {
+          if (!response || !response.length) nowGrade = "";
+          else nowGrade = response.pop().nowGrade;
+          return nowGrade;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      return nowGrade;
+    },
+    // getGrade(dataTable) {
+    //   let strGrade = "";
+    //   Request()
+    //     .get("/api/company_credit_grade/all", {
+    //       approvalStatus: this.status - 1,
+    //       creditCode: dataTable.creditCode,
+    //       pageNo: this.page.pageIndex - 1,
+    //       pageSize: this.page.pageSize,
+    //       townId: this.currTown
+    //     })
+    //     .then(response => {
+    //       this.gradData = response;
+    //       let nSIze = this.gradData.length;
+    //       strGrade = this.getGradeString(this.gradData[nSIze - 1].nowGrade);
+    //       dataTable.nowGrade = strGrade;
+    //     })
+    //     .catch(error => {
+    //       console.log(error);
+    //       return "";
+    //     });
+
+    //   return dataTable.nowGrade;
+    // },
+    getGradeString(grade) {
+      let strGrade = "";
+      switch (grade) {
+        case "A":
+          strGrade = "A级（守信）";
+          break;
+        case "B":
+          strGrade = "B级（基本守信）";
+          break;
+        case "C":
+          strGrade = "C级（失信）";
+          break;
+        default:
+          strGrade = "A级（守信）";
+      }
+      return strGrade;
     },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
-    },
+    }
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "./corporateCreditFile.scss";
 </style>
