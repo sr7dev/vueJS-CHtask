@@ -56,7 +56,8 @@ import productBusiness from "@/components/companyBusiness/productBusiness/produc
 import detailsCompanyBusiness from "@/components/companyBusiness/detailsCompanyBusiness/detailsCompanyBusiness";
 
 import sampleCheck from "@/components/sampleCheck/sampleCheck";
-// import addSampleCheck from "@/components/sampleCheck/addSampleCheck/addSampleCheck";
+import addSampleCheck from "@/components/sampleCheck/addSampleCheck/addSampleCheck";
+import addSampleCheckResult from "@/components/sampleCheck/addSampleCheckResult/addSampleCheckResult";
 import detailsSampleCheck from "@/components/sampleCheck/detailsSampleCheck/detailsSampleCheck";
 import detailsSampleCheckResult from "@/components/sampleCheck/detailsSampleCheckResult/detailsSampleCheckResult";
 
@@ -75,11 +76,16 @@ export default new Router({
           name: "sampleCheck",
           component: sampleCheck
         },
-        // {
-        //   path: "/sampleCheck/addSampleCheck",
-        //   name: "addSampleCheck",
-        //   component: addSampleCheck
-        // },
+        {
+          path: "/sampleCheck/addSampleCheck",
+          name: "addSampleCheck",
+          component: addSampleCheck
+        },
+        {
+          path: "/sampleCheck/addSampleCheckResult",
+          name: "addSampleCheckResult",
+          component: addSampleCheckResult
+        },
         {
           path: "/sampleCheck/detailsSampleCheck/:id",
           name: "detailsSampleCheck",

@@ -93,6 +93,9 @@ export default {
     showDetailsSampleCheckResult(row) {
       this.$router.push(`/sampleCheck/detailsSampleCheckResult/${row.id}`);
     },
+    addSample() {
+      this.$router.push(`/sampleCheck/addSampleCheck`);
+    },
     getDateString(dt) {
       const date = new Date(dt);
       return date.toLocaleDateString();
