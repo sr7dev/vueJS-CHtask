@@ -48,8 +48,8 @@
           <el-table-column prop="supervisionNature" label="监管对象性质" width="180"></el-table-column>
           <el-table-column prop="operations" label="" width="250">
             <template slot-scope="{row}">
-              <el-button  v-on:click="showSamplingRecord(row)">企业详情</el-button>
-              <el-button  v-on:click="showProductBatch(row)">经营产品</el-button>
+              <el-button  v-on:click="gotoDetailPage(row)">企业详情</el-button>
+              <el-button  v-on:click="gotoProductBusinessPage(row)">经营产品</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -92,6 +92,9 @@ export default {
     this.getList();
   },
   methods: {
+    gotoProductBusinessPage(row) {
+      this.$router.push(`/companyBusiness/productBusiness/${row.id}`);
+    },
     getList() {
       this.listLoading = true;
       Request()

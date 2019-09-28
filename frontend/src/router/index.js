@@ -50,6 +50,7 @@ import productBatch from "@/components/productionSubject/mainProduct/productBatc
 import inventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/inventoryDynamics";
 
 import companyBusiness from "@/components/companyBusiness/companyBusiness";
+import productBusiness from "@/components/companyBusiness/productBusiness/productBusiness";
 
 Vue.use(Router);
 
@@ -61,11 +62,15 @@ export default new Router({
       component: home,
       redirect: "cp_productionSubject",
       children: [
-        
         {
           path: "/companyBusiness",
           name: "companyBusiness",
           component: companyBusiness
+        },
+        {
+          path: "/companyBusiness/productBusiness/:id",
+          name: "productBusiness",
+          component: productBusiness
         },
         {
           path: "/creditRating",
