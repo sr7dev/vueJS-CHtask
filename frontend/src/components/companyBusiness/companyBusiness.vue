@@ -84,7 +84,8 @@ export default {
           label: ""
         }
       ],
-      tableData: []
+      tableData: [],
+      listLoading: false,
     };
   },
   created() {
