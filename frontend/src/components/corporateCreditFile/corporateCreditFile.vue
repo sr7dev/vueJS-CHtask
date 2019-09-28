@@ -66,7 +66,12 @@
             </template>
           </el-table-column>
           <el-table-column label="评级信息">
-            <template slot-scope="{row}">{{getGrade(row)}}</template>
+            <template slot-scope="{row}">
+              <span
+                class="rating-action"
+                v-on:click="$router.push({path: `/corporateCreditFile/ratingInfo`,query: {creditCode:row.creditCode}})"
+              >{{row.nowGrade}}</span>
+            </template>
           </el-table-column>
           <el-table-column label="三品一标认证" width="200">
             <template slot-scope="{row}">
@@ -184,7 +189,13 @@ export default {
               return punish.public_punish == 0;
             });
           }
-          this.tableData = tmpData;
+          this.tableData = [];
+          tmpData.map(item => {
+            this.getNowGrade(item.creditCode).then(res => {
+              item.nowGrade = this.getGradeString(res);
+              this.tableData.push(item);
+            });
+          });
           this.total = this.tableData.length;
 
           setTimeout(() => {
@@ -203,29 +214,50 @@ export default {
         return "";
       }
     },
-    getGrade(dataTable) {
-      let strGrade = "";
-      Request()
+    async getNowGrade(creditCode) {
+      let nowGrade = "";
+      await Request()
         .get("/api/company_credit_grade/all", {
-          approvalStatus: this.status - 1,
-          creditCode: dataTable.creditCode,
-          pageNo: this.page.pageIndex - 1,
-          pageSize: this.page.pageSize,
-          townId: this.currTown
+          approvalStatus: -1,
+          creditCode: creditCode,
+          // sortBy: 'creditGradeId DESC',
+          pageNo: 0,
+          pageSize: 20,
+          townId: 0
         })
         .then(response => {
-          this.gradData = response;
-          let nSIze = this.gradData.length;
-          strGrade = this.getGradeString(this.gradData[nSIze - 1].nowGrade);
-          dataTable.nowGrade = strGrade;
+          if (!response || !response.length) nowGrade = "";
+          else nowGrade = response.pop().nowGrade;
+          return nowGrade;
         })
         .catch(error => {
-          console.log(error);
-          return "";
+          console.error(error);
         });
-
-      return dataTable.nowGrade;
+      return nowGrade;
     },
+    // getGrade(dataTable) {
+    //   let strGrade = "";
+    //   Request()
+    //     .get("/api/company_credit_grade/all", {
+    //       approvalStatus: this.status - 1,
+    //       creditCode: dataTable.creditCode,
+    //       pageNo: this.page.pageIndex - 1,
+    //       pageSize: this.page.pageSize,
+    //       townId: this.currTown
+    //     })
+    //     .then(response => {
+    //       this.gradData = response;
+    //       let nSIze = this.gradData.length;
+    //       strGrade = this.getGradeString(this.gradData[nSIze - 1].nowGrade);
+    //       dataTable.nowGrade = strGrade;
+    //     })
+    //     .catch(error => {
+    //       console.log(error);
+    //       return "";
+    //     });
+
+    //   return dataTable.nowGrade;
+    // },
     getGradeString(grade) {
       let strGrade = "";
       switch (grade) {
