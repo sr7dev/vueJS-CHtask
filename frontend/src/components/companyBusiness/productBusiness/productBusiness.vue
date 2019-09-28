@@ -19,6 +19,7 @@
           <el-table-column prop="atunitprice" label="单价"></el-table-column>
           <el-table-column prop="productArea" label="产地"></el-table-column>
           <el-table-column prop="variety" label="品种"></el-table-column>
+          <el-table-column prop="grade" label="评级"></el-table-column>          
           <el-table-column prop="specification" label="规格"></el-table-column>
         </el-table>
       </el-container>

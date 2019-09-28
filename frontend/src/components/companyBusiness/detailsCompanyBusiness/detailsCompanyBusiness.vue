@@ -8,38 +8,65 @@
     </div>
 
     <div class="box">
-      <el-form ref="form" :model="form" v-if="form">
+      <div v-if="data">
         <el-row>
           <el-col :span="6">
-            <span class="title">公司简介</span>
+            <div class="title">公司简介</div>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="6">>
+          <el-col :span="8">
+            <img class="content img" :src="url + data.profileImage" alt="">
           </el-col>
           <el-col :span="6">
-
+            <div class="title">福鼎白茶</div>
+            <div class="content">{{data.companyProfile}}</div>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
+            <div class="title">主营产品</div>
           </el-col>
         </el-row>
-        <el-form-item >
-          <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
-        </el-form-item>
-      </el-form>
-      <span v-if="!form">No matching data</span>
+        <el-row>
+          <el-col :span="6" v-for="(item, index) in companyProducts" :key="index">
+            <div class="sub-title">{{item.productName}}</div>
+            <div class="content">{{item.productArea}}</div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="6">
+            <div class="title">联系我们</div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="6">
+            <div class="content">联系人：{{data.legalPerson}}</div>
+          </el-col>
+          <el-col :span="6">
+            <div class="content">电话：{{data.contactWay}}</div>
+          </el-col>
+          <el-col :span="6">
+            <div class="content">地址：{{data.companyAddress}}</div>
+          </el-col>
+        </el-row>
+        <el-button plain v-on:click="$router.go(-1)">返回</el-button>
+      </div>
+      <span v-if="!data">No matching data</span>
     </div>
   </div>
 </template>
 
 <script>
+import Request from '@/services/api/request'
+import { Urls } from '@/services/constants';
 export default {
   name: "detailsCompanyBusiness",
   data() {
     return {
-      data: null
+      data: null,
+      companyProducts: [],
+      url: Urls.API_BASE_URL()
     };
   },
   created() {
@@ -47,18 +74,27 @@ export default {
     this.getData(this.id);
   },
   methods: {
-    onSubmit() {
-      console.log(this.data);
-    },
     getData(id) {
-      // Request()
-      //   .get("/api/company_credit_grade/get/" + id)
-      //   .then(response => {
-      //     this.data = response;
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
+      Request()
+        .get("/api/company_business/get/" + id)
+        .then(response => {
+          this.data = response;          
+          Request()
+            .get("/api/product_business/all", {
+              companyId: this.data.id,
+              pageNo: 0,
+              pageSize: 20,
+            })
+            .then(res => {
+              this.companyProducts = res;
+            })
+            .catch(error => {
+              console.log(error);
+            });    
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
   }
 };
