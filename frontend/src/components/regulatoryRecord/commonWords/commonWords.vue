@@ -20,7 +20,7 @@
                     :row-class-name="rowIndex"
                     highlight-current-row
                 >
-                    <el-table-column :formatter="order" label="序号" width="50"></el-table-column>
+                    <el-table-column :formatter="order" label="序号" width="100"></el-table-column>
                     <el-table-column prop="word" label="常用语"></el-table-column>
                     <el-table-column label="操作">
                         <template scope="scope">
