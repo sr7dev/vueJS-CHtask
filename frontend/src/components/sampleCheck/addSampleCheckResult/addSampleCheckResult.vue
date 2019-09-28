@@ -30,6 +30,25 @@
             </div>
           </div>
         </div>
+        
+        <div class="item-row">
+          <div class="item">
+            <div class="item-label">检测结果:</div>
+            <div class="item-value">
+              <el-select v-model="data.checkResult" placeholder="">
+                <el-option v-for="item in [{value:0, label:'不合格'}, {value: 1, label:'合格'}]"
+                  :key="item.value" :label="item.label" :value="item.value">
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+          <div class="item">
+            <div class="item-label">检测单位:</div>
+            <div class="item-value">
+              <el-input v-model="data.checkUnit" placeholder=""></el-input>  
+            </div>
+          </div>
+        </div>
         <div class="item-row">
           <div class="item">
             <div class="item-label"></div>
