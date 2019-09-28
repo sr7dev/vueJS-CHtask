@@ -8,29 +8,38 @@
     </div>
 
     <div class="box">
-      <el-form ref="form" :model="form">
+      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules">
         <el-row>
           <el-col :span="12">
-            <el-form-item>
-              <el-radio v-model="form.companyType" label="1">企业</el-radio>
-              <el-radio v-model="form.companyType" label="2">农户</el-radio>
+            <el-form-item prop="companyType">
+              <el-radio-group v-model="ruleFormValue.companyType">
+                <el-radio label="1">企业</el-radio>
+                <el-radio label="2">农户</el-radio>
+              </el-radio-group>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="乡镇">
-              <el-input v-model="form.townShip" style="width:60%" disabled></el-input>
+            <el-form-item label="乡镇" prop="townShip">
+              <el-select v-model="ruleFormValue.townShip" placeholder="请选择">
+                <el-option
+                  v-for="item in township"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                ></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="企业">
-              <el-select v-model="form.enterprise" placeholder="请选择">
+            <el-form-item label="企业" prop="companyID">
+              <el-select v-model="ruleFormValue.companyID" placeholder="请选择">
                 <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
+                  v-for="item in companyList"
+                  :key="item.companyId"
+                  :label="item.companyName"
+                  :value="item.companyId"
                 ></el-option>
               </el-select>
               <el-button type="primary" icon="el-icon-plus" size="mini" class="min-plus"></el-button>
@@ -38,12 +47,17 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="选择日期">
-              <el-date-picker v-model="form.date" align="right" type="date" placeholder="选择日期"></el-date-picker>
+              <el-date-picker
+                v-model="ruleFormValue.date"
+                align="right"
+                type="date"
+                placeholder="选择日期"
+              ></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="检查人">
-              <el-input v-model="form.checker" style="width:60%"></el-input>
+            <el-form-item label="检查人" prop="checker">
+              <el-input v-model="ruleFormValue.checker" style="width:60%"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -56,8 +70,10 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label>
-              <el-radio v-model="form.productionRecord" label="1">有</el-radio>
-              <el-radio v-model="form.productionRecord" label="2">真实完整</el-radio>
+              <el-radio-group v-model="ruleFormValue.productionRecord">
+                <el-radio label="1">有</el-radio>
+                <el-radio label="2">真实完整</el-radio>
+              </el-radio-group>
             </el-form-item>
           </el-col>
           <el-col :span="5">
@@ -67,8 +83,10 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label>
-              <el-radio v-model="form.proofOfProduct" label="1">有</el-radio>
-              <el-radio v-model="form.proofOfProduct" label="2">真实完整</el-radio>
+              <el-radio-group v-model="ruleFormValue.proofOfProduct">
+                <el-radio label="1">有</el-radio>
+                <el-radio label="2">真实完整</el-radio>
+              </el-radio-group>
             </el-form-item>
           </el-col>
         </el-row>
@@ -80,8 +98,10 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label>
-              <el-radio v-model="form.productInputRecord" label="1">有</el-radio>
-              <el-radio v-model="form.productInputRecord" label="2">真实完整</el-radio>
+              <el-radio-group v-model="ruleFormValue.productInputRecord">
+                <el-radio label="1">有</el-radio>
+                <el-radio label="2">真实完整</el-radio>
+              </el-radio-group>
             </el-form-item>
           </el-col>
           <el-col :span="5">
@@ -91,8 +111,10 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label>
-              <el-radio v-model="form.testRecord" label="1">有</el-radio>
-              <el-radio v-model="form.testRecord" label="2">真实完整</el-radio>
+              <el-radio-group v-model="ruleFormValue.testRecord">
+                <el-radio label="1">有</el-radio>
+                <el-radio label="2">真实完整</el-radio>
+              </el-radio-group>
             </el-form-item>
           </el-col>
         </el-row>
@@ -104,7 +126,7 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label>
-              <el-checkbox v-model="form.isDisableInput">有</el-checkbox>
+              <el-checkbox v-model="ruleFormValue.isDisableInput">有</el-checkbox>
             </el-form-item>
           </el-col>
           <el-col :span="5">
@@ -114,22 +136,23 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label>
-              <el-checkbox v-model="form.isThreeProduct">合规</el-checkbox>
+              <el-checkbox v-model="ruleFormValue.isThreeProduct">合规</el-checkbox>
             </el-form-item>
           </el-col>
         </el-row>
 
         <el-row>
           <el-col :span="10">
-            <el-form-item label="常用语" class="left-margin">
-              <el-select v-model="form.commonLang" placeholder="请选择">
+            <el-form-item label="常用语" class="left-margin" prop="commonLang">
+              <!-- <el-select v-model="ruleFormValue.commonLang" placeholder="请选择">
                 <el-option
                   v-for="item in options_tmp"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
                 ></el-option>
-              </el-select>
+              </el-select>-->
+              <el-input v-model="ruleFormValue.commonLang" style="width:30%"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
@@ -138,8 +161,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item>
-              <el-input type="textarea" :rows="5" v-model="form.otherProblems"></el-input>
+            <el-form-item prop="otherProblems">
+              <el-input type="textarea" :rows="5" v-model="ruleFormValue.otherProblems"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -153,7 +176,7 @@
                     <td rowspan="2">结论</td>
                     <td>合格</td>
                     <td>
-                      <el-checkbox v-model="form.isQualified"></el-checkbox>
+                      <el-checkbox v-model="ruleFormValue.conclusion"></el-checkbox>
                     </td>
                   </tr>
                   <tr>
@@ -164,19 +187,37 @@
                           <tr>
                             <td>责令修改</td>
                             <td>
-                              <el-input v-model="form.orderToAmend" style="width:100%"></el-input>
+                              <el-form-item prop="orderToAmend">
+                                <el-input
+                                  v-model="ruleFormValue.orderToAmend"
+                                  style="width:100%"
+                                  :disabled="ruleFormValue.conclusion==true"
+                                ></el-input>
+                              </el-form-item>
                             </td>
                           </tr>
                           <tr>
                             <td>建议处罚</td>
                             <td>
-                              <el-input v-model="form.recommendPunishment" style="width:100%"></el-input>
+                              <el-form-item prop="recommendPunishment">
+                                <el-input
+                                  v-model="ruleFormValue.recommendPunishment"
+                                  style="width:100%"
+                                  :disabled="ruleFormValue.conclusion==true"
+                                ></el-input>
+                              </el-form-item>
                             </td>
                           </tr>
                           <tr>
                             <td>其他处理</td>
                             <td>
-                              <el-input v-model="form.otherProcessing" style="width:100%"></el-input>
+                              <el-form-item prop="otherProcessing">
+                                <el-input
+                                  v-model="ruleFormValue.otherProcessing"
+                                  style="width:100%"
+                                  :disabled="ruleFormValue.conclusion==true"
+                                ></el-input>
+                              </el-form-item>
                             </td>
                           </tr>
                         </tbody>
@@ -228,7 +269,7 @@
         </el-row>
 
         <el-form-item class="left-margin">
-          <el-button type="success" plain @click="onSubmit">保存</el-button>
+          <el-button type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
           <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
       </el-form>
@@ -237,13 +278,16 @@
 </template>
 
 <script>
+import Request from "../../../services/api/request.js";
+import { Urls } from "../../../services/constants";
+import axios from "axios";
 export default {
   data() {
     return {
-      form: {
+      ruleFormValue: {
         companyType: "1",
-        townShip: "梅里镇",
-        enterprise: "1",
+        townShip: "",
+        companyID: "",
         date: "",
         checker: "",
         productionRecord: "1",
@@ -252,27 +296,118 @@ export default {
         testRecord: "1",
         isDisableInput: true,
         isThreeProduct: true,
-        commonLang: "1",
+        commonLang: "",
         otherProblems: "",
-        isQualified: true,
+        conclusion: true,
         orderToAmend: "",
         recommendPunishment: "",
         otherProcessing: ""
       },
-      options: [
-        { value: "1", label: "天荷香稻米专业合作社" },
-        { value: "2", label: "福鼎白茶" }
-      ],
-      options_tmp: [
-        { value: "1", label: "天荷香稻" },
-        { value: "2", label: "福鼎白茶" }
-      ],
-      imageUrl: ""
+      township: [],
+      companyList: [],
+      // options_tmp: [
+      //   { value: "1", label: "天荷香稻" },
+      //   { value: "2", label: "福鼎白茶" }
+      // ],
+      imageUrl: "",
+      rules: {
+        townShip: [
+          {
+            required: true,
+            message: "请选择",
+            trigger: "change"
+          }
+        ],
+        companyID: [
+          {
+            required: true,
+            message: "请选择",
+            trigger: "change"
+          }
+        ],
+        date: [
+          {
+            required: true,
+            message: "请选择",
+            trigger: "change"
+          }
+        ],
+        checker: [
+          {
+            required: true,
+            message: "请插入",
+            trigger: "change"
+          }
+        ],
+        commonLang: [
+          {
+            required: true,
+            message: "请插入",
+            trigger: "change"
+          }
+        ],
+        otherProblems: [
+          {
+            required: true,
+            message: "请插入",
+            trigger: "change"
+          }
+        ],
+        orderToAmend: [
+          {
+            required: true,
+            message: "请插入",
+            trigger: "change"
+          }
+        ],
+        recommendPunishment: [
+          {
+            required: true,
+            message: "请插入",
+            trigger: "change"
+          }
+        ],
+        otherProcessing: [
+          {
+            required: true,
+            message: "请插入",
+            trigger: "change"
+          }
+        ]
+      }
     };
   },
+  created() {
+    this.getTown();
+    this.getCompanyProduct();
+  },
   methods: {
-    onSubmit() {
-      console.log(this.imageUrl);
+    getTown() {
+      Request()
+        .get("/api/town/all")
+        .then(response => {
+          this.township = this.township.concat(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getCompanyProduct() {
+      Request()
+        .get("/api/company_production/name")
+        .then(response => {
+          this.companyList = this.companyList.concat(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    onSubmit(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          console.log(this.imageUrl);
+        }
+      });
     },
     handlePictureCardPreview(file) {
       this.imageUrl = file.url;
