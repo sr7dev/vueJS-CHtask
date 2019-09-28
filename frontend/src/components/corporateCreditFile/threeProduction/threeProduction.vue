@@ -1,0 +1,87 @@
+<template>
+  <div class="container">
+    <div class="title">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/' }">三品认证</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
+    <div class="box">
+      <div class="iptBox">
+        <div class="select_label">稻米专业合作社</div>
+        <el-button type="outline-primary" v-on:click="$router.go(-1)">返回</el-button>
+      </div>
+      <el-container>
+        <el-table :data="tableData" v-loading="listLoading" fit style="width: 100%;"
+        :row-class-name="rowIndex" highlight-current-row>
+          <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
+          <el-table-column prop="docCode" label="产品" width="150"></el-table-column>
+          <el-table-column prop="punishName" label="分类" width="150"></el-table-column>
+          <el-table-column prop="cretficationType" label="认证类型" width="150"></el-table-column>
+          <el-table-column prop="serialNubmer" label="证书编号" width="150"></el-table-column>
+          <el-table-column prop="certification" label="证书有效期" width="200"></el-table-column>
+          <el-table-column prop="punishReason" label="有效时间" width="150"></el-table-column>
+          <el-table-column prop="output" label="产量" width="150"></el-table-column>
+        </el-table>
+      </el-container>
+      <div class="pageBox">
+        <pagination v-show="total>0" :total="total" :page.sync="page.pageIndex" 
+            :limit.sync="page.pageSize" @pagination="getList" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import Pagination from '@/components/common/pagination';
+import Request from "../../../services/api/request.js";
+export default {
+  name: 'threeProduction',
+  components: { Pagination },
+  data() {
+    return {
+      page: {
+        pageIndex: 1,
+        pageSize: 20
+      },
+      listLoading: true,
+      total: 100,
+      tableData: [],
+      id: -1,
+      
+    };
+  },
+  created() {
+    this.getList();
+    this.id = this.$route.params.id;
+  },
+  methods: {
+    rowIndex({ row, rowIndex }) {
+      row.rowIndex = rowIndex;
+    },
+    getList() {
+      this.listLoading = true;
+      Request()
+        .get("/api/quality_standard/all", {
+          creditCode: this.$route.params.id,
+          pageNo: this.page.pageIndex - 1,
+          pageSize: this.page.pageSize,
+        })
+        .then(response => {
+          this.tableData = response;
+          this.total = this.tableData.length;
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    order(row) {
+      return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
+    },
+  }
+};
+</script>
+<style lang="scss">
+</style>
