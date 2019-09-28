@@ -81,7 +81,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="address" label="农药检测" width="120">
-          <template slot-scope="{row}">
+          <template>
             <el-button>是</el-button>
           </template>
         </el-table-column>

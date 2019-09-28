@@ -19,21 +19,26 @@
           <el-table-column prop="atunitprice" label="单价"></el-table-column>
           <el-table-column prop="productArea" label="产地"></el-table-column>
           <el-table-column prop="variety" label="品种"></el-table-column>
-          <el-table-column prop="grade" label="评级"></el-table-column>          
+          <el-table-column prop="grade" label="评级"></el-table-column>
           <el-table-column prop="specification" label="规格"></el-table-column>
         </el-table>
       </el-container>
       <div class="pageBox">
-        <pagination v-show="total>0" :total="total" :page.sync="page.pageIndex" 
-            :limit.sync="page.pageSize" @pagination="getList" />
+        <pagination
+          v-show="total>0"
+          :total="total"
+          :page.sync="page.pageIndex"
+          :limit.sync="page.pageSize"
+          @pagination="getList"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Pagination from '@/components/common/pagination'
-import Request from '@/services/api/request'
+import Pagination from "@/components/common/pagination";
+import Request from "@/services/api/request";
 export default {
   name: "productBusiness",
   components: { Pagination },
@@ -41,7 +46,7 @@ export default {
     return {
       companyScale: 0,
       productType: 0,
-      sortBy: 'id',
+      sortBy: "id",
       page: {
         pageIndex: 1,
         pageSize: 20
@@ -54,8 +59,7 @@ export default {
         }
       ],
       tableData: [],
-      listLoading: false,
-      sortBy: 'id'
+      listLoading: false
     };
   },
   created() {
@@ -70,13 +74,13 @@ export default {
           companyId: this.id,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
-          sortBy: this.sortBy,
+          sortBy: this.sortBy
         })
         .then(response => {
           this.tableData = response;
           this.total = this.tableData.length;
           setTimeout(() => {
-            this.listLoading = false
+            this.listLoading = false;
           }, 0.5 * 1000);
         })
         .catch(error => {
@@ -88,12 +92,11 @@ export default {
     },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
-    },
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-@import './productBusiness.scss';
-
+@import "./productBusiness.scss";
 </style>
