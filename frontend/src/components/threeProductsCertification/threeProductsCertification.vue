@@ -39,7 +39,6 @@
           style="width: 100%"
           :row-class-name="rowIndex"
           highlight-current-row
-          fit
         >
           <el-table-column :formatter="order" label="序号" width="180"></el-table-column>
           <el-table-column prop="name" label="企业名称">

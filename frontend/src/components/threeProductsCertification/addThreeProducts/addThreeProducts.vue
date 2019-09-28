@@ -271,8 +271,7 @@ export default {
           Request()
             .post("/api/quality_standard/create", formData, {
               headers: {
-                "Content-Type": "*/*",
-                Accept: "application/json"
+                "Content-Type": "application/json"
               }
             })
             .then(response => {
