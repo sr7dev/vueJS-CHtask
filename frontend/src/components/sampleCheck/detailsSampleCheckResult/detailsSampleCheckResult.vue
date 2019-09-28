@@ -26,6 +26,12 @@
         </div>
         <div class="item-row">
           <div class="item">
+            <div class="item-label">检测结果:</div>
+            <div class="item-value">{{data.checkResult==1?'合格':'不合格'}}</div>
+          </div>
+        </div>
+        <div class="item-row">
+          <div class="item">
             <div class="item-label"></div>
             <div class="item-value">
               <el-button plain @click="$router.go(-1)">下载附件</el-button>
@@ -50,7 +56,7 @@
 <script>
 import Request from '@/services/api/request'
 export default {
-  name: "detailsSampleCheck",
+  name: "detailsSampleCheckResult",
   data() {
     return {
       id: -1,
@@ -60,14 +66,13 @@ export default {
   created() {
     this.id = this.$route.params.id;
     Request()
-      .get(`/api/sample_check/get/${this.id}`)
+      .get(`/api/sample_check_result/get/${this.id}`)
       .then(response => {
         this.data = response;
       })
       .catch(error => {
         console.log(error);
       });
-
   },  
   methods: {
     getDateString(dt) {
@@ -78,5 +83,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "./detailsSampleCheck.scss";
+@import "./detailsSampleCheckResult.scss";
 </style>

@@ -20,8 +20,11 @@
   margin-right: 30px;
   cursor: pointer;
   &:hover {
-    color: #409EFF;
+    color: rgb(11, 88, 165);
   }
+}
+.active {
+  color: #409EFF;
 }
 .el-button {
   min-width: 100px;

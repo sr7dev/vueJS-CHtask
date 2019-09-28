@@ -7,14 +7,14 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <div class="tab-header" type @click="mode = true">抽样计划</div>
-        <div class="tab-header" type @click="mode = false">抽样结果</div>
+        <div class="tab-header" type @click="mode = true" v-bind:class="{'active': mode}">抽样计划</div>
+        <div class="tab-header" type @click="mode = false" v-bind:class="{'active': !mode}">抽样结果</div>
       </div>
       <div class="iptBox">
         <el-button type="primary" plain style="margin-left: 20px;" @click="addSample()">添加</el-button>
       </div>
       <el-table v-show="mode" :data="tableData" style="width: 100%" :row-class-name="rowIndex">
-        <el-table-column :formatter="order" label="序号"></el-table-column>
+        <el-table-column :formatter="order" label="序号" width="80"></el-table-column>
         <el-table-column prop="sampleName" label="检测名称"></el-table-column>
         <el-table-column prop="sampleTime" label="检测时间">
           <template slot-scope="{row}">
@@ -24,12 +24,12 @@
         <el-table-column prop="checkPerson" label="检测人员"></el-table-column>
         <el-table-column prop="operations" label="操作" >
           <template slot-scope="{row}">
-            <el-button  v-on:click="showDetailWarehouse(row)">查看</el-button>
+            <el-button  v-on:click="showDetailsSampleCheck(row)">查看</el-button>
           </template>
         </el-table-column>
       </el-table>
       <el-table v-show="!mode" :data="tableData1" style="width: 100%" :row-class-name="rowIndex">
-        <el-table-column :formatter="order1" label="序号"></el-table-column>
+        <el-table-column :formatter="order1" label="序号" width="80"></el-table-column>
         <el-table-column prop="sampleName" label="检测名称"></el-table-column>
         <el-table-column prop="checkUnit" label="检测单位"></el-table-column>
         <el-table-column prop="sampleTime" label="检测时间">
@@ -45,7 +45,7 @@
         <el-table-column prop="checkPerson" label="检测人员"></el-table-column>
         <el-table-column prop="operations" label="操作" >
           <template slot-scope="{row}">
-            <el-button  v-on:click="showDetailWarehouse(row)">查看</el-button>
+            <el-button  v-on:click="showDetailsSampleCheckResult(row)">查看</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -87,10 +87,11 @@ export default {
     this.getList1(this.id);
   },
   methods: {
-    showDetailWarehouse(row) {
-      this.$router.push({
-        path:`/productionSubject/warehouseEnv/detailsWarehouse/${row.id}`,
-        query: {company: row}});
+    showDetailsSampleCheck(row) {
+      this.$router.push(`/sampleCheck/detailsSampleCheck/${row.id}`);
+    },
+    showDetailsSampleCheckResult(row) {
+      this.$router.push(`/sampleCheck/detailsSampleCheckResult/${row.id}`);
     },
     getDateString(dt) {
       const date = new Date(dt);

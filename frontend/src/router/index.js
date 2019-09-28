@@ -58,6 +58,7 @@ import detailsCompanyBusiness from "@/components/companyBusiness/detailsCompanyB
 import sampleCheck from "@/components/sampleCheck/sampleCheck";
 // import addSampleCheck from "@/components/sampleCheck/addSampleCheck/addSampleCheck";
 import detailsSampleCheck from "@/components/sampleCheck/detailsSampleCheck/detailsSampleCheck";
+import detailsSampleCheckResult from "@/components/sampleCheck/detailsSampleCheckResult/detailsSampleCheckResult";
 
 Vue.use(Router);
 
@@ -83,6 +84,11 @@ export default new Router({
           path: "/sampleCheck/detailsSampleCheck/:id",
           name: "detailsSampleCheck",
           component: detailsSampleCheck
+        },
+        {
+          path: "/sampleCheck/detailsSampleCheckResult/:id",
+          name: "detailsSampleCheckResult",
+          component: detailsSampleCheckResult
         },
         {
           path: "/companyBusiness",
