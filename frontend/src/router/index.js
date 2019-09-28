@@ -35,6 +35,7 @@ import detailsRating from "@/components/creditRating/detailsRating/detailsRating
 import corporateCreditFile from "@/components/corporateCreditFile/corporateCreditFile";
 import adminPenaltyInfo from "@/components/corporateCreditFile/adminPenaltyInfo/adminPenaltyInfo";
 import adminLicenseInfo from "@/components/corporateCreditFile/adminLicenseInfo/adminLicenseInfo";
+import threeProduction from "@/components/corporateCreditFile/threeProduction/threeProduction";
 import ratingInfo from "@/components/corporateCreditFile/ratingInfo/ratingInfo";
 
 import productionSubject from "@/components/productionSubject/productionSubject";
@@ -180,6 +181,11 @@ export default new Router({
           path: '/corporateCreditFile/ratingInfo',
           name: 'ratingInfo',
           component: ratingInfo
+        },
+        {
+          path: '/corporateCreditFile/threeProduction/:id',
+          name: 'threeProduction',
+          component: threeProduction
         },
         {
           path: "/regulatoryRecord",
