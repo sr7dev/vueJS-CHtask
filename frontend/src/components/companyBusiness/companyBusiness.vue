@@ -10,13 +10,7 @@
         <div class="filter-item">
           <div class="select_label">行业</div>
           <el-select v-model="productType" placeholder="请选择" @change="getList()">
-            <el-option v-for="item in [
-                          {value: 0, label: '全部'},
-                          {value: 1, label: '农药'}, 
-                          {value: 2, label: '种子'}, 
-                          {value: 3, label: '饲料'}, 
-                          {value: 4, label: '肥料'},
-                        ]"
+            <el-option v-for="item in productTypes"
               :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </div>
@@ -24,12 +18,7 @@
         <div class="filter-item">
           <div class="select_label">行业</div>
           <el-select v-model="companyScale" placeholder="请选择" @change="getList()">
-            <el-option v-for="item in [
-                          {value: 0, label: '全部'},
-                          {value: 1, label: '小型企业'}, 
-                          {value: 2, label: '中型企业'}, 
-                          {value: 3, label: '大型企业'}
-                        ]" 
+            <el-option v-for="item in companyScales" 
               :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </div>
@@ -38,13 +27,25 @@
         <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
           <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
           <el-table-column prop="companyName" label="企业名称" width="120"></el-table-column>
-          <el-table-column prop="companyScale" label="企业规模" width="120"></el-table-column>
-          <el-table-column prop="productType" label="产品类型" width="120"></el-table-column>
+          <el-table-column prop="companyScale" label="企业规模" width="120">
+            <template slot-scope="{row}">
+              {{companyScales[row.companyScale].label}}
+            </template>
+          </el-table-column>
+          <el-table-column prop="productType" label="产品类型" width="120">
+            <template slot-scope="{row}">
+              {{productTypes[row.productType].label}}
+            </template>
+          </el-table-column>
           <el-table-column prop="legalPerson" label="法定代表人" width="150"></el-table-column>
           <el-table-column prop="companyAddress" label="企业地址" width="120"></el-table-column>
           <el-table-column prop="creditCode" label="社会信用统一代码" width="200"></el-table-column>
           <el-table-column prop="contactWay" label="联系方式" width="120"></el-table-column>
-          <el-table-column prop="supervisionNature" label="监管对象性质" width="180"></el-table-column>
+          <el-table-column prop="supervisionNature" label="监管对象性质" width="180">
+            <template slot-scope="{row}">
+              {{supervisions[row.supervisionNature]}}
+            </template>
+          </el-table-column>
           <el-table-column prop="operations" label="" width="250">
             <template slot-scope="{row}">
               <el-button  v-on:click="gotoDetailPage(row)">企业详情</el-button>
@@ -69,6 +70,19 @@ export default {
   components: { Pagination },
   data() {
     return {
+      companyScales: [
+                          {value: 0, label: '全部'},
+                          {value: 1, label: '小型企业'}, 
+                          {value: 2, label: '中型企业'}, 
+                          {value: 3, label: '大型企业'}
+                        ],
+      productTypes: [{value: 0, label: '全部'},
+                          {value: 1, label: '农药'}, 
+                          {value: 2, label: '种子'}, 
+                          {value: 3, label: '饲料'}, 
+                          {value: 4, label: '肥料'},
+                        ],
+      supervisions: ['Unknown', '法人', '其他组织'],
       companyScale: 0,
       productType: 0,
       sortBy: 'id',
@@ -91,6 +105,9 @@ export default {
     this.getList();
   },
   methods: {
+    gotoDetailPage(row) {
+      this.$router.push(`/companyBusiness/detailsCompanyBusiness/${row.id}`);
+    },
     gotoProductBusinessPage(row) {
       this.$router.push(`/companyBusiness/productBusiness/${row.id}`);
     },

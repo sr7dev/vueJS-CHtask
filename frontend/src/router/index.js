@@ -52,6 +52,7 @@ import inventoryDynamics from "@/components/productionSubject/mainProduct/invent
 
 import companyBusiness from "@/components/companyBusiness/companyBusiness";
 import productBusiness from "@/components/companyBusiness/productBusiness/productBusiness";
+import detailsCompanyBusiness from "@/components/companyBusiness/detailsCompanyBusiness/detailsCompanyBusiness";
 
 Vue.use(Router);
 
@@ -72,6 +73,11 @@ export default new Router({
           path: "/companyBusiness/productBusiness/:id",
           name: "productBusiness",
           component: productBusiness
+        },
+        {
+          path: "/companyBusiness/detailsCompanyBusiness/:id",
+          name: "detailsCompanyBusiness",
+          component: detailsCompanyBusiness
         },
         {
           path: "/creditRating",
