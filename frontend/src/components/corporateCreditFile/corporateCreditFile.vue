@@ -12,8 +12,8 @@
           <el-option v-for="item in township" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
         <div class="select_label">类型</div>
-        <el-radio v-model="bTypes" label="1" v-on:change="getList(true)">是</el-radio>
-        <el-radio v-model="bTypes" label="2" v-on:change="getList(true)">否</el-radio>
+        <el-radio v-model="bTypes" label="1" v-on:change="getList(true)">企业</el-radio>
+        <el-radio v-model="bTypes" label="2" v-on:change="getList(true)">农户</el-radio>
         <div class="select_label">行政许可</div>
         <el-select v-model="public_license" placeholder="请选择" @change="onSelectPubLicense">
           <el-option
