@@ -82,7 +82,7 @@
         </el-table-column>
         <el-table-column prop="address" label="农药检测" width="120">
           <template slot-scope="{row}">
-            <el-button>是</el-button>
+            <el-button v-on:click="$router.push({path:`/disabilityCheck/`,query: {creditCode:row.creditCode}})">是</el-button>
           </template>
         </el-table-column>
         <el-table-column prop="contactPerson" label="联系人" width="120"></el-table-column>

@@ -276,7 +276,12 @@ export default new Router({
           path: "/cp_inventoryDynamics",
           name: "cp_inventoryDynamics",
           component: cp_inventoryDynamics
-        }
+        },
+        {
+          path: "/disabilityCheck/:id",
+          name: "disabilityCheck",// 农残检测
+          component: disabilityCheck
+        },
       ]
     },
     {
