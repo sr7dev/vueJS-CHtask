@@ -22,8 +22,8 @@
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-menu-item index="/agriculturalDisability">
-          <router-link  slot="title" to="/agriculturalDisability">农残检测</router-link>
+        <el-menu-item index="/disabilityCheck">
+          <router-link  slot="title" to="/disabilityCheck">农残检测</router-link>
         </el-menu-item>
         <el-menu-item index="/regulatoryRecord">
           <router-link  slot="title" to="/regulatoryRecord">监管记录</router-link>  
