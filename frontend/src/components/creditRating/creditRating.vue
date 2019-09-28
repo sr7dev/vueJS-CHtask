@@ -8,15 +8,15 @@
     <div class="box">
       <div class="iptBox">
         <div class="select_label">乡镇</div>
-        <el-select placeholder v-model="currTown">
+        <el-select placeholder v-model="currTown" @change="getList">
           <el-option v-for="town in township" :key="town.id" :label="town.name" :value="town.id"></el-option>
         </el-select>
         <div class="select_label">状态</div>
-        <el-select v-model="status" placeholder="请选择">
+        <el-select v-model="status" placeholder="请选择" @change="getList">
           <el-option v-for="(item, index) in appStatus" :key="item" :label="item" :value="index"></el-option>
         </el-select>
         <div class="select_label">
-          <el-button type="outline-primary" v-on:click="getList()">同步数据</el-button>
+          <el-button disabled type="outline-primary">同步数据</el-button>
         </div>
       </div>
 
