@@ -72,13 +72,13 @@ export default {
   methods: {
     getCompanyProduction() {
       Request()
-              .get("/api/company_production/name")
-              .then(response => {
-                this.companyData = response;
-              })
-              .catch(error => {
-                console.log(error);
-              });
+        .get("/api/company_production/name")
+        .then(response => {
+          this.companyData = response;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
