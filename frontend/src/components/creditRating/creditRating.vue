@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">经营主体</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/' }">信用评级</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
@@ -43,9 +43,9 @@
             <template slot-scope="{row}">{{getDateString(row.gradeTime)}}</template>
           </el-table-column>
           <el-table-column prop="creditAvailableStart" label="评级有效期">
-            <template slot-scope="{row}">
-              {{getDateString(row.creditAvailableStart)}}至{{getDateString(row.creditAvailableEnd)}}
-            </template>
+            <template
+              slot-scope="{row}"
+            >{{getDateString(row.creditAvailableStart)}}至{{getDateString(row.creditAvailableEnd)}}</template>
           </el-table-column>
           <el-table-column prop="gradeUnit" label="评级单位"></el-table-column>
           <!-- <el-table-column prop="approvalStatus" label="状态" width="100"></el-table-column> -->
@@ -106,7 +106,9 @@ export default {
   methods: {
     getDateString(strDt) {
       let date = new Date(strDt);
-      return date.getFullYear() + '-' + (date.getMonth()+1) + '-' + (date.getDate());
+      return (
+        date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
+      );
     },
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
