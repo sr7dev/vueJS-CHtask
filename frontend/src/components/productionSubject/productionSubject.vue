@@ -9,21 +9,21 @@
       <div class="iptBox">
         <div class="filter-item">
           <div class="select_label">乡镇</div>
-          <el-select v-model="township" placeholder="请选择">
-            <el-option label="全部" value="0"></el-option>
+          <el-select v-model="townId" placeholder="请选择" @change="getList">
+            <el-option label="全部" :value="0"></el-option>
             <el-option v-for="item in townList" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </div>
         <div class="filter-item">
           <div class="select_label">类型</div>
           <template>
-            <el-radio v-model="companyType" label="1">备选项</el-radio>
-            <el-radio v-model="companyType" label="2">备选项</el-radio>
+            <el-radio v-model="companyType" label="1" @change="getList">企业</el-radio>
+            <el-radio v-model="companyType" label="2" @change="getList">农户</el-radio>
           </template>
         </div>
         <div class="filter-item">
           <div class="select_label">行业</div>
-          <el-select v-model="agriculturalClassification" placeholder="请选择">
+          <el-select v-model="agriculturalClassification" placeholder="请选择" @change="filterList">
             <el-option
               v-for="item in [
                           {value: 0, label: '全部'},
@@ -40,19 +40,22 @@
         <div class="filter-item">
           <div class="select_label">三品认证</div>
           <el-select v-model="quality_standard" placeholder="请选择">
-            <el-option v-for="item in ['全部', '有', '无']" :key="item" :label="item" :value="item"></el-option>
+            <el-option v-for="item in [{value: -1, label: '全部'}, {value: 1, label: '有'}, {value: 0, label: '无'}]"
+               :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </div>
         <div class="filter-item">
           <div class="select_label">监管记录</div>
           <el-select v-model="supervision_record" placeholder="请选择">
-            <el-option v-for="item in ['全部', '有', '无']" :key="item" :label="item" :value="item"></el-option>
+            <el-option v-for="item in [{value: -1, label: '全部'}, {value: 1, label: '有'}, {value: 0, label: '无'}]"
+               :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </div>
         <div class="filter-item">
           <div class="select_label">农业监测</div>
           <el-select v-model="disability_check" placeholder="请选择">
-            <el-option v-for="item in ['全部', '有', '无']" :key="item" :label="item" :value="item"></el-option>
+            <el-option v-for="item in [{value: -1, label: '全部'}, {value: 1, label: '有'}, {value: 0, label: '无'}]"
+               :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </div>
         <div class="filter-item">
@@ -129,7 +132,7 @@ export default {
   components: { Pagination },
   data() {
     return {
-      township: "全部",
+      townId: 0,
       companyType: 0,
       agriculturalClassification: 0,
       quality_standard: "全部",
@@ -143,7 +146,8 @@ export default {
       radio: "1",
       listLoading: true,
       townList: [],
-      tableData: sampleData
+      tableData: sampleData,
+      srcData: [],
     };
   },
   created() {
@@ -212,23 +216,39 @@ export default {
         });
       return nowGrade;
     },
+    filterList() {
+      this.tableData = this.srcData;
+      if(this.agriculturalClassification > 0) {
+        this.tableData = this.tableData.filter(it => it.agriculturalClassification == this.agriculturalClassification);
+      }
+      if(this.agriculturalClassification > 0) {
+        this.tableData = this.tableData.filter(it => it.agriculturalClassification == this.agriculturalClassification);
+      }
+      if(this.agriculturalClassification > 0) {
+        this.tableData = this.tableData.filter(it => it.agriculturalClassification == this.agriculturalClassification);
+      }
+
+    },
     getList() {
       this.listLoading = true;
+      console.log(this.companyType);
       Request()
         .get("/api/company_production/all", {
           companyType: this.companyType,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
-          townId: 0 //this.currTown
+          townId: this.townId,
         })
         .then(response => {
           let dt = response;
           this.tableData = [];
+          this.srcData = [];
           this.total = dt.length;
           dt.map(item => {
             this.getNowGrade(item.creditCode).then(res => {
               item.nowGrade = this.getGradeString(res);
               this.tableData.push(item);
+              this.srcData.push(item);
             });
           });
         })
