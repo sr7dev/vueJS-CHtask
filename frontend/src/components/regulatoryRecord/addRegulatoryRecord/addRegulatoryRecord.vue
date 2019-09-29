@@ -389,5 +389,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "./addRegulatoryObject.scss";
+@import "./addRegulatoryRecord.scss";
 </style>
