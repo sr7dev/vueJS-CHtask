@@ -163,13 +163,14 @@
             <el-form-item label="常用语" class="left-margin" prop="commonLang">
               <el-select v-model="wordValue" multiple placeholder="请插入">
                 <el-option
-                        v-for="item in wordsList"
-                        :key="item.id"
-                        :label="item.word"
-                        :value="item.word">
-                </el-option>
+                  v-for="item in wordsList"
+                  :key="item.id"
+                  :label="item.word"
+                  :value="item.word"
+                ></el-option>
               </el-select>
             </el-form-item>
+          </el-col>
           <el-col :span="12">
             <div class="left-margin">
               <table>
@@ -433,7 +434,7 @@ export default {
       file_live_1: null,
       file_sign: null,
       wordsList: [],
-      wordValue: 0, 
+      wordValue: 0,
       rules: {
         townShip: [
           {
@@ -556,7 +557,10 @@ export default {
       mainFormData.append("supervisionRecordTime", this.ruleFormValue.date);
       mainFormData.append("updateTime", this.ruleFormValue.date);
       mainFormData.append("updateUserId", "");
-      mainFormData.append("usefulExpressions", this.selectWords(this.wordValue));
+      mainFormData.append(
+        "usefulExpressions",
+        this.selectWords(this.wordValue)
+      );
       mainFormData.append("file1", this.file_live_1);
       mainFormData.append("file2", this.file_sign);
       return mainFormData;
@@ -575,18 +579,18 @@ export default {
     },
     getWords() {
       Request()
-              .get("/api/common_word/all")
-              .then(response => {
-                this.wordsList = this.wordsList.concat(response);
-              })
-              .catch(error => {
-                console.log(error);
-              });
+        .get("/api/common_word/all")
+        .then(response => {
+          this.wordsList = this.wordsList.concat(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     selectWords(string) {
-      let strTemp = JSON.stringify(string)
-      strTemp = strTemp.substr(2, strTemp.length-4);
-      strTemp = strTemp.replace('","', ',');
+      let strTemp = JSON.stringify(string);
+      strTemp = strTemp.substr(2, strTemp.length - 4);
+      strTemp = strTemp.replace('","', ",");
       return strTemp;
     }
   }
