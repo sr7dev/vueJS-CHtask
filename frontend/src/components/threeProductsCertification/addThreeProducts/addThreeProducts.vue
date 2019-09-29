@@ -66,6 +66,13 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row>
+          <el-col :span="6">
+            <el-form-item label="证书编号" prop="certficationNo">
+              <el-input v-model="ruleFormValue.certficationNo"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-form-item label="认证有效期" style="text-align: center" required>
           <el-col :span="5">
             <el-form-item prop="certificationStartTime">
