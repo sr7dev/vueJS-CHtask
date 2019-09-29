@@ -24,10 +24,10 @@
             <el-form-item label="乡镇" prop="townShip">
               <el-select v-model="ruleFormValue.townShip" placeholder="请选择">
                 <el-option
-                        v-for="item in township"
-                        :key="item.id"
-                        :label="item.name"
-                        :value="item.id"
+                  v-for="item in township"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
                 ></el-option>
               </el-select>
             </el-form-item>
@@ -36,10 +36,10 @@
             <el-form-item label="企业" prop="companyID">
               <el-select v-model="ruleFormValue.companyID" placeholder="请选择">
                 <el-option
-                        v-for="item in companyList"
-                        :key="item.companyId"
-                        :label="item.companyName"
-                        :value="item.companyId"
+                  v-for="item in companyList"
+                  :key="item.companyId"
+                  :label="item.companyName"
+                  :value="item.companyId"
                 ></el-option>
               </el-select>
               <el-button type="primary" icon="el-icon-plus" size="mini" class="min-plus"></el-button>
@@ -48,10 +48,10 @@
           <el-col :span="6">
             <el-form-item label="选择日期" prop="date">
               <el-date-picker
-                      v-model="ruleFormValue.date"
-                      align="right"
-                      type="datetime"
-                      placeholder="选择日期"
+                v-model="ruleFormValue.date"
+                align="right"
+                type="datetime"
+                placeholder="选择日期"
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -171,56 +171,56 @@
             <div class="left-margin">
               <table>
                 <tbody>
-                <tr>
-                  <td rowspan="2">结论</td>
-                  <td>合格</td>
-                  <td>
-                    <el-checkbox
-                            v-model="ruleFormValue.conclusion"
-                            true-label="1"
-                            false-label="0"
-                    ></el-checkbox>
-                  </td>
-                </tr>
-                <tr>
-                  <td>不合格</td>
-                  <td>
-                    <table class="no-border">
-                      <tbody>
-                      <tr>
-                        <td>责令修改</td>
-                        <td>
-                          <el-input
-                                  v-model="ruleFormValue.orderToAmend"
-                                  style="width:100%"
-                                  :disabled="ruleFormValue.conclusion==true"
-                          ></el-input>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>建议处罚</td>
-                        <td>
-                          <el-input
-                                  v-model="ruleFormValue.recommendPunishment"
-                                  style="width:100%"
-                                  :disabled="ruleFormValue.conclusion==true"
-                          ></el-input>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>其他处理</td>
-                        <td>
-                          <el-input
-                                  v-model="ruleFormValue.otherProcessing"
-                                  style="width:100%"
-                                  :disabled="ruleFormValue.conclusion==true"
-                          ></el-input>
-                        </td>
-                      </tr>
-                      </tbody>
-                    </table>
-                  </td>
-                </tr>
+                  <tr>
+                    <td rowspan="2">结论</td>
+                    <td>合格</td>
+                    <td>
+                      <el-checkbox
+                        v-model="ruleFormValue.conclusion"
+                        true-label="1"
+                        false-label="0"
+                      ></el-checkbox>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>不合格</td>
+                    <td>
+                      <table class="no-border">
+                        <tbody>
+                          <tr>
+                            <td>责令修改</td>
+                            <td>
+                              <el-input
+                                v-model="ruleFormValue.orderToAmend"
+                                style="width:100%"
+                                :disabled="ruleFormValue.conclusion==true"
+                              ></el-input>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>建议处罚</td>
+                            <td>
+                              <el-input
+                                v-model="ruleFormValue.recommendPunishment"
+                                style="width:100%"
+                                :disabled="ruleFormValue.conclusion==true"
+                              ></el-input>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>其他处理</td>
+                            <td>
+                              <el-input
+                                v-model="ruleFormValue.otherProcessing"
+                                style="width:100%"
+                                :disabled="ruleFormValue.conclusion==true"
+                              ></el-input>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -228,45 +228,45 @@
           <el-col :span="11">
             <table class="image-upload-table">
               <tbody>
-              <tr>
-                <td>现场图片</td>
-                <td>
-                  <div class="image-box">
-                    <div class="js--image-preview" @click="chooseFile_Live()">
-                      <img :src="imageUrl_Sign" />
+                <tr>
+                  <td>现场图片</td>
+                  <td>
+                    <div class="image-box">
+                      <div class="js--image-preview" @click="chooseFile_Live()">
+                        <img :src="imageUrl_Sign" />
+                      </div>
+                      <input
+                        type="file"
+                        id="file"
+                        ref="file_live_1"
+                        class="image-upload"
+                        accept="image/*"
+                        v-on:change="handleFileUpload_Live()"
+                      />
                     </div>
-                    <input
-                            type="file"
-                            id="file"
-                            ref="file_live_1"
-                            class="image-upload"
-                            accept="image/*"
-                            v-on:change="handleFileUpload_Live()"
-                    />
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>签名</td>
-                <td>
-                  <div
-                          class="image-box"
-                          style="width:100px;height:100px;border:1px #001528;border-radius:5px"
-                  >
-                    <div class="js--image-preview" @click="chooseFile_Sign()">
-                      <img :src="imageUrl_Sign" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>签名</td>
+                  <td>
+                    <div
+                      class="image-box"
+                      style="width:100px;height:100px;border:1px #001528;border-radius:5px"
+                    >
+                      <div class="js--image-preview" @click="chooseFile_Sign()">
+                        <img :src="imageUrl_Sign" />
+                      </div>
+                      <input
+                        type="file"
+                        id="file"
+                        ref="file_sign"
+                        class="image-upload"
+                        accept="image/*"
+                        v-on:change="handleFileUpload_Sign()"
+                      />
                     </div>
-                    <input
-                            type="file"
-                            id="file"
-                            ref="file_sign"
-                            class="image-upload"
-                            accept="image/*"
-                            v-on:change="handleFileUpload_Sign()"
-                    />
-                  </div>
-                </td>
-              </tr>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </el-col>
@@ -282,199 +282,198 @@
 </template>
 
 <script>
-  import Request from "../../../services/api/request.js";
-  import { Urls } from "../../../services/constants";
-  import axios from "axios";
-  export default {
-    data() {
-      return {
-        ruleFormValue: {
-          companyType: "1",
-          townShip: "",
-          companyID: "",
-          wordValue:"",
-          date: "",
-          checker: "",
-          productionRecord: "1",
-          productInputRecord: "1",
-          proofOfProduct: "1",
-          testRecord: "1",
-          isDisableInput: "1",
-          isThreeProduct: "1",
-          commonLang: "",
-          otherProblems: "",
-          conclusion: "1",
-          orderToAmend: "",
-          recommendPunishment: "",
-          otherProcessing: ""
-        },
-        township: [],
-        companyList: [],
-        imageUrl_Live: "",
-        imageUrl_Sign: "",
-        file_live_1: null,
-        file_sign: null,
-        wordsList: [],
-        wordValue: 0,
-        rules: {
-          townShip: [
-            {
-              required: true,
-              message: "请选择",
-              trigger: "change"
-            }
-          ],
-          companyID: [
-            {
-              required: true,
-              message: "请选择",
-              trigger: "change"
-            }
-          ],
-          date: [
-            {
-              required: true,
-              message: "请选择",
-              trigger: "change"
-            }
-          ],
-          checker: [
-            {
-              required: true,
-              message: "请插入",
-              trigger: "change"
-            }
-          ],
-          otherProblems: [
-            {
-              required: true,
-              message: "请插入",
-              trigger: "change"
-            }
-          ]
-        }
-      };
-    },
-    created() {
-      this.getTown();
-      this.getCompanyProduct();
-      this.getWords();
-    },
-    methods: {
-      getTown() {
-        Request()
-                .get("/api/town/all")
-                .then(response => {
-                  this.township = this.township.concat(response);
-                })
-                .catch(error => {
-                  console.log(error);
-                });
+import Request from "../../../services/api/request.js";
+import { Urls } from "../../../services/constants";
+import axios from "axios";
+export default {
+  data() {
+    return {
+      ruleFormValue: {
+        companyType: "1",
+        townShip: "",
+        companyID: "",
+        date: "",
+        checker: "",
+        productionRecord: "1",
+        productInputRecord: "1",
+        proofOfProduct: "1",
+        testRecord: "1",
+        isDisableInput: "1",
+        isThreeProduct: "1",
+        commonLang: "",
+        otherProblems: "",
+        conclusion: "1",
+        orderToAmend: "",
+        recommendPunishment: "",
+        otherProcessing: ""
       },
-      getCompanyProduct() {
-        Request()
-                .get("/api/company_production/name")
-                .then(response => {
-                  this.companyList = this.companyList.concat(response);
-                })
-                .catch(error => {
-                  console.log(error);
-                });
-      },
-      onSubmit(formName) {
-        this.$refs[formName].validate(valid => {
-          if (valid) {
-            var formData = new FormData();
-            formData = this.makeFormData();
-            Request()
-                    .post("/api/supervision_record/create", formData)
-                    .then(response => {
-                      this.$router.push({ path: "/regulatoryRecord" });
-                    })
-                    .catch(error => {});
+      township: [],
+      companyList: [],
+      imageUrl_Live: "",
+      imageUrl_Sign: "",
+      file_live_1: null,
+      file_sign: null,
+      wordsList: [],
+      wordValue: 0, 
+      rules: {
+        townShip: [
+          {
+            required: true,
+            message: "请选择",
+            trigger: "change"
           }
-        });
-      },
-      makeFormData() {
-        var mainFormData = new FormData();
-        var conclusionData = {
-          order: this.ruleFormValue.orderToAmend
-                  ? this.ruleFormValue.orderToAmend
-                  : " ",
-          suggestion: this.ruleFormValue.recommendPunishment
-                  ? this.ruleFormValue.recommendPunishment
-                  : " ",
-          others: this.ruleFormValue.otherProcessing
-                  ? this.ruleFormValue.otherProcessing
-                  : " "
-        };
-        conclusionData = JSON.stringify(conclusionData);
-        var supervisionInfo = {
-          production: this.ruleFormValue.productionRecord,
-          input: this.ruleFormValue.isDisableInput,
-          abuse: this.ruleFormValue.proofOfProduct,
-          origin: this.ruleFormValue.testRecord,
-          inspection: this.ruleFormValue.productInputRecord,
-          standard: this.ruleFormValue.isThreeProduct
-        };
-        supervisionInfo = JSON.stringify(supervisionInfo);
-
-        mainFormData.append("companyId", this.ruleFormValue.companyID);
-        mainFormData.append("conclusion", this.ruleFormValue.conclusion);
-        mainFormData.append("conclusionFalseInfo", conclusionData);
-        mainFormData.append("createTime", this.ruleFormValue.date);
-        mainFormData.append("inspector", this.ruleFormValue.checker);
-        mainFormData.append("otherProblems", this.ruleFormValue.otherProblems);
-        mainFormData.append(
-                "productionSubjectType",
-                this.ruleFormValue.companyType
-        );
-        mainFormData.append("supervisionInfo", supervisionInfo);
-        mainFormData.append("townId", this.ruleFormValue.townShip);
-        mainFormData.append("createUserId", "");
-        mainFormData.append("id", 0);
-        mainFormData.append("scenePhotos", "");
-        mainFormData.append("sign", "");
-        mainFormData.append("supervisionRecordTime", this.ruleFormValue.date);
-        mainFormData.append("updateTime", this.ruleFormValue.date);
-        mainFormData.append("updateUserId", "");
-        mainFormData.append("usefulExpressions", this.selectWords(this.wordValue));
-        mainFormData.append("file1", this.file_live_1);
-        mainFormData.append("file2", this.file_sign);
-        return mainFormData;
-      },
-      chooseFile_Live() {
-        this.$refs.file_Live_1.click();
-      },
-      chooseFile_Sign() {
-        this.$refs.file_sign.click();
-      },
-      handleFileUpload_Live() {
-        this.file_live_1 = this.$refs.file_live_1.files[0];
-      },
-      handleFileUpload_Sign() {
-        this.file_sign = this.$refs.file_sign.files[0];
-      },
-      getWords() {
-        Request()
-                .get("/api/common_word/all")
-                .then(response => {
-                  this.wordsList = this.wordsList.concat(response);
-                })
-                .catch(error => {
-                  console.log(error);
-                });
-      },
-      selectWords(string) {
-        let strTemp = JSON.stringify(string)
-        strTemp = strTemp.substr(2, strTemp.length-4);
-        strTemp = strTemp.replace('","', ',');
-        return strTemp;
+        ],
+        companyID: [
+          {
+            required: true,
+            message: "请选择",
+            trigger: "change"
+          }
+        ],
+        date: [
+          {
+            required: true,
+            message: "请选择",
+            trigger: "change"
+          }
+        ],
+        checker: [
+          {
+            required: true,
+            message: "请插入",
+            trigger: "change"
+          }
+        ],
+        otherProblems: [
+          {
+            required: true,
+            message: "请插入",
+            trigger: "change"
+          }
+        ]
       }
+    };
+  },
+  created() {
+    this.getTown();
+    this.getCompanyProduct();
+    this.getWords();
+  },
+  methods: {
+    getTown() {
+      Request()
+        .get("/api/town/all")
+        .then(response => {
+          this.township = this.township.concat(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getCompanyProduct() {
+      Request()
+        .get("/api/company_production/name")
+        .then(response => {
+          this.companyList = this.companyList.concat(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    onSubmit(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          var formData = new FormData();
+          formData = this.makeFormData();
+          Request()
+            .post("/api/supervision_record/create", formData)
+            .then(response => {
+              // this.$router.push({ path: "/regulatoryRecord" });
+            })
+            .catch(error => {});
+        }
+      });
+    },
+    makeFormData() {
+      var mainFormData = new FormData();
+      var conclusionData = {
+        order: this.ruleFormValue.orderToAmend
+          ? this.ruleFormValue.orderToAmend
+          : " ",
+        suggestion: this.ruleFormValue.recommendPunishment
+          ? this.ruleFormValue.recommendPunishment
+          : " ",
+        others: this.ruleFormValue.otherProcessing
+          ? this.ruleFormValue.otherProcessing
+          : " "
+      };
+      conclusionData = JSON.stringify(conclusionData);
+      var supervisionInfo = {
+        production: this.ruleFormValue.productionRecord,
+        input: this.ruleFormValue.isDisableInput,
+        abuse: this.ruleFormValue.proofOfProduct,
+        origin: this.ruleFormValue.testRecord,
+        inspection: this.ruleFormValue.productInputRecord,
+        standard: this.ruleFormValue.isThreeProduct
+      };
+      supervisionInfo = JSON.stringify(supervisionInfo);
+
+      mainFormData.append("companyId", this.ruleFormValue.companyID);
+      mainFormData.append("conclusion", this.ruleFormValue.conclusion);
+      mainFormData.append("conclusionFalseInfo", conclusionData);
+      mainFormData.append("createTime", this.ruleFormValue.date);
+      mainFormData.append("inspector", this.ruleFormValue.checker);
+      mainFormData.append("otherProblems", this.ruleFormValue.otherProblems);
+      mainFormData.append(
+        "productionSubjectType",
+        this.ruleFormValue.companyType
+      );
+      mainFormData.append("supervisionInfo", supervisionInfo);
+      mainFormData.append("townId", this.ruleFormValue.townShip);
+      mainFormData.append("createUserId", "");
+      mainFormData.append("id", 0);
+      mainFormData.append("scenePhotos", "");
+      mainFormData.append("sign", "");
+      mainFormData.append("supervisionRecordTime", this.ruleFormValue.date);
+      mainFormData.append("updateTime", this.ruleFormValue.date);
+      mainFormData.append("updateUserId", "");
+      mainFormData.append("usefulExpressions", this.selectWords(this.wordValue));
+      mainFormData.append("file1", this.file_live_1);
+      mainFormData.append("file2", this.file_sign);
+      return mainFormData;
+    },
+    chooseFile_Live() {
+      this.$refs.file_Live_1.click();
+    },
+    chooseFile_Sign() {
+      this.$refs.file_sign.click();
+    },
+    handleFileUpload_Live() {
+      this.file_live_1 = this.$refs.file_live_1.files[0];
+    },
+    handleFileUpload_Sign() {
+      this.file_sign = this.$refs.file_sign.files[0];
+    },
+    getWords() {
+      Request()
+              .get("/api/common_word/all")
+              .then(response => {
+                this.wordsList = this.wordsList.concat(response);
+              })
+              .catch(error => {
+                console.log(error);
+              });
+    },
+    selectWords(string) {
+      let strTemp = JSON.stringify(string)
+      strTemp = strTemp.substr(2, strTemp.length-4);
+      strTemp = strTemp.replace('","', ',');
+      return strTemp;
     }
-  };
+  }
+};
 </script>
 
-<style lang="scss" scoped>
-  @import "./addRegulatoryRecord.scss";
+<style lang="scss">
+@import "./addRegulatoryRecord.scss";
 </style>
