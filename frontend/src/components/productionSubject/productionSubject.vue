@@ -39,21 +39,21 @@
         </div>
         <div class="filter-item">
           <div class="select_label">三品认证</div>
-          <el-select v-model="quality_standard" placeholder="请选择">
+          <el-select v-model="quality_standard" placeholder="请选择" @change="filterList">
             <el-option v-for="item in [{value: -1, label: '全部'}, {value: 1, label: '有'}, {value: 0, label: '无'}]"
                :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </div>
         <div class="filter-item">
           <div class="select_label">监管记录</div>
-          <el-select v-model="supervision_record" placeholder="请选择">
+          <el-select v-model="supervision_record" placeholder="请选择" @change="filterList">
             <el-option v-for="item in [{value: -1, label: '全部'}, {value: 1, label: '有'}, {value: 0, label: '无'}]"
                :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </div>
         <div class="filter-item">
           <div class="select_label">农业监测</div>
-          <el-select v-model="disability_check" placeholder="请选择">
+          <el-select v-model="disability_check" placeholder="请选择" @change="filterList">
             <el-option v-for="item in [{value: -1, label: '全部'}, {value: 1, label: '有'}, {value: 0, label: '无'}]"
                :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
@@ -75,20 +75,24 @@
         <el-table-column prop="companyAddress" label="企业地址"></el-table-column>
         <el-table-column prop="qualityStandardId" label="三品认证" width="120">
           <template slot-scope="{row}">
+            <!-- <el-button v-if="row.quality_standard==0" disabled>否</el-button> -->
             <el-button @click="$router.push(`/corporateCreditFile/threeProduction/${row.creditCode}`)"
               >认证信息</el-button>
           </template>
         </el-table-column>
         <el-table-column prop="doSupervision" label="监管记录" width="120">
-          <template>
-            <el-button>是</el-button>
+          <template slot-scope="{row}">
+            <!-- <el-button v-if="row.quality_standard==0" disabled>否</el-button> -->
+            <el-button v-on:click="$router.push({path:`/regulatoryRecord/`,query: {companyId:row.companyId}})"
+              >是</el-button>
           </template>
         </el-table-column>
         <el-table-column prop="address" label="农药检测" width="120">
           <template slot-scope="{row}">
-            <el-button
-              v-on:click="$router.push({path:`/disabilityCheck/`,query: {creditCode:row.creditCode}})"
-            >是</el-button>
+            <!-- <el-button v-if="row.quality_standard==0" disabled>否</el-button> -->
+            
+            <el-button v-on:click="$router.push({path:`/disabilityCheck/`,query: {creditCode:row.creditCode}})"
+              >是</el-button>
           </template>
         </el-table-column>
         <el-table-column prop="contactPerson" label="联系人" width="120"></el-table-column>
@@ -221,17 +225,20 @@ export default {
       if(this.agriculturalClassification > 0) {
         this.tableData = this.tableData.filter(it => it.agriculturalClassification == this.agriculturalClassification);
       }
-      if(this.agriculturalClassification > 0) {
-        this.tableData = this.tableData.filter(it => it.agriculturalClassification == this.agriculturalClassification);
-      }
-      if(this.agriculturalClassification > 0) {
-        this.tableData = this.tableData.filter(it => it.agriculturalClassification == this.agriculturalClassification);
-      }
+      // if(this.quality_standard > 0) {
+      //   this.tableData = this.tableData.filter(it => it.quality_standard?true:false);
+      // }
+      // if(this.supervision_record > 0) {
+      //   this.tableData = this.tableData.filter(it => it.supervisionRecord?true:false);
+      // }
+      // if(this.agriculturalClassification > 0) {
+      //   this.tableData = this.tableData.filter(it => it.disabilityCheck?true:false);
+      // }
 
     },
     getList() {
       this.listLoading = true;
-      console.log(this.companyType);
+      // console.log(this.companyType);
       Request()
         .get("/api/company_production/all", {
           companyType: this.companyType,
