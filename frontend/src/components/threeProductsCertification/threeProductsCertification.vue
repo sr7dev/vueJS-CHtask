@@ -2,8 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">监管对象</el-breadcrumb-item>
-        <el-breadcrumb-item class="actived">三品认证</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">三品一标管理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
@@ -158,6 +157,16 @@ export default {
         .get("/api/quality_standard/all")
         .then(response => {
           this.tableData = response;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    handleDelete(id) {
+       Request()
+        .delete("/api/quality_standard/delete/"+id)
+        .then(response => {
+          this.getList();
         })
         .catch(error => {
           console.log(error);

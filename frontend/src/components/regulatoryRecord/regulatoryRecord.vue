@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator=" ">
-        <el-breadcrumb-item :to="{ path: '/' }" class="actived">监管记录</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">监管记录</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">

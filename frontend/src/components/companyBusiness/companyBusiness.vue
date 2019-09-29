@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/companyBusiness' }">监管对象</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">监管对象</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
@@ -48,8 +48,8 @@
           </el-table-column>
           <el-table-column prop="operations" label="" width="250">
             <template slot-scope="{row}">
-              <el-button  v-on:click="gotoDetailPage(row)">企业详情</el-button>
-              <el-button  v-on:click="gotoProductBusinessPage(row)">经营产品</el-button>
+              <el-button  v-on:click="gotoDetailPage(row)" plain type="primary">企业详情</el-button>
+              <el-button  v-on:click="gotoProductBusinessPage(row)" plain type="success">经营产品</el-button>
             </template>
           </el-table-column>
         </el-table>

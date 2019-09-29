@@ -2,7 +2,7 @@
   <div class="container" id="production-subject">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">监管对象</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">监管对象</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
@@ -103,10 +103,10 @@
         </el-table-column>
         <el-table-column prop="operations" label="操作" width="450">
           <template slot-scope="{row}">
-            <el-button v-on:click="gotoEditProductPage(row)">修改</el-button>
-            <el-button v-on:click="gotoProductPage(row)">产品</el-button>
-            <el-button v-on:click="gotoWarehousingEnvironmentPage(row)">仓储环境</el-button>
-            <el-button v-on:click="gotoDetailsProductPage(row)">详情</el-button>
+            <el-button v-on:click="gotoEditProductPage(row)" type="warning" plain>修改</el-button>
+            <el-button v-on:click="gotoProductPage(row)" type="success" plain>产品</el-button>
+            <el-button v-on:click="gotoWarehousingEnvironmentPage(row)" type="primary" plain>仓储环境</el-button>
+            <el-button v-on:click="gotoDetailsProductPage(row)" type="info" plain>详情</el-button>
           </template>
         </el-table-column>
       </el-table>
