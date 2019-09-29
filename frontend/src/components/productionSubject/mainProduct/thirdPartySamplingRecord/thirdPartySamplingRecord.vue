@@ -17,7 +17,9 @@
       </div>
       <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
         <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
-        <el-table-column prop="productCheckTime" label="日期" width="150"></el-table-column>
+        <el-table-column prop="productCheckTime" label="日期" width="150">
+          <template slot-scope="{row}">{{getDateString(row.productCheckTime)}}</template>
+        </el-table-column>
         <el-table-column prop="specimen" label="样品" width="150"></el-table-column>
         <el-table-column prop="checkItem" label="检测项目" width="150"></el-table-column>
         <el-table-column prop="checkResult" label="检测结果">
@@ -63,18 +65,18 @@ export default {
   },
   created() {
     this.id = this.$route.params.id;
-    this.getList(id);
+    this.getList(this.id);
   },
   methods: {
-    // gotoWarehousingEnvironmentPage(row) {
-    //   this.$router.push(`/warehouseEnv`)
-
-    // },
+    getDateString(strDt) {
+      let date = new Date(strDt);
+      return date.getFullYear() + '-' + (date.getMonth()+1) + '-' + (date.getDate());
+    },
     getList(id) {
       this.listLoading = true;
       Request()
         .get("/api/product_check_record/all", {
-          product_id: id,
+          product_id: this.id,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize
         })

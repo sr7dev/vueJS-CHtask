@@ -55,7 +55,7 @@
             <div class="item-label">
               <input type="file" id="file" style="display: none" ref="file"
                 v-on:change="handleFileUpload()"/>
-              <el-button plain @click="fileUpload()">添加附件</el-button>
+              <el-button plain @click="chooseFile()">添加附件</el-button>
             </div>
             <span class="item-value">{{data.checkFiles}}</span>
           </div>
