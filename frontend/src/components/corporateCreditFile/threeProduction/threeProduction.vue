@@ -64,10 +64,10 @@ export default {
     };
   },
   created() {
+    this.id = this.$route.params.id;
     this.getProductionDetail();
     this.getCompanyProduction();
     this.getList();
-    this.id = this.$route.params.id;
   },
   methods: {
     getCompanyProduction() {
