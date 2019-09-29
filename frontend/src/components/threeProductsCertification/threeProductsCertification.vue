@@ -2,8 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">监管对象</el-breadcrumb-item>
-        <el-breadcrumb-item class="actived">三品认证</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">三品一标管理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
