@@ -17,7 +17,12 @@
           <p v-if="filterCompanyName(companyId)">{{filterCompanyName(companyId)}}</p>
           <p v-else>没有数据</p>
         </div>
-        <el-button type="primary" plain v-if="!companyId">常用语管理</el-button>
+        <el-button
+          type="primary"
+          v-on:click="$router.push(`/commonWords`)"
+          plain
+          v-if="!companyId"
+        >常用语管理</el-button>
         <el-button type="primary" plain v-if="!companyId">扫码下载客户端</el-button>
         <el-button type="primary" plain v-if="!companyId">说明书下载</el-button>
       </div>
