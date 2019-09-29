@@ -143,24 +143,6 @@
         <el-row>
           <el-col :span="10">
             <el-form-item label="常用语" class="left-margin" prop="commonLang">
-              <el-input v-model="ruleFormValue.commonLang" style="width:30%"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item>
-              <div class="left-margin">现场发现的其他问题</div>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item prop="otherProblems">
-              <el-input type="textarea" :rows="5" v-model="ruleFormValue.otherProblems"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-
-        <el-row>
-          <el-col :span="10">
-            <el-form-item label="常用语" class="left-margin" prop="commonLang">
               <el-select v-model="wordValue" multiple placeholder="请插入">
                 <el-option
                   v-for="item in wordsList"
