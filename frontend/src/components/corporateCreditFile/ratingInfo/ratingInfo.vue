@@ -21,7 +21,11 @@
           highlight-current-row
         >
           <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
-          <el-table-column prop="gradeTime" label="评级时间"></el-table-column>
+          <el-table-column prop="gradeTime" label="评级时间">
+            <template slot-scope="{row}">
+              {{getDateString(row.creditAvailableStart)}}至{{getDateString(row.creditAvailableEnd)}}
+            </template>
+          </el-table-column>
           <el-table-column label="单位名称">
             <template>{{companyName}}</template>
           </el-table-column>
@@ -70,6 +74,10 @@ export default {
     this.getList();
   },
   methods: {
+    getDateString(strDt) {
+      let date = new Date(strDt);
+      return date.getFullYear() + '-' + (date.getMonth()+1) + '-' + (date.getDate());
+    },
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
     },

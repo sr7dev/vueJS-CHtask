@@ -39,7 +39,11 @@
           <el-table-column label="现信用评级">
             <template slot-scope="{row}">{{getGradeString(row.nowGrade)}}</template>
           </el-table-column>
-          <el-table-column prop="gradeTime" label="评级时间"></el-table-column>
+          <el-table-column prop="gradeTime" label="评级时间">
+            <template slot-scope="{row}">
+              {{getDateString(row.creditAvailableStart)}}至{{getDateString(row.creditAvailableEnd)}}
+            </template>
+          </el-table-column>
           <el-table-column prop="gradeUnit" label="评级单位"></el-table-column>
           <!-- <el-table-column prop="approvalStatus" label="状态" width="100"></el-table-column> -->
           <el-table-column label="状态" width="100">
@@ -97,6 +101,10 @@ export default {
     this.getCompanyProduction();
   },
   methods: {
+    getDateString(strDt) {
+      let date = new Date(strDt);
+      return date.getFullYear() + '-' + (date.getMonth()+1) + '-' + (date.getDate());
+    },
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
     },
