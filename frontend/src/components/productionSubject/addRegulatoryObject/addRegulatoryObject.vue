@@ -381,7 +381,7 @@ export default {
         //   "updateUserId": 0
         // }
       ).then(res => {
-        console.log(res);
+        // console.log(res);
       })
     },
   }

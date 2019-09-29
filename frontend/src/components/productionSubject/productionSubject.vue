@@ -238,7 +238,7 @@ export default {
     },
     getList() {
       this.listLoading = true;
-      console.log(this.companyType);
+      // console.log(this.companyType);
       Request()
         .get("/api/company_production/all", {
           companyType: this.companyType,
