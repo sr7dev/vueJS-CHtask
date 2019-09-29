@@ -144,15 +144,14 @@
         <el-row>
           <el-col :span="10">
             <el-form-item label="常用语" class="left-margin" prop="commonLang">
-              <!-- <el-select v-model="ruleFormValue.commonLang" placeholder="请选择">
+              <el-select v-model="wordValue" multiple placeholder="请插入">
                 <el-option
-                  v-for="item in options_tmp"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>-->
-              <el-input v-model="ruleFormValue.commonLang" style="width:30%"></el-input>
+                        v-for="item in wordsList"
+                        :key="item.id"
+                        :label="item.word"
+                        :value="item.word">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="5">
@@ -339,13 +338,13 @@ export default {
             trigger: "change"
           }
         ],
-        commonLang: [
-          {
-            required: true,
-            message: "请插入",
-            trigger: "change"
-          }
-        ],
+        // commonLang: [
+        //   {
+        //     required: true,
+        //     message: "请插入",
+        //     trigger: "change"
+        //   }
+        // ],
         otherProblems: [
           {
             required: true,
@@ -373,13 +372,16 @@ export default {
             message: "请插入",
             trigger: "change"
           }
-        ]
-      }
+        ],
+      },
+      wordsList: [],
+      wordValue: 0
     };
   },
   created() {
     this.getTown();
     this.getCompanyProduct();
+    this.getWords();
   },
   methods: {
     getTown() {
@@ -401,6 +403,19 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    getWords() {
+      Request()
+        .get("/api/common_word/all")
+        .then(response => {
+          this.wordsList = this.wordsList.concat(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    customLabel (option) {
+      return `${option.name}`
     },
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
