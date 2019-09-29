@@ -318,7 +318,7 @@ export default {
         companyHonor: "",
         companyId: 1,
         companyName: "稻米专业合作社",
-        companyType: "string",
+        companyType: "1",
         contactMobile: "",
         contactPerson: "程晓刚",
         contactWay: "0512-52380296",
@@ -381,7 +381,7 @@ export default {
         //   "updateUserId": 0
         // }
       ).then(res => {
-        console.log(res);
+        // console.log(res);
       })
     },
   }

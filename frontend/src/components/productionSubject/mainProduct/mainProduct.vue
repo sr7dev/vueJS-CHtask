@@ -27,13 +27,13 @@
         <el-table-column prop="grade" label="评级"></el-table-column>
         <el-table-column prop="operations" label=""  width="270">
           <template slot-scope="{row}">
-            <el-button  v-on:click="showSamplingRecord(row)">第三方抽检记录</el-button>
-            <el-button  v-on:click="showProductBatch(row)">产品批次</el-button>
+            <el-button  v-on:click="showSamplingRecord(row)" type="success" plain>第三方抽检记录</el-button>
+            <el-button  v-on:click="showProductBatch(row)" type="warning" plain>产品批次</el-button>
           </template>
         </el-table-column>
         <el-table-column prop="operations" label=""  width="120">
           <template slot-scope="{row}">
-            <el-button  v-on:click="showInventoryDynamics(row)">库存动态</el-button>
+            <el-button  v-on:click="showInventoryDynamics(row)" type="info" plainv>库存动态</el-button>
           </template>
         </el-table-column>
       </el-table>

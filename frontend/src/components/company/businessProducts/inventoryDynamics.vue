@@ -9,7 +9,7 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button style="margin-right: 25px" @click="add()">添加</el-button>
+        <el-button style="margin-right: 25px" @click="add()" type="primary" plain>添加</el-button>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -32,10 +32,10 @@
             <!-- <template slot-scope="scope"> -->
             <template>
               <el-tooltip class="item" effect="dark" content="修改" placement="top">
-                <el-button icon="el-icon-edit" circle @click="edit()"></el-button>
+                <el-button icon="el-icon-edit" circle @click="edit()" type="primary" plain ></el-button>
               </el-tooltip>
               <el-tooltip class="item" effect="dark" content="删除" placement="top">
-                <el-button icon="el-icon-close" circle></el-button>
+                <el-button icon="el-icon-close" circle type="danger" plain></el-button>
               </el-tooltip>
             </template>
           </el-table-column>

@@ -73,7 +73,7 @@
           style="margin-left: 30px"
           @change="getList"
         >专项1:绿色优质农产品生产基地</el-checkbox>
-        <el-button v-on:click="handleDownload" style="margin-left: 30px">导出表格</el-button>
+        <el-button v-on:click="handleDownload" style="margin-left: 30px" type="primary" plain>导出表格</el-button>
         <el-button
           v-if="typeof this.creditCode != 'undefined'"
           type="outline-primary"
