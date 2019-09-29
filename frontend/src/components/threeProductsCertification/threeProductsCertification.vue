@@ -162,6 +162,16 @@ export default {
           console.log(error);
         });
     },
+    handleDelete(id) {
+       Request()
+        .delete("/api/quality_standard/delete/"+id)
+        .then(response => {
+          this.getList();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     filterCompnay(credit) {
       let company = this.companyProduction.find(x => x.creditCode === credit);
       if (company) {

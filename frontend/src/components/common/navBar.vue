@@ -28,6 +28,13 @@
         <el-menu-item index="/regulatoryRecord">
           <router-link  slot="title" to="/regulatoryRecord">监管记录</router-link>  
         </el-menu-item>
+
+        <el-menu-item index="/threeProductsCertification">
+          <router-link  slot="title" to="/threeProductsCertification">三品一标管理</router-link>  
+        </el-menu-item>
+          <el-menu-item index="/sampleCheck">
+          <router-link  slot="title" to="/sampleCheck">例行抽样管理</router-link>  
+        </el-menu-item>
         <el-menu-item index="/">
           <router-link  slot="title" to="/corporateCreditFile">企业信用档案</router-link>  
         </el-menu-item>
@@ -36,12 +43,6 @@
         </el-menu-item>
         <el-menu-item index="/redBlackList">
           <router-link  slot="title" to="/redBlackList">红黑名单</router-link>  
-        </el-menu-item>
-        <el-menu-item index="/threeProductsCertification">
-          <router-link  slot="title" to="/threeProductsCertification">三品一标管理</router-link>  
-        </el-menu-item>
-        <el-menu-item index="/sampleCheck">
-          <router-link  slot="title" to="/sampleCheck">例行抽样管理</router-link>  
         </el-menu-item>
       </el-menu>
     </el-col>

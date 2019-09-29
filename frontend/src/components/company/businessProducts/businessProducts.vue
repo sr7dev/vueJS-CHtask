@@ -8,7 +8,7 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button @click="goAdd()">添加</el-button>
+        <el-button @click="goAdd()" plain type="primary">添加</el-button>
       </div>
 
       <el-container>

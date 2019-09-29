@@ -385,7 +385,7 @@ export default {
           Request()
             .post("/api/supervision_record/create", formData)
             .then(response => {
-              // this.$router.push({ path: "/regulatoryRecord" });
+              this.$router.push({ path: "/regulatoryRecord" });
             })
             .catch(error => {});
         }
