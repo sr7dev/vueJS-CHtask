@@ -24,11 +24,11 @@
             <div class="item-value">{{data.checkPerson}}</div>
           </div>
         </div>
-        <div class="item-row">
+        <div class="item-row" v-show="data.checkFiles">
           <div class="item">
             <div class="item-label"></div>
-            <div class="item-value">
-              <el-button plain @click="$router.go(-1)">下载附件</el-button>
+            <div class="item-label">
+              <el-button plain @click="downloadFile()">下载附件</el-button>
             </div>
             <span class="item-value">{{data.checkFiles}}</span>
           </div>
@@ -49,6 +49,8 @@
 
 <script>
 import Request from '@/services/api/request'
+import { Urls } from "../../../services/constants";
+import axios from "axios";
 export default {
   name: "detailsSampleCheck",
   data() {
@@ -70,6 +72,23 @@ export default {
 
   },  
   methods: {
+    downloadFile() {
+      axios({
+        url: Urls.DOWNLOAD_URL() + this.data.checkFiles,
+        method: "GET",
+        responseType: "blob" // important
+      }).then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute(
+          "download", this.data.checkFiles
+        ); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      });
+    },
     getDateString(dt) {
       const date = new Date(dt);
       return date.toLocaleDateString();

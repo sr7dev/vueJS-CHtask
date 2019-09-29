@@ -40,6 +40,9 @@
             <template slot-scope="{row}">{{getGradeString(row.nowGrade)}}</template>
           </el-table-column>
           <el-table-column prop="gradeTime" label="评级时间">
+            <template slot-scope="{row}">{{getDateString(row.gradeTime)}}</template>
+          </el-table-column>
+          <el-table-column prop="creditAvailableStart" label="评级有效期">
             <template slot-scope="{row}">
               {{getDateString(row.creditAvailableStart)}}至{{getDateString(row.creditAvailableEnd)}}
             </template>
