@@ -33,8 +33,12 @@
           <el-table-column label="名称" width="150">
             <template slot-scope="{row}">{{filterCompnay(row.creditCode)}}</template>
           </el-table-column>
-          <el-table-column prop="originalGrade" label="原信用评级" width="150"></el-table-column>
-          <el-table-column prop="nowGrade" label="现信用评级" width="150"></el-table-column>
+          <el-table-column label="原信用评级">
+            <template slot-scope="{row}">{{getGradeString(row.originalGrade)}}</template>
+          </el-table-column>
+          <el-table-column label="现信用评级">
+            <template slot-scope="{row}">{{getGradeString(row.nowGrade)}}</template>
+          </el-table-column>
           <el-table-column prop="gradeTime" label="评级时间"></el-table-column>
           <el-table-column prop="gradeUnit" label="评级单位"></el-table-column>
           <!-- <el-table-column prop="approvalStatus" label="状态" width="100"></el-table-column> -->
@@ -147,6 +151,23 @@ export default {
       } else {
         return "";
       }
+    },
+    getGradeString(grade) {
+      let strGrade = "";
+      switch (grade) {
+        case "A":
+          strGrade = "A级（守信）";
+          break;
+        case "B":
+          strGrade = "B级（基本守信）";
+          break;
+        case "C":
+          strGrade = "C级（失信）";
+          break;
+        default:
+          strGrade = "A级（守信）";
+      }
+      return strGrade;
     },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
