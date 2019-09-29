@@ -9,21 +9,21 @@
       <div class="iptBox">
         <div class="filter-item">
           <div class="select_label">乡镇</div>
-          <el-select v-model="township" placeholder="请选择">
-            <el-option label="全部" value="0"></el-option>
+          <el-select v-model="townId" placeholder="请选择" @change="getList">
+            <el-option label="全部" :value="0"></el-option>
             <el-option v-for="item in townList" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </div>
         <div class="filter-item">
           <div class="select_label">类型</div>
           <template>
-            <el-radio v-model="companyType" label="1">备选项</el-radio>
-            <el-radio v-model="companyType" label="2">备选项</el-radio>
+            <el-radio v-model="companyType" label="1" @change="getList">企业</el-radio>
+            <el-radio v-model="companyType" label="2" @change="getList">农户</el-radio>
           </template>
         </div>
         <div class="filter-item">
           <div class="select_label">行业</div>
-          <el-select v-model="agriculturalClassification" placeholder="请选择">
+          <el-select v-model="agriculturalClassification" placeholder="请选择" @change="filterList">
             <el-option
               v-for="item in [
                           {value: 0, label: '全部'},
@@ -40,19 +40,22 @@
         <div class="filter-item">
           <div class="select_label">三品认证</div>
           <el-select v-model="quality_standard" placeholder="请选择">
-            <el-option v-for="item in ['全部', '有', '无']" :key="item" :label="item" :value="item"></el-option>
+            <el-option v-for="item in [{value: -1, label: '全部'}, {value: 1, label: '有'}, {value: 0, label: '无'}]"
+               :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </div>
         <div class="filter-item">
           <div class="select_label">监管记录</div>
           <el-select v-model="supervision_record" placeholder="请选择">
-            <el-option v-for="item in ['全部', '有', '无']" :key="item" :label="item" :value="item"></el-option>
+            <el-option v-for="item in [{value: -1, label: '全部'}, {value: 1, label: '有'}, {value: 0, label: '无'}]"
+               :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </div>
         <div class="filter-item">
           <div class="select_label">农业监测</div>
           <el-select v-model="disability_check" placeholder="请选择">
-            <el-option v-for="item in ['全部', '有', '无']" :key="item" :label="item" :value="item"></el-option>
+            <el-option v-for="item in [{value: -1, label: '全部'}, {value: 1, label: '有'}, {value: 0, label: '无'}]"
+               :key="item.value" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </div>
         <div class="filter-item">
@@ -69,10 +72,11 @@
         <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
         <el-table-column prop="companyName" label="企业名称" width="150"></el-table-column>
         <el-table-column prop="chargePerson" label="法人代表" width="150"></el-table-column>
-        <el-table-column prop="companyAddress" label="企业地址" width="250"></el-table-column>
+        <el-table-column prop="companyAddress" label="企业地址"></el-table-column>
         <el-table-column prop="qualityStandardId" label="三品认证" width="120">
-          <template>
-            <el-button>认证信息</el-button>
+          <template slot-scope="{row}">
+            <el-button @click="$router.push(`/corporateCreditFile/threeProduction/${row.creditCode}`)"
+              >认证信息</el-button>
           </template>
         </el-table-column>
         <el-table-column prop="doSupervision" label="监管记录" width="120">
@@ -82,7 +86,9 @@
         </el-table-column>
         <el-table-column prop="address" label="农药检测" width="120">
           <template slot-scope="{row}">
-            <el-button v-on:click="$router.push({path:`/disabilityCheck/`,query: {creditCode:row.creditCode}})">是</el-button>
+            <el-button
+              v-on:click="$router.push({path:`/disabilityCheck/`,query: {creditCode:row.creditCode}})"
+            >是</el-button>
           </template>
         </el-table-column>
         <el-table-column prop="contactPerson" label="联系人" width="120"></el-table-column>
@@ -90,9 +96,9 @@
         <el-table-column prop="address" label="所在乡镇" width="120">
           <template slot-scope="{row}">{{getTownship(row.townId)}}</template>
         </el-table-column>
-        <el-table-column prop="nowGrade" label="企业诚信" width="200">
+        <el-table-column prop="nowGrade" label="企业诚信" width>
           <template slot-scope="{row}">
-            <el-button v-on:click="gotoCreditRatingPage(row)">{{row.nowGrade}}</el-button>
+            <span class="rating-action" v-on:click="gotoCreditRatingPage(row)">{{row.nowGrade}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="operations" label="操作" width="450">
@@ -126,7 +132,7 @@ export default {
   components: { Pagination },
   data() {
     return {
-      township: "全部",
+      townId: 0,
       companyType: 0,
       agriculturalClassification: 0,
       quality_standard: "全部",
@@ -140,7 +146,8 @@ export default {
       radio: "1",
       listLoading: true,
       townList: [],
-      tableData: sampleData
+      tableData: sampleData,
+      srcData: [],
     };
   },
   created() {
@@ -209,23 +216,39 @@ export default {
         });
       return nowGrade;
     },
+    filterList() {
+      this.tableData = this.srcData;
+      if(this.agriculturalClassification > 0) {
+        this.tableData = this.tableData.filter(it => it.agriculturalClassification == this.agriculturalClassification);
+      }
+      if(this.agriculturalClassification > 0) {
+        this.tableData = this.tableData.filter(it => it.agriculturalClassification == this.agriculturalClassification);
+      }
+      if(this.agriculturalClassification > 0) {
+        this.tableData = this.tableData.filter(it => it.agriculturalClassification == this.agriculturalClassification);
+      }
+
+    },
     getList() {
       this.listLoading = true;
+      console.log(this.companyType);
       Request()
         .get("/api/company_production/all", {
           companyType: this.companyType,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
-          townId: 0 //this.currTown
+          townId: this.townId,
         })
         .then(response => {
           let dt = response;
           this.tableData = [];
+          this.srcData = [];
           this.total = dt.length;
           dt.map(item => {
             this.getNowGrade(item.creditCode).then(res => {
               item.nowGrade = this.getGradeString(res);
               this.tableData.push(item);
+              this.srcData.push(item);
             });
           });
         })
@@ -237,16 +260,16 @@ export default {
       let strGrade = "";
       switch (grade) {
         case "A":
-          strGrade = "A级（守信）";
+          strGrade = "A级";
           break;
         case "B":
-          strGrade = "B级（基本守信）";
+          strGrade = "B级";
           break;
         case "C":
-          strGrade = "C级（失信）";
+          strGrade = "C级";
           break;
         default:
-          strGrade = "A级（守信）";
+          strGrade = "A级";
       }
       return strGrade;
     },

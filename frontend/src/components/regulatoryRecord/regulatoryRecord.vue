@@ -48,7 +48,7 @@
               <el-button
                 type="success"
                 plain
-                v-on:click="$router.push(`/regulatoryRecord/${row.id}`)"
+                v-on:click="$router.push({path:`/regulatoryRecord/${row.id}`, query: {company:filterCompanyName(row.companyId),township:filterTownship(row.townId)}})"
               >查看</el-button>
               <el-button
                 type="danger"

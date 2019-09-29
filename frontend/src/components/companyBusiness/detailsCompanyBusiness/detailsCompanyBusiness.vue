@@ -16,7 +16,7 @@
         </el-row>
         <el-row>
           <el-col :span="8">
-            <img class="content img" :src="url + data.profileImage" alt="">
+            <img class="content img" :src="url + '/api'+ data.profileImage" alt="">
           </el-col>
           <el-col :span="6">
             <div class="title">福鼎白茶</div>
@@ -81,7 +81,7 @@ export default {
           this.data = response;          
           Request()
             .get("/api/product_business/all", {
-              companyId: this.data.id,
+              company_id: this.data.id,
               pageNo: 0,
               pageSize: 20,
             })

@@ -8,15 +8,15 @@
     <div class="box">
       <div class="iptBox">
         <div class="select_label">乡镇</div>
-        <el-select placeholder v-model="currTown">
+        <el-select placeholder v-model="currTown" @change="getList">
           <el-option v-for="town in township" :key="town.id" :label="town.name" :value="town.id"></el-option>
         </el-select>
         <div class="select_label">状态</div>
-        <el-select v-model="status" placeholder="请选择">
+        <el-select v-model="status" placeholder="请选择" @change="getList">
           <el-option v-for="(item, index) in appStatus" :key="item" :label="item" :value="index"></el-option>
         </el-select>
         <div class="select_label">
-          <el-button type="outline-primary" v-on:click="getList()">同步数据</el-button>
+          <el-button disabled type="outline-primary">同步数据</el-button>
         </div>
       </div>
 
@@ -33,9 +33,20 @@
           <el-table-column label="名称" width="150">
             <template slot-scope="{row}">{{filterCompnay(row.creditCode)}}</template>
           </el-table-column>
-          <el-table-column prop="originalGrade" label="原信用评级" width="150"></el-table-column>
-          <el-table-column prop="nowGrade" label="现信用评级" width="150"></el-table-column>
-          <el-table-column prop="gradeTime" label="评级时间"></el-table-column>
+          <el-table-column label="原信用评级">
+            <template slot-scope="{row}">{{getGradeString(row.originalGrade)}}</template>
+          </el-table-column>
+          <el-table-column label="现信用评级">
+            <template slot-scope="{row}">{{getGradeString(row.nowGrade)}}</template>
+          </el-table-column>
+          <el-table-column prop="gradeTime" label="评级时间">
+            <template slot-scope="{row}">{{getDateString(row.gradeTime)}}</template>
+          </el-table-column>
+          <el-table-column prop="creditAvailableStart" label="评级有效期">
+            <template slot-scope="{row}">
+              {{getDateString(row.creditAvailableStart)}}至{{getDateString(row.creditAvailableEnd)}}
+            </template>
+          </el-table-column>
           <el-table-column prop="gradeUnit" label="评级单位"></el-table-column>
           <!-- <el-table-column prop="approvalStatus" label="状态" width="100"></el-table-column> -->
           <el-table-column label="状态" width="100">
@@ -93,6 +104,10 @@ export default {
     this.getCompanyProduction();
   },
   methods: {
+    getDateString(strDt) {
+      let date = new Date(strDt);
+      return date.getFullYear() + '-' + (date.getMonth()+1) + '-' + (date.getDate());
+    },
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
     },
@@ -147,6 +162,23 @@ export default {
       } else {
         return "";
       }
+    },
+    getGradeString(grade) {
+      let strGrade = "";
+      switch (grade) {
+        case "A":
+          strGrade = "A级（守信）";
+          break;
+        case "B":
+          strGrade = "B级（基本守信）";
+          break;
+        case "C":
+          strGrade = "C级（失信）";
+          break;
+        default:
+          strGrade = "A级（守信）";
+      }
+      return strGrade;
     },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
