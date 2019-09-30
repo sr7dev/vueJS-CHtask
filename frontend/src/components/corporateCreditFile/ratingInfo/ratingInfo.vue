@@ -2,13 +2,17 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">行政处罚信息</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/' }"
+          >行政处罚信息</el-breadcrumb-item
+        >
       </el-breadcrumb>
     </div>
     <div class="box">
       <div class="iptBox">
-        <div class="select_label">{{companyName}}</div>
-        <el-button type="outline-primary" v-on:click="$router.go(-1)">返回</el-button>
+        <div class="select_label">{{ companyName }}</div>
+        <el-button type="primary" v-on:click="$router.go(-1)" plain
+          >返回</el-button
+        >
       </div>
 
       <el-container>
@@ -20,20 +24,30 @@
           :row-class-name="rowIndex"
           highlight-current-row
         >
-          <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
+          <el-table-column
+            :formatter="order"
+            label="序号"
+            width="70"
+          ></el-table-column>
           <el-table-column prop="gradeTime" label="评级时间">
-            <template slot-scope="{row}">{{getDateString(row.gradeTime)}}</template>
+            <template slot-scope="{ row }">{{
+              getDateString(row.gradeTime)
+            }}</template>
           </el-table-column>
           <el-table-column prop="creditAvailableStart" label="评级有效期">
-            <template slot-scope="{row}">
-              {{getDateString(row.creditAvailableStart)}}至{{getDateString(row.creditAvailableEnd)}}
+            <template slot-scope="{ row }">
+              {{ getDateString(row.creditAvailableStart) }}至{{
+                getDateString(row.creditAvailableEnd)
+              }}
             </template>
           </el-table-column>
           <el-table-column label="单位名称">
-            <template>{{companyName}}</template>
+            <template>{{ companyName }}</template>
           </el-table-column>
           <el-table-column label="评级">
-            <template slot-scope="{row}">{{getGradeString(row.nowGrade)}}</template>
+            <template slot-scope="{ row }">{{
+              getGradeString(row.nowGrade)
+            }}</template>
           </el-table-column>
           <!-- <el-table-column prop="punishTypeF" label="评级有效期" width="150"></el-table-column> -->
           <el-table-column prop="gradeUnit" label="评级单位"></el-table-column>
@@ -41,7 +55,7 @@
       </el-container>
       <div class="pageBox">
         <pagination
-          v-show="total>0"
+          v-show="total > 0"
           :total="total"
           :page.sync="page.pageIndex"
           :limit.sync="page.pageSize"
@@ -79,7 +93,9 @@ export default {
   methods: {
     getDateString(strDt) {
       let date = new Date(strDt);
-      return date.getFullYear() + '-' + (date.getMonth()+1) + '-' + (date.getDate());
+      return (
+        date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
+      );
     },
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;

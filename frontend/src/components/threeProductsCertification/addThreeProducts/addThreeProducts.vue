@@ -8,14 +8,19 @@
     </div>
 
     <div class="box">
-      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
+      <el-form
+        ref="ruleForm"
+        :model="ruleFormValue"
+        :rules="rules"
+        label-width="100px"
+      >
         <el-row>
           <el-col :span="6">
             <el-form-item label="企业名称" prop="creditCode">
               <el-select
                 v-model="ruleFormValue.creditCode"
                 v-on:change="getProductionDetail()"
-                :disabled="!(companyNameList.length>0)"
+                :disabled="!(companyNameList.length > 0)"
               >
                 <el-option
                   v-for="item in companyNameList"
@@ -28,7 +33,10 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="产品名称" prop="productId">
-              <el-select v-model="ruleFormValue.productId" :disabled="!(productNameList.length>0)">
+              <el-select
+                v-model="ruleFormValue.productId"
+                :disabled="!(productNameList.length > 0)"
+              >
                 <el-option
                   v-for="item in productNameList"
                   :key="item.productId"
@@ -104,7 +112,10 @@
         <el-row>
           <el-col :span="8">
             <div class="item">
-              <div class="item-label" style="margin-bottom:20px;display:inline-block">
+              <div
+                class="item-label"
+                style="margin-bottom:20px;display:inline-block"
+              >
                 <input
                   type="file"
                   id="file"
@@ -112,17 +123,24 @@
                   ref="file"
                   v-on:change="handleFileUpload()"
                 />
-                <el-button type="warning" plain @click="chooseFile()">添加附件</el-button>
+                <el-button type="warning" plain @click="chooseFile()"
+                  >添加附件</el-button
+                >
               </div>
-              <div class="item-value" style="display:inline-block;margin-left:10px;">
-                <span v-if="file">({{file.name}})</span>
+              <div
+                class="item-value"
+                style="display:inline-block;margin-left:10px;"
+              >
+                <span v-if="file">({{ file.name }})</span>
                 <span v-else>请选择需要上传的文件...</span>
               </div>
             </div>
           </el-col>
         </el-row>
         <el-form-item>
-          <el-button type="success" @click="onSubmit('ruleForm')" plain>保存</el-button>
+          <el-button type="success" @click="onSubmit('ruleForm')" plain
+            >保存</el-button
+          >
           <el-button type="danger" @click="goBack" plain>取消</el-button>
         </el-form-item>
       </el-form>

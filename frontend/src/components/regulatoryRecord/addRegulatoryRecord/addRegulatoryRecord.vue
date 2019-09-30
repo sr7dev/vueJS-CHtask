@@ -44,6 +44,7 @@
               </el-select>
               <el-button
                 type="primary"
+                plain
                 icon="el-icon-plus"
                 size="mini"
                 class="min-plus"

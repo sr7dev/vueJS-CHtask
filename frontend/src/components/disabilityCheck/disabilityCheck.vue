@@ -111,7 +111,8 @@
         >
         <el-button
           v-else
-          type="outline-primary"
+          plain
+          type="primary"
           v-on:click="$router.go(-1)"
           style="display: none;"
           >返回</el-button

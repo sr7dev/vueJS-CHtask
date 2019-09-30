@@ -33,7 +33,9 @@
           </div>
         </div>
         <div class="item-row">
-          <el-button plain @click="$router.go(-1)">返回</el-button>
+          <el-button @click="$router.go(-1)" plain type="primary"
+            >返回</el-button
+          >
         </div>
       </template>
       <template v-if="!data"

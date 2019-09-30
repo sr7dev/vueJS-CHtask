@@ -10,23 +10,25 @@
         <div class="item-row">
           <div class="item">
             <div class="item-label">状态</div>
-            <div class="item-value">{{allStatus[data.approvalStatus]}}</div>
+            <div class="item-value">{{ allStatus[data.approvalStatus] }}</div>
           </div>
         </div>
         <div class="item-row">
           <div class="item">
             <div class="item-label">评级时间</div>
-            <div class="item-value">{{data.gradeTime}}</div>
+            <div class="item-value">{{ data.gradeTime }}</div>
           </div>
           <div class="item">
             <div class="item-label">名称</div>
-            <div class="item-value">{{companyName}}</div>
+            <div class="item-value">{{ companyName }}</div>
           </div>
         </div>
         <div class="item-row">
           <div class="item">
             <div class="item-label">原信用评级</div>
-            <div class="item-value">{{options[grades.indexOf(data.originalGrade)]}}</div>
+            <div class="item-value">
+              {{ options[grades.indexOf(data.originalGrade)] }}
+            </div>
           </div>
         </div>
         <div class="item-row">
@@ -47,7 +49,7 @@
         <div class="item-row">
           <div class="item">
             <div class="item-label">评级单位</div>
-            <div class="item-value">{{data.gradeUnit}}</div>
+            <div class="item-value">{{ data.gradeUnit }}</div>
           </div>
         </div>
         <div class="item-row">
@@ -60,26 +62,36 @@
                 ref="file"
                 v-on:change="handleFileUpload()"
               />
-              <el-button type="warning" plain @click="chooseFile()">保存修改</el-button>
+              <el-button type="warning" plain @click="chooseFile()"
+                >保存修改</el-button
+              >
             </div>
             <div class="item-value" v-if="!file">
-              <el-link @click="downloadFile()">{{data.uploadFileName.replace('/uploads/', '')}}</el-link>
+              <el-link @click="downloadFile()">{{
+                data.uploadFileName.replace("/uploads/", "")
+              }}</el-link>
             </div>
-            <div class="item-value" v-if="file">({{file.name}})</div>
+            <div class="item-value" v-if="file">({{ file.name }})</div>
           </div>
         </div>
         <div class="item-row">
           <div class="item">
             <div class="item-label">
-              <el-button type="success" plain @click="saveChanges()">同意</el-button>
+              <el-button type="success" plain @click="saveChanges()"
+                >同意</el-button
+              >
             </div>
             <div class="item-value">
-              <el-button type="danger" plain @click="$router.go(-1)">拒绝</el-button>
+              <el-button type="danger" plain @click="$router.go(-1)"
+                >拒绝</el-button
+              >
             </div>
           </div>
         </div>
       </template>
-      <template v-if="!data">No matching data!</template>
+      <template v-if="!data"
+        >No matching data!</template
+      >
     </div>
   </div>
 </template>

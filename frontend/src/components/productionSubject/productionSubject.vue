@@ -146,6 +146,8 @@
           <template slot-scope="{ row }">
             <!-- <el-button v-if="row.quality_standard==0" disabled>否</el-button> -->
             <el-button
+              plain
+              type="success"
               @click="
                 $router.push(
                   `/corporateCreditFile/threeProduction/${row.creditCode}`
@@ -159,6 +161,8 @@
           <template slot-scope="{ row }">
             <!-- <el-button v-if="row.quality_standard==0" disabled>否</el-button> -->
             <el-button
+              plain
+              type="warning"
               v-on:click="
                 $router.push({
                   path: `/regulatoryRecord/`,
@@ -174,6 +178,8 @@
             <!-- <el-button v-if="row.quality_standard==0" disabled>否</el-button> -->
 
             <el-button
+              plain
+              type="primary"
               v-on:click="
                 $router.push({
                   path: `/disabilityCheck/`,

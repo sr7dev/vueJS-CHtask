@@ -9,14 +9,25 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button>添加</el-button>
+        <el-button plain type="primary">添加</el-button>
       </div>
 
       <el-container>
-        <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
-          <el-table-column :formatter="order" label="序号" width="180"></el-table-column>
+        <el-table
+          :data="tableData"
+          style="width: 100%"
+          :row-class-name="rowIndex"
+        >
+          <el-table-column
+            :formatter="order"
+            label="序号"
+            width="180"
+          ></el-table-column>
           <el-table-column prop="name" label="批次名称"></el-table-column>
-          <el-table-column prop="classification" label="批次号"></el-table-column>
+          <el-table-column
+            prop="classification"
+            label="批次号"
+          ></el-table-column>
           <el-table-column prop="classification" label="作业"></el-table-column>
           <el-table-column prop="type" label="销售"></el-table-column>
           <el-table-column prop="bookNo" label="属性名称"></el-table-column>
@@ -24,20 +35,74 @@
           <el-table-column prop="yield" label="操作">
             <!-- <template slot-scope="scope"> -->
             <template>
-              <el-tooltip class="item" effect="dark" content="修改" placement="top">
-                <el-button icon="el-icon-edit" circle @click="goEdit()"></el-button>
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="修改"
+                placement="top"
+              >
+                <el-button
+                  icon="el-icon-edit"
+                  circle
+                  @click="goEdit()"
+                  plain
+                  type="warn"
+                ></el-button>
               </el-tooltip>
-              <el-tooltip class="item" effect="dark" content="作业" placement="top">
-                <el-button icon="el-icon-warning-outline" circle @click="goProduct()"></el-button>
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="作业"
+                placement="top"
+              >
+                <el-button
+                  icon="el-icon-warning-outline"
+                  circle
+                  @click="goProduct()"
+                  plain
+                  type="danger"
+                ></el-button>
               </el-tooltip>
-              <el-tooltip class="item" effect="dark" content="上传检测报告" placement="top">
-                <el-button icon="el-icon-office-building" circle @click="goStorage()"></el-button>
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="上传检测报告"
+                placement="top"
+              >
+                <el-button
+                  icon="el-icon-office-building"
+                  circle
+                  @click="goStorage()"
+                  plain
+                  type="info"
+                ></el-button>
               </el-tooltip>
-              <el-tooltip class="item" effect="dark" content="属性" placement="top">
-                <el-button icon="el-icon-edit" circle @click="goEdit()"></el-button>
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="属性"
+                placement="top"
+              >
+                <el-button
+                  icon="el-icon-edit"
+                  circle
+                  @click="goEdit()"
+                  plain
+                  type="primary"
+                ></el-button>
               </el-tooltip>
-              <el-tooltip class="item" effect="dark" content="销售" placement="top">
-                <el-button icon="el-icon-close" circle></el-button>
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="销售"
+                placement="top"
+              >
+                <el-button
+                  icon="el-icon-close"
+                  circle
+                  plain
+                  type="danger"
+                ></el-button>
               </el-tooltip>
             </template>
           </el-table-column>
@@ -45,7 +110,7 @@
       </el-container>
       <div class="pageBox">
         <el-pagination
-          v-if="total>page.pageSize"
+          v-if="total > page.pageSize"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="page.pageIndex"
