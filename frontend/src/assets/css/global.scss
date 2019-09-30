@@ -1,26 +1,44 @@
+.no-margin-left {
+    margin-left: 0!important;
+}
+
+.margin-bottom-20 {
+    margin-bottom: 20px;
+}
+
+.margin-left-20 {
+    margin-left: 20px;
+}
+
 .el-aside {
-  .tac {
-    ul.el-menu-vertical-demo {
-      li.el-menu-item {
-        padding-left:40px!important;
-      }
+    .tac {
+        ul.el-menu-vertical-demo {
+            li.el-menu-item {
+                padding-left: 40px!important;
+            }
+        }
+        div.el-submenu__title {
+            padding-left: 40px!important;
+        }
     }
-    div.el-submenu__title {
-      padding-left:40px!important;
+}
+
+.title {
+    .el-breadcrumb {
+        font-size: 2rem;
     }
-  }
 }
-.title{ 
-  .el-breadcrumb {
-    font-size:2rem;
-  }
-}
+
 .el-table {
-  th.is-leaf {
-    font-size:1rem;
-  }
+    th.is-leaf {
+        font-size: 1rem;
+    }
 }
 
 .iptBox {
-  margin-bottom: 10px!important;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 20px;
+    text-align: left;
 }

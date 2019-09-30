@@ -2,8 +2,8 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/companyBusiness' }">监管对象</el-breadcrumb-item>
-        <el-breadcrumb-item>经营产品</el-breadcrumb-item>
+        <el-breadcrumb-item>监管对象</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">经营产品</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
@@ -13,9 +13,16 @@
         </div>
       </div>
       <el-container>
-        <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
+        <el-table
+          :data="tableData"
+          style="width: 100%"
+          :row-class-name="rowIndex"
+        >
           <el-table-column :formatter="order" label="序号"></el-table-column>
-          <el-table-column prop="productName" label="产品名称"></el-table-column>
+          <el-table-column
+            prop="productName"
+            label="产品名称"
+          ></el-table-column>
           <el-table-column prop="atunitprice" label="单价"></el-table-column>
           <el-table-column prop="productArea" label="产地"></el-table-column>
           <el-table-column prop="variety" label="品种"></el-table-column>
@@ -25,7 +32,7 @@
       </el-container>
       <div class="pageBox">
         <pagination
-          v-show="total>0"
+          v-show="total > 0"
           :total="total"
           :page.sync="page.pageIndex"
           :limit.sync="page.pageSize"

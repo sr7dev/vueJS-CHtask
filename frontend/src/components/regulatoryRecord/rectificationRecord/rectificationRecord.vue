@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">监管记录</el-breadcrumb-item>
+        <el-breadcrumb-item>监管记录</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">整改记录</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -13,7 +13,7 @@
       </el-row>
       <el-form ref="form" v-if="!listLoading" :rules="rules">
         <el-row>
-          <el-col :span="4">
+          <el-col :span="5">
             <el-form-item label="乡镇">
               <el-select v-model="data.townId" placeholder="请选择">
                 <el-option
@@ -25,7 +25,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="5">
             <el-form-item label="企业">
               <el-select v-model="data.companyId">
                 <el-option
@@ -63,7 +63,11 @@
                     <td rowspan="2">结论</td>
                     <td>合格</td>
                     <td>
-                      <el-checkbox v-model="data.conclusion" true-label="1" false-label="0"></el-checkbox>
+                      <el-checkbox
+                        v-model="data.conclusion"
+                        true-label="1"
+                        false-label="0"
+                      ></el-checkbox>
                     </td>
                   </tr>
                   <tr>
@@ -76,7 +80,7 @@
                             <td>
                               <el-input
                                 v-model="conclusionData.order"
-                                :disabled="data.conclusion==1"
+                                :disabled="data.conclusion == 1"
                                 style="width:100%"
                               ></el-input>
                             </td>
@@ -86,7 +90,7 @@
                             <td>
                               <el-input
                                 v-model="conclusionData.suggestion"
-                                :disabled="data.conclusion==1"
+                                :disabled="data.conclusion == 1"
                                 style="width:100%"
                               ></el-input>
                             </td>
@@ -96,7 +100,7 @@
                             <td>
                               <el-input
                                 v-model="conclusionData.others"
-                                :disabled="data.conclusion==1"
+                                :disabled="data.conclusion == 1"
                                 style="width:100%"
                               ></el-input>
                             </td>
@@ -156,7 +160,10 @@
                       class="image-box"
                       style="width:100px;height:100px;border:1px #001528;border-radius:5px"
                     >
-                      <div class="js--image-preview" @click="chooseFile_ConfirmSign()">
+                      <div
+                        class="js--image-preview"
+                        @click="chooseFile_ConfirmSign()"
+                      >
                         <img :src="imageUrl_ConfirmSign" />
                       </div>
                       <input
@@ -177,7 +184,9 @@
 
         <el-form-item class="left-margin">
           <el-button type="success" plain v-on:click="onSubmit">保存</el-button>
-          <el-button type="danger" v-on:click="$router.go(-1)" plain>取消</el-button>
+          <el-button type="danger" v-on:click="$router.go(-1)" plain
+            >取消</el-button
+          >
         </el-form-item>
       </el-form>
     </div>

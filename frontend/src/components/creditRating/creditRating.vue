@@ -2,21 +2,31 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">信用评级</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">信用评级</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
       <div class="iptBox">
-        <div class="select_label">乡镇</div>
+        <div class="select_label no-margin-left">乡镇</div>
         <el-select placeholder v-model="currTown" @change="getList">
-          <el-option v-for="town in township" :key="town.id" :label="town.name" :value="town.id"></el-option>
+          <el-option
+            v-for="town in township"
+            :key="town.id"
+            :label="town.name"
+            :value="town.id"
+          ></el-option>
         </el-select>
         <div class="select_label">状态</div>
         <el-select v-model="status" placeholder="请选择" @change="getList">
-          <el-option v-for="(item, index) in appStatus" :key="item" :label="item" :value="index"></el-option>
+          <el-option
+            v-for="(item, index) in appStatus"
+            :key="item"
+            :label="item"
+            :value="index"
+          ></el-option>
         </el-select>
         <div class="select_label">
-          <el-button disabled type="outline-primary">同步数据</el-button>
+          <el-button disabled type="primary" plain>同步数据</el-button>
         </div>
       </div>
 
@@ -29,42 +39,64 @@
           :row-class-name="rowIndex"
           highlight-current-row
         >
-          <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
+          <el-table-column
+            :formatter="order"
+            label="序号"
+            width="70"
+          ></el-table-column>
           <el-table-column label="名称" width="150">
-            <template slot-scope="{row}">{{filterCompnay(row.creditCode)}}</template>
+            <template slot-scope="{ row }">{{
+              filterCompnay(row.creditCode)
+            }}</template>
           </el-table-column>
           <el-table-column label="原信用评级">
-            <template slot-scope="{row}">{{getGradeString(row.originalGrade)}}</template>
+            <template slot-scope="{ row }">{{
+              getGradeString(row.originalGrade)
+            }}</template>
           </el-table-column>
           <el-table-column label="现信用评级">
-            <template slot-scope="{row}">{{getGradeString(row.nowGrade)}}</template>
+            <template slot-scope="{ row }">{{
+              getGradeString(row.nowGrade)
+            }}</template>
           </el-table-column>
           <el-table-column prop="gradeTime" label="评级时间">
-            <template slot-scope="{row}">{{getDateString(row.gradeTime)}}</template>
+            <template slot-scope="{ row }">{{
+              getDateString(row.gradeTime)
+            }}</template>
           </el-table-column>
           <el-table-column prop="creditAvailableStart" label="评级有效期">
-            <template
-              slot-scope="{row}"
-            >{{getDateString(row.creditAvailableStart)}}至{{getDateString(row.creditAvailableEnd)}}</template>
+            <template slot-scope="{ row }"
+              >{{ getDateString(row.creditAvailableStart) }}至{{
+                getDateString(row.creditAvailableEnd)
+              }}</template
+            >
           </el-table-column>
           <el-table-column prop="gradeUnit" label="评级单位"></el-table-column>
           <!-- <el-table-column prop="approvalStatus" label="状态" width="100"></el-table-column> -->
           <el-table-column label="状态" width="100">
-            <template slot-scope="{row}">{{getStatus(row.approvalStatus)}}</template>
+            <template slot-scope="{ row }">{{
+              getStatus(row.approvalStatus)
+            }}</template>
           </el-table-column>
           <el-table-column label="操作">
-            <template slot-scope="{row}">
+            <template slot-scope="{ row }">
               <!-- <el-button v-on:click="$router.push(`/creditRating/${row.creditGradeId}`)">查看</el-button> -->
               <el-button
-                v-on:click="$router.push({path: `/creditRating/edit/${row.creditGradeId}`,query: {company:filterCompnay(row.creditCode)}})"
-              >修改评级</el-button>
+                v-on:click="
+                  $router.push({
+                    path: `/creditRating/edit/${row.creditGradeId}`,
+                    query: { company: filterCompnay(row.creditCode) }
+                  })
+                "
+                >修改评级</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
       </el-container>
       <div class="pageBox">
         <pagination
-          v-show="total>0"
+          v-show="total > 0"
           :total="total"
           :page.sync="page.pageIndex"
           :limit.sync="page.pageSize"

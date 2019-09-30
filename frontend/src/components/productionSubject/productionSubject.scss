@@ -1,20 +1,10 @@
 #production-subject {
-  .allCompany {
-    display: inline-block;
-    line-height: 40px;
-    margin: 0 20px;
-  }
-  .iptBox{
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    .filter-item {
-      margin-bottom: 20px;
-
+    .allCompany {
+        display: inline-block;
+        line-height: 40px;
+        margin: 0 20px;
     }
-  }
-
-  span.rating-action {
-    cursor: pointer;
-  }
+    span.rating-action {
+        cursor: pointer;
+    }
 }
