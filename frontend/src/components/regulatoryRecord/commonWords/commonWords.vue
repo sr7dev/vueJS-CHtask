@@ -99,7 +99,6 @@
                 },
                 addForm: { id: 0, word: '' },
                 addFormVisible: false,
-                addFormVisible: false,
                 addLoading: false,
                 tableData: [],
             }
