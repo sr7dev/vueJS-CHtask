@@ -2,36 +2,52 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/productionSubject' }">监管对象</el-breadcrumb-item>
-        <el-breadcrumb-item >主营产品</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/productionSubject' }"
+          >监管对象</el-breadcrumb-item
+        >
+        <el-breadcrumb-item>主营产品</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">库存动态</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
       <div class="iptBox">
         <div class="filter-item">
-          <el-button type="primary" plain style="margin-left: 20px;" @click="$router.go(-1)">返回</el-button>
+          <el-button type="primary" plain @click="$router.go(-1)"
+            >返回</el-button
+          >
         </div>
       </div>
-      <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
-        <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
+      <el-table
+        :data="tableData"
+        style="width: 100%"
+        :row-class-name="rowIndex"
+      >
+        <el-table-column
+          :formatter="order"
+          label="序号"
+          width="70"
+        ></el-table-column>
         <el-table-column prop="productId" label="产品名称">
-          <template>{{productName}}</template>
+          <template>{{ productName }}</template>
         </el-table-column>
         <el-table-column prop="warehouse" label="所在仓库">
-          <template slot-scope="{row}">{{getWarehouseName(row.warehouseId)}}</template>
+          <template slot-scope="{ row }">{{
+            getWarehouseName(row.warehouseId)
+          }}</template>
         </el-table-column>
         <el-table-column prop="repertoryAmount" label="储存数量">
-          <template slot-scope="{row}">{{row.repertoryAmount}}</template>
+          <template slot-scope="{ row }">{{ row.repertoryAmount }}</template>
         </el-table-column>
         <el-table-column prop="variety" label="品种"></el-table-column>
         <el-table-column prop="grade" label="等级">
-          <template slot-scope="{row}">{{['Unknown', '低级', '中级', '高级', '特级'][row.grade]}}</template>
+          <template slot-scope="{ row }">{{
+            ["Unknown", "低级", "中级", "高级", "特级"][row.grade]
+          }}</template>
         </el-table-column>
       </el-table>
       <div class="pageBox">
         <pagination
-          v-show="total>0"
+          v-show="total > 0"
           :total="total"
           :page.sync="page.pageIndex"
           :limit.sync="page.pageSize"

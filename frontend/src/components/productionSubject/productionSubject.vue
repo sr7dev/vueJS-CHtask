@@ -7,30 +7,43 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <div class="filter-item">
-          <div class="select_label">乡镇</div>
+        <div class="filter-item margin-bottom-20">
+          <div class="select_label no-margin-left">乡镇</div>
           <el-select v-model="townId" placeholder="请选择" @change="getList">
             <el-option label="全部" :value="0"></el-option>
-            <el-option v-for="item in townList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+            <el-option
+              v-for="item in townList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            ></el-option>
           </el-select>
         </div>
         <div class="filter-item">
           <div class="select_label">类型</div>
           <template>
-            <el-radio v-model="companyType" label="1" @change="getList">企业</el-radio>
-            <el-radio v-model="companyType" label="2" @change="getList">农户</el-radio>
+            <el-radio v-model="companyType" label="1" @change="getList"
+              >企业</el-radio
+            >
+            <el-radio v-model="companyType" label="2" @change="getList"
+              >农户</el-radio
+            >
           </template>
         </div>
         <div class="filter-item">
           <div class="select_label">行业</div>
-          <el-select v-model="agriculturalClassification" placeholder="请选择" @change="filterList">
+          <el-select
+            v-model="agriculturalClassification"
+            placeholder="请选择"
+            @change="filterList"
+          >
             <el-option
               v-for="item in [
-                          {value: 0, label: '全部'},
-                          {value: 1, label: '养殖业'}, 
-                          {value: 2, label: '畜牧业'}, 
-                          {value: 3, label: '种植业'}
-                        ]"
+                { value: 0, label: '全部' },
+                { value: 1, label: '养殖业' },
+                { value: 2, label: '畜牧业' },
+                { value: 3, label: '种植业' }
+              ]"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -39,84 +52,191 @@
         </div>
         <div class="filter-item">
           <div class="select_label">三品认证</div>
-          <el-select v-model="quality_standard" placeholder="请选择" @change="filterList">
-            <el-option v-for="item in [{value: -1, label: '全部'}, {value: 1, label: '有'}, {value: 0, label: '无'}]"
-               :key="item.value" :label="item.label" :value="item.value"></el-option>
+          <el-select
+            v-model="quality_standard"
+            placeholder="请选择"
+            @change="filterList"
+          >
+            <el-option
+              v-for="item in [
+                { value: -1, label: '全部' },
+                { value: 1, label: '有' },
+                { value: 0, label: '无' }
+              ]"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
           </el-select>
         </div>
         <div class="filter-item">
           <div class="select_label">监管记录</div>
-          <el-select v-model="supervision_record" placeholder="请选择" @change="filterList">
-            <el-option v-for="item in [{value: -1, label: '全部'}, {value: 1, label: '有'}, {value: 0, label: '无'}]"
-               :key="item.value" :label="item.label" :value="item.value"></el-option>
+          <el-select
+            v-model="supervision_record"
+            placeholder="请选择"
+            @change="filterList"
+          >
+            <el-option
+              v-for="item in [
+                { value: -1, label: '全部' },
+                { value: 1, label: '有' },
+                { value: 0, label: '无' }
+              ]"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
           </el-select>
         </div>
         <div class="filter-item">
-          <div class="select_label">农业监测</div>
-          <el-select v-model="disability_check" placeholder="请选择" @change="filterList">
-            <el-option v-for="item in [{value: -1, label: '全部'}, {value: 1, label: '有'}, {value: 0, label: '无'}]"
-               :key="item.value" :label="item.label" :value="item.value"></el-option>
+          <div class="select_label no-margin-left">农业监测</div>
+          <el-select
+            v-model="disability_check"
+            placeholder="请选择"
+            @change="filterList"
+          >
+            <el-option
+              v-for="item in [
+                { value: -1, label: '全部' },
+                { value: 1, label: '有' },
+                { value: 0, label: '无' }
+              ]"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
           </el-select>
         </div>
         <div class="filter-item">
           <el-button
             type="primary"
             plain
-            style="margin-left: 20px;"
             @click="gotoAddRegulatoryObject()"
-          >添加监管对象</el-button>
-          <div class="allCompany">共计{{total}}家企业</div>
+            class="margin-left-20"
+            >添加监管对象</el-button
+          >
+          <div class="allCompany">共计{{ total }}家企业</div>
         </div>
       </div>
-      <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
-        <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
-        <el-table-column prop="companyName" label="企业名称" width="150"></el-table-column>
-        <el-table-column prop="chargePerson" label="法人代表" width="150"></el-table-column>
-        <el-table-column prop="companyAddress" label="企业地址"></el-table-column>
+      <el-table
+        :data="tableData"
+        style="width: 100%"
+        :row-class-name="rowIndex"
+      >
+        <el-table-column
+          :formatter="order"
+          label="序号"
+          width="70"
+        ></el-table-column>
+        <el-table-column
+          prop="companyName"
+          label="企业名称"
+          width="150"
+        ></el-table-column>
+        <el-table-column
+          prop="chargePerson"
+          label="法人代表"
+          width="150"
+        ></el-table-column>
+        <el-table-column
+          prop="companyAddress"
+          label="企业地址"
+        ></el-table-column>
         <el-table-column prop="qualityStandardId" label="三品认证" width="120">
-          <template slot-scope="{row}">
+          <template slot-scope="{ row }">
             <!-- <el-button v-if="row.quality_standard==0" disabled>否</el-button> -->
-            <el-button @click="$router.push(`/corporateCreditFile/threeProduction/${row.creditCode}`)"
-              >认证信息</el-button>
+            <el-button
+              @click="
+                $router.push(
+                  `/corporateCreditFile/threeProduction/${row.creditCode}`
+                )
+              "
+              >认证信息</el-button
+            >
           </template>
         </el-table-column>
         <el-table-column prop="doSupervision" label="监管记录" width="120">
-          <template slot-scope="{row}">
+          <template slot-scope="{ row }">
             <!-- <el-button v-if="row.quality_standard==0" disabled>否</el-button> -->
-            <el-button v-on:click="$router.push({path:`/regulatoryRecord/`,query: {companyId:row.companyId}})"
-              >是</el-button>
+            <el-button
+              v-on:click="
+                $router.push({
+                  path: `/regulatoryRecord/`,
+                  query: { companyId: row.companyId }
+                })
+              "
+              >是</el-button
+            >
           </template>
         </el-table-column>
         <el-table-column prop="address" label="农药检测" width="120">
-          <template slot-scope="{row}">
+          <template slot-scope="{ row }">
             <!-- <el-button v-if="row.quality_standard==0" disabled>否</el-button> -->
-            
-            <el-button v-on:click="$router.push({path:`/disabilityCheck/`,query: {creditCode:row.creditCode}})"
-              >是</el-button>
+
+            <el-button
+              v-on:click="
+                $router.push({
+                  path: `/disabilityCheck/`,
+                  query: { creditCode: row.creditCode }
+                })
+              "
+              >是</el-button
+            >
           </template>
         </el-table-column>
-        <el-table-column prop="contactPerson" label="联系人" width="120"></el-table-column>
-        <el-table-column prop="contactMobile" label="联系方式" width="120"></el-table-column>
+        <el-table-column
+          prop="contactPerson"
+          label="联系人"
+          width="120"
+        ></el-table-column>
+        <el-table-column
+          prop="contactMobile"
+          label="联系方式"
+          width="120"
+        ></el-table-column>
         <el-table-column prop="address" label="所在乡镇" width="120">
-          <template slot-scope="{row}">{{getTownship(row.townId)}}</template>
+          <template slot-scope="{ row }">{{
+            getTownship(row.townId)
+          }}</template>
         </el-table-column>
         <el-table-column prop="nowGrade" label="企业诚信" width>
-          <template slot-scope="{row}">
-            <span class="rating-action" v-on:click="gotoCreditRatingPage(row)">{{row.nowGrade}}</span>
+          <template slot-scope="{ row }">
+            <span
+              class="rating-action"
+              v-on:click="gotoCreditRatingPage(row)"
+              >{{ row.nowGrade }}</span
+            >
           </template>
         </el-table-column>
         <el-table-column prop="operations" label="操作" width="450">
-          <template slot-scope="{row}">
-            <el-button v-on:click="gotoEditProductPage(row)" type="warning" plain>修改</el-button>
-            <el-button v-on:click="gotoProductPage(row)" type="success" plain>产品</el-button>
-            <el-button v-on:click="gotoWarehousingEnvironmentPage(row)" type="primary" plain>仓储环境</el-button>
-            <el-button v-on:click="gotoDetailsProductPage(row)" type="info" plain>详情</el-button>
+          <template slot-scope="{ row }">
+            <el-button
+              v-on:click="gotoEditProductPage(row)"
+              type="warning"
+              plain
+              >修改</el-button
+            >
+            <el-button v-on:click="gotoProductPage(row)" type="success" plain
+              >产品</el-button
+            >
+            <el-button
+              v-on:click="gotoWarehousingEnvironmentPage(row)"
+              type="primary"
+              plain
+              >仓储环境</el-button
+            >
+            <el-button
+              v-on:click="gotoDetailsProductPage(row)"
+              type="info"
+              plain
+              >详情</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
       <div class="pageBox">
         <pagination
-          v-show="total>0"
+          v-show="total > 0"
           :total="total"
           :page.sync="page.pageIndex"
           :limit.sync="page.pageSize"
@@ -151,7 +271,7 @@ export default {
       listLoading: true,
       townList: [],
       tableData: sampleData,
-      srcData: [],
+      srcData: []
     };
   },
   created() {
@@ -222,8 +342,10 @@ export default {
     },
     filterList() {
       this.tableData = this.srcData;
-      if(this.agriculturalClassification > 0) {
-        this.tableData = this.tableData.filter(it => it.agriculturalClassification == this.agriculturalClassification);
+      if (this.agriculturalClassification > 0) {
+        this.tableData = this.tableData.filter(
+          it => it.agriculturalClassification == this.agriculturalClassification
+        );
       }
       // if(this.quality_standard > 0) {
       //   this.tableData = this.tableData.filter(it => it.quality_standard?true:false);
@@ -234,7 +356,6 @@ export default {
       // if(this.agriculturalClassification > 0) {
       //   this.tableData = this.tableData.filter(it => it.disabilityCheck?true:false);
       // }
-
     },
     getList() {
       this.listLoading = true;
@@ -244,7 +365,7 @@ export default {
           companyType: this.companyType,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
-          townId: this.townId,
+          townId: this.townId
         })
         .then(response => {
           let dt = response;

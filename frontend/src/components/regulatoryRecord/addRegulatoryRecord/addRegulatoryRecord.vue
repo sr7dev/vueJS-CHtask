@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">监管记录</el-breadcrumb-item>
+        <el-breadcrumb-item>监管记录</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">添加监管记录</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -42,7 +42,12 @@
                   :value="item.companyId"
                 ></el-option>
               </el-select>
-              <el-button type="primary" icon="el-icon-plus" size="mini" class="min-plus"></el-button>
+              <el-button
+                type="primary"
+                icon="el-icon-plus"
+                size="mini"
+                class="min-plus"
+              ></el-button>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -57,7 +62,10 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="检查人" prop="checker">
-              <el-input v-model="ruleFormValue.checker" style="width:60%"></el-input>
+              <el-input
+                v-model="ruleFormValue.checker"
+                style="width:60%"
+              ></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -126,7 +134,12 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label>
-              <el-checkbox v-model="ruleFormValue.isDisableInput" true-label="1" false-label="0">有</el-checkbox>
+              <el-checkbox
+                v-model="ruleFormValue.isDisableInput"
+                true-label="1"
+                false-label="0"
+                >有</el-checkbox
+              >
             </el-form-item>
           </el-col>
           <el-col :span="5">
@@ -136,7 +149,12 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label>
-              <el-checkbox v-model="ruleFormValue.isThreeProduct" true-label="1" false-label="0">合规</el-checkbox>
+              <el-checkbox
+                v-model="ruleFormValue.isThreeProduct"
+                true-label="1"
+                false-label="0"
+                >合规</el-checkbox
+              >
             </el-form-item>
           </el-col>
         </el-row>
@@ -160,7 +178,11 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="otherProblems">
-              <el-input type="textarea" :rows="5" v-model="ruleFormValue.otherProblems"></el-input>
+              <el-input
+                type="textarea"
+                :rows="5"
+                v-model="ruleFormValue.otherProblems"
+              ></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -192,7 +214,7 @@
                               <el-input
                                 v-model="ruleFormValue.orderToAmend"
                                 style="width:100%"
-                                :disabled="ruleFormValue.conclusion==true"
+                                :disabled="ruleFormValue.conclusion == true"
                               ></el-input>
                             </td>
                           </tr>
@@ -202,7 +224,7 @@
                               <el-input
                                 v-model="ruleFormValue.recommendPunishment"
                                 style="width:100%"
-                                :disabled="ruleFormValue.conclusion==true"
+                                :disabled="ruleFormValue.conclusion == true"
                               ></el-input>
                             </td>
                           </tr>
@@ -212,7 +234,7 @@
                               <el-input
                                 v-model="ruleFormValue.otherProcessing"
                                 style="width:100%"
-                                :disabled="ruleFormValue.conclusion==true"
+                                :disabled="ruleFormValue.conclusion == true"
                               ></el-input>
                             </td>
                           </tr>
@@ -272,8 +294,12 @@
         </el-row>
 
         <el-form-item class="left-margin">
-          <el-button type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
-          <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
+          <el-button type="success" plain @click="onSubmit('ruleForm')"
+            >保存</el-button
+          >
+          <el-button type="danger" plain v-on:click="$router.go(-1)"
+            >取消</el-button
+          >
         </el-form-item>
       </el-form>
     </div>
