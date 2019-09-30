@@ -200,12 +200,12 @@ export default new Router({
           component: corporateCreditFile
         },
         {
-          path: '/corporateCreditFile/adminLicenseInfo/:id',
+          path: '/corporateCreditFile/adminLicenseInfo/',
           name: 'adminLicenseInfo',
           component: adminLicenseInfo
         },
         {
-          path: '/corporateCreditFile/adminPenaltyInfo/:id',
+          path: '/corporateCreditFile/adminPenaltyInfo/',
           name: 'adminPenaltyInfo',
           component: adminPenaltyInfo
         },
@@ -215,7 +215,7 @@ export default new Router({
           component: ratingInfo
         },
         {
-          path: '/corporateCreditFile/threeProduction/:id',
+          path: '/corporateCreditFile/threeProduction/',
           name: 'threeProduction',
           component: threeProduction
         },

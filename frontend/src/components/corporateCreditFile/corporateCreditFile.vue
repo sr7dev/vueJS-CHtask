@@ -53,16 +53,18 @@
           <el-table-column prop="creditCode" label="统一社会信用代码"></el-table-column>
           <el-table-column prop="public_license" label="行政许可信息">
             <template slot-scope="{row}">
-              <el-button
-                v-on:click="$router.push(`/corporateCreditFile/adminLicenseInfo/${row.creditCode}`)"
+              <el-button v-if="row.public_license > 0"
+                v-on:click="$router.push({path: `/corporateCreditFile/adminLicenseInfo`,query: {creditCode:row.creditCode}})"
               >行政许可信息</el-button>
+              <el-button v-else disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
             </template>
           </el-table-column>
           <el-table-column prop="public_punish" label="行政处罚信息">
             <template slot-scope="{row}">
-              <el-button
-                v-on:click="$router.push(`/corporateCreditFile/adminPenaltyInfo/${row.creditCode}`)"
+              <el-button v-if="row.public_punish > 0"
+                v-on:click="$router.push({path: `/corporateCreditFile/adminPenaltyInfo`,query: {creditCode:row.creditCode}})"
               >行政许可信息</el-button>
+              <el-button v-else disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
             </template>
           </el-table-column>
           <el-table-column label="评级信息">
@@ -76,7 +78,7 @@
           <el-table-column label="三品一标认证" width="200">
             <template slot-scope="{row}">
               <el-button
-                v-on:click="$router.push(`/corporateCreditFile/threeProduction/${row.creditCode}`)"
+                v-on:click="$router.push({path: `/corporateCreditFile/threeProduction`,query: {creditCode:row.creditCode}})"
               >三品一标</el-button>
             </template>
           </el-table-column>
@@ -174,7 +176,7 @@ export default {
         })
         .then(response => {
           var tmpData = response;
-          if (this.publicOptions == 1) {
+          if (this.public_license == 1) {
             tmpData = tmpData.filter(function(licesnse) {
               return licesnse.public_license > 0;
             });
@@ -197,6 +199,7 @@ export default {
             this.getNowGrade(item.creditCode).then(res => {
               item.nowGrade = this.getGradeString(res);
               this.tableData.push(item);
+              console.log(this.tableData);
             });
           });
           this.total = this.tableData.length;
