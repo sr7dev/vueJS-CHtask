@@ -10,57 +10,65 @@
         <div class="item-row">
           <div class="item">
             <div class="item-label">状态</div>
-            <div class="item-value">{{data.approvalStatus}}</div>
+            <div class="item-value">{{ data.approvalStatus }}</div>
           </div>
         </div>
         <div class="item-row">
           <div class="item">
             <div class="item-label">评级时间</div>
-            <div class="item-value">{{data.gradeTime}}</div>
+            <div class="item-value">{{ data.gradeTime }}</div>
           </div>
           <div class="item">
             <div class="item-label">名称</div>
-            <div class="item-value">{{data.approvalGrade}}</div>
+            <div class="item-value">{{ data.approvalGrade }}</div>
           </div>
         </div>
         <div class="item-row">
           <div class="item">
             <div class="item-label">原信用评级</div>
-            <div class="item-value">{{data.originalGrade}}</div>
+            <div class="item-value">{{ data.originalGrade }}</div>
           </div>
         </div>
         <div class="item-row">
           <div class="item">
             <div class="item-label">现信用评级</div>
-            <div class="item-value">{{data.nowGrade}}</div>
+            <div class="item-value">{{ data.nowGrade }}</div>
           </div>
         </div>
         <div class="item-row">
           <div class="item">
             <div class="item-label">评级单位</div>
-            <div class="item-value">{{data.gradeUnit}}</div>
+            <div class="item-value">{{ data.gradeUnit }}</div>
           </div>
         </div>
         <div class="item-row">
           <div class="item">
             <div class="item-label">
-              <el-button type="warning" plain variant="outline-dark">下载附件</el-button>
+              <el-button type="warning" plain variant="outline-dark"
+                >下载附件</el-button
+              >
             </div>
-            <div class="item-value">{{data.creditCode}}</div>
+            <div class="item-value">{{ data.creditCode }}</div>
           </div>
         </div>
         <div class="item-row">
           <div class="item">
             <div class="item-label">
-              <el-button type="success" plain @click="$router.go(-1)">同意</el-button>
+              <el-button type="success" plain @click="$router.go(-1)"
+                >同意</el-button
+              >
             </div>
             <div class="item-value">
-              <el-button type="danger" plain @click="$router.go(-1)">拒绝</el-button>
+              <el-button type="danger" plain @click="$router.go(-1)"
+                >拒绝</el-button
+              >
             </div>
           </div>
         </div>
       </template>
-      <template v-if="!data">No matching data!</template>
+      <template v-if="!data"
+        >No matching data!</template
+      >
     </div>
   </div>
 </template>

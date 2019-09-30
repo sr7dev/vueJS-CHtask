@@ -9,7 +9,13 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button style="margin-right: 25px" @click="add()"  type="primary" plain>添加</el-button>
+        <el-button
+          style="margin-right: 25px"
+          @click="add()"
+          type="primary"
+          plain
+          >添加</el-button
+        >
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -21,18 +27,50 @@
       </div>
 
       <el-container>
-        <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
-          <el-table-column :formatter="order" label="序号" width="180"></el-table-column>
+        <el-table
+          :data="tableData"
+          style="width: 100%"
+          :row-class-name="rowIndex"
+        >
+          <el-table-column
+            :formatter="order"
+            label="序号"
+            width="180"
+          ></el-table-column>
           <el-table-column prop="name" label="作业名称"></el-table-column>
-          <el-table-column prop="classification" label="作业类型"></el-table-column>
+          <el-table-column
+            prop="classification"
+            label="作业类型"
+          ></el-table-column>
           <el-table-column prop="yield" label="操作">
             <!-- <template slot-scope="scope"> -->
             <template>
-              <el-tooltip class="item" effect="dark" content="修改" placement="top">
-                <el-button icon="el-icon-edit" circle @click="edit()" type="warning" plain></el-button>
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="修改"
+                placement="top"
+              >
+                <el-button
+                  icon="el-icon-edit"
+                  circle
+                  @click="edit()"
+                  type="warning"
+                  plain
+                ></el-button>
               </el-tooltip>
-              <el-tooltip class="item" effect="dark" content="删除" placement="top">
-                <el-button icon="el-icon-close" circle type="danger" plain></el-button>
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="删除"
+                placement="top"
+              >
+                <el-button
+                  icon="el-icon-close"
+                  circle
+                  type="danger"
+                  plain
+                ></el-button>
               </el-tooltip>
             </template>
           </el-table-column>
@@ -40,7 +78,7 @@
       </el-container>
       <div class="pageBox">
         <el-pagination
-          v-if="total>page.pageSize"
+          v-if="total > page.pageSize"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="page.pageIndex"
@@ -71,14 +109,20 @@
             :file-list="fileList"
             list-type="picture"
           >
-            <el-button size="small" type="primary">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+            <el-button size="small" type="primary" plain>点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">
+              只能上传jpg/png文件，且不超过500kb
+            </div>
           </el-upload>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        <el-button @click="dialogFormVisible = false" plain type="success"
+          >取 消</el-button
+        >
+        <el-button type="primary" @click="dialogFormVisible = false" plain
+          >确 定</el-button
+        >
       </div>
     </el-dialog>
   </div>

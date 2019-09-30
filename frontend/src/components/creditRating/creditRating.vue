@@ -82,6 +82,8 @@
             <template slot-scope="{ row }">
               <!-- <el-button v-on:click="$router.push(`/creditRating/${row.creditGradeId}`)">查看</el-button> -->
               <el-button
+                plain
+                type="success"
                 v-on:click="
                   $router.push({
                     path: `/creditRating/edit/${row.creditGradeId}`,

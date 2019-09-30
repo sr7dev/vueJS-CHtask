@@ -3,7 +3,7 @@
     <el-col :span="24">
       <el-menu
         outer
-        :default-active="$route.fullPath                          "
+        :default-active="$route.fullPath"
         class="el-menu-vertical-demo"
         background-color="#fff"
         text-color="#333"
@@ -15,34 +15,44 @@
           </template>
           <el-menu-item-group>
             <el-menu-item index="/productionSubject">
-              <router-link  slot="title" to="/productionSubject">生产主体</router-link>  
+              <router-link slot="title" to="/productionSubject"
+                >生产主体</router-link
+              >
             </el-menu-item>
             <el-menu-item index="/companyBusiness">
-              <router-link  slot="title" to="/companyBusiness">经营主体</router-link>
+              <router-link slot="title" to="/companyBusiness"
+                >经营主体</router-link
+              >
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-menu-item index="/disabilityCheck">
-          <router-link  slot="title" to="/disabilityCheck">农残检测</router-link>
+          <router-link slot="title" to="/disabilityCheck">农残检测</router-link>
         </el-menu-item>
         <el-menu-item index="/regulatoryRecord">
-          <router-link  slot="title" to="/regulatoryRecord">监管记录</router-link>  
+          <router-link slot="title" to="/regulatoryRecord"
+            >监管记录</router-link
+          >
         </el-menu-item>
 
         <el-menu-item index="/threeProductsCertification">
-          <router-link  slot="title" to="/threeProductsCertification">三品一标管理</router-link>  
+          <router-link slot="title" to="/threeProductsCertification"
+            >三品一标管理</router-link
+          >
         </el-menu-item>
-          <el-menu-item index="/sampleCheck">
-          <router-link  slot="title" to="/sampleCheck">例行抽样管理</router-link>  
+        <el-menu-item index="/sampleCheck">
+          <router-link slot="title" to="/sampleCheck">例行抽样管理</router-link>
         </el-menu-item>
         <el-menu-item index="/">
-          <router-link  slot="title" to="/corporateCreditFile">企业信用档案</router-link>  
+          <router-link slot="title" to="/corporateCreditFile"
+            >企业信用档案</router-link
+          >
         </el-menu-item>
-        <el-menu-item index="/creditRating" >
-          <router-link  slot="title" to="/creditRating">信用评级</router-link>  
+        <el-menu-item index="/creditRating">
+          <router-link slot="title" to="/creditRating">信用评级</router-link>
         </el-menu-item>
         <el-menu-item index="/redBlackList">
-          <router-link  slot="title" to="/redBlackList">红黑名单</router-link>  
+          <router-link slot="title" to="/redBlackList">红黑名单</router-link>
         </el-menu-item>
       </el-menu>
     </el-col>
@@ -81,16 +91,14 @@ ul li {
 .el-menu-item-group__title {
   display: none !important;
 }
-.el-menu-item 
-{
+.el-menu-item {
   a {
     display: block;
     color: black;
     text-decoration: none;
-    
   }
   a.router-link-active {
-    color: #409EFF ;
+    color: #409eff;
   }
 }
 

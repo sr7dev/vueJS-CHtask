@@ -9,7 +9,7 @@
     <div class="box">
       <div class="iptBox">
         <div class="filter-item">
-          <el-button type="primary" plain @click="$router.go(-1)"
+          <el-button type="primary" plain @click="$router.go(-1)" plain
             >返回</el-button
           >
         </div>
