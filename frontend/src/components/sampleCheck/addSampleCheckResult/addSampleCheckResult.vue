@@ -7,14 +7,11 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <template v-if="data">
+      <el-form v-if="data" :rules="dataRulse" ref="data" :model="data">
         <div class="item-row">
-          <div class="item">
-            <div class="item-label">检测名称:</div>
-            <div class="item-value">
-              <el-input v-model="data.sampleName" placeholder=""></el-input>
-            </div>
-          </div>
+          <el-form-item label="检测名称:" prop="sampleName">
+            <el-input v-model="data.sampleName" style="width: 300px;" placeholder=""></el-input>
+          </el-form-item>
         </div>
         <div class="item-row">
           <div class="item">
@@ -25,40 +22,42 @@
           </div>
           <div class="item">
             <div class="item-label">检测人员:</div>
-            <div class="item-value">
-              <el-input v-model="data.checkPerson" placeholder=""></el-input>  
-            </div>
+            <el-form-item prop="checkPerson">
+              <el-input v-model="data.checkPerson" placeholder="" style="margin-top: 15px;"></el-input>
+            </el-form-item>
           </div>
+
         </div>
         
         <div class="item-row">
           <div class="item">
             <div class="item-label">检测结果:</div>
-            <div class="item-value">
-              <el-select v-model="data.checkResult" placeholder="">
+            <el-form-item prop="checkResult">
+              <el-select v-model="data.checkResult" placeholder="" style="margin-top: 15px;">
                 <el-option v-for="item in [{value:0, label:'不合格'}, {value: 1, label:'合格'}]"
                   :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
               </el-select>
-            </div>
+            </el-form-item>
           </div>
           <div class="item">
             <div class="item-label">检测单位:</div>
-            <div class="item-value">
-              <el-input v-model="data.checkUnit" placeholder=""></el-input>  
-            </div>
+            <el-form-item prop="checkUnit">
+              <el-input v-model="data.checkUnit" placeholder="" style="margin-top: 15px;"></el-input>
+            </el-form-item>
           </div>
         </div>
         <div class="item-row">
-          <div class="item">
-            <div class="item-label"></div>
-            <div class="item-label">
-              <input type="file" id="file" style="display: none" ref="file"
-                v-on:change="handleFileUpload()"/>
-              <el-button plain @click="chooseFile()">添加附件</el-button>
+          <el-form-item prop="checkFiles">
+            <div style="display: flex;">
+              <div class="item-label">
+                <input type="file" id="file" style="display: none" ref="file"
+                       v-on:change="handleFileUpload()"/>
+                <el-button plain @click="chooseFile()">添加附件</el-button>
+              </div>
+              <span class="item-value" style="width: 500px;">{{data.checkFiles}}</span>
             </div>
-            <span class="item-value">{{data.checkFiles}}</span>
-          </div>
+          </el-form-item>
         </div>
         <div class="item-row">
           <div class="item">
@@ -71,7 +70,7 @@
             </div>
           </div>
         </div>
-      </template>
+      </el-form>
       <template v-if="!data">No matching data!</template>
     </div>
   </div>
@@ -96,7 +95,14 @@ export default {
         sampleName: "",
         sampleTime: new Date(),
         updateUserId: 0
-      }
+      },
+      dataRulse: {
+        sampleName: [{required: true, message: '请输入', trigger: 'blur,change'}],
+        checkPerson: [{required: true, message: '请输入', trigger: 'blur,change'}],
+        checkFiles: [{required: true, message: '请输入', trigger: 'blur,change'}],
+        checkResult: [{required: true, message: '请输入', trigger: 'blur,change'}],
+        checkUnit: [{required: true, message: '请输入', trigger: 'blur,change'}],
+      },
     };
   },
   methods: {
@@ -109,27 +115,33 @@ export default {
       this.data.checkFiles = this.file.name;
     },
     onSubmit() {
-      
-      Request()
-        .post("/api/sample_check_result/create", {
-          "checkFiles": this.data.checkFiles,
-          "checkPerson": this.data.checkPerson,
-          "checkResult": this.data.checkResult,
-          "checkUnit": this.data.checkUnit,
-          "createUserId": this.data.createUserId,
-          "id": this.data.id,
-          "sampleId": this.data.sampleId,
-          "sampleName": this.data.sampleName,
-          "sampleTime": this.data.sampleTime,
-          "updateUserId": this.data.updateUserId,
-        })
-        .then(response => {
-          this.$router.push(`/sampleCheck`);
-        })
-        .catch(error => {
-          console.error(error);
-        });
+      let formData = new FormData();
+      formData.append("checkFiles", this.data.checkFiles);
+      formData.append("checkPerson", this.data.checkPerson);
+      formData.append("createUserId", this.data.createUserId);
+      formData.append("id", this.data.id);
+      formData.append("sampleId", this.data.sampleId);
+      formData.append("sampleName", this.data.sampleName);
+      formData.append("updateUserId", this.data.updateUserId);
+      formData.append("file", this.file);
+      formData.append("sampleTime", this.data.sampleTime);
+      formData.append("checkResult", this.data.checkResult);
+      formData.append("checkUnit", this.data.checkUnit);
+      formData.append("createTime", this.data.sampleTime); // not sure
+      formData.append("updateTime", this.data.sampleTime); // not sure
 
+      this.$refs.data.validate((valid) => {
+        if (valid) {
+          Request()
+                  .post("/api/sample_check_result/create", formData)
+                  .then(response => {
+                    this.$router.push(`/sampleCheck`);
+                  })
+                  .catch(error => {
+                    console.error(error);
+                  });
+        }
+      });
     },
     getDateString(dt) {
       const date = new Date(dt);
