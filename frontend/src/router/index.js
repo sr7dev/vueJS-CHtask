@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 
+import login from "@/components/login/login";
 import home from "@/components/common/home";
 import threeProductsCertification from "@/components/threeProductsCertification/threeProductsCertification";
 import addThreeProducts from "@/components/threeProductsCertification/addThreeProducts/addThreeProducts";
@@ -61,6 +62,7 @@ import addSampleCheck from "@/components/sampleCheck/addSampleCheck/addSampleChe
 import addSampleCheckResult from "@/components/sampleCheck/addSampleCheckResult/addSampleCheckResult";
 import detailsSampleCheck from "@/components/sampleCheck/detailsSampleCheck/detailsSampleCheck";
 import detailsSampleCheckResult from "@/components/sampleCheck/detailsSampleCheckResult/detailsSampleCheckResult";
+import Auth from "@/services/authentication/auth";
 
 Vue.use(Router);
 
@@ -71,6 +73,16 @@ export default new Router({
       name: "home",
       component: home,
       redirect: "cp_productionSubject",
+      beforeEnter(to, from, next) {
+        if (!Auth().check()) {
+          next({
+            path: '/login',
+            query: { redirect: to.fullPath }
+          })
+        } else {
+          next();
+        }
+      },
       children: [
         {
           path: "/sampleCheck",
@@ -314,33 +326,23 @@ export default new Router({
           name: "cp_inventoryDynamics",
           component: cp_inventoryDynamics
         },
-      ]
-    },
-    {
-      path: "/",
-      name: "home",
-      component: home,
-      redirect: "cp_productionSubject",
-      children: [
         {
           path: "/disabilityCheck",
           name: "disabilityCheck",// 农残检测
           component: disabilityCheck
         },
-      ]
-    },
-    {
-      path: "/",
-      name: "home",
-      component: home,
-      redirect: "cp_productionSubject",
-      children: [
         {
           path: '/redBlackList',
           name: 'redBlackList',// 红黑名单
           component: redBlackList,
         },
       ]
-    }
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: login
+    },
+    { path: '*', redirect: '/', hidden: true }
   ]
 });

@@ -26,9 +26,7 @@
         <div class="item-row">
           <div class="item">
             <div class="item-label">原信用评级</div>
-            <div class="item-value">
-              {{ options[grades.indexOf(data.originalGrade)] }}
-            </div>
+            <div class="item-value">{{ options[grades.indexOf(data.originalGrade)] }}</div>
           </div>
         </div>
         <div class="item-row">
@@ -62,14 +60,14 @@
                 ref="file"
                 v-on:change="handleFileUpload()"
               />
-              <el-button type="warning" plain @click="chooseFile()"
-                >保存修改</el-button
-              >
+              <el-button type="warning" plain @click="chooseFile()">保存修改</el-button>
             </div>
             <div class="item-value" v-if="!file">
-              <el-link @click="downloadFile()">{{
+              <el-link @click="downloadFile()">
+                {{
                 data.uploadFileName.replace("/uploads/", "")
-              }}</el-link>
+                }}
+              </el-link>
             </div>
             <div class="item-value" v-if="file">({{ file.name }})</div>
           </div>
@@ -77,21 +75,15 @@
         <div class="item-row">
           <div class="item">
             <div class="item-label">
-              <el-button type="success" plain @click="saveChanges()"
-                >同意</el-button
-              >
+              <el-button type="success" plain @click="saveChanges()">同意</el-button>
             </div>
             <div class="item-value">
-              <el-button type="danger" plain @click="$router.go(-1)"
-                >拒绝</el-button
-              >
+              <el-button type="danger" plain @click="$router.go(-1)">拒绝</el-button>
             </div>
           </div>
         </div>
       </template>
-      <template v-if="!data"
-        >No matching data!</template
-      >
+      <template v-if="!data">No matching data!</template>
     </div>
   </div>
 </template>
