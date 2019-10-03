@@ -71,8 +71,9 @@ class Request {
 	}
 
 	makeRequest(method, url, options, refreshed = false, norefresh = false) {
-		console.log('heressss');
-		console.log(http.defaults.headers);
+		if (url.indexOf('/api/user/login') == -1) {
+			http.defaults.headers.common['Authorization'] = TokenManager().accessToken;
+		}
 		return http[method](this.baseUrl(url), options)
 			.then(
 				success => {

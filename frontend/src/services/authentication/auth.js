@@ -23,8 +23,6 @@ class Auth {
 	 */
 	setToken() {
 		axios.defaults.headers.common['Authorization'] = TokenManager().accessToken;
-		axios.defaults.headers.common['Access-Control-Allow-Origin'] = "*";
-		axios.defaults.headers.common['Access-Control-Allow-Credentials'] = "true";
 	}
 
 	/**
