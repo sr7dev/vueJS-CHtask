@@ -24,6 +24,10 @@
                 >经营主体</router-link
               >
             </el-menu-item>
+            <!-- <el-menu-item index="/productionSubject">
+              生产主体
+            </el-menu-item>
+            <el-menu-item index="/companyBusiness">经营主体</el-menu-item> -->
           </el-menu-item-group>
         </el-submenu>
         <el-menu-item index="/disabilityCheck">
