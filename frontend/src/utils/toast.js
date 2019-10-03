@@ -10,7 +10,7 @@ class Toast {
 	 * @return {Void}          
 	 */
 	static success(message, duration = 2500) {
-		alertify.notify(message, 'success', duration/1000)
+		alertify.notify(message, 'success', duration / 1000)
 
 	}
 
@@ -33,7 +33,7 @@ class Toast {
 	 */
 	static message(message) {
 		alertify
-			.alert('PARQYT', message, function () {});
+			.alert('PARQYT', message, function () { });
 	}
 
 	/**

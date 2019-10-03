@@ -9,21 +9,11 @@
       <div class="iptBox">
         <div class="select_label no-margin-left">乡镇</div>
         <el-select placeholder v-model="currTown" @change="getList">
-          <el-option
-            v-for="town in township"
-            :key="town.id"
-            :label="town.name"
-            :value="town.id"
-          ></el-option>
+          <el-option v-for="town in township" :key="town.id" :label="town.name" :value="town.id"></el-option>
         </el-select>
         <div class="select_label">状态</div>
         <el-select v-model="status" placeholder="请选择" @change="getList">
-          <el-option
-            v-for="(item, index) in appStatus"
-            :key="item"
-            :label="item"
-            :value="index"
-          ></el-option>
+          <el-option v-for="(item, index) in appStatus" :key="item" :label="item" :value="index"></el-option>
         </el-select>
         <div class="select_label">
           <el-button disabled type="primary" plain>同步数据</el-button>
@@ -39,44 +29,50 @@
           :row-class-name="rowIndex"
           highlight-current-row
         >
-          <el-table-column
-            :formatter="order"
-            label="序号"
-            width="70"
-          ></el-table-column>
+          <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
           <el-table-column label="名称" width="150">
-            <template slot-scope="{ row }">{{
+            <template slot-scope="{ row }">
+              {{
               filterCompnay(row.creditCode)
-            }}</template>
+              }}
+            </template>
           </el-table-column>
           <el-table-column label="原信用评级">
-            <template slot-scope="{ row }">{{
+            <template slot-scope="{ row }">
+              {{
               getGradeString(row.originalGrade)
-            }}</template>
+              }}
+            </template>
           </el-table-column>
           <el-table-column label="现信用评级">
-            <template slot-scope="{ row }">{{
+            <template slot-scope="{ row }">
+              {{
               getGradeString(row.nowGrade)
-            }}</template>
+              }}
+            </template>
           </el-table-column>
           <el-table-column prop="gradeTime" label="评级时间">
-            <template slot-scope="{ row }">{{
+            <template slot-scope="{ row }">
+              {{
               getDateString(row.gradeTime)
-            }}</template>
+              }}
+            </template>
           </el-table-column>
           <el-table-column prop="creditAvailableStart" label="评级有效期">
-            <template slot-scope="{ row }"
-              >{{ getDateString(row.creditAvailableStart) }}至{{
-                getDateString(row.creditAvailableEnd)
-              }}</template
-            >
+            <template slot-scope="{ row }">
+              {{ getDateString(row.creditAvailableStart) }}至{{
+              getDateString(row.creditAvailableEnd)
+              }}
+            </template>
           </el-table-column>
           <el-table-column prop="gradeUnit" label="评级单位"></el-table-column>
           <!-- <el-table-column prop="approvalStatus" label="状态" width="100"></el-table-column> -->
           <el-table-column label="状态" width="100">
-            <template slot-scope="{ row }">{{
+            <template slot-scope="{ row }">
+              {{
               getStatus(row.approvalStatus)
-            }}</template>
+              }}
+            </template>
           </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="{ row }">
@@ -90,8 +86,7 @@
                     query: { company: filterCompnay(row.creditCode) }
                   })
                 "
-                >修改评级</el-button
-              >
+              >修改评级</el-button>
             </template>
           </el-table-column>
         </el-table>

@@ -7,7 +7,7 @@ class TokenManager {
 	 * Singleton constructor
 	 * @return {Auth} this
 	 */
-	static d(){
+	static d() {
 
 		return this.instance ? this.instance : this.instance = new TokenManager;
 

@@ -22,7 +22,7 @@ class Auth {
 	 * Set token to axios global header
 	 */
 	setToken() {
-		axios.defaults.headers.common['token'] = TokenManager().accessToken;
+		axios.defaults.headers.common['Authorization'] = TokenManager().accessToken;
 	}
 
 	/**
@@ -54,25 +54,29 @@ class Auth {
 	 */
 	createUserFrom(data) {
 		// save user's tokens
-		TokenManager().accessToken = data['id_token'];
-		TokenManager().refreshToken = data['refresh_token'];
+		TokenManager().accessToken = data['token'];
 
-		// bind token to api request
+		// // bind token to api request
 		this.setToken();
 
-		// instantiate current user
-		console.log(data['user_meta']);
+		// // instantiate current user
+		// console.log(data['user_meta']);
 
 		this.loggedInUser = User.create({
-			'id': data['uid'],
-			'first_name': data['user_meta']['first_name'],
-			'last_name': data['user_meta']['last_name'],
-			'email': data['user_meta']['email'],
-			'is_provider': data['user_meta']['is_provider'],
-			'profile_img_url': data['user_meta']['profile_img_url']
+			'id': data['id'],
+			'userId': data['userId'],
+			'userType': data['userType'],
+			'contactName': data['contactName'],
+			'contactPerson': data['contactPerson'],
+			'contactWay': data['contactWay'],
+			'createTime': data['createTime'],
+			'createUserId': data['createUserId'],
+			'creditCode': data['creditCode'],
+			'updateTime': data['updateTime'],
+			'updateUserId': data['updateUserId']
 		});
 
-		// save user locally
+		// // save user locally
 		Storage.set('userData', JSON.stringify(this.loggedInUser.attrs));
 	}
 
@@ -130,36 +134,15 @@ class Auth {
 	 * @param  {String} password 
 	 * @return {Promise}          API response
 	 */
-	login(email, password) {
+	login(formData) {
 		return Request()
-			.post('auth/login', {
-				'username': email,
-				'password': password
-			}, {}, true).then(
+			.post('/api/user/login', {
+				password: formData.password,
+				username: formData.username
+			}, {}, true)
+			.then(
 				success => {
-					this.createUserFrom(success['data']);
-					return Promise.resolve(success);
-				},
-				error => {
-					return Promise.reject(error);
-				}
-			);
-	}
-
-	/**
-	 * Login admin with UID and target user UID
-	 * @param  {String} uid    
-	 * @param  {String} targetUser 
-	 * @return {Promise}          API response
-	 */
-	adminLogin(uid, targetUser) {
-		return Request()
-			.post('auth/admin', {
-				'uid': uid,
-				'targetUser': targetUser
-			}, {}, true).then(
-				success => {
-					this.createUserFrom(success['data']);
+					this.createUserFrom(success);
 					return Promise.resolve(success);
 				},
 				error => {
@@ -198,8 +181,7 @@ class Auth {
 
 			// remove user tokens
 			TokenManager().removeAccessToken();
-			TokenManager().removeRefreshToken();
-			this.setToken();
+			//TokenManager().removeRefreshToken();
 		}
 
 	}
@@ -208,23 +190,23 @@ class Auth {
 	 * Refresh access token for a new session
 	 * @return {Promise} Response 
 	 */
-	refreshAccessToken() {
+	// refreshAccessToken() {
 
-		return Request().post('auth/refresh_token', {
-			'refresh_token': TokenManager().refreshToken
-		}).then(
-			success => {
-				// update access token
-				TokenManager().accessToken = success['data']['id_token'];
-				this.setToken();
-				return Promise.resolve();
-			},
-			error => {
-				return Promise.reject(error);
-			}
-		)
+	// 	return Request().post('auth/refresh_token', {
+	// 		'refresh_token': TokenManager().refreshToken
+	// 	}).then(
+	// 		success => {
+	// 			// update access token
+	// 			TokenManager().accessToken = success['data']['id_token'];
+	// 			this.setToken();
+	// 			return Promise.resolve();
+	// 		},
+	// 		error => {
+	// 			return Promise.reject(error);
+	// 		}
+	// 	)
 
-	}
+	// }
 
 }
 
