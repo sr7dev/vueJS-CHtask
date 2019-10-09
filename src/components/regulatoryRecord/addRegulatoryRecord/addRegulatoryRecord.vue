@@ -56,7 +56,7 @@
               <el-date-picker
                 v-model="ruleFormValue.date"
                 align="right"
-                type="datetime"
+                type="date"
                 placeholder="选择日期"
               ></el-date-picker>
             </el-form-item>
@@ -414,7 +414,7 @@ export default {
           Request()
             .post("/api/supervision_record/create", formData)
             .then(response => {
-              // this.$router.push({ path: "/regulatoryRecord" });
+              this.$router.push({ path: "/regulatoryRecord" });
             })
             .catch(error => {});
         }

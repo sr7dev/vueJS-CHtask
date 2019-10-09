@@ -19,7 +19,7 @@
         <div class="item-row">
           <div class="item">
             <div class="item-label">检测时间:</div>
-            <div class="item-value">{{ getDateString(data.sampleTime) }}</div>
+            <div class="item-value">{{ data.sampleTime | formatDate }}</div>
           </div>
           <div class="item">
             <div class="item-label">检测人员:</div>
@@ -93,10 +93,6 @@ export default {
         link.click();
         link.remove();
       });
-    },
-    getDateString(dt) {
-      const date = new Date(dt);
-      return date.toLocaleDateString();
     }
   }
 };

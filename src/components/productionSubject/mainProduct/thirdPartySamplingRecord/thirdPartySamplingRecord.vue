@@ -32,7 +32,7 @@
         ></el-table-column>
         <el-table-column prop="productCheckTime" label="日期" width="150">
           <template slot-scope="{ row }">{{
-            getDateString(row.productCheckTime)
+            row.productCheckTime | formatDate
           }}</template>
         </el-table-column>
         <el-table-column
@@ -101,12 +101,6 @@ export default {
     this.getList(this.id);
   },
   methods: {
-    getDateString(strDt) {
-      let date = new Date(strDt);
-      return (
-        date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
-      );
-    },
     getList(id) {
       this.listLoading = true;
       Request()

@@ -42,7 +42,7 @@
               <el-date-picker
                 v-model="data.createTime"
                 align="right"
-                type="datetime"
+                type="date"
                 placeholder="选择日期"
               ></el-date-picker>
             </el-form-item>
@@ -194,6 +194,7 @@
 </template>
 
 <script>
+import moment from "moment";
 import Request from "../../../services/api/request.js";
 import { Urls } from "../../../services/constants";
 import axios from "axios";
@@ -269,7 +270,7 @@ export default {
         others: this.conclusionData.others ? this.conclusionData.others : " "
       };
       conclusionData = JSON.stringify(conclusionData);
-      console.log(conclusionData);
+
       if (this.file_live_1) {
         formData.append("file1", this.file_live_1);
       }
@@ -280,10 +281,14 @@ export default {
       formData.append("id", this.id);
       formData.append("inspector", this.data.inspector);
       formData.append("companyId", this.data.companyId);
+      this.data.createTime = new Date(this.data.createTime).toDateString(
+        "YYYY-MM-DD"
+      );
       formData.append("createTime", this.data.createTime);
       formData.append("conclusionFalseInfo", conclusionData);
       formData.append("conclusion", this.data.conclusion);
       formData.append("data", this.data);
+
       Request()
         .put("/api/supervision_record/update/" + this.data.id, formData)
         .then(response => {

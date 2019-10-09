@@ -85,7 +85,7 @@
           <el-col :span="5">
             <el-form-item prop="certificationStartTime">
               <el-date-picker
-                type="datetime"
+                type="date"
                 v-model="ruleFormValue.certificationStartTime"
                 style="width: 100%;"
               ></el-date-picker>
@@ -95,7 +95,7 @@
           <el-col :span="5">
             <el-form-item prop="certificationEndTime">
               <el-date-picker
-                type="datetime"
+                type="date"
                 v-model="ruleFormValue.certificationEndTime"
                 style="width: 100%;"
               ></el-date-picker>
@@ -282,6 +282,7 @@ export default {
             "argriculturalClassification",
             this.ruleFormValue.argriculturalClassification
           );
+          
           formData.append(
             "certificationStartTime",
             this.ruleFormValue.certificationStartTime
