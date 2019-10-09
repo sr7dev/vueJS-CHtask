@@ -42,7 +42,7 @@
         <el-table-column prop="sampleName" label="检测名称"></el-table-column>
         <el-table-column prop="sampleTime" label="检测时间">
           <template slot-scope="{ row }">
-            {{ getDateString(row.sampleTime) }}
+            {{ row.sampleTime | formatDate }}
           </template>
         </el-table-column>
         <el-table-column prop="checkPerson" label="检测人员"></el-table-column>
@@ -72,7 +72,7 @@
         <el-table-column prop="checkUnit" label="检测单位"></el-table-column>
         <el-table-column prop="sampleTime" label="检测时间">
           <template slot-scope="{ row }">
-            {{ getDateString(row.sampleTime) }}
+            {{ row.sampleTime | formatDate }}
           </template>
         </el-table-column>
         <el-table-column prop="checkResult" label="检测结果">
@@ -149,10 +149,6 @@ export default {
       }
     },
     addSampleResult() {},
-    getDateString(dt) {
-      const date = new Date(dt);
-      return date.toLocaleDateString();
-    },
     getList(id) {
       Request()
         .get("/api/sample_check/all", {

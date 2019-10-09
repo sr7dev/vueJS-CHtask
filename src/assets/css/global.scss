@@ -1,109 +1,109 @@
 .no-margin-left {
-    margin-left: 0 !important;
+  margin-left: 0 !important;
 }
 
 .margin-bottom-20 {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .margin-left-20 {
-    margin-left: 20px;
+  margin-left: 20px;
 }
 
 .el-aside {
-    a,
-    span {
-        font-size: 1.2rem;
+  a,
+  span {
+    font-size: 1.2rem;
+  }
+  .tac {
+    ul.el-menu-vertical-demo {
+      li.el-menu-item {
+        padding-left: 50px !important;
+      }
     }
-    .tac {
-        ul.el-menu-vertical-demo {
-            li.el-menu-item {
-                padding-left: 50px !important;
-            }
+    .el-submenu {
+      &.is-opened {
+        .el-submenu__title {
+          background-color: #409eff !important;
+          color: #ffffff !important;
+          .el-icon-arrow-down {
+            margin-top: -5px;
+          }
+          .el-icon-arrow-down:before {
+            content: "\2013";
+            font-weight: bold;
+            color: #ffffff;
+            font-size: 1.2rem;
+          }
         }
-        .el-submenu {
-            &.is-opened {
-                .el-submenu__title {
-                    background-color: #409eff !important;
-                    color: #ffffff !important;
-                    .el-icon-arrow-down {
-                        margin-top: -5px;
-                    }
-                    .el-icon-arrow-down:before {
-                        content: "\2013";
-                        font-weight: bold;
-                        color: #ffffff;
-                        font-size: 1.2rem;
-                    }
-                }
-            }
-            div.el-submenu__title {
-                padding-left: 50px !important;
-                .el-icon-arrow-down {
-                    margin-top: -12px;
-                }
-                .el-icon-arrow-down:before {
-                    content: "\002B";
-                    font-weight: bold;
-                    font-size: 1.2rem;
-                    color: #000000;
-                }
-                &:hover {
-                    background-color: #409eff !important;
-                    color: #ffffff !important;
-                    .el-icon-arrow-down:before {
-                        color: #ffffff;
-                    }
-                }
-            }
-            ul {
-                .el-menu-item {
-                    background-color: #ecf5fc !important;
-                    a {
-                        color: #000000;
-                        &:hover {
-                            color: #409eff !important;
-                        }
-                        &.router-link-active {
-                            color: #409eff !important;
-                        }
-                    }
-                }
-            }
+      }
+      div.el-submenu__title {
+        padding-left: 50px !important;
+        .el-icon-arrow-down {
+          margin-top: -12px;
         }
+        .el-icon-arrow-down:before {
+          content: "\002B";
+          font-weight: bold;
+          font-size: 1.2rem;
+          color: #000000;
+        }
+        &:hover {
+          background-color: #409eff !important;
+          color: #ffffff !important;
+          .el-icon-arrow-down:before {
+            color: #ffffff;
+          }
+        }
+      }
+      ul {
         .el-menu-item {
+          background-color: #ecf5fc !important;
+          a {
+            color: #000000;
             &:hover {
-                background-color: #409eff !important;
-                a {
-                    color: #ffffff !important;
-                }
+              color: #409eff !important;
             }
-            &.is-active {
-                background-color: #409eff !important;
-                a {
-                    color: #ffffff !important;
-                }
+            &.router-link-active {
+              color: #409eff !important;
             }
+          }
         }
+      }
     }
+    .el-menu-item {
+      &:hover {
+        background-color: #409eff !important;
+        a {
+          color: #ffffff !important;
+        }
+      }
+      &.is-active {
+        background-color: #409eff !important;
+        a {
+          color: #ffffff !important;
+        }
+      }
+    }
+  }
 }
 
 .title {
-    .el-breadcrumb {
-        font-size: 2rem;
-    }
+  .el-breadcrumb {
+    font-size: 1.4rem;
+  }
 }
 
 .el-table {
-    th.is-leaf {
-        font-size: 1rem;
-    }
+  th.is-leaf {
+    font-size: 1rem;
+  }
 }
 
 .iptBox {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    margin-bottom: 20px;
-    text-align: left;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  margin-bottom: 20px;
+  text-align: left;
 }

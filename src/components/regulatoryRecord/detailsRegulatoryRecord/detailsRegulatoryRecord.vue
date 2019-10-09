@@ -43,7 +43,7 @@
               <el-date-picker
                 v-model="data.createTime"
                 align="right"
-                type="datetime"
+                type="date"
                 placeholder="选择日期"
                 disabled
               ></el-date-picker>
@@ -249,7 +249,7 @@
                     </div>
                     <el-link
                       v-if="data.scenePhotos"
-                      style=" display: flow-root !important;"
+                      style=" display: table"
                       @click="downloadFile_Live()"
                       >{{ data.scenePhotos.replace("/uploads/", "") }}</el-link
                     >
@@ -266,7 +266,7 @@
                       <p v-if="!data.sign">请选择</p>
                     </div>
                     <el-link
-                      style=" display: flow-root !important;"
+                      style=" display: table"
                       v-if="data.sign"
                       @click="downloadFile_Sign()"
                       >{{ data.sign.replace("/uploads/", "") }}</el-link

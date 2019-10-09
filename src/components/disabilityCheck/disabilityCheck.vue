@@ -138,20 +138,20 @@
           <el-table-column prop="source" label="来源"></el-table-column>
           <el-table-column prop="resultDl" label="定量结果"></el-table-column>
           <el-table-column prop="resultDx" label="定性结果"></el-table-column>
-          <el-table-column
-            prop="detectTime"
-            label="检测时间"
-            width="240"
-          ></el-table-column>
+          <el-table-column prop="detectTime" label="检测时间" width="120"
+            ><template slot-scope="{ row }">{{
+              row.detectTime | formatDate
+            }}</template></el-table-column
+          >
           <el-table-column
             prop="detectUnit"
             label="检测单位"
-            width="240"
+            width="150"
           ></el-table-column>
           <el-table-column prop="operator" label="检验员"></el-table-column>
           <el-table-column prop="particular" label="专项1">
-            <template scope="scope">
-              <i v-if="scope.row.particular" class="el-icon-check"></i>
+            <template slot-scope="{ row }">
+              <i v-if="row.particular" class="el-icon-check"></i>
               <i v-else></i>
             </template>
           </el-table-column>

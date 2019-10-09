@@ -30,11 +30,11 @@
           ></el-table-column>
           <el-table-column prop="word" label="常用语"></el-table-column>
           <el-table-column label="操作">
-            <template scope="scope">
+            <template slot-scope="{ row }">
               <el-button
                 type="primary"
                 plain
-                @click="handleEdit(scope.index, scope.row)"
+                @click="handleEdit(row.index, row)"
                 ><i class="el-icon-edit"></i>查看</el-button
               >
               <el-button
@@ -134,7 +134,6 @@ export default {
         word: [{ required: true, message: "请输入", trigger: "blur,change" }]
       },
       addForm: { id: 0, word: "" },
-      addFormVisible: false,
       addFormVisible: false,
       addLoading: false,
       tableData: []

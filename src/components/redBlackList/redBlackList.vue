@@ -41,6 +41,9 @@
               }}</template>
             </el-table-column>
             <el-table-column prop="gradeTime" label="评级时间">
+              <template slot-scope="{ row }">{{
+                row.gradeTime | formatDate
+              }}</template>
             </el-table-column>
             <el-table-column prop="gradeUnit" label="评级单位">
             </el-table-column>

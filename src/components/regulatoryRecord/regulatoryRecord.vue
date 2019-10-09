@@ -46,11 +46,11 @@
             label="序号"
             width="70"
           ></el-table-column>
-          <el-table-column
-            prop="createTime"
-            label="日期"
-            width="100"
-          ></el-table-column>
+          <el-table-column prop="createTime" label="日期" width="100"
+            ><template slot-scope="{ row }">{{
+              row.createTime | formatDate
+            }}</template>
+          </el-table-column>
           <el-table-column prop="township" label="乡镇" width="70">
             <template slot-scope="{ row }">{{
               filterTownship(row.townId)
