@@ -1,3 +1,7 @@
+.text-center {
+  text-align: center!important;
+}
+
 .no-margin-left {
   margin-left: 0 !important;
 }
@@ -40,7 +44,7 @@
       div.el-submenu__title {
         padding-left: 50px !important;
         .el-icon-arrow-down {
-          margin-top: -12px;
+          margin-top: -10px;
         }
         .el-icon-arrow-down:before {
           content: "\002B";
@@ -91,6 +95,7 @@
 .title {
   .el-breadcrumb {
     font-size: 1.4rem;
+    margin-bottom: 20px;
   }
 }
 
