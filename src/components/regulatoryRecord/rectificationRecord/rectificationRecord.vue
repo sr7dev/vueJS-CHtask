@@ -119,10 +119,11 @@
                 <tr>
                   <td>现场图片</td>
                   <td colspan="3">
+                    <div class="img-container" @click="chooseFile_Live()">
+                      <img v-for="src in images" :src="src" :key="src" class="preview">
+                    </div>
+                    <p>{{ fileName }}</p>
                     <div class="image-box">
-                      <div class="js--image-preview" @click="chooseFile_Live()">
-                        <img :src="imageUrl_Live" />
-                      </div>
                       <input
                         type="file"
                         id="file"
@@ -130,6 +131,8 @@
                         class="image-upload"
                         accept="image/*"
                         v-on:change="handleFileUpload_Live()"
+                        name="images"
+                        style="display:none"
                       />
                     </div>
                   </td>
@@ -137,42 +140,39 @@
                 <tr>
                   <td>签名</td>
                   <td>
-                    <div
-                      class="image-box"
-                      style="width:100px;height:100px;border:1px #001528;border-radius:5px"
-                    >
-                      <div class="js--image-preview" @click="chooseFile_Sign()">
-                        <img :src="imageUrl_Sign" />
-                      </div>
+                    <div class="img-container" @click="chooseFile_Sign()">
+                      <img v-for="src in signs" :src="src" :key="src" class="preview">
+                    </div>
+                    <p>{{ signName }}</p>
+                    <div class="image-box">
                       <input
                         type="file"
-                        id="file"
-                        ref="file_sign"
+                        id="file1"
+                        ref="file_live_2"
                         class="image-upload"
                         accept="image/*"
                         v-on:change="handleFileUpload_Sign()"
+                        name="signs"
+                        style="display:none"
                       />
                     </div>
                   </td>
                   <td>确认人签名</td>
                   <td>
-                    <div
-                      class="image-box"
-                      style="width:100px;height:100px;border:1px #001528;border-radius:5px"
-                    >
-                      <div
-                        class="js--image-preview"
-                        @click="chooseFile_ConfirmSign()"
-                      >
-                        <img :src="imageUrl_ConfirmSign" />
-                      </div>
+                    <div class="img-container" @click="chooseFile_CofirmSign()">
+                      <img v-for="src in confirmSigns" :src="src" :key="src" class="preview">
+                    </div>
+                    <p>{{ confirmSignName }}</p>
+                    <div class="image-box">
                       <input
                         type="file"
-                        id="file"
-                        ref="file_sign_conformsign"
+                        id="file2"
+                        ref="file_live_3"
                         class="image-upload"
                         accept="image/*"
                         v-on:change="handleFileUpload_ConfirmSign()"
+                        name="confirmSigns"
+                        style="display:none"
                       />
                     </div>
                   </td>
@@ -201,6 +201,12 @@ import axios from "axios";
 export default {
   data() {
     return {
+      images:[],
+      fileName: '',
+      signs:[],
+      signName: '',
+      confirmSigns:[],
+      confirmSignName: '',
       id: -1,
       listLoading: false,
       data: null,
@@ -208,8 +214,8 @@ export default {
       imageUrl_Sign: "",
       imageUrl_ConfirmSign: "",
       file_live_1: null,
-      file_sign: null,
-      file_confirmsign: null,
+      file_live_2: null,
+      file_live_3: null,
       township: [],
       companyList: [],
       rules: {},
@@ -274,8 +280,11 @@ export default {
       if (this.file_live_1) {
         formData.append("file1", this.file_live_1);
       }
-      if (this.file_sign) {
-        formData.append("file2", this.file_sign);
+      if (this.file_live_2) {
+        formData.append("file2", this.file_live_2);
+      }
+      if (this.file_live_3) {
+        formData.append("file2", this.file_live_3);
       }
       formData.append("towId", this.data.townId);
       formData.append("id", this.id);
@@ -297,22 +306,52 @@ export default {
         .catch(error => {});
     },
     chooseFile_Live() {
-      this.$refs.file_live_1.click();
+      // this.$refs.file_live_1.click();
+      document.getElementById('file').click()
     },
     chooseFile_Sign() {
-      this.$refs.file_sign.click();
+      // this.$refs.file_sign.click();
+      document.getElementById('file1').click()
     },
     chooseFile_CofirmSign() {
-      this.$refs.file_confirmsign.click();
+      // this.$refs.file_confirmsign.click();
+      document.getElementById('file2').click()
     },
     handleFileUpload_Live() {
       this.file_live_1 = this.$refs.file_live_1.files[0];
+      this.images = [];
+      let reader = new FileReader();
+      let that = this;
+      reader.onload = function (e) {
+        that.images.push(e.target.result);
+
+      }
+      reader.readAsDataURL(this.file_live_1); 
+      this.fileName = this.file_live_1.name;
     },
     handleFileUpload_Sign() {
-      this.file_sign = this.$refs.file_sign.files[0];
+      this.file_live_2 = this.$refs.file_live_2.files[0];
+      this.signs = [];
+      let reader = new FileReader();
+      let that = this;
+      reader.onload = function (e) {
+        that.signs.push(e.target.result);
+
+      }
+      reader.readAsDataURL(this.file_live_2);
+      this.signName = this.file_live_2.name;
     },
     handleFileUpload_ConfirmSign() {
-      this.file_confirmsign = this.$refs.file_confirmsign.files[0];
+      this.file_live_3 = this.$refs.file_live_3.files[0];
+      this.confirmSigns = [];
+      let reader = new FileReader();
+      let that = this;
+      reader.onload = function (e) {
+        that.confirmSigns.push(e.target.result);
+
+      }
+      reader.readAsDataURL(this.file_live_3);
+      this.confirmSignName = this.file_live_3.name;
     }
   }
 };

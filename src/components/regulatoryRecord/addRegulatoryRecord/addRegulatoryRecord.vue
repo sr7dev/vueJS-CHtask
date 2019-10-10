@@ -253,10 +253,11 @@
                 <tr>
                   <td>现场图片</td>
                   <td>
+                    <div class="img-container" @click="chooseFile_Live()">
+                      <img v-for="src in images" :src="src" :key="src" class="preview">
+                    </div>
+                    <p>{{ fileName }}</p>
                     <div class="image-box">
-                      <div class="js--image-preview" @click="chooseFile_Live()">
-                        <img :src="imageUrl_Sign" />
-                      </div>
                       <input
                         type="file"
                         id="file"
@@ -264,6 +265,8 @@
                         class="image-upload"
                         accept="image/*"
                         v-on:change="handleFileUpload_Live()"
+                        name="images"
+                        style="display:none"
                       />
                     </div>
                   </td>
@@ -271,20 +274,20 @@
                 <tr>
                   <td>签名</td>
                   <td>
-                    <div
-                      class="image-box"
-                      style="width:100px;height:100px;border:1px #001528;border-radius:5px"
-                    >
-                      <div class="js--image-preview" @click="chooseFile_Sign()">
-                        <img :src="imageUrl_Sign" />
-                      </div>
+                    <div class="img-container" @click="chooseFile_Sign()">
+                      <img v-for="src in signs" :src="src" :key="src" class="preview">
+                    </div>
+                    <p>{{ signName }}</p>
+                    <div class="image-box">
                       <input
                         type="file"
-                        id="file"
+                        id="file1"
                         ref="file_sign"
                         class="image-upload"
                         accept="image/*"
                         v-on:change="handleFileUpload_Sign()"
+                        name="signs"
+                        style="display:none"
                       />
                     </div>
                   </td>
@@ -314,6 +317,10 @@ import axios from "axios";
 export default {
   data() {
     return {
+      images:[],
+      fileName: '',
+      signs:[],
+      signName: '',
       ruleFormValue: {
         companyType: "1",
         townShip: "",
@@ -472,16 +479,36 @@ export default {
       return mainFormData;
     },
     chooseFile_Live() {
-      this.$refs.file_Live_1.click();
+      // this.$refs.file_Live_1.onclick();
+      document.getElementById('file').click()
     },
     chooseFile_Sign() {
-      this.$refs.file_sign.click();
+      // this.$refs.file_sign.click();
+       document.getElementById('file1').click()
     },
-    handleFileUpload_Live() {
+    handleFileUpload_Live(e) {
       this.file_live_1 = this.$refs.file_live_1.files[0];
+      this.images = [];
+      let reader = new FileReader();
+      let that = this;
+      reader.onload = function (e) {
+        that.images.push(e.target.result);
+
+      }
+      reader.readAsDataURL(this.file_live_1); 
+      this.fileName = this.file_live_1.name;
     },
     handleFileUpload_Sign() {
       this.file_sign = this.$refs.file_sign.files[0];
+      this.signs = [];
+      let reader = new FileReader();
+      let that = this;
+      reader.onload = function (e) {
+        that.signs.push(e.target.result);
+
+      }
+      reader.readAsDataURL(this.file_sign);
+      this.signName = this.file_sign.name;
     },
     getWords() {
       Request()
