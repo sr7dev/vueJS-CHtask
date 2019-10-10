@@ -282,6 +282,7 @@ export default {
             setTimeout(() => {
               this.listLoading = false;
             }, 0.5 * 1000);
+            this.selectedRows = [];
             this.isShowCheckbox = 0;
             this.getData();
           })
