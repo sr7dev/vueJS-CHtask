@@ -20,25 +20,25 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="乡镇">
               <el-input
                 v-model="townShip"
-                style="width:60%"
+                style="width:70%"
                 disabled
               ></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="企业">
               <el-input
                 v-model="companyName"
-                style="width:60%"
+                style="width:70%"
                 disabled
               ></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="7">
             <el-form-item label="选择日期">
               <el-date-picker
                 v-model="data.createTime"
@@ -49,7 +49,7 @@
               ></el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="7">
             <el-form-item label="检查人">
               <el-input v-model="data.inspector" style="width:60%"></el-input>
             </el-form-item>
@@ -243,7 +243,7 @@
                     <div class="image-container">
                       <img
                         class="live_photo"
-                        :src="baseURL + '/api' + data.scenePhotos"
+                        :src="downloadUrl + data.scenePhotos"
                       />
                       <p v-if="!data.scenePhotos">请选择</p>
                     </div>
@@ -261,7 +261,7 @@
                     <div class="image-container">
                       <img
                         class="sign_photo"
-                        :src="baseURL + '/api' + data.sign"
+                        :src="downloadUrl + data.sign"
                       />
                       <p v-if="!data.sign">请选择</p>
                     </div>
@@ -302,7 +302,7 @@ export default {
       conclusionData: null,
       supervisionInfo: null,
       listLoading: false,
-      baseURL: ""
+      downloadUrl: ""
     };
   },
   created() {
@@ -310,7 +310,7 @@ export default {
     this.townShip = this.$route.query.township;
     this.companyName = this.$route.query.company;
     this.getData();
-    this.baseURL = Urls.API_BASE_URL();
+    this.downloadUrl = Urls.DOWNLOAD_URL();
   },
   methods: {
     getData() {
@@ -321,6 +321,7 @@ export default {
         })
         .then(response => {
           this.data = response;
+          console.log(response);
           this.conclusionData = this.data.conclusionFalseInfo;
           this.supervisionInfo = this.data.supervisionInfo;
           setTimeout(() => {
@@ -333,7 +334,7 @@ export default {
     },
     downloadFile_Live() {
       axios
-        .get(Urls.API_BASE_URL() + "/api" + this.data.scenePhotos, {
+        .get(this.downloadUrl + this.data.scenePhotos, {
           responseType: "blob"
         })
         .then(({ data }) => {
@@ -345,7 +346,7 @@ export default {
     },
     downloadFile_Sign() {
       axios
-        .get(Urls.API_BASE_URL() + "/api" + this.data.sign, {
+        .get(this.downloadUrl + this.data.sign, {
           responseType: "blob"
         })
         .then(({ data }) => {
