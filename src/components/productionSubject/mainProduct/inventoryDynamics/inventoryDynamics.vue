@@ -54,7 +54,7 @@
           </template>
         </el-table-column>
         <el-table-column label="操作">
-          <template>
+          <template slot-scope="{ row }">
             <el-button
               type="success"
               plain
@@ -62,6 +62,7 @@
             </el-button>
             <el-button
               type="danger"
+              v-on:click="handleDelete(`${row.id}`)"
               plain
             >删除
             </el-button>
@@ -108,6 +109,16 @@ export default {
     this.getList(this.id);
   },
   methods: {
+    handleDelete(id) {
+      Request()
+        .delete("/api/product_repetory/delete/" + id)
+        .then(response => {
+          this.getList(this.id);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },    
     getGradeName(id) {
       const grade = ["低级", "中级", "高级", "特级"];
       return grade[id - 1];
@@ -137,6 +148,7 @@ export default {
               pageSize: this.page.pageSize
             })
             .then(res => {
+              console.log(res.data);
               this.tableData = res.data;
               this.total = res.total;
               setTimeout(() => {
