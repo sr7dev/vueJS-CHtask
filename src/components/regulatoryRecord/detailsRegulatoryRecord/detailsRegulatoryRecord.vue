@@ -288,7 +288,7 @@ export default {
         .then(response => {
           this.data = response;
           this.conclusionData = JSON.parse(this.data.conclusionFalseInfo);
-          this.supervisionInfo = this.data.supervisionInfo;
+          this.supervisionInfo = JSON.parse(this.data.supervisionInfo);
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
