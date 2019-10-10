@@ -163,9 +163,9 @@ export default {
     return {
       page: {
         pageIndex: 1,
-        pageSize: 5
+        pageSize: 20
       },
-      total: 100,
+      total: 0,
       tableData: [],
       listLoading: false,
       companyList: [],
