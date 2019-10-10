@@ -26,6 +26,7 @@
         :data="tableData"
         style="width: 100%"
         :row-class-name="rowIndex"
+        v-loading="listLoading"
       >
         <el-table-column
           :formatter="order"
@@ -96,6 +97,7 @@ export default {
         pageIndex: 1,
         pageSize: 20
       },
+      listLoading: true,
       total: 100,
       radio: "1",
       tableData: null,
@@ -113,7 +115,7 @@ export default {
       Request()
         .delete("/api/product_repetory/delete/" + id)
         .then(response => {
-          this.getList(this.id);
+          this.getList(this.id);          
         })
         .catch(error => {
           console.log(error);
