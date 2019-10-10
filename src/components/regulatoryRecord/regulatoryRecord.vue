@@ -133,8 +133,9 @@
           </el-table-column>
         </el-table>
       </el-container>
+
       <div class="pageBox">
-        <Pagination
+        <pagination
           v-show="total > 0"
           :total="total"
           :page.sync="page.pageIndex"
@@ -157,7 +158,7 @@ export default {
     return {
       page: {
         pageIndex: 1,
-        pageSize: 20
+        pageSize: 5
       },
       total: 100,
       tableData: [],
@@ -190,8 +191,8 @@ export default {
           pageSize: this.page.pageSize
         })
         .then(response => {
-          this.tableData = response;
-          this.total = this.tableData.length;
+          this.tableData = response.data;
+          this.total = response.total;
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
