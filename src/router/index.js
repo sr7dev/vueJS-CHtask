@@ -62,6 +62,11 @@ import addSampleCheck from "@/components/sampleCheck/addSampleCheck/addSampleChe
 import addSampleCheckResult from "@/components/sampleCheck/addSampleCheckResult/addSampleCheckResult";
 import detailsSampleCheck from "@/components/sampleCheck/detailsSampleCheck/detailsSampleCheck";
 import detailsSampleCheckResult from "@/components/sampleCheck/detailsSampleCheckResult/detailsSampleCheckResult";
+
+import jobDefinition from "@/components/jobDefinition/jobDefinition"
+import addJobDefinition from "@/components/jobDefinition/addJobDefinition/addJobDefinition"
+import editJobDefinition from "@/components/jobDefinition/editJobDefinition/editJobDefinition"
+
 import Auth from "@/services/authentication/auth";
 
 Vue.use(Router);
@@ -335,6 +340,21 @@ export default new Router({
           path: '/redBlackList',
           name: 'redBlackList',// 红黑名单
           component: redBlackList,
+        },
+        {
+          path: '/jobDefinition',
+          name: 'jobDefinition',// 作业定义
+          component: jobDefinition,
+        },
+        {
+          path: '/jobDefinition/create',
+          name: 'addJobDefinition',// 作业定义
+          component: addJobDefinition,
+        },
+        {
+          path: '/jobDefinition/:id',
+          name: 'editJobDefinition',// 作业定义
+          component: editJobDefinition,
         },
       ]
     },
