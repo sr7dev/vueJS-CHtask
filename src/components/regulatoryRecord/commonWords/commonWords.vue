@@ -40,7 +40,7 @@
               <el-button
                 type="danger"
                 plain
-                @click="handleDel(scope.index, scope.row)"
+                @click="handleDel(row.index, row)"
                 ><i class="el-icon-close"></i>删除</el-button
               >
             </template>
@@ -75,7 +75,7 @@
         :visible.sync="editFormVisible"
         :close-on-click-modal="false"
       >
-        <el-form :model="editForm" :rules="addFormRules" ref="editForm">
+        <el-form :model="editForm" :rules="editFormRules" ref="editForm">
           <el-form-item prop="word">
             <el-input v-model="editForm.word"></el-input>
           </el-form-item>
@@ -166,7 +166,7 @@ export default {
       this.editForm = Object.assign({}, row);
     },
     handleDel: function(index, row) {
-      Request()
+      Request() 
         .delete("/api/common_word/delete/" + row.id)
         .then(response => {
           this.tableData = response;
@@ -185,40 +185,48 @@ export default {
       };
     },
     editSubmit() {
-      this.editLoading = true;
-      Request()
-        .put("/api/common_word/update/" + this.editForm.id, {
-          id: this.editForm.id,
-          word: this.editForm.word
-        })
-        .then(response => {
-          this.tableData = response;
-          this.total = this.tableData.length;
-          this.editLoading = false;
-          this.editFormVisible = false;
-          this.getList();
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      this.$refs.editForm.validate(valid => {
+        if (valid) {
+          this.editLoading = true;
+          Request()
+            .put("/api/common_word/update/" + this.editForm.id, {
+              id: this.editForm.id,
+              word: this.editForm.word
+            })
+            .then(response => {
+              this.tableData = response;
+              this.total = this.tableData.length;
+              this.editLoading = false;
+              this.editFormVisible = false;
+              this.getList();
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        }
+      });
     },
     addSubmit() {
-      this.addLoading = true;
-      Request()
-        .post("/api/common_word/create", {
-          id: this.addForm.id,
-          word: this.addForm.word
-        })
-        .then(response => {
-          this.tableData = response;
-          this.total = this.tableData.length;
-          this.addLoading = false;
-          this.addFormVisible = false;
-          this.getList();
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      this.$refs.addForm.validate(valid => {
+        if (valid) {
+          this.addLoading = true;
+          Request()
+            .post("/api/common_word/create", {
+              id: this.addForm.id,
+              word: this.addForm.word
+            })
+            .then(response => {
+              this.tableData = response;
+              this.total = this.tableData.length;
+              this.addLoading = false;
+              this.addFormVisible = false;
+              this.getList();
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        }
+      });
     },
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;

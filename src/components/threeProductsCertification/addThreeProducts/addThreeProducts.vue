@@ -110,11 +110,11 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="8">
-            <div class="item">
+          <el-col :span="18">
+            <div class="item" style="display:flex">
               <div
                 class="item-label"
-                style="margin-bottom:20px;display:inline-block"
+                style="margin-bottom:20px;"
               >
                 <input
                   type="file"
@@ -123,13 +123,16 @@
                   ref="file"
                   v-on:change="handleFileUpload()"
                 />
-                <el-button type="warning" plain @click="chooseFile()"
-                  >添加附件</el-button
-                >
+                <el-button type="warning" plain @click="chooseFile()">
+                  添加附件
+                </el-button>
               </div>
               <div
                 class="item-value"
-                style="display:inline-block;margin-left:10px;"
+                style="margin-left:10px;
+                      display: flex;
+                      align-items: center;
+                      padding-bottom: 20px;"
               >
                 <span v-if="file">({{ file.name }})</span>
                 <span v-else>请选择需要上传的文件...</span>
