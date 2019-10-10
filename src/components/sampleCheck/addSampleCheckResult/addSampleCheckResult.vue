@@ -55,7 +55,9 @@
                        v-on:change="handleFileUpload()"/>
                 <el-button plain @click="chooseFile()">添加附件</el-button>
               </div>
-              <span class="item-value" style="width: 500px;">{{data.checkFiles}}</span>
+              <span class="item-value" style="width: 500px;">
+                {{data.checkFiles}}
+            </span>
             </div>
           </el-form-item>
         </div>
