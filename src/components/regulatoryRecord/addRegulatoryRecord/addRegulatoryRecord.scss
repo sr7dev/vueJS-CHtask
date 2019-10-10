@@ -4,17 +4,21 @@
   font-weight: bold;
   margin-bottom: 20px;
 }
+
 button {
   min-width: 40px !important;
   height: 40px;
 }
+
 .el-button--primary.min-plus {
   margin-left: 10px !important;
   padding: 5px 5px !important;
 }
+
 textarea {
   margin-bottom: 20px;
 }
+
 .left-margin {
   margin-left: 20px;
   table {
@@ -45,6 +49,7 @@ textarea {
     margin-top: 30px;
   }
 }
+
 .image-upload-table {
   width: 100%;
   height: 255px;
@@ -66,9 +71,11 @@ textarea {
   position: relative;
   overflow: hidden;
 }
+
 .avatar-uploader .el-upload:hover {
   border-color: #409eff;
 }
+
 .avatar-uploader-icon {
   font-size: 28px;
   color: #8c939d;
@@ -77,29 +84,42 @@ textarea {
   line-height: 85px !important;
   text-align: center;
 }
+
 .avatar {
   width: 110px;
   height: 85x;
   display: block;
 }
+
 .el-upload--picture-card {
   width: 110px !important;
   height: 85px !important;
   line-height: 85px !important;
 }
+
 .el-upload-list__item.is-ready {
   width: 110px !important;
   height: 85px !important;
   line-height: 85px !important;
 }
+
 img.preview {
-  max-width:100px;
-  max-height:100px;
+  max-width: 100px;
+  max-height: 100px;
   width: 100%;
   height: 100%;
 }
+
 div.img-container {
-  width:100px; 
-  height:100px; 
-  border:1px #000 solid
+  width: 100px;
+  height: 80px;
+  margin: 5px 0;
+  border-radius: 5px;
+  text-align: center;
+  -webkit-box-shadow: 1px 2px 5px 1px rgba(10, 8, 10, 0.61);
+  box-shadow: 1px 2px 5px 1px rgba(10, 8, 10, 0.61);
+}
+
+p {
+  font-size: 0.9rem;
 }
