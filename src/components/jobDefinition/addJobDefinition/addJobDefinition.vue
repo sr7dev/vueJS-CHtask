@@ -8,41 +8,53 @@
     </div>
 
     <div class="box">
-      <el-form ref="addForm" :model="addForm" :rules="rules">
-        <el-form-item prop="jobName" label="作业名称">
-            <el-input v-model="addForm.jobName" auto-complete="off"></el-input>
+      <el-form ref="addForm" :model="addForm" :rules="rules" label-width="120px">
+        <el-form-item prop="jobName" label="作业名称" class="job-name-width">
+            <el-input 
+                v-model="addForm.jobName" 
+                auto-complete="off"
+            >
+            </el-input>
         </el-form-item>
         <el-form-item label="作业类型" prop="jobType">
             <el-select v-model="addForm.jobType" placeholder="请选择">
                 <el-option
-                  v-for="item in jobTypes"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
-                ></el-option>
+                    v-for="item in jobTypes"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
+                >
+                </el-option>
             </el-select>
         </el-form-item>
-        <el-form-item prop="jobFile" label="现场图片">
-            <input
-                type="file"
-                id="file"
-                style="display: none"
-                ref="file"
-                v-on:change="handleFileUpload()"
-            />
-            <el-button type="warning" plain @click="chooseFile()">
-                添加附件
-            </el-button>
-            <div
-                class="item-value"
-                style="display:inline-block;margin-left:10px;"
+        <el-form-item label="现场图片">
+            <div 
+                @click="chooseFile()"
+                class="image-container"
             >
-                <span v-if="file">({{ file.name }})</span>
-                <span v-else>请选择需要上传的文件...</span>
+                <img 
+                    v-for="src in images" 
+                    :src="src" 
+                    :key="src" 
+                    class="preview"
+                >
+            </div>
+            <p>{{ fileName }}</p>
+            <div class="image-box">
+                <input
+                    type="file"
+                    id="file"
+                    ref="file_live_1"
+                    class="image-upload"
+                    accept="image/*"
+                    v-on:change="handleFileUpload()"
+                    name="images"
+                    style="display:none"
+                />
             </div>
         </el-form-item>
         <el-form-item class="left-margin">
-            <el-button type="success" plain @click="onSubmit('ruleForm')">
+            <el-button type="success" plain @click="onSubmit('addForm')">
                 保存
             </el-button>
             <el-button type="danger" plain v-on:click="$router.go(-1)">
@@ -61,59 +73,74 @@ import axios from "axios";
 export default {
   data() {
     return {
-      addForm: {
-        jobName: "1",
-        jobType: "",
-        jobFile: ""
-      },
-      rules: {
-        jobName: [
-          {
-            required: true,
-            message: "请插入",
-            trigger: "change"
-          }
+        addForm: {
+            jobName: "",
+            jobType: "",
+        },
+        jobTypes: [
+            { id: 0, name: "收获前" },
+            { id: 1, name: "收获" },
+            { id: 2, name: "收获后" }
         ],
-        jobType: [
-          {
-            required: true,
-            message: "请选择",
-            trigger: "change"
-          }
-        ],
-        jobFile: [
-          {
-            required: true,
-            message: "请选择",
-            trigger: "change"
-          }
-        ],
-      }
+        rules: {
+            jobName: [
+            {
+                required: true,
+                message: "请插入",
+                trigger: "change"
+            }],
+            jobType: [
+            {
+                required: true,
+                message: "请选择",
+                trigger: "change"
+            }],
+        },
+        images:[],
+        fileName: '',
+        file_live_1: null
+
     };
   },
   mounted() {
   },
   methods: {
     onSubmit(formName) {
-        this.$refs.addForm.validate(valid => {
-                if (valid) {
-                    var formData = new FormData();
-                    formData = this.makeFormData();
-                    Request()
-                        .post("/api/supervision_record/create", formData)
-                        .then(response => {
-                            this.$router.push({ path: "/regulatoryRecord" });
-                        })
-                        .catch(error => {});
-                }
+        this.$refs[formName].validate(valid => {
+            if (valid) {
+                var formData = new FormData();
+                formData = this.makeFormData();
+                Request()
+                    .post("/api/job_definition/create", formData)
+                    .then(response => {
+                        this.$router.push({ path: "/jobDefinition" });
+                    })
+                    .catch(error => {});
+            }
         });
     },
     chooseFile() {
-        
+      document.getElementById('file').click()
     },
     handleFileUpload() {
+        this.file_live_1 = this.$refs.file_live_1.files[0];
+        this.images = [];
+        let reader = new FileReader();
+        let that = this;
+        reader.onload = function (e) {
+            that.images.push(e.target.result);
 
-    }
+        }
+        reader.readAsDataURL(this.file_live_1); 
+        this.fileName = this.file_live_1.name;
+    },
+    makeFormData() {
+        var mainFormData = new FormData();
+        mainFormData.append("jobName", this.addForm.jobName);
+        mainFormData.append("jobType", this.addForm.jobType);
+        mainFormData.append("jobFile", this.file_live_1);
+        return mainFormData;
+    },
   }
 };
 </script>
