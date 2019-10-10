@@ -111,6 +111,9 @@ img.preview {
 }
 
 div.img-container {
+  &:hover {
+    cursor: pointer;
+  }
   width: 100px;
   height: 80px;
   margin: 5px 0;

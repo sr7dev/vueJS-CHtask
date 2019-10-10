@@ -11,6 +11,12 @@
       <el-row>
         <div v-if="listLoading">请选择</div>
       </el-row>
+      <el-dialog :visible.sync="dialogVisible" width="30%">
+        <span>请选择图片 !!!</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false" type="primary" plain>Cancel</el-button>
+        </span>
+      </el-dialog>
       <el-form v-if="!listLoading && !isNanData">
         <el-row>
           <el-col :span="5">
@@ -446,6 +452,7 @@ export default {
         suggestion: "",
         others: ""
       },
+      dialogVisible: false,
       rules: {
         townId: [
           {
@@ -513,7 +520,7 @@ export default {
         })
         .then(response => {
           this.data = response[0];
-          this.isNanData = !this.data.id ? false : true;
+          this.isNanData = this.data.id ? false : true;
           this.conclusionData = JSON.parse(this.data.conclusionFalseInfo);
           setTimeout(() => {
             this.listLoading = false;
@@ -524,108 +531,104 @@ export default {
         });
     },
     onSubmit(formName) {
-      var formData = new FormData();
-      if (this.file_live_1) {
-        formData.append("scenePhotoFile", this.file_live_1);
-      }
-      if (this.file_live_2) {
-        formData.append("signFile", this.file_live_2);
-      }
-      if (this.file_live_3) {
-        formData.append("confirmorSign", this.file_live_3);
-      }
-      var newConclusionData;
-      if (this.isNanData) {
-        newConclusionData =
-          this.ruleFormValue.conclusion == 1
-            ? {
-                order: " ",
-                suggestion: " ",
-                others: " "
-              }
-            : {
-                order: this.ruleFormValue.order
-                  ? this.ruleFormValue.order
-                  : " ",
-                suggestion: this.ruleFormValue.suggestion
-                  ? this.ruleFormValue.suggestion
-                  : " ",
-                others: this.ruleFormValue.others
-                  ? this.ruleFormValue.others
-                  : " "
-              };
-        newConclusionData = JSON.stringify(newConclusionData);
-        formData.append("towId", this.ruleFormValue.townId);
-        formData.append("conclusion", this.ruleFormValue.conclusion);
-        formData.append("id", this.superId);
-        formData.append("inspector", this.ruleFormValue.inspector);
-        formData.append("companyId", this.ruleFormValue.companyId);
-        formData.append("supervisionRecordId", this.superId);
-        formData.append("createUserId", "");
-        formData.append("scenePhotos", "");
-        formData.append("supervisionSign", "");
-        formData.append("updateTime", this.ruleFormValue.date);
-        formData.append("updateUserId", "");
-        this.ruleFormValue.createTime = new Date(
-          this.ruleFormValue.createTime
-        ).toDateString("YYYY-MM-DD");
-        formData.append("createTime", this.ruleFormValue.createTime);
-        formData.append(
-          "rectificationRecordTime",
-          this.ruleFormValue.createTime
-        );
-        formData.append("conclusionFalseInfo", newConclusionData);
-        this.$refs[formName].validate(valid => {
-          if (valid) {
-            Request()
-              .post("/api/rectification_record/create", formData)
-              .then(response => {
-                this.$router.push({ path: "/regulatoryRecord" });
-              })
-              .catch(error => {
-                console.log(error);
-              });
-          }
-        });
+      if (!this.file_live_1 || !this.file_live_2 || !this.file_live_3) {
+        this.dialogVisible = true;
       } else {
-        newConclusionData = {
-          order: this.conclusionData.order ? this.conclusionData.order : " ",
-          suggestion: this.conclusionData.suggestion
-            ? this.conclusionData.suggestion
-            : " ",
-          others: this.conclusionData.others ? this.conclusionData.others : " "
-        };
-        newConclusionData = JSON.stringify(newConclusionData);
+        var formData = new FormData();
+        formData.append("scenePhotoFile", this.file_live_1); //required
+        formData.append("signFile", this.file_live_2); //required
+        formData.append("confirmorSign", this.file_live_3); //required
+        formData.append("supervisionRecordId", this.superId); //required
+        formData.append("id", this.superId); //required
+        var newConclusionData;
+        if (this.isNanData) {
+          newConclusionData =
+            this.ruleFormValue.conclusion == 1
+              ? {
+                  order: " ",
+                  suggestion: " ",
+                  others: " "
+                }
+              : {
+                  order: this.ruleFormValue.order
+                    ? this.ruleFormValue.order
+                    : " ",
+                  suggestion: this.ruleFormValue.suggestion
+                    ? this.ruleFormValue.suggestion
+                    : " ",
+                  others: this.ruleFormValue.others
+                    ? this.ruleFormValue.others
+                    : " "
+                };
+          newConclusionData = JSON.stringify(newConclusionData);
+          formData.append("towId", this.ruleFormValue.townId);
+          formData.append("conclusion", this.ruleFormValue.conclusion);
+          formData.append("inspector", this.ruleFormValue.inspector);
+          formData.append("companyId", this.ruleFormValue.companyId);
+          formData.append("createUserId", "");
+          formData.append("scenePhotos", "");
+          formData.append("supervisionSign", "");
+          formData.append("updateTime", this.ruleFormValue.date);
+          formData.append("updateUserId", "");
+          this.ruleFormValue.createTime = new Date(
+            this.ruleFormValue.createTime
+          ).toDateString("YYYY-MM-DD");
+          formData.append("createTime", this.ruleFormValue.createTime);
+          formData.append(
+            "rectificationRecordTime",
+            this.ruleFormValue.createTime
+          );
+          formData.append("conclusionFalseInfo", newConclusionData);
+          this.$refs[formName].validate(valid => {
+            if (valid) {
+              Request()
+                .post("/api/rectification_record/create", formData)
+                .then(response => {
+                  this.$router.push({ path: "/regulatoryRecord" });
+                })
+                .catch(error => {
+                  console.log(error);
+                });
+            }
+          });
+        } else {
+          newConclusionData = {
+            order: this.conclusionData.order ? this.conclusionData.order : " ",
+            suggestion: this.conclusionData.suggestion
+              ? this.conclusionData.suggestion
+              : " ",
+            others: this.conclusionData.others
+              ? this.conclusionData.others
+              : " "
+          };
+          newConclusionData = JSON.stringify(newConclusionData);
 
-        formData.append("towId", this.data.townId);
-        formData.append("id", this.superId);
-        formData.append("inspector", this.data.inspector);
-        formData.append("companyId", this.data.companyId);
-        this.data.createTime = new Date(this.data.createTime).toDateString(
-          "YYYY-MM-DD"
-        );
-        formData.append("createTime", this.data.createTime);
-        formData.append("rectificationRecordTime", this.data.createTime);
-        formData.append("conclusionFalseInfo", newConclusionData);
-        formData.append("data", this.data);
-        Request()
-          .put("/api/rectification_record/update/" + this.superId, formData)
-          .then(response => {
-            this.$router.push({ path: "/regulatoryRecord" });
-          })
-          .catch(error => {});
+          formData.append("towId", this.data.townId);
+          formData.append("inspector", this.data.inspector);
+          formData.append("companyId", this.data.companyId);
+          this.data.createTime = new Date(this.data.createTime).toDateString(
+            "YYYY-MM-DD"
+          );
+          formData.append("createTime", this.data.createTime);
+          formData.append("rectificationRecordTime", this.data.createTime);
+          formData.append("conclusionFalseInfo", newConclusionData);
+          formData.append("data", this.data);
+          Request()
+            .put("/api/rectification_record/update/" + this.superId, formData)
+            .then(response => {
+              this.$router.push({ path: "/regulatoryRecord" });
+            })
+            .catch(error => {});
+        }
       }
     },
     chooseFile_Live() {
-      // this.$refs.file_live_1.click();
       document.getElementById("file").click();
     },
     chooseFile_Sign() {
-      // this.$refs.file_sign.click();
       document.getElementById("file1").click();
     },
     chooseFile_CofirmSign() {
-      // this.$refs.file_confirmsign.click();
       document.getElementById("file2").click();
     },
     handleFileUpload_Live() {

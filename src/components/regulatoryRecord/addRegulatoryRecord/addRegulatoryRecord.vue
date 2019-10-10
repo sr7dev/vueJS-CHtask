@@ -8,6 +8,12 @@
     </div>
 
     <div class="box">
+      <el-dialog :visible.sync="dialogVisible" width="30%">
+        <span>请选择图片 !!!</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false" type="primary" plain>Cancel</el-button>
+        </span>
+      </el-dialog>
       <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules">
         <el-row>
           <el-col :span="12">
@@ -321,6 +327,7 @@ export default {
       file_sign: null,
       wordsList: [],
       wordValue: 0,
+      dialogVisible: false,
       rules: {
         townShip: [
           {
@@ -390,13 +397,18 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           var formData = new FormData();
-          formData = this.makeFormData();
-          Request()
-            .post("/api/supervision_record/create", formData)
-            .then(response => {
-              this.$router.push({ path: "/regulatoryRecord" });
-            })
-            .catch(error => {});
+
+          if (!this.file_sign || !this.file_live_1) {
+            this.dialogVisible = true;
+          } else {
+            formData = this.makeFormData();
+            Request()
+              .post("/api/supervision_record/create", formData)
+              .then(response => {
+                this.$router.push({ path: "/regulatoryRecord" });
+              })
+              .catch(error => {});
+          }
         }
       });
     },
@@ -459,11 +471,9 @@ export default {
       return mainFormData;
     },
     chooseFile_Live() {
-      // this.$refs.file_Live_1.onclick();
       document.getElementById("file").click();
     },
     chooseFile_Sign() {
-      // this.$refs.file_sign.click();
       document.getElementById("file1").click();
     },
     handleFileUpload_Live(e) {
