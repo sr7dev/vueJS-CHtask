@@ -36,15 +36,23 @@
           <template>{{ productName }}</template>
         </el-table-column>
         <el-table-column prop="warehouse" label="所在仓库">
-          <template slot-scope="{ row }">{{
-            getWarehouseName(row.warehouseId)
-          }}</template>
+          <template slot-scope="{ row }">
+            {{
+              getWarehouseName(row.warehouseId)
+            }}
+          </template>
         </el-table-column>
         <el-table-column prop="repertoryAmount" label="储存数量">
           <template slot-scope="{ row }">{{ row.repertoryAmount }}</template>
         </el-table-column>
         <el-table-column prop="variety" label="品种"></el-table-column>
-        <el-table-column prop="grade" label="评级"></el-table-column>
+        <el-table-column prop="grade" label="评级">
+          <template slot-scope="{row}">
+            {{
+              getGradeName(row.grade)
+            }}
+          </template>
+        </el-table-column>
         <el-table-column label="操作">
           <template>
             <el-button
@@ -77,7 +85,7 @@
 import sampleData from "./_data";
 import Pagination from "@/components/common/pagination";
 import Request from "@/services/api/request";
-export default {
+export default {  
   name: "inventoryDynamics",
   components: { Pagination },
   data() {
@@ -100,6 +108,10 @@ export default {
     this.getList(this.id);
   },
   methods: {
+    getGradeName(id) {
+      const grade = ["低级", "中级", "高级", "特级"];
+      return grade[id - 1];
+    },
     getWarehouseName(id) {
       for (let index = 0; index < this.warehouses.length; index++) {
         const element = this.warehouses[index];
