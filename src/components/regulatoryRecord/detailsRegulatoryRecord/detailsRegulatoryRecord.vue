@@ -22,20 +22,12 @@
         <el-row>
           <el-col :span="5">
             <el-form-item label="乡镇">
-              <el-input
-                v-model="townShip"
-                style="width:70%"
-                disabled
-              ></el-input>
+              <el-input v-model="townShip" style="width:70%" disabled></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
             <el-form-item label="企业">
-              <el-input
-                v-model="companyName"
-                style="width:70%"
-                disabled
-              ></el-input>
+              <el-input v-model="companyName" style="width:70%" disabled></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="7">
@@ -120,13 +112,7 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label>
-              <el-checkbox
-                v-model="supervisionInfo.input"
-                disabled
-                true-label="1"
-                false-label="0"
-                >有</el-checkbox
-              >
+              <el-checkbox v-model="supervisionInfo.input" disabled true-label="1" false-label="0">有</el-checkbox>
             </el-form-item>
           </el-col>
           <el-col :span="5">
@@ -141,8 +127,7 @@
                 disabled
                 true-label="1"
                 false-label="0"
-                >合规</el-checkbox
-              >
+              >合规</el-checkbox>
             </el-form-item>
           </el-col>
         </el-row>
@@ -150,11 +135,7 @@
         <el-row>
           <el-col :span="10">
             <el-form-item label="常用语" class="left-margin">
-              <el-input
-                disabled
-                style="width:30%"
-                v-model="data.otherProblems"
-              ></el-input>
+              <el-input disabled style="width:30%" v-model="data.otherProblems"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
@@ -164,12 +145,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item>
-              <el-input
-                type="textarea"
-                :rows="5"
-                v-model="data.otherProblems"
-                disabled
-              ></el-input>
+              <el-input type="textarea" :rows="5" v-model="data.otherProblems" disabled></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -241,36 +217,28 @@
                   <td width="30%">现场图片</td>
                   <td>
                     <div class="image-container">
-                      <img
-                        class="live_photo"
-                        :src="downloadUrl + data.scenePhotos"
-                      />
+                      <img class="live_photo" :src="downloadUrl + data.scenePhotos" />
                       <p v-if="!data.scenePhotos">请选择</p>
                     </div>
                     <el-link
                       v-if="data.scenePhotos"
                       style=" display: table"
                       @click="downloadFile_Live()"
-                      >{{ data.scenePhotos.replace("/uploads/", "") }}</el-link
-                    >
+                    >{{ data.scenePhotos.replace("/uploads/", "") }}</el-link>
                   </td>
                 </tr>
                 <tr>
                   <td width="30%">签名</td>
                   <td>
                     <div class="image-container">
-                      <img
-                        class="sign_photo"
-                        :src="downloadUrl + data.sign"
-                      />
+                      <img class="sign_photo" :src="downloadUrl + data.sign" />
                       <p v-if="!data.sign">请选择</p>
                     </div>
                     <el-link
                       style=" display: table"
                       v-if="data.sign"
                       @click="downloadFile_Sign()"
-                      >{{ data.sign.replace("/uploads/", "") }}</el-link
-                    >
+                    >{{ data.sign.replace("/uploads/", "") }}</el-link>
                   </td>
                 </tr>
               </tbody>
@@ -278,9 +246,7 @@
           </el-col>
         </el-row>
         <el-form-item class="left-margin">
-          <el-button type="primary" plain v-on:click="$router.go(-1)"
-            >取消</el-button
-          >
+          <el-button type="primary" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -321,7 +287,6 @@ export default {
         })
         .then(response => {
           this.data = response;
-          console.log(response);
           this.conclusionData = this.data.conclusionFalseInfo;
           this.supervisionInfo = this.data.supervisionInfo;
           setTimeout(() => {

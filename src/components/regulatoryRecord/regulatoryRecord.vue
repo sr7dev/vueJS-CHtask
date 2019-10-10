@@ -25,27 +25,24 @@
         >常用语管理</el-button>
         <el-button type="primary" plain v-if="!companyId">扫码下载客户端</el-button>
         <el-button type="primary" plain v-if="!companyId">说明书下载</el-button>
-        <el-checkbox
-          v-model="isShowCheckbox"
-          true-label="1"
-          false-label="0"
-          style="margin-left:auto"
-        >专项1:绿色优质农产品生产基地</el-checkbox>
-        <el-button
-          type="success"
-          icon="el-icon-plus"
-          v-if="isShowCheckbox != 0"
-          style="margin-left:10px"
-          plain
-          @click="actionConfirm(1)"
-        >添加到专项1</el-button>
-        <el-button
-          type="danger"
-          icon="el-icon-minus"
-          v-if="isShowCheckbox != 0"
-          plain
-          @click="actionConfirm(-1)"
-        >从专项1移除</el-button>
+        <div class="special-container" style="margin-left:auto">
+          <el-button
+            type="success"
+            icon="el-icon-plus"
+            v-if="isShowCheckbox != 0"
+            plain
+            @click="actionConfirm(1)"
+          >添加到专项1</el-button>
+          <el-button
+            type="danger"
+            icon="el-icon-minus"
+            v-if="isShowCheckbox != 0"
+            plain
+            @click="actionConfirm(-1)"
+            style="margin-right:10px"
+          >从专项1移除</el-button>
+          <el-checkbox v-model="isShowCheckbox" true-label="1" false-label="0">专项1:绿色优质农产品生产基地</el-checkbox>
+        </div>
       </div>
       <el-dialog :visible.sync="alert_dialogVisible" width="30%" modal>
         <span>请选择 !!!</span>
@@ -62,7 +59,6 @@
       </el-dialog>
 
       <el-container>
-        <div>{{selectedRows}}</div>
         <el-table
           :data="tableData"
           style="width: 100%"
@@ -275,7 +271,6 @@ export default {
 
         formData.append("specialFlag", this.action);
         formData.append("data", rowData);
-        console.log(formData);
         Request()
           .put(
             "/api/supervision_record/update/" + this.selectedRows[index],

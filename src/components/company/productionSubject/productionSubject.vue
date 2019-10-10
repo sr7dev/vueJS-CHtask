@@ -7,86 +7,41 @@
     </div>
     <div class="box">
       <el-container>
-        <el-table
-          :data="tableData"
-          style="width: 100%"
-          :row-class-name="rowIndex"
-        >
-          <el-table-column
-            :formatter="order"
-            label="序号"
-            width="180"
-          ></el-table-column>
-          <el-table-column prop="name" label="企业名称"></el-table-column>
-          <el-table-column
-            prop="classification"
-            label="法人代表"
-          ></el-table-column>
+        <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
+          <el-table-column :formatter="order" label="序号" width="100"></el-table-column>
+          <el-table-column prop="name" label="企业名称" width="100"></el-table-column>
+          <el-table-column prop="classification" label="法人代表" width="100"></el-table-column>
           <el-table-column prop="type" label="企业地址"></el-table-column>
           <el-table-column prop="bookNo" label="联系人"></el-table-column>
-          <el-table-column prop="date" label="联系方式"></el-table-column>
-          <el-table-column
-            prop="limitedPeriod"
-            label="所在乡镇"
-          ></el-table-column>
+          <el-table-column prop="date" label="联系方式" class-name="text-center"></el-table-column>
+          <el-table-column prop="limitedPeriod" label="所在乡镇" class-name="text-center"></el-table-column>
           <el-table-column prop="yield" label="企业诚信"></el-table-column>
-          <el-table-column prop="yield" goProduct label="操作">
+          <el-table-column prop="yield" goProduct label="操作" width="250" class-name="text-center">
             <!-- <template slot-scope="scope"> -->
             <template>
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="修改"
-                placement="top"
-              >
-                <el-button
-                  icon="el-icon-edit"
-                  circle
-                  @click="goEdit()"
-                  plain
-                  type="warning"
-                ></el-button>
+              <el-tooltip class="item" effect="dark" content="修改" placement="top">
+                <el-button icon="el-icon-edit" circle @click="goEdit()" plain type="success"></el-button>
               </el-tooltip>
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="主营产品"
-                placement="top"
-              >
+              <el-tooltip class="item" effect="dark" content="主营产品" placement="top">
                 <el-button
                   icon="el-icon-warning-outline"
                   circle
                   @click="goProduct()"
                   plain
-                  type="danger"
+                  type="warning"
                 ></el-button>
               </el-tooltip>
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="仓储环境"
-                placement="top"
-              >
+              <el-tooltip class="item" effect="dark" content="仓储环境" placement="top">
                 <el-button
                   icon="el-icon-office-building"
                   circle
                   @click="goStorage()"
                   plain
-                  type="info"
+                  type="primary"
                 ></el-button>
               </el-tooltip>
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="删除"
-                placement="top"
-              >
-                <el-button
-                  icon="el-icon-close"
-                  circle
-                  plain
-                  type="danger"
-                ></el-button>
+              <el-tooltip class="item" effect="dark" content="删除" placement="top">
+                <el-button icon="el-icon-close" circle plain type="danger"></el-button>
               </el-tooltip>
             </template>
           </el-table-column>
