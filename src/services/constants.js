@@ -4,15 +4,15 @@ let environment = "production";
 let Urls = {
   API_BASE_URL: () => {
     if (environment == "local") {
-      return "http://192.168.2.191:8040"
+      return "http://intelligent-agriculture-funny-dingo.cfapps.io"
     } else if (environment == "production") {
-      return "http://192.168.2.191:8040"
+      return "http://intelligent-agriculture-funny-dingo.cfapps.io"
     }
 
     return "NOTHING"
   },
   DOWNLOAD_URL: () => {
-    return "http://192.168.2.191:8040/api"
+    return "http://intelligent-agriculture-funny-dingo.cfapps.io/api"
   }
 
 };

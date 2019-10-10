@@ -7,15 +7,8 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <div
-          v-if="typeof this.creditCode == 'undefined'"
-          class="select_label no-margin-left"
-        >
-          乡镇
-        </div>
-        <div v-else class="select_label no-margin-left" style="display: none">
-          乡镇
-        </div>
+        <div v-if="typeof this.creditCode == 'undefined'" class="select_label no-margin-left">乡镇</div>
+        <div v-else class="select_label no-margin-left" style="display: none">乡镇</div>
         <el-select
           v-if="typeof this.creditCode == 'undefined'"
           v-model="currTown"
@@ -33,12 +26,7 @@
         <div v-else class="select_label">{{ getCompanyName() }}</div>
         <div class="select_label">项目</div>
         <el-select v-model="itemValue" placeholder="全部" @change="getList">
-          <el-option
-            v-for="item in items"
-            :key="item.id"
-            :label="item.item"
-            :value="item.item"
-          ></el-option>
+          <el-option v-for="item in items" :key="item.id" :label="item.item" :value="item.item"></el-option>
         </el-select>
         <div class="select_label">样品</div>
         <el-select v-model="samplesValue" placeholder="全部" @change="getList">
@@ -51,19 +39,10 @@
         </el-select>
         <div class="select_label">定性</div>
         <el-select v-model="result" placeholder="全部" @change="getList">
-          <el-option
-            v-for="item in results"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          ></el-option>
+          <el-option v-for="item in results" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
         <div class="select_label">检测单位</div>
-        <el-select
-          v-model="detectionUnitValue"
-          placeholder="全部"
-          @change="getList"
-        >
+        <el-select v-model="detectionUnitValue" placeholder="全部" @change="getList">
           <el-option
             v-for="item in detectionUnit"
             :key="item.id"
@@ -73,85 +52,103 @@
         </el-select>
       </div>
       <div class="iptBox">
-        <div class="select_label no-margin-left">开始日期</div>
-        <el-date-picker
-          type="date"
-          placeholder="选择日期"
-          v-model="startDate"
-          style="width: 300px;"
-          @change="getList"
-        ></el-date-picker>
-        <div class="select_label">结束日期</div>
-        <el-date-picker
-          type="date"
-          placeholder="选择日期"
-          v-model="endDate"
-          style="width: 300px;"
-          @change="getList"
-        ></el-date-picker>
-        <el-checkbox
-          v-model="bGreenProducts"
-          style="margin-left: 30px"
-          @change="getList"
-          >专项1:绿色优质农产品生产基地</el-checkbox
-        >
-        <el-button
-          v-on:click="handleDownload"
-          style="margin-left: 30px"
-          type="success"
-          plain
-          >导出表格</el-button
-        >
-        <el-button
-          v-if="typeof this.creditCode != 'undefined'"
-          type="primary"
-          plain
-          v-on:click="$router.go(-1)"
-          >返回</el-button
-        >
-        <el-button
-          v-else
-          plain
-          type="primary"
-          v-on:click="$router.go(-1)"
-          style="display: none;"
-          >返回</el-button
-        >
-        <span style="float: right" class="margin-left-20"
-          >总计{{ totalSize }}条检测</span
-        >
+        <el-row class="w-100">
+          <el-col :span="5">
+            <div class="select_label no-margin-left">开始日期</div>
+            <el-date-picker
+              type="date"
+              placeholder="选择日期"
+              v-model="startDate"
+              style="width: 300px;"
+              @change="getList"
+            ></el-date-picker>
+          </el-col>
+          <el-col :span="5">
+            <div class="select_label no-margin-left">结束日期</div>
+            <el-date-picker
+              type="date"
+              placeholder="选择日期"
+              v-model="endDate"
+              style="width: 300px;"
+              @change="getList"
+            ></el-date-picker>
+          </el-col>
+          <el-col :span="6" class="flex-center">
+            <el-button v-on:click="handleDownload" type="success" plain>导出表格</el-button>
+            <el-button
+              v-if="typeof this.creditCode != 'undefined'"
+              type="primary"
+              plain
+              v-on:click="$router.go(-1)"
+            >返回</el-button>
+            <el-button
+              v-else
+              plain
+              type="primary"
+              v-on:click="$router.go(-1)"
+              style="display: none;"
+            >返回</el-button>
+            <span style="float: right" class="margin-left-20">总计{{ totalSize }}条检测</span>
+          </el-col>
+          <el-col :span="8" class="flex-center justify-right" style="height:40px">
+            <el-button
+              type="success"
+              icon="el-icon-plus"
+              v-if="isShowCheckbox != 0"
+              plain
+              @click="actionConfirm(1)"
+            >添加到专项1</el-button>
+            <el-button
+              type="danger"
+              icon="el-icon-minus"
+              v-if="isShowCheckbox != 0"
+              plain
+              @click="actionConfirm(-1)"
+              style="margin-right:10px"
+            >从专项1移除</el-button>
+            <el-checkbox v-model="isShowCheckbox" true-label="1" false-label="0">专项1:绿色优质农产品生产基地</el-checkbox>
+          </el-col>
+        </el-row>
+        <el-dialog :visible.sync="alert_dialogVisible" width="30%" modal>
+          <span>请选择 !!!</span>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="alert_dialogVisible = false" type="primary" plain>取消</el-button>
+          </span>
+        </el-dialog>
+        <el-dialog :visible.sync="confirm_dialogVisible" width="30%" modal>
+          <span>继续？请再次检查</span>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
+            <el-button :type="btnColor" @click="updateSelectedRows()" plain>确认</el-button>
+          </span>
+        </el-dialog>
       </div>
       <el-container>
-        <el-table
-          :data="tableData"
-          style="width: 100%"
-          :row-class-name="rowIndex"
-        >
-          <el-table-column
-            :formatter="order"
-            label="序号"
-            width="80"
-          ></el-table-column>
+        <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
+          <el-table-column label width="35" v-if="isShowCheckbox != 0">
+            <template slot-scope="{ row }">
+              <el-checkbox style="margin-left:auto" @change="changeCheckStatus(row.id)"></el-checkbox>
+            </template>
+          </el-table-column>
+          <el-table-column :formatter="order" label="序号" width="80"></el-table-column>
           <el-table-column prop="no" label="编号"></el-table-column>
           <el-table-column prop="item" label="检测项目"></el-table-column>
           <el-table-column prop="sample" label="样品名称"></el-table-column>
           <el-table-column prop="source" label="来源"></el-table-column>
           <el-table-column prop="resultDl" label="定量结果"></el-table-column>
           <el-table-column prop="resultDx" label="定性结果"></el-table-column>
-          <el-table-column prop="detectTime" label="检测时间" width="120"
-            ><template slot-scope="{ row }">{{
-              row.detectTime | formatDate
-            }}</template></el-table-column
-          >
-          <el-table-column
-            prop="detectUnit"
-            label="检测单位"
-            width="150"
-          ></el-table-column>
-          <el-table-column prop="operator" label="检验员"></el-table-column>
-          <el-table-column prop="particular" label="专项1">
+          <el-table-column prop="detectTime" label="检测时间" width="120">
             <template slot-scope="{ row }">
-              <i v-if="row.particular" class="el-icon-check"></i>
+              {{
+              row.detectTime | formatDate
+              }}
+            </template>
+          </el-table-column>
+          <el-table-column prop="detectUnit" label="检测单位" width="150"></el-table-column>
+          <el-table-column prop="operator" label="检验员"></el-table-column>
+          <el-table-column label="专项1">
+            <template slot-scope="{ row }">
+              <i v-if="row.specialFlag == 1" class="el-icon-check"></i>
               <i v-else></i>
             </template>
           </el-table-column>
@@ -209,7 +206,12 @@ export default {
       detectionUnitValue: "",
       startDate: "",
       endDate: "",
-      bGreenProducts: false,
+      isShowCheckbox: 0,
+      selectedRows: [],
+      alert_dialogVisible: false,
+      confirm_dialogVisible: false,
+      btnColor: "",
+      action: "",
       totalSize: "",
       companyData: [],
       filename: "农残检测"
@@ -364,6 +366,43 @@ export default {
     },
     goAdd() {
       this.$router.push({ path: "addDisabilityCheck" });
+    },
+    changeCheckStatus(id) {
+      let index = this.selectedRows.indexOf(id);
+      if (index > -1) this.selectedRows.splice(index, 1);
+      if (event.target.checked) {
+        this.selectedRows.push(id);
+      }
+    },
+    actionConfirm(action) {
+      this.action = action;
+      if (!this.selectedRows.length) {
+        this.alert_dialogVisible = true;
+      } else {
+        this.confirm_dialogVisible = true;
+        this.btnColor = action > 0 ? "success" : "danger";
+      }
+    },
+    updateSelectedRows() {
+      for (let index in this.selectedRows) {
+        const rowData = this.tableData.find(
+          x => x.id === this.selectedRows[index]
+        );
+        let formData = new FormData();
+
+        formData.append("specialFlag", this.action);
+        formData.append("data", rowData);
+        Request()
+          .put(
+            "/api/" + this.selectedRows[index],
+            { actionType: this.action },
+            formData
+          )
+          .then(response => {
+            this.getList();
+          })
+          .catch(error => {});
+      }
     }
   }
 };

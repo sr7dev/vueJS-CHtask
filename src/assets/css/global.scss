@@ -1,3 +1,24 @@
+body {
+  font-size: 0.9rem;
+}
+
+.w-100 {
+  width: 100%!important;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+}
+
+.justify-right {
+  justify-content: flex-end;
+}
+
+.float-right {
+  float: right;
+}
+
 .text-center {
   text-align: center!important;
 }
@@ -101,7 +122,7 @@
 
 .el-table {
   th.is-leaf {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 }
 
