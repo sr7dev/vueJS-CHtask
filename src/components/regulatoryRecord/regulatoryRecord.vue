@@ -38,10 +38,15 @@
             icon="el-icon-minus"
             v-if="isShowCheckbox != 0"
             plain
-            @click="actionConfirm(-1)"
+            @click="actionConfirm(0)"
             style="margin-right:10px"
           >从专项1移除</el-button>
-          <el-checkbox v-model="isShowCheckbox" true-label="1" false-label="0">专项1:绿色优质农产品生产基地</el-checkbox>
+          <el-checkbox
+            v-model="isShowCheckbox"
+            true-label="1"
+            false-label="0"
+            @change="showCheckbox"
+          >专项1:绿色优质农产品生产基地</el-checkbox>
         </div>
       </div>
       <el-dialog :visible.sync="alert_dialogVisible" width="30%" modal>
@@ -265,23 +270,31 @@ export default {
     },
     updateSelectedRows() {
       for (let index in this.selectedRows) {
-        const rowData = this.tableData.find(
-          x => x.id === this.selectedRows[index]
-        );
-        let formData = new FormData();
-
-        formData.append("specialFlag", this.action);
-        formData.append("data", rowData);
+        this.confirm_dialogVisible = false;
+        this.listLoading = true;
         Request()
           .put(
-            "/api/supervision_record/update/" + this.selectedRows[index],
-            { actionType: this.action },
-            formData
+            "/api/supervision_record/update_special_flag/" +
+              this.selectedRows[index] +
+              "?specialFlag=" +
+              this.action
           )
           .then(response => {
+            setTimeout(() => {
+              this.listLoading = false;
+            }, 0.5 * 1000);
+            this.selectedRows = [];
+            this.isShowCheckbox = 0;
             this.getData();
           })
-          .catch(error => {});
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    },
+    showCheckbox() {
+      if (!event.target.checked) {
+        this.selectedRows = [];
       }
     }
   }
