@@ -12,6 +12,11 @@
     <div class="box">
       <div class="iptBox">
         <div class="filter-item">
+          <el-button 
+            type="primary"
+            plain
+            >添加</el-button
+          >
           <el-button type="primary" plain @click="$router.go(-1)"
             >返回</el-button
           >
@@ -39,10 +44,20 @@
           <template slot-scope="{ row }">{{ row.repertoryAmount }}</template>
         </el-table-column>
         <el-table-column prop="variety" label="品种"></el-table-column>
-        <el-table-column prop="grade" label="等级">
-          <template slot-scope="{ row }">{{
-            ["Unknown", "低级", "中级", "高级", "特级"][row.grade]
-          }}</template>
+        <el-table-column prop="grade" label="评级"></el-table-column>
+        <el-table-column label="操作">
+          <template>
+            <el-button
+              type="success"
+              plain
+            >修改
+            </el-button>
+            <el-button
+              type="danger"
+              plain
+            >删除
+            </el-button>
+          </template>
         </el-table-column>
       </el-table>
       <div class="pageBox">
@@ -74,7 +89,7 @@ export default {
       },
       total: 100,
       radio: "1",
-      tableData: sampleData,
+      tableData: null,
       productName: "",
       warehouses: []
     };
@@ -92,9 +107,6 @@ export default {
       }
       return "";
     },
-    // gotoWarehousingEnvironmentPage(row) {
-    //   this.$router.push(`/warehouseEnv`)
-    // },
     getList(id) {
       this.listLoading = true;
       Request()
@@ -105,17 +117,16 @@ export default {
           sortBy: "id"
         })
         .then(response => {
-          this.warehouses = response;
+          this.warehouses = response.data;
           Request()
             .get("/api/product_repetory/all", {
               product_id: id,
               pageNo: this.page.pageIndex - 1,
-              pageSize: this.page.pageSize,
-              sortBy: "id"
+              pageSize: this.page.pageSize
             })
             .then(res => {
-              this.tableData = res;
-              this.total = res.length;
+              this.tableData = res.data;
+              this.total = res.total;
               setTimeout(() => {
                 this.listLoading = false;
               }, 0.5 * 1000);

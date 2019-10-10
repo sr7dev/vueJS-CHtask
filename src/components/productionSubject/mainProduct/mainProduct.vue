@@ -113,7 +113,7 @@ export default {
     },
     showInventoryDynamics(row) {
       this.$router.push({
-        path: `/productionSubject/mainProduct/inventoryDynamics/${row.productId}`,
+        path: `/productionSubject/mainProduct/inventoryDynamics/${this.$route.params.id}`,
         query: { productName: row.productName }
       });
     },
@@ -126,6 +126,7 @@ export default {
           pageSize: this.page.pageSize
         })
         .then(response => {
+          console.log(response);
           this.tableData = response;
           this.total = this.tableData.length;
           setTimeout(() => {
