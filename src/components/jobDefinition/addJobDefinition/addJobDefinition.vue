@@ -138,7 +138,8 @@ export default {
         var mainFormData = new FormData();
         mainFormData.append("jobName", this.addForm.jobName);
         mainFormData.append("jobType", this.addForm.jobType);
-        mainFormData.append("jobFile", this.file_live_1);
+        mainFormData.append("file", this.file_live_1);
+        mainFormData.append("id", 0);
         return mainFormData;
     },
   }

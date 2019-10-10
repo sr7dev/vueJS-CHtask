@@ -35,15 +35,25 @@
                     <el-table-column prop="jobName" label="作业名称">
                     </el-table-column>
                     <el-table-column prop="jobType" label="作业类型">
+                        <template slot-scope="{ row }">
+                            {{ getJobType(row.jobType) }}
+                        </template>
                     </el-table-column>
                     <el-table-column label="操作">
                         <template slot-scope="{ row }">
                             <el-button
                                 type="success"
                                 plain
-                                v-on:click="handleEdit(`${row.id}`)"
+                                v-on:click="
+                                    $router.push({
+                                        path: `/jobDefinition/${row.id}`,
+                                        query: {
+                                            jobName: row.jobName,
+                                            jobType: getJobType(row.jobType)
+                                        }
+                                    })"
                             >
-                                查看
+                                修改
                             </el-button>
                             <el-button
                                 type="danger"
@@ -87,12 +97,20 @@ export default {
             listLoading: true,
             total: 100,
             tableData: [],
+            jobTypes: [ 
+                { id: 0, name: "收获前" },
+                { id: 1, name: "收获" },
+                { id: 2, name: "收获后" }
+            ]
         };
     },
     mounted() {
         this.getList();
     },
     methods: {
+        order(row) {
+            return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
+        },
         rowIndex({ row, rowIndex }) {
             row.rowIndex = rowIndex;
         },
@@ -104,8 +122,8 @@ export default {
                     pageSize: this.page.pageSize,
                 })
                 .then(response => {
-                    this.tableData = response;
-                    this.total = this.tableData.length;
+                    this.tableData = response.data;
+                    this.total = response.total;
                     setTimeout(() => {
                         this.listLoading = false;
                     }, 0.5 * 1000);
@@ -113,6 +131,28 @@ export default {
                 .catch(error => {
                     console.log(error);
                 });
+        },
+        getJobType(id) {
+            let type = this.jobTypes.find(x => x.id === id);
+            if (type) {
+                return type.name;
+            } else {
+                return "";
+            }
+        },
+        handleDelete(id) {
+            this.$confirm('确认删除该记录吗?', '提示', {
+                type: 'warning'
+            }).then(() => {
+                Request()
+                    .delete("/api/job_definition/delete/" + id)
+                    .then(response => {
+                        this.getList();
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            });
         },
     }
 };

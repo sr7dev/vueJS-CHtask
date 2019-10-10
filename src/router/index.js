@@ -65,6 +65,7 @@ import detailsSampleCheckResult from "@/components/sampleCheck/detailsSampleChec
 
 import jobDefinition from "@/components/jobDefinition/jobDefinition"
 import addJobDefinition from "@/components/jobDefinition/addJobDefinition/addJobDefinition"
+import editJobDefinition from "@/components/jobDefinition/editJobDefinition/editJobDefinition"
 
 import Auth from "@/services/authentication/auth";
 
@@ -342,13 +343,18 @@ export default new Router({
         },
         {
           path: '/jobDefinition',
-          name: 'jobDefinition',// 红黑名单
+          name: 'jobDefinition',// 作业定义
           component: jobDefinition,
         },
         {
           path: '/jobDefinition/create',
-          name: 'addJobDefinition',// 红黑名单
+          name: 'addJobDefinition',// 作业定义
           component: addJobDefinition,
+        },
+        {
+          path: '/jobDefinition/:id',
+          name: 'editJobDefinition',// 作业定义
+          component: editJobDefinition,
         },
       ]
     },
