@@ -16,9 +16,11 @@ import businessProducts from "@/components/management/businessProducts";
 import companyDetails from "@/components/management/companyDetails";
 import redBlackList from "@/components/redBlackList/redBlackList";
 import disabilityCheck from "@/components/disabilityCheck/disabilityCheck";
-import productionRecord from "@/components/productionRecord/productionRecord";
-import addProductionRecord from "@/components/productionRecord/addProductionRecord/addProductionRecord";
-import editProductionRecord from "@/components/productionRecord/editProductionRecord/editProductionRecord";
+import workTask from "@/components/workTask/workTask";
+import addWorkTask from "@/components/workTask/addWorkTask/addWorkTask";
+import editWorkTask from "@/components/workTask/editWorkTask/editWorkTask";
+import addWorkTaskReport from "@/components/workTask/addWorkTaskReport/addWorkTaskReport";
+import detailWorkTaskReport from "@/components/workTask/detailWorkTaskReport/detailWorkTaskReport";
 
 // 企业
 import cp_productionSubject from "@/components/company/productionSubject/productionSubject"; //生产主体
@@ -70,6 +72,9 @@ import detailsSampleCheckResult from "@/components/sampleCheck/detailsSampleChec
 import jobDefinition from "@/components/jobDefinition/jobDefinition";
 import addJobDefinition from "@/components/jobDefinition/addJobDefinition/addJobDefinition";
 import editJobDefinition from "@/components/jobDefinition/editJobDefinition/editJobDefinition";
+import productionRecord from "@/components/productionRecord/productionRecord";
+import addProductionRecord from "@/components/productionRecord/addProductionRecord/addProductionRecord";
+import editProductionRecord from "@/components/productionRecord/editProductionRecord/editProductionRecord";
 
 import Auth from "@/services/authentication/auth";
 
@@ -186,7 +191,7 @@ export default new Router({
           path: "/productionSubject/mainProduct/thirdPartySamplingRecord/:id",
           name: "thirdPartySamplingRecord",
           component: thirdPartySamplingRecord
-          },
+        },
         {
           path: "/productionSubject/mainProduct/thirdPartySampling/create",
           name: "addThirdPartySampling",
@@ -195,7 +200,7 @@ export default new Router({
         {
           path: "/productionSubject/mainProduct/thirdPartySampling/edit/:id",
           name: "editThirdPartySampling",
-          component: editThirdPartySampling          
+          component: editThirdPartySampling
         },
         {
           path: "/productionSubject/mainProduct/productBatch/:id",
@@ -381,6 +386,31 @@ export default new Router({
           path: "/jobDefinition/:id",
           name: "editJobDefinition", // 作业定义
           component: editJobDefinition
+        },
+        {
+          path: "/workTask",
+          name: "workTask", // 工作任务
+          component: workTask
+        },
+        {
+          path: "/workTask/create",
+          name: "addWorkTask", // 工作任务
+          component: addWorkTask
+        },
+        {
+          path: "/workTask/edit/:id",
+          name: "editWorkTask", // 工作任务
+          component: editWorkTask
+        },
+        {
+          path: "/workTask/report/create",
+          name: "addWorkTaskReport", // 工作任务
+          component: addWorkTaskReport
+        },
+        {
+          path: "/workTask/report/detail/:id",
+          name: "detailWorkTaskReport", // 工作任务
+          component: detailWorkTaskReport
         }
       ]
     },

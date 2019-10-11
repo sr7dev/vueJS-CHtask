@@ -185,12 +185,13 @@ export default {
   components: { Pagination },
   data() {
     return {
+      listLoading: false,
       creditCode: "",
       page: {
         pageIndex: 1,
         pageSize: 20
       },
-      total: 100,
+      total: 0,
       options: [
         {
           value: "全部",
@@ -347,9 +348,8 @@ export default {
           pageSize: this.page.pageSize
         })
         .then(response => {
-          this.tableData = response;
-          this.total = this.tableData.length;
-          this.totalSize = this.total;
+          this.tableData = response.data;
+          this.total = response.total;
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
