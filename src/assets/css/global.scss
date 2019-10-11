@@ -1,5 +1,6 @@
+html,
 body {
-  font-size: 0.9rem;
+  font-size: 14px;
 }
 
 .w-100 {
@@ -38,7 +39,7 @@ body {
 .el-aside {
   a,
   span {
-    font-size: 1.2rem;
+    font-size: 16px;
   }
   .tac {
     ul.el-menu-vertical-demo {
@@ -58,7 +59,7 @@ body {
             content: "\2013";
             font-weight: bold;
             color: #ffffff;
-            font-size: 1.2rem;
+            font-size: 20px;
           }
         }
       }
@@ -70,7 +71,7 @@ body {
         .el-icon-arrow-down:before {
           content: "\002B";
           font-weight: bold;
-          font-size: 1.2rem;
+          font-size: 20px;
           color: #000000;
         }
         &:hover {
@@ -115,14 +116,14 @@ body {
 
 .title {
   .el-breadcrumb {
-    font-size: 1.4rem;
+    font-size: 20px;
     margin-bottom: 20px;
   }
 }
 
 .el-table {
   th.is-leaf {
-    font-size: 0.9rem;
+    font-size: 14px;
   }
 }
 
