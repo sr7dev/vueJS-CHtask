@@ -123,9 +123,9 @@ export default {
             content: "",
         },
         emergencyDegrees: [
-            { id: "0", name: "低" },
+            { id: "0", name: "高" },
             { id: "1", name: "中" },
-            { id: "2", name: "高" }
+            { id: "2", name: "低" }
         ],
         rules: {
             content: [

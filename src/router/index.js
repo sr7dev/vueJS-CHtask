@@ -378,7 +378,7 @@ export default new Router({
           component: notice,
         },
         {
-          path: '/notice/:id',
+          path: '/notice/view/:id',
           name: 'detailsNotice',// 通知管理
           component: detailsNotice,
         },

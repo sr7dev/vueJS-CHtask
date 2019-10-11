@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item>通知管理/通知公告</el-breadcrumb-item>
+        <el-breadcrumb-item>通知管理 / 通知公告</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">详情</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
