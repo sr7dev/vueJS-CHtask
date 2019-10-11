@@ -51,6 +51,9 @@
         <el-menu-item index="/redBlackList">
           <router-link slot="title" to="/redBlackList">红黑名单</router-link>
         </el-menu-item>
+        <el-menu-item index="/jobDefinition">
+          <router-link slot="title" to="/jobDefinition">作业定义</router-link>
+        </el-menu-item>
       </el-menu>
     </el-col>
   </el-row>
