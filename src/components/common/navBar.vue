@@ -36,6 +36,12 @@
           <router-link slot="title" to="/regulatoryRecord">监管记录</router-link>
         </el-menu-item>
 
+        <el-menu-item index="/notice">
+          <router-link slot="title" to="/notice">
+            通知管理
+          </router-link>
+        </el-menu-item>
+
         <el-menu-item index="/threeProductsCertification">
           <router-link slot="title" to="/threeProductsCertification">三品一标管理</router-link>
         </el-menu-item>
