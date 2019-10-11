@@ -97,6 +97,8 @@ export default {
       warehouseData: [],
       warehouseOptions:[],
       ruleFormValue: {
+        createTime: "",
+        updateTime: "",
         grade: "",
         productId: 0,
         repertoryAmount: "",
@@ -119,6 +121,20 @@ export default {
             message: "请插入",
             trigger: "change"
           }
+        ],
+        grade: [
+          {
+            required: true,
+            message: "请选择",
+            trigger: "change"
+          }
+        ],
+        warehouseId: [
+          {
+            required: true,
+            message: "请选择",
+            trigger: "change"
+          }
         ]
       },
       options: [
@@ -133,8 +149,14 @@ export default {
     this.ruleFormValue.productName = this.$route.query.productName;
     this.ruleFormValue.productId = this.$route.params.id;    
     this.getWarehouseList();
+    this.getCurrentTime();
   },
   methods: {
+    getCurrentTime() {
+      var currentDate = new Date();
+      this.ruleFormValue.createTime = currentDate.toISOString();
+      this.ruleFormValue.updateTime = currentDate.toISOString();
+    },
     getWarehouseList() {
       this.listLoading = true;
       Request()
@@ -157,6 +179,8 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           var formData = {
+            "createTime": this.ruleFormValue.createTime,
+            "updateTime": this.ruleFormValue.updateTime,
             "grade": this.ruleFormValue.grade,
             "id": 0,
             "productId": this.ruleFormValue.productId,
