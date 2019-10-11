@@ -108,7 +108,7 @@ export default {
     return {
         addForm: {
             timingRelease: "",
-            emergencyDegree: 2,
+            emergencyDegree: 0,
             type: "",
             releaseTime: "",
             releasePerson: "",
@@ -116,9 +116,9 @@ export default {
             content: "",
         },
         emergencyDegrees: [
-            { id: 0, name: "低" },
+            { id: 0, name: "高" },
             { id: 1, name: "中" },
-            { id: 2, name: "高" }
+            { id: 2, name: "低" }
         ],
         rules: {
             content: [

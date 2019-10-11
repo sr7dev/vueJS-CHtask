@@ -14,7 +14,7 @@
             <div class="iptBox">
                 <el-button
                     type="primary"
-                    v-on:click="$router.push(`/notice/create`)"
+                    v-on:click="$router.push({path: `/notice/create`})"
                     plain
                 >
                     发布公告
@@ -60,23 +60,13 @@
                             <el-button
                                 type="success"
                                 plain
-                                v-on:click="
-                                    $router.push({
-                                        path: `/notice/${row.id}`,
-                                        query: {
-                                        }
-                                    })"
+                                v-on:click="$router.push({path: `/notice/view/${row.id}`})"
                             >
                                 查看
                             </el-button>
                             <el-button
                                 type="warning"
-                                v-on:click="
-                                    $router.push({
-                                        path: `/notice/edit/${row.id}`,
-                                        query: {
-                                        }
-                                    })"
+                                v-on:click="$router.push({path: `/notice/edit/${row.id}`})"
                                 plain
                             >
                                 修改
@@ -120,9 +110,9 @@ export default {
             total: 0,
             tableData: [],
             emergencyDegrees: [ 
-                { id: 0, name: "低" },
+                { id: 0, name: "高" },
                 { id: 1, name: "中" },
-                { id: 2, name: "高" }
+                { id: 2, name: "低" }
             ]
         };
     },
