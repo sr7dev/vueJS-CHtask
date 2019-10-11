@@ -21,6 +21,9 @@ import addWorkTask from "@/components/workTask/addWorkTask/addWorkTask";
 import editWorkTask from "@/components/workTask/editWorkTask/editWorkTask";
 import addWorkTaskReport from "@/components/workTask/addWorkTaskReport/addWorkTaskReport";
 import detailWorkTaskReport from "@/components/workTask/detailWorkTaskReport/detailWorkTaskReport";
+import seed from "@/components/seed/seed";
+import uploadSeed from "@/components/seed/uploadSeed/uploadSeed";
+import detailSeed from "@/components/seed/detailSeed/detailSeed";
 
 // 企业
 import cp_productionSubject from "@/components/company/productionSubject/productionSubject"; //生产主体
@@ -76,10 +79,10 @@ import productionRecord from "@/components/productionRecord/productionRecord";
 import addProductionRecord from "@/components/productionRecord/addProductionRecord/addProductionRecord";
 import editProductionRecord from "@/components/productionRecord/editProductionRecord/editProductionRecord";
 
-import notice from "@/components/notice/notice"
-import detailsNotice from "@/components/notice/detailsNotice/detailsNotice"
-import createNotice from "@/components/notice/createNotice/createNotice"
-import editNotice from "@/components/notice/editNotice/editNotice"
+import notice from "@/components/notice/notice";
+import detailsNotice from "@/components/notice/detailsNotice/detailsNotice";
+import createNotice from "@/components/notice/createNotice/createNotice";
+import editNotice from "@/components/notice/editNotice/editNotice";
 
 import Auth from "@/services/authentication/auth";
 
@@ -378,26 +381,26 @@ export default new Router({
           component: redBlackList
         },
         {
-          path: '/notice',
-          name: 'notice',// 通知管理
-          component: notice,
+          path: "/notice",
+          name: "notice", // 通知管理
+          component: notice
         },
         {
-          path: '/notice/view/:id',
-          name: 'detailsNotice',// 通知管理
-          component: detailsNotice,
+          path: "/notice/view/:id",
+          name: "detailsNotice", // 通知管理
+          component: detailsNotice
         },
         {
-          path: '/notice/create',
-          name: 'createNotice',// 通知管理
-          component: createNotice,
+          path: "/notice/create",
+          name: "createNotice", // 通知管理
+          component: createNotice
         },
         {
-          path: '/notice/edit/:id',
-          name: 'editNotice',// 通知管理
-          component: editNotice,
+          path: "/notice/edit/:id",
+          name: "editNotice", // 通知管理
+          component: editNotice
         },
-        {  
+        {
           path: "/jobDefinition",
           name: "jobDefinition", // 作业定义
           component: jobDefinition
@@ -436,6 +439,21 @@ export default new Router({
           path: "/workTask/report/detail/:id",
           name: "detailWorkTaskReport", // 工作任务
           component: detailWorkTaskReport
+        },
+        {
+          path: "/seed",
+          name: "seed", // 种子管理
+          component: seed
+        },
+        {
+          path: "/seed/upload",
+          name: "uploadSeed", // 种子管理
+          component: uploadSeed
+        },
+        {
+          path: "/seed/detail/:id",
+          name: "detailSeed", // 种子管理
+          component: detailSeed
         }
       ]
     },
