@@ -52,6 +52,7 @@ import mainProduct from "@/components/productionSubject/mainProduct/mainProduct"
 import thirdPartySamplingRecord from "@/components/productionSubject/mainProduct/thirdPartySamplingRecord/thirdPartySamplingRecord";
 import productBatch from "@/components/productionSubject/mainProduct/productBatch/productBatch";
 import inventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/inventoryDynamics";
+import addInventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/addInventoryDynamics";
 
 import companyBusiness from "@/components/companyBusiness/companyBusiness";
 import productBusiness from "@/components/companyBusiness/productBusiness/productBusiness";
@@ -189,6 +190,11 @@ export default new Router({
           path: "/productionSubject/mainProduct/inventoryDynamics/:id",
           name: "inventoryDynamics",
           component: inventoryDynamics
+        },
+        {
+          path: "/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/:id",
+          name: "addInventoryDynamics",
+          component: addInventoryDynamics
         },
         {
           path: "/threeProductsCertification",

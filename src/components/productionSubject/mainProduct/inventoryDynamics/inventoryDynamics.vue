@@ -15,9 +15,19 @@
           <el-button 
             type="primary"
             plain
+            @click="$router.push({
+              path: `/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/${id}`,
+              query: {
+                productName: productName
+              }
+            })
+            "
             >添加</el-button
           >
-          <el-button type="primary" plain @click="$router.go(-1)"
+          <el-button
+            type="primary"
+            plain
+            @click="$router.go(-1)"
             >返回</el-button
           >
         </div>
