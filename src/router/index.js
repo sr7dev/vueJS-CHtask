@@ -58,6 +58,8 @@ import addThirdPartySampling from "@/components/productionSubject/mainProduct/th
 import editThirdPartySampling from "@/components/productionSubject/mainProduct/thirdPartySamplingRecord/editThirdPartySampling/editThirdPartySampling";
 import productBatch from "@/components/productionSubject/mainProduct/productBatch/productBatch";
 import inventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/inventoryDynamics";
+import addInventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/addInventoryDynamics";
+import editInventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/editInventoryDynamics";
 
 import companyBusiness from "@/components/companyBusiness/companyBusiness";
 import productBusiness from "@/components/companyBusiness/productBusiness/productBusiness";
@@ -216,6 +218,16 @@ export default new Router({
           path: "/productionSubject/mainProduct/inventoryDynamics/:id",
           name: "inventoryDynamics",
           component: inventoryDynamics
+        },
+        {
+          path: "/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/:id",
+          name: "addInventoryDynamics",
+          component: addInventoryDynamics
+        },
+        {
+          path: "/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/:id",
+          name: "editInventoryDynamics",
+          component: editInventoryDynamics
         },
         {
           path: "/threeProductsCertification",

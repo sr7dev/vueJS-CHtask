@@ -12,7 +12,22 @@
     <div class="box">
       <div class="iptBox">
         <div class="filter-item">
-          <el-button type="primary" plain @click="$router.go(-1)"
+          <el-button 
+            type="primary"
+            plain
+            @click="$router.push({
+              path: `/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/${id}`,
+              query: {
+                productName: productName
+              }
+            })
+            "
+            >添加</el-button
+          >
+          <el-button
+            type="primary"
+            plain
+            @click="$router.go(-1)"
             >返回</el-button
           >
         </div>
@@ -21,6 +36,7 @@
         :data="tableData"
         style="width: 100%"
         :row-class-name="rowIndex"
+        v-loading="listLoading"
       >
         <el-table-column
           :formatter="order"
@@ -31,18 +47,51 @@
           <template>{{ productName }}</template>
         </el-table-column>
         <el-table-column prop="warehouse" label="所在仓库">
-          <template slot-scope="{ row }">{{
-            getWarehouseName(row.warehouseId)
-          }}</template>
+          <template slot-scope="{ row }">
+            {{
+              getWarehouseName(row.warehouseId)
+            }}
+          </template>
         </el-table-column>
         <el-table-column prop="repertoryAmount" label="储存数量">
           <template slot-scope="{ row }">{{ row.repertoryAmount }}</template>
         </el-table-column>
-        <el-table-column prop="variety" label="品种"></el-table-column>
-        <el-table-column prop="grade" label="等级">
-          <template slot-scope="{ row }">{{
-            ["Unknown", "低级", "中级", "高级", "特级"][row.grade]
-          }}</template>
+        <el-table-column prop="variety" label="品种">
+          <template slot-scope="{ row }">{{ row.variety }}</template>
+        </el-table-column>
+        <el-table-column prop="grade" label="评级">
+          <template slot-scope="{row}">
+            {{
+              getGradeName(row.grade)
+            }}
+          </template>
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="{ row }">
+            <el-button
+              type="success"              
+              plain
+              @click="$router.push({
+                path: `/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/${id}`,
+                query: {
+                  productName: productName,
+                  repertoryAmount: row.repertoryAmount,
+                  warehouseId: row.warehouseId,
+                  grade: row.grade,
+                  variety: row.variety,
+                  id: row.id
+                }
+              })
+              "
+            >修改
+            </el-button>
+            <el-button
+              type="danger"
+              v-on:click="handleDelete(`${row.id}`)"
+              plain
+            >删除
+            </el-button>
+          </template>
         </el-table-column>
       </el-table>
       <div class="pageBox">
@@ -62,7 +111,7 @@
 import sampleData from "./_data";
 import Pagination from "@/components/common/pagination";
 import Request from "@/services/api/request";
-export default {
+export default {  
   name: "inventoryDynamics",
   components: { Pagination },
   data() {
@@ -72,9 +121,10 @@ export default {
         pageIndex: 1,
         pageSize: 20
       },
+      listLoading: true,
       total: 100,
       radio: "1",
-      tableData: sampleData,
+      tableData: null,
       productName: "",
       warehouses: []
     };
@@ -85,6 +135,20 @@ export default {
     this.getList(this.id);
   },
   methods: {
+    handleDelete(id) {
+      Request()
+        .delete("/api/product_repetory/delete/" + id)
+        .then(response => {
+          this.getList(this.id);          
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },    
+    getGradeName(id) {
+      const grade = ["低级", "中级", "高级", "特级"];
+      return grade[id - 1];
+    },
     getWarehouseName(id) {
       for (let index = 0; index < this.warehouses.length; index++) {
         const element = this.warehouses[index];
@@ -92,9 +156,6 @@ export default {
       }
       return "";
     },
-    // gotoWarehousingEnvironmentPage(row) {
-    //   this.$router.push(`/warehouseEnv`)
-    // },
     getList(id) {
       this.listLoading = true;
       Request()
@@ -105,17 +166,18 @@ export default {
           sortBy: "id"
         })
         .then(response => {
-          this.warehouses = response;
+          this.warehouses = response.data;
+          console.log(this.warehouses);
           Request()
             .get("/api/product_repetory/all", {
               product_id: id,
               pageNo: this.page.pageIndex - 1,
-              pageSize: this.page.pageSize,
-              sortBy: "id"
+              pageSize: this.page.pageSize
             })
             .then(res => {
-              this.tableData = res;
-              this.total = res.length;
+              console.log(res.data);
+              this.tableData = res.data;
+              this.total = res.total;
               setTimeout(() => {
                 this.listLoading = false;
               }, 0.5 * 1000);
