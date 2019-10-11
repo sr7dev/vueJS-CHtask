@@ -6,14 +6,14 @@
         <el-breadcrumb-item class="actived">添加认证</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-
+    <el-dialog :visible.sync="dialogVisible" width="30%" modal>
+      <span>选择文件 !!!</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false" type="primary" plain>取消</el-button>
+      </span>
+    </el-dialog>
     <div class="box">
-      <el-form
-        ref="ruleForm"
-        :model="ruleFormValue"
-        :rules="rules"
-        label-width="100px"
-      >
+      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
         <el-row>
           <el-col :span="6">
             <el-form-item label="企业名称" prop="creditCode">
@@ -110,12 +110,9 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="8">
-            <div class="item">
-              <div
-                class="item-label"
-                style="margin-bottom:20px;display:inline-block"
-              >
+          <el-col :span="18">
+            <div class="item" style="display:flex">
+              <div class="item-label" style="margin-bottom:20px;">
                 <input
                   type="file"
                   id="file"
@@ -123,13 +120,14 @@
                   ref="file"
                   v-on:change="handleFileUpload()"
                 />
-                <el-button type="warning" plain @click="chooseFile()"
-                  >添加附件</el-button
-                >
+                <el-button type="warning" plain @click="chooseFile()">添加附件</el-button>
               </div>
               <div
                 class="item-value"
-                style="display:inline-block;margin-left:10px;"
+                style="margin-left:10px;
+                      display: flex;
+                      align-items: center;
+                      padding-bottom: 20px;"
               >
                 <span v-if="file">({{ file.name }})</span>
                 <span v-else>请选择需要上传的文件...</span>
@@ -138,9 +136,7 @@
           </el-col>
         </el-row>
         <el-form-item>
-          <el-button type="success" @click="onSubmit('ruleForm')" plain
-            >保存</el-button
-          >
+          <el-button type="success" @click="onSubmit('ruleForm')" plain>保存</el-button>
           <el-button type="danger" @click="goBack" plain>取消</el-button>
         </el-form-item>
       </el-form>
@@ -282,7 +278,7 @@ export default {
             "argriculturalClassification",
             this.ruleFormValue.argriculturalClassification
           );
-          
+
           formData.append(
             "certificationStartTime",
             this.ruleFormValue.certificationStartTime

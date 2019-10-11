@@ -42,7 +42,9 @@
                 >下载附件</el-button
               >
             </div>
-            <span class="item-value">{{ data.checkFiles }}</span>
+            <span class="item-value">
+              {{ data.checkFiles.replace("/uploads/", "") }}
+            </span>
           </div>
         </div>
         <div class="item-row">

@@ -8,6 +8,12 @@
     </div>
 
     <div class="box">
+      <el-dialog :visible.sync="dialogVisible" width="30%">
+        <span>请选择图片 !!!</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false" type="primary" plain>Cancel</el-button>
+        </span>
+      </el-dialog>
       <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules">
         <el-row>
           <el-col :span="12">
@@ -42,13 +48,7 @@
                   :value="item.companyId"
                 ></el-option>
               </el-select>
-              <el-button
-                type="primary"
-                plain
-                icon="el-icon-plus"
-                size="mini"
-                class="min-plus"
-              ></el-button>
+              <el-button type="primary" plain icon="el-icon-plus" size="mini" class="min-plus"></el-button>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -63,10 +63,7 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="检查人" prop="checker">
-              <el-input
-                v-model="ruleFormValue.checker"
-                style="width:60%"
-              ></el-input>
+              <el-input v-model="ruleFormValue.checker" style="width:60%"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -135,12 +132,7 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label>
-              <el-checkbox
-                v-model="ruleFormValue.isDisableInput"
-                true-label="1"
-                false-label="0"
-                >有</el-checkbox
-              >
+              <el-checkbox v-model="ruleFormValue.isDisableInput" true-label="1" false-label="0">有</el-checkbox>
             </el-form-item>
           </el-col>
           <el-col :span="5">
@@ -150,12 +142,7 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label>
-              <el-checkbox
-                v-model="ruleFormValue.isThreeProduct"
-                true-label="1"
-                false-label="0"
-                >合规</el-checkbox
-              >
+              <el-checkbox v-model="ruleFormValue.isThreeProduct" true-label="1" false-label="0">合规</el-checkbox>
             </el-form-item>
           </el-col>
         </el-row>
@@ -179,11 +166,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item prop="otherProblems">
-              <el-input
-                type="textarea"
-                :rows="5"
-                v-model="ruleFormValue.otherProblems"
-              ></el-input>
+              <el-input type="textarea" :rows="5" v-model="ruleFormValue.otherProblems"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -253,10 +236,11 @@
                 <tr>
                   <td>现场图片</td>
                   <td>
+                    <div class="img-container" @click="chooseFile_Live()">
+                      <img v-for="src in images" :src="src" :key="src" class="preview" />
+                    </div>
+                    <p>{{ fileName }}</p>
                     <div class="image-box">
-                      <div class="js--image-preview" @click="chooseFile_Live()">
-                        <img :src="imageUrl_Sign" />
-                      </div>
                       <input
                         type="file"
                         id="file"
@@ -264,6 +248,8 @@
                         class="image-upload"
                         accept="image/*"
                         v-on:change="handleFileUpload_Live()"
+                        name="images"
+                        style="display:none"
                       />
                     </div>
                   </td>
@@ -271,20 +257,20 @@
                 <tr>
                   <td>签名</td>
                   <td>
-                    <div
-                      class="image-box"
-                      style="width:100px;height:100px;border:1px #001528;border-radius:5px"
-                    >
-                      <div class="js--image-preview" @click="chooseFile_Sign()">
-                        <img :src="imageUrl_Sign" />
-                      </div>
+                    <div class="img-container" @click="chooseFile_Sign()">
+                      <img v-for="src in signs" :src="src" :key="src" class="preview" />
+                    </div>
+                    <p>{{ signName }}</p>
+                    <div class="image-box">
                       <input
                         type="file"
-                        id="file"
+                        id="file1"
                         ref="file_sign"
                         class="image-upload"
                         accept="image/*"
                         v-on:change="handleFileUpload_Sign()"
+                        name="signs"
+                        style="display:none"
                       />
                     </div>
                   </td>
@@ -295,12 +281,8 @@
         </el-row>
 
         <el-form-item class="left-margin">
-          <el-button type="success" plain @click="onSubmit('ruleForm')"
-            >保存</el-button
-          >
-          <el-button type="danger" plain v-on:click="$router.go(-1)"
-            >取消</el-button
-          >
+          <el-button type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
+          <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -314,6 +296,10 @@ import axios from "axios";
 export default {
   data() {
     return {
+      images: [],
+      fileName: "",
+      signs: [],
+      signName: "",
       ruleFormValue: {
         companyType: "1",
         townShip: "",
@@ -341,6 +327,7 @@ export default {
       file_sign: null,
       wordsList: [],
       wordValue: 0,
+      dialogVisible: false,
       rules: {
         townShip: [
           {
@@ -422,17 +409,24 @@ export default {
     },
     makeFormData() {
       var mainFormData = new FormData();
-      var conclusionData = {
-        order: this.ruleFormValue.orderToAmend
-          ? this.ruleFormValue.orderToAmend
-          : " ",
-        suggestion: this.ruleFormValue.recommendPunishment
-          ? this.ruleFormValue.recommendPunishment
-          : " ",
-        others: this.ruleFormValue.otherProcessing
-          ? this.ruleFormValue.otherProcessing
-          : " "
-      };
+      var conclusionData =
+        this.ruleFormValue.conclusion == 1
+          ? {
+              order: " ",
+              suggestion: " ",
+              others: " "
+            }
+          : {
+              order: this.ruleFormValue.orderToAmend
+                ? this.ruleFormValue.orderToAmend
+                : " ",
+              suggestion: this.ruleFormValue.recommendPunishment
+                ? this.ruleFormValue.recommendPunishment
+                : " ",
+              others: this.ruleFormValue.otherProcessing
+                ? this.ruleFormValue.otherProcessing
+                : " "
+            };
       conclusionData = JSON.stringify(conclusionData);
       var supervisionInfo = {
         production: this.ruleFormValue.productionRecord,
@@ -472,22 +466,46 @@ export default {
       return mainFormData;
     },
     chooseFile_Live() {
-      this.$refs.file_Live_1.click();
+      document.getElementById("file").click();
     },
     chooseFile_Sign() {
-      this.$refs.file_sign.click();
+      document.getElementById("file1").click();
     },
-    handleFileUpload_Live() {
+    handleFileUpload_Live(e) {
       this.file_live_1 = this.$refs.file_live_1.files[0];
+      this.images = [];
+      let reader = new FileReader();
+      let that = this;
+      reader.onload = function(e) {
+        that.images.push(e.target.result);
+      };
+      if (this.file_live_1) {
+        reader.readAsDataURL(this.file_live_1);
+        this.fileName = this.file_live_1.name;
+      } else {
+        this.fileName = "";
+      }
     },
     handleFileUpload_Sign() {
       this.file_sign = this.$refs.file_sign.files[0];
+      this.signs = [];
+      let reader = new FileReader();
+      let that = this;
+      reader.onload = function(e) {
+        that.signs.push(e.target.result);
+      };
+      if (this.file_sign) {
+        reader.readAsDataURL(this.file_sign);
+        this.signName = this.file_sign.name;
+      } else {
+        this.signName = "";
+      }
     },
     getWords() {
       Request()
         .get("/api/common_word/all")
         .then(response => {
-          this.wordsList = this.wordsList.concat(response);
+          this.wordsList = this.wordsList.concat(response.data);
         })
         .catch(error => {
           console.log(error);
