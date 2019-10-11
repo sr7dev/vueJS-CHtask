@@ -12,30 +12,37 @@
         <el-row>
           <el-col :span="12">
             <el-form-item>
-              <el-radio v-model="form.companyType" label="1">企业</el-radio>
+              <el-radio v-model="form.companyType" label="1" checked>企业</el-radio>
               <el-radio v-model="form.companyType" label="2">农户</el-radio>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="6">
+          <el-col :span="8">
             <el-form-item label="对象类型">
-              <el-input v-model="form.companyType" style="width:100%" disabled></el-input>
+              <el-input style="width:100%" disabled :value="form.companyType==1?'企业':'农户'"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="8">
             <el-form-item label="乡镇">
-              <el-input v-model="form.townShip" style="width:100%" disabled></el-input>
+              <el-select v-model="form.townId">
+                <el-option
+                  v-for="(item, index) in townList"
+                  :label="item.name"
+                  :value="item.id"
+                  :key="index"
+                ></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="8">
             <el-form-item label="行业">
               <el-select v-model="form.agriculturalClassification">
                 <el-option
                   v-for="(item, index) in [
-                    { value: 0, label: '养殖业' },
-                    { value: 1, label: '畜牧业' },
-                    { value: 2, label: '种植业' }
+                    { value: '1', label: '养殖业' },
+                    { value: '2', label: '畜牧业' },
+                    { value: '3', label: '种植业' }
                   ]"
                   :label="item.label"
                   :value="item.value"
@@ -47,17 +54,17 @@
         </el-row>
         <div v-show="form.companyType == '1'">
           <el-row>
-            <el-col :span="6">
+            <el-col :span="8">
               <el-form-item label="单位名称" prop="companyName">
                 <el-input v-model="form.companyName" style="width:100%"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="8">
               <el-form-item label="负责人" prop="chargePerson">
                 <el-input v-model="form.chargePerson" style="width:100%" ></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="8">
               <el-form-item label="地址"  prop="companyAddress">
                 <el-input v-model="form.companyAddress" style="width:100%"></el-input>
               </el-form-item>
@@ -138,17 +145,17 @@
             </el-row>
           </div>
           <el-row>
-            <el-col :span="6">
-              <el-form-item label="三品认证">
+            <el-col :span="8">
+              <el-form-item label="三品认证" prop="qualityStandardId">
                 <el-input v-model="form.qualityStandardId" style="width:100%"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="8">
               <el-form-item label="联系人" prop="contactPerson">
                 <el-input v-model="form.contactPerson" style="width:100%"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="8">
               <el-form-item label="联系人手机" prop="contactMobile">
                 <el-input v-model="form.contactMobile" style="width:100%"></el-input>
               </el-form-item>
@@ -157,29 +164,29 @@
         </div>
         <div v-show="form.companyType == '2'">
           <el-row>
-            <el-col :span="6">
+            <el-col :span="8">
               <el-form-item label="姓名" prop="companyName">
                 <el-input v-model="form.companyName" style="width:100%"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="8">
               <el-form-item label="联系方式" prop="chargePerson">
                 <el-input v-model="form.chargePerson" style="width:100%"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="8">
               <el-form-item label="地址" prop="companyAddress">
                 <el-input v-model="form.companyAddress" style="width:100%"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="6">
+            <el-col :span="8">
               <el-form-item label="种养殖面积">
                 <el-input v-model="form.companyName" style="width:100%"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="8">
               <el-form-item label="土地来源">
                 <el-input v-model="form.chargePerson" style="width:100%"></el-input>
               </el-form-item>
@@ -289,9 +296,9 @@
             <el-form-item label="是否监管">
               <el-select v-model="form.doSupervision" placeholder>
                 <el-option
-                  :label="item"
-                  :value="item"
-                  v-for="(item, index) in ['是', '否']"
+                  :label="item.label"
+                  :value="item.value"
+                  v-for="(item, index) in [{value: '1', label: '是'}, {value: '0', label:'否'}]"
                   :key="index"
                 ></el-option>
               </el-select>
@@ -310,6 +317,7 @@
 
 <script>
 import Request from "@/services/api/request";
+import Auth from "@/services/authentication/auth";
 export default {
   name: "addRegulatoryObject",
   data() {
@@ -321,24 +329,31 @@ export default {
       }
     ];
     return {
+      townList: [],
       form: {
-        townShip: "梅里镇",
-        agriculturalClassification: "养殖业",
+        agriculturalClassification: "1",
         chargePerson: "",
         companyAddress: "",
         companyHonor: "",
-        companyId: 1,
+        companyId: 0,
         companyName: "",
         companyType: "1",
         contactMobile: "",
         contactPerson: "",
         contactWay: "",
-        createTime: "",
-        createUserId: "",
+        createUserId: 0,
         creditCode: "",
-        doSupervision: "",
+        doSupervision: "1",
         landSource: "",
-        plantArea: "",
+        plantArea: 0,
+        productInfo: "",
+        public_license: 0,
+        public_punish: 0,
+        qualityStandardId: 0,
+        quality_standard: 0,
+        remarks: "",
+        townId: 1,
+        updateUserId: 0,
         productInfo: {
           data_0_0: "",
           data_0_1: "",
@@ -352,11 +367,6 @@ export default {
           data_3_0: "",
           data_3_1: ""
         },
-        qualityStandardId: "",
-        remarks: "",
-        townId: "",
-        updateTime: "",
-        updateUserId: ""
       },
       rules: {
         chargePerson: defaultRule,
@@ -375,19 +385,63 @@ export default {
       }
     };
   },
+  created() {
+    
+    this.getTownList();
+
+  },
   methods: {
+    getTownList() {
+      Request()
+        .get("/api/town/all", {})
+        .then(response => {
+          this.townList = response;
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    },
     onSubmit() {
-      // const data = JSON.parse(JSON.stringify(this.form));
+      const user = Auth().user();
+      if(!user) {
+        Auth().logout();
+        return;
+      }
+      
       this.$refs["form"].validate(valid => {
-        console.log(valid);
         if (valid) {
-          Request().post("/api/company_production/create", form)
+          Request().post("/api/company_production/create", {
+            "agriculturalClassification": this.form.agriculturalClassification,
+            "chargePerson": this.form.chargePerson,
+            "companyAddress": this.form.companyAddress,
+            "companyHonor": this.form.companyHonor,
+            "companyId": this.form.companyId,
+            "companyName": this.form.companyName,
+            "companyType": this.form.companyType,
+            "contactMobile": this.form.contactMobile,
+            "contactPerson": this.form.contactPerson,
+            "contactWay": this.form.contactWay,
+            "createUserId": user.attrs.id,
+            "creditCode": this.form.creditCode,
+            "doSupervision": this.form.doSupervision,
+            "landSource": this.form.landSource,
+            "plantArea": this.form.plantArea,
+            "productInfo": JSON.stringify(this.form.productInfo),
+            "public_license": this.form.public_license,
+            "public_punish": this.form.public_punish,
+            "qualityStandardId": this.form.qualityStandardId,
+            "quality_standard": this.form.quality_standard,
+            "remarks": this.form.remarks,
+            "townId": this.form.townId,
+            "updateUserId": user.attrs.id
+          })
             .then(res => {
               this.$router.push({ path: "/productionSubject" });
             });
         } else {
         }
       });
+      
     }
   }
 };
