@@ -86,6 +86,10 @@ import editNotice from "@/components/notice/editNotice/editNotice";
 import internalMessage from "@/components/internalMessage/internalMessage";
 import addInternalMessage from "@/components/internalMessage/addInternalMessage/addInternalMessage";
 
+import trainingFunds from "@/components/trainingFunds/trainingFunds";
+import addTrainingFunds from "@/components/trainingFunds/addTrainingFunds/addTrainingFunds";
+import viewTrainingFunds from "@/components/trainingFunds/viewTrainingFunds/viewTrainingFunds";
+
 import Auth from "@/services/authentication/auth";
 
 Vue.use(Router);
@@ -461,6 +465,21 @@ export default new Router({
           path: "/workTask/report/detail/:id",
           name: "detailWorkTaskReport", // 工作任务
           component: detailWorkTaskReport
+        },
+        {
+          path: "/trainingFunds",
+          name: "trainingFunds", // 培训经费管理
+          component: trainingFunds
+        },
+        {
+          path: "/trainingFunds/add",
+          name: "addTrainingFunds", // 培训经费管理
+          component: addTrainingFunds
+        },
+        {
+          path: "/trainingFunds/view/:id",
+          name: "viewTrainingFunds", // 培训经费管理
+          component: viewTrainingFunds
         }
       ]
     },

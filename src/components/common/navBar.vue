@@ -39,9 +39,10 @@
           <router-link slot="title" to="/workTask">工作任务</router-link>
         </el-menu-item>
         <el-menu-item index="/notice">
-          <router-link slot="title" to="/notice">
-            通知管理
-          </router-link>
+          <router-link slot="title" to="/notice">通知管理</router-link>
+        </el-menu-item>
+        <el-menu-item index="/trainingFunds">
+          <router-link slot="title" to="/trainingFunds">培训经费管理</router-link>
         </el-menu-item>
         <el-menu-item index="/threeProductsCertification">
           <router-link slot="title" to="/threeProductsCertification">三品一标管理</router-link>

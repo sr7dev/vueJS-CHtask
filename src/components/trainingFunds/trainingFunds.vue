@@ -3,7 +3,7 @@
         <div class="title">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item class="actived">
-                    站内消息
+                    培训经费管理
                 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
@@ -11,7 +11,7 @@
             <div class="iptBox">
                 <el-button
                     type="primary"
-                    v-on:click="$router.push(`/internalMessage/add`)"
+                    v-on:click="$router.push(`/trainingFunds/add`)"
                     plain
                 >
                     添加
@@ -28,12 +28,32 @@
                 >
                     <el-table-column :formatter="order" label="序号">
                     </el-table-column>
-                    <el-table-column prop="createTime" label="时间">
+                    <el-table-column prop="projectName" label="项目名称">
+                    </el-table-column>
+                    <el-table-column prop="appliedAmount" label="申请金额">
                         <template slot-scope="{ row }">
-                            {{ row.createTime | formatDate }}
+                            {{ row.appliedAmount }}元
                         </template>
                     </el-table-column>
-                    <el-table-column prop="contents" label="内容">
+                    <el-table-column prop="proposer" label="申请人">
+                    </el-table-column>
+                    <el-table-column prop="companyId" label="所在单位">
+                        <template slot-scope="{ row }">
+                            {{ filterCompnay(row.companyId) }}
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="status" label="状态">
+                    </el-table-column>
+                    <el-table-column label="操作">
+                        <template slot-scope="{ row }">
+                            <el-button
+                                type="success"
+                                plain
+                                v-on:click="$router.push({path: `/trainingFunds/view/${row.id}`})"
+                            >
+                                查看
+                            </el-button>
+                        </template>
                     </el-table-column>
                 </el-table>
             </el-container>
@@ -53,16 +73,18 @@
 <script>
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
-import Auth from "../../services/authentication/auth.js";
 
 export default {
     name: "jobDefinition",
     components: { Pagination },
     data() {
         return {
-            contents: "",
-            receiveUserId: 0,
+            projectName: "",
+            appliedAmount: 0,
+            proposer: "",
             createTime: "",
+            companyId: 0,
+            status: "",
             page: {
                 pageIndex: 1,
                 pageSize: 20
@@ -70,16 +92,13 @@ export default {
             listLoading: true,
             total: 0,
             tableData: [],
+            companyProduction: [],
+            appStatus: ["全部", "待审批", "已同意", "已拒绝"],
         };
     },
     mounted() {
+        this.getCompanyProduction();
         this.getList();
-        if (Auth().user() == null) {
-            Auth().logout();
-        } else {
-            this.receiveUserId = Auth().user().attrs.id;
-        }
-
     },
     methods: {
         order(row) {
@@ -91,10 +110,9 @@ export default {
         getList() {
             this.listLoading = true;
             Request()
-                .get("/api/internal_message/all", {
+                .get("/api/traningfunds/all", {
                     pageNo: this.page.pageIndex - 1,
                     pageSize: this.page.pageSize,
-                    receiveUserId: this.receiveUserId
                 })
                 .then(response => {
                     this.tableData = response.data;
@@ -107,9 +125,28 @@ export default {
                     console.log(error);
                 });
         },
+        getCompanyProduction() {
+            Request()
+                .get("/api/company_production/name")
+                .then(response => {
+                    this.companyProduction = response;
+                })
+                    .catch(error => {
+                    console.log(error);
+                });
+        },
+        filterCompnay(id) {
+            let company = this.companyProduction.find(x => x.companyId === id);
+            if (company) {
+                return company.companyName;
+            } else {
+                return "";
+            }
+        },
     }
 };
 </script>
 
 <style lang="scss">
+    @import "./trainingFunds.scss";
 </style>
