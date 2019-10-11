@@ -53,6 +53,9 @@
         <el-menu-item index="/sampleCheck">
           <router-link slot="title" to="/sampleCheck">例行抽样管理</router-link>
         </el-menu-item>
+        <el-menu-item index="/inputManagement">
+          <router-link slot="title" to="/inputManagement">投入品管理</router-link>
+        </el-menu-item>
         <el-menu-item index="/">
           <router-link slot="title" to="/corporateCreditFile">企业信用档案</router-link>
         </el-menu-item>

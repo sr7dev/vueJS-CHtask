@@ -1,0 +1,38 @@
+.allCompany {
+  display: inline-block;
+  line-height: 40px;
+  margin: 0 20px;
+}
+
+.tab-header {
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1.2rem;
+  margin-right: 30px;
+  cursor: pointer;
+  &:hover {
+    color: rgb(11, 88, 165);
+  }
+}
+.active {
+  color: #409eff;
+}
+  
+.el-button {
+  min-width: 100px;
+}
+.form-width {
+    width: 750px;
+}
+div.input-width input {
+    width: 400px;
+}
+div.label-align label {
+    text-align: left;
+}
+div.label-align2 label {
+    text-align: center;
+}
+.detail-text-align{
+    text-align: center;
+}
