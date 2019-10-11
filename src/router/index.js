@@ -67,6 +67,11 @@ import jobDefinition from "@/components/jobDefinition/jobDefinition"
 import addJobDefinition from "@/components/jobDefinition/addJobDefinition/addJobDefinition"
 import editJobDefinition from "@/components/jobDefinition/editJobDefinition/editJobDefinition"
 
+import notice from "@/components/notice/notice"
+// import detailsNotice from "@/components/notice/detailsNotice/detailsNotice"
+import createNotice from "@/components/notice/createNotice/createNotice"
+// import editNotice from "@/components/notice/editNotice/editNotice"
+
 import Auth from "@/services/authentication/auth";
 
 Vue.use(Router);
@@ -356,6 +361,26 @@ export default new Router({
           name: 'editJobDefinition',// 作业定义
           component: editJobDefinition,
         },
+        {
+          path: '/notice',
+          name: 'notice',// 通知管理
+          component: notice,
+        },
+        // {
+        //   path: '/notice/:id',
+        //   name: 'detailsNotice',// 通知管理
+        //   component: detailsNotice,
+        // },
+        {
+          path: '/notice/create',
+          name: 'createNotice',// 通知管理
+          component: createNotice,
+        },
+        // {
+        //   path: '/notice/edit/:id',
+        //   name: 'editNotice',// 通知管理
+        //   component: editNotice,
+        // },
       ]
     },
     {
