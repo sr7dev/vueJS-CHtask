@@ -6,12 +6,6 @@
         <el-breadcrumb-item class="actived">添加认证</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <el-dialog :visible.sync="dialogVisible" width="30%" modal>
-      <span>选择文件 !!!</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false" type="primary" plain>取消</el-button>
-      </span>
-    </el-dialog>
     <div class="box">
       <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
         <el-row>
@@ -82,19 +76,21 @@
           </el-col>
         </el-row>
         <el-form-item label="认证有效期" style="text-align: center" required>
-          <el-col :span="5">
+          <el-col :span="4" class="text-left">
             <el-form-item prop="certificationStartTime">
               <el-date-picker
+                class="w-80"
                 type="date"
                 v-model="ruleFormValue.certificationStartTime"
                 style="width: 100%;"
               ></el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col class="line" :span="1">至</el-col>
-          <el-col :span="5">
+          <el-col class="text-left" :span="1">至</el-col>
+          <el-col :span="4" class="text-left">
             <el-form-item prop="certificationEndTime">
               <el-date-picker
+                class="w-100"
                 type="date"
                 v-model="ruleFormValue.certificationEndTime"
                 style="width: 100%;"
@@ -253,7 +249,7 @@ export default {
           company_id: companyId
         })
         .then(response => {
-          this.productNameList = response;
+          this.productNameList = response.data;
         })
         .catch(error => {
           console.log(error);
@@ -278,7 +274,12 @@ export default {
             "argriculturalClassification",
             this.ruleFormValue.argriculturalClassification
           );
-
+          this.ruleFormValue.certificationStartTime = new Date(
+            this.ruleFormValue.certificationStartTime
+          ).toDateString("YYYY-MM-DD");
+          this.ruleFormValue.certificationEndTime = new Date(
+            this.ruleFormValue.certificationEndTime
+          ).toDateString("YYYY-MM-DD");
           formData.append(
             "certificationStartTime",
             this.ruleFormValue.certificationStartTime

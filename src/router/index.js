@@ -16,9 +16,11 @@ import businessProducts from "@/components/management/businessProducts";
 import companyDetails from "@/components/management/companyDetails";
 import redBlackList from "@/components/redBlackList/redBlackList";
 import disabilityCheck from "@/components/disabilityCheck/disabilityCheck";
-import productionRecord from "@/components/productionRecord/productionRecord";
-import addProductionRecord from "@/components/productionRecord/addProductionRecord/addProductionRecord";
-import editProductionRecord from "@/components/productionRecord/editProductionRecord/editProductionRecord";
+import workTask from "@/components/workTask/workTask";
+import addWorkTask from "@/components/workTask/addWorkTask/addWorkTask";
+import editWorkTask from "@/components/workTask/editWorkTask/editWorkTask";
+import addWorkTaskReport from "@/components/workTask/addWorkTaskReport/addWorkTaskReport";
+import detailWorkTaskReport from "@/components/workTask/detailWorkTaskReport/detailWorkTaskReport";
 
 // 企业
 import cp_productionSubject from "@/components/company/productionSubject/productionSubject"; //生产主体
@@ -56,6 +58,8 @@ import addThirdPartySampling from "@/components/productionSubject/mainProduct/th
 import editThirdPartySampling from "@/components/productionSubject/mainProduct/thirdPartySamplingRecord/editThirdPartySampling/editThirdPartySampling";
 import productBatch from "@/components/productionSubject/mainProduct/productBatch/productBatch";
 import inventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/inventoryDynamics";
+import addInventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/addInventoryDynamics";
+import editInventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/editInventoryDynamics";
 
 import companyBusiness from "@/components/companyBusiness/companyBusiness";
 import productBusiness from "@/components/companyBusiness/productBusiness/productBusiness";
@@ -70,6 +74,9 @@ import detailsSampleCheckResult from "@/components/sampleCheck/detailsSampleChec
 import jobDefinition from "@/components/jobDefinition/jobDefinition";
 import addJobDefinition from "@/components/jobDefinition/addJobDefinition/addJobDefinition";
 import editJobDefinition from "@/components/jobDefinition/editJobDefinition/editJobDefinition";
+import productionRecord from "@/components/productionRecord/productionRecord";
+import addProductionRecord from "@/components/productionRecord/addProductionRecord/addProductionRecord";
+import editProductionRecord from "@/components/productionRecord/editProductionRecord/editProductionRecord";
 
 import notice from "@/components/notice/notice";
 import detailsNotice from "@/components/notice/detailsNotice/detailsNotice";
@@ -194,7 +201,7 @@ export default new Router({
           path: "/productionSubject/mainProduct/thirdPartySamplingRecord/:id",
           name: "thirdPartySamplingRecord",
           component: thirdPartySamplingRecord
-          },
+        },
         {
           path: "/productionSubject/mainProduct/thirdPartySampling/create/:id",
           name: "addThirdPartySampling",
@@ -203,7 +210,7 @@ export default new Router({
         {
           path: "/productionSubject/mainProduct/thirdPartySampling/edit/:id",
           name: "editThirdPartySampling",
-          component: editThirdPartySampling          
+          component: editThirdPartySampling
         },
         {
           path: "/productionSubject/mainProduct/productBatch/:id",
@@ -214,6 +221,16 @@ export default new Router({
           path: "/productionSubject/mainProduct/inventoryDynamics/:id",
           name: "inventoryDynamics",
           component: inventoryDynamics
+        },
+        {
+          path: "/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/:id",
+          name: "addInventoryDynamics",
+          component: addInventoryDynamics
+        },
+        {
+          path: "/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/:id",
+          name: "editInventoryDynamics",
+          component: editInventoryDynamics
         },
         {
           path: "/threeProductsCertification",
@@ -419,6 +436,31 @@ export default new Router({
           path: "/internalMessage/add",
           name: "addInternalMessage", // 站内消息
           component: addInternalMessage
+        },
+        {
+          path: "/workTask",
+          name: "workTask", // 工作任务
+          component: workTask
+        },
+        {
+          path: "/workTask/create",
+          name: "addWorkTask", // 工作任务
+          component: addWorkTask
+        },
+        {
+          path: "/workTask/edit/:id",
+          name: "editWorkTask", // 工作任务
+          component: editWorkTask
+        },
+        {
+          path: "/workTask/report/create",
+          name: "addWorkTaskReport", // 工作任务
+          component: addWorkTaskReport
+        },
+        {
+          path: "/workTask/report/detail/:id",
+          name: "detailWorkTaskReport", // 工作任务
+          component: detailWorkTaskReport
         }
       ]
     },
