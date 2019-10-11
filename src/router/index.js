@@ -61,6 +61,8 @@ import addThirdPartySampling from "@/components/productionSubject/mainProduct/th
 import editThirdPartySampling from "@/components/productionSubject/mainProduct/thirdPartySamplingRecord/editThirdPartySampling/editThirdPartySampling";
 import productBatch from "@/components/productionSubject/mainProduct/productBatch/productBatch";
 import inventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/inventoryDynamics";
+import addInventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/addInventoryDynamics";
+import editInventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/editInventoryDynamics";
 
 import companyBusiness from "@/components/companyBusiness/companyBusiness";
 import productBusiness from "@/components/companyBusiness/productBusiness/productBusiness";
@@ -83,6 +85,9 @@ import notice from "@/components/notice/notice";
 import detailsNotice from "@/components/notice/detailsNotice/detailsNotice";
 import createNotice from "@/components/notice/createNotice/createNotice";
 import editNotice from "@/components/notice/editNotice/editNotice";
+
+import internalMessage from "@/components/internalMessage/internalMessage";
+import addInternalMessage from "@/components/internalMessage/addInternalMessage/addInternalMessage";
 
 import Auth from "@/services/authentication/auth";
 
@@ -219,6 +224,16 @@ export default new Router({
           path: "/productionSubject/mainProduct/inventoryDynamics/:id",
           name: "inventoryDynamics",
           component: inventoryDynamics
+        },
+        {
+          path: "/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/:id",
+          name: "addInventoryDynamics",
+          component: addInventoryDynamics
+        },
+        {
+          path: "/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/:id",
+          name: "editInventoryDynamics",
+          component: editInventoryDynamics
         },
         {
           path: "/threeProductsCertification",
@@ -414,6 +429,16 @@ export default new Router({
           path: "/jobDefinition/:id",
           name: "editJobDefinition", // 作业定义
           component: editJobDefinition
+        },
+        {
+          path: "/internalMessage",
+          name: "internalMessage", // 站内消息
+          component: internalMessage
+        },
+        {
+          path: "/internalMessage/add",
+          name: "addInternalMessage", // 站内消息
+          component: addInternalMessage
         },
         {
           path: "/workTask",
