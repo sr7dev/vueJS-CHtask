@@ -12,7 +12,7 @@
     <div class="box">
         <div class="iptBox">
             <div class="filter-item">
-                <el-button type="primary"  @click="$router.push('/productionSubject/mainProduct/thirdPartySampling/create')"  plain>添加</el-button>
+                <el-button type="primary"  @click="$router.push({path:`/productionSubject/mainProduct/thirdPartySampling/create/${id}`})"  plain>添加</el-button>
                 <el-button type="primary" plain @click="$router.go(-1)">返回</el-button>
             </div>
         </div>
@@ -70,7 +70,7 @@
                   $router.push({
                     path: `/productionSubject/mainProduct/thirdPartySampling/edit/${row.id}`,
                     query: {                      
-                      product: row.id
+                      checkId: row.id
                     }
                   })
                 ">修改</el-button>
@@ -125,8 +125,8 @@ export default {
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize
         })
-        .then(response => {
-          this.tableData = response;
+        .then(response => {          
+          this.tableData = response.data;          
           this.total = this.tableData.length;
           setTimeout(() => {
             this.listLoading = false;

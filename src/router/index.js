@@ -76,6 +76,11 @@ import productionRecord from "@/components/productionRecord/productionRecord";
 import addProductionRecord from "@/components/productionRecord/addProductionRecord/addProductionRecord";
 import editProductionRecord from "@/components/productionRecord/editProductionRecord/editProductionRecord";
 
+import notice from "@/components/notice/notice"
+import detailsNotice from "@/components/notice/detailsNotice/detailsNotice"
+import createNotice from "@/components/notice/createNotice/createNotice"
+import editNotice from "@/components/notice/editNotice/editNotice"
+
 import Auth from "@/services/authentication/auth";
 
 Vue.use(Router);
@@ -193,7 +198,7 @@ export default new Router({
           component: thirdPartySamplingRecord
         },
         {
-          path: "/productionSubject/mainProduct/thirdPartySampling/create",
+          path: "/productionSubject/mainProduct/thirdPartySampling/create/:id",
           name: "addThirdPartySampling",
           component: addThirdPartySampling
         },
@@ -373,6 +378,26 @@ export default new Router({
           component: redBlackList
         },
         {
+          path: '/notice',
+          name: 'notice',// 通知管理
+          component: notice,
+        },
+        {
+          path: '/notice/view/:id',
+          name: 'detailsNotice',// 通知管理
+          component: detailsNotice,
+        },
+        {
+          path: '/notice/create',
+          name: 'createNotice',// 通知管理
+          component: createNotice,
+        },
+        {
+          path: '/notice/edit/:id',
+          name: 'editNotice',// 通知管理
+          component: editNotice,
+        },
+        {  
           path: "/jobDefinition",
           name: "jobDefinition", // 作业定义
           component: jobDefinition
