@@ -14,8 +14,11 @@ import commonWords from "@/components/regulatoryRecord/commonWords/commonWords";
 import management from "@/components/management/management";
 import businessProducts from "@/components/management/businessProducts";
 import companyDetails from "@/components/management/companyDetails";
-import redBlackList from '@/components/redBlackList/redBlackList';
-import disabilityCheck from '@/components/disabilityCheck/disabilityCheck';
+import redBlackList from "@/components/redBlackList/redBlackList";
+import disabilityCheck from "@/components/disabilityCheck/disabilityCheck";
+import productionRecord from "@/components/productionRecord/productionRecord";
+import addProductionRecord from "@/components/productionRecord/addProductionRecord/addProductionRecord";
+import editProductionRecord from "@/components/productionRecord/editProductionRecord/editProductionRecord";
 
 // 企业
 import cp_productionSubject from "@/components/company/productionSubject/productionSubject"; //生产主体
@@ -45,11 +48,12 @@ import addRegulatoryObject from "@/components/productionSubject/addRegulatoryObj
 import editRegulatoryObject from "@/components/productionSubject/editRegulatoryObject/editRegulatoryObject";
 import detailsRegulatoryObject from "@/components/productionSubject/detailsRegulatoryObject/detailsRegulatoryObject";
 
-
 import warehouseEnv from "@/components/productionSubject/warehouseEnv/warehouseEnv";
 import detailsWarehouse from "@/components/productionSubject/warehouseEnv/detailsWarehouse/detailsWarehouse";
 import mainProduct from "@/components/productionSubject/mainProduct/mainProduct";
 import thirdPartySamplingRecord from "@/components/productionSubject/mainProduct/thirdPartySamplingRecord/thirdPartySamplingRecord";
+import addThirdPartySampling from "@/components/productionSubject/mainProduct/thirdPartySamplingRecord/addThirdPartySampling/addThirdPartySampling";
+import editThirdPartySampling from "@/components/productionSubject/mainProduct/thirdPartySamplingRecord/editThirdPartySampling/editThirdPartySampling";
 import productBatch from "@/components/productionSubject/mainProduct/productBatch/productBatch";
 import inventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/inventoryDynamics";
 
@@ -63,9 +67,9 @@ import addSampleCheckResult from "@/components/sampleCheck/addSampleCheckResult/
 import detailsSampleCheck from "@/components/sampleCheck/detailsSampleCheck/detailsSampleCheck";
 import detailsSampleCheckResult from "@/components/sampleCheck/detailsSampleCheckResult/detailsSampleCheckResult";
 
-import jobDefinition from "@/components/jobDefinition/jobDefinition"
-import addJobDefinition from "@/components/jobDefinition/addJobDefinition/addJobDefinition"
-import editJobDefinition from "@/components/jobDefinition/editJobDefinition/editJobDefinition"
+import jobDefinition from "@/components/jobDefinition/jobDefinition";
+import addJobDefinition from "@/components/jobDefinition/addJobDefinition/addJobDefinition";
+import editJobDefinition from "@/components/jobDefinition/editJobDefinition/editJobDefinition";
 
 import notice from "@/components/notice/notice"
 import detailsNotice from "@/components/notice/detailsNotice/detailsNotice"
@@ -77,8 +81,7 @@ import Auth from "@/services/authentication/auth";
 Vue.use(Router);
 
 export default new Router({
-  routes: [
-    {
+  routes: [{
       path: "/",
       name: "home",
       component: home,
@@ -86,15 +89,14 @@ export default new Router({
       beforeEnter(to, from, next) {
         if (!Auth().check()) {
           next({
-            path: '/login',
+            path: "/login",
             query: { redirect: to.fullPath }
-          })
+          });
         } else {
           next();
         }
       },
-      children: [
-        {
+      children: [{
           path: "/sampleCheck",
           name: "sampleCheck",
           component: sampleCheck
@@ -189,6 +191,16 @@ export default new Router({
           path: "/productionSubject/mainProduct/thirdPartySamplingRecord/:id",
           name: "thirdPartySamplingRecord",
           component: thirdPartySamplingRecord
+          },
+        {
+          path: "/productionSubject/mainProduct/thirdPartySampling/create",
+          name: "addThirdPartySampling",
+          component: addThirdPartySampling
+        },
+        {
+          path: "/productionSubject/mainProduct/thirdPartySampling/edit/:id",
+          name: "editThirdPartySampling",
+          component: editThirdPartySampling          
         },
         {
           path: "/productionSubject/mainProduct/productBatch/:id",
@@ -206,39 +218,38 @@ export default new Router({
           component: threeProductsCertification
         },
         {
-          path: '/threeProductsCertification/create',
-          name: 'addThreeProducts',
+          path: "/threeProductsCertification/create",
+          name: "addThreeProducts",
           component: addThreeProducts
         },
         {
-          path: '/threeProductsCertification/:id',
-          name: 'detailsThreeProducts',
+          path: "/threeProductsCertification/:id",
+          name: "detailsThreeProducts",
           component: detailsThreeProducts
-
         },
         {
-          path: '/corporateCreditFile',
-          name: 'corporateCreditFile',
+          path: "/corporateCreditFile",
+          name: "corporateCreditFile",
           component: corporateCreditFile
         },
         {
-          path: '/corporateCreditFile/adminLicenseInfo/',
-          name: 'adminLicenseInfo',
+          path: "/corporateCreditFile/adminLicenseInfo/",
+          name: "adminLicenseInfo",
           component: adminLicenseInfo
         },
         {
-          path: '/corporateCreditFile/adminPenaltyInfo/',
-          name: 'adminPenaltyInfo',
+          path: "/corporateCreditFile/adminPenaltyInfo/",
+          name: "adminPenaltyInfo",
           component: adminPenaltyInfo
         },
         {
-          path: '/corporateCreditFile/ratingInfo',
-          name: 'ratingInfo',
+          path: "/corporateCreditFile/ratingInfo",
+          name: "ratingInfo",
           component: ratingInfo
         },
         {
-          path: '/corporateCreditFile/threeProduction/',
-          name: 'threeProduction',
+          path: "/corporateCreditFile/threeProduction/",
+          name: "threeProduction",
           component: threeProduction
         },
         {
@@ -338,28 +349,28 @@ export default new Router({
         },
         {
           path: "/disabilityCheck",
-          name: "disabilityCheck",// 农残检测
+          name: "disabilityCheck", // 农残检测
           component: disabilityCheck
         },
         {
-          path: '/redBlackList',
-          name: 'redBlackList',// 红黑名单
-          component: redBlackList,
+          path: "/productionRecord",
+          name: "productionRecord", // 生产记录
+          component: productionRecord
         },
         {
-          path: '/jobDefinition',
-          name: 'jobDefinition',// 作业定义
-          component: jobDefinition,
+          path: "/productionRecord/create",
+          name: "addProductionRecord", // 生产记录
+          component: addProductionRecord
         },
         {
-          path: '/jobDefinition/create',
-          name: 'addJobDefinition',// 作业定义
-          component: addJobDefinition,
+          path: "/productionRecord/editProductionRecord/:id",
+          name: "editProductionRecord", // 生产记录
+          component: editProductionRecord
         },
         {
-          path: '/jobDefinition/:id',
-          name: 'editJobDefinition',// 作业定义
-          component: editJobDefinition,
+          path: "/redBlackList",
+          name: "redBlackList", // 红黑名单
+          component: redBlackList
         },
         {
           path: '/notice',
@@ -381,6 +392,21 @@ export default new Router({
           name: 'editNotice',// 通知管理
           component: editNotice,
         },
+        {  
+          path: "/jobDefinition",
+          name: "jobDefinition", // 作业定义
+          component: jobDefinition
+        },
+        {
+          path: "/jobDefinition/create",
+          name: "addJobDefinition", // 作业定义
+          component: addJobDefinition
+        },
+        {
+          path: "/jobDefinition/:id",
+          name: "editJobDefinition", // 作业定义
+          component: editJobDefinition
+        }
       ]
     },
     {
@@ -388,6 +414,6 @@ export default new Router({
       name: "login",
       component: login
     },
-    { path: '*', redirect: '/', hidden: true }
+    { path: "*", redirect: "/", hidden: true }
   ]
 });
