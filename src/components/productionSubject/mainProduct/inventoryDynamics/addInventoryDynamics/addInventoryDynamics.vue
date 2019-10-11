@@ -33,10 +33,10 @@
                 :disabled="!(this.warehouseOptions.length > 0)"
               >
                 <el-option
-                  v-for="item in warehouseOptions"
+                  v-for="(item, index) in warehouseOptions"
                   :key="item.value"
                   :label="item.label"
-                  :value="item.value"
+                  :value="index"
                 ></el-option>
               </el-select>
             </el-form-item>
@@ -103,7 +103,7 @@ export default {
         productId: 0,
         repertoryAmount: "",
         variety: "",
-        warehouseId: 0,
+        warehouseId: null,
         productName: "",
         
       },
