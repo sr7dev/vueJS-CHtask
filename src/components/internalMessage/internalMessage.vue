@@ -3,7 +3,7 @@
         <div class="title">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item class="actived">
-                    作业定义
+                    站内消息
                 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
@@ -11,7 +11,7 @@
             <div class="iptBox">
                 <el-button
                     type="primary"
-                    v-on:click="$router.push(`/jobDefinition/create`)"
+                    v-on:click="$router.push(`/internalMessage/add`)"
                     plain
                 >
                     添加
@@ -26,43 +26,14 @@
                     :row-class-name="rowIndex"
                     highlight-current-row
                 >
-                    <el-table-column
-                        :formatter="order"
-                        label="序号"
-                        width="180"
-                    >
+                    <el-table-column :formatter="order" label="序号">
                     </el-table-column>
-                    <el-table-column prop="jobName" label="作业名称">
-                    </el-table-column>
-                    <el-table-column prop="jobType" label="作业类型">
+                    <el-table-column prop="createTime" label="时间">
                         <template slot-scope="{ row }">
-                            {{ getJobType(row.jobType) }}
+                            {{ row.createTime | formatDate }}
                         </template>
                     </el-table-column>
-                    <el-table-column label="操作">
-                        <template slot-scope="{ row }">
-                            <el-button
-                                type="success"
-                                plain
-                                v-on:click="
-                                    $router.push({
-                                        path: `/jobDefinition/${row.id}`,
-                                        query: {
-                                            jobName: row.jobName,
-                                            jobType: getJobType(row.jobType)
-                                        }
-                                    })"
-                            >
-                                修改
-                            </el-button>
-                            <el-button
-                                type="danger"
-                                v-on:click="handleDelete(`${row.id}`)"
-                                plain
-                            >
-                                删除
-                            </el-button>
-                        </template>
+                    <el-table-column prop="contents" label="内容">
                     </el-table-column>
                 </el-table>
             </el-container>
@@ -82,14 +53,16 @@
 <script>
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
+import Auth from "../../services/authentication/auth.js";
 
 export default {
     name: "jobDefinition",
     components: { Pagination },
     data() {
         return {
-            jobName: "",
-            jobType: 0,
+            contents: "",
+            receiveUserId: 0,
+            createTime: "",
             page: {
                 pageIndex: 1,
                 pageSize: 20
@@ -97,15 +70,16 @@ export default {
             listLoading: true,
             total: 0,
             tableData: [],
-            jobTypes: [ 
-                { id: 0, name: "收获前" },
-                { id: 1, name: "收获" },
-                { id: 2, name: "收获后" }
-            ]
         };
     },
     mounted() {
         this.getList();
+        if (Auth().user() == null) {
+            Auth().logout();
+        } else {
+            this.receiveUserId = Auth().user().attrs.id;
+        }
+
     },
     methods: {
         order(row) {
@@ -117,9 +91,10 @@ export default {
         getList() {
             this.listLoading = true;
             Request()
-                .get("/api/job_definition/all", {
+                .get("/api/internal_message/all", {
                     pageNo: this.page.pageIndex - 1,
                     pageSize: this.page.pageSize,
+                    receiveUserId: this.receiveUserId
                 })
                 .then(response => {
                     this.tableData = response.data;
@@ -132,32 +107,9 @@ export default {
                     console.log(error);
                 });
         },
-        getJobType(id) {
-            let type = this.jobTypes.find(x => x.id === id);
-            if (type) {
-                return type.name;
-            } else {
-                return "";
-            }
-        },
-        handleDelete(id) {
-            this.$confirm('确认删除该记录吗?', '提示', {
-                type: 'warning'
-            }).then(() => {
-                Request()
-                    .delete("/api/job_definition/delete/" + id)
-                    .then(response => {
-                        this.getList();
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
-            });
-        },
     }
 };
 </script>
 
 <style lang="scss">
-    @import "./jobDefinition.scss";
 </style>

@@ -3,7 +3,7 @@
         <div class="title">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item class="actived">
-                    作业定义
+                    培训经费管理
                 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
@@ -11,7 +11,7 @@
             <div class="iptBox">
                 <el-button
                     type="primary"
-                    v-on:click="$router.push(`/jobDefinition/create`)"
+                    v-on:click="$router.push(`/trainingFunds/add`)"
                     plain
                 >
                     添加
@@ -26,41 +26,32 @@
                     :row-class-name="rowIndex"
                     highlight-current-row
                 >
-                    <el-table-column
-                        :formatter="order"
-                        label="序号"
-                        width="180"
-                    >
+                    <el-table-column :formatter="order" label="序号">
                     </el-table-column>
-                    <el-table-column prop="jobName" label="作业名称">
+                    <el-table-column prop="projectName" label="项目名称">
                     </el-table-column>
-                    <el-table-column prop="jobType" label="作业类型">
+                    <el-table-column prop="appliedAmount" label="申请金额">
                         <template slot-scope="{ row }">
-                            {{ getJobType(row.jobType) }}
+                            {{ row.appliedAmount }}元
                         </template>
                     </el-table-column>
+                    <el-table-column prop="proposer" label="申请人">
+                    </el-table-column>
+                    <el-table-column prop="companyId" label="所在单位">
+                        <template slot-scope="{ row }">
+                            {{ filterCompnay(row.companyId) }}
+                        </template>
+                    </el-table-column>
+                    <!-- <el-table-column prop="status" label="状态">
+                    </el-table-column> -->
                     <el-table-column label="操作">
                         <template slot-scope="{ row }">
                             <el-button
                                 type="success"
                                 plain
-                                v-on:click="
-                                    $router.push({
-                                        path: `/jobDefinition/${row.id}`,
-                                        query: {
-                                            jobName: row.jobName,
-                                            jobType: getJobType(row.jobType)
-                                        }
-                                    })"
+                                v-on:click="$router.push({path: `/trainingFunds/view/${row.id}`})"
                             >
-                                修改
-                            </el-button>
-                            <el-button
-                                type="danger"
-                                v-on:click="handleDelete(`${row.id}`)"
-                                plain
-                            >
-                                删除
+                                查看
                             </el-button>
                         </template>
                     </el-table-column>
@@ -88,8 +79,12 @@ export default {
     components: { Pagination },
     data() {
         return {
-            jobName: "",
-            jobType: 0,
+            projectName: "",
+            appliedAmount: 0,
+            proposer: "",
+            createTime: "",
+            companyId: 0,
+            status: "",
             page: {
                 pageIndex: 1,
                 pageSize: 20
@@ -97,14 +92,12 @@ export default {
             listLoading: true,
             total: 0,
             tableData: [],
-            jobTypes: [ 
-                { id: 0, name: "收获前" },
-                { id: 1, name: "收获" },
-                { id: 2, name: "收获后" }
-            ]
+            companyProduction: [],
+            appStatus: ["全部", "待审批", "已同意", "已拒绝"],
         };
     },
     mounted() {
+        this.getCompanyProduction();
         this.getList();
     },
     methods: {
@@ -117,7 +110,7 @@ export default {
         getList() {
             this.listLoading = true;
             Request()
-                .get("/api/job_definition/all", {
+                .get("/api/traningfunds/all", {
                     pageNo: this.page.pageIndex - 1,
                     pageSize: this.page.pageSize,
                 })
@@ -132,32 +125,28 @@ export default {
                     console.log(error);
                 });
         },
-        getJobType(id) {
-            let type = this.jobTypes.find(x => x.id === id);
-            if (type) {
-                return type.name;
+        getCompanyProduction() {
+            Request()
+                .get("/api/company_production/name")
+                .then(response => {
+                    this.companyProduction = response;
+                })
+                    .catch(error => {
+                    console.log(error);
+                });
+        },
+        filterCompnay(id) {
+            let company = this.companyProduction.find(x => x.companyId === id);
+            if (company) {
+                return company.companyName;
             } else {
                 return "";
             }
-        },
-        handleDelete(id) {
-            this.$confirm('确认删除该记录吗?', '提示', {
-                type: 'warning'
-            }).then(() => {
-                Request()
-                    .delete("/api/job_definition/delete/" + id)
-                    .then(response => {
-                        this.getList();
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
-            });
         },
     }
 };
 </script>
 
 <style lang="scss">
-    @import "./jobDefinition.scss";
+    @import "./trainingFunds.scss";
 </style>

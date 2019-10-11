@@ -3,7 +3,7 @@
     <div class="title">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>生产记录</el-breadcrumb-item>
-        <el-breadcrumb-item class="actived">添加记录</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">修改记录</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">

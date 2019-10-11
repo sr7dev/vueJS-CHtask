@@ -136,7 +136,7 @@ export default {
     },
     downloadFile() {
         axios({
-            url: Urls.DOWNLOAD_URL() + this.editForm.jobFile,
+            url: Urls.DOWNLOAD_URL() + this.file_live_1,
             method: "GET",
             responseType: "blob" // important
         }).then(response => {
@@ -145,7 +145,7 @@ export default {
             link.href = url;
             link.setAttribute(
                 "download",
-                this.editForm.jobFile.replace("/uploads/", "")
+                this.file_live_1.replace("/uploads/", "")
             ); //or any other extension
             document.body.appendChild(link);
             link.click();
@@ -155,12 +155,16 @@ export default {
     onSubmit(formName) {
         this.$refs[formName].validate(valid => {
             if (valid) {
+                this.dataloading = true;
                 var formData = new FormData();
                 formData = this.makeFormData();
                 Request()
                     .put("/api/job_definition/update/" + this.id, formData)
                     .then(response => {
                         this.$router.push({ path: "/jobDefinition" });
+                        setTimeout(() => {
+                            this.dataloading = false;
+                        }, 0.01 * 1000);
                     })
                     .catch(error => {});
             }

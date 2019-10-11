@@ -3,18 +3,27 @@
         <div class="title">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item class="actived">
-                    作业定义
+                    通知管理
                 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="box">
             <div class="iptBox">
+                通知公告
+             </div>
+            <div class="iptBox">
                 <el-button
                     type="primary"
-                    v-on:click="$router.push(`/jobDefinition/create`)"
+                    v-on:click="$router.push({path: `/notice/create`})"
                     plain
                 >
-                    添加
+                    发布公告
+                </el-button>
+                <el-button
+                    type="primary"
+                    plain
+                >
+                    短信记录
                 </el-button>
             </div>
 
@@ -27,16 +36,23 @@
                     highlight-current-row
                 >
                     <el-table-column
-                        :formatter="order"
-                        label="序号"
+                        prop="type"
+                        label="类型"
                         width="180"
                     >
                     </el-table-column>
-                    <el-table-column prop="jobName" label="作业名称">
+                    <el-table-column prop="title" label="标题">
                     </el-table-column>
-                    <el-table-column prop="jobType" label="作业类型">
+                    <el-table-column prop="releaseTime" label="日期">
                         <template slot-scope="{ row }">
-                            {{ getJobType(row.jobType) }}
+                            {{ row.releaseTime | formatDate }}
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="releasePerson" label="作者">
+                    </el-table-column>
+                    <el-table-column prop="emergencyDegree" label="紧急程度">
+                        <template slot-scope="{ row }">
+                            {{ getEmergencyDegree(row.emergencyDegree) }}
                         </template>
                     </el-table-column>
                     <el-table-column label="操作">
@@ -44,23 +60,16 @@
                             <el-button
                                 type="success"
                                 plain
-                                v-on:click="
-                                    $router.push({
-                                        path: `/jobDefinition/${row.id}`,
-                                        query: {
-                                            jobName: row.jobName,
-                                            jobType: getJobType(row.jobType)
-                                        }
-                                    })"
+                                v-on:click="$router.push({path: `/notice/view/${row.id}`})"
                             >
-                                修改
+                                查看
                             </el-button>
                             <el-button
-                                type="danger"
-                                v-on:click="handleDelete(`${row.id}`)"
+                                type="warning"
+                                v-on:click="$router.push({path: `/notice/edit/${row.id}`})"
                                 plain
                             >
-                                删除
+                                修改
                             </el-button>
                         </template>
                     </el-table-column>
@@ -84,12 +93,15 @@ import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
 
 export default {
-    name: "jobDefinition",
+    name: "notice",
     components: { Pagination },
     data() {
         return {
-            jobName: "",
-            jobType: 0,
+            releasePerson: "",
+            emergencyDegree: 0,
+            releaseTime: "",
+            title: "",
+            type: "",
             page: {
                 pageIndex: 1,
                 pageSize: 20
@@ -97,10 +109,10 @@ export default {
             listLoading: true,
             total: 0,
             tableData: [],
-            jobTypes: [ 
-                { id: 0, name: "收获前" },
-                { id: 1, name: "收获" },
-                { id: 2, name: "收获后" }
+            emergencyDegrees: [ 
+                { id: 0, name: "高" },
+                { id: 1, name: "中" },
+                { id: 2, name: "低" }
             ]
         };
     },
@@ -117,7 +129,7 @@ export default {
         getList() {
             this.listLoading = true;
             Request()
-                .get("/api/job_definition/all", {
+                .get("/api/notice/all", {
                     pageNo: this.page.pageIndex - 1,
                     pageSize: this.page.pageSize,
                 })
@@ -132,8 +144,8 @@ export default {
                     console.log(error);
                 });
         },
-        getJobType(id) {
-            let type = this.jobTypes.find(x => x.id === id);
+        getEmergencyDegree(id) {
+            let type = this.emergencyDegrees.find(x => x.id === parseInt(id));
             if (type) {
                 return type.name;
             } else {
@@ -159,5 +171,5 @@ export default {
 </script>
 
 <style lang="scss">
-    @import "./jobDefinition.scss";
+    @import "./notice.scss";
 </style>

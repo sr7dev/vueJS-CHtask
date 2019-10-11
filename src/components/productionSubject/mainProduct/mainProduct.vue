@@ -116,7 +116,7 @@ export default {
     },
     showInventoryDynamics(row) {
       this.$router.push({
-        path: `/productionSubject/mainProduct/inventoryDynamics/${row.productId}`,
+        path: `/productionSubject/mainProduct/inventoryDynamics/${this.$route.params.id}`,
         query: { productName: row.productName }
       });
     },

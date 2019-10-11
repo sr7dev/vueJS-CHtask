@@ -35,7 +35,18 @@
         <el-menu-item index="/regulatoryRecord">
           <router-link slot="title" to="/regulatoryRecord">监管记录</router-link>
         </el-menu-item>
-
+        <el-menu-item index="/workTask">
+          <router-link slot="title" to="/workTask">工作任务</router-link>
+        </el-menu-item>
+        <el-menu-item index="/notice">
+          <router-link slot="title" to="/notice">通知管理</router-link>
+        </el-menu-item>
+        <el-menu-item index="/trainingFunds">
+          <router-link slot="title" to="/trainingFunds">培训经费管理</router-link>
+        </el-menu-item>
+        <el-menu-item index="/seed">
+          <router-link slot="title" to="/seed">种子管理</router-link>
+        </el-menu-item>
         <el-menu-item index="/threeProductsCertification">
           <router-link slot="title" to="/threeProductsCertification">三品一标管理</router-link>
         </el-menu-item>
@@ -50,6 +61,9 @@
         </el-menu-item>
         <el-menu-item index="/redBlackList">
           <router-link slot="title" to="/redBlackList">红黑名单</router-link>
+        </el-menu-item>
+        <el-menu-item index="/productionStandard">
+          <router-link slot="title" to="/productionStandard">生产标准</router-link>
         </el-menu-item>
         <el-menu-item index="/jobDefinition">
           <router-link slot="title" to="/jobDefinition">作业定义</router-link>
