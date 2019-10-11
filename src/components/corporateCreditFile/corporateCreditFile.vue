@@ -2,33 +2,20 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item class="actived">企业信用档案</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/' }">企业信用档案</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
       <div class="iptBox">
-        <div class="select_label no-margin-left">乡镇</div>
+        <div class="select_label">乡镇</div>
         <el-select v-model="currTown" placeholder="请选择" @change="getList()">
-          <el-option
-            v-for="item in township"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          ></el-option>
+          <el-option v-for="item in township" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
         <div class="select_label">类型</div>
-        <el-radio v-model="bTypes" label="1" v-on:change="getList(true)"
-          >企业</el-radio
-        >
-        <el-radio v-model="bTypes" label="2" v-on:change="getList(true)"
-          >农户</el-radio
-        >
+        <el-radio v-model="bTypes" label="1" v-on:change="getList(true)">企业</el-radio>
+        <el-radio v-model="bTypes" label="2" v-on:change="getList(true)">农户</el-radio>
         <div class="select_label">行政许可</div>
-        <el-select
-          v-model="public_license"
-          placeholder="请选择"
-          @change="onSelectPubLicense"
-        >
+        <el-select v-model="public_license" placeholder="请选择" @change="onSelectPubLicense">
           <el-option
             v-for="item in publicOptions"
             :key="item.id"
@@ -37,11 +24,7 @@
           ></el-option>
         </el-select>
         <div class="select_label">行政处罚</div>
-        <el-select
-          v-model="public_punish"
-          placeholder="请选择"
-          @change="onSelectPubPunish"
-        >
+        <el-select v-model="public_punish" placeholder="请选择" @change="onSelectPubPunish">
           <el-option
             v-for="item in publicOptions"
             :key="item.id"
@@ -50,9 +33,7 @@
           ></el-option>
         </el-select>
         <div class="select_label">
-          <el-button type="primary" v-on:click="getList()" plain disabled
-            >导入</el-button
-          >
+          <el-button type="outline-primary" v-on:click="getList()" disabled>导入</el-button>
         </div>
       </div>
 
@@ -65,81 +46,47 @@
           :row-class-name="rowIndex"
           highlight-current-row
         >
-          <el-table-column
-            :formatter="order"
-            label="序号"
-            width="70"
-          ></el-table-column>
+          <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
           <el-table-column label="企业名称" width="150">
-            <template slot-scope="{ row }">{{
-              filterCompnay(row.creditCode)
-            }}</template>
+            <template slot-scope="{row}">{{filterCompnay(row.creditCode)}}</template>
           </el-table-column>
-          <el-table-column
-            prop="creditCode"
-            label="统一社会信用代码"
-          ></el-table-column>
+          <el-table-column prop="creditCode" label="统一社会信用代码"></el-table-column>
           <el-table-column prop="public_license" label="行政许可信息">
-            <template slot-scope="{ row }">
-              <el-button
-                v-on:click="
-                  $router.push(
-                    `/corporateCreditFile/adminLicenseInfo/${row.creditCode}`
-                  )
-                "
-                plain
-                type="success"
-                >行政许可信息</el-button
-              >
+            <template slot-scope="{row}">
+              <el-button v-if="row.public_license > 0"
+                v-on:click="$router.push({path: `/corporateCreditFile/adminLicenseInfo`,query: {creditCode:row.creditCode}})"
+              >行政许可信息</el-button>
+              <el-button v-else disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
             </template>
           </el-table-column>
           <el-table-column prop="public_punish" label="行政处罚信息">
-            <template slot-scope="{ row }">
-              <el-button
-                plain
-                type="success"
-                v-on:click="
-                  $router.push(
-                    `/corporateCreditFile/adminPenaltyInfo/${row.creditCode}`
-                  )
-                "
-                >行政许可信息</el-button
-              >
+            <template slot-scope="{row}">
+              <el-button v-if="row.public_punish > 0"
+                v-on:click="$router.push({path: `/corporateCreditFile/adminPenaltyInfo`,query: {creditCode:row.creditCode}})"
+              >行政许可信息</el-button>
+              <el-button v-else disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
             </template>
           </el-table-column>
           <el-table-column label="评级信息">
-            <template slot-scope="{ row }">
+            <template slot-scope="{row}">
               <span
                 class="rating-action"
-                v-on:click="
-                  $router.push({
-                    path: `/corporateCreditFile/ratingInfo`,
-                    query: { creditCode: row.creditCode }
-                  })
-                "
-                >{{ row.nowGrade }}</span
-              >
+                v-on:click="$router.push({path: `/corporateCreditFile/ratingInfo`,query: {creditCode:row.creditCode}})"
+              >{{row.nowGrade}}</span>
             </template>
           </el-table-column>
           <el-table-column label="三品一标认证" width="200">
-            <template slot-scope="{ row }">
+            <template slot-scope="{row}">
               <el-button
-                plain
-                type="warning"
-                v-on:click="
-                  $router.push(
-                    `/corporateCreditFile/threeProduction/${row.creditCode}`
-                  )
-                "
-                >三品一标</el-button
-              >
+                v-on:click="$router.push({path: `/corporateCreditFile/threeProduction`,query: {creditCode:row.creditCode}})"
+              >三品一标</el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-container>
       <div class="pageBox">
         <pagination
-          v-show="total > 0"
+          v-show="total>0"
           :total="total"
           :page.sync="page.pageIndex"
           :limit.sync="page.pageSize"
@@ -229,7 +176,7 @@ export default {
         })
         .then(response => {
           var tmpData = response;
-          if (this.publicOptions == 1) {
+          if (this.public_license == 1) {
             tmpData = tmpData.filter(function(licesnse) {
               return licesnse.public_license > 0;
             });
@@ -252,6 +199,7 @@ export default {
             this.getNowGrade(item.creditCode).then(res => {
               item.nowGrade = this.getGradeString(res);
               this.tableData.push(item);
+              console.log(this.tableData);
             });
           });
           this.total = this.tableData.length;

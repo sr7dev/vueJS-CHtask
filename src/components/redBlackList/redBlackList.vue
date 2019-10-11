@@ -56,6 +56,7 @@
             :page.sync="page.pageIndex"
             :limit.sync="page.pageSize"
             @pagination="getList"
+            layout="prev, pager, next, sizes, jumper"
           />
         </div>
       </el-tabs>
@@ -77,7 +78,7 @@ export default {
         pageIndex: 1,
         pageSize: 20
       },
-      total: 100,
+      total: 0,
       options: [
         {
           value: "全部",
@@ -129,8 +130,8 @@ export default {
           townId: this.currTown
         })
         .then(response => {
-          this.tableData = response;
-          this.total = this.tableData.length;
+          this.tableData = response.data;
+          this.total = response.total;
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);

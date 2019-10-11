@@ -1,24 +1,12 @@
 .el-aside {
-    .tac {
-        ul.el-menu-vertical-demo {
-            li.el-menu-item {
-                padding-left: 40px!important;
-            }
-        }
-        div.el-submenu__title {
-            padding-left: 40px!important;
-        }
+  .tac {
+    ul.el-menu-vertical-demo {
+      li.el-menu-item {
+        padding-left: 40px!important;
+      }
     }
-}
-
-.title {
-    .el-breadcrumb {
-        font-size: 2rem;
+    div.el-submenu__title {
+      padding-left: 40px!important;
     }
-}
-
-.el-table {
-    th.is-leaf {
-        font-size: 1rem;
-    }
+  }
 }

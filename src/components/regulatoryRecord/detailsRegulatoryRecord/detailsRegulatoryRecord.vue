@@ -217,8 +217,11 @@
                   <td width="30%">现场图片</td>
                   <td>
                     <div class="image-container">
-                      <img class="live_photo" :src="downloadUrl + data.scenePhotos" />
-                      <p v-if="!data.scenePhotos">请选择</p>
+                      <img
+                        class="live_photo"
+                        :src="downloadUrl + data.scenePhotos"
+                        v-if="data.scenePhotos"
+                      />
                     </div>
                     <el-link
                       v-if="data.scenePhotos"
@@ -231,8 +234,7 @@
                   <td width="30%">签名</td>
                   <td>
                     <div class="image-container">
-                      <img class="sign_photo" :src="downloadUrl + data.sign" />
-                      <p v-if="!data.sign">请选择</p>
+                      <img class="sign_photo" :src="downloadUrl + data.sign" v-if="data.sign" />
                     </div>
                     <el-link
                       style=" display: table"
@@ -287,8 +289,8 @@ export default {
         })
         .then(response => {
           this.data = response;
-          this.conclusionData = this.data.conclusionFalseInfo;
-          this.supervisionInfo = this.data.supervisionInfo;
+          this.conclusionData = JSON.parse(this.data.conclusionFalseInfo);
+          this.supervisionInfo = JSON.parse(this.data.supervisionInfo);
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
