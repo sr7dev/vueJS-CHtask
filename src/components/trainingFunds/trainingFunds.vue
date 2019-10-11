@@ -89,7 +89,7 @@ export default {
                 pageIndex: 1,
                 pageSize: 20
             },
-            listLoading: true,
+            listLoading: false,
             total: 0,
             tableData: [],
             companyProduction: [],
