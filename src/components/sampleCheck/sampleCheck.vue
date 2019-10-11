@@ -8,87 +8,39 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <div
-          class="tab-header"
-          type
-          @click="mode = true"
-          v-bind:class="{ active: mode }"
-        >
-          抽样计划
-        </div>
-        <div
-          class="tab-header"
-          type
-          @click="mode = false"
-          v-bind:class="{ active: !mode }"
-        >
-          抽样结果
-        </div>
+        <div class="tab-header" type @click="mode = true" v-bind:class="{ active: mode }">抽样计划</div>
+        <div class="tab-header" type @click="mode = false" v-bind:class="{ active: !mode }">抽样结果</div>
       </div>
       <div class="iptBox">
         <el-button type="primary" plain @click="addSample()">添加</el-button>
       </div>
-      <el-table
-        v-show="mode"
-        :data="tableData"
-        style="width: 100%"
-        :row-class-name="rowIndex"
-      >
-        <el-table-column
-          :formatter="order"
-          label="序号"
-          width="80"
-        ></el-table-column>
+      <el-table v-show="mode" :data="tableData" style="width: 100%" :row-class-name="rowIndex">
+        <el-table-column :formatter="order" label="序号" width="80"></el-table-column>
         <el-table-column prop="sampleName" label="检测名称"></el-table-column>
         <el-table-column prop="sampleTime" label="检测时间">
-          <template slot-scope="{ row }">
-            {{ row.sampleTime | formatDate }}
-          </template>
+          <template slot-scope="{ row }">{{ row.sampleTime | formatDate }}</template>
         </el-table-column>
         <el-table-column prop="checkPerson" label="检测人员"></el-table-column>
         <el-table-column prop="operations" label="操作">
           <template slot-scope="{ row }">
-            <el-button
-              v-on:click="showDetailsSampleCheck(row)"
-              type="success"
-              plain
-              >查看</el-button
-            >
+            <el-button v-on:click="showDetailsSampleCheck(row)" type="success" plain>查看</el-button>
           </template>
         </el-table-column>
       </el-table>
-      <el-table
-        v-show="!mode"
-        :data="tableData1"
-        style="width: 100%"
-        :row-class-name="rowIndex"
-      >
-        <el-table-column
-          :formatter="order1"
-          label="序号"
-          width="80"
-        ></el-table-column>
+      <el-table v-show="!mode" :data="tableData1" style="width: 100%" :row-class-name="rowIndex">
+        <el-table-column :formatter="order1" label="序号" width="80"></el-table-column>
         <el-table-column prop="sampleName" label="检测名称"></el-table-column>
         <el-table-column prop="checkUnit" label="检测单位"></el-table-column>
         <el-table-column prop="sampleTime" label="检测时间">
-          <template slot-scope="{ row }">
-            {{ row.sampleTime | formatDate }}
-          </template>
+          <template slot-scope="{ row }">{{ row.sampleTime | formatDate }}</template>
         </el-table-column>
         <el-table-column prop="checkResult" label="检测结果">
-          <template slot-scope="{ row }">
-            {{ row.checkResult == 1 ? "合格" : "不合格" }}
-          </template>
+          <template slot-scope="{ row }">{{ row.checkResult == 1 ? "合格" : "不合格" }}</template>
         </el-table-column>
         <el-table-column prop="checkPerson" label="检测人员"></el-table-column>
         <el-table-column prop="operations" label="操作">
           <template slot-scope="{ row }">
-            <el-button
-              v-on:click="showDetailsSampleCheckResult(row)"
-              type="success"
-              plain
-              >查看</el-button
-            >
+            <el-button v-on:click="showDetailsSampleCheckResult(row)" type="success" plain>查看</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -118,14 +70,14 @@ export default {
         pageIndex: 1,
         pageSize: 20
       },
-      total: 100,
+      total: 0,
       tableData: [],
 
       page1: {
         pageIndex: 1,
         pageSize: 20
       },
-      total1: 100,
+      total1: 0,
       tableData1: []
     };
   },
@@ -158,8 +110,8 @@ export default {
           sortBy: "id"
         })
         .then(response => {
-          this.tableData = response;
-          this.total = this.tableData.length;
+          this.tableData = response.data;
+          this.total = response.total;
         })
         .catch(error => {
           console.log(error);
@@ -175,8 +127,8 @@ export default {
           sortBy: "id"
         })
         .then(response => {
-          this.tableData1 = response;
-          this.total1 = this.tableData1.length;
+          this.tableData1 = response.data;
+          this.total1 = response.total;
         })
         .catch(error => {
           console.log(error);

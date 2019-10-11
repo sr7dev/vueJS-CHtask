@@ -11,8 +11,7 @@
           type="primary"
           v-on:click="$router.push(`/threeProductsCertification/create`)"
           plain
-          >添加</el-button
-        >
+        >添加</el-button>
         <div class="select_label">企业名称</div>
         <el-select v-model="creditCode" @change="getList()">
           <el-option
@@ -24,24 +23,20 @@
         </el-select>
         <div class="select_label">产品分类</div>
         <el-select v-model="productCategory" @change="getList()">
-          <el-option
-            v-for="(item, index) in appStatus1"
-            :key="item"
-            :label="item"
-            :value="index"
-          ></el-option>
+          <el-option v-for="(item, index) in appStatus1" :key="item" :label="item" :value="index"></el-option>
         </el-select>
         <div class="select_label">认证类型</div>
         <el-select v-model="authType" @change="getList()">
-          <el-option
-            v-for="(item, index) in appStatus2"
-            :key="item"
-            :label="item"
-            :value="index"
-          ></el-option>
+          <el-option v-for="(item, index) in appStatus2" :key="item" :label="item" :value="index"></el-option>
         </el-select>
       </div>
-
+      <el-dialog :visible.sync="dialogVisible" width="30%" modal>
+        <span>你确定你要删除?</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false" type="primary" plain>取消</el-button>
+          <el-button @click="handleDelete" type="success" plain>确认</el-button>
+        </span>
+      </el-dialog>
       <el-container>
         <el-table
           :data="tableData"
@@ -50,34 +45,30 @@
           :row-class-name="rowIndex"
           highlight-current-row
         >
-          <el-table-column
-            :formatter="order"
-            label="序号"
-            width="180"
-          ></el-table-column>
+          <el-table-column :formatter="order" label="序号" width="180"></el-table-column>
           <el-table-column prop="name" label="企业名称">
-            <template slot-scope="{ row }">{{
+            <template slot-scope="{ row }">
+              {{
               filterCompnay(row.creditCode)
-            }}</template>
+              }}
+            </template>
           </el-table-column>
           <el-table-column prop="productname" label="产品名称">
-            <template slot-scope="{ row }">{{
+            <template slot-scope="{ row }">
+              {{
               filterProduct(row.productId)
-            }}</template>
+              }}
+            </template>
           </el-table-column>
           <el-table-column label="产品分类">
-            <template slot-scope="{ row }">{{
+            <template slot-scope="{ row }">
+              {{
               appStatus1[row.argriculturalClassification]
-            }}</template>
+              }}
+            </template>
           </el-table-column>
-          <el-table-column
-            prop="cretficationCategory"
-            label="认证类型"
-          ></el-table-column>
-          <el-table-column
-            prop="certificationNo"
-            label="证书编号"
-          ></el-table-column>
+          <el-table-column prop="cretficationCategory" label="认证类型"></el-table-column>
+          <el-table-column prop="certificationNo" label="证书编号"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="{ row }">
               <el-button
@@ -92,14 +83,8 @@
                     }
                   })
                 "
-                >查看</el-button
-              >
-              <el-button
-                type="danger"
-                v-on:click="handleDelete(`${row.id}`)"
-                plain
-                >删除</el-button
-              >
+              >查看</el-button>
+              <el-button type="danger" v-on:click="confirmDelete(`${row.id}`)" plain>删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -128,6 +113,8 @@ export default {
       creditCode: "",
       productCategory: 0,
       authType: 0,
+      dialogVisible: false,
+      selectedId: null,
       page: {
         pageIndex: 1,
         pageSize: 20
@@ -144,7 +131,6 @@ export default {
   created() {
     this.getCompanyProduction();
     this.getProductionDetail();
-    this.getAllQuality();
     this.getList();
   },
   methods: {
@@ -163,8 +149,8 @@ export default {
           townId: this.currTown
         })
         .then(response => {
-          this.tableData = response;
-          this.total = this.tableData.length;
+          this.tableData = response.data;
+          this.total = response.total;
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
@@ -193,20 +179,11 @@ export default {
           console.log(error);
         });
     },
-    getAllQuality() {
+    handleDelete() {
       Request()
-        .get("/api/quality_standard/all")
+        .delete("/api/quality_standard/delete/" + this.selectedId)
         .then(response => {
-          this.tableData = response;
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
-    handleDelete(id) {
-      Request()
-        .delete("/api/quality_standard/delete/" + id)
-        .then(response => {
+          this.dialogVisible = false;
           this.getList();
         })
         .catch(error => {
@@ -231,6 +208,10 @@ export default {
     },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
+    },
+    confirmDelete(id) {
+      this.dialogVisible = true;
+      this.selectedId = id;
     }
   }
 };

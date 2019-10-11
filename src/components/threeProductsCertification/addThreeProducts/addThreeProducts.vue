@@ -6,14 +6,8 @@
         <el-breadcrumb-item class="actived">添加认证</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-
     <div class="box">
-      <el-form
-        ref="ruleForm"
-        :model="ruleFormValue"
-        :rules="rules"
-        label-width="100px"
-      >
+      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
         <el-row>
           <el-col :span="6">
             <el-form-item label="企业名称" prop="creditCode">
@@ -82,19 +76,21 @@
           </el-col>
         </el-row>
         <el-form-item label="认证有效期" style="text-align: center" required>
-          <el-col :span="5">
+          <el-col :span="4" class="text-left">
             <el-form-item prop="certificationStartTime">
               <el-date-picker
+                class="w-80"
                 type="date"
                 v-model="ruleFormValue.certificationStartTime"
                 style="width: 100%;"
               ></el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col class="line" :span="1">至</el-col>
-          <el-col :span="5">
+          <el-col class="text-left" :span="1">至</el-col>
+          <el-col :span="4" class="text-left">
             <el-form-item prop="certificationEndTime">
               <el-date-picker
+                class="w-100"
                 type="date"
                 v-model="ruleFormValue.certificationEndTime"
                 style="width: 100%;"
@@ -110,12 +106,9 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="8">
-            <div class="item">
-              <div
-                class="item-label"
-                style="margin-bottom:20px;display:inline-block"
-              >
+          <el-col :span="18">
+            <div class="item" style="display:flex">
+              <div class="item-label" style="margin-bottom:20px;">
                 <input
                   type="file"
                   id="file"
@@ -123,13 +116,14 @@
                   ref="file"
                   v-on:change="handleFileUpload()"
                 />
-                <el-button type="warning" plain @click="chooseFile()"
-                  >添加附件</el-button
-                >
+                <el-button type="warning" plain @click="chooseFile()">添加附件</el-button>
               </div>
               <div
                 class="item-value"
-                style="display:inline-block;margin-left:10px;"
+                style="margin-left:10px;
+                      display: flex;
+                      align-items: center;
+                      padding-bottom: 20px;"
               >
                 <span v-if="file">({{ file.name }})</span>
                 <span v-else>请选择需要上传的文件...</span>
@@ -138,9 +132,7 @@
           </el-col>
         </el-row>
         <el-form-item>
-          <el-button type="success" @click="onSubmit('ruleForm')" plain
-            >保存</el-button
-          >
+          <el-button type="success" @click="onSubmit('ruleForm')" plain>保存</el-button>
           <el-button type="danger" @click="goBack" plain>取消</el-button>
         </el-form-item>
       </el-form>
@@ -257,7 +249,7 @@ export default {
           company_id: companyId
         })
         .then(response => {
-          this.productNameList = response;
+          this.productNameList = response.data;
         })
         .catch(error => {
           console.log(error);
@@ -282,7 +274,12 @@ export default {
             "argriculturalClassification",
             this.ruleFormValue.argriculturalClassification
           );
-          
+          this.ruleFormValue.certificationStartTime = new Date(
+            this.ruleFormValue.certificationStartTime
+          ).toDateString("YYYY-MM-DD");
+          this.ruleFormValue.certificationEndTime = new Date(
+            this.ruleFormValue.certificationEndTime
+          ).toDateString("YYYY-MM-DD");
           formData.append(
             "certificationStartTime",
             this.ruleFormValue.certificationStartTime

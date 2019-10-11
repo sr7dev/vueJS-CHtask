@@ -1,14 +1,29 @@
+html,
 body {
-  font-size: 0.9rem;
+  font-size: 14px;
+}
+
+.middle-font {
+  font-size: 20px;
+  font-weight: normal;
+}
+
+.w-80 {
+  width: 80% !important;
 }
 
 .w-100 {
-  width: 100%!important;
+  width: 100% !important;
 }
 
 .flex-center {
   display: flex;
   align-items: center;
+}
+
+.flex-justify-center {
+  display: flex;
+  justify-content: center;
 }
 
 .justify-right {
@@ -20,7 +35,15 @@ body {
 }
 
 .text-center {
-  text-align: center!important;
+  text-align: center !important;
+}
+
+.text-left {
+  text-align: left !important;
+}
+
+.text-right {
+  text-align: right !important;
 }
 
 .no-margin-left {
@@ -31,14 +54,26 @@ body {
   margin-bottom: 20px;
 }
 
+.margin-bottom-30 {
+  margin-bottom: 30px;
+}
+
 .margin-left-20 {
   margin-left: 20px;
+}
+
+.padding-left-20 {
+  padding-left: 20px !important;
+}
+
+.flex-box {
+  display: flex;
 }
 
 .el-aside {
   a,
   span {
-    font-size: 1.2rem;
+    font-size: 16px;
   }
   .tac {
     ul.el-menu-vertical-demo {
@@ -58,7 +93,7 @@ body {
             content: "\2013";
             font-weight: bold;
             color: #ffffff;
-            font-size: 1.2rem;
+            font-size: 20px;
           }
         }
       }
@@ -70,7 +105,7 @@ body {
         .el-icon-arrow-down:before {
           content: "\002B";
           font-weight: bold;
-          font-size: 1.2rem;
+          font-size: 20px;
           color: #000000;
         }
         &:hover {
@@ -115,14 +150,14 @@ body {
 
 .title {
   .el-breadcrumb {
-    font-size: 1.4rem;
+    font-size: 20px;
     margin-bottom: 20px;
   }
 }
 
 .el-table {
   th.is-leaf {
-    font-size: 0.9rem;
+    font-size: 14px;
   }
 }
 
