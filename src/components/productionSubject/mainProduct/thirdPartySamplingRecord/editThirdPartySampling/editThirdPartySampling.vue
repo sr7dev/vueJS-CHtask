@@ -136,16 +136,17 @@ export default {
       },
     };
   },
-  created() {   
-    this.getData(this.$route.query.product);
+  created() {       
+    this.getData(this.$route.query.checkId);
   },
   methods: {    
     getData(id) {
       this.dataloading = true;
       Request()
-        .get("/api/product_check_record/get/" + id)
+        .get("/api/product_check_record/get/" + id)        
         .then(response => {
           this.data = response;
+          console.log(this.data);
           this.oldDate = this.data.createTime.slice(0,10);
           setTimeout(()=>{ this.dataloading = false }, 0.01*1000);
         })
@@ -156,26 +157,26 @@ export default {
 
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
-        if (valid) {
-          var formData = new FormData();
-
-          formData.append( "id", this.data.id);
-          formData.append("checkItem", this.data.checkItem);
-          formData.append("checkOrganization", this.data.checkOrganization);
-          formData.append( "checkResult", this.data.checkResult);
-          formData.append( "createTime", this.data.createTime);
-          formData.append( "createUserId", this.data.createUserId);
-          formData.append( "determine", this.data.determine);
-          formData.append( "productCheckTime", new Date().toJSON());
-          formData.append( "productId", this.data.productId);
-          formData.append( "specimen", this.data.specimen);
-          formData.append( "updateTime", new Date().toJSON());
-          formData.append( "updateUserId", this.data.updateUserId);
-          
+        if (valid) {          
           Request()
-            .post("/api/product_check_record/update/" + this.data.id, formData)
+            .put("/api/product_check_record/update/" + this.data.id, {
+              "checkItem": this.data.checkItem,
+              "checkOrganization": this.data.checkOrganization,
+              "checkResult": this.data.checkResult,
+              "checkStandard":this.data.checkStandard,
+              "createTime": this.data.createTime,
+              "createUserId": this.data.createUserId,
+              "determine": this.data.determine,
+              "id": this.data.id,
+              "productCheckTime": new Date().toJSON(),
+              "productId": this.data.productId,
+              "specimen": this.data.specimen,
+              "updateTime": new Date().toJSON(),
+              "updateUserId": this.data.updateUserId,
+            })
             .then(response => {
-              this.$router.push({ path: "/threeProductsCertification" });
+              //this.$router.push({ path: "/threeProductsCertification" });
+              this.$router.go(-1);
             })
             .catch(error => {});
         } else {
