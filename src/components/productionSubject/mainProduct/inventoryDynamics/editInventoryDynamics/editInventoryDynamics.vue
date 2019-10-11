@@ -6,7 +6,7 @@
           >监管对象</el-breadcrumb-item
         >
         <el-breadcrumb-item>主营产品</el-breadcrumb-item>
-        <el-breadcrumb-item class="actived">添加动态</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">修改动态</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
 
@@ -88,10 +88,11 @@
 <script>
 import Request from "../../../../../services/api/request.js";
 export default {
-  name: "addInventoryDynamics",
+  name: "editInventoryDynamics",
   data() {
     return {
       listLoading: false,
+      warehouseData: [],
       warehouseOptions:[],
       ruleFormValue: {
         createTime: "",
@@ -102,7 +103,7 @@ export default {
         variety: "",
         warehouseId: null,
         productName: "",
-        
+        id: 0        
       },
       rules: {
         variety: [
@@ -144,7 +145,12 @@ export default {
   },
   created() {
     this.ruleFormValue.productName = this.$route.query.productName;
-    this.ruleFormValue.productId = this.$route.params.id;    
+    this.ruleFormValue.productId = this.$route.params.id;
+    this.ruleFormValue.repertoryAmount = this.$route.query.repertoryAmount.toString().match(/(\d+)/)[0];
+    this.ruleFormValue.warehouseId = this.$route.query.warehouseId - 1;
+    this.ruleFormValue.grade = this.$route.query.grade;
+    this.ruleFormValue.variety = this.$route.query.variety;
+    this.ruleFormValue.id = this.$route.query.id;
     this.getWarehouseList();
     this.getCurrentTime();
   },
@@ -161,8 +167,8 @@ export default {
           company_id: 0
         })
         .then(response =>{
-          for (var index in response.data) {
-            this.warehouseOptions.push({value: response.data[index].id, label: response.data[index].warehouseName});
+          for (var indexOption in response.data) {
+            this.warehouseOptions.push({value: response.data[indexOption].id, label: response.data[indexOption].warehouseName});
           }
           setTimeout(() => {
             this.listLoading = false;
@@ -177,14 +183,14 @@ export default {
             "createTime": this.ruleFormValue.createTime,
             "updateTime": this.ruleFormValue.updateTime,
             "grade": this.ruleFormValue.grade,
-            "id": 0,
+            "id": this.ruleFormValue.id,
             "productId": this.ruleFormValue.productId,
             "repertoryAmount": this.ruleFormValue.repertoryAmount,
             "variety": this.ruleFormValue.variety,
             "warehouseId": this.ruleFormValue.warehouseId + 1
           }
           Request()
-            .post("/api/product_repetory/create", formData)
+            .put("/api/product_repetory/update/" + this.ruleFormValue.id, formData)
             .then(response => {
               this.$router.push({
                 path: `/productionSubject/mainProduct/inventoryDynamics/${this.ruleFormValue.productId}`,

@@ -56,7 +56,9 @@
         <el-table-column prop="repertoryAmount" label="储存数量">
           <template slot-scope="{ row }">{{ row.repertoryAmount }}</template>
         </el-table-column>
-        <el-table-column prop="variety" label="品种"></el-table-column>
+        <el-table-column prop="variety" label="品种">
+          <template slot-scope="{ row }">{{ row.variety }}</template>
+        </el-table-column>
         <el-table-column prop="grade" label="评级">
           <template slot-scope="{row}">
             {{
@@ -67,8 +69,20 @@
         <el-table-column label="操作">
           <template slot-scope="{ row }">
             <el-button
-              type="success"
+              type="success"              
               plain
+              @click="$router.push({
+                path: `/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/${id}`,
+                query: {
+                  productName: productName,
+                  repertoryAmount: row.repertoryAmount,
+                  warehouseId: row.warehouseId,
+                  grade: row.grade,
+                  variety: row.variety,
+                  id: row.id
+                }
+              })
+              "
             >修改
             </el-button>
             <el-button
@@ -153,6 +167,7 @@ export default {
         })
         .then(response => {
           this.warehouses = response.data;
+          console.log(this.warehouses);
           Request()
             .get("/api/product_repetory/all", {
               product_id: id,
