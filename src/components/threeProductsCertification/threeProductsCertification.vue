@@ -30,7 +30,13 @@
           <el-option v-for="(item, index) in appStatus2" :key="item" :label="item" :value="index"></el-option>
         </el-select>
       </div>
-
+      <el-dialog :visible.sync="dialogVisible" width="30%" modal>
+        <span>你确定你要删除?</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false" type="primary" plain>取消</el-button>
+          <el-button @click="handleDelete" type="success" plain>确认</el-button>
+        </span>
+      </el-dialog>
       <el-container>
         <el-table
           :data="tableData"
@@ -78,7 +84,7 @@
                   })
                 "
               >查看</el-button>
-              <el-button type="danger" v-on:click="handleDelete(`${row.id}`)" plain>删除</el-button>
+              <el-button type="danger" v-on:click="confirmDelete(`${row.id}`)" plain>删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -107,6 +113,8 @@ export default {
       creditCode: "",
       productCategory: 0,
       authType: 0,
+      dialogVisible: false,
+      selectedId: null,
       page: {
         pageIndex: 1,
         pageSize: 20
@@ -171,10 +179,11 @@ export default {
           console.log(error);
         });
     },
-    handleDelete(id) {
+    handleDelete() {
       Request()
-        .delete("/api/quality_standard/delete/" + id)
+        .delete("/api/quality_standard/delete/" + this.selectedId)
         .then(response => {
+          this.dialogVisible = false;
           this.getList();
         })
         .catch(error => {
@@ -199,6 +208,10 @@ export default {
     },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
+    },
+    confirmDelete(id) {
+      this.dialogVisible = true;
+      this.selectedId = id;
     }
   }
 };
