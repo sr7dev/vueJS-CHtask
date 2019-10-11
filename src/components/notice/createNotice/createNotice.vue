@@ -176,12 +176,16 @@ export default {
     onSubmit(formName) {
         this.$refs[formName].validate(valid => {
             if (valid) {
+                this.dataloading = true;
                 var formData = new FormData();
                 formData = this.makeFormData();
                 Request()
                     .post("/api/notice/create", formData)
                     .then(response => {
                         this.$router.push({ path: "/notice" });
+                        setTimeout(() => {
+                            this.dataloading = false;
+                        }, 0.01 * 1000);
                     })
                     .catch(error => {});
             }
@@ -202,8 +206,9 @@ export default {
         mainFormData.append("releaseTime", this.addForm.releaseTime);
         mainFormData.append("releasePerson", this.addForm.releasePerson);
         mainFormData.append("title", this.addForm.title);
-        mainFormData.append("content", this.content);
+        mainFormData.append("content", this.addForm.content);
         mainFormData.append("id", 0);
+        mainFormData.append("file", this.file_live_1);
         return mainFormData;
     },
   }

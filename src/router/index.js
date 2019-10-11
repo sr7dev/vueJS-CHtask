@@ -68,9 +68,9 @@ import addJobDefinition from "@/components/jobDefinition/addJobDefinition/addJob
 import editJobDefinition from "@/components/jobDefinition/editJobDefinition/editJobDefinition"
 
 import notice from "@/components/notice/notice"
-// import detailsNotice from "@/components/notice/detailsNotice/detailsNotice"
+import detailsNotice from "@/components/notice/detailsNotice/detailsNotice"
 import createNotice from "@/components/notice/createNotice/createNotice"
-// import editNotice from "@/components/notice/editNotice/editNotice"
+import editNotice from "@/components/notice/editNotice/editNotice"
 
 import Auth from "@/services/authentication/auth";
 
@@ -366,21 +366,21 @@ export default new Router({
           name: 'notice',// 通知管理
           component: notice,
         },
-        // {
-        //   path: '/notice/:id',
-        //   name: 'detailsNotice',// 通知管理
-        //   component: detailsNotice,
-        // },
+        {
+          path: '/notice/:id',
+          name: 'detailsNotice',// 通知管理
+          component: detailsNotice,
+        },
         {
           path: '/notice/create',
           name: 'createNotice',// 通知管理
           component: createNotice,
         },
-        // {
-        //   path: '/notice/edit/:id',
-        //   name: 'editNotice',// 通知管理
-        //   component: editNotice,
-        // },
+        {
+          path: '/notice/edit/:id',
+          name: 'editNotice',// 通知管理
+          component: editNotice,
+        },
       ]
     },
     {

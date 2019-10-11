@@ -44,6 +44,9 @@
                     <el-table-column prop="title" label="标题">
                     </el-table-column>
                     <el-table-column prop="releaseTime" label="日期">
+                        <template slot-scope="{ row }">
+                            {{ row.releaseTime | formatDate }}
+                        </template>
                     </el-table-column>
                     <el-table-column prop="releasePerson" label="作者">
                     </el-table-column>
@@ -64,10 +67,10 @@
                                         }
                                     })"
                             >
-                                修改
+                                查看
                             </el-button>
                             <el-button
-                                type="danger"
+                                type="warning"
                                 v-on:click="
                                     $router.push({
                                         path: `/notice/edit/${row.id}`,
@@ -76,7 +79,7 @@
                                     })"
                                 plain
                             >
-                                删除
+                                修改
                             </el-button>
                         </template>
                     </el-table-column>
@@ -152,7 +155,7 @@ export default {
                 });
         },
         getEmergencyDegree(id) {
-            let type = this.emergencyDegrees.find(x => x.id === id);
+            let type = this.emergencyDegrees.find(x => x.id === parseInt(id));
             if (type) {
                 return type.name;
             } else {
