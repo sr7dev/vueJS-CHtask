@@ -101,8 +101,7 @@ export default {
     this.getList();
   },
   methods: {
-    showSamplingRecord(row) {     
-      console.log(row) ;
+    showSamplingRecord(row) {           
       this.$router.push(
         `/productionSubject/mainProduct/thirdPartySamplingRecord/${row.productId}`
       );
@@ -126,9 +125,10 @@ export default {
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize
         })
-        .then(response => {
-          this.tableData = response;
+        .then(response => {          
+          this.tableData = response.data;          
           this.total = this.tableData.length;
+          
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);

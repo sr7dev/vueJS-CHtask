@@ -183,7 +183,7 @@ export default new Router({
           component: thirdPartySamplingRecord
           },
         {
-          path: "/productionSubject/mainProduct/thirdPartySampling/create",
+          path: "/productionSubject/mainProduct/thirdPartySampling/create/:id",
           name: "addThirdPartySampling",
           component: addThirdPartySampling
         },

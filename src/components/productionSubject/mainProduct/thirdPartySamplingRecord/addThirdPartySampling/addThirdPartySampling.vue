@@ -79,6 +79,7 @@ export default {
   name: "addThirdPartySampling",
   data() {    
     return {      
+      productId: -1,
       ruleFormValue: {
         createTime: new Date().toISOString().slice(0,10),
         specimen: "",
@@ -142,30 +143,32 @@ export default {
     };
   },
   created() {
-    
+    this.productId = this.$route.params.id;
   },
   methods: {     
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          var formData = new FormData();
 
-          formData.append("checkItem", this.ruleFormValue.checkItem);
-          formData.append("checkOrganization", this.ruleFormValue.checkOrganization);
-          formData.append( "checkResult", this.ruleFormValue.checkResult);
-          formData.append( "createTime", new Date().toJSON());
-          formData.append( "createUserId", 0);
-          formData.append( "determine", this.ruleFormValue.determine);
-          formData.append( "productCheckTime", new Date().toJSON());
-          formData.append( "productId", 0);
-          formData.append( "specimen", this.ruleFormValue.specimen);
-          formData.append( "updateTime", new Date().toJSON());
-          formData.append( "updateUserId", 0);
-          
           Request()
-            .post("/api/product_check_record/create/", formData)
+            .post("/api/product_check_record/create", {
+              "checkItem": this.ruleFormValue.checkItem,
+              "checkOrganization": this.ruleFormValue.checkOrganization,
+              "checkResult": this.ruleFormValue.checkResult,
+              "checkStandard":this.ruleFormValue.checkStandard,
+              "createTime": new Date().toJSON(),
+              "createUserId": 0,
+              "determine": this.ruleFormValue.determine,
+              "id": 0,
+              "productCheckTime": new Date().toJSON(),
+              "productId": this.productId,
+              "specimen": this.ruleFormValue.specimen,
+              "updateTime": new Date().toJSON(),
+              "updateUserId": 0,
+            })
             .then(response => {
-              this.$router.push({ path: "/threeProductsCertification" });
+              //this.$router.push({ path: "/threeProductsCertification" });
+              this.$router.go(-1);
             })
             .catch(error => {});
         } else {
