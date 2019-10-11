@@ -10,13 +10,12 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <div class="iptBox">
-        <div class="filter-item">
-          <el-button type="primary" plain @click="$router.go(-1)"
-            >返回</el-button
-          >
+        <div class="iptBox">
+            <div class="filter-item">
+                <el-button type="primary"  @click="$router.push('/productionSubject/mainProduct/thirdPartySampling/create')"  plain>添加</el-button>
+                <el-button type="primary" plain @click="$router.go(-1)">返回</el-button>
+            </div>
         </div>
-      </div>
       <div class="iptBox">
         <div class="filter-item">银针 第三方质量安全检测记录</div>
       </div>
@@ -63,6 +62,23 @@
           prop="checkOrganization"
           label="检测机构"
         ></el-table-column>
+        <el-table-column label="操作">
+            <template slot-scope="{ row }">
+                <el-button type="success"
+                           plain
+                           v-on:click="
+                  $router.push({
+                    path: `/productionSubject/mainProduct/thirdPartySampling/edit/${row.id}`,
+                    query: {                      
+                      product: row.id
+                    }
+                  })
+                ">修改</el-button>
+                <el-button type="danger"
+                           v-on:click="handleDelete(`${row.id}`)"
+                           plain>删除</el-button>
+            </template>
+        </el-table-column>
       </el-table>
       <div class="pageBox">
         <pagination
@@ -125,7 +141,17 @@ export default {
     },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
-    }
+    },
+    handleDelete(id) {
+      Request()
+        .delete("/api/product_check_record/delete/" + this.id)
+        .then(response => {
+          this.getList();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
   }
 };
 </script>

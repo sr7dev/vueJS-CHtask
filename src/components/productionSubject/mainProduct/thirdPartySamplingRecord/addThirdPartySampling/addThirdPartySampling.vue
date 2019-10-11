@@ -1,0 +1,187 @@
+﻿<template>
+  <div class="container">
+    <div class="title">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/productionSubject' }"
+          >监管对象</el-breadcrumb-item
+        >
+        <el-breadcrumb-item>主营产品</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">添加认证</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
+
+    <div class="box">
+      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
+        <el-row>
+          <el-col :span="6">
+            <el-form-item label="日期" prop="createTime">
+              <el-input v-model="ruleFormValue.createTime"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="6">
+            <el-form-item label="样品" prop="specimen">
+              <el-input v-model="ruleFormValue.specimen"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="6">
+            <el-form-item label="检测项目" prop="checkItem">
+              <el-input v-model="ruleFormValue.checkItem"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="6">
+            <el-form-item label="检测结果" prop="checkResult">
+              <el-input v-model="ruleFormValue.checkResult"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="6">
+            <el-form-item label="判定" prop="determine">
+              <el-input v-model="ruleFormValue.determine"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="6">
+            <el-form-item label="检测标准" prop="checkStandard">
+              <el-input v-model="ruleFormValue.checkStandard"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="6">
+            <el-form-item label="检测机构" prop="checkOrganization">
+              <el-input v-model="ruleFormValue.checkOrganization"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-form-item>
+          <el-button type="success" @click="onSubmit('ruleForm')" plain>保存</el-button>
+          <el-button type="danger" @click="goBack" plain>取消</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+  </div>
+</template>
+
+<script>
+import Request from "../../../../../services/api/request.js";
+import { Urls } from "../../../../../services/constants";
+import axios from "axios";
+export default {
+  name: "addThirdPartySampling",
+  data() {    
+    return {      
+      ruleFormValue: {
+        createTime: new Date().toISOString().slice(0,10),
+        specimen: "",
+        checkItem: "",
+        checkResult: "",
+        determine: "",
+        checkStandard: "",
+        checkOrganization: ""
+      },
+      rules: {
+        createTime: [
+          {
+            required: true,
+            message: "请插入",
+            trigger: "change"
+          }
+        ],
+        specimen: [
+          {
+            required: true,
+            message: "请插入",
+            trigger: "change"
+          }
+        ],
+        checkItem: [
+          {
+            required: true,
+            message: "请插入",
+            trigger: "change"
+          }
+        ],
+        checkResult: [
+          {
+            required: true,
+            message: "请插入",
+            trigger: "change"
+          }
+        ],
+        determine: [
+          {
+            required: true,
+            message: "请插入",
+            trigger: "change"
+          }
+        ],
+        checkStandard: [
+          {
+            required: true,
+            message: "请插入",
+            trigger: "change"
+          }
+        ],
+        checkOrganization: [
+          {
+            required: true,
+            message: "请插入",
+            trigger: "change"
+          }
+        ],        
+      },     
+    };
+  },
+  created() {
+    
+  },
+  methods: {     
+    onSubmit(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          var formData = new FormData();
+
+          formData.append("checkItem", this.ruleFormValue.checkItem);
+          formData.append("checkOrganization", this.ruleFormValue.checkOrganization);
+          formData.append( "checkResult", this.ruleFormValue.checkResult);
+          formData.append( "createTime", new Date().toJSON());
+          formData.append( "createUserId", 0);
+          formData.append( "determine", this.ruleFormValue.determine);
+          formData.append( "productCheckTime", new Date().toJSON());
+          formData.append( "productId", 0);
+          formData.append( "specimen", this.ruleFormValue.specimen);
+          formData.append( "updateTime", new Date().toJSON());
+          formData.append( "updateUserId", 0);
+          
+          Request()
+            .post("/api/product_check_record/create/", formData)
+            .then(response => {
+              this.$router.push({ path: "/threeProductsCertification" });
+            })
+            .catch(error => {});
+        } else {
+          console.log("错误 !!");
+          return false;
+        }
+      });
+    },
+    
+    goBack() {
+      this.$router.go(-1);
+    },
+    
+  }
+};
+</script>
+
+<style scoped>
+</style>
