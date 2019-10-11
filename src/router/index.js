@@ -21,6 +21,12 @@ import addWorkTask from "@/components/workTask/addWorkTask/addWorkTask";
 import editWorkTask from "@/components/workTask/editWorkTask/editWorkTask";
 import addWorkTaskReport from "@/components/workTask/addWorkTaskReport/addWorkTaskReport";
 import detailWorkTaskReport from "@/components/workTask/detailWorkTaskReport/detailWorkTaskReport";
+import seed from "@/components/seed/seed";
+import uploadSeed from "@/components/seed/uploadSeed/uploadSeed";
+import detailSeed from "@/components/seed/detailSeed/detailSeed";
+import productionStandard from "@/components/productionStandard/productionStandard";
+import addProductionStandard from "@/components/productionStandard/addProductionStandard/addProductionStandard";
+import detailProductionStandard from "@/components/productionStandard/detailProductionStandard/detailProductionStandard";
 
 // 企业
 import cp_productionSubject from "@/components/company/productionSubject/productionSubject"; //生产主体
@@ -397,26 +403,26 @@ export default new Router({
           component: redBlackList
         },
         {
-          path: '/notice',
-          name: 'notice',// 通知管理
-          component: notice,
+          path: "/notice",
+          name: "notice", // 通知管理
+          component: notice
         },
         {
-          path: '/notice/view/:id',
-          name: 'detailsNotice',// 通知管理
-          component: detailsNotice,
+          path: "/notice/view/:id",
+          name: "detailsNotice", // 通知管理
+          component: detailsNotice
         },
         {
-          path: '/notice/create',
-          name: 'createNotice',// 通知管理
-          component: createNotice,
+          path: "/notice/create",
+          name: "createNotice", // 通知管理
+          component: createNotice
         },
         {
-          path: '/notice/edit/:id',
-          name: 'editNotice',// 通知管理
-          component: editNotice,
+          path: "/notice/edit/:id",
+          name: "editNotice", // 通知管理
+          component: editNotice
         },
-        {  
+        {
           path: "/jobDefinition",
           name: "jobDefinition", // 作业定义
           component: jobDefinition
@@ -480,6 +486,36 @@ export default new Router({
           path: "/trainingFunds/view/:id",
           name: "viewTrainingFunds", // 培训经费管理
           component: viewTrainingFunds
+        },
+        {
+          path: "/seed",
+          name: "seed", // 种子管理
+          component: seed
+        },
+        {
+          path: "/seed/upload",
+          name: "uploadSeed", // 种子管理
+          component: uploadSeed
+        },
+        {
+          path: "/seed/detail/:id",
+          name: "detailSeed", // 种子管理
+          component: detailSeed
+        },
+        {
+          path: "/productionStandard",
+          name: "productionStandard", // 生产标准
+          component: productionStandard
+        },
+        {
+          path: "/productionStandard/create",
+          name: "addProductionStandard", // 生产标准
+          component: addProductionStandard
+        },
+        {
+          path: "/productionStandard/detail/:id",
+          name: "detailProductionStandard", // 生产标准
+          component: detailProductionStandard
         }
       ]
     },
