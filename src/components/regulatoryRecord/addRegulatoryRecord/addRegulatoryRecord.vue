@@ -397,18 +397,13 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           var formData = new FormData();
-
-          if (!this.file_sign || !this.file_live_1) {
-            this.dialogVisible = true;
-          } else {
-            formData = this.makeFormData();
-            Request()
-              .post("/api/supervision_record/create", formData)
-              .then(response => {
-                this.$router.push({ path: "/regulatoryRecord" });
-              })
-              .catch(error => {});
-          }
+          formData = this.makeFormData();
+          Request()
+            .post("/api/supervision_record/create", formData)
+            .then(response => {
+              this.$router.push({ path: "/regulatoryRecord" });
+            })
+            .catch(error => {});
         }
       });
     },
@@ -510,7 +505,7 @@ export default {
       Request()
         .get("/api/common_word/all")
         .then(response => {
-          this.wordsList = this.wordsList.concat(response);
+          this.wordsList = this.wordsList.concat(response.data);
         })
         .catch(error => {
           console.log(error);
