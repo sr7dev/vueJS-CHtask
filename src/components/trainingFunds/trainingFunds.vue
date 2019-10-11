@@ -42,8 +42,8 @@
                             {{ filterCompnay(row.companyId) }}
                         </template>
                     </el-table-column>
-                    <el-table-column prop="status" label="状态">
-                    </el-table-column>
+                    <!-- <el-table-column prop="status" label="状态">
+                    </el-table-column> -->
                     <el-table-column label="操作">
                         <template slot-scope="{ row }">
                             <el-button

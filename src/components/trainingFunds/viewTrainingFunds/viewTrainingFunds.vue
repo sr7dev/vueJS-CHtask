@@ -50,14 +50,14 @@
                 </el-select>
             </el-form-item>
         </div>
-        <el-form-item label="申请状态：" prop="status" class="input-width label-align">
+        <!-- <el-form-item label="申请状态：" prop="status" class="input-width label-align">
              <el-input 
                 v-model="formData.appliedAmount" 
                 auto-complete="off"
                 disabled
             >
             </el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="" prop="file">
             <el-button plain @click="downloadFile()">附件下载</el-button>
             <span class="item-value" v-if="!file_live_1">
