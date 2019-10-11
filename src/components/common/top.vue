@@ -4,6 +4,12 @@
       <img src="../../assets/images/logo.jpg" alt />
     </div>
     <h2>
+      <div 
+        style="float:left;text-align:right;width:70%;"
+        @click="$router.push(`/internalMessage`)"
+      > 
+        站内消息
+      </div>
       <div class="quit">
         <span style="padding-right: 20px">
           <img src="../../assets/images/head.png" alt />admin

@@ -78,10 +78,13 @@ import productionRecord from "@/components/productionRecord/productionRecord";
 import addProductionRecord from "@/components/productionRecord/addProductionRecord/addProductionRecord";
 import editProductionRecord from "@/components/productionRecord/editProductionRecord/editProductionRecord";
 
-import notice from "@/components/notice/notice"
-import detailsNotice from "@/components/notice/detailsNotice/detailsNotice"
-import createNotice from "@/components/notice/createNotice/createNotice"
-import editNotice from "@/components/notice/editNotice/editNotice"
+import notice from "@/components/notice/notice";
+import detailsNotice from "@/components/notice/detailsNotice/detailsNotice";
+import createNotice from "@/components/notice/createNotice/createNotice";
+import editNotice from "@/components/notice/editNotice/editNotice";
+
+import internalMessage from "@/components/internalMessage/internalMessage";
+import addInternalMessage from "@/components/internalMessage/addInternalMessage/addInternalMessage";
 
 import Auth from "@/services/authentication/auth";
 
@@ -423,6 +426,16 @@ export default new Router({
           path: "/jobDefinition/:id",
           name: "editJobDefinition", // 作业定义
           component: editJobDefinition
+        },
+        {
+          path: "/internalMessage",
+          name: "internalMessage", // 站内消息
+          component: internalMessage
+        },
+        {
+          path: "/internalMessage/add",
+          name: "addInternalMessage", // 站内消息
+          component: addInternalMessage
         },
         {
           path: "/workTask",
