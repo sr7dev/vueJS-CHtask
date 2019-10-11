@@ -50,6 +50,14 @@
                 </el-select>
             </el-form-item>
         </div>
+        <el-form-item label="申请状态：" prop="status" class="input-width label-align">
+             <el-input 
+                v-model="formData.appliedAmount" 
+                auto-complete="off"
+                disabled
+            >
+            </el-input>
+        </el-form-item>
         <el-form-item label="" prop="file">
             <el-button plain @click="downloadFile()">附件下载</el-button>
             <span class="item-value" v-if="!file_live_1">
@@ -83,12 +91,14 @@ export default {
             appliedAmount: "",
             proposer: "",
             companyId: "",
+            status:""
         },
         companyProduction: [],
         fileName: '',
         file_live_1: null,
         dataloading: false,
-        id: 0
+        id: 0,
+        appStatus: ["全部", "待审批", "已同意", "已拒绝"],
     };
   },
   mounted() {
@@ -113,7 +123,6 @@ export default {
             .get("/api/traningfunds/get/" + id)
             .then(response => {
                 this.formData = response;
-                console.log(response);
                 this.file_live_1 = response.noticeProfiles;
                 this.fileName = this.file_live_1.replace("/uploads/", "");
                 setTimeout(() => {
