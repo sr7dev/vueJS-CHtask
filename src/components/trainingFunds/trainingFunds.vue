@@ -3,27 +3,18 @@
         <div class="title">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item class="actived">
-                    通知管理
+                    培训经费管理
                 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="box">
             <div class="iptBox">
-                通知公告
-             </div>
-            <div class="iptBox">
                 <el-button
                     type="primary"
-                    v-on:click="$router.push({path: `/notice/create`})"
+                    v-on:click="$router.push(`/trainingFunds/add`)"
                     plain
                 >
-                    发布公告
-                </el-button>
-                <el-button
-                    type="primary"
-                    plain
-                >
-                    短信记录
+                    添加
                 </el-button>
             </div>
 
@@ -35,41 +26,32 @@
                     :row-class-name="rowIndex"
                     highlight-current-row
                 >
-                    <el-table-column
-                        prop="type"
-                        label="类型"
-                        width="180"
-                    >
+                    <el-table-column :formatter="order" label="序号">
                     </el-table-column>
-                    <el-table-column prop="title" label="标题">
+                    <el-table-column prop="projectName" label="项目名称">
                     </el-table-column>
-                    <el-table-column prop="releaseTime" label="日期">
+                    <el-table-column prop="appliedAmount" label="申请金额">
                         <template slot-scope="{ row }">
-                            {{ row.releaseTime | formatDate }}
+                            {{ row.appliedAmount }}元
                         </template>
                     </el-table-column>
-                    <el-table-column prop="releasePerson" label="作者">
+                    <el-table-column prop="proposer" label="申请人">
                     </el-table-column>
-                    <el-table-column prop="emergencyDegree" label="紧急程度">
+                    <el-table-column prop="companyId" label="所在单位">
                         <template slot-scope="{ row }">
-                            {{ getEmergencyDegree(row.emergencyDegree) }}
+                            {{ filterCompnay(row.companyId) }}
                         </template>
                     </el-table-column>
+                    <!-- <el-table-column prop="status" label="状态">
+                    </el-table-column> -->
                     <el-table-column label="操作">
                         <template slot-scope="{ row }">
                             <el-button
                                 type="success"
                                 plain
-                                v-on:click="$router.push({path: `/notice/view/${row.id}`})"
+                                v-on:click="$router.push({path: `/trainingFunds/view/${row.id}`})"
                             >
                                 查看
-                            </el-button>
-                            <el-button
-                                type="warning"
-                                v-on:click="$router.push({path: `/notice/edit/${row.id}`})"
-                                plain
-                            >
-                                修改
                             </el-button>
                         </template>
                     </el-table-column>
@@ -93,15 +75,16 @@ import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
 
 export default {
-    name: "notice",
+    name: "jobDefinition",
     components: { Pagination },
     data() {
         return {
-            releasePerson: "",
-            emergencyDegree: 0,
-            releaseTime: "",
-            title: "",
-            type: "",
+            projectName: "",
+            appliedAmount: 0,
+            proposer: "",
+            createTime: "",
+            companyId: 0,
+            status: "",
             page: {
                 pageIndex: 1,
                 pageSize: 20
@@ -109,14 +92,12 @@ export default {
             listLoading: true,
             total: 0,
             tableData: [],
-            emergencyDegrees: [ 
-                { id: 0, name: "高" },
-                { id: 1, name: "中" },
-                { id: 2, name: "低" }
-            ]
+            companyProduction: [],
+            appStatus: ["全部", "待审批", "已同意", "已拒绝"],
         };
     },
     mounted() {
+        this.getCompanyProduction();
         this.getList();
     },
     methods: {
@@ -129,7 +110,7 @@ export default {
         getList() {
             this.listLoading = true;
             Request()
-                .get("/api/notice/all", {
+                .get("/api/traningfunds/all", {
                     pageNo: this.page.pageIndex - 1,
                     pageSize: this.page.pageSize,
                 })
@@ -144,32 +125,28 @@ export default {
                     console.log(error);
                 });
         },
-        getEmergencyDegree(id) {
-            let type = this.emergencyDegrees.find(x => x.id === parseInt(id));
-            if (type) {
-                return type.name;
+        getCompanyProduction() {
+            Request()
+                .get("/api/company_production/name")
+                .then(response => {
+                    this.companyProduction = response;
+                })
+                    .catch(error => {
+                    console.log(error);
+                });
+        },
+        filterCompnay(id) {
+            let company = this.companyProduction.find(x => x.companyId === id);
+            if (company) {
+                return company.companyName;
             } else {
                 return "";
             }
-        },
-        handleDelete(id) {
-            this.$confirm('确认删除该记录吗?', '提示', {
-                type: 'warning'
-            }).then(() => {
-                Request()
-                    .delete("/api/job_definition/delete/" + id)
-                    .then(response => {
-                        this.getList();
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
-            });
         },
     }
 };
 </script>
 
 <style lang="scss">
-    @import "./notice.scss";
+    @import "./trainingFunds.scss";
 </style>

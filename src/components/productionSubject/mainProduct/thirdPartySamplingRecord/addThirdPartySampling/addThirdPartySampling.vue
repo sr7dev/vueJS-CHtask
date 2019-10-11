@@ -74,6 +74,7 @@
 <script>
 import Request from "../../../../../services/api/request.js";
 import { Urls } from "../../../../../services/constants";
+import Auth from "../../../../../services/authentication/auth";
 import axios from "axios";
 export default {
   name: "addThirdPartySampling",
@@ -157,14 +158,14 @@ export default {
               "checkResult": this.ruleFormValue.checkResult,
               "checkStandard":this.ruleFormValue.checkStandard,
               "createTime": new Date().toJSON(),
-              "createUserId": 0,
+              "createUserId": Auth().user().userId,
               "determine": this.ruleFormValue.determine,
               "id": 0,
               "productCheckTime": new Date().toJSON(),
               "productId": this.productId,
               "specimen": this.ruleFormValue.specimen,
               "updateTime": new Date().toJSON(),
-              "updateUserId": 0,
+              "updateUserId": Auth().user().userId,
             })
             .then(response => {
               //this.$router.push({ path: "/threeProductsCertification" });
