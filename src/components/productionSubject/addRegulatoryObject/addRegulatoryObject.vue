@@ -8,7 +8,7 @@
     </div>
 
     <div class="box">
-      <el-form ref="form" :model="form">
+      <el-form ref="form" :model="form" label-width="150px" :rules="rules" class="data-form">
         <el-row>
           <el-col :span="12">
             <el-form-item>
@@ -20,20 +20,12 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="对象类型">
-              <el-input
-                v-model="form.companyType"
-                style="width:60%"
-                disabled
-              ></el-input>
+              <el-input v-model="form.companyType" style="width:100%" disabled></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="乡镇">
-              <el-input
-                v-model="form.townShip"
-                style="width:60%"
-                disabled
-              ></el-input>
+              <el-input v-model="form.townShip" style="width:100%" disabled></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -56,30 +48,18 @@
         <div v-show="form.companyType == '1'">
           <el-row>
             <el-col :span="6">
-              <el-form-item label="单位名称">
-                <el-input
-                  v-model="form.companyName"
-                  style="width:60%"
-                ></el-input>
-                <span>必填</span>
+              <el-form-item label="单位名称" prop="companyName">
+                <el-input v-model="form.companyName" style="width:100%"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="负责人">
-                <el-input
-                  v-model="form.chargePerson"
-                  style="width:60%"
-                ></el-input>
-                <span>必填</span>
+              <el-form-item label="负责人" prop="chargePerson">
+                <el-input v-model="form.chargePerson" style="width:100%" ></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="地址">
-                <el-input
-                  v-model="form.companyAddress"
-                  style="width:60%"
-                ></el-input>
-                <span>必填</span>
+              <el-form-item label="地址"  prop="companyAddress">
+                <el-input v-model="form.companyAddress" style="width:100%"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -90,18 +70,12 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="品种">
-                  <el-input
-                    v-model="form.productInfo.data_0_0"
-                    style="width:60%"
-                  ></el-input>
+                  <el-input v-model="form.productInfo.data_0_0" style="width:100%"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="种植面积">
-                  <el-input
-                    v-model="form.productInfo.data_0_1"
-                    style="width:60%"
-                  ></el-input>
+                  <el-input v-model="form.productInfo.data_0_1" style="width:100%"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="2">
@@ -114,18 +88,12 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="品种">
-                  <el-input
-                    v-model="form.productInfo.data_1_0"
-                    style="width:60%"
-                  ></el-input>
+                  <el-input v-model="form.productInfo.data_1_0" style="width:100%"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="种植面积">
-                  <el-input
-                    v-model="form.productInfo.data_1_1"
-                    style="width:60%"
-                  ></el-input>
+                  <el-input v-model="form.productInfo.data_1_1" style="width:100%"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="2">
@@ -138,18 +106,12 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="品种">
-                  <el-input
-                    v-model="form.productInfo.data_2_0"
-                    style="width:60%"
-                  ></el-input>
+                  <el-input v-model="form.productInfo.data_2_0" style="width:100%"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="种植面积">
-                  <el-input
-                    v-model="form.productInfo.data_2_1"
-                    style="width:60%"
-                  ></el-input>
+                  <el-input v-model="form.productInfo.data_2_1" style="width:100%"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="2">
@@ -162,18 +124,12 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="品种">
-                  <el-input
-                    v-model="form.productInfo.data_3_0"
-                    style="width:60%"
-                  ></el-input>
+                  <el-input v-model="form.productInfo.data_3_0" style="width:100%"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="种植面积">
-                  <el-input
-                    v-model="form.productInfo.data_3_1"
-                    style="width:60%"
-                  ></el-input>
+                  <el-input v-model="form.productInfo.data_3_1" style="width:100%"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="2">
@@ -184,28 +140,17 @@
           <el-row>
             <el-col :span="6">
               <el-form-item label="三品认证">
-                <el-input
-                  v-model="form.qualityStandardId"
-                  style="width:60%"
-                ></el-input>
+                <el-input v-model="form.qualityStandardId" style="width:100%"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="联系人">
-                <el-input
-                  v-model="form.contactPerson"
-                  style="width:60%"
-                ></el-input>
-                <span>必填</span>
+              <el-form-item label="联系人" prop="contactPerson">
+                <el-input v-model="form.contactPerson" style="width:100%"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="联系人手机">
-                <el-input
-                  v-model="form.contactMobile"
-                  style="width:60%"
-                ></el-input>
-                <span>必填</span>
+              <el-form-item label="联系人手机" prop="contactMobile">
+                <el-input v-model="form.contactMobile" style="width:100%"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -213,48 +158,30 @@
         <div v-show="form.companyType == '2'">
           <el-row>
             <el-col :span="6">
-              <el-form-item label="姓名">
-                <el-input
-                  v-model="form.companyName"
-                  style="width:60%"
-                ></el-input>
-                <span>必填</span>
+              <el-form-item label="姓名" prop="companyName">
+                <el-input v-model="form.companyName" style="width:100%"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="联系方式">
-                <el-input
-                  v-model="form.chargePerson"
-                  style="width:60%"
-                ></el-input>
-                <span>必填</span>
+              <el-form-item label="联系方式" prop="chargePerson">
+                <el-input v-model="form.chargePerson" style="width:100%"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="地址">
-                <el-input
-                  v-model="form.companyAddress"
-                  style="width:60%"
-                ></el-input>
-                <span>必填</span>
+              <el-form-item label="地址" prop="companyAddress">
+                <el-input v-model="form.companyAddress" style="width:100%"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="6">
               <el-form-item label="种养殖面积">
-                <el-input
-                  v-model="form.companyName"
-                  style="width:60%"
-                ></el-input>
+                <el-input v-model="form.companyName" style="width:100%"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="土地来源">
-                <el-input
-                  v-model="form.chargePerson"
-                  style="width:60%"
-                ></el-input>
+                <el-input v-model="form.chargePerson" style="width:100%"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -265,34 +192,22 @@
               </el-col>
               <el-col :span="5">
                 <el-form-item label="稻麦">
-                  <el-input
-                    v-model="form.productInfo.data_0_0"
-                    style="width:60%"
-                  ></el-input>
+                  <el-input v-model="form.productInfo.data_0_0" style="width:100%"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="5">
                 <el-form-item label="蔬菜">
-                  <el-input
-                    v-model="form.productInfo.data_0_1"
-                    style="width:60%"
-                  ></el-input>
+                  <el-input v-model="form.productInfo.data_0_1" style="width:100%"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="5">
                 <el-form-item label="水果">
-                  <el-input
-                    v-model="form.productInfo.data_0_2"
-                    style="width:60%"
-                  ></el-input>
+                  <el-input v-model="form.productInfo.data_0_2" style="width:100%"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="5">
                 <el-form-item label="食用菌">
-                  <el-input
-                    v-model="form.productInfo.data_0_3"
-                    style="width:60%"
-                  ></el-input>
+                  <el-input v-model="form.productInfo.data_0_3" style="width:100%"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -302,26 +217,17 @@
               </el-col>
               <el-col :span="5">
                 <el-form-item label="鱼">
-                  <el-input
-                    v-model="form.productInfo.data_1_0"
-                    style="width:60%"
-                  ></el-input>
+                  <el-input v-model="form.productInfo.data_1_0" style="width:100%"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="5">
                 <el-form-item label="虾蟹">
-                  <el-input
-                    v-model="form.productInfo.data_1_1"
-                    style="width:60%"
-                  ></el-input>
+                  <el-input v-model="form.productInfo.data_1_1" style="width:100%"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="5">
                 <el-form-item label="其他">
-                  <el-input
-                    v-model="form.productInfo.data_1_2"
-                    style="width:60%"
-                  ></el-input>
+                  <el-input v-model="form.productInfo.data_1_2" style="width:100%"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -331,18 +237,12 @@
               </el-col>
               <el-col :span="5">
                 <el-form-item label="猪">
-                  <el-input
-                    v-model="form.productInfo.data_2_0"
-                    style="width:60%"
-                  ></el-input>
+                  <el-input v-model="form.productInfo.data_2_0" style="width:100%"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="5">
                 <el-form-item label="奶牛">
-                  <el-input
-                    v-model="form.productInfo.data_2_1"
-                    style="width:60%"
-                  ></el-input>
+                  <el-input v-model="form.productInfo.data_2_1" style="width:100%"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -352,18 +252,12 @@
               </el-col>
               <el-col :span="5">
                 <el-form-item label="肉禽">
-                  <el-input
-                    v-model="form.productInfo.data_3_0"
-                    style="width:60%"
-                  ></el-input>
+                  <el-input v-model="form.productInfo.data_3_0" style="width:100%"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="5">
                 <el-form-item label="蛋禽">
-                  <el-input
-                    v-model="form.productInfo.data_3_1"
-                    style="width:60%"
-                  ></el-input>
+                  <el-input v-model="form.productInfo.data_3_1" style="width:100%"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -371,9 +265,8 @@
         </div>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="社会信用统一代码">
-              <el-input v-model="form.creditCode" style="width:60%"></el-input>
-              <span>必填</span>
+            <el-form-item label="社会信用统一代码" prop="creditCode">
+              <el-input v-model="form.creditCode" style="width:100%"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -381,22 +274,12 @@
         <el-row>
           <el-col :span="10">
             <el-form-item label="企业荣誉">
-              <el-input
-                type="textarea"
-                :rows="5"
-                v-model="form.companyHonor"
-                style="width:80%"
-              ></el-input>
+              <el-input type="textarea" :rows="5" v-model="form.companyHonor" style="width:80%"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
             <el-form-item label="备注">
-              <el-input
-                type="textarea"
-                :rows="5"
-                v-model="form.remarks"
-                style="width:80%"
-              ></el-input>
+              <el-input type="textarea" :rows="5" v-model="form.remarks" style="width:80%"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -404,7 +287,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="是否监管">
-              <el-select v-model="form.doSupervision" placeholder="">
+              <el-select v-model="form.doSupervision" placeholder>
                 <el-option
                   :label="item"
                   :value="item"
@@ -418,9 +301,7 @@
 
         <el-form-item>
           <el-button type="success" plain @click="onSubmit">保存</el-button>
-          <el-button type="danger" plain v-on:click="$router.go(-1)"
-            >取消</el-button
-          >
+          <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -432,22 +313,29 @@ import Request from "@/services/api/request";
 export default {
   name: "addRegulatoryObject",
   data() {
+    const defaultRule = [
+      {
+        required: true,
+        message: "必填",
+        trigger: "blur"
+      }
+    ];
     return {
       form: {
         townShip: "梅里镇",
         agriculturalClassification: "养殖业",
         chargePerson: "",
-        companyAddress: "梅李镇赵市村",
+        companyAddress: "",
         companyHonor: "",
         companyId: 1,
-        companyName: "稻米专业合作社",
+        companyName: "",
         companyType: "1",
         contactMobile: "",
-        contactPerson: "程晓刚",
-        contactWay: "0512-52380296",
+        contactPerson: "",
+        contactWay: "",
         createTime: "",
         createUserId: "",
-        creditCode: "sdf",
+        creditCode: "",
         doSupervision: "",
         landSource: "",
         plantArea: "",
@@ -469,46 +357,37 @@ export default {
         townId: "",
         updateTime: "",
         updateUserId: ""
+      },
+      rules: {
+        chargePerson: defaultRule,
+        companyAddress: defaultRule,
+        companyHonor: defaultRule,
+        companyName: defaultRule,
+        companyType: defaultRule,
+        contactMobile: defaultRule,
+        contactPerson: defaultRule,
+        creditCode: defaultRule,
+        doSupervision: defaultRule,
+        landSource: defaultRule,
+        plantArea: defaultRule,
+        qualityStandardId: defaultRule,
+        remarks: defaultRule
       }
     };
   },
   methods: {
     onSubmit() {
       // const data = JSON.parse(JSON.stringify(this.form));
-      Request()
-        .post(
-          "/api/company_production/create"
-          // {
-          //   agriculturalClassification: this.form.agriculturalClassification,
-          //   "creditCode": "string",
-          //   "companyId": 0,
-          //   "companyType": "string",
-          //   "chargePerson": "string",
-          //   "companyAddress": "string",
-          //   "companyHonor": "string",
-          //   "companyName": "string",
-          //   "contactMobile": "string",
-          //   "contactPerson": "string",
-          //   "contactWay": "string",
-          //   "createTime": "2019-09-28T01:39:26.863Z",
-          //   "createUserId": 0,
-          //   "doSupervision": "string",
-          //   "landSource": "string",
-          //   "plantArea": 0,
-          //   "productInfo": "string",
-          //   "public_license": 0,
-          //   "public_punish": 0,
-          //   "qualityStandardId": 0,
-          //   "quality_standard": 0,
-          //   "remarks": "string",
-          //   "updateTime": "2019-09-28T01:39:26.863Z",
-          //   "townId": 0,
-          //   "updateUserId": 0
-          // }
-        )
-        .then(res => {
-          // console.log(res);
-        });
+      this.$refs["form"].validate(valid => {
+        console.log(valid);
+        if (valid) {
+          Request().post("/api/company_production/create", form)
+            .then(res => {
+              this.$router.push({ path: "/productionSubject" });
+            });
+        } else {
+        }
+      });
     }
   }
 };

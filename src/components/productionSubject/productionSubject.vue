@@ -120,6 +120,7 @@
       </div>
       <el-table
         :data="tableData"
+        v-loading="listLoading"
         style="width: 100%"
         :row-class-name="rowIndex"
       >
@@ -385,9 +386,19 @@ export default {
               this.srcData.push(item);
             });
           });
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
         })
         .catch(error => {
           console.error(error);
+          
+          this.tableData = [];
+          this.srcData = [];
+          this.total = 0;
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
         });
     },
     getGradeString(grade) {
