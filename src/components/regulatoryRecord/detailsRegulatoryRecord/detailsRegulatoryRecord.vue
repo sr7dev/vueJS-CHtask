@@ -20,25 +20,17 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="乡镇">
-              <el-input
-                v-model="townShip"
-                style="width:60%"
-                disabled
-              ></el-input>
+              <el-input v-model="townShip" style="width:70%" disabled></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="企业">
-              <el-input
-                v-model="companyName"
-                style="width:60%"
-                disabled
-              ></el-input>
+              <el-input v-model="companyName" style="width:70%" disabled></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="7">
             <el-form-item label="选择日期">
               <el-date-picker
                 v-model="data.createTime"
@@ -49,7 +41,7 @@
               ></el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="7">
             <el-form-item label="检查人">
               <el-input v-model="data.inspector" style="width:60%"></el-input>
             </el-form-item>
@@ -120,13 +112,7 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label>
-              <el-checkbox
-                v-model="supervisionInfo.input"
-                disabled
-                true-label="1"
-                false-label="0"
-                >有</el-checkbox
-              >
+              <el-checkbox v-model="supervisionInfo.input" disabled true-label="1" false-label="0">有</el-checkbox>
             </el-form-item>
           </el-col>
           <el-col :span="5">
@@ -141,8 +127,7 @@
                 disabled
                 true-label="1"
                 false-label="0"
-                >合规</el-checkbox
-              >
+              >合规</el-checkbox>
             </el-form-item>
           </el-col>
         </el-row>
@@ -150,11 +135,7 @@
         <el-row>
           <el-col :span="10">
             <el-form-item label="常用语" class="left-margin">
-              <el-input
-                disabled
-                style="width:30%"
-                v-model="data.otherProblems"
-              ></el-input>
+              <el-input disabled style="width:30%" v-model="data.otherProblems"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
@@ -164,12 +145,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item>
-              <el-input
-                type="textarea"
-                :rows="5"
-                v-model="data.otherProblems"
-                disabled
-              ></el-input>
+              <el-input type="textarea" :rows="5" v-model="data.otherProblems" disabled></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -243,34 +219,28 @@
                     <div class="image-container">
                       <img
                         class="live_photo"
-                        :src="baseURL + '/api' + data.scenePhotos"
+                        :src="downloadUrl + data.scenePhotos"
+                        v-if="data.scenePhotos"
                       />
-                      <p v-if="!data.scenePhotos">请选择</p>
                     </div>
                     <el-link
                       v-if="data.scenePhotos"
                       style=" display: table"
                       @click="downloadFile_Live()"
-                      >{{ data.scenePhotos.replace("/uploads/", "") }}</el-link
-                    >
+                    >{{ data.scenePhotos.replace("/uploads/", "") }}</el-link>
                   </td>
                 </tr>
                 <tr>
                   <td width="30%">签名</td>
                   <td>
                     <div class="image-container">
-                      <img
-                        class="sign_photo"
-                        :src="baseURL + '/api' + data.sign"
-                      />
-                      <p v-if="!data.sign">请选择</p>
+                      <img class="sign_photo" :src="downloadUrl + data.sign" v-if="data.sign" />
                     </div>
                     <el-link
                       style=" display: table"
                       v-if="data.sign"
                       @click="downloadFile_Sign()"
-                      >{{ data.sign.replace("/uploads/", "") }}</el-link
-                    >
+                    >{{ data.sign.replace("/uploads/", "") }}</el-link>
                   </td>
                 </tr>
               </tbody>
@@ -278,9 +248,7 @@
           </el-col>
         </el-row>
         <el-form-item class="left-margin">
-          <el-button type="primary" plain v-on:click="$router.go(-1)"
-            >取消</el-button
-          >
+          <el-button type="primary" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -302,7 +270,7 @@ export default {
       conclusionData: null,
       supervisionInfo: null,
       listLoading: false,
-      baseURL: ""
+      downloadUrl: ""
     };
   },
   created() {
@@ -310,7 +278,7 @@ export default {
     this.townShip = this.$route.query.township;
     this.companyName = this.$route.query.company;
     this.getData();
-    this.baseURL = Urls.API_BASE_URL();
+    this.downloadUrl = Urls.DOWNLOAD_URL();
   },
   methods: {
     getData() {
@@ -321,8 +289,8 @@ export default {
         })
         .then(response => {
           this.data = response;
-          this.conclusionData = this.data.conclusionFalseInfo;
-          this.supervisionInfo = this.data.supervisionInfo;
+          this.conclusionData = JSON.parse(this.data.conclusionFalseInfo);
+          this.supervisionInfo = JSON.parse(this.data.supervisionInfo);
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
@@ -333,7 +301,7 @@ export default {
     },
     downloadFile_Live() {
       axios
-        .get(Urls.API_BASE_URL() + "/api" + this.data.scenePhotos, {
+        .get(this.downloadUrl + this.data.scenePhotos, {
           responseType: "blob"
         })
         .then(({ data }) => {
@@ -345,7 +313,7 @@ export default {
     },
     downloadFile_Sign() {
       axios
-        .get(Urls.API_BASE_URL() + "/api" + this.data.sign, {
+        .get(this.downloadUrl + this.data.sign, {
           responseType: "blob"
         })
         .then(({ data }) => {

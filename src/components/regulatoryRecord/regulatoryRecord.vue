@@ -12,12 +12,9 @@
           plain
           v-if="!companyId"
           v-on:click="$router.push(`/regulatoryRecord/create`)"
-          >添加监管记录</el-button
-        >
+        >添加监管记录</el-button>
         <div v-else class="fixed-value">
-          <p v-if="filterCompanyName(companyId)">
-            {{ filterCompanyName(companyId) }}
-          </p>
+          <p v-if="filterCompanyName(companyId)">{{ filterCompanyName(companyId) }}</p>
           <p v-else>没有数据</p>
         </div>
         <el-button
@@ -25,13 +22,46 @@
           v-on:click="$router.push(`/commonWords`)"
           plain
           v-if="!companyId"
-          >常用语管理</el-button
-        >
-        <el-button type="primary" plain v-if="!companyId"
-          >扫码下载客户端</el-button
-        >
+        >常用语管理</el-button>
+        <el-button type="primary" plain v-if="!companyId">扫码下载客户端</el-button>
         <el-button type="primary" plain v-if="!companyId">说明书下载</el-button>
+        <div class="special-container" style="margin-left:auto">
+          <el-button
+            type="success"
+            icon="el-icon-plus"
+            v-if="isShowCheckbox != 0"
+            plain
+            @click="actionConfirm(1)"
+          >添加到专项1</el-button>
+          <el-button
+            type="danger"
+            icon="el-icon-minus"
+            v-if="isShowCheckbox != 0"
+            plain
+            @click="actionConfirm(0)"
+            style="margin-right:10px"
+          >从专项1移除</el-button>
+          <el-checkbox
+            v-model="isShowCheckbox"
+            true-label="1"
+            false-label="0"
+            @change="showCheckbox"
+          >专项1:绿色优质农产品生产基地</el-checkbox>
+        </div>
       </div>
+      <el-dialog :visible.sync="alert_dialogVisible" width="30%" modal>
+        <span>请选择 !!!</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="alert_dialogVisible = false" type="primary" plain>取消</el-button>
+        </span>
+      </el-dialog>
+      <el-dialog :visible.sync="confirm_dialogVisible" width="30%" modal>
+        <span>继续？请再次检查</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
+          <el-button :type="btnColor" @click="updateSelectedRows()" plain>确认</el-button>
+        </span>
+      </el-dialog>
 
       <el-container>
         <el-table
@@ -41,48 +71,45 @@
           v-loading="listLoading"
           highlight-current-row
         >
-          <el-table-column
-            :formatter="order"
-            label="序号"
-            width="70"
-          ></el-table-column>
-          <el-table-column prop="createTime" label="日期" width="100"
-            ><template slot-scope="{ row }">{{
+          <el-table-column label width="35" v-if="isShowCheckbox != 0">
+            <template slot-scope="{ row }">
+              <el-checkbox style="margin-left:auto" @change="changeCheckStatus(row.id)"></el-checkbox>
+            </template>
+          </el-table-column>
+          <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
+          <el-table-column prop="createTime" label="日期" width="100">
+            <template slot-scope="{ row }">
+              {{
               row.createTime | formatDate
-            }}</template>
+              }}
+            </template>
           </el-table-column>
           <el-table-column prop="township" label="乡镇" width="70">
-            <template slot-scope="{ row }">{{
+            <template slot-scope="{ row }">
+              {{
               filterTownship(row.townId)
-            }}</template>
+              }}
+            </template>
           </el-table-column>
           <el-table-column prop="unitinspec" label="受检单位">
-            <template slot-scope="{ row }">{{
+            <template slot-scope="{ row }">
+              {{
               filterCompanyName(row.companyId)
-            }}</template>
+              }}
+            </template>
           </el-table-column>
           <el-table-column prop="inspector" label="检查人"></el-table-column>
-          <el-table-column
-            prop="conclusion"
-            label="结论"
-            width="70"
-          ></el-table-column>
-          <el-table-column
-            prop="otherProblems"
-            label="其他"
-            width="80"
-          ></el-table-column>
-          <el-table-column
-            prop="scenePhotos"
-            label="照片"
-            width="70"
-          ></el-table-column>
-          <el-table-column
-            prop="sign"
-            label="确认"
-            width="70"
-          ></el-table-column>
-          <el-table-column prop="confirm" label="操作">
+          <el-table-column prop="conclusion" label="结论" width="70">
+            <template slot-scope="{ row }">{{ row.conclusion == 1 ? "合格" : "不合格" }}</template>
+          </el-table-column>
+          <el-table-column prop="otherProblems" label="其他" width="80"></el-table-column>
+          <el-table-column prop="scenePhotos" label="照片" width="70" class-name="text-center">
+            <template slot-scope="{ row }">{{ getCountElement(row.scenePhotos) }}</template>
+          </el-table-column>
+          <el-table-column prop="sign" label="确认" width="70" class-name="text-center">
+            <template slot-scope="{ row }">{{ getCountElement(row.sign) }}</template>
+          </el-table-column>
+          <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
               <el-button
                 type="success"
@@ -96,30 +123,24 @@
                     }
                   })
                 "
-                >查看</el-button
-              >
+              >查看</el-button>
               <el-button
-                type="warning"
+                type="danger"
                 v-on:click="$router.push(`/regulatoryRecord/edit/${row.id}`)"
                 plain
-                >整改记录</el-button
-              >
+              >整改记录</el-button>
             </template>
           </el-table-column>
-          <el-table-column
-            prop="yield"
-            label="专利1"
-            align="center"
-            width="100"
-          >
-            <template>
-              <i class="el-icon-check"></i>
+          <el-table-column prop="yield" label="专利1" align="center" width="100">
+            <template slot-scope="{ row }">
+              <i class="el-icon-check" v-if="row.specialFlag"></i>
             </template>
           </el-table-column>
         </el-table>
       </el-container>
+
       <div class="pageBox">
-        <Pagination
+        <pagination
           v-show="total > 0"
           :total="total"
           :page.sync="page.pageIndex"
@@ -144,12 +165,18 @@ export default {
         pageIndex: 1,
         pageSize: 20
       },
-      total: 100,
+      total: 0,
       tableData: [],
       listLoading: false,
       companyList: [],
       companyId: 0,
-      township: []
+      township: [],
+      isShowCheckbox: 0,
+      selectedRows: [],
+      alert_dialogVisible: false,
+      confirm_dialogVisible: false,
+      btnColor: "",
+      action: ""
     };
   },
   created() {
@@ -169,8 +196,8 @@ export default {
           pageSize: this.page.pageSize
         })
         .then(response => {
-          this.tableData = response;
-          this.total = this.tableData.length;
+          this.tableData = response.data;
+          this.total = response.total;
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
@@ -220,6 +247,55 @@ export default {
     },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
+    },
+    getCountElement(val) {
+      if (!val) return 0;
+      else return val.split(",").length;
+    },
+    changeCheckStatus(id) {
+      let index = this.selectedRows.indexOf(id);
+      if (index > -1) this.selectedRows.splice(index, 1);
+      if (event.target.checked) {
+        this.selectedRows.push(id);
+      }
+    },
+    actionConfirm(action) {
+      this.action = action;
+      if (!this.selectedRows.length) {
+        this.alert_dialogVisible = true;
+      } else {
+        this.confirm_dialogVisible = true;
+        this.btnColor = action > 0 ? "success" : "danger";
+      }
+    },
+    updateSelectedRows() {
+      for (let index in this.selectedRows) {
+        this.confirm_dialogVisible = false;
+        this.listLoading = true;
+        Request()
+          .put(
+            "/api/supervision_record/update_special_flag/" +
+              this.selectedRows[index] +
+              "?specialFlag=" +
+              this.action
+          )
+          .then(response => {
+            setTimeout(() => {
+              this.listLoading = false;
+            }, 0.5 * 1000);
+            this.selectedRows = [];
+            this.isShowCheckbox = 0;
+            this.getData();
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    },
+    showCheckbox() {
+      if (!event.target.checked) {
+        this.selectedRows = [];
+      }
     }
   }
 };

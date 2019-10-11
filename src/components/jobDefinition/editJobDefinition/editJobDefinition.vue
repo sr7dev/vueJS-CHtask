@@ -1,0 +1,201 @@
+<template>
+  <div class="container">
+    <div class="title">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item>作业定义</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">修改作业</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
+
+    <div class="box">
+      <el-form ref="editForm" :model="editForm" :rules="rules" label-width="120px">
+        <el-form-item prop="jobName" label="作业名称" class="job-name-width">
+            <el-input 
+                v-model="editForm.jobName" 
+                auto-complete="off"
+            >
+            </el-input>
+        </el-form-item>
+        <el-form-item label="作业类型" prop="jobType">
+            <el-select v-model="editForm.jobType" placeholder="请选择">
+                <el-option
+                    v-for="item in jobTypes"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
+                >
+                </el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="现场图片">
+            <div 
+                @click="chooseFile()"
+                class="image-container"
+            >
+                <img 
+                    v-for="src in images" 
+                    :src="src" 
+                    :key="src" 
+                    class="preview"
+                >
+            </div>
+            <div class="item-value" v-if="!file_live_1">
+                <el-link @click="downloadFile()">
+                    {{ editForm.jobFile.replace("/uploads/", "") }}
+                </el-link>
+            </div>
+            <div class="item-value" v-if="file_live_1">
+                ({{ fileName }})
+            </div>
+            <div class="image-box">
+                <input
+                    type="file"
+                    id="file"
+                    ref="file_live_1"
+                    class="image-upload"
+                    accept="image/*"
+                    v-on:change="handleFileUpload()"
+                    name="images"
+                    style="display:none"
+                />
+            </div>
+        </el-form-item>
+        <el-form-item class="left-margin">
+            <el-button type="success" plain @click="onSubmit('editForm')">
+                保存
+            </el-button>
+            <el-button type="danger" plain v-on:click="$router.go(-1)">
+                取消
+            </el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+  </div>
+</template>
+
+<script>
+import Request from "../../../services/api/request.js";
+import { Urls } from "../../../services/constants";
+import axios from "axios";
+export default {
+  data() {
+    return {
+        editForm: {
+            jobName: "",
+            jobType: "",
+            jobFile: ""
+        },
+        jobTypes: [
+            { id: 0, name: "收获前" },
+            { id: 1, name: "收获" },
+            { id: 2, name: "收获后" }
+        ],
+        rules: {
+            jobName: [
+            {
+                required: true,
+                message: "请插入",
+                trigger: "change"
+            }],
+            jobType: [
+            {
+                required: true,
+                message: "请选择",
+                trigger: "change"
+            }],
+        },
+        images:[],
+        fileName: '',
+        file_live_1: null,
+        dataloading: false,
+        id: 0
+
+    };
+  },
+  mounted() {
+    this.editForm.jobName = this.$route.query.jobName;
+    this.editForm.jobType = this.$route.query.jobType;
+    this.id = this.$route.params.id;
+    this.getData(this.$route.params.id);
+  },
+  methods: {
+    getData(id) {
+        this.dataloading = true;
+        Request()
+            .get("/api/job_definition/get/" + id)
+            .then(response => {
+                this.editForm = response;
+                this.file_live_1 = response.file;
+                setTimeout(() => {
+                    this.dataloading = false;
+                }, 0.01 * 1000);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    },
+    downloadFile() {
+        axios({
+            url: Urls.DOWNLOAD_URL() + this.file_live_1,
+            method: "GET",
+            responseType: "blob" // important
+        }).then(response => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute(
+                "download",
+                this.file_live_1.replace("/uploads/", "")
+            ); //or any other extension
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        });
+    },
+    onSubmit(formName) {
+        this.$refs[formName].validate(valid => {
+            if (valid) {
+                this.dataloading = true;
+                var formData = new FormData();
+                formData = this.makeFormData();
+                Request()
+                    .put("/api/job_definition/update/" + this.id, formData)
+                    .then(response => {
+                        this.$router.push({ path: "/jobDefinition" });
+                        setTimeout(() => {
+                            this.dataloading = false;
+                        }, 0.01 * 1000);
+                    })
+                    .catch(error => {});
+            }
+        });
+    },
+    chooseFile() {
+      document.getElementById('file').click()
+    },
+    handleFileUpload() {
+        this.file_live_1 = this.$refs.file_live_1.files[0];
+        this.images = [];
+        let reader = new FileReader();
+        let that = this;
+        reader.onload = function (e) {
+            that.images.push(e.target.result);
+
+        }
+        reader.readAsDataURL(this.file_live_1); 
+        this.fileName = this.file_live_1.name;
+    },
+    makeFormData() {
+        var mainFormData = new FormData();
+        mainFormData.append("jobName", this.editForm.jobName);
+        mainFormData.append("jobType", this.editForm.jobType);
+        mainFormData.append("file", this.file_live_1);
+        mainFormData.append("id", this.id);
+        return mainFormData;
+    },
+  }
+};
+</script>
+
+<style lang="scss">
+</style>

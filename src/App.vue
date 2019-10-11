@@ -33,10 +33,6 @@ export default {
   padding: 20px;
   box-sizing: border-box;
 }
-.title .el-breadcrumb {
-  font-size: 20px;
-  margin-bottom: 30px;
-}
 .title .el-breadcrumb .actived .el-breadcrumb__inner {
   color: #5d9ad1;
 }
@@ -62,7 +58,7 @@ export default {
 }
 .select_label {
   display: inline-block;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 40px;
   margin: 0 20px 0 30px;
 }
