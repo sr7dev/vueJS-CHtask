@@ -101,7 +101,8 @@ export default {
     this.getList();
   },
   methods: {
-    showSamplingRecord(row) {
+    showSamplingRecord(row) {     
+      console.log(row) ;
       this.$router.push(
         `/productionSubject/mainProduct/thirdPartySamplingRecord/${row.productId}`
       );
