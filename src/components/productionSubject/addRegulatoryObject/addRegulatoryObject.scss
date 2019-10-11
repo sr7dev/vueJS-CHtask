@@ -18,5 +18,9 @@ button {
   }
   // width: 60%;
   // min-width: 1000px;
+}
 
+.el-form-item__error {
+  display: inline !important;
+  position: unset;
 }
