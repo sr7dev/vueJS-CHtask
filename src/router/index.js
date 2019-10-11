@@ -34,7 +34,6 @@ import cp_editProduction from "@/components/company/productionSubject/editProduc
 import cp_businessProducts from "@/components/company/businessProducts/businessProducts"; // 主营产品 goProductBatch
 import cp_productBatch from "@/components/company/businessProducts/productBatch"; //产品批次
 import cp_jobDefinition from "@/components/company/businessProducts/jobDefinition"; //作业定义
-import cp_varietyDefinition from "@/components/company/businessProducts/varietyDefinition"; //品种定义
 import cp_editProduct from "@/components/company/businessProducts/editProduct"; //修改产品
 import cp_thirdRecords from "@/components/company/businessProducts/thirdRecords"; //第三方抽检记录
 import cp_attributeManagement from "@/components/company/businessProducts/attributeManagement"; //属性管理
@@ -64,6 +63,9 @@ import addThirdPartySampling from "@/components/productionSubject/mainProduct/th
 import editThirdPartySampling from "@/components/productionSubject/mainProduct/thirdPartySamplingRecord/editThirdPartySampling/editThirdPartySampling";
 import productBatch from "@/components/productionSubject/mainProduct/productBatch/productBatch";
 import inventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/inventoryDynamics";
+import varietyDefinition from "@/components/productionSubject/varietyDefinition/varietyDefinition";
+import addVarietyDefinition from "@/components/productionSubject/varietyDefinition/addVarietyDefinition/addVarietyDefinition";
+import editVarietyDefinition from "@/components/productionSubject/varietyDefinition/editVarietyDefinition/editVarietyDefinition";
 import addInventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/addInventoryDynamics";
 import editInventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/editInventoryDynamics";
 
@@ -348,11 +350,6 @@ export default new Router({
           component: cp_jobDefinition
         },
         {
-          path: "/cp_varietyDefinition",
-          name: "cp_varietyDefinition",
-          component: cp_varietyDefinition
-        },
-        {
           path: "/cp_editProduct",
           name: "cp_editProduct",
           component: cp_editProduct
@@ -436,6 +433,21 @@ export default new Router({
           path: "/jobDefinition/:id",
           name: "editJobDefinition", // 作业定义
           component: editJobDefinition
+        },
+        {
+          path: "/productVariety/:id",
+          name: "productVariety", // 作业定义
+          component: varietyDefinition
+        },
+        {
+          path: "/productVariety/create/:id",
+          name: "addProductVariety", // 作业定义
+          component: addVarietyDefinition
+        },
+        {
+          path: "/productVariety/edit/:id",
+          name: "editProductVariety", // 作业定义
+          component: editVarietyDefinition
         },
         {
           path: "/internalMessage",

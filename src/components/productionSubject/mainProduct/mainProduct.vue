@@ -51,6 +51,9 @@
             <el-button v-on:click="showProductBatch(row)" type="warning" plain
               >产品批次</el-button
             >
+            <el-button v-on:click="showProductVariety(row)" type="warning" plain
+              >品种定义</el-button
+            >
           </template>
         </el-table-column>
         <el-table-column prop="operations" label="" width="120">
@@ -115,6 +118,11 @@ export default {
       this.$router.push({
         path: `/productionSubject/mainProduct/inventoryDynamics/${this.$route.params.id}`,
         query: { productName: row.productName }
+      });
+    },
+    showProductVariety(row){
+      this.$router.push({
+        path: `/productVariety/${row.productId}`
       });
     },
     getList() {
