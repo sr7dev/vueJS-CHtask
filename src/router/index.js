@@ -24,6 +24,9 @@ import detailWorkTaskReport from "@/components/workTask/detailWorkTaskReport/det
 import seed from "@/components/seed/seed";
 import uploadSeed from "@/components/seed/uploadSeed/uploadSeed";
 import detailSeed from "@/components/seed/detailSeed/detailSeed";
+import productionStandard from "@/components/productionStandard/productionStandard";
+import addProductionStandard from "@/components/productionStandard/addProductionStandard/addProductionStandard";
+import detailProductionStandard from "@/components/productionStandard/detailProductionStandard/detailProductionStandard";
 
 // 企业
 import cp_productionSubject from "@/components/company/productionSubject/productionSubject"; //生产主体
@@ -479,6 +482,21 @@ export default new Router({
           path: "/seed/detail/:id",
           name: "detailSeed", // 种子管理
           component: detailSeed
+        },
+        {
+          path: "/productionStandard",
+          name: "productionStandard", // 生产标准
+          component: productionStandard
+        },
+        {
+          path: "/productionStandard/create",
+          name: "addProductionStandard", // 生产标准
+          component: addProductionStandard
+        },
+        {
+          path: "/productionStandard/detail/:id",
+          name: "detailProductionStandard", // 生产标准
+          component: detailProductionStandard
         }
       ]
     },
