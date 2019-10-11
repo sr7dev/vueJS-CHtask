@@ -60,6 +60,10 @@ import productBatch from "@/components/productionSubject/mainProduct/productBatc
 import inventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/inventoryDynamics";
 import addInventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/addInventoryDynamics";
 import editInventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/editInventoryDynamics";
+import processDefinition from "@/components/productionSubject/mainProduct/processDefinition/processDefinition";
+import addProcessDefinition from "@/components/productionSubject/mainProduct/processDefinition/addProcessDefinition/addProcessDefinition";
+import editProcessDefinition from "@/components/productionSubject/mainProduct/processDefinition/editProcessDefinition/editProcessDefinition";
+
 
 import companyBusiness from "@/components/companyBusiness/companyBusiness";
 import productBusiness from "@/components/companyBusiness/productBusiness/productBusiness";
@@ -228,6 +232,21 @@ export default new Router({
           path: "/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/:id",
           name: "editInventoryDynamics",
           component: editInventoryDynamics
+        },
+        {
+          path: "/productionSubject/mainProduct/processDefinition/:id",
+          name: "processDefinition",
+          component: processDefinition
+        },
+        {
+          path: "/productionSubject/mainProduct/processDefinition/addProcessDefinition/:id",
+          name: "addProcessDefinition",
+          component: addProcessDefinition
+        },
+        {
+          path: "/productionSubject/mainProduct/processDefinition/editProcessDefinition/:id",
+          name: "editProcessDefinition",
+          component: editProcessDefinition
         },
         {
           path: "/threeProductsCertification",
