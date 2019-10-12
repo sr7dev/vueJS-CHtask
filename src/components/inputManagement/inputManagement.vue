@@ -70,11 +70,11 @@
             </el-table>
             <div class="pageBox">
                 <pagination
-                v-show="total > 0"
-                :total="total"
-                :page.sync="page.pageIndex"
-                :limit.sync="page.pageSize"
-                @pagination="getList"
+                    v-show="total > 0"
+                    :total="total"
+                    :page.sync="page.pageIndex"
+                    :limit.sync="page.pageSize"
+                    @pagination="getList"
                 />
             </div>
         </div>
@@ -101,22 +101,22 @@ export default {
     };
   },
   created() {
-    this.getList(this.mode);
+    this.getList();
     this.getCompanyProduction();
   },
   methods: {
     clickTabLeft() {
         this.mode = true;
-        this.getList(this.mode);
+        this.getList();
         this.getCompanyProduction();
     },
     clickTabRight() {
         this.mode = false;
-        this.getList(this.mode);
+        this.getList();
         this.getCompanyProduction();
     },
-    getList(bLeft) {
-        if (bLeft) {
+    getList() {
+        if (this.mode) {
             this.listLoading = true;
             Request()
                 .get("/api/inputsUse/all", {
