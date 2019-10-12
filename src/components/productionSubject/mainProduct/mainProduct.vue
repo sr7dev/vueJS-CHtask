@@ -125,8 +125,7 @@ export default {
     },
     showProcessDefinition(row) {
       this.$router.push({
-        path: `/productionSubject/mainProduct/processDefinition/${this.$route.params.id}`,
-        query: { productName: row.productName }
+        path: `/productionSubject/mainProduct/processDefinition/${this.$route.params.id}`
       });
     },
     getList() {

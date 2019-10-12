@@ -6,7 +6,7 @@
           >监管对象</el-breadcrumb-item
         >
         <el-breadcrumb-item>主营产品</el-breadcrumb-item>
-        <el-breadcrumb-item class="actived">修改动态</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">添加作业</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
 
@@ -20,47 +20,16 @@
       >
         <el-row>
           <el-col :span="6">
-            <el-form-item label="产品名称" prop="productName">
-              <el-input v-model="ruleFormValue.productName" :disabled="true"></el-input>
+            <el-form-item label="作业名称" prop="taskName">
+              <el-input v-model="ruleFormValue.taskName" ></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="仓库地址" prop="warehouseId">
+            <el-form-item label="仓库地址" prop="taskType">
               <el-select
-                v-model="ruleFormValue.warehouseId"
-                :disabled="!(this.warehouseOptions.length > 0)"
-              >
-                <el-option
-                  v-for="(item, index) in warehouseOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="index"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6">
-            <el-form-item label="储存数量" prop="repertoryAmount">
-              <el-input v-model="ruleFormValue.repertoryAmount"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6">
-            <el-form-item label="品种" prop="variety">
-              <el-input v-model="ruleFormValue.variety"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6">
-            <el-form-item label="评级" prop="grade">
-              <el-select
-                v-model="ruleFormValue.grade"
+                v-model="ruleFormValue.taskType"
                 :disabled="!(options.length > 0)"
               >
                 <el-option
@@ -73,7 +42,32 @@
             </el-form-item>
           </el-col>
         </el-row>
-
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="添加图片" prop="file" style="display:flex; align-items:center;">
+              <div class="item" style="display:flex; align-items:center;">
+                <div class="item-label">
+                  <input
+                    type="file"
+                    id="file"
+                    style="display: none"
+                    ref="file"
+                    v-on:change="handleFileUpload()"
+                  />
+                  <el-button type="warning" plain @click="chooseFile()">选择文件</el-button>
+                </div>
+                <div
+                  class="item-value"
+                  style="margin-left: 1rem;
+                        display: flex;
+                        align-items: center;"
+                >
+                  <img :src="imageUrl + ruleFormValue.taskImages" style="width: 7rem; height: 7rem;"/>
+                </div>                
+              </div>
+            </el-form-item>  
+          </el-col>
+        </el-row>
         <el-form-item>
           <el-button type="success" @click="onSubmit('ruleForm')" plain
             >保存</el-button
@@ -87,116 +81,89 @@
 
 <script>
 import Request from "../../../../../services/api/request.js";
+import { Urls } from "../../../../../services/constants";
 export default {
   name: "editProcessDefinition",
   data() {
     return {
+      file: null,
       listLoading: false,
-      warehouseData: [],
-      warehouseOptions:[],
+      imageUrl: "",
       ruleFormValue: {
-        createTime: "",
-        updateTime: "",
-        grade: "",
+        doShare: "",
+        taskName: "",
+        taskType: "",
+        file: null,
         productId: 0,
-        repertoryAmount: "",
-        variety: "",
-        warehouseId: null,
-        productName: "",
-        id: 0        
+        id: 0,
+        taskImages: ""              
       },
       rules: {
-        variety: [
+        taskName: [
           {
             required: true,
             message: "请插入",
             trigger: "change"
           }
         ],
-        repertoryAmount: [
+        taskType: [
           {
             required: true,
             message: "请插入",
-            trigger: "change"
-          }
-        ],
-        grade: [
-          {
-            required: true,
-            message: "请选择",
-            trigger: "change"
-          }
-        ],
-        warehouseId: [
-          {
-            required: true,
-            message: "请选择",
             trigger: "change"
           }
         ]
       },
       options: [
-        { value: "1", label: "低级" },
-        { value: "2", label: "中级" },
-        { value: "3", label: "高级" },
-        { value: "4", label: "特级" }
+        { value: "1", label: "收获前" },
+        { value: "2", label: "收获" },
+        { value: "3", label: "收获后" }
       ]
     };
   },
   created() {
-    this.ruleFormValue.productName = this.$route.query.productName;
-    this.ruleFormValue.productId = this.$route.params.id;
-    this.ruleFormValue.repertoryAmount = this.$route.query.repertoryAmount.toString().match(/(\d+)/)[0];
-    this.ruleFormValue.warehouseId = this.$route.query.warehouseId - 1;
-    this.ruleFormValue.grade = this.$route.query.grade;
-    this.ruleFormValue.variety = this.$route.query.variety;
     this.ruleFormValue.id = this.$route.query.id;
-    this.getWarehouseList();
-    this.getCurrentTime();
+    this.ruleFormValue.productId = this.$route.params.id;
+    this.getInfo();
   },
   methods: {
-    getCurrentTime() {
-      var currentDate = new Date();
-      this.ruleFormValue.createTime = currentDate.toISOString();
-      this.ruleFormValue.updateTime = currentDate.toISOString();
-    },
-    getWarehouseList() {
+    getInfo() {
       this.listLoading = true;
       Request()
-        .get("/api/warehose/all", {
-          company_id: 0
-        })
-        .then(response =>{
-          for (var indexOption in response.data) {
-            this.warehouseOptions.push({value: response.data[indexOption].id, label: response.data[indexOption].warehouseName});
-          }
+        .get("/api/product_task/get/" + this.ruleFormValue.id)
+        .then(response => {          
+          this.ruleFormValue.taskType = response.taskType;
+          this.ruleFormValue.taskName = response.taskName;
+          this.ruleFormValue.doShare = response.doShare;
+          this.ruleFormValue.taskImages = response.taskImages;
+          this.imageUrl = Urls.DOWNLOAD_URL();
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
         })
         .catch(error => {});        
     },
+    chooseFile() {
+      this.$refs.file.click();
+    },
+    handleFileUpload() {
+      this.file = this.$refs.file.files[0];
+    },
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          var formData = {
-            "createTime": this.ruleFormValue.createTime,
-            "updateTime": this.ruleFormValue.updateTime,
-            "grade": this.ruleFormValue.grade,
-            "id": this.ruleFormValue.id,
-            "productId": this.ruleFormValue.productId,
-            "repertoryAmount": this.ruleFormValue.repertoryAmount,
-            "variety": this.ruleFormValue.variety,
-            "warehouseId": this.ruleFormValue.warehouseId + 1
-          }
+          var formData = new FormData();          
+          formData.append("doShare", this.ruleFormValue.doShare);
+          formData.append("taskName", this.ruleFormValue.taskName);
+          formData.append("taskType", this.ruleFormValue.taskType);
+          formData.append("productId", this.ruleFormValue.productId);
+          if (this.file != null) formData.append("file", this.file);
+
           Request()
-            .put("/api/product_repetory/update/" + this.ruleFormValue.id, formData)
+            .put("/api/product_task/update/" + this.ruleFormValue.id, formData)
             .then(response => {
               this.$router.push({
-                path: `/productionSubject/mainProduct/inventoryDynamics/${this.ruleFormValue.productId}`,
-                query: {
-                  productName: this.ruleFormValue.productName
-                }
+                path: `/productionSubject/mainProduct/processDefinition/${this.ruleFormValue.productId}`
               });
             })
             .catch(error => {});

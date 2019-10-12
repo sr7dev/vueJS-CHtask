@@ -6,7 +6,7 @@
           >监管对象</el-breadcrumb-item
         >
         <el-breadcrumb-item>主营产品</el-breadcrumb-item>
-        <el-breadcrumb-item class="actived">库存动态</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">/作业定义</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
@@ -15,15 +15,27 @@
           <el-button 
             type="primary"
             plain
+            style="margin-right: .5rem"
             @click="$router.push({
-              path: `/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/${id}`,
+              path: `/productionSubject/mainProduct/processDefinition/addProcessDefinition/${id}`,
               query: {
-                productName: productName
+                doShare: 1
               }
-            })
-            "
+            })"
             >添加</el-button
           >
+          <el-select
+              v-model="processType"
+              :disabled="!(options.length > 0)"
+              style="margin-right: .5rem"
+            >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
           <el-button
             type="primary"
             plain
@@ -43,28 +55,11 @@
           label="序号"
           width="70"
         ></el-table-column>
-        <el-table-column prop="productId" label="产品名称">
-          <template>{{ productName }}</template>
+        <el-table-column prop="taskName" label="作业名称">
+          <template slot-scope="{ row }">{{ row.taskName }}</template>
         </el-table-column>
-        <el-table-column prop="warehouse" label="所在仓库">
-          <template slot-scope="{ row }">
-            {{
-              getWarehouseName(row.warehouseId)
-            }}
-          </template>
-        </el-table-column>
-        <el-table-column prop="repertoryAmount" label="储存数量">
-          <template slot-scope="{ row }">{{ row.repertoryAmount }}</template>
-        </el-table-column>
-        <el-table-column prop="variety" label="品种">
-          <template slot-scope="{ row }">{{ row.variety }}</template>
-        </el-table-column>
-        <el-table-column prop="grade" label="评级">
-          <template slot-scope="{row}">
-            {{
-              getGradeName(row.grade)
-            }}
-          </template>
+        <el-table-column prop="taskType" label="作业类型">
+          <template slot-scope="{ row }">{{ taskTypeList[row.taskType - 1] }}</template>
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="{ row }">
@@ -72,13 +67,8 @@
               type="success"              
               plain
               @click="$router.push({
-                path: `/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/${id}`,
+                path: `/productionSubject/mainProduct/processDefinition/editProcessDefinition/${id}`,
                 query: {
-                  productName: productName,
-                  repertoryAmount: row.repertoryAmount,
-                  warehouseId: row.warehouseId,
-                  grade: row.grade,
-                  variety: row.variety,
                   id: row.id
                 }
               })
@@ -125,7 +115,17 @@ export default {
       radio: "1",
       tableData: null,
       productName: "",
-      warehouses: []
+      doShare: "",
+      taskImages: "",
+      taskName: "",
+      taskType: "",
+      taskTypeList: ["收获前", "收获", "收获后"],
+      processType: "",
+      options: [
+        { value: "1", label: "作业共享" },
+        { value: "2", label: "银针" },
+        { value: "3", label: "白牡丹" }
+      ]
     };
   },
   created() {
@@ -136,7 +136,7 @@ export default {
   methods: {
     handleDelete(id) {
       Request()
-        .delete("/api/product_repetory/delete/" + id)
+        .delete("/api/product_task/delete/" + id)
         .then(response => {
           this.getList(this.id);          
         })
@@ -144,46 +144,23 @@ export default {
           console.log(error);
         });
     },    
-    getGradeName(id) {
-      const grade = ["低级", "中级", "高级", "特级"];
-      return grade[id - 1];
-    },
-    getWarehouseName(id) {
-      for (let index = 0; index < this.warehouses.length; index++) {
-        const element = this.warehouses[index];
-        if (element.id == id) return element.warehouseName;
-      }
-      return "";
-    },
     getList(id) {
       this.listLoading = true;
       Request()
-        .get("/api/warehose/all", {
-          company_id: 0,
-          pageNo: 0,
-          pageSize: 20,
-          sortBy: "id"
+        .get("/api/product_task/all", {
+          productId: id,
+          pageNo: this.page.pageIndex - 1,
+          pageSize: this.page.pageSize
         })
-        .then(response => {
-          this.warehouses = response.data;
-          console.log(this.warehouses);
-          Request()
-            .get("/api/product_repetory/all", {
-              product_id: id,
-              pageNo: this.page.pageIndex - 1,
-              pageSize: this.page.pageSize
-            })
-            .then(res => {
-              console.log(res.data);
-              this.tableData = res.data;
-              this.total = res.total;
-              setTimeout(() => {
-                this.listLoading = false;
-              }, 0.5 * 1000);
-            })
-            .catch(error => {
-              console.error(error);
-            });
+        .then(res => {
+          this.tableData = res.data;
+          this.total = res.total;
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
+        })
+        .catch(error => {
+          console.error(error);
         });
     },
     rowIndex({ row, rowIndex }) {
