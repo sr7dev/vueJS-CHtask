@@ -49,9 +49,10 @@
                 <div class="item-label">
                   <input
                     type="file"
-                    id="file"
+                    id="file"                    
                     style="display: none"
                     ref="file"
+                    accept="image/*"
                     v-on:change="handleFileUpload()"
                   />
                   <el-button type="warning" plain @click="chooseFile()">选择文件</el-button>
@@ -62,7 +63,8 @@
                         display: flex;
                         align-items: center;"
                 >
-                  <img :src="imageUrl + ruleFormValue.taskImages" style="width: 7rem; height: 7rem;"/>
+                  <img v-if="!imageSelectedUrl && ruleFormValue.taskImages" :src="imageUrl + ruleFormValue.taskImages" style="width: 7rem; height: 7rem;"/>
+                  <img v-if="imageSelectedUrl" :src="imageSelectedUrl" style="width: 7rem; height: 7rem;"/>
                 </div>                
               </div>
             </el-form-item>  
@@ -89,6 +91,7 @@ export default {
       file: null,
       listLoading: false,
       imageUrl: "",
+      imageSelectedUrl: "",
       ruleFormValue: {
         doShare: "",
         taskName: "",
@@ -146,8 +149,17 @@ export default {
     chooseFile() {
       this.$refs.file.click();
     },
-    handleFileUpload() {
+    handleFileUpload(e) {
       this.file = this.$refs.file.files[0];
+      let reader = new FileReader();
+      this.imageSelectedUrl ="";
+      let that = this;
+      reader.onload = function(e) {
+        that.imageSelectedUrl  = e.target.result;
+      };
+      if (this.file) {
+        reader.readAsDataURL(this.file);
+      }
     },
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
