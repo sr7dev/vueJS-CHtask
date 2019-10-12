@@ -274,12 +274,12 @@ export default {
             "argriculturalClassification",
             this.ruleFormValue.argriculturalClassification
           );
-          this.ruleFormValue.certificationStartTime = new Date(
-            this.ruleFormValue.certificationStartTime
-          ).toDateString("YYYY-MM-DD");
-          this.ruleFormValue.certificationEndTime = new Date(
-            this.ruleFormValue.certificationEndTime
-          ).toDateString("YYYY-MM-DD");
+          // this.ruleFormValue.certificationStartTime = new Date(
+          //   this.ruleFormValue.certificationStartTime
+          // ).toDateString("YYYY-MM-DD");
+          // this.ruleFormValue.certificationEndTime = new Date(
+          //   this.ruleFormValue.certificationEndTime
+          // ).toDateString("YYYY-MM-DD");
           formData.append(
             "certificationStartTime",
             this.ruleFormValue.certificationStartTime

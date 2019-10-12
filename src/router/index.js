@@ -21,6 +21,16 @@ import addWorkTask from "@/components/workTask/addWorkTask/addWorkTask";
 import editWorkTask from "@/components/workTask/editWorkTask/editWorkTask";
 import addWorkTaskReport from "@/components/workTask/addWorkTaskReport/addWorkTaskReport";
 import detailWorkTaskReport from "@/components/workTask/detailWorkTaskReport/detailWorkTaskReport";
+import seed from "@/components/seed/seed";
+import uploadSeed from "@/components/seed/uploadSeed/uploadSeed";
+import detailSeed from "@/components/seed/detailSeed/detailSeed";
+import productionStandard from "@/components/productionStandard/productionStandard";
+import addProductionStandard from "@/components/productionStandard/addProductionStandard/addProductionStandard";
+import detailProductionStandard from "@/components/productionStandard/detailProductionStandard/detailProductionStandard";
+import shareFiles from "@/components/shareFiles/shareFiles";
+import addShareFiles from "@/components/shareFiles/addShareFiles/addShareFiles";
+import editShareFiles from "@/components/shareFiles/editShareFiles/editShareFiles";
+import detailShareFiles from "@/components/shareFiles/detailShareFiles/detailShareFiles";
 
 // 企业
 import cp_productionSubject from "@/components/company/productionSubject/productionSubject"; //生产主体
@@ -28,7 +38,6 @@ import cp_editProduction from "@/components/company/productionSubject/editProduc
 import cp_businessProducts from "@/components/company/businessProducts/businessProducts"; // 主营产品 goProductBatch
 import cp_productBatch from "@/components/company/businessProducts/productBatch"; //产品批次
 import cp_jobDefinition from "@/components/company/businessProducts/jobDefinition"; //作业定义
-import cp_varietyDefinition from "@/components/company/businessProducts/varietyDefinition"; //品种定义
 import cp_editProduct from "@/components/company/businessProducts/editProduct"; //修改产品
 import cp_thirdRecords from "@/components/company/businessProducts/thirdRecords"; //第三方抽检记录
 import cp_attributeManagement from "@/components/company/businessProducts/attributeManagement"; //属性管理
@@ -58,6 +67,9 @@ import addThirdPartySampling from "@/components/productionSubject/mainProduct/th
 import editThirdPartySampling from "@/components/productionSubject/mainProduct/thirdPartySamplingRecord/editThirdPartySampling/editThirdPartySampling";
 import productBatch from "@/components/productionSubject/mainProduct/productBatch/productBatch";
 import inventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/inventoryDynamics";
+import varietyDefinition from "@/components/productionSubject/varietyDefinition/varietyDefinition";
+import addVarietyDefinition from "@/components/productionSubject/varietyDefinition/addVarietyDefinition/addVarietyDefinition";
+import editVarietyDefinition from "@/components/productionSubject/varietyDefinition/editVarietyDefinition/editVarietyDefinition";
 import addInventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/addInventoryDynamics";
 import editInventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/editInventoryDynamics";
 import processDefinition from "@/components/productionSubject/mainProduct/processDefinition/processDefinition";
@@ -82,10 +94,21 @@ import productionRecord from "@/components/productionRecord/productionRecord";
 import addProductionRecord from "@/components/productionRecord/addProductionRecord/addProductionRecord";
 import editProductionRecord from "@/components/productionRecord/editProductionRecord/editProductionRecord";
 
-import notice from "@/components/notice/notice"
-import detailsNotice from "@/components/notice/detailsNotice/detailsNotice"
-import createNotice from "@/components/notice/createNotice/createNotice"
-import editNotice from "@/components/notice/editNotice/editNotice"
+import notice from "@/components/notice/notice";
+import detailsNotice from "@/components/notice/detailsNotice/detailsNotice";
+import createNotice from "@/components/notice/createNotice/createNotice";
+import editNotice from "@/components/notice/editNotice/editNotice";
+
+import internalMessage from "@/components/internalMessage/internalMessage";
+import addInternalMessage from "@/components/internalMessage/addInternalMessage/addInternalMessage";
+
+import trainingFunds from "@/components/trainingFunds/trainingFunds";
+import addTrainingFunds from "@/components/trainingFunds/addTrainingFunds/addTrainingFunds";
+import viewTrainingFunds from "@/components/trainingFunds/viewTrainingFunds/viewTrainingFunds";
+
+import inputManagement from "@/components/inputManagement/inputManagement";
+import addInputManagement from "@/components/inputManagement/addInputManagement/addInputManagement";
+import viewInputManagement from "@/components/inputManagement/viewInputManagement/viewInputManagement";
 
 import Auth from "@/services/authentication/auth";
 
@@ -354,11 +377,6 @@ export default new Router({
           component: cp_jobDefinition
         },
         {
-          path: "/cp_varietyDefinition",
-          name: "cp_varietyDefinition",
-          component: cp_varietyDefinition
-        },
-        {
           path: "/cp_editProduct",
           name: "cp_editProduct",
           component: cp_editProduct
@@ -409,26 +427,26 @@ export default new Router({
           component: redBlackList
         },
         {
-          path: '/notice',
-          name: 'notice',// 通知管理
-          component: notice,
+          path: "/notice",
+          name: "notice", // 通知管理
+          component: notice
         },
         {
-          path: '/notice/view/:id',
-          name: 'detailsNotice',// 通知管理
-          component: detailsNotice,
+          path: "/notice/view/:id",
+          name: "detailsNotice", // 通知管理
+          component: detailsNotice
         },
         {
-          path: '/notice/create',
-          name: 'createNotice',// 通知管理
-          component: createNotice,
+          path: "/notice/create",
+          name: "createNotice", // 通知管理
+          component: createNotice
         },
         {
-          path: '/notice/edit/:id',
-          name: 'editNotice',// 通知管理
-          component: editNotice,
+          path: "/notice/edit/:id",
+          name: "editNotice", // 通知管理
+          component: editNotice
         },
-        {  
+        {
           path: "/jobDefinition",
           name: "jobDefinition", // 作业定义
           component: jobDefinition
@@ -442,6 +460,46 @@ export default new Router({
           path: "/jobDefinition/:id",
           name: "editJobDefinition", // 作业定义
           component: editJobDefinition
+        },
+        {
+          path: "/productVariety/:id",
+          name: "productVariety", // 作业定义
+          component: varietyDefinition
+        },
+        {
+          path: "/productVariety/create/:id",
+          name: "addProductVariety", // 作业定义
+          component: addVarietyDefinition
+        },
+        {
+          path: "/productVariety/edit/:id",
+          name: "editProductVariety", // 作业定义
+          component: editVarietyDefinition
+        },
+        {
+          path: "/internalMessage",
+          name: "internalMessage", // 站内消息
+          component: internalMessage
+        },
+        {
+          path: "/internalMessage/add",
+          name: "addInternalMessage", // 站内消息
+          component: addInternalMessage
+        },
+        {
+          path: "/inputManagement",
+          name: "inputManagement", // 投入品管理
+          component: inputManagement
+        },
+        {
+          path: "/inputManagement/add",
+          name: "addInputManagement", // 投入品管理
+          component: addInputManagement
+        },
+        {
+          path: "/inputManagement/view/:id",
+          name: "viewInputManagement", // 投入品管理
+          component: viewInputManagement
         },
         {
           path: "/workTask",
@@ -467,6 +525,71 @@ export default new Router({
           path: "/workTask/report/detail/:id",
           name: "detailWorkTaskReport", // 工作任务
           component: detailWorkTaskReport
+        },
+        {
+          path: "/trainingFunds",
+          name: "trainingFunds", // 培训经费管理
+          component: trainingFunds
+        },
+        {
+          path: "/trainingFunds/add",
+          name: "addTrainingFunds", // 培训经费管理
+          component: addTrainingFunds
+        },
+        {
+          path: "/trainingFunds/view/:id",
+          name: "viewTrainingFunds", // 培训经费管理
+          component: viewTrainingFunds
+        },
+        {
+          path: "/seed",
+          name: "seed", // 种子管理
+          component: seed
+        },
+        {
+          path: "/seed/upload",
+          name: "uploadSeed", // 种子管理
+          component: uploadSeed
+        },
+        {
+          path: "/seed/detail/:id",
+          name: "detailSeed", // 种子管理
+          component: detailSeed
+        },
+        {
+          path: "/productionStandard",
+          name: "productionStandard", // 生产标准
+          component: productionStandard
+        },
+        {
+          path: "/productionStandard/create",
+          name: "addProductionStandard", // 生产标准
+          component: addProductionStandard
+        },
+        {
+          path: "/productionStandard/detail/:id",
+          name: "detailProductionStandard", // 生产标准
+          component: detailProductionStandard
+        },
+        {
+          path: "/shareFiles",
+          name: "shareFiles", // 共享文件editShareFiles
+          component: shareFiles
+        },
+        {
+          path: "/shareFiles/create",
+          name: "addShareFiles", // 共享文件
+          component: addShareFiles
+        },
+        {
+          path: "/shareFiles/edit/:id",
+          name: "editShareFiles", // 共享文件
+          component: editShareFiles
+        },
+        {
+          path: "/shareFiles/detail/:id",
+          name: "detailShareFiles", // 共享文件
+          component: detailShareFiles
         }
       ]
     },

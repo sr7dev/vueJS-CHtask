@@ -25,7 +25,10 @@
       <el-row class="w-100 flex-justify-center margin-bottom-30" v-if="workData.workTaskProfiles">
         <el-col :span="12">
           <el-button type="warning" plain @click="downloadFile()">附件下载</el-button>
-          <span class="margin-left-20">{{workData.workTaskProfiles.replace("/uploads/", "")}}</span>
+          <span
+            class="margin-left-20"
+            v-if="workData.workTaskProfiles"
+          >{{workData.workTaskProfiles.replace("/uploads/", "")}}</span>
         </el-col>
       </el-row>
       <el-row class="margin-bottom-30">

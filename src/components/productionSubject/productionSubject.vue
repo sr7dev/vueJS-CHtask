@@ -179,7 +179,6 @@
 </template>
 
 <script>
-import sampleData from "./_data";
 import Pagination from "@/components/common/pagination";
 import Request from "@/services/api/request";
 export default {
@@ -201,7 +200,7 @@ export default {
       radio: "1",
       listLoading: true,
       townList: [],
-      tableData: sampleData,
+      tableData: [],
       srcData: []
     };
   },
@@ -299,10 +298,10 @@ export default {
           townId: this.townId
         })
         .then(response => {
-          let dt = response;
+          let dt = response.data;
           this.tableData = [];
           this.srcData = [];
-          this.total = dt.length;
+          this.total = response.total;
           dt.map(item => {
             this.getNowGrade(item.creditCode).then(res => {
               item.nowGrade = this.getGradeString(res);
@@ -310,9 +309,19 @@ export default {
               this.srcData.push(item);
             });
           });
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
         })
         .catch(error => {
           console.error(error);
+          
+          this.tableData = [];
+          this.srcData = [];
+          this.total = 0;
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
         });
     },
     getGradeString(grade) {

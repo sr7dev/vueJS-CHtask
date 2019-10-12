@@ -74,6 +74,7 @@
 <script>
 import Request from "../../../../../services/api/request.js";
 import { Urls } from "../../../../../services/constants";
+import Auth from "../../../../../services/authentication/auth";
 import axios from "axios";
 export default {
   name: "detailThirdPartySampling",
@@ -172,7 +173,7 @@ export default {
               "productId": this.data.productId,
               "specimen": this.data.specimen,
               "updateTime": new Date().toJSON(),
-              "updateUserId": this.data.updateUserId,
+              "updateUserId": Auth().user().userId,
             })
             .then(response => {
               //this.$router.push({ path: "/threeProductsCertification" });

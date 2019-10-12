@@ -1,19 +1,32 @@
 <template>
-  <div class="xyh_top">
+  <div class="xyh_top flex-box justify-right">
     <div class="changshu_left">
       <img src="../../assets/images/logo.jpg" alt />
     </div>
-    <h2>
-      <div class="quit">
-        <span style="padding-right: 20px">
-          <img src="../../assets/images/head.png" alt />admin
-        </span>
-        <span @click="quit()">
-          <img src="../../assets/images/quit.png" alt />
-          退出
-        </span>
-      </div>
-    </h2>
+    <el-menu
+      outer
+      :default-active="$route.fullPath"
+      class="el-menu-demo"
+      mode="horizontal"
+      background-color="#253032"
+      text-color="#ffffff"
+    >
+      <el-menu-item index="/shareFiles">
+        <router-link slot="title" to="/shareFiles">共享文件</router-link>
+      </el-menu-item>
+      <el-menu-item index="/internalMessage">
+        <router-link slot="title" to="/internalMessage">站内消息</router-link>
+      </el-menu-item>
+    </el-menu>
+    <div class="quit">
+      <span style="padding-right: 20px">
+        <img src="../../assets/images/head.png" alt />admin
+      </span>
+      <span @click="quit()">
+        <img src="../../assets/images/quit.png" alt />
+        退出
+      </span>
+    </div>
   </div>
 </template>
 
