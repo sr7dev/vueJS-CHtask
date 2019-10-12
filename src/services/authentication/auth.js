@@ -57,8 +57,10 @@ class Auth {
     if (rememberStatus) {
       Storage.set("userName", data["userId"]);
     } else {
-      Storage.remove("userName");
-      Storage.remove("password");
+      if (data["userID"] == Storage.get("userName")) {
+        Storage.remove("userName");
+        Storage.remove("password");
+      }
     }
     // save user's tokens
     TokenManager().accessToken = data["token"];
