@@ -46,10 +46,10 @@
         <el-menu-item index="/seed">
           <router-link slot="title" to="/seed">种子管理</router-link>
         </el-menu-item>
-        <el-menu-item index="/userManagement" v-if="loggedinUserType!=3">
+        <el-menu-item index="/userManagement" v-if="loggedinUserType!==3">
           <router-link slot="title" to="/userManagement">用户管理</router-link>
         </el-menu-item>
-        <el-menu-item index="/threeProductsCertification">
+        <el-menu-item index="/threeProductsCertification" v-if="loggedinUserType!== 3">
           <router-link slot="title" to="/threeProductsCertification">三品一标管理</router-link>
         </el-menu-item>
         <el-menu-item index="/sampleCheck">
@@ -67,7 +67,7 @@
         <el-menu-item index="/redBlackList">
           <router-link slot="title" to="/redBlackList">红黑名单</router-link>
         </el-menu-item>
-       <el-menu-item index="/productionStandard" v-if="loggedinUserType === 3">
+        <el-menu-item index="/productionStandard" v-if="loggedinUserType === 3">
           <router-link slot="title" to="/productionStandard">生产标准</router-link>
         </el-menu-item>
         <el-menu-item index="/jobDefinition" v-if="loggedinUserType === 3">
