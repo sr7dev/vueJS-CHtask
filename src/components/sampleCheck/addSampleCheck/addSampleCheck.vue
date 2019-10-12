@@ -7,47 +7,30 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <el-form v-if="data" :rules="dataRulse" ref="data" :model="data">
+      <el-form v-if="data" :rules="dataRulse" ref="data" :model="data" label-width="100px">
         <el-form-item label="检测名称:" prop="sampleName">
           <el-input v-model="data.sampleName" style="width: 300px;" placeholder=""></el-input>
         </el-form-item>
-        <div class="item-row">
-          <div class="item">
-            <div class="item-label">检测时间:</div>
-            <div class="item-value">
-              <el-date-picker v-model="data.sampleTime" type="date" placeholder="date"></el-date-picker>
-            </div>
-          </div>
-          <div class="item">
-            <div class="item-label">检测人员:</div>
-            <el-form-item prop="checkPerson">
-              <el-input v-model="data.checkPerson" placeholder="" style="margin-top: 15px;"></el-input>
-            </el-form-item>
-          </div>
-        </div>
-        <div class="item-row">
-          <el-form-item prop="checkFiles">
-            <div style="display: flex;">
-              <div class="item-label">
-                <input type="file" id="file" style="display: none" ref="file"
-                  v-on:change="handleFileUpload()"/>
-                <el-button plain @click="chooseFile()">添加附件</el-button>
-              </div>
-              <span class="item-value" style="width: 500px;">{{data.checkFiles}}</span>
-            </div>
-          </el-form-item>
-        </div>
-        <div class="item-row">
-          <div class="item">
-            <div class="item-label"></div>
+        <el-form-item label="检测时间:" prop="sampleTime">
+          <el-date-picker v-model="data.sampleTime" style="width: 300px !important;"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="检测人员:" prop="checkPerson">
+          <el-input v-model="data.checkPerson" placeholder="" style="width: 300px;"></el-input>
+        </el-form-item>
+        <el-form-item prop="checkFiles" label="">
+          <div style="display: flex;">
             <div class="item-label">
-              <el-button plain @click="onSubmit()">保存</el-button>
+              <input type="file" id="file" style="display: none" ref="file"
+                v-on:change="handleFileUpload()"/>
+              <el-button plain @click="chooseFile()">添加附件</el-button>
             </div>
-            <div class="item-value">
-              <el-button plain @click="$router.go(-1)">取消</el-button>
-            </div>
+            <span class="item-value" style="width: 500px;">{{data.checkFiles}}</span>
           </div>
-        </div>
+        </el-form-item>
+        <el-form-item label="">
+            <el-button type="success" plain @click="onSubmit()">保存</el-button>
+            <el-button type="danger" plain @click="$router.go(-1)">取消</el-button>
+        </el-form-item>
       </el-form>
       <template v-if="!data">No matching data!</template>
     </div>
@@ -69,11 +52,12 @@ export default {
         id: 0,
         sampleId: 0,
         sampleName: "",
-        sampleTime: new Date(),
+        sampleTime: "",
         updateUserId: 0
       },
       dataRulse: {
         sampleName: [{required: true, message: '请输入', trigger: 'blur,change'}],
+        sampleTime: [{required: true, message: '请选择', trigger: 'blur,change'}],
         checkPerson: [{required: true, message: '请输入', trigger: 'blur,change'}],
         checkFiles: [{required: true, message: '请输入', trigger: 'blur,change'}],
       },

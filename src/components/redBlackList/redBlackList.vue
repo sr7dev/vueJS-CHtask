@@ -72,7 +72,7 @@ export default {
   components: { Pagination },
   data() {
     return {
-      listLoading: true,
+      listLoading: false,
       page: {
         pageIndex: 1,
         pageSize: 20

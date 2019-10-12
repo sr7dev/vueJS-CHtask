@@ -346,7 +346,7 @@ export default {
         doSupervision: "1",
         landSource: "",
         plantArea: 0,
-        productInfo: "",
+        // productInfo: "",
         public_license: 0,
         public_punish: 0,
         qualityStandardId: 0,
@@ -438,8 +438,7 @@ export default {
             .then(res => {
               this.$router.push({ path: "/productionSubject" });
             });
-        } else {
-        }
+        } 
       });
       
     }
