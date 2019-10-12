@@ -35,11 +35,12 @@
           <el-col :span="6">
             <el-form-item label="属性排序" prop="propertySort">
               <el-input v-model="ruleFormValue.propertySort" ></el-input>
-            </el-form-item>  
+            </el-form-item>
           </el-col>
         </el-row>
         <el-form-item>
-          <el-button type="success" plain>编辑选项</el-button>
+          <el-button
+            type="success" plain>编辑选项</el-button>
           <el-button type="success" @click="onSubmit('ruleForm')" plain>保存</el-button>
           <el-button type="danger" @click="goBack" plain>取消</el-button>
         </el-form-item>
