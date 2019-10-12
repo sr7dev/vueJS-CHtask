@@ -82,6 +82,12 @@ import editDefinitionLevel from "@/components/productionSubject/definitionLevel/
 import processDefinition from "@/components/productionSubject/mainProduct/processDefinition/processDefinition";
 import addProcessDefinition from "@/components/productionSubject/mainProduct/processDefinition/addProcessDefinition/addProcessDefinition";
 import editProcessDefinition from "@/components/productionSubject/mainProduct/processDefinition/editProcessDefinition/editProcessDefinition";
+import productProperty from "@/components/productionSubject/mainProduct/productProperty/productProperty";
+import addProductProperty from "@/components/productionSubject/mainProduct/productProperty/addProductProperty/addProductProperty";
+import editProductProperty from "@/components/productionSubject/mainProduct/productProperty/editProductProperty/editProductProperty";
+import customProductProperty from "@/components/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/customProductProperty";
+import addCustomProductProperty from "@/components/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/addCustomProductProperty/addCustomProductProperty";
+import editCustomProductProperty from "@/components/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/editCustomProductProperty/editCustomProductProperty";
 
 
 import companyBusiness from "@/components/companyBusiness/companyBusiness";
@@ -283,6 +289,36 @@ export default new Router({
           path: "/productionSubject/mainProduct/processDefinition/editProcessDefinition/:id",
           name: "editProcessDefinition",
           component: editProcessDefinition
+        },
+        {
+          path: "/productionSubject/mainProduct/productProperty/:id",
+          name: "productProperty",
+          component: productProperty
+        },
+        {
+          path: "/productionSubject/mainProduct/productProperty/addProductProperty/:id",
+          name: "addProductProperty",
+          component: addProductProperty
+        },
+        {
+          path: "/productionSubject/mainProduct/productProperty/editProductProperty/:id",
+          name: "editProductProperty",
+          component: editProductProperty
+        },
+        {
+          path: "/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/:id",
+          name: "customProductProperty",
+          component: customProductProperty
+        },
+        {
+          path: "/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/addCustomProductProperty/:id",
+          name: "addCustomProductProperty",
+          component: addCustomProductProperty
+        },
+        {
+          path: "/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/editCustomProductProperty/:id",
+          name: "editCustomProductProperty",
+          component: editCustomProductProperty
         },
         {
           path: "/threeProductsCertification",
