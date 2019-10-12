@@ -53,7 +53,7 @@
                 />
             </div>
         </el-form-item>
-        <el-form-item class="left-margin">
+        <el-form-item label="">
             <el-button type="success" plain @click="onSubmit('addForm')">
                 保存
             </el-button>
