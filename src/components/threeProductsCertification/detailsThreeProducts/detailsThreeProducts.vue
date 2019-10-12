@@ -126,6 +126,7 @@
           <el-button type="danger" @click="goBack" plain>取消</el-button>
         </el-form-item>
       </el-form>
+          <template v-if="dataLoading">装货...</template>
     </div>
   </div>
 </template>

@@ -2,13 +2,12 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/productionSubject' }"
-          >监管对象</el-breadcrumb-item
-        >
+        <el-breadcrumb-item :to="{ path: '/productionSubject' }">监管对象</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">仓库详情</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
+      <template v-if="data">
         <div class="item-row">
           <div class="item">
             <div class="item-label">检测名称:</div>
@@ -25,37 +24,25 @@
             <div class="item-value">{{ data.checkPerson }}</div>
           </div>
         </div>
-        <div class="item-row">
+        <div class="item-row" v-show="data.checkFiles">
           <div class="item">
+            <div class="item-label"></div>
             <div class="item-label">
-              <input
-                type="file"
-                id="file"
-                style="display: none"
-                ref="file"
-                v-on:change="handleFileUpload()"
-              />
-              <el-button type="warning" plain>下载附件</el-button>
+              <el-button @click="downloadFile()" plain type="success">下载附件</el-button>
             </div>
-            <div class="item-value" v-if="!file">
-              <el-link @click="downloadFile()">
-                {{
-                  fileName
-                }}
-              </el-link>
-            </div>
-            <div class="item-value" v-if="file">({{ file.name }})</div>
+            <span class="item-value">{{ data.checkFiles.replace("/uploads/", "") }}</span>
           </div>
         </div>
         <div class="item-row">
           <div class="item">
+            <div class="item-label"></div>
             <div class="item-value">
-              <el-button plain @click="$router.go(-1)" type="primary"
-                >返回</el-button
-              >
+              <el-button plain @click="$router.go(-1)" type="primary">返回</el-button>
             </div>
           </div>
         </div>
+      </template>
+      <template v-if="!data">装货...</template>
     </div>
   </div>
 </template>
@@ -69,9 +56,7 @@ export default {
   data() {
     return {
       id: -1,
-      data: [],
-      file: null,
-      fileName: ""
+      data: null
     };
   },
   created() {
@@ -80,7 +65,6 @@ export default {
       .get(`/api/sample_check/get/${this.id}`)
       .then(response => {
         this.data = response;
-        this.fileName = this.data.checkFiles.replace("/uploads/", "");
       })
       .catch(error => {
         console.log(error);
@@ -96,10 +80,7 @@ export default {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute(
-          "download", 
-          this.data.checkFiles.replace("/uploads/", "")
-        ); //or any other extension
+        link.setAttribute("download", this.data.checkFiles); //or any other extension
         document.body.appendChild(link);
         link.click();
         link.remove();
