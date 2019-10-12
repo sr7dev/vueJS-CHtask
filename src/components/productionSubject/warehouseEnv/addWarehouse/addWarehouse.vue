@@ -56,7 +56,7 @@
 <script>
 import Request from "../../../../services/api/request.js";
 export default {
-  name: "detailsWarehouse",
+  name: "addWarehouse",
   data() {
     return {
       id: -1,
@@ -121,5 +121,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "./detailsWarehouse.scss";
+@import "./addWarehouse.scss";
 </style>

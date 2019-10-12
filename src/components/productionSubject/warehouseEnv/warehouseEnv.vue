@@ -87,8 +87,8 @@ export default {
   methods: {
     showDetailWarehouse(row) {
       this.$router.push({
-        path: `/productionSubject/warehouseEnv/detailsWarehouse/${row.id}`,
-        query: { company: row }
+        path: `/productionSubject/warehouseEnv/detailsWarehouse/${this.id}`,
+        query: { id: row.id}
       });
     },
     getList(id) {
