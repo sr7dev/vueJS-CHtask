@@ -43,6 +43,9 @@
         <el-menu-item index="/seed">
           <router-link slot="title" to="/seed">种子管理</router-link>
         </el-menu-item>
+        <el-menu-item index="/userManagement" v-if="loggedinUserType!=3">
+          <router-link slot="title" to="/userManagement">用户管理</router-link>
+        </el-menu-item>
         <el-menu-item index="/threeProductsCertification">
           <router-link slot="title" to="/threeProductsCertification">三品一标管理</router-link>
         </el-menu-item>
@@ -70,6 +73,7 @@
 </template>
 
 <script>
+import Auth from "@/services/authentication/auth.js";
 export default {
   data() {
     return {
@@ -80,8 +84,12 @@ export default {
         }
       ],
       openeds: [1],
-      activeMenu: ""
+      activeMenu: "",
+      loggedinUserType: null
     };
+  },
+  created() {
+    this.loggedinUserType = Auth().user().attrs.userType;
   },
   methods: {
     handleSelect(key) {

@@ -24,6 +24,10 @@ import detailWorkTaskReport from "@/components/workTask/detailWorkTaskReport/det
 import seed from "@/components/seed/seed";
 import uploadSeed from "@/components/seed/uploadSeed/uploadSeed";
 import detailSeed from "@/components/seed/detailSeed/detailSeed";
+import userManagement from "@/components/userManagement/userManagement";
+import registerUser from "@/components/userManagement/registerUser/registerUser";
+import editUser from "@/components/userManagement/editUser/editUser";
+import changePassword from "@/components/userManagement/changePassword/changePassword";
 import productionStandard from "@/components/productionStandard/productionStandard";
 import addProductionStandard from "@/components/productionStandard/addProductionStandard/addProductionStandard";
 import detailProductionStandard from "@/components/productionStandard/detailProductionStandard/detailProductionStandard";
@@ -486,6 +490,26 @@ export default new Router({
           path: "/seed/detail/:id",
           name: "detailSeed", // 种子管理
           component: detailSeed
+        },
+        {
+          path: "/userManagement",
+          name: "userManagement", // 用户管理
+          component: userManagement
+        },
+        {
+          path: "/userManagement/create",
+          name: "registerUser", // 用户管理
+          component: registerUser
+        },
+        {
+          path: "/userManagement/edit/:id",
+          name: "editUser", // 用户管理
+          component: editUser
+        },
+        {
+          path: "/userManagement/changePwd/:id",
+          name: "changePassword", // 用户管理
+          component: changePassword
         },
         {
           path: "/productionStandard",
