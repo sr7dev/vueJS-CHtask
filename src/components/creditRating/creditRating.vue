@@ -6,7 +6,7 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <div class="iptBox" v-if="!loggedinUserType === 3">
+      <div class="iptBox">
         <div class="select_label no-margin-left">乡镇</div>
         <el-select placeholder v-model="currTown" @change="getList">
           <el-option v-for="town in township" :key="town.id" :label="town.name" :value="town.id"></el-option>
@@ -74,7 +74,7 @@
               }}
             </template>
           </el-table-column>
-          <el-table-column label="操作" v-if="!loggedinUserType === 3">
+          <el-table-column label="操作">
             <template slot-scope="{ row }">
               <!-- <el-button v-on:click="$router.push(`/creditRating/${row.creditGradeId}`)">查看</el-button> -->
               <el-button
@@ -107,7 +107,6 @@
 <script>
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
-import Auth from "@/services/authentication/auth.js";
 
 export default {
   name: "creditRating",
@@ -125,15 +124,13 @@ export default {
       companyProduction: [],
       listLoading: true,
       total: 100,
-      tableData: [],
-      loggedinUserType: null
+      tableData: []
     };
   },
   created() {
     this.getTown();
     this.getList();
     this.getCompanyProduction();
-    this.loggedinUserType = Auth().user().attrs.userType;
   },
   methods: {
     rowIndex({ row, rowIndex }) {

@@ -2,7 +2,9 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/productionSubject' }">监管对象</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/productionSubject' }"
+          >监管对象</el-breadcrumb-item
+        >
         <el-breadcrumb-item class="actived">仓库详情</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -27,28 +29,38 @@
         <div class="item-row">
           <div class="item">
             <div class="item-label">检测结果:</div>
-            <div class="item-value">{{ data.checkResult == 1 ? "合格" : "不合格" }}</div>
-          </div>
-        </div>
-        <div class="item-row">
-          <div class="item">
-            <div class="item-label"></div>
             <div class="item-value">
-              <el-button @click="$router.go(-1)" plain type="success">下载附件</el-button>
+              {{ data.checkResult == 1 ? "合格" : "不合格" }}
             </div>
-            <span class="item-value">{{ data.checkFiles.replace("/uploads/", "") }}</span>
           </div>
         </div>
         <div class="item-row">
           <div class="item">
             <div class="item-label"></div>
             <div class="item-value">
-              <el-button @click="$router.go(-1)" plain type="primary">返回</el-button>
+              <el-button @click="$router.go(-1)" plain type="success"
+                >下载附件</el-button
+              >
+            </div>
+            <span class="item-value">
+              {{ data.checkFiles.replace("/uploads/", "") }}
+            </span>
+          </div>
+        </div>
+        <div class="item-row">
+          <div class="item">
+            <div class="item-label"></div>
+            <div class="item-value">
+              <el-button @click="$router.go(-1)" plain type="primary"
+                >返回</el-button
+              >
             </div>
           </div>
         </div>
       </template>
-      <template v-if="!data">装货...</template>
+      <template v-if="!data"
+        >No matching data!</template
+      >
     </div>
   </div>
 </template>

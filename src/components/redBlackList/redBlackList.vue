@@ -13,41 +13,40 @@
         <div style="margin-bottom:20px">
           <label style="margin-right: 30px">乡镇</label>
           <el-select v-model="currTown" placeholder="Select" @change="getList">
-            <el-option v-for="item in township" :key="item.id" :label="item.name" :value="item.id"></el-option>
+            <el-option
+              v-for="item in township"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            >
+            </el-option>
           </el-select>
         </div>
         <el-container>
-          <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
-            <el-table-column :formatter="order" label="序号" width="180"></el-table-column>
-            <el-table-column label="企业名称" v-if="loggedinUserType===2">
-              <template slot-scope="{ row }">
-                {{
-                filterCompnay(row.creditCode)
-                }}
-              </template>
+          <el-table
+            :data="tableData"
+            style="width: 100%"
+            :row-class-name="rowIndex"
+          >
+            <el-table-column :formatter="order" label="序号" width="180">
             </el-table-column>
-            <el-table-column label="名称">
-              <template slot-scope="{ row }" v-if="loggedinUserType!==2">
-                {{
+            <el-table-column label="企业名称">
+              <template slot-scope="{ row }">{{
                 filterCompnay(row.creditCode)
-                }}
-              </template>
+              }}</template>
             </el-table-column>
             <el-table-column label="现信用评级">
-              <template slot-scope="{ row }">
-                {{
+              <template slot-scope="{ row }">{{
                 getGrade(row.nowGrade)
-                }}
-              </template>
+              }}</template>
             </el-table-column>
             <el-table-column prop="gradeTime" label="评级时间">
-              <template slot-scope="{ row }">
-                {{
+              <template slot-scope="{ row }">{{
                 row.gradeTime | formatDate
-                }}
-              </template>
+              }}</template>
             </el-table-column>
-            <el-table-column prop="gradeUnit" label="评级单位"></el-table-column>
+            <el-table-column prop="gradeUnit" label="评级单位">
+            </el-table-column>
           </el-table>
         </el-container>
         <div class="pageBox">
@@ -67,7 +66,7 @@
 <script>
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
-import Auth from "@/services/authentication/auth.js";
+
 export default {
   name: "redBlackList",
   components: { Pagination },
@@ -90,15 +89,13 @@ export default {
       currTown: 0,
       status: 1,
       tableData: [],
-      companyProduction: [],
-      loggedinUserType: null
+      companyProduction: []
     };
   },
   created() {
     this.getTown();
     this.getList();
     this.getCompanyProduction();
-    this.loggedinUserType = Auth().user().attrs.userType;
   },
   methods: {
     getCompanyProduction() {

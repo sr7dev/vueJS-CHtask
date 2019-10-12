@@ -8,13 +8,6 @@
     <div class="box">
       <div class="iptBox">
         <el-row class="w-100">
-          <el-col :span="3">
-            <el-button
-              type="primary"
-              v-on:click="$router.push(`/productionStandard/create`)"
-              plain
-            >添加生产标准</el-button>
-          </el-col>
           <el-col :span="6">
             <div class="select_label no-margin-left">产品名称</div>
             <el-input v-model="productName" @change="getList()" class="w-80"></el-input>
@@ -24,6 +17,13 @@
             <el-select v-model="category" @change="getList()">
               <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item.id"></el-option>
             </el-select>
+          </el-col>
+          <el-col :span="3">
+            <el-button
+              type="primary"
+              v-on:click="$router.push(`/productionStandard/create`)"
+              plain
+            >添加</el-button>
           </el-col>
         </el-row>
       </div>
@@ -96,7 +96,7 @@ export default {
         { id: 1, name: "畜牧业" },
         { id: 2, name: "水产业" },
         { id: 3, name: "养殖业" }
-      ]
+      ],
     };
   },
   created() {

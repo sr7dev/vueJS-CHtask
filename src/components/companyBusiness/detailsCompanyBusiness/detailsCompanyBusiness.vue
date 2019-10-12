@@ -16,7 +16,11 @@
         </el-row>
         <el-row>
           <el-col :span="8">
-            <img class="content img" :src="url + '/api' + data.profileImage" alt />
+            <img
+              class="content img"
+              :src="url + '/api' + data.profileImage"
+              alt=""
+            />
           </el-col>
           <el-col :span="6">
             <div class="title">福鼎白茶</div>
@@ -29,7 +33,11 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="6" v-for="(item, index) in companyProducts" :key="index">
+          <el-col
+            :span="6"
+            v-for="(item, index) in companyProducts"
+            :key="index"
+          >
             <div class="sub-title">{{ item.productName }}</div>
             <div class="content">{{ item.productArea }}</div>
           </el-col>
@@ -50,9 +58,11 @@
             <div class="content">地址：{{ data.companyAddress }}</div>
           </el-col>
         </el-row>
-        <el-button plain v-on:click="$router.go(-1)" type="success">返回</el-button>
+        <el-button plain v-on:click="$router.go(-1)" type="success"
+          >返回</el-button
+        >
       </div>
-      <span v-if="!data">装货...</span>
+      <span v-if="!data">No matching data</span>
     </div>
   </div>
 </template>

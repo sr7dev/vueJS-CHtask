@@ -1,224 +1,217 @@
-import * as _ from "lodash";
-import Storage from "store";
-import Request from "../api/request";
-import { User } from "../../models/user";
-import TokenManager from "./token-manager";
-import axios from "axios";
+import * as _ from 'lodash';
+import Storage from 'store';
+import Request from '../api/request';
+import { User } from '../../models/user';
+import TokenManager from './token-manager';
+import axios from 'axios';
 
 class Auth {
-  constructor() {}
 
-  /**
-   * Singleton constructor
-   * @return {Auth} this
-   */
+	constructor() { }
 
-  static d() {
-    return this.instance ? this.instance : (this.instance = new Auth());
-  }
+	/**
+	 * Singleton constructor
+	 * @return {Auth} this
+	 */
 
-  /**
-   * Set token to axios global header
-   */
-  setToken() {
-    axios.defaults.headers.common["Authorization"] = TokenManager().accessToken;
-  }
+	static d() {
+		return this.instance ? this.instance : this.instance = new Auth;
+	}
 
-  /**
-   * Whether a user has logged in
-   * @return {Boolean}
-   */
-  check() {
-    return this.user() != null && Boolean(TokenManager().accessToken);
-  }
+	/**
+	 * Set token to axios global header
+	 */
+	setToken() {
+		axios.defaults.headers.common['Authorization'] = TokenManager().accessToken;
+	}
 
-  /**
-   * Retrieve details of loggedin user
-   * @return {Object} user data
-   */
-  user() {
-    if (this.loggedInUser) return this.loggedInUser;
+	/**
+	 * Whether a user has logged in
+	 * @return {Boolean} 
+	 */
+	check() {
+		return this.user() != null && Boolean(TokenManager().accessToken);
+	}
 
-    if (Storage.get("userData")) {
-      return User.create(JSON.parse(Storage.get("userData")));
-    }
+	/**
+	 * Retrieve details of loggedin user
+	 * @return {Object} user data
+	 */
+	user() {
+		if (this.loggedInUser) return this.loggedInUser;
 
-    return null;
-  }
+		if (Storage.get('userData')) {
+			return User.create(JSON.parse(Storage.get('userData')));
+		}
 
-  /**
-   * Create and login user with response data
-   * @param  {Object} data Response data
-   * @return {Void}
-   */
-  createUserFrom(data) {
-    // save or remove user's info
-    const rememberStatus = Storage.get("isRemember");
-    if (rememberStatus) {
-      Storage.set("userName", data["userId"]);
-    } else {
-      Storage.remove("userName");
-      Storage.remove("password");
-    }
-    // save user's tokens
-    TokenManager().accessToken = data["token"];
-    // // bind token to api request
-    this.setToken();
+		return null;
+	}
 
-    // // instantiate current user
-    // console.log(data['user_meta']);
-    this.loggedInUser = User.create({
-      id: data["id"],
-      userId: data["userId"],
-      userType: data["userType"],
-      contactName: data["contactName"],
-      contactPerson: data["contactPerson"],
-      contactWay: data["contactWay"],
-      createTime: data["createTime"],
-      createUserId: data["createUserId"],
-      creditCode: data["creditCode"],
-      updateTime: data["updateTime"],
-      updateUserId: data["updateUserId"]
-    });
+	/**
+	 * Create and login user with response data
+	 * @param  {Object} data Response data
+	 * @return {Void}      
+	 */
+	createUserFrom(data) {
+		// save user's tokens
+		TokenManager().accessToken = data['token'];
 
-    // // save user locally
-    Storage.set("userData", JSON.stringify(this.loggedInUser.attrs));
-  }
+		// // bind token to api request
+		this.setToken();
 
-  /**
-   * if error clear password and isremember from storage
-   * @return {Void}
-   */
+		// // instantiate current user
+		// console.log(data['user_meta']);
 
-  clearSavedData() {
-    Storage.remove("password");
-  }
+		this.loggedInUser = User.create({
+			'id': data['id'],
+			'userId': data['userId'],
+			'userType': data['userType'],
+			'contactName': data['contactName'],
+			'contactPerson': data['contactPerson'],
+			'contactWay': data['contactWay'],
+			'createTime': data['createTime'],
+			'createUserId': data['createUserId'],
+			'creditCode': data['creditCode'],
+			'updateTime': data['updateTime'],
+			'updateUserId': data['updateUserId']
+		});
 
-  /**
-   * Sign up a new user using data provider
-   * @param  {Object} data Packaged data for creating new user
-   * @return {Promise}      Response
-   */
-  signup(data) {
-    return Request()
-      .post("auth/signup", data, {}, true)
-      .then(
-        success => {
-          this.createUserFrom(_.merge(success["data"], data));
-          return Promise.resolve(success);
-        },
+		// // save user locally
+		Storage.set('userData', JSON.stringify(this.loggedInUser.attrs));
+	}
 
-        error => {
-          return Promise.reject(error);
-        }
-      );
-  }
+	/**
+	 * Sign up a new user using data provider
+	 * @param  {Object} data Packaged data for creating new user
+	 * @return {Promise}      Response
+	 */
+	signup(data) {
+		return Request().post('auth/signup', data, {}, true)
+			.then(
+				success => {
+					this.createUserFrom(
+						_.merge(
+							success['data'],
+							data
+						)
+					);
+					return Promise.resolve(success);
+				},
 
-  /**
-   * Verify a new host using data provider
-   * @param  {Object} data Packaged data for creating new user
-   * @return {Promise}      Response
-   */
-  verifyHost(data) {
-    return Request()
-      .post("auth/verify-host", data, {}, true)
-      .then(
-        success => {
-          this.createUserFrom(_.merge(success["data"], data));
-          return Promise.resolve(success);
-        },
+				error => {
+					return Promise.reject(error);
+				}
+			);
+	}
 
-        error => {
-          return Promise.reject(error);
-        }
-      );
-  }
+	/**
+	 * Verify a new host using data provider
+	 * @param  {Object} data Packaged data for creating new user
+	 * @return {Promise}      Response
+	 */
+	verifyHost(data) {
+		return Request().post('auth/verify-host', data, {}, true)
+			.then(
+				success => {
+					this.createUserFrom(
+						_.merge(
+							success['data'],
+							data
+						)
+					);
+					return Promise.resolve(success);
+				},
 
-  /**
-   * Login with email and password
-   * @param  {String} email
-   * @param  {String} password
-   * @return {Promise}          API response
-   */
-  login(formData) {
-    Storage.set("isRemember", formData.isRemember);
-    Storage.set("password", formData.password);
-    return Request()
-      .post(
-        "/api/user/login", {
-          password: formData.password,
-          username: formData.username
-        }, {},
-        true
-      )
-      .then(
-        success => {
-          this.createUserFrom(success);
-          return Promise.resolve(success);
-        },
-        error => {
-          this.clearSavedData();
-          return Promise.reject(error);
-        }
-      );
-  }
+				error => {
+					return Promise.reject(error);
+				}
+			);
+	}
 
-  /**
-   * Reset a user's password from email
-   * @param  {String} email Email of user
-   * @return {Promise}       API Response
-   */
-  resetPassword(email) {
-    return Request()
-      .post("auth/reset_password", { username: email })
-      .then(
-        success => {
-          return Promise.resolve(success);
-        },
-        error => {
-          return Promise.reject(error);
-        }
-      );
-  }
+	/**
+	 * Login with email and password
+	 * @param  {String} email    
+	 * @param  {String} password 
+	 * @return {Promise}          API response
+	 */
+	login(formData) {
+		return Request()
+			.post('/api/user/login', {
+				password: formData.password,
+				username: formData.username
+			}, {}, true)
+			.then(
+				success => {
+					this.createUserFrom(success);
+					return Promise.resolve(success);
+				},
+				error => {
+					return Promise.reject(error);
+				}
+			);
+	}
 
-  /**
-   * Logout the current user
-   * @return {void}
-   */
-  logout() {
-    if (this.check()) {
-      // remove logged in user
-      this.loggedInUser = null;
+	/**
+	 * Reset a user's password from email
+	 * @param  {String} email Email of user
+	 * @return {Promise}       API Response
+	 */
+	resetPassword(email) {
+		return Request().post('auth/reset_password', { 'username': email })
+			.then(
+				success => {
+					return Promise.resolve(success);
+				},
+				error => {
+					return Promise.reject(error);
+				}
+			);
+	}
 
-      // remove user tokens
-      TokenManager().removeAccessToken();
-      //TokenManager().removeRefreshToken();
-    }
-  }
+	/**
+	 * Logout the current user
+	 * @return {void} 
+	 */
+	logout() {
 
-  /**
-   * Refresh access token for a new session
-   * @return {Promise} Response
-   */
-  // refreshAccessToken() {
+		if (this.check()) {
 
-  // 	return Request().post('auth/refresh_token', {
-  // 		'refresh_token': TokenManager().refreshToken
-  // 	}).then(
-  // 		success => {
-  // 			// update access token
-  // 			TokenManager().accessToken = success['data']['id_token'];
-  // 			this.setToken();
-  // 			return Promise.resolve();
-  // 		},
-  // 		error => {
-  // 			return Promise.reject(error);
-  // 		}
-  // 	)
+			// remove logged in user
+			this.loggedInUser = null
 
-  // }
+			// remove user tokens
+			TokenManager().removeAccessToken();
+			//TokenManager().removeRefreshToken();
+		}
+
+	}
+
+	/**
+	 * Refresh access token for a new session
+	 * @return {Promise} Response 
+	 */
+	// refreshAccessToken() {
+
+	// 	return Request().post('auth/refresh_token', {
+	// 		'refresh_token': TokenManager().refreshToken
+	// 	}).then(
+	// 		success => {
+	// 			// update access token
+	// 			TokenManager().accessToken = success['data']['id_token'];
+	// 			this.setToken();
+	// 			return Promise.resolve();
+	// 		},
+	// 		error => {
+	// 			return Promise.reject(error);
+	// 		}
+	// 	)
+
+	// }
+
 }
 
 export default () => {
-  return Auth.d();
+
+	return Auth.d();
+
 };

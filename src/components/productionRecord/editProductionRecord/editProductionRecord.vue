@@ -80,7 +80,6 @@
           <el-button type="primary" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
       </el-form>
-      <span v-if="!data">装货...</span>
     </div>
   </div>
 </template>
