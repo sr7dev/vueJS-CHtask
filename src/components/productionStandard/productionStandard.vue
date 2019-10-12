@@ -38,7 +38,9 @@
         >
           <el-table-column :formatter="order" label="序号" width="100"></el-table-column>
           <el-table-column prop="productName" label="产品"></el-table-column>
-          <el-table-column prop="category" label="类别"></el-table-column>
+          <el-table-column prop="category" label="类别">
+            <template slot-scope="{ row }">{{ filterCategory(row.category) }}</template>
+          </el-table-column>
           <el-table-column prop="releaseTime" label="发布时间" class-name="text-center">
             <template slot-scope="{ row }">{{ row.releaseTime | formatDate }}</template>
           </el-table-column>
@@ -95,7 +97,7 @@ export default {
         { id: 1, name: "畜牧业" },
         { id: 2, name: "水产业" },
         { id: 3, name: "养殖业" }
-      ]
+      ],
     };
   },
   created() {
@@ -129,7 +131,7 @@ export default {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
     },
     filterCategory(id) {
-      let category = this.options.find(x => x.id === id);
+      let category = this.options.find(x => x.id === parseInt(id));
       if (category) {
         return category.name;
       } else {

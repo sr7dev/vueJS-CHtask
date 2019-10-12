@@ -63,7 +63,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
+        <el-form-item label="">
           <el-col :span="8">
             <el-button
               type="warning"
@@ -77,9 +77,9 @@
             >{{data.productionStandardProfiles.replace("/uploads/", "")}}</span>
             <span class="margin-left-20" v-else>没有数据</span>
           </el-col>
-        </el-row>
-        <el-form-item class="left-margin">
-          <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
+        </el-form-item>
+        <el-form-item label="">
+          <el-button type="danger" plain v-on:click="$router.go(-1)">返回</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -98,9 +98,9 @@ export default {
       productionList: [],
       data: [],
       options: [
-        { id: 1, name: "畜牧业" },
-        { id: 2, name: "水产业" },
-        { id: 3, name: "养殖业" }
+        { id: "1", name: "畜牧业" },
+        { id: "2", name: "水产业" },
+        { id: "3", name: "养殖业" }
       ]
     };
   },

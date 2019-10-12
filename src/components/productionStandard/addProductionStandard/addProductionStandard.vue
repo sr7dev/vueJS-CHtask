@@ -59,7 +59,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
+        <el-form-item label="">
           <el-col :span="8">
             <div class="item" style="display:flex">
               <div class="item-label" style="margin-bottom:20px;">
@@ -84,8 +84,8 @@
               </div>
             </div>
           </el-col>
-        </el-row>
-        <el-form-item class="left-margin">
+        </el-form-item>
+        <el-form-item label="">
           <el-button type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
           <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
@@ -140,7 +140,7 @@ export default {
         releasePerson: [
           {
             required: true,
-            message: "请选择"
+            message: "请插入"
           }
         ],
         productionStandard: [
