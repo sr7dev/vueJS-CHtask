@@ -82,6 +82,7 @@ import editProcessDefinition from "@/components/productionSubject/mainProduct/pr
 
 import companyBusiness from "@/components/companyBusiness/companyBusiness";
 import productBusiness from "@/components/companyBusiness/productBusiness/productBusiness";
+import  addProductBusiness from "@/components/companyBusiness/productBusiness/addProductBusiness/addProductBusiness";
 import detailsCompanyBusiness from "@/components/companyBusiness/detailsCompanyBusiness/detailsCompanyBusiness";
 
 import sampleCheck from "@/components/sampleCheck/sampleCheck";
@@ -167,6 +168,11 @@ export default new Router({
           path: "/companyBusiness/productBusiness/:id",
           name: "productBusiness",
           component: productBusiness
+        },
+        {
+          path: "/companyBusiness/productBusiness/create/:id",
+          name: "addProductBusiness",
+          component: addProductBusiness
         },
         {
           path: "/companyBusiness/detailsCompanyBusiness/:id",
