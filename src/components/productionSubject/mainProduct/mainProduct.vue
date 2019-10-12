@@ -45,11 +45,6 @@
         <el-table-column prop="grade" label="评级"></el-table-column>
         <el-table-column prop="operations" label="" width="270">
           <template slot-scope="{ row }">
-<<<<<<< HEAD
-            <el-button v-on:click="showSamplingRecord(row)" type="success" plain >第三方抽检记录</el-button>
-            <el-button v-on:click="showProductBatch(row)" type="warning" plain >产品批次</el-button>
-            <el-button v-on:click="showProductVariety(row)" type="warning" plain >品种定义</el-button>
-=======
             <el-button v-on:click="showSamplingRecord(row)" type="success" plain
               >第三方抽检记录</el-button
             >
@@ -62,7 +57,6 @@
             <el-button v-on:click="showProductGrade(row)" type="primary" plain
               >定义等级</el-button
             >
->>>>>>> 4a235af377a5e37bae292d6e76f2290102fcb89d
           </template>
         </el-table-column>
         <el-table-column prop="operations" label="" width="270">
