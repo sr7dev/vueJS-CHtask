@@ -3,7 +3,7 @@
     <div class="title">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>种子管理</el-breadcrumb-item>
-        <el-breadcrumb-item class="actived">种子管理</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">查看详情</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
@@ -20,13 +20,13 @@
           <el-row class="margin-bottom-10">
             <el-col :span="1">合计：</el-col>
             <el-col :span="5">补贴面积(亩)：{{sum1}}</el-col>
-            <el-col :span="5">种子应收金额(元):{{sum2}}</el-col>
-            <el-col :span="5">农户自负金额(元):{{sum3}}</el-col>
+            <el-col :span="5">种子应收金额(元)：{{sum2}}</el-col>
+            <el-col :span="5">农户自负金额(元)：{{sum3}}</el-col>
           </el-row>
           <el-row>
             <el-col :span="1">&nbsp;</el-col>
-            <el-col :span="5">供种数量(公斤):{{sum4}}</el-col>
-            <el-col :span="5">种子补贴金额(元):{{sum5}}</el-col>
+            <el-col :span="5">供种数量(公斤)：{{sum4}}</el-col>
+            <el-col :span="5">种子补贴金额(元)：{{sum5}}</el-col>
           </el-row>
         </div>
       </div>
@@ -87,11 +87,11 @@ export default {
       townId: null,
       cityId: null,
       villageId: null,
-      sum1: null,
-      sum2: null,
-      sum3: null,
-      sum4: null,
-      sum5: null
+      sum1: 0,
+      sum2: 0,
+      sum3: 0,
+      sum4: 0,
+      sum5: 0
     };
   },
   created() {
