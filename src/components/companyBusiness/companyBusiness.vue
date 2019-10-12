@@ -182,8 +182,8 @@ export default {
           pageSize: this.page.pageSize,
           sortBy: this.sortBy
         })
-        .then(response => {
-          this.tableData = response;
+        .then(response => {          
+          this.tableData = response.data;
           this.total = this.tableData.length;
           setTimeout(() => {
             this.listLoading = false;

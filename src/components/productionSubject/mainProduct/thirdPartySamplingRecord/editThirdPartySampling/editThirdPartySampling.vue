@@ -173,7 +173,7 @@ export default {
               "productId": this.data.productId,
               "specimen": this.data.specimen,
               "updateTime": new Date().toJSON(),
-              "updateUserId": Auth().user().userId,
+              "updateUserId": Auth().user().attrs.id,
             })
             .then(response => {
               //this.$router.push({ path: "/threeProductsCertification" });

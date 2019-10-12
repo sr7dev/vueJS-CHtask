@@ -57,7 +57,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="地址"  prop="companyAddress">
+              <el-form-item label="地址" prop="companyAddress">
                 <el-input v-model="form.companyAddress" style="width:100%" readonly></el-input>
               </el-form-item>
             </el-col>
@@ -273,7 +273,13 @@
         <el-row>
           <el-col :span="10">
             <el-form-item label="企业荣誉">
-              <el-input type="textarea" :rows="5" v-model="form.companyHonor" style="width:80%" readonly></el-input>
+              <el-input
+                type="textarea"
+                :rows="5"
+                v-model="form.companyHonor"
+                style="width:80%"
+                readonly
+              ></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
@@ -337,7 +343,6 @@ export default {
         doSupervision: "",
         landSource: "",
         plantArea: 0,
-        // productInfo: "",
         public_license: 0,
         public_punish: 0,
         qualityStandardId: 0,
@@ -357,7 +362,7 @@ export default {
           data_2_1: "",
           data_3_0: "",
           data_3_1: ""
-        },
+        }
       },
       rules: {
         chargePerson: defaultRule,
@@ -374,7 +379,7 @@ export default {
         qualityStandardId: defaultRule,
         remarks: defaultRule
       },
-      id: 0,
+      id: 0
     };
   },
   created() {

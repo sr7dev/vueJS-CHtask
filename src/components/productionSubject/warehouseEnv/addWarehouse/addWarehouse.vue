@@ -4,7 +4,7 @@
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>生产主体</el-breadcrumb-item>
         <el-breadcrumb-item>仓储环境</el-breadcrumb-item>
-        <el-breadcrumb-item class="actived">修改环境</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">添加环境</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
@@ -57,13 +57,11 @@
 <script>
 import Request from "../../../../services/api/request.js";
 export default {
-  name: "detailsWarehouse",
+  name: "addWarehouse",
   data() {
     return {
-      id: -1,
       companyId: 0,
-      pageName: this.$route.name,
-      listLoading: true,
+      listLoading: false,
       ruleFormValue: {
         warehouseAddress: "",
         warehouseArea: null,
@@ -73,26 +71,9 @@ export default {
     };
   },
   created() {
-    this.id = this.$route.query.id;
     this.companyId = this.$route.params.id;
-    this.getInfo();
   },
   methods: {
-    getInfo() {
-      this.listLoading = true;
-      Request()
-        .get("/api/warehose/get/" + this.id)
-        .then(response => {
-          this.ruleFormValue.warehouseAddress = response.warehouseAddress;
-          this.ruleFormValue.warehouseArea = response.warehouseArea;
-          this.ruleFormValue.warehouseName = response.warehouseName;
-          this.ruleFormValue.warehouseScope = response.warehouseScope;
-          setTimeout(() => {
-            this.listLoading = false;          
-          }, 0.5*100);
-        })
-        .catch(error => {});
-    },
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -101,18 +82,19 @@ export default {
             "warehouseArea": this.ruleFormValue.warehouseArea,
             "warehouseName": this.ruleFormValue.warehouseName,
             "warehouseScope": this.ruleFormValue.warehouseScope,
-            "companyId": this.companyId
+            "companyId": this.companyId,
+            "id": 0
           }
           this.listLoading = true;
           Request()
-            .put("/api/warehose/update/" + this.id, formData)
+            .post("/api/warehose/create", formData)
             .then(response => {
-              setTimeout(() => {
-                this.listLoading = false;          
-              }, 0.5*100);
               this.$router.push({
                 path: `/productionSubject/warehouseEnv/${this.companyId}`
               });
+              setTimeout(() => {
+                this.listLoading = false;          
+              }, 0.5*100);
             })
             .catch(error => {});
         } else {
@@ -129,5 +111,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "./detailsWarehouse.scss";
+@import "./addWarehouse.scss";
 </style>
