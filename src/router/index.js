@@ -72,6 +72,9 @@ import addVarietyDefinition from "@/components/productionSubject/varietyDefiniti
 import editVarietyDefinition from "@/components/productionSubject/varietyDefinition/editVarietyDefinition/editVarietyDefinition";
 import addInventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/addInventoryDynamics";
 import editInventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/editInventoryDynamics";
+import definitionLevel from "@/components/productionSubject/definitionLevel/definitionLevel";
+import addDefinitionLevel from "@/components/productionSubject/definitionLevel/addDefinitionLevel/addDefinitionLevel";
+import editDefinitionLevel from "@/components/productionSubject/definitionLevel/editDefinitionLevel/editDefinitionLevel";
 import processDefinition from "@/components/productionSubject/mainProduct/processDefinition/processDefinition";
 import addProcessDefinition from "@/components/productionSubject/mainProduct/processDefinition/addProcessDefinition/addProcessDefinition";
 import editProcessDefinition from "@/components/productionSubject/mainProduct/processDefinition/editProcessDefinition/editProcessDefinition";
@@ -79,6 +82,7 @@ import editProcessDefinition from "@/components/productionSubject/mainProduct/pr
 
 import companyBusiness from "@/components/companyBusiness/companyBusiness";
 import productBusiness from "@/components/companyBusiness/productBusiness/productBusiness";
+import  addProductBusiness from "@/components/companyBusiness/productBusiness/addProductBusiness/addProductBusiness";
 import detailsCompanyBusiness from "@/components/companyBusiness/detailsCompanyBusiness/detailsCompanyBusiness";
 
 import sampleCheck from "@/components/sampleCheck/sampleCheck";
@@ -164,6 +168,11 @@ export default new Router({
           path: "/companyBusiness/productBusiness/:id",
           name: "productBusiness",
           component: productBusiness
+        },
+        {
+          path: "/companyBusiness/productBusiness/create/:id",
+          name: "addProductBusiness",
+          component: addProductBusiness
         },
         {
           path: "/companyBusiness/detailsCompanyBusiness/:id",
@@ -570,6 +579,21 @@ export default new Router({
           path: "/productionStandard/detail/:id",
           name: "detailProductionStandard", // 生产标准
           component: detailProductionStandard
+        },
+        {
+          path:"/productionGrade/:id",
+          name:"definitionLevel",
+          component:definitionLevel
+        },
+        {
+          path:"/productionGrade/create/:id",
+          name:"addDefinitionLevel",
+          component:addDefinitionLevel
+        },
+        {
+          path:"/productionGrade/edit/:id",
+          name:"editDefinitionLevel",
+          component:editDefinitionLevel
         },
         {
           path: "/shareFiles",

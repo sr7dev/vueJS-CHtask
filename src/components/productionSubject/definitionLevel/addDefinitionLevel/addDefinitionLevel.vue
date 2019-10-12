@@ -3,8 +3,8 @@
     <div class="title">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">生产主体</el-breadcrumb-item>
-        <el-breadcrumb-item>主营产品</el-breadcrumb-item>
-        <el-breadcrumb-item>修改品种</el-breadcrumb-item>
+        <el-breadcrumb-item>主营产品/定义等级</el-breadcrumb-item>
+        <el-breadcrumb-item>添加品种</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <el-dialog :visible.sync="dialogVisible" width="30%" modal>
@@ -14,7 +14,7 @@
       </span>
     </el-dialog>
      <div class="box">
-      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px" v-if="!dataloading">
+      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">   
           <el-row>
               <el-col :span="6">
                 <el-form-item label="是否共享">
@@ -28,18 +28,18 @@
                   </el-select>
                 </el-form-item>
               </el-col>            
-          </el-row>
+          </el-row>       
           <el-row>
           <el-col :span="6">
-            <el-form-item label="品种名称">
-              <el-input v-model="ruleFormValue.varietyName"></el-input>
+            <el-form-item label="等级名称">
+              <el-input v-model="ruleFormValue.gradeName"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="品种排序">
-              <el-input v-model="ruleFormValue.varietySort"></el-input>
+            <el-form-item label="等级排序">
+              <el-input v-model="ruleFormValue.gradeSort"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -55,22 +55,20 @@
 <script>
 import Request from "../../../../services/api/request.js";
 import Auth from "../../../../services/authentication/auth";
-
 export default{
-    name:"editVarietyDefinition",
-    data(){        
+    name:"addDefinitionLevel",
+    data(){
         return {
             filter_Share: 0,
             dialogVisible:false,
-            dataloading: false,
-            varietyId: -1,
+            productId: -1,
             ruleFormValue:{
-              varietyName:"",
-              varietySort: "",
+                varietyName: "",
+                varietySort: "",
             },
             options: [        
-                { value: "0", label: "否" },
-                { value: "1", label: "是" },
+                { value: 0, label: "否" },
+                { value: 1, label: "是" },
             ],    
             rules:{
                 varietyName:[{
@@ -87,38 +85,23 @@ export default{
         };
     },
     created(){
-        this.varietyId = this.$route.params.id;          
-        this.getVariety(this.varietyId);    
+        this.productId = this.$route.params.id;      
     },
     methods:{
-        getVariety(id){
-            this.dataloading = true;
-            Request()
-                .get("/api/product_variety/get/" + id) 
-                .then(response => {
-                this.ruleFormValue = response;        
-                this.filter_Share = this.ruleFormValue.doShare;        
-                console.log(this.ruleFormValue);
-                setTimeout(()=>{ this.dataloading = false }, 0.01*1000);
-                })
-                .catch(error => {
-                console.log(error);
-                });
-        },
-        onSubmit(formName){
-             this.$refs[formName].validate(valid => {                
+        onSubmit(formName){            
+             this.$refs[formName].validate(valid => {
                 if (valid) {
                     Request()
-                    .put("/api/product_variety/update/" + this.varietyId, {
-                        "createTime": this.ruleFormValue.createTime,
-                        "createUserId": this.ruleFormValue.createUserId,
+                    .post("/api/product_grade/create", {
+                        "createTime": new Date().toJSON(),
+                        "createUserId": Auth().user().attrs.id,
                         "doShare": this.filter_Share,
+                        "gradeName": this.ruleFormValue.gradeName,
+                        "gradeSort": this.ruleFormValue.gradeSort,
                         "id": 0,
-                        "productId": this.ruleFormValue.productId,
+                        "productId": this.productId,
                         "updateTime": new Date().toJSON(),
-                        "updateUserId": Auth().user().attrs.id,
-                        "varietyName": this.ruleFormValue.varietyName,
-                        "varietySort": this.ruleFormValue.varietySort
+                        "updateUserId": Auth().user().attrs.id                       
                         })
                     .then(response => {
                         this.$router.go(-1);
@@ -130,7 +113,6 @@ export default{
                 }
             });
         },
-        
     }
-};
+}
 </script>
