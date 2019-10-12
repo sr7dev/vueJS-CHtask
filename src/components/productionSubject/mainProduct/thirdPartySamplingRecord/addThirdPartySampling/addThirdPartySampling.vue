@@ -158,14 +158,14 @@ export default {
               "checkResult": this.ruleFormValue.checkResult,
               "checkStandard":this.ruleFormValue.checkStandard,
               "createTime": new Date().toJSON(),
-              "createUserId": Auth().user().userId,
+              "createUserId": Auth().user().attrs.id,
               "determine": this.ruleFormValue.determine,
               "id": 0,
               "productCheckTime": new Date().toJSON(),
               "productId": this.productId,
               "specimen": this.ruleFormValue.specimen,
               "updateTime": new Date().toJSON(),
-              "updateUserId": Auth().user().userId,
+              "updateUserId": Auth().user().attrs.id,
             })
             .then(response => {
               //this.$router.push({ path: "/threeProductsCertification" });

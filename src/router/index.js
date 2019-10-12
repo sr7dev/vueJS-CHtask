@@ -24,6 +24,10 @@ import detailWorkTaskReport from "@/components/workTask/detailWorkTaskReport/det
 import seed from "@/components/seed/seed";
 import uploadSeed from "@/components/seed/uploadSeed/uploadSeed";
 import detailSeed from "@/components/seed/detailSeed/detailSeed";
+import userManagement from "@/components/userManagement/userManagement";
+import registerUser from "@/components/userManagement/registerUser/registerUser";
+import editUser from "@/components/userManagement/editUser/editUser";
+import changePassword from "@/components/userManagement/changePassword/changePassword";
 import productionStandard from "@/components/productionStandard/productionStandard";
 import addProductionStandard from "@/components/productionStandard/addProductionStandard/addProductionStandard";
 import detailProductionStandard from "@/components/productionStandard/detailProductionStandard/detailProductionStandard";
@@ -72,6 +76,9 @@ import addVarietyDefinition from "@/components/productionSubject/varietyDefiniti
 import editVarietyDefinition from "@/components/productionSubject/varietyDefinition/editVarietyDefinition/editVarietyDefinition";
 import addInventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/addInventoryDynamics";
 import editInventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/editInventoryDynamics";
+import definitionLevel from "@/components/productionSubject/definitionLevel/definitionLevel";
+import addDefinitionLevel from "@/components/productionSubject/definitionLevel/addDefinitionLevel/addDefinitionLevel";
+import editDefinitionLevel from "@/components/productionSubject/definitionLevel/editDefinitionLevel/editDefinitionLevel";
 import processDefinition from "@/components/productionSubject/mainProduct/processDefinition/processDefinition";
 import addProcessDefinition from "@/components/productionSubject/mainProduct/processDefinition/addProcessDefinition/addProcessDefinition";
 import editProcessDefinition from "@/components/productionSubject/mainProduct/processDefinition/editProcessDefinition/editProcessDefinition";
@@ -82,6 +89,7 @@ import editProductProperty from "@/components/productionSubject/mainProduct/prod
 
 import companyBusiness from "@/components/companyBusiness/companyBusiness";
 import productBusiness from "@/components/companyBusiness/productBusiness/productBusiness";
+import  addProductBusiness from "@/components/companyBusiness/productBusiness/addProductBusiness/addProductBusiness";
 import detailsCompanyBusiness from "@/components/companyBusiness/detailsCompanyBusiness/detailsCompanyBusiness";
 
 import sampleCheck from "@/components/sampleCheck/sampleCheck";
@@ -167,6 +175,11 @@ export default new Router({
           path: "/companyBusiness/productBusiness/:id",
           name: "productBusiness",
           component: productBusiness
+        },
+        {
+          path: "/companyBusiness/productBusiness/create/:id",
+          name: "addProductBusiness",
+          component: addProductBusiness
         },
         {
           path: "/companyBusiness/detailsCompanyBusiness/:id",
@@ -575,6 +588,26 @@ export default new Router({
           component: detailSeed
         },
         {
+          path: "/userManagement",
+          name: "userManagement", // 用户管理
+          component: userManagement
+        },
+        {
+          path: "/userManagement/create",
+          name: "registerUser", // 用户管理
+          component: registerUser
+        },
+        {
+          path: "/userManagement/edit/:id",
+          name: "editUser", // 用户管理
+          component: editUser
+        },
+        {
+          path: "/userManagement/changePwd/:id",
+          name: "changePassword", // 用户管理
+          component: changePassword
+        },
+        {
           path: "/productionStandard",
           name: "productionStandard", // 生产标准
           component: productionStandard
@@ -588,6 +621,21 @@ export default new Router({
           path: "/productionStandard/detail/:id",
           name: "detailProductionStandard", // 生产标准
           component: detailProductionStandard
+        },
+        {
+          path:"/productionGrade/:id",
+          name:"definitionLevel",
+          component:definitionLevel
+        },
+        {
+          path:"/productionGrade/create/:id",
+          name:"addDefinitionLevel",
+          component:addDefinitionLevel
+        },
+        {
+          path:"/productionGrade/edit/:id",
+          name:"editDefinitionLevel",
+          component:editDefinitionLevel
         },
         {
           path: "/shareFiles",

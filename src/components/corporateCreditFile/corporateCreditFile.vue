@@ -86,7 +86,7 @@
       </el-container>
       <div class="pageBox">
         <pagination
-          v-show="total>0"
+          v-show="total > 0"
           :total="total"
           :page.sync="page.pageIndex"
           :limit.sync="page.pageSize"
@@ -122,7 +122,7 @@ export default {
       listLoading: true,
       bTypes: 0,
       status: 0,
-      total: 100,
+      total: 0,
       tableData: [],
       companyProduction: [],
       gradData: []
@@ -175,7 +175,7 @@ export default {
           townId: this.currTown
         })
         .then(response => {
-          var tmpData = response;
+          var tmpData = response.data;
           if (this.public_license == 1) {
             tmpData = tmpData.filter(function(licesnse) {
               return licesnse.public_license > 0;
@@ -199,10 +199,10 @@ export default {
             this.getNowGrade(item.creditCode).then(res => {
               item.nowGrade = this.getGradeString(res);
               this.tableData.push(item);
-              console.log(this.tableData);
+              this.total = this.tableData.length;
             });
           });
-          this.total = this.tableData.length;
+          // this.total = this.tableData.length;
 
           setTimeout(() => {
             this.listLoading = false;

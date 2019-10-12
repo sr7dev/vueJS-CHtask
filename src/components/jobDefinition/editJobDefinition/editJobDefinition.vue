@@ -39,25 +39,25 @@
                     class="preview"
                 >
             </div>
-            <div class="item-value" v-if="!file_live_1">
-                <el-link @click="downloadFile()">
-                    {{ editForm.jobFile.replace("/uploads/", "") }}
-                </el-link>
-            </div>
-            <div class="item-value" v-if="file_live_1">
-                ({{ fileName }})
-            </div>
             <div class="image-box">
                 <input
                     type="file"
                     id="file"
-                    ref="file_live_1"
+                    ref="file"
                     class="image-upload"
                     accept="image/*"
                     v-on:change="handleFileUpload()"
                     name="images"
                     style="display:none"
                 />
+            </div>
+            <div class="item-value" v-if="!file">
+                <el-link @click="downloadFile()">
+                    {{ editForm.jobFile.replace("/uploads/", "") }}
+                </el-link>
+            </div>
+            <div class="item-value" v-if="file">
+                ({{ file.name }})
             </div>
         </el-form-item>
         <el-form-item class="left-margin">
@@ -105,8 +105,7 @@ export default {
             }],
         },
         images:[],
-        fileName: '',
-        file_live_1: null,
+        file: null,
         dataloading: false,
         id: 0
 
@@ -125,7 +124,8 @@ export default {
             .get("/api/job_definition/get/" + id)
             .then(response => {
                 this.editForm = response;
-                this.file_live_1 = response.file;
+                this.images = [];
+                this.images.push(Urls.DOWNLOAD_URL() + this.editForm.jobFile)
                 setTimeout(() => {
                     this.dataloading = false;
                 }, 0.01 * 1000);
@@ -136,16 +136,17 @@ export default {
     },
     downloadFile() {
         axios({
-            url: Urls.DOWNLOAD_URL() + this.file_live_1,
+            url: Urls.DOWNLOAD_URL() + this.editForm.jobFile,
             method: "GET",
             responseType: "blob" // important
         }).then(response => {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement("a");
             link.href = url;
+            
             link.setAttribute(
                 "download",
-                this.file_live_1.replace("/uploads/", "")
+                this.editForm.jobFile.replace("/uploads/", "")
             ); //or any other extension
             document.body.appendChild(link);
             link.click();
@@ -174,7 +175,7 @@ export default {
       document.getElementById('file').click()
     },
     handleFileUpload() {
-        this.file_live_1 = this.$refs.file_live_1.files[0];
+        this.file = this.$refs.file.files[0];
         this.images = [];
         let reader = new FileReader();
         let that = this;
@@ -182,14 +183,13 @@ export default {
             that.images.push(e.target.result);
 
         }
-        reader.readAsDataURL(this.file_live_1); 
-        this.fileName = this.file_live_1.name;
+        reader.readAsDataURL(this.file); 
     },
     makeFormData() {
         var mainFormData = new FormData();
         mainFormData.append("jobName", this.editForm.jobName);
         mainFormData.append("jobType", this.editForm.jobType);
-        mainFormData.append("file", this.file_live_1);
+        mainFormData.append("file", this.file);
         mainFormData.append("id", this.id);
         return mainFormData;
     },
