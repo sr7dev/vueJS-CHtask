@@ -89,9 +89,9 @@ export default {
         pageSize: 20
       },
       listLoading: true,
-      total: 100,
+      total: 0,
       tableData: [],
-      id: -1,
+      creditCode: -1,
       productName: "",
       productCategory: 0,
       productDetail: [],
@@ -99,7 +99,7 @@ export default {
     };
   },
   created() {
-    this.id = this.$route.params.id;
+    this.creditCode = this.$route.query.creditCode;
     this.getProductionDetail();
     this.getCompanyProduction();
     this.getList();
@@ -122,13 +122,13 @@ export default {
       this.listLoading = true;
       Request()
         .get("/api/quality_standard/all", {
-          creditCode: this.$route.params.id,
+          creditCode: this.$route.query.creditCode,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize
         })
         .then(response => {
-          this.tableData = response;
-          this.total = this.tableData.length;
+          this.tableData = response.data;
+          this.total = response.total;
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
