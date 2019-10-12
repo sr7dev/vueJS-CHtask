@@ -2,8 +2,9 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
+        <el-breadcrumb-item>生产主体</el-breadcrumb-item>
         <el-breadcrumb-item>仓储环境</el-breadcrumb-item>
-        <el-breadcrumb-item class="actived">修改环境</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">添加环境</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
@@ -60,9 +61,10 @@ export default {
   data() {
     return {
       companyId: 0,
+      listLoading: false,
       ruleFormValue: {
         warehouseAddress: "",
-        warehouseArea: 0,
+        warehouseArea: null,
         warehouseName: "",
         warehouseScope: ""
       }
@@ -75,20 +77,24 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          var formData = new FormData();
-          formData.append("warehouseAddress", this.ruleFormValue.warehouseAddress);
-          formData.append("warehouseArea", this.ruleFormValue.warehouseArea);
-          formData.append("warehouseName", this.ruleFormValue.warehouseName);
-          formData.append("warehouseScope", this.ruleFormValue.warehouseScope);
-          formData.append("companyId", this.companyId);
-          formData.append("id", 0);
-
+          var formData = {
+            "warehouseAddress": this.ruleFormValue.warehouseAddress,
+            "warehouseArea": this.ruleFormValue.warehouseArea,
+            "warehouseName": this.ruleFormValue.warehouseName,
+            "warehouseScope": this.ruleFormValue.warehouseScope,
+            "companyId": this.companyId,
+            "id": 0
+          }
+          this.listLoading = true;
           Request()
-            .put("/api/warehose/create", formData)
+            .post("/api/warehose/create", formData)
             .then(response => {
               this.$router.push({
                 path: `/productionSubject/warehouseEnv/${this.companyId}`
               });
+              setTimeout(() => {
+                this.listLoading = false;          
+              }, 0.5*100);
             })
             .catch(error => {});
         } else {

@@ -2,6 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
+        <el-breadcrumb-item>生产主体</el-breadcrumb-item>
         <el-breadcrumb-item>仓储环境</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">修改环境</el-breadcrumb-item>
       </el-breadcrumb>
@@ -62,9 +63,10 @@ export default {
       id: -1,
       companyId: 0,
       pageName: this.$route.name,
+      listLoading: true,
       ruleFormValue: {
         warehouseAddress: "",
-        warehouseArea: 0,
+        warehouseArea: null,
         warehouseName: "",
         warehouseScope: ""
       }
@@ -87,23 +89,27 @@ export default {
           this.ruleFormValue.warehouseScope = response.warehouseScope;
           setTimeout(() => {
             this.listLoading = false;          
-          }, 0.5*1000);
+          }, 0.5*100);
         })
         .catch(error => {});
     },
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          var formData = new FormData();
-          formData.append("warehouseAddress", this.ruleFormValue.warehouseAddress);
-          formData.append("warehouseArea", this.ruleFormValue.warehouseArea);
-          formData.append("warehouseName", this.ruleFormValue.warehouseName);
-          formData.append("warehouseScope", this.ruleFormValue.warehouseScope);
-          formData.append("companyId", this.companyId);
-
+          var formData = {
+            "warehouseAddress": this.ruleFormValue.warehouseAddress,
+            "warehouseArea": this.ruleFormValue.warehouseArea,
+            "warehouseName": this.ruleFormValue.warehouseName,
+            "warehouseScope": this.ruleFormValue.warehouseScope,
+            "companyId": this.companyId
+          }
+          this.listLoading = true;
           Request()
             .put("/api/warehose/update/" + this.id, formData)
             .then(response => {
+              setTimeout(() => {
+                this.listLoading = false;          
+              }, 0.5*100);
               this.$router.push({
                 path: `/productionSubject/warehouseEnv/${this.companyId}`
               });
