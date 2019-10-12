@@ -52,9 +52,11 @@
             />
           </el-form-item>
         </el-tooltip>
-
+        <el-form-item class="margin-bottom-20" prop="isRemember">
+          <el-checkbox v-model="loginForm.isRemember">记住我</el-checkbox>
+        </el-form-item>
         <el-button :loading="loading" type="primary" @click.native.prevent="handleLogin">登录</el-button>
-        <el-link>忘记密码?</el-link>
+        <!-- <el-link>忘记密码?</el-link> -->
       </el-form>
     </div>
   </div>
@@ -64,6 +66,7 @@
 import Toast from "@/utils/toast";
 import EventBus from "@/utils/event";
 import Auth from "@/services/authentication/auth";
+import Storage from "store";
 export default {
   name: "login",
   data() {
@@ -84,7 +87,8 @@ export default {
     return {
       loginForm: {
         username: "",
-        password: ""
+        password: "",
+        isRemember:false
       },
       loginRules: {
         username: [
@@ -116,6 +120,10 @@ export default {
   },
   created() {
     // window.addEventListener('storage', this.afterQRScan)
+    this.loginForm.isRemember = Storage.get("isRemember");
+    this.loginForm.password = Storage.get("password") ? Storage.get("password") : "";
+    this.loginForm.username = Storage.get("userName") ? Storage.get("userName") : "" ;
+
     if (Auth().check()) {
       this.$router.push({
         path: this.redirect || "/"
@@ -184,7 +192,7 @@ export default {
             .login(this.loginForm)
             .then(
               success => {
-                Toast.success("Welcome to Intelligent Agriculture!");
+                Toast.success("欢迎来到智能农业！");
                 this.$router.push({
                   path: this.redirect || "/",
                   query: this.otherQuery

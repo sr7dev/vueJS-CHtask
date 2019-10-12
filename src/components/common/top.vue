@@ -10,8 +10,9 @@
       mode="horizontal"
       background-color="#253032"
       text-color="#ffffff"
+      v-if="loggedinUserType!==3"
     >
-      <el-menu-item index="/productionStandard">
+      <el-menu-item index="/productionStandard" v-if="!loggedinUserType === 3">
         <router-link slot="title" to="/productionStandard">生产标准</router-link>
       </el-menu-item>
       <el-menu-item index="/shareFiles">
@@ -42,8 +43,12 @@ export default {
   data() {
     return {
       title: "平台",
-      userName: ""
+      userName: "",
+      loggedinUserType: null
     };
+  },
+  created() {
+    this.loggedinUserType = Auth().user().attrs.userType;
   },
   methods: {
     quit: function() {
@@ -56,7 +61,7 @@ export default {
         })
         .then(async () => {
           Auth().logout();
-          Toast.success("See you soon");
+          Toast.success("再 见");
           /**
            * THIS IS SO BAD!
            * @TODO

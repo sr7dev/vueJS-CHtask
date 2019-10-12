@@ -10,7 +10,7 @@
       <el-form v-if="data" :rules="dataRulse" ref="data" :model="data">
         <div class="item-row">
           <el-form-item label="检测名称:" prop="sampleName">
-            <el-input v-model="data.sampleName" style="width: 300px;" placeholder=""></el-input>
+            <el-input v-model="data.sampleName" style="width: 300px;" placeholder></el-input>
           </el-form-item>
         </div>
         <div class="item-row">
@@ -23,27 +23,29 @@
           <div class="item">
             <div class="item-label">检测人员:</div>
             <el-form-item prop="checkPerson">
-              <el-input v-model="data.checkPerson" placeholder="" style="margin-top: 15px;"></el-input>
+              <el-input v-model="data.checkPerson" placeholder style="margin-top: 15px;"></el-input>
             </el-form-item>
           </div>
-
         </div>
-        
+
         <div class="item-row">
           <div class="item">
             <div class="item-label">检测结果:</div>
             <el-form-item prop="checkResult">
-              <el-select v-model="data.checkResult" placeholder="" style="margin-top: 15px;">
-                <el-option v-for="item in [{value:0, label:'不合格'}, {value: 1, label:'合格'}]"
-                  :key="item.value" :label="item.label" :value="item.value">
-                </el-option>
+              <el-select v-model="data.checkResult" placeholder style="margin-top: 15px;">
+                <el-option
+                  v-for="item in [{value:0, label:'不合格'}, {value: 1, label:'合格'}]"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
               </el-select>
             </el-form-item>
           </div>
           <div class="item">
             <div class="item-label">检测单位:</div>
             <el-form-item prop="checkUnit">
-              <el-input v-model="data.checkUnit" placeholder="" style="margin-top: 15px;"></el-input>
+              <el-input v-model="data.checkUnit" placeholder style="margin-top: 15px;"></el-input>
             </el-form-item>
           </div>
         </div>
@@ -51,13 +53,16 @@
           <el-form-item prop="checkFiles">
             <div style="display: flex;">
               <div class="item-label">
-                <input type="file" id="file" style="display: none" ref="file"
-                       v-on:change="handleFileUpload()"/>
+                <input
+                  type="file"
+                  id="file"
+                  style="display: none"
+                  ref="file"
+                  v-on:change="handleFileUpload()"
+                />
                 <el-button plain @click="chooseFile()">添加附件</el-button>
               </div>
-              <span class="item-value" style="width: 500px;">
-                {{data.checkFiles}}
-            </span>
+              <span class="item-value" style="width: 500px;">{{data.checkFiles}}</span>
             </div>
           </el-form-item>
         </div>
@@ -73,13 +78,13 @@
           </div>
         </div>
       </el-form>
-      <template v-if="!data">No matching data!</template>
+      <template v-if="!data">装货...</template>
     </div>
   </div>
 </template>
 
 <script>
-import Request from '@/services/api/request'
+import Request from "@/services/api/request";
 export default {
   name: "addSampleCheckResult",
   data() {
@@ -89,8 +94,8 @@ export default {
       data: {
         checkFiles: "",
         checkPerson: "",
-        checkResult: '',
-        checkUnit: '',
+        checkResult: "",
+        checkUnit: "",
         createUserId: 0,
         id: 0,
         sampleId: 0,
@@ -99,12 +104,22 @@ export default {
         updateUserId: 0
       },
       dataRulse: {
-        sampleName: [{required: true, message: '请输入', trigger: 'blur,change'}],
-        checkPerson: [{required: true, message: '请输入', trigger: 'blur,change'}],
-        checkFiles: [{required: true, message: '请输入', trigger: 'blur,change'}],
-        checkResult: [{required: true, message: '请输入', trigger: 'blur,change'}],
-        checkUnit: [{required: true, message: '请输入', trigger: 'blur,change'}],
-      },
+        sampleName: [
+          { required: true, message: "请输入", trigger: "blur,change" }
+        ],
+        checkPerson: [
+          { required: true, message: "请输入", trigger: "blur,change" }
+        ],
+        checkFiles: [
+          { required: true, message: "请输入", trigger: "blur,change" }
+        ],
+        checkResult: [
+          { required: true, message: "请输入", trigger: "blur,change" }
+        ],
+        checkUnit: [
+          { required: true, message: "请输入", trigger: "blur,change" }
+        ]
+      }
     };
   },
   methods: {
@@ -132,24 +147,24 @@ export default {
       formData.append("createTime", this.data.sampleTime); // not sure
       formData.append("updateTime", this.data.sampleTime); // not sure
 
-      this.$refs.data.validate((valid) => {
+      this.$refs.data.validate(valid => {
         if (valid) {
           Request()
-                  .post("/api/sample_check_result/create", formData)
-                  .then(response => {
-                    this.$router.push(`/sampleCheck`);
-                  })
-                  .catch(error => {
-                    console.error(error);
-                  });
+            .post("/api/sample_check_result/create", formData)
+            .then(response => {
+              this.$router.push(`/sampleCheck`);
+            })
+            .catch(error => {
+              console.error(error);
+            });
         }
       });
     },
     getDateString(dt) {
       const date = new Date(dt);
       return date.toLocaleDateString();
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>

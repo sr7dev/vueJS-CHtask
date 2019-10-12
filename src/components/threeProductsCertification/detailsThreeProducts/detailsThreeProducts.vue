@@ -87,10 +87,7 @@
           <el-col :span="6">
             <el-form-item>
               <div class="item">
-                <div
-                  class="item-label"
-                  style="margin-bottom:20px;display:inline-block"
-                >
+                <div class="item-label" style="margin-bottom:20px;display:inline-block">
                   <input
                     type="file"
                     id="file"
@@ -98,26 +95,20 @@
                     ref="file"
                     v-on:change="handleFileUpload()"
                   />
-                  <el-button type="warning" plain @click="chooseFile()"
-                    >保存修改</el-button
-                  >
+                  <el-button type="warning" plain @click="chooseFile()">保存修改</el-button>
                 </div>
-                <div
-                  class="item-value"
-                  v-if="!file"
-                  style="display:inline-block;margin-left:10px;"
-                >
-                  <el-link @click="downloadFile()" v-if="data.files">{{
+                <div class="item-value" v-if="!file" style="display:inline-block;margin-left:10px;">
+                  <el-link @click="downloadFile()" v-if="data.files">
+                    {{
                     data.files.replace("/uploads/", "")
-                  }}</el-link>
+                    }}
+                  </el-link>
                 </div>
                 <div
                   class="item-value"
                   v-if="file"
                   style="display:inline-block;margin-left:10px;"
-                >
-                  ({{ file.name }})
-                </div>
+                >({{ file.name }})</div>
               </div>
             </el-form-item>
           </el-col>
@@ -126,6 +117,7 @@
           <el-button type="danger" @click="goBack" plain>取消</el-button>
         </el-form-item>
       </el-form>
+      <template v-if="dataLoading">装货...</template>
     </div>
   </div>
 </template>
