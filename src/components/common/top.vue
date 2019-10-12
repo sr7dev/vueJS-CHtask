@@ -11,6 +11,9 @@
       background-color="#253032"
       text-color="#ffffff"
     >
+      <el-menu-item index="/statisticsFarmers">
+        <router-link slot="title" to="/statisticsFarmers">统计（农残）</router-link>
+      </el-menu-item>
       <el-menu-item index="/productionStandard">
         <router-link slot="title" to="/productionStandard">生产标准</router-link>
       </el-menu-item>
