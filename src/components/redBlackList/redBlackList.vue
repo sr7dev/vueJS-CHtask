@@ -121,7 +121,11 @@ export default {
     },
     getList() {
       this.listLoading = true;
-      this.status = this.activeTabName === "first" ? 1 : 2;
+      let newStatus = this.activeTabName === "first" ? 1 : 2;
+      if (this.status !== newStatus) {
+        this.status = newStatus;
+        this.page.pageIndex = 1;
+      }
       Request()
         .get("/api/blacklist/all", {
           blacklistType: this.status,
