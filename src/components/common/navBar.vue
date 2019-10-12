@@ -7,7 +7,6 @@
         class="el-menu-vertical-demo"
         background-color="#fff"
         text-color="#333"
-        active-text-color="#4787c7"
       >
         <el-submenu index="/">
           <template slot="title">

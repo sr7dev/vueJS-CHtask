@@ -27,6 +27,10 @@ import detailSeed from "@/components/seed/detailSeed/detailSeed";
 import productionStandard from "@/components/productionStandard/productionStandard";
 import addProductionStandard from "@/components/productionStandard/addProductionStandard/addProductionStandard";
 import detailProductionStandard from "@/components/productionStandard/detailProductionStandard/detailProductionStandard";
+import shareFiles from "@/components/shareFiles/shareFiles";
+import addShareFiles from "@/components/shareFiles/addShareFiles/addShareFiles";
+import editShareFiles from "@/components/shareFiles/editShareFiles/editShareFiles";
+import detailShareFiles from "@/components/shareFiles/detailShareFiles/detailShareFiles";
 
 // 企业
 import cp_productionSubject from "@/components/company/productionSubject/productionSubject"; //生产主体
@@ -547,6 +551,26 @@ export default new Router({
           path: "/productionStandard/detail/:id",
           name: "detailProductionStandard", // 生产标准
           component: detailProductionStandard
+        },
+        {
+          path: "/shareFiles",
+          name: "shareFiles", // 共享文件editShareFiles
+          component: shareFiles
+        },
+        {
+          path: "/shareFiles/create",
+          name: "addShareFiles", // 共享文件
+          component: addShareFiles
+        },
+        {
+          path: "/shareFiles/edit/:id",
+          name: "editShareFiles", // 共享文件
+          component: editShareFiles
+        },
+        {
+          path: "/shareFiles/detail/:id",
+          name: "detailShareFiles", // 共享文件
+          component: detailShareFiles
         }
       ]
     },
