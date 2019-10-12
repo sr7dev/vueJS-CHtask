@@ -29,25 +29,23 @@
             >
             </el-input>
         </el-form-item>
-        <div style="display:flex">
-            <el-form-item label="申请人：" prop="proposer" class="input-width label-align" style="margin-right:30px">
-                <el-input 
-                    v-model="addForm.proposer" 
-                    auto-complete="off"
-                >
-                </el-input>
-            </el-form-item>
-            <el-form-item label="所在单位：" prop="companyId" class="input-width label-align2">
-                <el-select v-model="addForm.companyId">
-                    <el-option
-                        v-for="item in companyProduction"
-                        :key="item.companyId"
-                        :label="item.companyName"
-                        :value="item.companyId"
-                    ></el-option>
-                </el-select>
-            </el-form-item>
-        </div>
+        <el-form-item label="申请人：" prop="proposer" class="input-width label-align" style="margin-right:30px">
+            <el-input 
+                v-model="addForm.proposer" 
+                auto-complete="off"
+            >
+            </el-input>
+        </el-form-item>
+        <el-form-item label="所在单位：" prop="companyId" class="input-width label-align2">
+            <el-select v-model="addForm.companyId">
+                <el-option
+                    v-for="item in companyProduction"
+                    :key="item.companyId"
+                    :label="item.companyName"
+                    :value="item.companyId"
+                ></el-option>
+            </el-select>
+        </el-form-item>
         <el-form-item label="" prop="file_live_1">
             <input
                 type="file"
@@ -139,7 +137,7 @@ export default {
                 var formData = new FormData();
                 formData = this.makeFormData();
                 Request()
-                    .post("/api/traningfunds/create", //formData)
+                    .post("/api/trainingfunds/create", //formData)
                     {   projectName: this.addForm.projectName,
                         appliedAmount: this.addForm.appliedAmount,
                         proposer: this.addForm.proposer,
@@ -171,7 +169,7 @@ export default {
         mainFormData.append("proposer", this.addForm.proposer);
         mainFormData.append("companyId", this.addForm.companyId);
         mainFormData.append("id", 0);
-        // mainFormData.append("file", this.file_live_1);
+        mainFormData.append("file", this.file_live_1);
         return mainFormData;
     },
   }

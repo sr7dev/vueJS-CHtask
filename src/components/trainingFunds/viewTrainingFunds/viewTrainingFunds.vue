@@ -30,26 +30,24 @@
             >
             </el-input>
         </el-form-item>
-        <div style="display:flex">
-            <el-form-item label="申请人：" prop="proposer" class="input-width label-align" style="margin-right:30px">
-                <el-input 
-                    v-model="formData.proposer" 
-                    auto-complete="off"
-                    disabled
-                >
-                </el-input>
-            </el-form-item>
-            <el-form-item label="所在单位：" prop="companyId" class="input-width label-align2">
-                <el-select v-model="formData.companyId" disabled>
-                    <el-option
-                        v-for="item in companyProduction"
-                        :key="item.companyId"
-                        :label="item.companyName"
-                        :value="item.companyId"
-                    ></el-option>
-                </el-select>
-            </el-form-item>
-        </div>
+        <el-form-item label="申请人：" prop="proposer" class="input-width label-align" style="margin-right:30px">
+            <el-input 
+                v-model="formData.proposer" 
+                auto-complete="off"
+                disabled
+            >
+            </el-input>
+        </el-form-item>
+        <el-form-item label="所在单位：" prop="companyId" class="input-width label-align2">
+            <el-select v-model="formData.companyId" disabled>
+                <el-option
+                    v-for="item in companyProduction"
+                    :key="item.companyId"
+                    :label="item.companyName"
+                    :value="item.companyId"
+                ></el-option>
+            </el-select>
+        </el-form-item>
         <!-- <el-form-item label="申请状态：" prop="status" class="input-width label-align">
              <el-input 
                 v-model="formData.appliedAmount" 
@@ -59,15 +57,24 @@
             </el-input>
         </el-form-item> -->
         <el-form-item label="" prop="file">
-            <el-button plain @click="downloadFile()">附件下载</el-button>
-            <span class="item-value" v-if="!file_live_1">
-                <el-link @click="downloadFile()">
-                    {{ fileName }}
-                </el-link>
+            <span class="item-label">
+              <input
+                type="file"
+                id="file"
+                style="display: none"
+                ref="file"
+                v-on:change="handleFileUpload()"
+              />
+              <el-button type="warning" plain @click="downloadFile()">下载附件</el-button>
             </span>
-            <span class="item-value" v-if="file_live_1">
-                ({{ fileName }})
+            <span v-if="!file">
+              <el-link @click="downloadFile()">
+                {{
+                  fileName
+                }}
+              </el-link>
             </span>
+            <span v-if="file">({{ fileName }})</span>
         </el-form-item>
         <el-form-item>
             <el-button plain v-on:click="$router.go(-1)" type="success">
@@ -95,7 +102,7 @@ export default {
         },
         companyProduction: [],
         fileName: '',
-        file_live_1: null,
+        file: null,
         dataloading: false,
         id: 0,
         appStatus: ["全部", "待审批", "已同意", "已拒绝"],
@@ -120,11 +127,11 @@ export default {
     getData(id) {
         this.dataloading = true;
         Request()
-            .get("/api/traningfunds/get/" + id)
+            .get("/api/trainingfunds/get/" + id)
             .then(response => {
                 this.formData = response;
-                this.file_live_1 = response.noticeProfiles;
-                this.fileName = this.file_live_1.replace("/uploads/", "");
+                this.file = response.trainingFundsProfiles;
+                this.fileName = this.file.replace("/uploads/", "");
                 setTimeout(() => {
                     this.dataloading = false;
                 }, 0.01 * 1000);
@@ -134,17 +141,19 @@ export default {
             });
     },
     downloadFile() {
+        console.log(this.file)
         axios({
-            url: Urls.DOWNLOAD_URL() + this.file_live_1,
+            url: Urls.DOWNLOAD_URL() + this.file,
             method: "GET",
             responseType: "blob" // important
         }).then(response => {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement("a");
             link.href = url;
+            console.log(link)
             link.setAttribute(
                 "download",
-                this.file_live_1.replace("/uploads/", "")
+                this.file.replace("/uploads/", "")
             ); //or any other extension
             document.body.appendChild(link);
             link.click();
