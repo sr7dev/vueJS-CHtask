@@ -61,11 +61,11 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="负责人" prop="chargePerson">
-                <el-input v-model="form.chargePerson" style="width:100%" ></el-input>
+                <el-input v-model="form.chargePerson" style="width:100%"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="地址"  prop="companyAddress">
+              <el-form-item label="地址" prop="companyAddress">
                 <el-input v-model="form.companyAddress" style="width:100%"></el-input>
               </el-form-item>
             </el-col>
@@ -346,7 +346,6 @@ export default {
         doSupervision: "1",
         landSource: "",
         plantArea: 0,
-        productInfo: "",
         public_license: 0,
         public_punish: 0,
         qualityStandardId: 0,
@@ -366,7 +365,7 @@ export default {
           data_2_1: "",
           data_3_0: "",
           data_3_1: ""
-        },
+        }
       },
       rules: {
         chargePerson: defaultRule,
@@ -386,9 +385,7 @@ export default {
     };
   },
   created() {
-    
     this.getTownList();
-
   },
   methods: {
     getTownList() {
@@ -403,45 +400,46 @@ export default {
     },
     onSubmit() {
       const user = Auth().user();
-      if(!user) {
+      if (!user) {
         Auth().logout();
         return;
       }
-      
+
       this.$refs["form"].validate(valid => {
         if (valid) {
-          Request().post("/api/company_production/create", {
-            "agriculturalClassification": this.form.agriculturalClassification,
-            "chargePerson": this.form.chargePerson,
-            "companyAddress": this.form.companyAddress,
-            "companyHonor": this.form.companyHonor,
-            "companyId": this.form.companyId,
-            "companyName": this.form.companyName,
-            "companyType": this.form.companyType,
-            "contactMobile": this.form.contactMobile,
-            "contactPerson": this.form.contactPerson,
-            "contactWay": this.form.contactWay,
-            "createUserId": user.attrs.id,
-            "creditCode": this.form.creditCode,
-            "doSupervision": this.form.doSupervision,
-            "landSource": this.form.landSource,
-            "plantArea": this.form.plantArea,
-            "productInfo": JSON.stringify(this.form.productInfo),
-            "public_license": this.form.public_license,
-            "public_punish": this.form.public_punish,
-            "qualityStandardId": this.form.qualityStandardId,
-            "quality_standard": this.form.quality_standard,
-            "remarks": this.form.remarks,
-            "townId": this.form.townId,
-            "updateUserId": user.attrs.id
-          })
+          Request()
+            .post("/api/company_production/create", {
+              agriculturalClassification: this.form.agriculturalClassification,
+              chargePerson: this.form.chargePerson,
+              companyAddress: this.form.companyAddress,
+              companyHonor: this.form.companyHonor,
+              companyId: this.form.companyId,
+              companyName: this.form.companyName,
+              companyType: this.form.companyType,
+              contactMobile: this.form.contactMobile,
+              contactPerson: this.form.contactPerson,
+              contactWay: this.form.contactWay,
+              createUserId: user.attrs.id,
+              creditCode: this.form.creditCode,
+              doSupervision: this.form.doSupervision,
+              landSource: this.form.landSource,
+              plantArea: this.form.plantArea,
+              productInfo: JSON.stringify(this.form.productInfo),
+              public_license: this.form.public_license,
+              public_punish: this.form.public_punish,
+              qualityStandardId: this.form.qualityStandardId,
+              quality_standard: this.form.quality_standard,
+              remarks: this.form.remarks,
+              townId: this.form.townId,
+              updateUserId: user.attrs.id
+            })
             .then(res => {
               this.$router.push({ path: "/productionSubject" });
             });
         } else {
+          console.log("");
         }
       });
-      
     }
   }
 };

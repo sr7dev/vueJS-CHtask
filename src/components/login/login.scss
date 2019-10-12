@@ -1,19 +1,62 @@
 $bg: #2d3a4b;
 $dark_gray: #889aa4;
 $light_gray: #eee;
+$light_blue: #409eff;
 .login-container {
   widows: 500px;
   height: 100vh;
   background: transparent;
   background-image: url("../../assets/images/login.jpg");
+  filter: blur(10px);
   overflow: hidden;
+}
+
+.form-div {
   .login-form {
-    position: relative;
+    position: absolute;
     width: 400px;
-    max-width: 100%;
-    padding: 160px 35px 0;
     margin: 0 auto;
     overflow: hidden;
+    position: absolute;
+    top: 28%;
+    left: calc(50% - 275px);
+    background-color: #fff;
+    padding: 70px 85px;
+    border-radius: 5px;
+    .el-form-item {
+      margin-bottom: 30px;
+    }
+    button {
+      width: 25%;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    a {
+      margin-left: 20px;
+      color: $light_blue;
+      font-size: 12px;
+    }
+    @media (max-width: 768px) {
+      top: 30%;
+      width: 300px;
+      left: calc(50% - 225px);
+      padding: 40px 80px;
+      button {
+        width: 35%;
+      }
+    }
+    @media (max-width: 576px) {
+      width: 250px;
+      left: calc(50% - 125px);
+      padding: 0;
+      background-color: transparent;
+      button {
+        width: 40%;
+      }
+      a {
+        color: $light_gray;
+      }
+    }
   }
   .tips {
     font-size: 14px;
@@ -33,12 +76,23 @@ $light_gray: #eee;
   }
   .title-container {
     position: relative;
+    display: flex;
+    justify-content: center;
     .title {
-      font-size: 26px;
-      color: $light_gray;
-      margin: 0px auto 40px auto;
-      text-align: center;
+      font-size: 22px;
+      margin-bottom: 20px;
       font-weight: bold;
+      &.blue-colored {
+        color: $light_blue;
+      }
+      @media (max-width: 768px) {
+        font-size: 16px;
+      }
+      @media (max-width: 576px) {
+        &.blue-colored {
+          color: $light_gray;
+        }
+      }
     }
   }
   .show-pwd {

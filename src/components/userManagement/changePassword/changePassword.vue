@@ -25,9 +25,16 @@
         </el-row>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="密码：" prop="password">
-              <el-input v-model="ruleFormValue.password" type="password"></el-input>
-            </el-form-item>
+            <el-tooltip v-model="capsTooltip" content="CapsLock 在" placement="right" manual>
+              <el-form-item label="密码：" prop="password">
+                <el-input
+                  v-model="ruleFormValue.password"
+                  type="password"
+                  @keyup.native="checkCapslock"
+                  @blur="capsTooltip = false"
+                ></el-input>
+              </el-form-item>
+            </el-tooltip>
           </el-col>
         </el-row>
         <el-form-item>
@@ -46,12 +53,20 @@ import Auth from "@/services/authentication/auth.js";
 export default {
   name: "addThreeProducts",
   data() {
+    const validatePassword = (rule, value, callback) => {
+      if (value.length < 6) {
+        callback(new Error("密码不能少于6位数字"));
+      } else {
+        callback();
+      }
+    };
     return {
       ruleFormValue: {
         contactName: "",
         password: "",
         userId: ""
       },
+      capsTooltip: false,
       oldPassword: "",
       rules: {
         contactName: [
@@ -64,8 +79,8 @@ export default {
         password: [
           {
             required: true,
-            message: "请选择",
-            trigger: "change"
+            trigger: "change",
+            validator: validatePassword
           }
         ],
         userId: [
@@ -120,6 +135,21 @@ export default {
           return false;
         }
       });
+    },
+    checkCapslock({ shiftKey, key } = {}) {
+      if (key && key.length === 1) {
+        if (
+          (shiftKey && (key >= "a" && key <= "z")) ||
+          (!shiftKey && (key >= "A" && key <= "Z"))
+        ) {
+          this.capsTooltip = true;
+        } else {
+          this.capsTooltip = false;
+        }
+      }
+      if (key === "CapsLock" && this.capsTooltip === true) {
+        this.capsTooltip = false;
+      }
     },
     goBack() {
       this.$router.go(-1);
