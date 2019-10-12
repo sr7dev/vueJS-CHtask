@@ -1,66 +1,62 @@
 <template>
-  <div class="login-container">
-    <el-form
-      ref="loginForm"
-      :model="loginForm"
-      :rules="loginRules"
-      class="login-form"
-      autocomplete="on"
-      label-position="left"
-    >
-      <div class="title-container">
-        <h3 class="title">Login Form</h3>
-      </div>
+  <div>
+    <div class="login-container">
+      <el-dialog title="Or connect with" :visible.sync="showDialog">
+        Can not be simulated on local, so please combine you own business simulation! ! !
+        <br />
+        <br />
+        <br />
+        <social-sign />
+      </el-dialog>
+    </div>
+    <div class="form-div">
+      <el-form
+        ref="loginForm"
+        :model="loginForm"
+        :rules="loginRules"
+        class="login-form"
+        autocomplete="on"
+        label-position="left"
+      >
+        <div class="title-container">
+          <h3 class="title">常熟巿农业委员会&nbsp;&nbsp;</h3>
+          <h3 class="title blue-colored">智慧农业系统</h3>
+        </div>
 
-      <el-form-item prop="username">
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
-          type="text"
-          tabindex="1"
-          autocomplete="on"
-        />
-      </el-form-item>
-
-      <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
-        <el-form-item prop="password">
+        <el-form-item prop="username">
           <el-input
-            :key="passwordType"
-            ref="password"
-            v-model="loginForm.password"
-            :type="passwordType"
-            placeholder="Password"
-            name="password"
-            tabindex="2"
+            ref="username"
+            v-model="loginForm.username"
+            placeholder="账号"
+            name="username"
+            type="text"
+            tabindex="1"
             autocomplete="on"
-            @keyup.native="checkCapslock"
-            @blur="capsTooltip = false"
-            @keyup.enter.native="handleLogin"
           />
         </el-form-item>
-      </el-tooltip>
 
-      <el-button
-        :loading="loading"
-        type="primary"
-        style="width:100%;margin-bottom:30px;"
-        @click.native.prevent="handleLogin"
-      >Login</el-button>
+        <el-tooltip v-model="capsTooltip" content="CapsLock 在" placement="right" manual>
+          <el-form-item prop="password">
+            <el-input
+              :key="passwordType"
+              ref="password"
+              v-model="loginForm.password"
+              :type="passwordType"
+              placeholder="密码"
+              name="password"
+              tabindex="2"
+              autocomplete="on"
+              @keyup.native="checkCapslock"
+              @blur="capsTooltip = false"
+              @keyup.enter.native="handleLogin"
+            />
+          </el-form-item>
+        </el-tooltip>
 
-      <div style="position:relative" class="text-right">
-        <el-button class="thirdparty-button" type="primary" @click="showDialog=true">Or connect with</el-button>
-      </div>
-    </el-form>
-
-    <el-dialog title="Or connect with" :visible.sync="showDialog">
-      Can not be simulated on local, so please combine you own business simulation! ! !
-      <br />
-      <br />
-      <br />
-      <social-sign />
-    </el-dialog>
+        <el-button :loading="loading" type="primary" @click.native.prevent="handleLogin">登录</el-button>
+        <el-link>忘记密码?</el-link>
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -73,14 +69,14 @@ export default {
   data() {
     const validateUsername = (rule, value, callback) => {
       if (value.length < 3) {
-        callback(new Error("The user name can not be less than 3 digits"));
+        callback(new Error("用户名不能少于3位数字"));
       } else {
         callback();
       }
     };
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error("The password can not be less than 6 digits"));
+        callback(new Error("密码不能少于6位数字"));
       } else {
         callback();
       }
