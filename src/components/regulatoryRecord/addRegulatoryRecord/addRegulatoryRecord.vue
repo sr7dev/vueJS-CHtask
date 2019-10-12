@@ -461,8 +461,8 @@ export default {
         "usefulExpressions",
         this.selectWords(this.wordValue)
       );
-      mainFormData.append("file1", this.file_live_1);
-      mainFormData.append("file2", this.file_sign);
+      mainFormData.append("scenePhotoFile", this.file_live_1);
+      mainFormData.append("signFile", this.file_sign);
       return mainFormData;
     },
     chooseFile_Live() {
