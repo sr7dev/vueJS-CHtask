@@ -64,7 +64,6 @@
                     :page.sync="page.pageIndex"
                     :limit.sync="page.pageSize"
                     @pagination="getList"
-                    layout="prev, pager, next, sizes, jumper"
                 />
             </div>
         </div>
@@ -110,7 +109,7 @@ export default {
         getList() {
             this.listLoading = true;
             Request()
-                .get("/api/traningfunds/all", {
+                .get("/api/trainingfunds/all", {
                     pageNo: this.page.pageIndex - 1,
                     pageSize: this.page.pageSize,
                 })
