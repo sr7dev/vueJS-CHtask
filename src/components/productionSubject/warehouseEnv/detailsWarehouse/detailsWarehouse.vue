@@ -60,6 +60,7 @@ export default {
   data() {
     return {
       id: -1,
+      companyId: 0,
       pageName: this.$route.name,
       ruleFormValue: {
         warehouseAddress: "",
@@ -70,8 +71,9 @@ export default {
     };
   },
   created() {
-    this.id = this.$route.params.id;
-    this.companyId = this.$route.query.companyId;
+    this.id = this.$route.query.id;
+    this.companyId = this.$route.params.id;
+    this.getInfo();
   },
   methods: {
     getInfo() {
@@ -97,13 +99,13 @@ export default {
           formData.append("warehouseArea", this.ruleFormValue.warehouseArea);
           formData.append("warehouseName", this.ruleFormValue.warehouseName);
           formData.append("warehouseScope", this.ruleFormValue.warehouseScope);
-          formData.append("companyId", this.ruleFormValue.companyId);
+          formData.append("companyId", this.companyId);
 
           Request()
-            .put("/api/warehose/update/" + this.ruleFormValue.id, formData)
+            .put("/api/warehose/update/" + this.id, formData)
             .then(response => {
               this.$router.push({
-                path: `/productionSubject/warehouseEnv/${this.ruleFormValue.companyId}`
+                path: `/productionSubject/warehouseEnv/${this.companyId}`
               });
             })
             .catch(error => {});

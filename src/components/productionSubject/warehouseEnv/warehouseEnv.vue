@@ -9,9 +9,14 @@
     <div class="box">
       <div class="iptBox">
         <div class="filter-item">
-          <el-button type="primary" plain @click="$router.go(-1)"
-            >返回</el-button
-          >
+          <el-button
+            type="primary"
+            plain
+            @click="$router.push({
+              path: `/productionSubject/warehouseEnv/addWarehouse/addWarehouse/${id}`              
+            })"
+            >添加</el-button>
+          <el-button type="primary" plain @click="$router.go(-1)">返回</el-button>
         </div>
       </div>
       <el-table
@@ -45,7 +50,8 @@
         ></el-table-column>
         <el-table-column prop="operations" label="操作" width="150">
           <template slot-scope="{ row }">
-            <el-button v-on:click="showDetailWarehouse(row)">查看</el-button>
+            <el-button v-on:click="showDetailWarehouse(row)">修改</el-button>
+            <el-button type="danger" @click="goBack" plain>取消</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -116,6 +122,9 @@ export default {
     },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
+    },
+    goBack() {
+      this.$router.go(-1);
     }
   }
 };

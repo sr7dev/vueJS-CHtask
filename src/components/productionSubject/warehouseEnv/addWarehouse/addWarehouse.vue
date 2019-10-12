@@ -59,8 +59,7 @@ export default {
   name: "addWarehouse",
   data() {
     return {
-      id: -1,
-      pageName: this.$route.name,
+      companyId: 0,
       ruleFormValue: {
         warehouseAddress: "",
         warehouseArea: 0,
@@ -70,25 +69,9 @@ export default {
     };
   },
   created() {
-    this.id = this.$route.params.id;
-    this.companyId = this.$route.query.companyId;
+    this.companyId = this.$route.params.id;
   },
   methods: {
-    getInfo() {
-      this.listLoading = true;
-      Request()
-        .get("/api/warehose/get/" + this.id)
-        .then(response => {
-          this.ruleFormValue.warehouseAddress = response.warehouseAddress;
-          this.ruleFormValue.warehouseArea = response.warehouseArea;
-          this.ruleFormValue.warehouseName = response.warehouseName;
-          this.ruleFormValue.warehouseScope = response.warehouseScope;
-          setTimeout(() => {
-            this.listLoading = false;          
-          }, 0.5*1000);
-        })
-        .catch(error => {});
-    },
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -97,13 +80,14 @@ export default {
           formData.append("warehouseArea", this.ruleFormValue.warehouseArea);
           formData.append("warehouseName", this.ruleFormValue.warehouseName);
           formData.append("warehouseScope", this.ruleFormValue.warehouseScope);
-          formData.append("companyId", this.ruleFormValue.companyId);
+          formData.append("companyId", this.companyId);
+          formData.append("id", 0);
 
           Request()
-            .put("/api/warehose/update/" + this.ruleFormValue.id, formData)
+            .put("/api/warehose/create", formData)
             .then(response => {
               this.$router.push({
-                path: `/productionSubject/warehouseEnv/${this.ruleFormValue.companyId}`
+                path: `/productionSubject/warehouseEnv/${this.companyId}`
               });
             })
             .catch(error => {});
