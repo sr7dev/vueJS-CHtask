@@ -54,6 +54,9 @@
             <el-button v-on:click="showProductVariety(row)" type="warning" plain
               >品种定义</el-button
             >
+            <el-button v-on:click="showProductGrade(row)" type="primary" plain
+              >定义等级</el-button
+            >
           </template>
         </el-table-column>
         <el-table-column prop="operations" label="" width="120">
@@ -123,6 +126,11 @@ export default {
     showProductVariety(row){
       this.$router.push({
         path: `/productVariety/${row.productId}`
+      });
+    },
+    showProductGrade(row){
+      this.$router.push({
+        path: `/productionGrade/${row.productId}`
       });
     },
     getList() {

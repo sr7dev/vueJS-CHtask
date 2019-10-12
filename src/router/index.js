@@ -68,6 +68,9 @@ import addVarietyDefinition from "@/components/productionSubject/varietyDefiniti
 import editVarietyDefinition from "@/components/productionSubject/varietyDefinition/editVarietyDefinition/editVarietyDefinition";
 import addInventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/addInventoryDynamics";
 import editInventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/editInventoryDynamics";
+import definitionLevel from "@/components/productionSubject/definitionLevel/definitionLevel";
+import addDefinitionLevel from "@/components/productionSubject/definitionLevel/addDefinitionLevel/addDefinitionLevel";
+import editDefinitionLevel from "@/components/productionSubject/definitionLevel/editDefinitionLevel/editDefinitionLevel";
 
 import companyBusiness from "@/components/companyBusiness/companyBusiness";
 import productBusiness from "@/components/companyBusiness/productBusiness/productBusiness";
@@ -528,6 +531,21 @@ export default new Router({
           path: "/productionStandard/detail/:id",
           name: "detailProductionStandard", // 生产标准
           component: detailProductionStandard
+        },
+        {
+          path:"/productionGrade/:id",
+          name:"definitionLevel",
+          component:definitionLevel
+        },
+        {
+          path:"/productionGrade/create/:id",
+          name:"addDefinitionLevel",
+          component:addDefinitionLevel
+        },
+        {
+          path:"/productionGrade/edit/:id",
+          name:"editDefinitionLevel",
+          component:editDefinitionLevel
         }
       ]
     },
