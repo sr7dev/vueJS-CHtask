@@ -94,7 +94,7 @@ export default {
     showDetailWarehouse(row) {
       this.$router.push({
         path: `/productionSubject/warehouseEnv/detailsWarehouse/${this.id}`,
-        query: { id: row.id}
+        query: {id: row.id}
       });
     },
     getList(id) {
