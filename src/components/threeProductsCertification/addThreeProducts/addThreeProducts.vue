@@ -108,7 +108,7 @@
         <el-row>
           <el-col :span="18">
             <div class="item" style="display:flex">
-              <div class="item-label" style="margin-bottom:20px;">
+              <el-form-item class="item-label" style="margin-bottom:20px;">
                 <input
                   type="file"
                   id="file"
@@ -117,17 +117,9 @@
                   v-on:change="handleFileUpload()"
                 />
                 <el-button type="warning" plain @click="chooseFile()">添加附件</el-button>
-              </div>
-              <div
-                class="item-value"
-                style="margin-left:10px;
-                      display: flex;
-                      align-items: center;
-                      padding-bottom: 20px;"
-              >
                 <span v-if="file">({{ file.name }})</span>
                 <span v-else>请选择需要上传的文件...</span>
-              </div>
+              </el-form-item>
             </div>
           </el-col>
         </el-row>
@@ -274,12 +266,12 @@ export default {
             "argriculturalClassification",
             this.ruleFormValue.argriculturalClassification
           );
-          // this.ruleFormValue.certificationStartTime = new Date(
-          //   this.ruleFormValue.certificationStartTime
-          // ).toDateString("YYYY-MM-DD");
-          // this.ruleFormValue.certificationEndTime = new Date(
-          //   this.ruleFormValue.certificationEndTime
-          // ).toDateString("YYYY-MM-DD");
+          this.ruleFormValue.certificationStartTime = new Date(
+            this.ruleFormValue.certificationStartTime
+          ).toDateString("YYYY-MM-DD");
+          this.ruleFormValue.certificationEndTime = new Date(
+            this.ruleFormValue.certificationEndTime
+          ).toDateString("YYYY-MM-DD");
           formData.append(
             "certificationStartTime",
             this.ruleFormValue.certificationStartTime
