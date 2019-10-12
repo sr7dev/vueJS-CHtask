@@ -39,8 +39,14 @@
           </el-col>
         </el-row>
         <el-form-item>
-          <el-button
-            type="success" plain>编辑选项</el-button>
+          <el-button type="success" plain
+          @click="$router.push({
+            path: `/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/${ruleFormValue.productId}`,
+            query: {
+              id: ruleFormValue.id
+            }
+          })"
+          >编辑选项</el-button>
           <el-button type="success" @click="onSubmit('ruleForm')" plain>保存</el-button>
           <el-button type="danger" @click="goBack" plain>取消</el-button>
         </el-form-item>

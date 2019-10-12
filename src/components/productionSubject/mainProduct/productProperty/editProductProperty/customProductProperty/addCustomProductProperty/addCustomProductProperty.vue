@@ -6,6 +6,8 @@
           >监管对象</el-breadcrumb-item
         >
         <el-breadcrumb-item>主营产品</el-breadcrumb-item>
+        <el-breadcrumb-item>属性管理</el-breadcrumb-item>
+        <el-breadcrumb-item>编辑选项</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">添加属性</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -20,23 +22,16 @@
       >
         <el-row>
           <el-col :span="6">
-            <el-form-item label="属性名称" prop="propertyName">
-              <el-input v-model="ruleFormValue.propertyName" ></el-input>
+            <el-form-item label="选项名称" prop="name">
+              <el-input v-model="ruleFormValue.name" ></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="属性可选项" prop="propertyOptions">
-              <el-input v-model="ruleFormValue.propertyOptions" ></el-input>
+            <el-form-item label="选项排序" prop="sort">
+              <el-input v-model="ruleFormValue.sort" ></el-input>
             </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6">
-            <el-form-item label="属性排序" prop="propertySort">
-              <el-input v-model="ruleFormValue.propertySort" ></el-input>
-            </el-form-item>  
           </el-col>
         </el-row>
         <el-form-item>
@@ -51,35 +46,26 @@
 </template>
 
 <script>
-import Request from "../../../../../services/api/request.js";
+import Request from "../../../../../../../services/api/request.js";
 export default {
-  name: "addProductProperty",
+  name: "addCustomProductProperty",
   data() {
     return {
       listLoading: false,
       ruleFormValue: {
-        doShare: "1",
-        propertyName: "",
-        propertyOptions: "",
-        propertySort: "",
-        productId: 0        
+        id: -1,
+        name: "",
+        sort: ""      
       },
       rules: {
-        propertyName: [
+        name: [
           {
             required: true,
             message: "请插入",
             trigger: "change"
           }
         ],
-        propertyOptions: [
-          {
-            required: true,
-            message: "请插入",
-            trigger: "change"
-          }
-        ],
-        propertySort: [
+        sort: [
           {
             required: true,
             message: "请插入",
@@ -90,7 +76,7 @@ export default {
     };
   },
   created() {    
-    this.ruleFormValue.productId = this.$route.params.id;
+    this.ruleFormValue.id = this.$route.params.id;
   },
   methods: {
     onSubmit(formName) {
@@ -98,17 +84,14 @@ export default {
         if (valid) {
           var formData = {
             "id": 0,
-            "productId": this.ruleFormValue.productId,
-            "propertyName": this.ruleFormValue.propertyName,
-            "propertyOptions": this.ruleFormValue.propertyOptions,
-            "propertySort": this.ruleFormValue.propertySort,
-            "doShare": this.ruleFormValue.doShare
+            "name": this.ruleFormValue.name,
+            "sort": this.ruleFormValue.sort
           }
           Request()
-            .post("/api/product_property/create", formData)
+            .post("/api/product_property_option/create", formData)
             .then(response => {
               this.$router.push({
-                path: `/productionSubject/mainProduct/productProperty/${this.ruleFormValue.productId}`
+                path: `/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/${this.ruleFormValue.id}`
               });
             })
             .catch(error => {});
