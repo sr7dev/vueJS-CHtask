@@ -2,28 +2,28 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item>生产标准</el-breadcrumb-item>
-        <el-breadcrumb-item class="actived">添加</el-breadcrumb-item>
+        <el-breadcrumb-item>共享文件</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">修改文件夹</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
       <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
         <el-row>
           <el-col :span="5">
-            <el-form-item label="产品名称：" prop="productId">
-              <el-select v-model="ruleFormValue.productId" class="w-100" :loading="selloading">
-                <el-option
-                  v-for="item in productionList"
-                  :key="item.productId"
-                  :label="item.productName"
-                  :value="item.productId"
-                ></el-option>
-              </el-select>
+            <el-form-item label="文件夹名称" prop="productId">
+              <el-input v-model="productId"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="类别：" prop="category">
-              <el-select v-model="ruleFormValue.category" class="w-80">
+          <el-col :span="5">
+            <el-form-item label="创建者" prop="category">
+              <el-input v-model="category"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="5">
+            <el-form-item label="是否可见" prop="createTime">
+              <el-select v-model="ruleFormValue.category" class="w-100">
                 <el-option
                   v-for="item in options"
                   :key="item.id"
@@ -34,59 +34,8 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="5">
-            <el-form-item label="发布日期：" prop="createTime">
-              <el-date-picker
-                v-model="ruleFormValue.releaseTime"
-                align="right"
-                class="w-100"
-                type="date"
-                placeholder="开始日期"
-              ></el-date-picker>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="发布者：" prop="releasePerson">
-              <el-input class="w-80" v-model="ruleFormValue.releasePerson"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="10">
-            <el-form-item label="生产标准：" prop="productionStandard">
-              <el-input type="textarea" rows="5" v-model="ruleFormValue.productionStandard"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8">
-            <div class="item" style="display:flex">
-              <div class="item-label" style="margin-bottom:20px;">
-                <input
-                  type="file"
-                  id="file"
-                  style="display: none"
-                  ref="file"
-                  v-on:change="handleFileUpload()"
-                />
-                <el-button type="warning" plain @click="chooseFile()">添加附件</el-button>
-              </div>
-              <div
-                class="item-value"
-                style="margin-left:10px;
-                      display: flex;
-                      align-items: center;
-                      padding-bottom: 20px;"
-              >
-                <span v-if="file">({{ file.name }})</span>
-                <span v-else>请选择需要上传的文件...</span>
-              </div>
-            </div>
-          </el-col>
-        </el-row>
         <el-form-item class="left-margin">
-          <el-button type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
+          <el-button type="success" plain @click="onSubmit('ruleForm')" disabled>保存</el-button>
           <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
       </el-form>
@@ -99,17 +48,13 @@ import Request from "../../../services/api/request.js";
 import { Urls } from "../../../services/constants";
 import axios from "axios";
 export default {
-  name: "addProductionStandard",
+  name: "addSharedFiles",
   data() {
     return {
       file: null,
       productionList: [],
       selloading: false,
-      options: [
-        { id: 1, name: "畜牧业" },
-        { id: 2, name: "水产业" },
-        { id: 3, name: "养殖业" }
-      ],
+      options: [{ id: 0, name: "不可见" }, { id: 2, name: "可见" }],
       ruleFormValue: {
         productId: null,
         category: null,
@@ -207,12 +152,6 @@ export default {
         this.ruleFormValue.productionStandard
       );
       return mainFormData;
-    },
-    chooseFile() {
-      this.$refs.file.click();
-    },
-    handleFileUpload() {
-      this.file = this.$refs.file.files[0];
     },
     filterProduct(id) {
       let Product = this.productionList.find(x => x.productId === id);

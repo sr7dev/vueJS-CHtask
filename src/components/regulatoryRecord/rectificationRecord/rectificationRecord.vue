@@ -14,7 +14,7 @@
       <el-dialog :visible.sync="dialogVisible" width="30%">
         <span>请选择图片 !!!</span>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false" type="primary" plain>Cancel</el-button>
+          <el-button @click="dialogVisible = false" type="primary" plain>取消</el-button>
         </span>
       </el-dialog>
       <el-form v-if="!listLoading && !isNanData">

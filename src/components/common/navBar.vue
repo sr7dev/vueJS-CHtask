@@ -7,7 +7,6 @@
         class="el-menu-vertical-demo"
         background-color="#fff"
         text-color="#333"
-        active-text-color="#4787c7"
       >
         <el-submenu index="/">
           <template slot="title">
@@ -52,6 +51,9 @@
         </el-menu-item>
         <el-menu-item index="/sampleCheck">
           <router-link slot="title" to="/sampleCheck">例行抽样管理</router-link>
+        </el-menu-item>
+        <el-menu-item index="/inputManagement">
+          <router-link slot="title" to="/inputManagement">投入品管理</router-link>
         </el-menu-item>
         <el-menu-item index="/">
           <router-link slot="title" to="/corporateCreditFile">企业信用档案</router-link>

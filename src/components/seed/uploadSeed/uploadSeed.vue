@@ -2,8 +2,8 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item>生产记录</el-breadcrumb-item>
-        <el-breadcrumb-item class="actived">添加记录</el-breadcrumb-item>
+        <el-breadcrumb-item>种子管理</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">上传原料</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">

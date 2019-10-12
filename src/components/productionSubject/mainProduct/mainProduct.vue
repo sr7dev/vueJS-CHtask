@@ -59,13 +59,19 @@
             >
           </template>
         </el-table-column>
-        <el-table-column prop="operations" label="" width="120">
+        <el-table-column prop="operations" label="" width="270">
           <template slot-scope="{ row }">
             <el-button
               v-on:click="showInventoryDynamics(row)"
               type="info"
               plainv
               >库存动态</el-button
+            >
+            <el-button
+              v-on:click="showProcessDefinition(row)"
+              type="primary"
+              plainv
+              >作业定义</el-button
             >
           </template>
         </el-table-column>
@@ -123,6 +129,13 @@ export default {
         query: { productName: row.productName }
       });
     },
+
+    showProcessDefinition(row) {
+      this.$router.push({
+        path: `/productionSubject/mainProduct/processDefinition/${this.$route.params.id}`
+      });
+    },
+        
     showProductVariety(row){
       this.$router.push({
         path: `/productVariety/${row.productId}`

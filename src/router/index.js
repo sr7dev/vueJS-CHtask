@@ -27,6 +27,10 @@ import detailSeed from "@/components/seed/detailSeed/detailSeed";
 import productionStandard from "@/components/productionStandard/productionStandard";
 import addProductionStandard from "@/components/productionStandard/addProductionStandard/addProductionStandard";
 import detailProductionStandard from "@/components/productionStandard/detailProductionStandard/detailProductionStandard";
+import shareFiles from "@/components/shareFiles/shareFiles";
+import addShareFiles from "@/components/shareFiles/addShareFiles/addShareFiles";
+import editShareFiles from "@/components/shareFiles/editShareFiles/editShareFiles";
+import detailShareFiles from "@/components/shareFiles/detailShareFiles/detailShareFiles";
 
 // 企业
 import cp_productionSubject from "@/components/company/productionSubject/productionSubject"; //生产主体
@@ -71,6 +75,10 @@ import editInventoryDynamics from "@/components/productionSubject/mainProduct/in
 import definitionLevel from "@/components/productionSubject/definitionLevel/definitionLevel";
 import addDefinitionLevel from "@/components/productionSubject/definitionLevel/addDefinitionLevel/addDefinitionLevel";
 import editDefinitionLevel from "@/components/productionSubject/definitionLevel/editDefinitionLevel/editDefinitionLevel";
+import processDefinition from "@/components/productionSubject/mainProduct/processDefinition/processDefinition";
+import addProcessDefinition from "@/components/productionSubject/mainProduct/processDefinition/addProcessDefinition/addProcessDefinition";
+import editProcessDefinition from "@/components/productionSubject/mainProduct/processDefinition/editProcessDefinition/editProcessDefinition";
+
 
 import companyBusiness from "@/components/companyBusiness/companyBusiness";
 import productBusiness from "@/components/companyBusiness/productBusiness/productBusiness";
@@ -100,6 +108,10 @@ import addInternalMessage from "@/components/internalMessage/addInternalMessage/
 import trainingFunds from "@/components/trainingFunds/trainingFunds";
 import addTrainingFunds from "@/components/trainingFunds/addTrainingFunds/addTrainingFunds";
 import viewTrainingFunds from "@/components/trainingFunds/viewTrainingFunds/viewTrainingFunds";
+
+import inputManagement from "@/components/inputManagement/inputManagement";
+import addInputManagement from "@/components/inputManagement/addInputManagement/addInputManagement";
+import viewInputManagement from "@/components/inputManagement/viewInputManagement/viewInputManagement";
 
 import Auth from "@/services/authentication/auth";
 
@@ -246,6 +258,21 @@ export default new Router({
           path: "/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/:id",
           name: "editInventoryDynamics",
           component: editInventoryDynamics
+        },
+        {
+          path: "/productionSubject/mainProduct/processDefinition/:id",
+          name: "processDefinition",
+          component: processDefinition
+        },
+        {
+          path: "/productionSubject/mainProduct/processDefinition/addProcessDefinition/:id",
+          name: "addProcessDefinition",
+          component: addProcessDefinition
+        },
+        {
+          path: "/productionSubject/mainProduct/processDefinition/editProcessDefinition/:id",
+          name: "editProcessDefinition",
+          component: editProcessDefinition
         },
         {
           path: "/threeProductsCertification",
@@ -463,6 +490,21 @@ export default new Router({
           component: addInternalMessage
         },
         {
+          path: "/inputManagement",
+          name: "inputManagement", // 投入品管理
+          component: inputManagement
+        },
+        {
+          path: "/inputManagement/add",
+          name: "addInputManagement", // 投入品管理
+          component: addInputManagement
+        },
+        {
+          path: "/inputManagement/view/:id",
+          name: "viewInputManagement", // 投入品管理
+          component: viewInputManagement
+        },
+        {
           path: "/workTask",
           name: "workTask", // 工作任务
           component: workTask
@@ -546,6 +588,26 @@ export default new Router({
           path:"/productionGrade/edit/:id",
           name:"editDefinitionLevel",
           component:editDefinitionLevel
+        },
+        {
+          path: "/shareFiles",
+          name: "shareFiles", // 共享文件editShareFiles
+          component: shareFiles
+        },
+        {
+          path: "/shareFiles/create",
+          name: "addShareFiles", // 共享文件
+          component: addShareFiles
+        },
+        {
+          path: "/shareFiles/edit/:id",
+          name: "editShareFiles", // 共享文件
+          component: editShareFiles
+        },
+        {
+          path: "/shareFiles/detail/:id",
+          name: "detailShareFiles", // 共享文件
+          component: detailShareFiles
         }
       ]
     },

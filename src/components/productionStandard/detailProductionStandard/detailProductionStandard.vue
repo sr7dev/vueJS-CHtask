@@ -46,6 +46,7 @@
                 class="w-100"
                 type="date"
                 placeholder="开始日期"
+                disabled
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -58,7 +59,7 @@
         <el-row>
           <el-col :span="10">
             <el-form-item label="生产标准：" prop="productionStandard">
-              <el-input type="textarea" rows="5" v-model="data.productionStandard" disabled></el-input>
+              <el-input type="textarea" rows="5" v-model="data.productStandard" disabled></el-input>
             </el-form-item>
           </el-col>
         </el-row>
