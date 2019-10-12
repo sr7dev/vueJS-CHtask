@@ -45,31 +45,16 @@
         <el-table-column prop="grade" label="评级"></el-table-column>
         <el-table-column prop="operations" label="" width="270">
           <template slot-scope="{ row }">
-            <el-button v-on:click="showSamplingRecord(row)" type="success" plain
-              >第三方抽检记录</el-button
-            >
-            <el-button v-on:click="showProductBatch(row)" type="warning" plain
-              >产品批次</el-button
-            >
-            <el-button v-on:click="showProductVariety(row)" type="warning" plain
-              >品种定义</el-button
-            >
+            <el-button v-on:click="showSamplingRecord(row)" type="success" plain >第三方抽检记录</el-button>
+            <el-button v-on:click="showProductBatch(row)" type="warning" plain >产品批次</el-button>
+            <el-button v-on:click="showProductVariety(row)" type="warning" plain >品种定义</el-button>
           </template>
         </el-table-column>
         <el-table-column prop="operations" label="" width="270">
           <template slot-scope="{ row }">
-            <el-button
-              v-on:click="showInventoryDynamics(row)"
-              type="info"
-              plainv
-              >库存动态</el-button
-            >
-            <el-button
-              v-on:click="showProcessDefinition(row)"
-              type="primary"
-              plainv
-              >作业定义</el-button
-            >
+            <el-button v-on:click="showInventoryDynamics(row)" type="info" plainv >库存动态</el-button>
+            <el-button v-on:click="showProcessDefinition(row)" type="primary" plainv>作业定义</el-button>
+            <el-button v-on:click="showProductProperty(row)" type="primary" plainv>属性管理</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -126,13 +111,16 @@ export default {
         query: { productName: row.productName }
       });
     },
-
     showProcessDefinition(row) {
       this.$router.push({
         path: `/productionSubject/mainProduct/processDefinition/${this.$route.params.id}`
       });
     },
-        
+    showProductProperty(row) {
+      this.$router.push({
+        path: `/productionSubject/mainProduct/productProperty/${this.$route.params.id}`
+      });      
+    },
     showProductVariety(row){
       this.$router.push({
         path: `/productVariety/${row.productId}`

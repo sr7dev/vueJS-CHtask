@@ -75,6 +75,9 @@ import editInventoryDynamics from "@/components/productionSubject/mainProduct/in
 import processDefinition from "@/components/productionSubject/mainProduct/processDefinition/processDefinition";
 import addProcessDefinition from "@/components/productionSubject/mainProduct/processDefinition/addProcessDefinition/addProcessDefinition";
 import editProcessDefinition from "@/components/productionSubject/mainProduct/processDefinition/editProcessDefinition/editProcessDefinition";
+import productProperty from "@/components/productionSubject/mainProduct/productProperty/productProperty";
+import addProductProperty from "@/components/productionSubject/mainProduct/productProperty/addProductProperty/addProductProperty";
+import editProductProperty from "@/components/productionSubject/mainProduct/productProperty/editProductProperty/editProductProperty";
 
 
 import companyBusiness from "@/components/companyBusiness/companyBusiness";
@@ -270,6 +273,21 @@ export default new Router({
           path: "/productionSubject/mainProduct/processDefinition/editProcessDefinition/:id",
           name: "editProcessDefinition",
           component: editProcessDefinition
+        },
+        {
+          path: "/productionSubject/mainProduct/productProperty/:id",
+          name: "productProperty",
+          component: productProperty
+        },
+        {
+          path: "/productionSubject/mainProduct/productProperty/addProductProperty/:id",
+          name: "addProductProperty",
+          component: addProductProperty
+        },
+        {
+          path: "/productionSubject/mainProduct/productProperty/editProductProperty/:id",
+          name: "editProductProperty",
+          component: editProductProperty
         },
         {
           path: "/threeProductsCertification",
