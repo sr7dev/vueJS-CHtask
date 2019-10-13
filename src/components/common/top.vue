@@ -1,7 +1,7 @@
 <template>
   <div class="xyh_top flex-box justify-right">
     <div class="changshu_left">
-      <img src="../../assets/images/logo.jpg" alt />
+      <img src="../../assets/images/logo.png" alt />
     </div>
     <el-menu
       outer

@@ -46,7 +46,7 @@
 <script>
 import Request from "../../../services/api/request.js";
 import { Urls } from "../../../services/constants";
-import axios from "axios";
+
 export default {
   name: "addSharedFiles",
   data() {

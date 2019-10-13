@@ -43,7 +43,7 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="8">
+          <el-form-item>
             <div class="item" style="display:flex">
               <div class="item-label" style="margin-bottom:20px;">
                 <input
@@ -66,9 +66,9 @@
                 <span v-else>请选择需要上传的文件...</span>
               </div>
             </div>
-          </el-col>
+          </el-form-item>
         </el-row>
-        <el-form-item class="left-margin">
+        <el-form-item>
           <el-button type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
           <el-button type="primary" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
@@ -80,7 +80,7 @@
 <script>
 import Request from "../../../services/api/request.js";
 import { Urls } from "../../../services/constants";
-import axios from "axios";
+
 export default {
   name: "addWorkTask",
   data() {
