@@ -28,34 +28,37 @@
         <el-menu-item index="/disabilityCheck">
           <router-link slot="title" to="/disabilityCheck">农残检测</router-link>
         </el-menu-item>
+        <el-menu-item index="/jobDefinition" v-if="loggedinUserType === 3">
+          <router-link slot="title" to="/jobDefinition">作业定义</router-link>
+        </el-menu-item>
         <el-menu-item index="/productionRecord">
           <router-link slot="title" to="/productionRecord">生产记录</router-link>
         </el-menu-item>
         <el-menu-item index="/regulatoryRecord">
           <router-link slot="title" to="/regulatoryRecord">监管记录</router-link>
         </el-menu-item>
-        <el-menu-item index="/workTask">
+        <el-menu-item index="/workTask" v-if="loggedinUserType!==3">
           <router-link slot="title" to="/workTask">工作任务</router-link>
         </el-menu-item>
-        <el-menu-item index="/notice">
+        <el-menu-item index="/notice" v-if="loggedinUserType!== 3">
           <router-link slot="title" to="/notice">通知管理</router-link>
         </el-menu-item>
-        <el-menu-item index="/trainingFunds">
+        <el-menu-item index="/trainingFunds" v-if="loggedinUserType!==3">
           <router-link slot="title" to="/trainingFunds">培训经费管理</router-link>
         </el-menu-item>
         <el-menu-item index="/seed">
           <router-link slot="title" to="/seed">种子管理</router-link>
         </el-menu-item>
-        <el-menu-item index="/userManagement" v-if="loggedinUserType!=3">
+        <el-menu-item index="/userManagement" v-if="loggedinUserType!==3">
           <router-link slot="title" to="/userManagement">用户管理</router-link>
         </el-menu-item>
-        <el-menu-item index="/threeProductsCertification">
+        <el-menu-item index="/threeProductsCertification" v-if="loggedinUserType!== 3">
           <router-link slot="title" to="/threeProductsCertification">三品一标管理</router-link>
         </el-menu-item>
         <el-menu-item index="/sampleCheck">
           <router-link slot="title" to="/sampleCheck">例行抽样管理</router-link>
         </el-menu-item>
-        <el-menu-item index="/inputManagement">
+        <el-menu-item index="/inputManagement" v-if="loggedinUserType === 3">
           <router-link slot="title" to="/inputManagement">投入品管理</router-link>
         </el-menu-item>
         <el-menu-item index="/">
