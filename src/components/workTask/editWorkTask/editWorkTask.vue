@@ -7,7 +7,9 @@
       </el-breadcrumb>
     </div>
     <el-dialog :visible.sync="dialogVisible" width="30%" modal>
-      <span>你确定你要删除?</span>
+      <span>
+        <i class="el-icon-warning">&nbsp;你确定你要删除?</i>
+      </span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false" type="primary" plain>取消</el-button>
         <el-button @click="handleDelete" type="success" plain>确认</el-button>
