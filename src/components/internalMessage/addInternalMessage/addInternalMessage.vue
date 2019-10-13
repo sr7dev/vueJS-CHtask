@@ -38,7 +38,7 @@
             >
             </el-input>
         </el-form-item>
-        <el-form-item class="left-margin">
+        <el-form-item>
             <el-button type="success" plain @click="onSubmit('addForm')">
                 保存
             </el-button>
