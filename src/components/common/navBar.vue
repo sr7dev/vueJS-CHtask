@@ -31,10 +31,10 @@
         <el-menu-item index="/jobDefinition" v-if="loggedinUserType === 3">
           <router-link slot="title" to="/jobDefinition">作业定义</router-link>
         </el-menu-item>
-        <el-menu-item index="/productionRecord">
+        <el-menu-item index="/productionRecord" v-if="loggedinUserType === 3">
           <router-link slot="title" to="/productionRecord">生产记录</router-link>
         </el-menu-item>
-        <el-menu-item index="/regulatoryRecord">
+        <el-menu-item index="/regulatoryRecord" v-if="loggedinUserType !== 3">
           <router-link slot="title" to="/regulatoryRecord">监管记录</router-link>
         </el-menu-item>
         <el-menu-item index="/workTask" v-if="loggedinUserType!==3">
@@ -72,9 +72,6 @@
         </el-menu-item>
         <el-menu-item index="/redBlackList">
           <router-link slot="title" to="/redBlackList">红黑名单</router-link>
-        </el-menu-item>
-        <el-menu-item index="/jobDefinition">
-          <router-link slot="title" to="/jobDefinition">作业定义</router-link>
         </el-menu-item>
       </el-menu>
     </el-col>
