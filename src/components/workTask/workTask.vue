@@ -10,11 +10,16 @@
         <el-row class="w-100">
           <el-col :span="6">
             <div class="select_label no-margin-left">开始日期</div>
-            <el-date-picker v-model="releaseTimeFrom" align="right" type="date" placeholder="开始日期"></el-date-picker>
+            <el-date-picker 
+              v-model="releaseTimeFrom" 
+              align="right" 
+              type="date" 
+              placeholder="开始日期"
+              v-on:change="getList"></el-date-picker>
           </el-col>
           <el-col :span="6">
             <div class="select_label no-margin-left">结束日期</div>
-            <el-date-picker v-model="releaseTimeTo" align="right" type="date" placeholder="结束日期"></el-date-picker>
+            <el-date-picker v-model="releaseTimeTo" align="right" type="date" placeholder="结束日期" v-on:change="getList"></el-date-picker>
           </el-col>
           <el-col :span="3">
             <el-button type="primary" v-on:click="$router.push(`/workTask/create`)" plain>添加工作任务</el-button>
@@ -62,11 +67,7 @@
               <el-button
                 type="primary"
                 plain
-                v-on:click="
-                  $router.push({
-                    path: `/workTask/report/detail/`+ row.id
-                  })
-                "
+                v-on:click="$router.push({path: `/workTask/report/detail/`+ row.id})"
               >查看任务进度</el-button>
             </template>
           </el-table-column>
@@ -79,7 +80,6 @@
           :page.sync="page.pageIndex"
           :limit.sync="page.pageSize"
           @pagination="getList"
-          layout="prev, pager, next, sizes, jumper"
         />
       </div>
     </div>
@@ -112,8 +112,8 @@ export default {
       this.listLoading = true;
       Request()
         .get("/api/work_task/all", {
-          fromDate: this.creditCode,
-          toDate: this.productCategory,
+          fromDate: this.releaseTimeFrom,
+          toDate: this.releaseTimeTo,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize
         })
