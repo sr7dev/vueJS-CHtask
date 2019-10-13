@@ -47,7 +47,6 @@
           highlight-current-row
         >
           <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
-
           <el-table-column label="企业名称" width="150" v-if="loggedinUserType ===2">
             <template slot-scope="{row}">{{filterCompnay(row.creditCode)}}</template>
           </el-table-column>

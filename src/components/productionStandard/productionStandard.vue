@@ -13,6 +13,7 @@
               type="primary"
               v-on:click="$router.push(`/productionStandard/create`)"
               plain
+              v-if="loggedinUserType === 1"
             >添加生产标准</el-button>
           </el-col>
           <el-col :span="6">
@@ -75,6 +76,8 @@
 <script>
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
+import Auth from "@/services/authentication/auth.js";
+
 export default {
   name: "productStandard",
   components: { Pagination },
@@ -91,6 +94,7 @@ export default {
       tableData: [],
       productName: "",
       category: 0,
+      loggedinUserType: null,
       options: [
         { id: 0, name: "全部" },
         { id: 1, name: "畜牧业" },
@@ -101,6 +105,7 @@ export default {
   },
   created() {
     this.getList();
+    this.loggedinUserType = Auth().user().attrs.userType;
   },
   methods: {
     getList() {
