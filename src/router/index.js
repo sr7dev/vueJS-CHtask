@@ -114,6 +114,8 @@ import detailsNotice from "@/components/notice/detailsNotice/detailsNotice";
 import createNotice from "@/components/notice/createNotice/createNotice";
 import editNotice from "@/components/notice/editNotice/editNotice";
 
+import aquaticStatistics from "@/components/aquaticStatistics/aquaticStatistics";
+
 import internalMessage from "@/components/internalMessage/internalMessage";
 import addInternalMessage from "@/components/internalMessage/addInternalMessage/addInternalMessage";
 
@@ -495,6 +497,11 @@ export default new Router({
           path: "/notice/create",
           name: "createNotice", // 通知管理
           component: createNotice
+        },
+        {
+          path: "/aquatic",
+          name: "aquaticStatistics", // 通知管理
+          component: aquaticStatistics
         },
         {
           path: "/notice/edit/:id",

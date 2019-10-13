@@ -40,6 +40,9 @@
         <el-menu-item index="/notice">
           <router-link slot="title" to="/notice">通知管理</router-link>
         </el-menu-item>
+        <el-menu-item index="/aquatic">
+          <router-link slot="title" to="/aquatic">水产站</router-link>
+        </el-menu-item>
         <el-menu-item index="/trainingFunds">
           <router-link slot="title" to="/trainingFunds">培训经费管理</router-link>
         </el-menu-item>
