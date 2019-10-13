@@ -49,8 +49,8 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="8">
+        <el-form-item>
+          <el-col :span="18">
             <div class="item" style="display:flex">
               <div class="item-label" style="margin-bottom:20px;">
                 <input
@@ -69,13 +69,13 @@
                       align-items: center;
                       padding-bottom: 20px;"
               >
-                <span v-if="file">({{ file.name }})</span>
+                <span v-if="file">({{ fileName }})</span>
                 <span v-else>请选择需要上传的文件...</span>
               </div>
             </div>
           </el-col>
-        </el-row>
-        <el-form-item class="left-margin">
+        </el-form-item>
+        <el-form-item>
           <el-button type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
           <el-button type="primary" plain v-on:click="$router.go(-1)">取消</el-button>
           <el-button type="danger" plain v-on:click="confirmDelete">删除</el-button>
@@ -88,12 +88,13 @@
 <script>
 import Request from "../../../services/api/request.js";
 import { Urls } from "../../../services/constants";
-import axios from "axios";
+
 export default {
   name: "editWorkTask",
   data() {
     return {
       file: null,
+      fileName: "",
       selectedId: null,
       data: null,
       dialogVisible: false,
@@ -149,6 +150,8 @@ export default {
           this.ruleFormValue.releasePerson = this.data.releasePerson;
           this.ruleFormValue.title = this.data.title;
           this.ruleFormValue.content = this.data.content;
+          this.file = response.workTaskProfiles;
+          this.fileName = response.workTaskProfiles;
         })
         .catch(error => {
           console.log(error);
@@ -192,6 +195,7 @@ export default {
     },
     handleFileUpload() {
       this.file = this.$refs.file.files[0];
+      this.fileName = this.file.name;
     },
     handleDelete() {
       Request()

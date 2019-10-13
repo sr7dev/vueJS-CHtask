@@ -115,6 +115,7 @@ import createNotice from "@/components/notice/createNotice/createNotice";
 import editNotice from "@/components/notice/editNotice/editNotice";
 
 import aquaticStatistics from "@/components/aquaticStatistics/aquaticStatistics";
+import statisticsFarmers from "@/components/statisticsFarmers/statisticsFarmers";
 
 import internalMessage from "@/components/internalMessage/internalMessage";
 import addInternalMessage from "@/components/internalMessage/addInternalMessage/addInternalMessage";
@@ -537,6 +538,11 @@ export default new Router({
           path: "/productVariety/edit/:id",
           name: "editProductVariety", // 作业定义
           component: editVarietyDefinition
+        },
+        {
+          path: "/statisticsFarmers",
+          name: "statisticsFarmers", // 统计（农残）
+          component: statisticsFarmers
         },
         {
           path: "/internalMessage",

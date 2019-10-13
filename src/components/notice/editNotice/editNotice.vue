@@ -36,29 +36,27 @@
                 </el-option>
             </el-select>
         </el-form-item>
-        <div style="display:flex">
-            <el-form-item label="类型" prop="type" class="input-width label-align">
-                <el-input 
-                    v-model="editForm.type" 
-                    auto-complete="off"
-                >
-                </el-input>
-            </el-form-item>
-            <el-form-item label="日期" prop="releaseTime" class="input-width label-align2">
-                <el-date-picker 
-                    type="date" 
-                    v-model="editForm.releaseTime" 
-                >
-                </el-date-picker>
-            </el-form-item>
-            <el-form-item label="发布人" prop="releasePerson" class="input-width label-align2">
-                <el-input 
-                    v-model="editForm.releasePerson" 
-                    auto-complete="off"
-                >
-                </el-input>
-            </el-form-item>
-        </div>
+        <el-form-item label="类型" prop="type" class="input-width label-align">
+            <el-input 
+                v-model="editForm.type" 
+                auto-complete="off"
+            >
+            </el-input>
+        </el-form-item>
+        <el-form-item label="日期" prop="releaseTime" class="input-width label-align">
+            <el-date-picker 
+                type="date" 
+                v-model="editForm.releaseTime" 
+            >
+            </el-date-picker>
+        </el-form-item>
+        <el-form-item label="发布人" prop="releasePerson" class="input-width label-align">
+            <el-input 
+                v-model="editForm.releasePerson" 
+                auto-complete="off"
+            >
+            </el-input>
+        </el-form-item>
         <el-form-item prop="title" label="标题" class="label-align">
             <el-input 
                 v-model="editForm.title" 
@@ -93,7 +91,7 @@
                 ({{ fileName }})
             </span>
         </el-form-item>
-        <el-form-item class="left-margin">
+        <el-form-item>
             <el-button type="success" plain @click="onSubmit('editForm')">
                 保存
             </el-button>

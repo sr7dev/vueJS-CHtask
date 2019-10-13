@@ -32,7 +32,7 @@
             :value="item.id"
           ></el-option>
         </el-select>
-        <div class="select_label">
+        <div class="select_label" v-if="loggedinUserType !== 3">
           <el-button type="outline-primary" v-on:click="getList()" disabled>导入</el-button>
         </div>
       </div>
@@ -47,24 +47,36 @@
           highlight-current-row
         >
           <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
-          <el-table-column label="企业名称" width="150">
+          <el-table-column label="企业名称" width="150" v-if="loggedinUserType ===2">
             <template slot-scope="{row}">{{filterCompnay(row.creditCode)}}</template>
           </el-table-column>
-          <el-table-column prop="creditCode" label="统一社会信用代码"></el-table-column>
+          <el-table-column label="名称" width="150" v-if="loggedinUserType !==2">
+            <template slot-scope="{row}">{{filterCompnay(row.creditCode)}}</template>
+          </el-table-column>
+          <el-table-column prop="creditCode" label="统一社会信用代码" v-if="loggedinUserType ===2"></el-table-column>
+          <el-table-column prop="creditCode" label="信用代码" v-if="loggedinUserType !==2"></el-table-column>
           <el-table-column prop="public_license" label="行政许可信息">
             <template slot-scope="{row}">
-              <el-button v-if="row.public_license > 0"
+              <el-button
+                v-if="row.public_license > 0"
                 v-on:click="$router.push({path: `/corporateCreditFile/adminLicenseInfo`,query: {creditCode:row.creditCode}})"
               >行政许可信息</el-button>
-              <el-button v-else disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
+              <el-button
+                v-else
+                disabled
+              >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
             </template>
           </el-table-column>
           <el-table-column prop="public_punish" label="行政处罚信息">
             <template slot-scope="{row}">
-              <el-button v-if="row.public_punish > 0"
+              <el-button
+                v-if="row.public_punish > 0"
                 v-on:click="$router.push({path: `/corporateCreditFile/adminPenaltyInfo`,query: {creditCode:row.creditCode}})"
               >行政许可信息</el-button>
-              <el-button v-else disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
+              <el-button
+                v-else
+                disabled
+              >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
             </template>
           </el-table-column>
           <el-table-column label="评级信息">
@@ -100,6 +112,7 @@
 <script>
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
+import Auth from "@/services/authentication/auth.js";
 
 export default {
   name: "creditRating",
@@ -125,13 +138,17 @@ export default {
       total: 0,
       tableData: [],
       companyProduction: [],
-      gradData: []
+      gradData: [],
+      loggedinUserType: null
     };
   },
   mounted() {
     this.getTown();
     this.getList();
     this.getCompanyProduction();
+  },
+  created() {
+    this.loggedinUserType = Auth().user().attrs.userType;
   },
   methods: {
     rowIndex({ row, rowIndex }) {

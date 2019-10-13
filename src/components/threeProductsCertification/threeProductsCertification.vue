@@ -67,7 +67,11 @@
               }}
             </template>
           </el-table-column>
-          <el-table-column prop="cretficationCategory" label="认证类型"></el-table-column>
+          <el-table-column label="认证类型" prop="cretficationType">
+            <template slot-scope="{ row }">
+              {{ appStatus2[parseInt(row.cretficationType)] }}
+            </template>
+          </el-table-column>
           <el-table-column prop="certificationNo" label="证书编号"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="{ row }">
@@ -96,7 +100,6 @@
           :page.sync="page.pageIndex"
           :limit.sync="page.pageSize"
           @pagination="getList"
-          layout="prev, pager, next, sizes, jumper"
         />
       </div>
     </div>
@@ -120,12 +123,12 @@ export default {
         pageSize: 20
       },
       listLoading: true,
-      total: 100,
+      total: 0,
       tableData: [],
       companyProduction: [],
       productDetail: [],
       appStatus1: ["全部", "养殖业", "已同意", "畜牧业", "种植业"],
-      appStatus2: ["全部", "无公害产品", "绿色食品", "有机食品", "地理标志"]
+      appStatus2: ["全部", "无公害产品", "绿色食品", "有机食品", "地理标志"],
     };
   },
   created() {
@@ -212,7 +215,7 @@ export default {
     confirmDelete(id) {
       this.dialogVisible = true;
       this.selectedId = id;
-    }
+    },
   }
 };
 </script>

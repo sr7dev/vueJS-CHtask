@@ -75,7 +75,7 @@
 import Request from "../../../../../services/api/request.js";
 import { Urls } from "../../../../../services/constants";
 import Auth from "../../../../../services/authentication/auth";
-import axios from "axios";
+
 export default {
   name: "addThirdPartySampling",
   data() {    

@@ -40,14 +40,14 @@
             >
             </el-input>
         </el-form-item>
-        <el-form-item label="" prop="file">
+        <el-form-item label="">
             <el-button plain @click="downloadFile()">附件下载</el-button>
-            <span class="item-value" v-if="!file_live_1">
+            <span class="item-value" v-if="!file">
                 <el-link @click="downloadFile()">
                     {{ fileName }}
                 </el-link>
             </span>
-            <span class="item-value" v-if="file_live_1">
+            <span class="item-value" v-if="file">
                 ({{ fileName }})
             </span>
         </el-form-item>
@@ -75,7 +75,7 @@ export default {
         },
         companyProduction: [],
         fileName: '',
-        file_live_1: null,
+        file: null,
         dataloading: false,
         bLeft: true,
     };
@@ -104,8 +104,8 @@ export default {
                 .get("/api/inputsUse/get/" + id)
                 .then(response => {
                     this.formData = response;
-                    this.file_live_1 = response.noticeProfiles;
-                    this.fileName = this.file_live_1.replace("/uploads/", "");
+                    this.file = response.inputProfiles;
+                    this.fileName = this.file.replace("/uploads/", "");
                     setTimeout(() => {
                         this.dataloading = false;
                     }, 0.01 * 1000);
@@ -118,8 +118,9 @@ export default {
             .get("/api/inputsPurchase/get/" + id)
             .then(response => {
                 this.formData = response;
-                this.file_live_1 = response.noticeProfiles;
-                this.fileName = this.file_live_1.replace("/uploads/", "");
+                this.file = response.inputProfiles;
+                this.fileName = this.file.replace("/uploads/", "");
+                
                 setTimeout(() => {
                     this.dataloading = false;
                 }, 0.01 * 1000);
@@ -130,24 +131,26 @@ export default {
         }
         
     },
-    chooseFile() {
-      document.getElementById('file').click()
-    },
-    handleFileUpload() {
-        this.file_live_1 = this.$refs.file_live_1.files[0];
-        this.fileName = this.file_live_1.name;
-    },
-    makeFormData() {
-        var mainFormData = new FormData();
-        mainFormData.append("companyId", this.formData.companyId);
-        mainFormData.append("amount", this.formData.amount);
-        mainFormData.append("sampleName", this.formData.sampleName);
-        mainFormData.append("file", this.file_live_1);
-        mainFormData.append("id", 0);
-        return mainFormData;
-    },
+    downloadFile() {
+      axios({
+        url: Urls.DOWNLOAD_URL() + this.file,
+        method: "GET",
+        responseType: "blob" // important
+      }).then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute(
+          "download", 
+          this.file.replace("/uploads/", "")
+        ); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      });
+    }
   }
-};
+}
 </script>
 
 <style lang="scss">

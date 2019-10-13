@@ -8,8 +8,8 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <div class="tab-header" type @click="mode = true" v-bind:class="{ active: mode }">抽样计划</div>
-        <div class="tab-header" type @click="mode = false" v-bind:class="{ active: !mode }">抽样结果</div>
+        <div class="tab-header" type @click="clickTabLeft" v-bind:class="{ active: mode }">抽样计划</div>
+        <div class="tab-header" type @click="clickTabRight" v-bind:class="{ active: !mode }">抽样结果</div>
       </div>
       <div class="iptBox">
         <el-button type="primary" plain @click="addSample()">添加</el-button>
@@ -27,8 +27,8 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-table v-show="!mode" :data="tableData1" style="width: 100%" :row-class-name="rowIndex">
-        <el-table-column :formatter="order1" label="序号" width="80"></el-table-column>
+      <el-table v-show="!mode" :data="tableData" style="width: 100%" :row-class-name="rowIndex">
+        <el-table-column :formatter="order" label="序号" width="80"></el-table-column>
         <el-table-column prop="sampleName" label="检测名称"></el-table-column>
         <el-table-column prop="checkUnit" label="检测单位"></el-table-column>
         <el-table-column prop="sampleTime" label="检测时间">
@@ -46,11 +46,11 @@
       </el-table>
       <div class="pageBox">
         <pagination
-          v-show="total1 > 0"
-          :total="total1"
-          :page.sync="page1.pageIndex"
-          :limit.sync="page1.pageSize"
-          @pagination="getList1"
+          v-show="total > 0"
+          :total="total"
+          :page.sync="page.pageIndex"
+          :limit.sync="page.pageSize"
+          @pagination="getList"
         />
       </div>
     </div>
@@ -72,19 +72,12 @@ export default {
       },
       total: 0,
       tableData: [],
-
-      page1: {
-        pageIndex: 1,
-        pageSize: 20
-      },
-      total1: 0,
-      tableData1: []
+      listLoading: false,
+      status: 1
     };
   },
   created() {
-    this.id = this.$route.params.id;
-    this.getList(this.id);
-    this.getList1(this.id);
+    this.getList();
   },
   methods: {
     showDetailsSampleCheck(row) {
@@ -100,51 +93,60 @@ export default {
         this.$router.push(`/sampleCheck/addSampleCheckResult`);
       }
     },
-    addSampleResult() {},
-    getList(id) {
-      Request()
-        .get("/api/sample_check/all", {
-          company_id: id,
+    getList() {
+      this.listLoading = true;
+      let newStatus = this.mode ? 1 : 2;
+      if (this.status !== newStatus) {
+        this.status = newStatus;
+        this.page.pageIndex = 1;
+      }
+      if (this.mode) {
+        Request()
+          .get("/api/sample_check/all", {
+            pageNo: this.page.pageIndex - 1,
+            pageSize: this.page.pageSize,
+          })
+          .then(response => {
+            this.tableData = response.data;
+            this.total = response.total;
+            setTimeout(() => {
+              this.listLoading = false;
+          }, 0.5 * 1000);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      } else {
+        Request()
+        .get("/api/sample_check_result/all", {
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
-          sortBy: "id"
         })
         .then(response => {
           this.tableData = response.data;
           this.total = response.total;
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
         })
         .catch(error => {
           console.log(error);
         });
+      }
     },
-
-    getList1(id) {
-      Request()
-        .get("/api/sample_check_result/all", {
-          company_id: id,
-          pageNo: this.page.pageIndex - 1,
-          pageSize: this.page.pageSize,
-          sortBy: "id"
-        })
-        .then(response => {
-          this.tableData1 = response.data;
-          this.total1 = response.total;
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
-
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
     },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
     },
-    order1(row) {
-      return (
-        this.page1.pageSize * (this.page1.pageIndex - 1) + row.rowIndex + 1
-      );
+    clickTabLeft() {
+      this.mode = true;
+      this.getList()
+    },
+    clickTabRight() {
+      this.mode = false;
+      this.getList()
     }
   }
 };

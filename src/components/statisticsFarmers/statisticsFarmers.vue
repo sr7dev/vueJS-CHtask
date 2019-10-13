@@ -2,70 +2,60 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item class="actived">生产记录</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">统计（农残）</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button type="primary" plain v-on:click="$router.push(`/productionRecord/create`)">添加</el-button>
+        <el-checkbox v-model="checked">全部</el-checkbox>
+        <div class="select_label">按年</div>
+        <el-input v-model="input" class="input-layout"></el-input>
+        <div class="select_label">按月</div>
+        <el-input v-model="input" class="input-layout"></el-input>
+        <el-button type="primary" v-on:click="$router.push(`#`)" plain class="margin-left-40">开始统计</el-button>
       </div>
-      <el-dialog :visible.sync="confirm_dialogVisible" width="30%" modal>
-        <span>你确定要删除吗?</span>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
-          <el-button type="success" @click="deleteRow()" plain>确认</el-button>
-        </span>
-      </el-dialog>
+
       <el-container>
         <el-table
           :data="tableData"
+          v-loading="listLoading"
           style="width: 100%"
           :row-class-name="rowIndex"
-          v-loading="listLoading"
           highlight-current-row
         >
-          <el-table-column :formatter="order" label="序号"></el-table-column>
-          <el-table-column prop="productName" label="产品名称"></el-table-column>
-          <el-table-column prop="productionQuantity" label="产量（公斤)"></el-table-column>
-          <el-table-column prop="productionArea" label="产地"></el-table-column>
-          <el-table-column prop="productionTime" label="生产时长">
-            <template slot-scope="{ row }">{{ row.productionTime }}天</template>
+          <el-table-column :formatter="order" label="序号" width="180"></el-table-column>
+          <el-table-column prop="productName" label="站点"></el-table-column>
+          <el-table-column prop="productionQuantity" label="检测数量"></el-table-column>
+          <el-table-column prop="productionQuantity" label="数量对比">
+            <div class="sub-title">50</div>
+            <el-progress :percentage="50"></el-progress>
           </el-table-column>
-          <el-table-column label="操作" class-name="text-center">
-            <template slot-scope="{ row }">
-              <el-button
-                type="success"
-                plain
-                v-on:click="
-                  $router.push({
-                    path: `/productionRecord/editProductionRecord/${row.id}`
-                  })
-                "
-              >修改</el-button>
-              <el-button type="danger" @click="showConfirmDialog(`${row.id}`)" plain>删除</el-button>
-            </template>
+          <el-table-column prop="productionQuantity" label="合格"></el-table-column>
+          <el-table-column prop="productionQuantity" label="不合格"></el-table-column>
+          <el-table-column prop="productionQuantity" label="合格率比">
+            <div class="sub-title">100</div>
+            <el-progress :percentage="100"></el-progress>
           </el-table-column>
         </el-table>
       </el-container>
-
       <div class="pageBox">
-        <pagination
+        <Pagination
           v-show="total > 0"
           :total="total"
           :page.sync="page.pageIndex"
           :limit.sync="page.pageSize"
-          @pagination="getData"
+          @pagination="getList"
+          layout="prev, pager, next, sizes, jumper"
         />
       </div>
     </div>
   </div>
 </template>
-
 <script>
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
 export default {
-  name: "productionRecord",
+  name: "statisticsFarmers",
   components: { Pagination },
   data() {
     return {
@@ -129,5 +119,6 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped>
+@import "./statisticsFarmers.scss";
 </style>

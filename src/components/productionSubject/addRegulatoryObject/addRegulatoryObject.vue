@@ -436,9 +436,7 @@ export default {
             .then(res => {
               this.$router.push({ path: "/productionSubject" });
             });
-        } else {
-          console.log("");
-        }
+          }
       });
     }
   }
