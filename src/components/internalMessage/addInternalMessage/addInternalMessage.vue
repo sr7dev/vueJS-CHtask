@@ -54,7 +54,7 @@
 <script>
 import Request from "../../../services/api/request.js";
 import Auth from "../../../services/authentication/auth.js";
-import axios from "axios";
+
 export default {
   data() {
     return {

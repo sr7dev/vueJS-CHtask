@@ -82,7 +82,6 @@
                     :page.sync="page.pageIndex"
                     :limit.sync="page.pageSize"
                     @pagination="getList"
-                    layout="prev, pager, next, sizes, jumper"
                 />
             </div>
         </div>
