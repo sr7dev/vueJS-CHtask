@@ -12,7 +12,7 @@
         <el-input v-model="input" class="input-layout"></el-input>
         <div class="select_label">按月</div>
         <el-input v-model="input" class="input-layout"></el-input>
-        <el-button type="primary" v-on:click="$router.push(`#`)" plain>开始统计</el-button>
+        <el-button type="primary" v-on:click="$router.push(`#`)" plain class="margin-left-40">开始统计</el-button>
       </div>
 
       <el-container>
@@ -24,19 +24,17 @@
           highlight-current-row
         >
           <el-table-column :formatter="order" label="序号" width="180"></el-table-column>
-          <el-table-column prop="productName" label="站点">
-          </el-table-column>
-          <el-table-column prop="productionQuantity" label="检测数量">
-          </el-table-column>
+          <el-table-column prop="productName" label="站点"></el-table-column>
+          <el-table-column prop="productionQuantity" label="检测数量"></el-table-column>
           <el-table-column prop="productionQuantity" label="数量对比">
-              <div class="sub-title">50</div>
-              <el-progress :percentage="50"></el-progress>
+            <div class="sub-title">50</div>
+            <el-progress :percentage="50"></el-progress>
           </el-table-column>
           <el-table-column prop="productionQuantity" label="合格"></el-table-column>
           <el-table-column prop="productionQuantity" label="不合格"></el-table-column>
           <el-table-column prop="productionQuantity" label="合格率比">
-              <div class="sub-title">100</div>
-              <el-progress :percentage="100"></el-progress>
+            <div class="sub-title">100</div>
+            <el-progress :percentage="100"></el-progress>
           </el-table-column>
         </el-table>
       </el-container>

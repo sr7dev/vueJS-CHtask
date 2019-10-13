@@ -7,7 +7,12 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button type="primary" plain v-on:click="$router.push(`/userManagement/create`)">添加用户</el-button>
+        <el-button
+          type="primary"
+          plain
+          v-on:click="$router.push(`/userManagement/create`)"
+          class="no-margin-left"
+        >添加用户</el-button>
       </div>
       <el-container>
         <el-table
@@ -31,6 +36,7 @@
                 type="primary"
                 v-if="row.userType === 3"
                 plain
+                class="no-margin-left"
                 v-on:click="
                   $router.push({
                     path: `/userManagement/edit/${row.id}`
