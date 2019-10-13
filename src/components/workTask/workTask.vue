@@ -17,7 +17,12 @@
             <el-date-picker v-model="releaseTimeTo" align="right" type="date" placeholder="结束日期"></el-date-picker>
           </el-col>
           <el-col :span="3">
-            <el-button type="primary" v-on:click="$router.push(`/workTask/create`)" plain>添加工作任务</el-button>
+            <el-button
+              type="primary"
+              v-on:click="$router.push(`/workTask/create`)"
+              plain
+              v-if="loggedinUserType === 1"
+            >添加工作任务</el-button>
           </el-col>
         </el-row>
       </div>
@@ -41,6 +46,7 @@
               <el-button
                 type="warning"
                 plain
+                v-if="loggedinUserType === 2"
                 v-on:click="
                   $router.push({
                     path: `/workTask/report/create`,
@@ -53,6 +59,7 @@
               <el-button
                 type="success"
                 plain
+                v-if="loggedinUserType === 1"
                 v-on:click="
                   $router.push({
                     path: `/workTask/edit/${row.id}`
@@ -62,6 +69,7 @@
               <el-button
                 type="primary"
                 plain
+                v-if="loggedinUserType === 1"
                 v-on:click="
                   $router.push({
                     path: `/workTask/report/detail/`+ row.id
@@ -88,6 +96,7 @@
 <script>
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
+import Auth from "@/services/authentication/auth.js";
 export default {
   name: "workTask",
   components: { Pagination },
@@ -101,11 +110,13 @@ export default {
       },
       listLoading: true,
       total: 0,
-      tableData: []
+      tableData: [],
+      loggedinUserType: null
     };
   },
   created() {
     this.getList();
+    this.loggedinUserType = Auth().user().attrs.userType;
   },
   methods: {
     getList() {
