@@ -93,16 +93,17 @@ export default {
     return {
       listLoading: false,
       warehouseOptions:[],
+      productDetail: [],
       ruleFormValue: {
         createTime: "",
         updateTime: "",
         grade: "",
         productId: 0,
+        companyId: 0,
         repertoryAmount: "",
         variety: "",
         warehouseId: null,
-        productName: "",
-        
+        productName: ""      
       },
       rules: {
         variety: [
@@ -143,12 +144,29 @@ export default {
     };
   },
   created() {
-    this.ruleFormValue.productName = this.$route.query.productName;
-    this.ruleFormValue.productId = this.$route.params.id;    
+    this.ruleFormValue.productId = this.$route.query.productId;
+    this.ruleFormValue.companyId = this.$route.params.id;
+    this.getProductionDetail();
     this.getWarehouseList();
     this.getCurrentTime();
   },
   methods: {
+    getProductionDetail() {
+      this.listLoading = true;
+      Request()
+        .get("/api/product_production/name", {
+          productid: this.ruleFormValue.productId
+        })
+        .then(response => {
+          this.ruleFormValue.productName = response[0].productName;
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     getCurrentTime() {
       var currentDate = new Date();
       this.ruleFormValue.createTime = currentDate.toISOString();
@@ -158,7 +176,7 @@ export default {
       this.listLoading = true;
       Request()
         .get("/api/warehose/all", {
-          company_id: 0
+          company_id: this.ruleFormValue.companyId
         })
         .then(response =>{
           for (var index in response.data) {
@@ -187,10 +205,7 @@ export default {
             .post("/api/product_repetory/create", formData)
             .then(response => {
               this.$router.push({
-                path: `/productionSubject/mainProduct/inventoryDynamics/${this.ruleFormValue.productId}`,
-                query: {
-                  productName: this.ruleFormValue.productName
-                }
+                path: `/productionSubject/mainProduct/inventoryDynamics/${this.ruleFormValue.companyId}`
               });
             })
             .catch(error => {});

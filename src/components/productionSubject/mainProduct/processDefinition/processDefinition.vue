@@ -17,7 +17,7 @@
             plain
             style="margin-right: .5rem"
             @click="$router.push({
-              path: `/productionSubject/mainProduct/processDefinition/addProcessDefinition/${id}`,
+              path: `/productionSubject/mainProduct/processDefinition/addProcessDefinition/${productId}`,
               query: {
                 doShare: 1
               }
@@ -115,6 +115,7 @@ export default {
       radio: "1",
       tableData: null,
       productName: "",
+      productId: 0,
       doShare: "",
       taskImages: "",
       taskName: "",
@@ -130,7 +131,7 @@ export default {
   },
   created() {
     this.id = this.$route.params.id;
-    this.productName = this.$route.query.productName;
+    this.productId = this.$route.query.productId;
     this.getList(this.id);
   },
   methods: {
@@ -140,7 +141,7 @@ export default {
         Request()
           .delete("/api/product_task/delete/" + id)
           .then(response => {
-            this.getList(this.id);          
+            this.getList(this.productId);
           })
           .catch(error => {
             console.log(error);

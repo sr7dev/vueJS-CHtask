@@ -169,12 +169,13 @@ export default {
     showInventoryDynamics(row) {
       this.$router.push({
         path: `/productionSubject/mainProduct/inventoryDynamics/${this.$route.params.id}`,
-        query: { productName: row.productName }
+        query: { productId: row.productId }
       });
     },
     showProcessDefinition(row) {
       this.$router.push({
-        path: `/productionSubject/mainProduct/processDefinition/${this.$route.params.id}`
+        path: `/productionSubject/mainProduct/processDefinition/${this.$route.params.id}`,
+        query: { productId: row.productId }
       });
     },
     showProductProperty(row) {

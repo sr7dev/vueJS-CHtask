@@ -84,7 +84,7 @@ export default {
         pageSize: 20
       },
       listLoading: true,
-      total: 100,
+      total: 0,
       radio: "1",
       tableData: []
     };
@@ -130,19 +130,18 @@ export default {
       this.$router.go(-1);
     },
     handleDelete(id) {
-      this.listLoading = true;
-      Request()
-        .delete("/api/warehouse/delete/" + id)
-        .then(response => {
-          this.getList(this.id);
-          setTimeout(() => {
-            this.listLoading = false;
-          }, 0.5 * 100);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
+       this.$confirm('确认删除该记录吗?', '提示', {type: 'warning'})
+      .then(() => {
+        Request()
+          .delete("/api/warehouse/delete/" + id)
+          .then(response => {
+            this.getList(this.id);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      });
+    }
   }
 };
 </script>

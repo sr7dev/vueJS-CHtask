@@ -42,34 +42,27 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="添加图片" prop="file" style="display:flex; align-items:center;">
-              <div class="item" style="display:flex; align-items:center;">
-                <div class="item-label">
-                  <input
-                    type="file"
-                    id="file"                    
-                    style="display: none"
-                    ref="file"
-                    accept="image/*"
-                    v-on:change="handleFileUpload()"
-                  />
-                  <el-button type="warning" plain @click="chooseFile()">选择文件</el-button>
-                </div>
-                <div
-                  class="item-value"
-                  style="margin-left: 1rem;
-                        display: flex;
-                        align-items: center;"
-                >
-                  <img v-if="!imageSelectedUrl && ruleFormValue.taskImages" :src="imageUrl + ruleFormValue.taskImages" style="width: 7rem; height: 7rem;"/>
-                  <img v-if="imageSelectedUrl" :src="imageSelectedUrl" style="width: 7rem; height: 7rem;"/>
-                </div>                
-              </div>
-            </el-form-item>  
-          </el-col>
-        </el-row>
+        <el-form-item label="添加图片" prop="file" class="label-margin">
+          <input
+            type="file"
+            id="file"
+            style="display: none"
+            ref="file"
+            accept="image/*"
+            v-on:change="handleFileUpload()"
+          />
+          <div 
+            style="border:solid 1px; width:100px; height:100px" 
+            @click="chooseFile()"
+          >
+            <img v-if="!imageSelectedUrl && ruleFormValue.taskImages" :src="imageUrl + ruleFormValue.taskImages" style="width: 7rem; height: 7rem;"/>
+            <img v-if="imageSelectedUrl" :src="imageSelectedUrl" style="width: 7rem; height: 7rem;"/>
+          </div>
+          <div class="item-value" >
+            <div v-if="file" style="">({{ file.name }})</div>
+            <div v-else style="">请选择需要上传的文件...</div>
+          </div>
+        </el-form-item>
         <el-form-item>
           <el-button type="success" @click="onSubmit('ruleForm')" plain
             >保存</el-button
