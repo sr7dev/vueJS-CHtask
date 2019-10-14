@@ -6,7 +6,7 @@
           >监管对象</el-breadcrumb-item
         >
         <el-breadcrumb-item>主营产品</el-breadcrumb-item>
-        <el-breadcrumb-item class="actived">/属性管理</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">属性管理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
@@ -108,7 +108,7 @@ export default {
         pageSize: 20
       },
       listLoading: true,
-      total: 100,
+      total: 0,
       radio: "1",
       tableData: null,
       productName: "",
@@ -119,7 +119,8 @@ export default {
         { value: "1", label: "属性共享" },
         { value: "2", label: "银针" },
         { value: "3", label: "白牡丹" }
-      ]
+      ],
+      processType: ""
     };
   },
   created() {
