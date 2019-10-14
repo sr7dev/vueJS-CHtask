@@ -58,10 +58,6 @@
             <img v-if="!imageSelectedUrl && ruleFormValue.taskImages" :src="imageUrl + ruleFormValue.taskImages" style="width: 7rem; height: 7rem;"/>
             <img v-if="imageSelectedUrl" :src="imageSelectedUrl" style="width: 7rem; height: 7rem;"/>
           </div>
-          <div class="item-value" >
-            <div v-if="file" style="">({{ file.name }})</div>
-            <div v-else style="">请选择需要上传的文件...</div>
-          </div>
         </el-form-item>
         <el-form-item>
           <el-button type="success" @click="onSubmit('ruleForm')" plain
@@ -85,6 +81,7 @@ export default {
       listLoading: false,
       imageUrl: "",
       imageSelectedUrl: "",
+      companyId: -1,
       ruleFormValue: {
         doShare: "",
         taskName: "",
@@ -118,8 +115,8 @@ export default {
     };
   },
   created() {
-    this.ruleFormValue.id = this.$route.query.id;
-    this.ruleFormValue.productId = this.$route.params.id;
+    this.ruleFormValue.id = this.$route.params.id;
+    this.companyId = this.$route.query.companyId;
     this.getInfo();
   },
   methods: {
@@ -132,6 +129,7 @@ export default {
           this.ruleFormValue.taskName = response.taskName;
           this.ruleFormValue.doShare = response.doShare;
           this.ruleFormValue.taskImages = response.taskImages;
+          this.ruleFormValue.productId = response.productId;
           this.imageUrl = Urls.DOWNLOAD_URL();
           setTimeout(() => {
             this.listLoading = false;
@@ -168,9 +166,7 @@ export default {
           Request()
             .put("/api/product_task/update/" + this.ruleFormValue.id, formData)
             .then(response => {
-              this.$router.push({
-                path: `/productionSubject/mainProduct/processDefinition/${this.ruleFormValue.productId}`
-              });
+              this.goBack();
             })
             .catch(error => {});
         } else {

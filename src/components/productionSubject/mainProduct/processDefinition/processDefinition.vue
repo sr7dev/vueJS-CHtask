@@ -19,7 +19,8 @@
             @click="$router.push({
               path: `/productionSubject/mainProduct/processDefinition/addProcessDefinition/${productId}`,
               query: {
-                doShare: 1
+                doShare: 1,
+                companyId: id
               }
             })"
             >添加</el-button
@@ -67,9 +68,9 @@
               type="success"              
               plain
               @click="$router.push({
-                path: `/productionSubject/mainProduct/processDefinition/editProcessDefinition/${id}`,
+                path: `/productionSubject/mainProduct/processDefinition/editProcessDefinition/${row.id}`,
                 query: {
-                  id: row.id
+                  companyId: id
                 }
               })
               "
@@ -132,7 +133,7 @@ export default {
   created() {
     this.id = this.$route.params.id;
     this.productId = this.$route.query.productId;
-    this.getList(this.id);
+    this.getList(this.productId);
   },
   methods: {
     handleDelete(id) {

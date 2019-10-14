@@ -45,7 +45,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="储存数量" prop="repertoryAmount">
-              <el-input v-model="ruleFormValue.repertoryAmount"></el-input>
+              <el-input v-model="ruleFormValue.repertoryAmount" type="number"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -147,7 +147,7 @@ export default {
   created() {
     this.ruleFormValue.productId = this.$route.query.productId;
     this.ruleFormValue.repertoryAmount = this.$route.query.repertoryAmount.toString().match(/(\d+)/)[0];
-    this.ruleFormValue.warehouseId = this.$route.query.warehouseId - 1;
+    this.ruleFormValue.warehouseId = this.$route.query.warehouseId;
     this.ruleFormValue.grade = this.$route.query.grade;
     this.ruleFormValue.variety = this.$route.query.variety;
     this.ruleFormValue.id = this.$route.params.id;
@@ -158,11 +158,16 @@ export default {
   },
   methods: {
     getProductionDetail() {
+      this.listLoading = true;
       Request()
-        .get("/api/product_production/name")
+        .get("/api/product_production/name", {
+          productid: this.ruleFormValue.productId
+        })
         .then(response => {
-          let product = response.find(x => x.productId === this.ruleFormValue.productId);
-          if (product) this.ruleFormValue.productName = product.productName;
+          this.ruleFormValue.productName = response[0].productName;
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
         })
         .catch(error => {
           console.log(error);
@@ -200,14 +205,12 @@ export default {
             "productId": this.ruleFormValue.productId,
             "repertoryAmount": this.ruleFormValue.repertoryAmount,
             "variety": this.ruleFormValue.variety,
-            "warehouseId": this.ruleFormValue.warehouseId + 1
+            "warehouseId": this.ruleFormValue.warehouseId
           }
           Request()
             .put("/api/product_repetory/update/" + this.ruleFormValue.id, formData)
             .then(response => {
-              this.$router.push({
-                path: `/productionSubject/mainProduct/inventoryDynamics/${this.ruleFormValue.companyId}`
-              });
+              this.goBack();
             })
             .catch(error => {});
         } else {

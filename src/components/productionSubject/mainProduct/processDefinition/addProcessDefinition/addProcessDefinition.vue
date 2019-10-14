@@ -84,6 +84,7 @@ export default {
       listLoading: false,
       imageUrl: "",
       imageSelectedUrl: "",
+      companyId: -1,
       ruleFormValue: {
         file: null,
         taskType: "",
@@ -119,6 +120,7 @@ export default {
   created() {    
     this.ruleFormValue.productId = this.$route.params.id;
     this.ruleFormValue.doShare = this.$route.query.doShare;
+    this.companyId = this.$route.query.companyId;
   },
   methods: {
     chooseFile() {
@@ -150,9 +152,7 @@ export default {
           Request()
             .post("/api/product_task/create", formData)
             .then(response => {
-              this.$router.push({
-                path: `/productionSubject/mainProduct/processDefinition/${this.ruleFormValue.productId}`
-              });
+              this.goBack();
             })
             .catch(error => {});
         } else {
