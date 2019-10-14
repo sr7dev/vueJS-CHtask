@@ -525,7 +525,6 @@ export default {
         .then(response => {
           let tmpdata = response.data;
           this.data = tmpdata[0];
-          console.log(this.data)
           this.isNanData = this.data ? false : true;
           if (!this.isNanData)
             this.conclusionData = JSON.parse(this.data.conclusionFalseInfo);
