@@ -9,7 +9,9 @@
 
     <div class="box">
       <el-dialog :visible.sync="dialogVisible" width="30%">
-        <span>请选择图片 !!!</span>
+        <span>
+          <i class="el-icon-warning">&nbsp;请选择图片 !!!</i>
+        </span>
         <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false" type="primary" plain>Cancel</el-button>
         </span>
@@ -292,7 +294,7 @@
 <script>
 import Request from "../../../services/api/request.js";
 import { Urls } from "../../../services/constants";
-import axios from "axios";
+
 export default {
   data() {
     return {

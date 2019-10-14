@@ -10,14 +10,24 @@
         <el-row class="w-100">
           <el-col :span="6">
             <div class="select_label no-margin-left">开始日期</div>
-            <el-date-picker v-model="releaseTimeFrom" align="right" type="date" placeholder="开始日期"></el-date-picker>
+            <el-date-picker 
+              v-model="releaseTimeFrom" 
+              align="right" 
+              type="date" 
+              placeholder="开始日期"
+              v-on:change="getList"></el-date-picker>
           </el-col>
           <el-col :span="6">
             <div class="select_label no-margin-left">结束日期</div>
-            <el-date-picker v-model="releaseTimeTo" align="right" type="date" placeholder="结束日期"></el-date-picker>
+            <el-date-picker v-model="releaseTimeTo" align="right" type="date" placeholder="结束日期" v-on:change="getList"></el-date-picker>
           </el-col>
           <el-col :span="3">
-            <el-button type="primary" v-on:click="$router.push(`/workTask/create`)" plain>添加工作任务</el-button>
+            <el-button
+              type="primary"
+              v-on:click="$router.push(`/workTask/create`)"
+              plain
+              v-if="loggedinUserType === 1"
+            >添加工作任务</el-button>
           </el-col>
         </el-row>
       </div>
@@ -41,6 +51,7 @@
               <el-button
                 type="warning"
                 plain
+                v-if="loggedinUserType === 2"
                 v-on:click="
                   $router.push({
                     path: `/workTask/report/create`,
@@ -53,6 +64,7 @@
               <el-button
                 type="success"
                 plain
+                v-if="loggedinUserType === 1"
                 v-on:click="
                   $router.push({
                     path: `/workTask/edit/${row.id}`
@@ -62,6 +74,7 @@
               <el-button
                 type="primary"
                 plain
+                v-if="loggedinUserType === 1"
                 v-on:click="
                   $router.push({
                     path: `/workTask/report/detail/`+ row.id
@@ -79,7 +92,6 @@
           :page.sync="page.pageIndex"
           :limit.sync="page.pageSize"
           @pagination="getList"
-          layout="prev, pager, next, sizes, jumper"
         />
       </div>
     </div>
@@ -88,6 +100,7 @@
 <script>
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
+import Auth from "@/services/authentication/auth.js";
 export default {
   name: "workTask",
   components: { Pagination },
@@ -101,19 +114,21 @@ export default {
       },
       listLoading: true,
       total: 0,
-      tableData: []
+      tableData: [],
+      loggedinUserType: null
     };
   },
   created() {
     this.getList();
+    this.loggedinUserType = Auth().user().attrs.userType;
   },
   methods: {
     getList() {
       this.listLoading = true;
       Request()
         .get("/api/work_task/all", {
-          fromDate: this.creditCode,
-          toDate: this.productCategory,
+          fromDate: this.releaseTimeFrom,
+          toDate: this.releaseTimeTo,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize
         })

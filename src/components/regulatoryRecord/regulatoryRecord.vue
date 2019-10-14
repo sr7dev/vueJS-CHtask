@@ -50,13 +50,17 @@
         </div>
       </div>
       <el-dialog :visible.sync="alert_dialogVisible" width="30%" modal>
-        <span>请选择 !!!</span>
+        <span>
+          <i class="el-icon-warning">&nbsp;请选择 !!!</i>
+        </span>
         <span slot="footer" class="dialog-footer">
           <el-button @click="alert_dialogVisible = false" type="primary" plain>取消</el-button>
         </span>
       </el-dialog>
       <el-dialog :visible.sync="confirm_dialogVisible" width="30%" modal>
-        <span>继续？请再次检查</span>
+        <span>
+          <i class="el-icon-warning">&nbsp;继续？请再次检查</i>
+        </span>
         <span slot="footer" class="dialog-footer">
           <el-button @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
           <el-button :type="btnColor" @click="updateSelectedRows()" plain>确认</el-button>
@@ -107,7 +111,8 @@
             <template slot-scope="{ row }">{{ getCountElement(row.scenePhotos) }}</template>
           </el-table-column>
           <el-table-column prop="sign" label="确认" width="70" class-name="text-center">
-            <template slot-scope="{ row }">{{ getCountElement(row.sign) }}</template>
+            <template slot-scope="{ row }">{{ checkSign(row.sign) }}</template>
+            <!-- <template slot-scope="{ row }">{{ getCountElement(row.sign) }}</template> -->
           </el-table-column>
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
@@ -146,7 +151,6 @@
           :page.sync="page.pageIndex"
           :limit.sync="page.pageSize"
           @pagination="getData"
-          layout="prev, pager, next, sizes, jumper"
         />
       </div>
     </div>
@@ -251,6 +255,10 @@ export default {
     getCountElement(val) {
       if (!val) return 0;
       else return val.split(",").length;
+    },
+    checkSign(val) {
+      if (!val) return "";
+      else return "签名";
     },
     changeCheckStatus(id) {
       let index = this.selectedRows.indexOf(id);

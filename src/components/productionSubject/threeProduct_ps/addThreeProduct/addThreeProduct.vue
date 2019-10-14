@@ -2,6 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
+        <el-breadcrumb-item>监管对象</el-breadcrumb-item>
         <el-breadcrumb-item>三品认证</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">添加认证</el-breadcrumb-item>
       </el-breadcrumb>
@@ -10,19 +11,8 @@
       <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
         <el-row>
           <el-col :span="6">
-            <el-form-item label="企业名称" prop="creditCode">
-              <el-select
-                v-model="ruleFormValue.creditCode"
-                v-on:change="getProductionDetail()"
-                :disabled="!(companyNameList.length > 0)"
-              >
-                <el-option
-                  v-for="item in companyNameList"
-                  :key="item.companyId"
-                  :label="item.companyName"
-                  :value="item.creditCode"
-                ></el-option>
-              </el-select>
+            <el-form-item label="企业" prop="creditCode">
+                {{filterCompanyName(ruleFormValue.creditCode)}}
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -133,11 +123,10 @@
 </template>
 
 <script>
-import Request from "../../../services/api/request.js";
-import { Urls } from "../../../services/constants";
+import Request from "../../../../services/api/request.js";
+import { Urls } from "../../../../services/constants";
 
 export default {
-  name: "addThreeProducts",
   data() {
     return {
       ruleFormValue: {
@@ -151,13 +140,6 @@ export default {
         output: ""
       },
       rules: {
-        creditCode: [
-          {
-            required: true,
-            message: "请选择",
-            trigger: "change"
-          }
-        ],
         productId: [
           {
             required: true,
@@ -209,17 +191,27 @@ export default {
         ]
       },
       file: null,
+      creditCode:"",
       companyNameList: [],
       productNameList: [],
       options: [
         { value: "1", label: "养殖业" },
         { value: "2", label: "畜牧业" },
         { value: "3", label: "种植业" }
+      ],
+      certficationTypes: [
+        { value: "1", label: "无公害产品" },
+        { value: "2", label: "绿色食品" },
+        { value: "3", label: "有机食品" },
+        { value: "3", label: "地理标志" }
       ]
     };
   },
   created() {
+    this.creditCode = this.$route.query.creditCode;
+    this.ruleFormValue.creditCode = this.$route.query.creditCode;
     this.getCompanyProduction();
+    this.getProductionDetail();
   },
   methods: {
     getCompanyProduction() {
@@ -235,7 +227,6 @@ export default {
 
     getProductionDetail() {
       var companyId = this.filterCompany(this.ruleFormValue.creditCode);
-
       Request()
         .get("/api/product_production/all", {
           company_id: companyId
@@ -255,7 +246,7 @@ export default {
           formData.append("creditCode", this.ruleFormValue.creditCode);
           formData.append("productId", this.ruleFormValue.productId);
           formData.append(
-            "certficationType",
+            "certificationType",
             this.ruleFormValue.certficationType
           );
           formData.append(
@@ -320,6 +311,15 @@ export default {
       let company = this.companyNameList.find(x => x.creditCode === credit);
       if (company) {
         return company.companyId;
+      } else {
+        return "";
+      }
+    },
+    filterCompanyName(credit) {
+      let company = this.companyNameList.find(x => x.creditCode === credit);
+      if (company) {
+        this.prod
+        return company.companyName;
       } else {
         return "";
       }
