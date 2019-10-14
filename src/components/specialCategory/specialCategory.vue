@@ -70,7 +70,16 @@
           <div class="cate-item-panel">
             <div style="display: flex; justify-content: space-between;">
               <el-form-item label="培训记录"></el-form-item>
-              <el-button type="danger" plain>删除</el-button>
+              <el-button 
+                type="danger" 
+                plain
+                v-if="loggedinUserType === 1"
+              >删除</el-button>
+              <el-button 
+                type="danger" 
+                plain
+                v-if="loggedinUserType === 2"
+              >添加附件</el-button>
             </div>
             <el-container>
               <el-table
@@ -92,12 +101,12 @@
 </template>
 <script>
 import Request from "../../services/api/request.js";
-import Auth from "../../services/authentication/auth.js";
-
+import Auth from "@/services/authentication/auth.js";
 export default {
   name: "specialCategory",
   data() {
     return {
+      loggedinUserType: null,
       total: 0,
       tableData: [],
       trainTableData: [],
@@ -113,15 +122,11 @@ export default {
       value1: 0
     };
   },
-  mounted() {
+  created() {
     this.companyId = 0;
     this.getList();
     this.getTown();
-    if (Auth().user() == null) {
-      Auth().logout();
-    } else {
-      this.receiveUserId = Auth().user().attrs.id;
-    }
+    this.loggedinUserType = Auth().user().attrs.userType;
   },
   methods: {    
     getList() {

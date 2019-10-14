@@ -49,7 +49,7 @@
         <el-menu-item index="/trainingFunds" v-if="loggedinUserType!==3">
           <router-link slot="title" to="/trainingFunds">培训经费管理</router-link>
         </el-menu-item>
-        <el-menu-item index="/seed">
+        <el-menu-item index="/seed" v-if="loggedinUserType !== 3">
           <router-link slot="title" to="/seed">种子管理</router-link>
         </el-menu-item>
         <el-menu-item index="/userManagement" v-if="loggedinUserType!==3">
