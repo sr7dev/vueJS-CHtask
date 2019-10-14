@@ -137,14 +137,7 @@ export default {
                 var formData = new FormData();
                 formData = this.makeFormData();
                 Request()
-                    .post("/api/trainingfunds/create", //formData)
-                    {   projectName: this.addForm.projectName,
-                        appliedAmount: this.addForm.appliedAmount,
-                        proposer: this.addForm.proposer,
-                        companyId: this.addForm.companyId,
-                        id: 0,
-                        file: this.file_live_1
-                    })
+                    .post("/api/training_funds/create", formData)
                     .then(response => {
                         this.$router.push({ path: "/trainingFunds" });
                         setTimeout(() => {

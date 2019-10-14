@@ -139,7 +139,7 @@ export default {
     getData(id) {
       this.dataloading = true;
       Request()
-        .get("/api/trainingfunds/get/" + id)
+        .get("/api/training_funds/get/" + id)
         .then(response => {
           this.formData = response;
           this.file = response.trainingFundsProfiles;
