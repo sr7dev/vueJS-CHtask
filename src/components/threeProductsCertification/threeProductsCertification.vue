@@ -67,9 +67,9 @@
               }}
             </template>
           </el-table-column>
-          <el-table-column label="认证类型" prop="cretficationType">
+          <el-table-column label="认证类型" prop="certificationType">
             <template slot-scope="{ row }">
-              {{ appStatus2[parseInt(row.cretficationType)] }}
+              {{ appStatus2[parseInt(row.certificationType)] }}
             </template>
           </el-table-column>
           <el-table-column prop="certificationNo" label="证书编号"></el-table-column>
@@ -146,7 +146,7 @@ export default {
         .get("/api/quality_standard/all", {
           creditCode: this.creditCode,
           argriculturalClassification: this.productCategory,
-          cretficationType: this.authType,
+          certificationType: this.authType,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
           townId: this.currTown

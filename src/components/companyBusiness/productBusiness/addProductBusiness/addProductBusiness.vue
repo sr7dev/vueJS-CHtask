@@ -8,48 +8,48 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
+      <el-form ref="ruleFormValue" :model="ruleFormValue" :rules="rules" label-width="100px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="产品名称">
+            <el-form-item label="产品名称" prop="productName">
               <el-input v-model="ruleFormValue.productName"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="单价">
+            <el-form-item label="单价" prop="atunitprice">
               <el-input v-model.number="ruleFormValue.atunitprice"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="评级">
+            <el-form-item label="评级" prop="grade">
               <el-input v-model="ruleFormValue.grade"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="产地">
+            <el-form-item label="产地" prop="productArea">
               <el-input v-model="ruleFormValue.productArea"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="品种">
+            <el-form-item label="品种" prop="variety">
               <el-input v-model="ruleFormValue.variety"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="规格">
+            <el-form-item label="规格" prop="specification">
               <el-input v-model="ruleFormValue.specification"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="产品介绍">
+            <el-form-item label="产品介绍" prop="productProfile">
               <el-input
                 v-model="ruleFormValue.productProfile"
                 ato-complete="off"
@@ -59,8 +59,8 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item class="left-margin">
-          <el-button type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
+        <el-form-item>
+          <el-button type="success" plain @click="onSubmit('ruleFormValue')">保存</el-button>
           <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
       </el-form>
@@ -90,42 +90,49 @@ export default {
         productName: [
           {
             required: true,
-            message: "请选择",
+            message: "请插入",
             trigger: "change"
           }
         ],
         atunitprice: [
           {
             required: true,
-            message: "请选择",
+            message: "请插入",
             trigger: "change"
           }
         ],
         grade: [
           {
             required: true,
-            message: "请选择",
+            message: "请插入",
             trigger: "change"
           }
         ],
         productArea: [
           {
             required: true,
-            message: "请选择",
+            message: "请插入",
             trigger: "change"
           }
         ],
         variety: [
           {
             required: true,
-            message: "请选择",
+            message: "请插入",
             trigger: "change"
           }
         ],
         specification: [
           {
             required: true,
-            message: "请选择",
+            message: "请插入",
+            trigger: "change"
+          }
+        ],
+        productProfile: [
+          {
+            required: true,
+            message: "请插入",
             trigger: "change"
           }
         ]

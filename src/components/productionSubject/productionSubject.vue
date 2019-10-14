@@ -103,17 +103,12 @@
             <el-button
               plain
               type="success"
-              @click="
-                $router.push(
-                  `/corporateCreditFile/threeProduction/${row.creditCode}`
-                )
-              "
+              @click="$router.push({path: `/productionSubject/threeProduct`,query: {creditCode:row.creditCode}})"
             >认证信息</el-button>
           </template>
         </el-table-column>
         <el-table-column prop="doSupervision" label="监管记录" width="120">
           <template slot-scope="{ row }">
-            <!-- <el-button v-if="row.quality_standard==0" disabled>否</el-button> -->
             <el-button
               plain
               type="warning"
@@ -121,24 +116,16 @@
                 $router.push({
                   path: `/regulatoryRecord/`,
                   query: { companyId: row.companyId }
-                })
-              "
+                })"
             >是</el-button>
           </template>
         </el-table-column>
         <el-table-column prop="address" label="农药检测" width="120">
           <template slot-scope="{ row }">
-            <!-- <el-button v-if="row.quality_standard==0" disabled>否</el-button> -->
-
             <el-button
               plain
               type="primary"
-              v-on:click="
-                $router.push({
-                  path: `/disabilityCheck/`,
-                  query: { creditCode: row.creditCode }
-                })
-              "
+              v-on:click="$router.push({path: `/disabilityCheck/`,query: { creditCode: row.creditCode }})"
             >是</el-button>
           </template>
         </el-table-column>
