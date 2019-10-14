@@ -19,7 +19,7 @@
       <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
         <el-row>
           <el-col :span="6">
-            <el-form-item label="是否共享">
+            <el-form-item label="是否共享" prop="filter_Share">
               <el-select v-model="filter_Share" placeholder="请选择是否共享">
                 <el-option
                   v-for="item in options"
@@ -33,19 +33,19 @@
         </el-row>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="品种名称">
+            <el-form-item label="品种名称" prop="varietyName">
               <el-input v-model.number="ruleFormValue.varietyName"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="品种排序">
+            <el-form-item label="品种排序" prop="varietySort">
               <el-input v-model="ruleFormValue.varietySort"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item class="left-margin">
+        <el-form-item>
           <el-button type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
           <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>

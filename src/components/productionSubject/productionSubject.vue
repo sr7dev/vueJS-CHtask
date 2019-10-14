@@ -181,9 +181,9 @@ export default {
       disability_check: "全部",
       page: {
         pageIndex: 1,
-        pageSize: 10
+        pageSize: 20
       },
-      total: 100,
+      total: 0,
       radio: "1",
       listLoading: true,
       townList: [],
