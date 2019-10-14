@@ -60,8 +60,8 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="8">
+        <el-form-item>
+          <el-col :span="18">
             <div class="item" style="display:flex">
               <div class="item-label" style="margin-bottom:20px;">
                 <input
@@ -86,8 +86,8 @@
               </div>
             </div>
           </el-col>
-        </el-row>
-        <el-form-item class="left-margin">
+        </el-form-item>
+        <el-form-item>
           <el-button type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
           <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>

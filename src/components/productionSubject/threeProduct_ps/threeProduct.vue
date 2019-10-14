@@ -14,8 +14,8 @@
           <el-option v-for="(item, index) in argriculturalClassification" :key="item" :label="item" :value="index"></el-option>
         </el-select>
         <div class="select_label">认证类型</div>
-        <el-select v-model="certficationType" placeholder="请选择" @change="getList" style="margin-right: 30px">
-          <el-option v-for="(item, index) in certficationTypes" :key="item" :label="item" :value="index"></el-option>
+        <el-select v-model="certificationType" placeholder="请选择" @change="getList" style="margin-right: 30px">
+          <el-option v-for="(item, index) in certificationTypes" :key="item" :label="item" :value="index"></el-option>
         </el-select>
         <el-button
           type="primary"
@@ -57,7 +57,7 @@
             width
           >
             <template slot-scope="{ row }">{{
-                certficationTypes[row.certificationType]
+                certificationTypes[row.certificationType]
               }}</template>
           </el-table-column>
           <el-table-column
@@ -115,10 +115,10 @@ export default {
       productCategory: 0,
       productDetail: [],
       filterStatus: 0,
-      certficationType: 0,
+      certificationType: 0,
       appStatus1: ["全部", "养殖业", "畜牧业", "种植业"],
       argriculturalClassification: ["全部", "养殖业", "畜牧业", "种植业"],
-      certficationTypes: ["全部", "无公害产品", "绿色食品", "有机食品", '地理标志']
+      certificationTypes: ["全部", "无公害产品", "绿色食品", "有机食品", '地理标志']
     };
   },
   created() {
@@ -149,7 +149,7 @@ export default {
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
           argriculturalClassification: this.filterStatus,
-          certificationType: this.certficationType
+          certificationType: this.certificationType
         })
         .then(response => {
           this.tableData = response.data;
