@@ -39,7 +39,7 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="仓库规模" prop="warehouseScope">
-              <el-input v-model="ruleFormValue.warehouseScope"></el-input>
+              <el-input v-model="ruleFormValue.warehouseScope" type="textarea"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -67,6 +67,36 @@ export default {
         warehouseArea: null,
         warehouseName: "",
         warehouseScope: ""
+      },
+      rules: {
+        warehouseName: [
+          {
+            required: true,
+            message: "请插入",
+            trigger: "change"
+          }
+        ],
+        warehouseAddress: [
+          {
+            required: true,
+            message: "请插入",
+            trigger: "change"
+          }
+        ],
+        warehouseArea: [
+          {
+            required: true,
+            message: "请插入",
+            trigger: "change"
+          }
+        ],
+        warehouseScope: [
+          {
+            required: true,
+            message: "请插入",
+            trigger: "change"
+          }
+        ]
       }
     };
   },
@@ -89,12 +119,10 @@ export default {
           Request()
             .post("/api/warehose/create", formData)
             .then(response => {
-              this.$router.push({
-                path: `/productionSubject/warehouseEnv/${this.companyId}`
-              });
               setTimeout(() => {
                 this.listLoading = false;          
               }, 0.5*100);
+              this.goBack();
             })
             .catch(error => {});
         } else {

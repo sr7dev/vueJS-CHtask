@@ -45,7 +45,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="储存数量" prop="repertoryAmount">
-              <el-input v-model="ruleFormValue.repertoryAmount"></el-input>
+              <el-input v-model="ruleFormValue.repertoryAmount" type="number"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -199,14 +199,12 @@ export default {
             "productId": this.ruleFormValue.productId,
             "repertoryAmount": this.ruleFormValue.repertoryAmount,
             "variety": this.ruleFormValue.variety,
-            "warehouseId": this.ruleFormValue.warehouseId + 1
+            "warehouseId": this.ruleFormValue.warehouseId
           }
           Request()
             .post("/api/product_repetory/create", formData)
             .then(response => {
-              this.$router.push({
-                path: `/productionSubject/mainProduct/inventoryDynamics/${this.ruleFormValue.companyId}`
-              });
+              this.goBack();
             })
             .catch(error => {});
         } else {
