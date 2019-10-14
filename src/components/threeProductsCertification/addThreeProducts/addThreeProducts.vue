@@ -41,8 +41,8 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item label="认证类型" prop="certficationType">
-          <el-radio-group v-model="ruleFormValue.certficationType">
+        <el-form-item label="认证类型" prop="certificationType">
+          <el-radio-group v-model="ruleFormValue.certificationType">
             <el-radio label="1">无公害产品</el-radio>
             <el-radio label="2">绿色食品</el-radio>
             <el-radio label="3">有机食品</el-radio>
@@ -51,8 +51,8 @@
         </el-form-item>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="认证类别" prop="certficationCategory">
-              <el-input v-model="ruleFormValue.certficationCategory"></el-input>
+            <el-form-item label="认证类别" prop="certificationCategory">
+              <el-input v-model="ruleFormValue.certificationCategory"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -70,8 +70,8 @@
         </el-row>
         <!-- <el-row>
           <el-col :span="6">
-            <el-form-item label="证书编号" prop="certficationNo">
-              <el-input v-model="ruleFormValue.certficationNo"></el-input>
+            <el-form-item label="证书编号" prop="certificationNo">
+              <el-input v-model="ruleFormValue.certificationNo"></el-input>
             </el-form-item>
           </el-col>
         </el-row> -->
@@ -80,9 +80,10 @@
             <el-form-item prop="certificationStartTime">
               <el-date-picker
                 class="w-80"
-                type="date"
+                type="datetime"
                 v-model="ruleFormValue.certificationStartTime"
                 style="width: 100%;"
+                value-format="dd.MM.yyyy HH:mm:ss"
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -91,7 +92,8 @@
             <el-form-item prop="certificationEndTime">
               <el-date-picker
                 class="w-100"
-                type="date"
+                type="datetime"
+                value-format="dd.MM.yyyy HH:mm:ss"
                 v-model="ruleFormValue.certificationEndTime"
                 style="width: 100%;"
               ></el-date-picker>
@@ -143,8 +145,8 @@ export default {
       ruleFormValue: {
         creditCode: "",
         productId: "",
-        certficationType: "",
-        certficationCategory: "",
+        certificationType: "",
+        certificationCategory: "",
         argriculturalClassification: "",
         certificationStartTime: "",
         certificationEndTime: "",
@@ -165,14 +167,14 @@ export default {
             trigger: "change"
           }
         ],
-        certficationType: [
+        certificationType: [
           {
             required: true,
             message: "请选择",
             trigger: "change"
           }
         ],
-        certficationCategory: [
+        certificationCategory: [
           {
             required: true,
             message: "请插入",
@@ -255,12 +257,12 @@ export default {
           formData.append("creditCode", this.ruleFormValue.creditCode);
           formData.append("productId", this.ruleFormValue.productId);
           formData.append(
-            "certficationType",
-            this.ruleFormValue.certficationType
+            "certificationType",
+            this.ruleFormValue.certificationType
           );
           formData.append(
-            "certficationCategory",
-            this.ruleFormValue.certficationCategory
+            "certificationCategory",
+            this.ruleFormValue.certificationCategory
           );
           formData.append(
             "argriculturalClassification",
@@ -294,9 +296,9 @@ export default {
           // formData.append("updateUserId", 0);
           // formData.append("createUserId", 0);
           formData.append("creater", "string");
-          // formData.append("id", 0);
+          formData.append("id", 0);
           if (this.file) {
-            formData.append("files", this.file);
+            formData.append("file", this.file);
           }
           Request()
             .post("/api/quality_standard/create", formData)

@@ -6,10 +6,10 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <el-form :model="form">
+      <el-form>
         <div class="row year-select-panel">
           <el-form-item label="年度">
-            <el-select v-model="value">
+            <el-select v-model="value1">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -109,7 +109,8 @@ export default {
       listLoading: true,
       companyList: [],
       companyId: 0,
-      township: []
+      township: [],
+      value1: 0
     };
   },
   mounted() {
