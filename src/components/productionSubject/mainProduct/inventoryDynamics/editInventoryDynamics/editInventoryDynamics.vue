@@ -33,10 +33,10 @@
                 :disabled="!(this.warehouseOptions.length > 0)"
               >
                 <el-option
-                  v-for="(item, index) in warehouseOptions"
+                  v-for="item in warehouseOptions"
                   :key="item.value"
                   :label="item.label"
-                  :value="index"
+                  :value="item.value"
                 ></el-option>
               </el-select>
             </el-form-item>
