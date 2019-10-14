@@ -15,7 +15,8 @@
             @click="$router.push({
               path: `/productionSubject/warehouseEnv/addWarehouse/${id}`              
             })"
-            >添加</el-button>
+            v-if="loggedinUserType === 3"
+          >添加</el-button>
           <el-button type="primary" plain @click="$router.go(-1)">返回</el-button>
         </div>
       </div>
@@ -52,8 +53,22 @@
         </el-table-column>
         <el-table-column label="操作" >
           <template slot-scope="{ row }">
-            <el-button type="success" v-on:click="showDetailWarehouse(row)">修改</el-button>          
-            <el-button type="danger" v-on:click="handleDelete(`${row.id}`)" plain>删除</el-button>
+            <el-button 
+              type="success" 
+              v-on:click="showDetailWarehouse(row)"
+              v-if="loggedinUserType === 3"
+            >修改</el-button>          
+            <el-button 
+              type="danger" 
+              v-on:click="handleDelete(`${row.id}`)" 
+              plain
+              v-if="loggedinUserType === 3"
+            >删除</el-button>
+            <el-button 
+              type="primary" 
+              v-on:click="showViewWarehouse(row)"
+              v-if="loggedinUserType !== 3"
+            >查看</el-button>  
           </template>
         </el-table-column>         
       </el-table>
@@ -73,11 +88,13 @@
 <script>
 import Request from "@/services/api/request";
 import Pagination from "@/components/common/pagination";
+import Auth from "@/services/authentication/auth.js";
 export default {
   name: "warehouseEnv",
   components: { Pagination },
   data() {
     return {
+      loggedinUserType: null,
       id: -1,
       page: {
         pageIndex: 1,
@@ -92,11 +109,18 @@ export default {
   created() {
     this.id = this.$route.params.id;
     this.getList(this.id);
+    this.loggedinUserType = Auth().user().attrs.userType;
   },
   methods: {
     showDetailWarehouse(row) {
       this.$router.push({
         path: `/productionSubject/warehouseEnv/detailsWarehouse/${this.id}`,
+        query: {id: row.id}
+      });
+    },
+    showViewWarehouse(row) {
+      this.$router.push({
+        path: `/productionSubject/warehouseEnv/viewWarehouse/${this.id}`,
         query: {id: row.id}
       });
     },

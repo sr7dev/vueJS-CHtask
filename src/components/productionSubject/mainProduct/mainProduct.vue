@@ -9,6 +9,12 @@
     <div class="box">
       <div class="iptBox">
         <div class="filter-item">
+          <el-button
+            type="primary"
+            v-if="loggedinUserType === 3"
+            @click="$router.push(`/companyBusiness/productBusiness/create/${id}`)"
+            plain
+          >添加</el-button>
           <el-button type="primary" plain @click="$router.go(-1)"
             >返回</el-button
           >
@@ -68,26 +74,24 @@
               v-on:click="showSamplingRecord(row)"
               type="success"
               plain
-              >第三方抽检记录</el-button
-            >
+            >第三方抽检记录</el-button>
             <el-button
               v-on:click="showProductBatch(row)"
               type="success"
               plain
-              >产品批次</el-button
-            >
+            >产品批次</el-button>
             <el-button
               v-on:click="showProductVariety(row)"
               type="success"
               plain
-              >品种定义</el-button
-            >
+              v-if="loggedinUserType === 3"
+            >品种定义</el-button>
             <el-button
               v-on:click="showProductGrade(row)"
               type="success"
               plain
-              >定义等级</el-button
-            >
+              v-if="loggedinUserType === 3"
+            >定义等级</el-button>
           </template>
         </el-table-column>
         <el-table-column
@@ -102,20 +106,19 @@
               v-on:click="showInventoryDynamics(row)"
               type="success"
               plain
-              >库存动态</el-button
-            >
+            >库存动态</el-button>
             <el-button
               v-on:click="showProcessDefinition(row)"
               type="success"
               plain
-              >作业定义</el-button
-            >
+              v-if="loggedinUserType === 3"
+            >作业定义</el-button>
             <el-button
               v-on:click="showProductProperty(row)"
               type="success"
               plain
-              >属性管理</el-button
-            >
+              v-if="loggedinUserType === 3"
+            >属性管理</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -136,11 +139,13 @@
 import sampleData from "./_data";
 import Pagination from "@/components/common/pagination";
 import Request from "@/services/api/request";
+import Auth from "@/services/authentication/auth.js";
 export default {
   name: "mainProduct",
   components: { Pagination },
   data() {
     return {
+      loggedinUserType: null,
       id: -1,
       page: {
         pageIndex: 1,
@@ -154,6 +159,7 @@ export default {
   created() {
     this.id = this.$route.params.id;
     this.getList();
+    this.loggedinUserType = Auth().user().attrs.userType;
   },
   methods: {
     showSamplingRecord(row) {           

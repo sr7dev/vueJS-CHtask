@@ -20,16 +20,14 @@
               query: {
                 productId: productId
               }
-            })
-            "
-            >添加</el-button
-          >
+            })"
+            v-if="loggedinUserType === 3"
+          >添加</el-button>
           <el-button
             type="primary"
             plain
             @click="$router.go(-1)"
-            >返回</el-button
-          >
+            >返回</el-button>
         </div>
       </div>
       <el-table
@@ -68,7 +66,7 @@
             }}
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column v-if="loggedinUserType === 3" label="操作">
           <template slot-scope="{ row }">
             <el-button
               type="success"              
@@ -112,11 +110,13 @@
 <script>
 import Pagination from "@/components/common/pagination";
 import Request from "@/services/api/request";
+import Auth from "@/services/authentication/auth.js";
 export default {  
   name: "inventoryDynamics",
   components: { Pagination },
   data() {
     return {
+      loggedinUserType: null,
       companyId: -1,
       page: {
         pageIndex: 1,
@@ -138,6 +138,7 @@ export default {
     this.getList();
     this.getProductionDetail();
     this.getWarehouseDetail();
+    this.loggedinUserType = Auth().user().attrs.userType;
   },
   methods: {
     handleDelete(id) {

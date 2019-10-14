@@ -12,7 +12,15 @@
     <div class="box">
         <div class="iptBox">
             <div class="filter-item">
-                <el-button type="primary"  @click="$router.push({path:`/productionSubject/mainProduct/thirdPartySampling/create/${id}`})"  plain>添加</el-button>
+                <el-button 
+                  type="primary"  
+                  @click="
+                    $router.push({
+                      path:`/productionSubject/mainProduct/thirdPartySampling/create/${id}`
+                    })"
+                  v-if="loggedinUserType === 3"
+                  plain
+                >添加</el-button>
                 <el-button type="primary" plain @click="$router.go(-1)">返回</el-button>
             </div>
         </div>
@@ -62,7 +70,10 @@
           prop="checkOrganization"
           label="检测机构"
         ></el-table-column>
-        <el-table-column label="操作">
+        <el-table-column 
+          label="操作"
+          v-if="loggedinUserType === 3"
+        >
             <template slot-scope="{ row }">
                 <el-button type="success"
                            plain
@@ -94,14 +105,15 @@
 </template>
 
 <script>
-import sampleData from "./_data";
 import Pagination from "@/components/common/pagination";
 import Request from "@/services/api/request";
+import Auth from "@/services/authentication/auth.js";
 export default {
   name: "thirdPartySamplingRecord",
   components: { Pagination },
   data() {
     return {
+      loggedinUserType: null,
       id: -1,
       page: {
         pageIndex: 1,
@@ -109,12 +121,13 @@ export default {
       },
       total: 100,
       radio: "1",
-      tableData: sampleData
+      tableData: []
     };
   },
   created() {
     this.id = this.$route.params.id;
     this.getList(this.id);
+    this.loggedinUserType = Auth().user().attrs.userType;
   },
   methods: {
     getList(id) {

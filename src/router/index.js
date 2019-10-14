@@ -66,6 +66,7 @@ import detailsRegulatoryObject from "@/components/productionSubject/detailsRegul
 
 import warehouseEnv from "@/components/productionSubject/warehouseEnv/warehouseEnv";
 import detailsWarehouse from "@/components/productionSubject/warehouseEnv/detailsWarehouse/detailsWarehouse";
+import viewWarehouse from "@/components/productionSubject/warehouseEnv/viewWarehouse/viewWarehouse";
 import addWarehouse from "@/components/productionSubject/warehouseEnv/addWarehouse/addWarehouse";
 import mainProduct from "@/components/productionSubject/mainProduct/mainProduct";
 import thirdPartySamplingRecord from "@/components/productionSubject/mainProduct/thirdPartySamplingRecord/thirdPartySamplingRecord";
@@ -241,6 +242,11 @@ export default new Router({
           path: "/productionSubject/warehouseEnv/detailsWarehouse/:id",
           name: "detailsWarehouse",
           component: detailsWarehouse
+        },
+        {
+          path: "/productionSubject/warehouseEnv/viewWarehouse/:id",
+          name: "viewWarehouse",
+          component: viewWarehouse
         },
         {
           path: "/productionSubject/warehouseEnv/addWarehouse/:id",

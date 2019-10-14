@@ -10,10 +10,10 @@
         <el-button
           type="primary"
           plain
-          v-if="!companyId"
+          v-if="!companyId && loggedinUserType === 2"
           v-on:click="$router.push(`/regulatoryRecord/create`)"
         >添加监管记录</el-button>
-        <div v-else class="fixed-value">
+        <div v-else-if="companyId" class="fixed-value">
           <p v-if="filterCompanyName(companyId)">{{ filterCompanyName(companyId) }}</p>
           <p v-else>没有数据</p>
         </div>
@@ -25,6 +25,7 @@
         >常用语管理</el-button>
         <el-button type="primary" plain v-if="!companyId">扫码下载客户端</el-button>
         <el-button type="primary" plain v-if="!companyId">说明书下载</el-button>
+        <el-button type="primary" plain v-on:click="$router.go(-1)">返回</el-button>
         <div class="special-container" style="margin-left:auto">
           <el-button
             type="success"
@@ -160,11 +161,13 @@
 <script>
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
+import Auth from "@/services/authentication/auth.js";
 export default {
   name: "regulatoryRecord",
   components: { Pagination },
   data() {
     return {
+      loggedinUserType: null,
       page: {
         pageIndex: 1,
         pageSize: 20
@@ -188,6 +191,7 @@ export default {
     this.getData();
     this.getTown();
     this.getCompanyProduct();
+    this.loggedinUserType = Auth().user().attrs.userType;
   },
   methods: {
     //分页数量改变
