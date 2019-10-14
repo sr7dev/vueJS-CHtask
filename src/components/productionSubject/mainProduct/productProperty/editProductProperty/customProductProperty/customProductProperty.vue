@@ -100,7 +100,7 @@ export default {
       },
       tableData: null,
       listLoading: true,
-      total: 100,
+      total: 0,
       radio: "1",
       name: "",
       sort: ""
@@ -112,15 +112,18 @@ export default {
   },
   methods: {
     handleDelete(id) {
-      Request()
-        .delete("/api/product_property_option/delete/" + id)
-        .then(response => {
-          this.getList(this.id);          
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },    
+      this.$confirm('确认删除该记录吗?', '提示', {type: 'warning'})
+      .then(() => {
+        Request()
+          .delete("/api/product_property_option/delete/" + id)
+          .then(response => {
+            this.getList(this.id);          
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      });
+    },
     getList() {
       this.listLoading = true;
       Request()
