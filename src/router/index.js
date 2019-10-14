@@ -90,6 +90,8 @@ import editProductProperty from "@/components/productionSubject/mainProduct/prod
 import customProductProperty from "@/components/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/customProductProperty";
 import addCustomProductProperty from "@/components/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/addCustomProductProperty/addCustomProductProperty";
 import editCustomProductProperty from "@/components/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/editCustomProductProperty/editCustomProductProperty";
+import threeProduct from "@/components/productionSubject/threeProduct_ps/threeProduct";
+import addThreeProduct from "@/components/productionSubject/threeProduct_ps/addThreeProduct/addThreeProduct";
 
 
 import companyBusiness from "@/components/companyBusiness/companyBusiness";
@@ -114,6 +116,9 @@ import notice from "@/components/notice/notice";
 import detailsNotice from "@/components/notice/detailsNotice/detailsNotice";
 import createNotice from "@/components/notice/createNotice/createNotice";
 import editNotice from "@/components/notice/editNotice/editNotice";
+
+import aquaticStatistics from "@/components/aquaticStatistics/aquaticStatistics";
+import statisticsFarmers from "@/components/statisticsFarmers/statisticsFarmers";
 
 import internalMessage from "@/components/internalMessage/internalMessage";
 import addInternalMessage from "@/components/internalMessage/addInternalMessage/addInternalMessage";
@@ -328,6 +333,16 @@ export default new Router({
           component: editCustomProductProperty
         },
         {
+          path: "/productionSubject/threeProduct",
+          name: "threeProduct",
+          component: threeProduct
+        },
+        {
+          path: "/productionSubject/threeProduct/addThreeProduct",
+          name: "addThreeProduct",
+          component: addThreeProduct
+        },
+        {
           path: "/threeProductsCertification",
           name: "threeProductsCertification",
           component: threeProductsCertification
@@ -498,6 +513,11 @@ export default new Router({
           component: createNotice
         },
         {
+          path: "/aquatic",
+          name: "aquaticStatistics", // 通知管理
+          component: aquaticStatistics
+        },
+        {
           path: "/notice/edit/:id",
           name: "editNotice", // 通知管理
           component: editNotice
@@ -531,6 +551,11 @@ export default new Router({
           path: "/productVariety/edit/:id",
           name: "editProductVariety", // 作业定义
           component: editVarietyDefinition
+        },
+        {
+          path: "/statisticsFarmers",
+          name: "statisticsFarmers", // 统计（农残）
+          component: statisticsFarmers
         },
         {
           path: "/internalMessage",

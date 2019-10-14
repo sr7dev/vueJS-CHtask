@@ -32,12 +32,12 @@
         <el-row>
           <el-col :span="7">
             <el-form-item label="认证类别">
-              <el-input v-model="data.cretficationCategory" disabled></el-input>
+              <el-input v-model="data.certificationCategory" disabled></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="7">
             <el-form-item label="农业分类">
-              <el-select v-model="data.cretficationType" placeholder="请选择">
+              <el-select v-model="data.certificationType" placeholder="请选择">
                 <el-option
                   v-for="item in options"
                   :key="item.value"
@@ -51,7 +51,7 @@
         <el-row>
           <el-col :span="7">
             <el-form-item label="证书编号">
-              <el-input v-model="data.cretficationNo" disabled></el-input>
+              <el-input v-model="data.certificationNo" disabled></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -61,7 +61,7 @@
               type="date"
               v-model="data.certificationStartTime"
               placeholder
-              style="width: 100%;"
+              style="width: 100% !important;"
               disabled
             ></el-date-picker>
           </el-col>
@@ -71,7 +71,7 @@
               type="date"
               v-model="data.certificationEndTime"
               placeholder
-              style="width: 100%;"
+              style="width: 100% !important;"
               disabled
             ></el-date-picker>
           </el-col>
@@ -86,46 +86,36 @@
         <el-row>
           <el-col :span="6">
             <el-form-item>
-              <div class="item">
-                <div
-                  class="item-label"
-                  style="margin-bottom:20px;display:inline-block"
-                >
-                  <input
-                    type="file"
-                    id="file"
-                    style="display: none"
-                    ref="file"
-                    v-on:change="handleFileUpload()"
-                  />
-                  <el-button type="warning" plain @click="chooseFile()"
-                    >保存修改</el-button
-                  >
-                </div>
-                <div
-                  class="item-value"
-                  v-if="!file"
-                  style="display:inline-block;margin-left:10px;"
-                >
-                  <el-link @click="downloadFile()" v-if="data.files">{{
-                    data.files.replace("/uploads/", "")
-                  }}</el-link>
-                </div>
-                <div
-                  class="item-value"
-                  v-if="file"
-                  style="display:inline-block;margin-left:10px;"
-                >
-                  ({{ file.name }})
+              <div class="item-row">
+                <div class="item">
+                  <div class="item-label">
+                    <input
+                      type="file"
+                      id="file"
+                      style="display: none"
+                      ref="file"
+                      v-on:change="handleFileUpload()"
+                    />
+                    <el-button type="warning" plain>下载附件</el-button>
+                  </div>
+                  <div class="item-value" v-if="!file">
+                    <el-link @click="downloadFile()">
+                      {{
+                        fileName
+                      }}
+                    </el-link>
+                  </div>
+                  <div class="item-value" v-if="file">({{ file.name }})</div>
                 </div>
               </div>
             </el-form-item>
           </el-col>
         </el-row>
         <el-form-item>
-          <el-button type="danger" @click="goBack" plain>取消</el-button>
+          <el-button type="danger" @click="goBack" plain>返回</el-button>
         </el-form-item>
       </el-form>
+          <template v-if="dataLoading">装货...</template>
     </div>
   </div>
 </template>
@@ -142,6 +132,7 @@ export default {
       pageName: this.$route.name,
       data: null,
       file: null,
+      fileName: "",
       companyName: "",
       productName: "",
       dataloading: false,
@@ -184,16 +175,22 @@ export default {
       this.file = this.$refs.file.files[0];
     },
     downloadFile() {
-      axios
-        .get(Urls.API_BASE_URL() + this.data.files, {
-          responseType: "blob"
-        })
-        .then(({ data }) => {
-          const blob = new Blob([data], {});
-          let link = document.createElement("a");
-          link.href = window.URL.createObjectURL(blob);
-          link.click().catch(error => console.error(error));
-        });
+      axios({
+        url: Urls.DOWNLOAD_URL() + this.data.checkFiles,
+        method: "GET",
+        responseType: "blob" // important
+      }).then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute(
+          "download", 
+          this.data.checkFiles.replace("/uploads/", "")
+        ); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      });
     }
   }
 };

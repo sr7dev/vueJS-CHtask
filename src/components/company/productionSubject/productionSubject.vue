@@ -48,30 +48,30 @@
         </el-table>
       </el-container>
       <div class="pageBox">
-        <el-pagination
-          v-if="total > page.pageSize"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="page.pageIndex"
-          :page-sizes="[10, 20, 50]"
-          :page-size="page.pageSize"
-          layout="total, sizes, prev, pager, next, jumper"
+        <pagination
+          v-show="total > 0"
           :total="total"
-        ></el-pagination>
+          :page.sync="page.pageIndex"
+          :limit.sync="page.pageSize"
+          @pagination="getList"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Pagination from "@/components/common/pagination";
+import Request from "../../../services/api/request.js";
 export default {
+  components: { Pagination },
   data() {
     return {
       page: {
         pageIndex: 1,
         pageSize: 10
       },
-      total: 100,
+      total: 0,
       options: [
         {
           value: "全部",

@@ -62,7 +62,7 @@
           >返回</el-button
         >
       </div>
-      <span v-if="!data">No matching data</span>
+      <span v-if="!data">装货...</span>
     </div>
   </div>
 </template>

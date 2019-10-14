@@ -143,14 +143,17 @@ export default {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
     },
     handleDelete(id) {
-      Request()
-        .delete("/api/product_check_record/delete/" + this.id)
-        .then(response => {
-          this.getList();
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      this.$confirm('确认删除该记录吗?', '提示', {type: 'warning'})
+      .then(() => {
+        Request()
+          .delete("/api/product_check_record/delete/" + id)
+          .then(response => {
+            this.getList();
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      });
     },
   }
 };

@@ -6,7 +6,7 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <div class="iptBox">
+      <div class="iptBox" v-if="loggedinUserType===1">
         <el-row class="w-100">
           <el-col :span="3">
             <el-button type="primary" v-on:click="$router.push(`/shareFiles/create`)" plain>新建文件夹</el-button>
@@ -45,6 +45,7 @@
               <el-button
                 type="primary"
                 plain
+                v-if="loggedinUserType===1"
                 v-on:click="
                   $router.push({
                     path: `/shareFiles/edit/`+row.id,
@@ -54,7 +55,7 @@
                   })
                 "
               >修改</el-button>
-              <el-button type="danger" plain>删除</el-button>
+              <el-button type="danger" plain v-if="loggedinUserType===1">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -66,7 +67,6 @@
           :page.sync="page.pageIndex"
           :limit.sync="page.pageSize"
           @pagination="getList"
-          layout="prev, pager, next, sizes, jumper"
         />
       </div>
     </div>
@@ -75,6 +75,8 @@
 <script>
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
+import Auth from "@/services/authentication/auth.js";
+
 export default {
   name: "workTask",
   components: { Pagination },
@@ -88,11 +90,13 @@ export default {
       },
       listLoading: true,
       total: 0,
-      tableData: []
+      tableData: [],
+      loggedinUserType: null
     };
   },
   created() {
     this.getList();
+    this.loggedinUserType = Auth().user().attrs.userType;
   },
   methods: {
     getList() {

@@ -144,11 +144,11 @@ export default {
       id: -1,
       page: {
         pageIndex: 1,
-        pageSize: 10
+        pageSize: 20
       },
-      total: 100,
+      total: 0,
       radio: "1",
-      tableData: sampleData
+      tableData: []
     };
   },
   created() {
@@ -200,10 +200,9 @@ export default {
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize
         })
-        .then(response => {
-          this.tableData = response.data;
-          this.total = this.tableData.length;
-          
+        .then(response => {          
+          this.tableData = response.data;          
+          this.total = response.total;
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);

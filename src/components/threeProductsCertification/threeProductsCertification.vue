@@ -31,7 +31,9 @@
         </el-select>
       </div>
       <el-dialog :visible.sync="dialogVisible" width="30%" modal>
-        <span>你确定你要删除?</span>
+        <span>
+          <i class="el-icon-warning">&nbsp;你确定你要删除?</i>
+        </span>
         <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false" type="primary" plain>取消</el-button>
           <el-button @click="handleDelete" type="success" plain>确认</el-button>
@@ -40,7 +42,7 @@
       <el-container>
         <el-table
           :data="tableData"
-          v-loading="listLoading"          
+          v-loading="listLoading"
           style="width: 100%"
           :row-class-name="rowIndex"
           highlight-current-row
@@ -67,7 +69,11 @@
               }}
             </template>
           </el-table-column>
-          <el-table-column prop="cretficationCategory" label="认证类型"></el-table-column>
+          <el-table-column label="认证类型" prop="certificationType">
+            <template slot-scope="{ row }">
+              {{ appStatus2[parseInt(row.certificationType)] }}
+            </template>
+          </el-table-column>
           <el-table-column prop="certificationNo" label="证书编号"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="{ row }">
@@ -96,7 +102,6 @@
           :page.sync="page.pageIndex"
           :limit.sync="page.pageSize"
           @pagination="getList"
-          layout="prev, pager, next, sizes, jumper"
         />
       </div>
     </div>
@@ -120,7 +125,7 @@ export default {
         pageSize: 20
       },
       listLoading: true,
-      total: 100,
+      total: 0,
       tableData: [],
       companyProduction: [],
       productDetail: [],
@@ -143,7 +148,7 @@ export default {
         .get("/api/quality_standard/all", {
           creditCode: this.creditCode,
           argriculturalClassification: this.productCategory,
-          cretficationType: this.authType,
+          certificationType: this.authType,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
           townId: this.currTown

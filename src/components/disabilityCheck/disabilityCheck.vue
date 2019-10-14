@@ -41,8 +41,13 @@
         <el-select v-model="result" placeholder="全部" @change="getList">
           <el-option v-for="item in results" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
-        <div class="select_label">检测单位</div>
-        <el-select v-model="detectionUnitValue" placeholder="全部" @change="getList">
+        <div class="select_label" v-if="loggedinUserType !== 3">检测单位</div>
+        <el-select
+          v-model="detectionUnitValue"
+          placeholder="全部"
+          @change="getList"
+          v-if="loggedinUserType !== 3"
+        >
           <el-option
             v-for="item in detectionUnit"
             :key="item.id"
@@ -115,13 +120,17 @@
           </el-col>
         </el-row>
         <el-dialog :visible.sync="alert_dialogVisible" width="30%" modal>
-          <span>请选择 !!!</span>
+          <span>
+            <i class="el-icon-warning">&nbsp;请选择 !!!</i>
+          </span>
           <span slot="footer" class="dialog-footer">
             <el-button @click="alert_dialogVisible = false" type="primary" plain>取消</el-button>
           </span>
         </el-dialog>
         <el-dialog :visible.sync="confirm_dialogVisible" width="30%" modal>
-          <span>继续？请再次检查</span>
+          <span>
+            <i class="el-icon-warning">&nbsp;继续？请再次检查</i>
+          </span>
           <span slot="footer" class="dialog-footer">
             <el-button @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
             <el-button :type="btnColor" @click="updateSelectedRows()" plain>确认</el-button>
@@ -180,6 +189,7 @@
 <script>
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
+import Auth from "@/services/authentication/auth.js";
 export default {
   name: "disabilityCheck",
   components: { Pagination },
@@ -198,6 +208,7 @@ export default {
           label: ""
         }
       ],
+      loggedinUserType: null,
       township: [{ id: 0, name: "全部", divisionCode: 0 }],
       currTown: "",
       status: 1,
@@ -236,6 +247,7 @@ export default {
     this.getList();
     this.getCompanyProduction();
     this.creditCode = this.$route.query.creditCode;
+    this.loggedinUserType = Auth().user().attrs.userType;
   },
   methods: {
     handleDownload() {
@@ -395,6 +407,7 @@ export default {
     },
     updateSelectedRows() {
       for (let index in this.selectedRows) {
+        console.log(this.selectedRows[index]);
         this.confirm_dialogVisible = false;
         this.listLoading = true;
         Request()

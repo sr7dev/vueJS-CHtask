@@ -52,9 +52,9 @@ export default {
       productId: -1,
       page: {
         pageIndex: 1,
-        pageSize: 10
+        pageSize: 20
       },
-      total: 100,      
+      total: 0,      
       tableData: [],
     };
   },
@@ -78,9 +78,8 @@ export default {
           productId: this.productId
         })
         .then(response => {
-          console.log(response);
           this.tableData = response.data;          
-          this.total = this.tableData.length;           
+          this.total = response.total;           
           setTimeout(() => {
             this.listLoading = false;
           }, 0.01 * 1000);       
@@ -90,14 +89,17 @@ export default {
         });
     },    
     handleDelete(id){
-      Request()
-        .delete("/api/product_grade/delete/" + id)
-        .then(response => {
-          this.getList();
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      this.$confirm('确认删除该记录吗?', '提示', {type: 'warning'})
+      .then(() => {
+        Request()
+          .delete("/api/product_grade/delete/" + id)
+          .then(response => {
+            this.getList();
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      });
     },
   }
 };

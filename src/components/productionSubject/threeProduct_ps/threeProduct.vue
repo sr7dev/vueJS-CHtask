@@ -2,12 +2,27 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
+        <el-breadcrumb-item>监管对象</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">三品认证</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
       <div class="iptBox">
         <div class="select_label">{{ getCompanyName() }}</div>
+        <div class="select_label">分类</div>
+        <el-select v-model="filterStatus" placeholder="请选择" @change="getList" style="margin-right: 30px">
+          <el-option v-for="(item, index) in argriculturalClassification" :key="item" :label="item" :value="index"></el-option>
+        </el-select>
+        <div class="select_label">认证类型</div>
+        <el-select v-model="certficationType" placeholder="请选择" @change="getList" style="margin-right: 30px">
+          <el-option v-for="(item, index) in certficationTypes" :key="item" :label="item" :value="index"></el-option>
+        </el-select>
+        <el-button
+          type="primary"
+          v-on:click="$router.push({path:`/productionSubject/threeProduct/addThreeProduct`,
+                                    query: {creditCode:creditCode}})"
+          plain
+        >添加认证</el-button>
         <el-button type="primary" v-on:click="$router.go(-1)" plain
           >返回</el-button
         >
@@ -31,16 +46,20 @@
               filterProduct(row.productId)
             }}</template>
           </el-table-column>
-          <el-table-column prop="certificationType" label="分类" width>
+          <el-table-column prop="argriculturalClassification" label="分类" width>
             <template slot-scope="{ row }">{{
               appStatus1[row.argriculturalClassification]
             }}</template>
           </el-table-column>
           <el-table-column
-            prop="certificationCategory"
+            prop="certificationType"
             label="认证类型"
             width
-          ></el-table-column>
+          >
+            <template slot-scope="{ row }">{{
+                certficationTypes[row.certificationType]
+              }}</template>
+          </el-table-column>
           <el-table-column
             prop="certificationNo"
             label="证书编号"
@@ -79,7 +98,7 @@
 import Pagination from "@/components/common/pagination";
 import Request from "../../../services/api/request.js";
 export default {
-  name: "threeProduction",
+  name: "threeProduct",
   components: { Pagination },
   data() {
     return {
@@ -95,7 +114,11 @@ export default {
       productName: "",
       productCategory: 0,
       productDetail: [],
-      appStatus1: ["全部", "养殖业", "已同意", "畜牧业", "种植业"]
+      filterStatus: 0,
+      certficationType: 0,
+      appStatus1: ["全部", "养殖业", "畜牧业", "种植业"],
+      argriculturalClassification: ["全部", "养殖业", "畜牧业", "种植业"],
+      certficationTypes: ["全部", "无公害产品", "绿色食品", "有机食品", '地理标志']
     };
   },
   created() {
@@ -124,7 +147,9 @@ export default {
         .get("/api/quality_standard/all", {
           creditCode: this.$route.query.creditCode,
           pageNo: this.page.pageIndex - 1,
-          pageSize: this.page.pageSize
+          pageSize: this.page.pageSize,
+          argriculturalClassification: this.filterStatus,
+          certificationType: this.certficationType
         })
         .then(response => {
           this.tableData = response.data;
@@ -180,5 +205,4 @@ export default {
 };
 </script>
 <style lang="scss">
-@import "./threeProduction.scss";
 </style>

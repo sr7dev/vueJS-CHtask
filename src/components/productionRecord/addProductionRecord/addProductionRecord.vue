@@ -7,7 +7,9 @@
       </el-breadcrumb>
     </div>
     <el-dialog :visible.sync="dialogVisible" width="30%" modal>
-      <span>选择文件 !!!</span>
+      <span>
+        <i class="el-icon-warning">&nbsp;选择文件 !!!</i>
+      </span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false" type="primary" plain>取消</el-button>
       </span>
@@ -49,8 +51,8 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="8">
+        <el-form-item>
+          <el-col :span="18">
             <div class="item" style="display:flex">
               <div class="item-label" style="margin-bottom:20px;">
                 <input
@@ -69,13 +71,13 @@
                       align-items: center;
                       padding-bottom: 20px;"
               >
-                <span v-if="file">({{ file.name }})</span>
+                <span v-if="ruleFormValue.file">({{ ruleFormValue.file.name }})</span>
                 <span v-else>请选择需要上传的文件...</span>
               </div>
             </div>
           </el-col>
-        </el-row>
-        <el-form-item class="left-margin">
+        </el-form-item>
+        <el-form-item>
           <el-button type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
           <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
@@ -87,18 +89,18 @@
 <script>
 import Request from "../../../services/api/request.js";
 import { Urls } from "../../../services/constants";
-import axios from "axios";
+
 export default {
   name: "addProductionRecord",
   data() {
     return {
-      file: null,
       productNameList: [],
       ruleFormValue: {
         productId: "",
         productionQuantity: "",
         productionArea: "",
-        productionTime: ""
+        productionTime: "",
+        file: null
       },
       dialogVisible: false,
       rules: {
@@ -156,7 +158,7 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          if (!this.file) {
+          if (!this.ruleFormValue.file) {
             this.dialogVisible = true;
           } else {
             var formData = new FormData();
@@ -175,8 +177,8 @@ export default {
     },
     makeFormData() {
       var mainFormData = new FormData();
-      if (this.file) {
-        mainFormData.append("file", this.file);
+      if (this.ruleFormValue.file) {
+        mainFormData.append("file", this.ruleFormValue.file);
       }
       mainFormData.append("id", 0);
       mainFormData.append("productId", this.ruleFormValue.productId);
@@ -194,7 +196,7 @@ export default {
       this.$refs.file.click();
     },
     handleFileUpload() {
-      this.file = this.$refs.file.files[0];
+      this.ruleFormValue.file = this.$refs.file.files[0];
     },
     filterProduct(productId) {
       let product = this.productNameList.find(x => x.productId === productId);
