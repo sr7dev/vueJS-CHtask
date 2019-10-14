@@ -32,13 +32,6 @@
           >
         </div>
       </div>
-      <el-dialog :visible.sync="confirm_dialogVisible" width="30%" modal>
-        <span>你确定要删除吗?</span>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
-          <el-button type="success" @click="deleteRow()" plain>确认</el-button>
-        </span>
-      </el-dialog>
       <el-table
         :data="tableData"
         style="width: 100%"
@@ -96,7 +89,7 @@
             </el-button>
             <el-button
               type="danger"
-              @click="showConfirmDialog(`${row.id}`)"
+              v-on:click="handleDelete(`${row.id}`)"
               plain
             >删除
             </el-button>
@@ -135,8 +128,6 @@ export default {
       tableData: null,
       productName: "",
       warehouses: [],
-      selectedId: null,
-      confirm_dialogVisible: false,
       productId: -1,
       productDetail: []
     };
@@ -148,12 +139,25 @@ export default {
     this.getProductionDetail();
     this.getWarehouseDetail();
   },
-  methods: { 
+  methods: {
+    handleDelete(id) {
+       this.$confirm('确认删除该记录吗?', '提示', {type: 'warning'})
+      .then(() => {
+        Request()
+          .delete("/api/product_repetory/delete/" + id)
+          .then(response => {
+            this.getList();
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      });
+    },
     getWarehouseDetail() {
       Request()
         .get("/api/warehose/all", {
           company_id: this.companyId,
-          pageNo: 0,
+          pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
           sortBy: "id"
         })
@@ -175,7 +179,6 @@ export default {
       return grade[id - 1];
     },
     getWarehouseName(id) {
-      console.log(id);
       for (let index = 0; index < this.warehouses.length; index++) {
         const element = this.warehouses[index];
         if (element.id == id) return element.warehouseName;
@@ -184,45 +187,28 @@ export default {
     },
     getList() {
       this.listLoading = true;
-        Request()
-          .get("/api/product_repetory/all", {
-            product_id: this.productId,
-            pageNo: this.page.pageIndex - 1,
-            pageSize: this.page.pageSize
-          })
-          .then(res => {
-            this.tableData = res.data;
-            this.total = res.total;
-            setTimeout(() => {
-              this.listLoading = false;
-            }, 0.5 * 1000);
-          })
-          .catch(error => {
-            console.error(error);
-          });
-    },
-    deleteRow() {
       Request()
-        .delete("/api/product_repetory/delete/" + this.selectedId)
-        .then(response => {
+        .get("/api/product_repetory/all", {
+          product_id: this.productId,
+          pageNo: this.page.pageIndex - 1,
+          pageSize: this.page.pageSize
+        })
+        .then(res => {
+          this.tableData = res.data;
+          this.total = res.total;
           setTimeout(() => {
-            this.confirm_dialogVisible = false;
+            this.listLoading = false;
           }, 0.5 * 1000);
-          this.getList(this.id);
         })
         .catch(error => {
-          console.log(error);
+          console.error(error);
         });
-    },    
+    },   
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
     },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
-    },
-    showConfirmDialog(id) {
-      this.selectedId = id;
-      this.confirm_dialogVisible = true;
     },
     getProductionDetail() {
       Request()
