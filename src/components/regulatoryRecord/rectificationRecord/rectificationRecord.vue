@@ -525,6 +525,7 @@ export default {
         .then(response => {
           let tmpdata = response.data;
           this.data = tmpdata[0];
+          console.log(this.data)
           this.isNanData = this.data ? false : true;
           if (!this.isNanData)
             this.conclusionData = JSON.parse(this.data.conclusionFalseInfo);
@@ -540,9 +541,8 @@ export default {
       var formData = new FormData();
       formData.append("scenePhotoFile", this.file_live_1); //required
       formData.append("signFile", this.file_live_2); //required
-      // formData.append("confirmorSign", this.file_live_3); //required
+      formData.append("confirmor", this.file_live_3); //required
       formData.append("supervisionRecordId", this.superId); //required
-      formData.append("id", this.superId); //required
       var newConclusionData;
       if (this.isNanData) {
         newConclusionData =
@@ -564,6 +564,7 @@ export default {
                   : " "
               };
         newConclusionData = JSON.stringify(newConclusionData);
+        formData.append("id", 0); //required
         formData.append("towId", this.ruleFormValue.townId);
         formData.append("conclusion", this.ruleFormValue.conclusion);
         formData.append("inspector", this.ruleFormValue.inspector);
@@ -599,6 +600,7 @@ export default {
         newConclusionData = JSON.stringify(newConclusionData);
 
         formData.append("townId", this.data.townId);
+        formData.append("id", this.data.id); //required
         formData.append("inspector", this.data.inspector);
         formData.append("companyId", this.data.companyId);
         this.data.rectificationRecordTime = new Date(
@@ -610,9 +612,8 @@ export default {
           this.data.rectificationRecordTime
         );
         formData.append("conclusionFalseInfo", newConclusionData);
-        formData.append("data", this.data);
         Request()
-          .put("/api/rectification_record/update/" + this.superId, formData)
+          .put("/api/rectification_record/update/" + this.data.id, formData)
           .then(response => {
             this.$router.push({ path: "/regulatoryRecord" });
           })
