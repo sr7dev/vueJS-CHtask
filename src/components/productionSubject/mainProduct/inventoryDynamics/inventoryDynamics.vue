@@ -16,9 +16,9 @@
             type="primary"
             plain
             @click="$router.push({
-              path: `/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/${id}`,
+              path: `/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/${companyId}`,
               query: {
-                productName: productName
+                productId: productId
               }
             })
             "
@@ -32,6 +32,13 @@
           >
         </div>
       </div>
+      <el-dialog :visible.sync="confirm_dialogVisible" width="30%" modal>
+        <span>你确定要删除吗?</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
+          <el-button type="success" @click="deleteRow()" plain>确认</el-button>
+        </span>
+      </el-dialog>
       <el-table
         :data="tableData"
         style="width: 100%"
@@ -43,13 +50,15 @@
           label="序号"
           width="70"
         ></el-table-column>
-        <el-table-column prop="productId" label="产品名称">
-          <template>{{ productName }}</template>
+        <el-table-column prop="productName" label="产品名称">
+          <template slot-scope="{ row }">{{
+              filterProduct(row.productId)
+            }}</template>
         </el-table-column>
         <el-table-column prop="warehouse" label="所在仓库">
           <template slot-scope="{ row }">
             {{
-              getWarehouseName(row.warehouseId)
+              filterWarehouse(row.warehouseId)
             }}
           </template>
         </el-table-column>
@@ -72,14 +81,14 @@
               type="success"              
               plain
               @click="$router.push({
-                path: `/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/${id}`,
+                path: `/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/${row.id}`,
                 query: {
-                  productName: productName,
+                  productId: row.productId,
                   repertoryAmount: row.repertoryAmount,
                   warehouseId: row.warehouseId,
                   grade: row.grade,
                   variety: row.variety,
-                  id: row.id
+                  companyId: companyId
                 }
               })
               "
@@ -87,7 +96,7 @@
             </el-button>
             <el-button
               type="danger"
-              v-on:click="handleDelete(`${row.id}`)"
+              @click="showConfirmDialog(`${row.id}`)"
               plain
             >删除
             </el-button>
@@ -108,7 +117,6 @@
 </template>
 
 <script>
-import sampleData from "./_data";
 import Pagination from "@/components/common/pagination";
 import Request from "@/services/api/request";
 export default {  
@@ -116,82 +124,123 @@ export default {
   components: { Pagination },
   data() {
     return {
-      id: -1,
+      companyId: -1,
       page: {
         pageIndex: 1,
         pageSize: 20
       },
       listLoading: true,
-      total: 100,
+      total: 0,
       radio: "1",
       tableData: null,
       productName: "",
-      warehouses: []
+      warehouses: [],
+      selectedId: null,
+      confirm_dialogVisible: false,
+      productId: -1,
+      productDetail: []
     };
   },
   created() {
-    this.id = this.$route.params.id;
-    this.productName = this.$route.query.productName;
-    this.getList(this.id);
+    this.companyId = this.$route.params.id;
+    this.productId = this.$route.query.productId;
+    this.getList();
+    this.getProductionDetail();
+    this.getWarehouseDetail();
   },
-  methods: {
-    handleDelete(id) {
+  methods: { 
+    getWarehouseDetail() {
       Request()
-        .delete("/api/product_repetory/delete/" + id)
-        .then(response => {
-          this.getList(this.id);          
+        .get("/api/warehose/all", {
+          company_id: this.companyId,
+          pageNo: 0,
+          pageSize: this.page.pageSize,
+          sortBy: "id"
         })
-        .catch(error => {
-          console.log(error);
-        });
-    },    
+        .then(response => {
+          this.warehouses = response.data;
+        })
+        .catch(error => {error});
+    },
+    filterWarehouse(ID) {
+      let warehouse = this.warehouses.find(x => x.id === ID);
+      if (warehouse) {
+        return warehouse.warehouseName;
+      } else {
+        return "";
+      }
+    },
     getGradeName(id) {
       const grade = ["低级", "中级", "高级", "特级"];
       return grade[id - 1];
     },
     getWarehouseName(id) {
+      console.log(id);
       for (let index = 0; index < this.warehouses.length; index++) {
         const element = this.warehouses[index];
         if (element.id == id) return element.warehouseName;
       }
       return "";
     },
-    getList(id) {
+    getList() {
       this.listLoading = true;
-      Request()
-        .get("/api/warehose/all", {
-          company_id: 0,
-          pageNo: 0,
-          pageSize: 20,
-          sortBy: "id"
-        })
-        .then(response => {
-          this.warehouses = response.data;
-          console.log(this.warehouses);
-          Request()
-            .get("/api/product_repetory/all", {
-              product_id: id,
-              pageNo: this.page.pageIndex - 1,
-              pageSize: this.page.pageSize
-            })
-            .then(res => {
-              console.log(res.data);
-              this.tableData = res.data;
-              this.total = res.total;
-              setTimeout(() => {
-                this.listLoading = false;
-              }, 0.5 * 1000);
-            })
-            .catch(error => {
-              console.error(error);
-            });
-        });
+        Request()
+          .get("/api/product_repetory/all", {
+            product_id: this.productId,
+            pageNo: this.page.pageIndex - 1,
+            pageSize: this.page.pageSize
+          })
+          .then(res => {
+            this.tableData = res.data;
+            this.total = res.total;
+            setTimeout(() => {
+              this.listLoading = false;
+            }, 0.5 * 1000);
+          })
+          .catch(error => {
+            console.error(error);
+          });
     },
+    deleteRow() {
+      Request()
+        .delete("/api/product_repetory/delete/" + this.selectedId)
+        .then(response => {
+          setTimeout(() => {
+            this.confirm_dialogVisible = false;
+          }, 0.5 * 1000);
+          this.getList(this.id);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },    
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
     },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
+    },
+    showConfirmDialog(id) {
+      this.selectedId = id;
+      this.confirm_dialogVisible = true;
+    },
+    getProductionDetail() {
+      Request()
+        .get("/api/product_production/name")
+        .then(response => {
+          this.productDetail = response;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    filterProduct(ID) {
+      let product = this.productDetail.find(x => x.productId === ID);
+      if (product) {
+        return product.productName;
+      } else {
+        return "";
+      }
     }
   }
 };

@@ -169,7 +169,7 @@ export default {
     showInventoryDynamics(row) {
       this.$router.push({
         path: `/productionSubject/mainProduct/inventoryDynamics/${this.$route.params.id}`,
-        query: { productName: row.productName }
+        query: { productId: row.productId }
       });
     },
     showProcessDefinition(row) {
@@ -203,7 +203,7 @@ export default {
         .then(response => {
           this.tableData = response.data;
           this.total = this.tableData.length;
-          
+          console.log(response);
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
