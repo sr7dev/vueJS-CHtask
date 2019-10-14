@@ -169,8 +169,9 @@ export default {
           formData.append("taskName", this.ruleFormValue.taskName);
           formData.append("taskType", this.ruleFormValue.taskType);
           formData.append("productId", this.ruleFormValue.productId);
-          if (this.file != null) formData.append("file", this.file);
-
+          if (this.file != null) {
+            formData.append("file", this.file);
+          }
           Request()
             .put("/api/product_task/update/" + this.ruleFormValue.id, formData)
             .then(response => {

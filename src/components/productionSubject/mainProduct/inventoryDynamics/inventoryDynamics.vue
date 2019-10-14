@@ -122,7 +122,7 @@ export default {
         pageSize: 20
       },
       listLoading: true,
-      total: 100,
+      total: 0,
       radio: "1",
       tableData: null,
       productName: "",

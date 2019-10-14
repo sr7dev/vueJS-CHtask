@@ -61,9 +61,9 @@ export default {
       listLoading: false,
       page: {
         pageIndex: 1,
-        pageSize: 10
+        pageSize: 20
       },
-      total: 100,
+      total: 0,
       options: [
         { value: 0, label: "全部" },
         { value: 1, label: "否" },
@@ -113,7 +113,9 @@ export default {
         });
     },    
     handleDelete(id){
-      Request()
+      this.$confirm('确认删除该记录吗?', '提示', {type: 'warning'})
+      .then(() => {
+        Request()
         .delete("/api/product_variety/delete/" + id)
         .then(response => {
           this.getList();
@@ -121,6 +123,7 @@ export default {
         .catch(error => {
           console.log(error);
         });
+      });
     },
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
