@@ -2,7 +2,9 @@
   <div>
     <div class="login-container">
       <el-dialog title="Or connect with" :visible.sync="showDialog">
-        Can not be simulated on local, so please combine you own business simulation! ! !
+        <i
+          class="el-icon-error"
+        >&nbsp;Can not be simulated on local, so please combine you own business simulation! ! !</i>
         <br />
         <br />
         <br />
@@ -88,7 +90,7 @@ export default {
       loginForm: {
         username: "",
         password: "",
-        isRemember:false
+        isRemember: false
       },
       loginRules: {
         username: [
@@ -121,8 +123,12 @@ export default {
   created() {
     // window.addEventListener('storage', this.afterQRScan)
     this.loginForm.isRemember = Storage.get("isRemember");
-    this.loginForm.password = Storage.get("password") ? Storage.get("password") : "";
-    this.loginForm.username = Storage.get("userName") ? Storage.get("userName") : "" ;
+    this.loginForm.password = Storage.get("password")
+      ? Storage.get("password")
+      : "";
+    this.loginForm.username = Storage.get("userName")
+      ? Storage.get("userName")
+      : "";
     if (Auth().check()) {
       this.$router.push({
         path: this.redirect || "/"

@@ -10,7 +10,9 @@
         <el-button type="primary" plain v-on:click="$router.push(`/productionRecord/create`)">添加</el-button>
       </div>
       <el-dialog :visible.sync="confirm_dialogVisible" width="30%" modal>
-        <span>你确定要删除吗?</span>
+        <span>
+          <i class="el-icon-warning">&nbsp;你确定要删除吗?</i>
+        </span>
         <span slot="footer" class="dialog-footer">
           <el-button @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
           <el-button type="success" @click="deleteRow()" plain>确认</el-button>

@@ -31,7 +31,9 @@
         </el-select>
       </div>
       <el-dialog :visible.sync="dialogVisible" width="30%" modal>
-        <span>你确定你要删除?</span>
+        <span>
+          <i class="el-icon-warning">&nbsp;你确定你要删除?</i>
+        </span>
         <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false" type="primary" plain>取消</el-button>
           <el-button @click="handleDelete" type="success" plain>确认</el-button>
@@ -40,7 +42,7 @@
       <el-container>
         <el-table
           :data="tableData"
-          v-loading="listLoading"          
+          v-loading="listLoading"
           style="width: 100%"
           :row-class-name="rowIndex"
           highlight-current-row
@@ -128,7 +130,7 @@ export default {
       companyProduction: [],
       productDetail: [],
       appStatus1: ["全部", "养殖业", "已同意", "畜牧业", "种植业"],
-      appStatus2: ["全部", "无公害产品", "绿色食品", "有机食品", "地理标志"],
+      appStatus2: ["全部", "无公害产品", "绿色食品", "有机食品", "地理标志"]
     };
   },
   created() {
@@ -215,7 +217,7 @@ export default {
     confirmDelete(id) {
       this.dialogVisible = true;
       this.selectedId = id;
-    },
+    }
   }
 };
 </script>
