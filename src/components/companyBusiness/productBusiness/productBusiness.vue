@@ -65,7 +65,7 @@ export default {
         pageIndex: 1,
         pageSize: 20
       },
-      total: 100,
+      total: 0,
       options: [
         {
           value: "全部",
@@ -92,9 +92,10 @@ export default {
           pageSize: this.page.pageSize,
           sortBy: this.sortBy
         })
-        .then(response => {
-          this.tableData = response.data;
-          this.total = this.tableData.length;
+
+        .then(response => {          
+          this.tableData = response.data;          
+          this.total = response.total;
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
@@ -109,8 +110,13 @@ export default {
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
     },
-    handleDelete(id) {
-      Request()
+
+    handleDelete(id){
+      this.$confirm('确认删除该记录吗?', '提示', {
+                type: 'warning'
+      })
+      .then(() => {
+        Request()
         .delete("/api/product_business/" + id)
         .then(response => {
           this.getList();
@@ -118,7 +124,8 @@ export default {
         .catch(error => {
           console.log(error);
         });
-    }
+      })
+    },
   }
 };
 </script>

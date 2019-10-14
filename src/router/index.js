@@ -89,6 +89,8 @@ import editProductProperty from "@/components/productionSubject/mainProduct/prod
 import customProductProperty from "@/components/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/customProductProperty";
 import addCustomProductProperty from "@/components/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/addCustomProductProperty/addCustomProductProperty";
 import editCustomProductProperty from "@/components/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/editCustomProductProperty/editCustomProductProperty";
+import threeProduct from "@/components/productionSubject/threeProduct_ps/threeProduct";
+import addThreeProduct from "@/components/productionSubject/threeProduct_ps/addThreeProduct/addThreeProduct";
 
 
 import companyBusiness from "@/components/companyBusiness/companyBusiness";
@@ -328,6 +330,16 @@ export default new Router({
           path: "/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/editCustomProductProperty/:id",
           name: "editCustomProductProperty",
           component: editCustomProductProperty
+        },
+        {
+          path: "/productionSubject/threeProduct",
+          name: "threeProduct",
+          component: threeProduct
+        },
+        {
+          path: "/productionSubject/threeProduct/addThreeProduct",
+          name: "addThreeProduct",
+          component: addThreeProduct
         },
         {
           path: "/threeProductsCertification",

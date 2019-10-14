@@ -32,12 +32,12 @@
         <el-row>
           <el-col :span="7">
             <el-form-item label="认证类别">
-              <el-input v-model="data.cretficationCategory" disabled></el-input>
+              <el-input v-model="data.certificationCategory" disabled></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="7">
             <el-form-item label="农业分类">
-              <el-select v-model="data.cretficationType" placeholder="请选择">
+              <el-select v-model="data.certificationType" placeholder="请选择">
                 <el-option
                   v-for="item in options"
                   :key="item.value"
@@ -51,7 +51,7 @@
         <el-row>
           <el-col :span="7">
             <el-form-item label="证书编号">
-              <el-input v-model="data.cretficationNo" disabled></el-input>
+              <el-input v-model="data.certificationNo" disabled></el-input>
             </el-form-item>
           </el-col>
         </el-row>

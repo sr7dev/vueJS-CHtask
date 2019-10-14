@@ -351,7 +351,7 @@ export default {
         qualityStandardId: 0,
         quality_standard: 0,
         remarks: "",
-        townId: 1,
+        townId: "",
         updateUserId: 0,
         productInfo: {
           data_0_0: "",
