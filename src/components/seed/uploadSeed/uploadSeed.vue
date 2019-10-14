@@ -99,7 +99,6 @@
 <script>
 import Request from "../../../services/api/request.js";
 import { Urls } from "../../../services/constants";
-
 export default {
   name: "uploadSeed",
   data() {
@@ -110,10 +109,10 @@ export default {
       townList: [],
       companyProduction: [],
       ruleFormValue: {
-        cityId: "",
-        townId: "",
-        villageId: "",
-        companyId: ""
+        cityId: null,
+        townId: null,
+        villageId: null,
+        companyId: null
       },
       rules: {
         cityId: [
@@ -134,14 +133,14 @@ export default {
             required: true,
             message: "请选择"
           }
+        ],
+        companyId: [
+          {
+          required: true,
+          message: "请选择",
+          trigger: "change"
+          }
         ]
-        // companyId: [
-        //   {
-        //     required: true,
-        //     message: "请选择",
-        //     trigger: "change"
-        //   }
-        // ]
       }
     };
   },
@@ -181,7 +180,6 @@ export default {
           console.log(error);
         });
     },
-
     getCompany() {
       Request()
         .get("/api/company_production/all", {
@@ -203,14 +201,7 @@ export default {
           var formData = new FormData();
           formData = this.makeFormData();
           Request()
-            .post("/api/seed/create", {
-              cityId: this.ruleFormValue.cityId,
-              companyId: 1,
-              id: 0,
-              seedProfiles: this.file,
-              townId: this.ruleFormValue.townId,
-              villageId: this.ruleFormValue.villageId
-            })
+            .post("/api/seed/create", formData)
             .then(response => {
               this.$router.push({ path: "/seed" });
             })
@@ -223,12 +214,11 @@ export default {
     makeFormData() {
       var mainFormData = new FormData();
       if (this.file) {
-        mainFormData.append("seedProfiles", this.file);
+        mainFormData.append("file", this.file);        
       }
       mainFormData.append("id", 0);
       mainFormData.append("cityId", this.ruleFormValue.cityId);
-      // mainFormData.append("companyId", this.ruleFormValue.companyId);
-      mainFormData.append("companyId", 1);
+      mainFormData.append("companyId", this.ruleFormValue.companyId);
       mainFormData.append("townId", this.ruleFormValue.townId);
       mainFormData.append("villageId", this.ruleFormValue.villageId);
       return mainFormData;

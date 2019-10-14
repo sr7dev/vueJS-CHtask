@@ -12,10 +12,13 @@
       text-color="#ffffff"
       v-if="loggedinUserType!==3"
     >
+      <el-menu-item index="/specialCategory">
+        <router-link slot="title" to="/specialCategory">专项</router-link>
+      </el-menu-item>
       <el-menu-item index="/statisticsFarmers">
         <router-link slot="title" to="/statisticsFarmers">统计（农残）</router-link>
       </el-menu-item>
-       <el-menu-item index="/productionStandard" v-if="loggedinUserType !== 3">
+      <el-menu-item index="/productionStandard" v-if="loggedinUserType !== 3">
         <router-link slot="title" to="/productionStandard">生产标准</router-link>
       </el-menu-item>
       <el-menu-item index="/shareFiles">

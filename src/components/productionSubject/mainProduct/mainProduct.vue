@@ -27,43 +27,95 @@
         <el-table-column
           prop="productName"
           label="产品名称"
-          width="120"
         ></el-table-column>
-        <el-table-column prop="doOrganic" label="是否为有机产品" width="180">
+        <el-table-column
+          prop="doOrganic"
+          label="是否为有机产品"
+        >
           <template slot-scope="{ row }">
             {{ row.doOrganic ? "是" : "否" }}
           </template>
         </el-table-column>
-        <el-table-column prop="atunitprice" label="单价"></el-table-column>
+        <el-table-column
+          prop="atunitprice"
+          label="单价"
+        ></el-table-column>
         <el-table-column
           prop="productArea"
           label="产地"
-          width="200"
         ></el-table-column>
-        <el-table-column prop="variety" label="品种"></el-table-column>
-        <el-table-column prop="specification" label="规格"></el-table-column>
-        <el-table-column prop="grade" label="评级"></el-table-column>
-        <el-table-column prop="operations" label="" width="270">
-          <template slot-scope="{ row }">
-            <el-button v-on:click="showSamplingRecord(row)" type="success" plain
+        <el-table-column
+          prop="variety"
+          label="品种"
+        ></el-table-column>
+        <el-table-column
+          prop="specification"
+          label="规格"
+        ></el-table-column>
+        <el-table-column
+          prop="grade"
+          label="评级"
+        ></el-table-column>
+        <el-table-column
+          prop="operations"
+          label="操作"
+          width="270"
+        >
+          <template
+            slot-scope="{ row }"
+          >
+            <el-button 
+              v-on:click="showSamplingRecord(row)"
+              type="success"
+              plain
               >第三方抽检记录</el-button
             >
-            <el-button v-on:click="showProductBatch(row)" type="warning" plain
+            <el-button
+              v-on:click="showProductBatch(row)"
+              type="success"
+              plain
               >产品批次</el-button
             >
-            <el-button v-on:click="showProductVariety(row)" type="warning" plain
+            <el-button
+              v-on:click="showProductVariety(row)"
+              type="success"
+              plain
               >品种定义</el-button
             >
-            <el-button v-on:click="showProductGrade(row)" type="primary" plain
+            <el-button
+              v-on:click="showProductGrade(row)"
+              type="success"
+              plain
               >定义等级</el-button
             >
           </template>
         </el-table-column>
-        <el-table-column prop="operations" label="" width="270">
-          <template slot-scope="{ row }">
-            <el-button v-on:click="showInventoryDynamics(row)" type="info" plainv >库存动态</el-button>
-            <el-button v-on:click="showProcessDefinition(row)" type="primary" plainv>作业定义</el-button>
-            <el-button v-on:click="showProductProperty(row)" type="primary" plainv>属性管理</el-button>
+        <el-table-column
+          prop="operations"
+          label=""
+          width="230"
+        >
+          <template 
+            slot-scope="{ row }"
+          >
+            <el-button
+              v-on:click="showInventoryDynamics(row)"
+              type="success"
+              plain
+              >库存动态</el-button
+            >
+            <el-button
+              v-on:click="showProcessDefinition(row)"
+              type="success"
+              plain
+              >作业定义</el-button
+            >
+            <el-button
+              v-on:click="showProductProperty(row)"
+              type="success"
+              plain
+              >属性管理</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -151,7 +203,6 @@ export default {
         .then(response => {          
           this.tableData = response.data;          
           this.total = response.total;
-          
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);

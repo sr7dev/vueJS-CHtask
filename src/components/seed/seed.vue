@@ -19,7 +19,7 @@
         >
           <el-table-column :formatter="order" label="序号"></el-table-column>
           <el-table-column prop="companyId" label="企业名称">
-            <template slot-scope="{ row }">{{filterCompnay( row.companyId )}}</template>
+            <template slot-scope="{ row }">{{filterCompany( row.companyId )}}</template>
           </el-table-column>
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
@@ -112,7 +112,7 @@ export default {
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
     },
-    filterCompnay(id) {
+    filterCompany(id) {
       let company = this.companyProduction.find(x => x.companyId === id);
       if (company) {
         return company.companyName;
