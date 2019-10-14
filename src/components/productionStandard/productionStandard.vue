@@ -51,12 +51,23 @@
               <el-button
                 type="success"
                 plain
+                v-if="loggedinUserType === 2"
                 v-on:click="
                   $router.push({
                     path: `/productionStandard/detail/`+ row.id
                   })
                 "
               >查看</el-button>
+              <el-button
+                type="success"
+                plain
+                v-if="loggedinUserType !== 1"
+                v-on:click="
+                  $router.push({
+                    path: `/productionStandard/edit/`+ row.id
+                  })
+                "
+              >修改</el-button>
             </template>
           </el-table-column>
         </el-table>

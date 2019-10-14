@@ -7,7 +7,11 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button type="primary" plain v-on:click="$router.push(`/seed/upload`)">上传种子</el-button>
+        <el-button 
+          type="primary" 
+          plain v-on:click="$router.push(`/seed/upload`)"
+          v-if="loggedinUserType === 2"
+        >上传种子</el-button>
       </div>
       <el-container>
         <el-table
@@ -57,11 +61,13 @@
 <script>
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
+import Auth from "@/services/authentication/auth.js";
 export default {
   name: "seed",
   components: { Pagination },
   data() {
     return {
+      loggedinUserType: null,
       page: {
         pageIndex: 1,
         pageSize: 20
@@ -75,6 +81,7 @@ export default {
   created() {
     this.getData();
     this.getCompanyProduction();
+    this.loggedinUserType = Auth().user().attrs.userType;
   },
   methods: {
     getData() {

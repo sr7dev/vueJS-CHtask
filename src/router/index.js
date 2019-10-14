@@ -31,6 +31,7 @@ import changePassword from "@/components/userManagement/changePassword/changePas
 import productionStandard from "@/components/productionStandard/productionStandard";
 import addProductionStandard from "@/components/productionStandard/addProductionStandard/addProductionStandard";
 import detailProductionStandard from "@/components/productionStandard/detailProductionStandard/detailProductionStandard";
+import editProductionStandard from "@/components/productionStandard/editProductionStandard/editProductionStandard";
 import shareFiles from "@/components/shareFiles/shareFiles";
 import addShareFiles from "@/components/shareFiles/addShareFiles/addShareFiles";
 import editShareFiles from "@/components/shareFiles/editShareFiles/editShareFiles";
@@ -677,6 +678,11 @@ export default new Router({
           path: "/productionStandard/detail/:id",
           name: "detailProductionStandard", // 生产标准
           component: detailProductionStandard
+        },
+        {
+          path: "/productionStandard/edit/:id",
+          name: "editProductionStandard", // 生产标准
+          component: editProductionStandard
         },
         {
           path:"/productionGrade/:id",
