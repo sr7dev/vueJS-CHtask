@@ -58,6 +58,10 @@
             <img v-if="!imageSelectedUrl && ruleFormValue.taskImages" :src="imageUrl + ruleFormValue.taskImages" style="width: 7rem; height: 7rem;"/>
             <img v-if="imageSelectedUrl" :src="imageSelectedUrl" style="width: 7rem; height: 7rem;"/>
           </div>
+          <div class="item-value" >
+            <div v-if="file">({{ fileName }})</div>
+            <div v-else style="">请选择需要上传的文件...</div>
+          </div>
         </el-form-item>
         <el-form-item>
           <el-button type="success" @click="onSubmit('ruleForm')" plain
@@ -78,6 +82,7 @@ export default {
   data() {
     return {
       file: null,
+      fileName: "",
       listLoading: false,
       imageUrl: "",
       imageSelectedUrl: "",
@@ -131,6 +136,8 @@ export default {
           this.ruleFormValue.taskImages = response.taskImages;
           this.ruleFormValue.productId = response.productId;
           this.imageUrl = Urls.DOWNLOAD_URL();
+          this.file = response.taskImages;
+          this.fileName = response.taskImages;
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
@@ -150,6 +157,7 @@ export default {
       };
       if (this.file) {
         reader.readAsDataURL(this.file);
+        this.fileName = this.file.name;
       }
     },
     onSubmit(formName) {

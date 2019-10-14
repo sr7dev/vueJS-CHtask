@@ -167,7 +167,9 @@ export default {
         .catch(error => {error});
     },
     filterWarehouse(ID) {
+      console.log(this.warehouses, ID)
       let warehouse = this.warehouses.find(x => x.id === ID);
+      console.log(warehouse)
       if (warehouse) {
         return warehouse.warehouseName;
       } else {
@@ -177,13 +179,6 @@ export default {
     getGradeName(id) {
       const grade = ["低级", "中级", "高级", "特级"];
       return grade[id - 1];
-    },
-    getWarehouseName(id) {
-      for (let index = 0; index < this.warehouses.length; index++) {
-        const element = this.warehouses[index];
-        if (element.id == id) return element.warehouseName;
-      }
-      return "";
     },
     getList() {
       this.listLoading = true;
