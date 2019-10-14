@@ -11,6 +11,9 @@
       background-color="#253032"
       text-color="#ffffff"
     >
+      <el-menu-item index="/specialCategory">
+        <router-link slot="title" to="/specialCategory">专项</router-link>
+      </el-menu-item>
       <el-menu-item index="/productionStandard">
         <router-link slot="title" to="/productionStandard">生产标准</router-link>
       </el-menu-item>

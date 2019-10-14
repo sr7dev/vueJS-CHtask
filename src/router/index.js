@@ -35,6 +35,7 @@ import shareFiles from "@/components/shareFiles/shareFiles";
 import addShareFiles from "@/components/shareFiles/addShareFiles/addShareFiles";
 import editShareFiles from "@/components/shareFiles/editShareFiles/editShareFiles";
 import detailShareFiles from "@/components/shareFiles/detailShareFiles/detailShareFiles";
+import specialCategory from "@/components/specialCategory/specialCategory";
 
 // 企业
 import cp_productionSubject from "@/components/company/productionSubject/productionSubject"; //生产主体
@@ -680,6 +681,11 @@ export default new Router({
           path: "/shareFiles/detail/:id",
           name: "detailShareFiles", // 共享文件
           component: detailShareFiles
+        },
+        {
+          path: "/specialCategory",
+          name: "specialCategory",
+          component: specialCategory
         }
       ]
     },
