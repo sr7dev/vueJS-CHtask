@@ -30,7 +30,7 @@
     </el-menu>
     <div class="quit">
       <span style="padding-right: 20px">
-        <img src="../../assets/images/head.png" alt />admin
+        <img src="../../assets/images/head.png" alt />{{userName}}
       </span>
       <span @click="quit()">
         <img src="../../assets/images/quit.png" alt />
@@ -55,6 +55,7 @@ export default {
   },
   created() {
     this.loggedinUserType = Auth().user().attrs.userType;
+    this.userName = Auth().user().attrs.userId;
   },
   methods: {
     quit: function() {

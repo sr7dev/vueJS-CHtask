@@ -70,9 +70,10 @@
             <el-form-item prop="certificationStartTime">
               <el-date-picker
                 class="w-80"
-                type="date"
+                type="datetime"
                 v-model="ruleFormValue.certificationStartTime"
                 style="width: 100%;"
+                value-format="dd.MM.yyyy HH:mm:ss"
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -81,9 +82,10 @@
             <el-form-item prop="certificationEndTime">
               <el-date-picker
                 class="w-100"
-                type="date"
+                type="datetime"
                 v-model="ruleFormValue.certificationEndTime"
                 style="width: 100%;"
+                value-format="dd.MM.yyyy HH:mm:ss"
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -257,12 +259,6 @@ export default {
             "argriculturalClassification",
             this.ruleFormValue.argriculturalClassification
           );
-          this.ruleFormValue.certificationStartTime = new Date(
-            this.ruleFormValue.certificationStartTime
-          ).toDateString("YYYY-MM-DD");
-          this.ruleFormValue.certificationEndTime = new Date(
-            this.ruleFormValue.certificationEndTime
-          ).toDateString("YYYY-MM-DD");
           formData.append(
             "certificationStartTime",
             this.ruleFormValue.certificationStartTime
@@ -275,25 +271,25 @@ export default {
             "createDate",
             this.ruleFormValue.certificationStartTime
           );
-          formData.append(
-            "createTime",
-            this.ruleFormValue.certificationStartTime
-          );
+          // formData.append(
+          //   "createTime",
+          //   this.ruleFormValue.certificationStartTime
+          // );
           formData.append(
             "updateDate",
             this.ruleFormValue.certificationStartTime
           );
-          formData.append(
-            "updateTime",
-            this.ruleFormValue.certificationStartTime
-          );
+          // formData.append(
+          //   "updateTime",
+          //   this.ruleFormValue.certificationStartTime
+          // );
           formData.append("updater", "string");
-          formData.append("updateUserId", 0);
-          formData.append("createUserId", 0);
+          // formData.append("updateUserId", 0);
+          // formData.append("createUserId", 0);
           formData.append("creater", "string");
           formData.append("id", 0);
           if (this.file) {
-            formData.append("files", this.file);
+            formData.append("file", this.file);
           }
           Request()
             .post("/api/quality_standard/create", formData)
