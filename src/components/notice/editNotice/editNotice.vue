@@ -14,6 +14,7 @@
         :rules="rules" 
         label-width="100px"
         class="form-width" 
+        v-loading="dataloading"
     >
         <el-form-item prop="timingRelease" label="定时发布" class="input-width label-align">
             <el-input 
@@ -172,8 +173,8 @@ export default {
         images:[],
         fileName: '',
         file_live_1: null,
-        id: 0
-
+        id: 0,
+        dataloading: true
     };
   },
   beforeMount() {

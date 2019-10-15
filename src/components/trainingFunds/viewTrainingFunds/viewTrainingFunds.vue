@@ -8,7 +8,13 @@
     </div>
 
     <div class="box">
-      <el-form ref="formData" :model="formData" label-width="100px" class="form-width">
+      <el-form 
+        ref="formData" 
+        :model="formData" 
+        label-width="100px" 
+        class="form-width"
+        v-loading="dataLoading"
+      >
         <el-form-item prop="projectName" label="项目名称:" class="input-width label-align">
           <el-input v-model="formData.projectName" auto-complete="off" disabled></el-input>
         </el-form-item>
@@ -112,7 +118,7 @@ export default {
       loggedinUserType: null,
       fileName: "",
       file: null,
-      dataloading: false,
+      dataLoading: false,
       id: 0,
       appStatus: ["全部", "待审批", "已同意", "已拒绝"]
     };
@@ -137,7 +143,7 @@ export default {
         });
     },
     getData(id) {
-      this.dataloading = true;
+      this.dataLoading = true;
       Request()
         .get("/api/training_funds/get/" + id)
         .then(response => {
@@ -145,7 +151,7 @@ export default {
           this.file = response.trainingFundsProfiles;
           this.fileName = this.file.replace("/uploads/", "");
           setTimeout(() => {
-            this.dataloading = false;
+            this.dataLoading = false;
           }, 0.01 * 1000);
         })
         .catch(error => {

@@ -6,7 +6,7 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <div class="iptBox" v-if="loggedinUserType === 2">
+      <div class="iptBox" v-if="loggedinUserType === 2 || loggedinUserType === 0">
         <div class="iptBox">
           <div class="filter-item">
             <el-button type="primary" v-on:click="$router.push(`/trainingFunds/add`)" plain>添加</el-button>

@@ -112,7 +112,12 @@
         </div>
         <div class="allCompany" v-if="loggedinUserType !== 3">共计{{ total }}家企业</div>
       </div>
-      <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
+      <el-table 
+        :data="tableData" 
+        style="width: 100%" 
+        :row-class-name="rowIndex"
+        v-loading="listLoading"
+      >
         <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
         <el-table-column prop="companyName" label="企业名称" width="100"></el-table-column>
         <el-table-column prop="chargePerson" label="法人代表" width="150"></el-table-column>

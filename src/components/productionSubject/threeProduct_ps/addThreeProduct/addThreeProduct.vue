@@ -294,7 +294,7 @@ export default {
           Request()
             .post("/api/quality_standard/create", formData)
             .then(response => {
-              this.$router.push({ path: "/threeProductsCertification" });
+              this.goBack();
             })
             .catch(error => {});
         } else {

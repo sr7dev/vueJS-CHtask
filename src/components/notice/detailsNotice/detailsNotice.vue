@@ -12,6 +12,7 @@
         ref="formData" 
         :model="formData" 
         style="max-width:980px; margin:0 auto;"
+        v-loading="dataloading"
     >
         <el-form-item class="detail-text-align">
             {{ formData.title }}
@@ -62,7 +63,8 @@ export default {
         },
         fileName: '',
         file_live_1: null,
-        id: 0
+        id: 0,
+        dataloading: true
 
     };
   },

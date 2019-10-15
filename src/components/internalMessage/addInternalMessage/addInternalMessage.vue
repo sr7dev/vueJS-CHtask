@@ -14,6 +14,7 @@
         :rules="rules" 
         label-width="100px"
         class="form-width" 
+        v-loading="dataloading"
     >
         <el-form-item prop="receiveUserId" label="接收人" class="input-width label-align">
             <el-select 
@@ -77,7 +78,7 @@ export default {
                 trigger: "change"
             }],
         },
-        dataloading: false
+        dataloading: true
     };
   },
   mounted() {
@@ -117,6 +118,9 @@ export default {
             .get("/api/user/all")
             .then(response => {
                 this.users = this.users.concat(response.data)
+                setTimeout(() => {
+                    this.dataloading = false;
+                }, 0.01 * 1000);
             })
             .catch(error => {});
     }
