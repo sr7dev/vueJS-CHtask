@@ -70,15 +70,15 @@
           <div class="cate-item-panel">
             <div style="display: flex; justify-content: space-between;">
               <el-form-item label="培训记录"></el-form-item>
-              <el-button 
-                type="danger" 
+              <el-button
+                type="danger"
                 plain
-                v-if="loggedinUserType === 1"
+                v-if="loggedinUserType === 1 || loggedinUserType === 0"
               >删除</el-button>
-              <el-button 
-                type="danger" 
+              <el-button
+                type="primary"
                 plain
-                v-if="loggedinUserType === 2"
+                v-if="loggedinUserType === 2 || loggedinUserType === 0"
               >添加附件</el-button>
             </div>
             <el-container>
@@ -111,10 +111,7 @@ export default {
       tableData: [],
       trainTableData: [],
       detectTableData: [],
-      options: [
-        { value: "1", label: "2017" },
-        { value: "2", label: "2018" }
-      ],
+      options: [{ value: "1", label: "2017" }, { value: "2", label: "2018" }],
       listLoading: true,
       companyList: [],
       companyId: 0,
@@ -128,7 +125,7 @@ export default {
     this.getTown();
     this.loggedinUserType = Auth().user().attrs.userType;
   },
-  methods: {    
+  methods: {
     getList() {
       this.listLoading = true;
       Request()
@@ -191,15 +188,15 @@ export default {
 
 <style lang="scss">
 .year-select-panel {
-    width: 100%;
-    margin-top: 2rem;
+  width: 100%;
+  margin-top: 2rem;
 }
 .cate-content-panel {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 .cate-item-panel {
   width: 100%;
-  margin: .2rem;
+  margin: 0.2rem;
 }
 </style>

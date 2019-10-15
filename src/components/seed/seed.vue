@@ -7,10 +7,11 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button 
-          type="primary" 
-          plain v-on:click="$router.push(`/seed/upload`)"
-          v-if="loggedinUserType === 2"
+        <el-button
+          type="primary"
+          plain
+          v-on:click="$router.push(`/seed/upload`)"
+          v-if="loggedinUserType === 2 || loggedinUserType === 0"
         >上传种子</el-button>
       </div>
       <el-container>

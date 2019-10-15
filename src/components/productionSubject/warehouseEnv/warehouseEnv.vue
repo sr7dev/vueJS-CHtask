@@ -15,7 +15,7 @@
             @click="$router.push({
               path: `/productionSubject/warehouseEnv/addWarehouse/${id}`              
             })"
-            v-if="loggedinUserType === 3"
+            v-if="loggedinUserType === 3 || loggedinUserType === 0"
           >添加</el-button>
           <el-button type="primary" plain @click="$router.go(-1)">返回</el-button>
         </div>
@@ -26,51 +26,39 @@
         :row-class-name="rowIndex"
         v-loading="listLoading"
       >
-        <el-table-column
-          :formatter="order"
-          label="序号"
-          width="70"
-        ></el-table-column>
-        <el-table-column prop="warehouseName" label="仓库名称" >
-          <template slot-scope="{ row }">
-            {{row.warehouseName}}
-          </template>
+        <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
+        <el-table-column prop="warehouseName" label="仓库名称">
+          <template slot-scope="{ row }">{{row.warehouseName}}</template>
         </el-table-column>
-        <el-table-column prop="warehouseAddress" label="仓库地址" >
-          <template slot-scope="{ row }">
-            {{row.warehouseAddress}}
-          </template>
+        <el-table-column prop="warehouseAddress" label="仓库地址">
+          <template slot-scope="{ row }">{{row.warehouseAddress}}</template>
         </el-table-column>
-        <el-table-column prop="warehouseArea" label="仓库面积" >
-          <template slot-scope="{ row }">
-            {{row.warehouseArea}}
-          </template>
+        <el-table-column prop="warehouseArea" label="仓库面积">
+          <template slot-scope="{ row }">{{row.warehouseArea}}</template>
         </el-table-column>
         <el-table-column prop="warehouseScope" label="仓库规模">
-          <template slot-scope="{ row }">
-            {{row.warehouseScope}}
-          </template>
+          <template slot-scope="{ row }">{{row.warehouseScope}}</template>
         </el-table-column>
-        <el-table-column label="操作" >
+        <el-table-column label="操作">
           <template slot-scope="{ row }">
-            <el-button 
-              type="success" 
+            <el-button
+              type="success"
               v-on:click="showDetailWarehouse(row)"
-              v-if="loggedinUserType === 3"
-            >修改</el-button>          
-            <el-button 
-              type="danger" 
-              v-on:click="handleDelete(`${row.id}`)" 
+              v-if="loggedinUserType === 3 || loggedinUserType === 0"
+            >修改</el-button>
+            <el-button
+              type="danger"
+              v-on:click="handleDelete(`${row.id}`)"
               plain
-              v-if="loggedinUserType === 3"
+              v-if="loggedinUserType === 3 || loggedinUserType === 0"
             >删除</el-button>
-            <el-button 
-              type="primary" 
+            <el-button
+              type="primary"
               v-on:click="showViewWarehouse(row)"
               v-if="loggedinUserType !== 3"
-            >查看</el-button>  
+            >查看</el-button>
           </template>
-        </el-table-column>         
+        </el-table-column>
       </el-table>
       <div class="pageBox">
         <pagination
@@ -115,13 +103,13 @@ export default {
     showDetailWarehouse(row) {
       this.$router.push({
         path: `/productionSubject/warehouseEnv/detailsWarehouse/${this.id}`,
-        query: {id: row.id}
+        query: { id: row.id }
       });
     },
     showViewWarehouse(row) {
       this.$router.push({
         path: `/productionSubject/warehouseEnv/viewWarehouse/${this.id}`,
-        query: {id: row.id}
+        query: { id: row.id }
       });
     },
     getList(id) {
@@ -154,17 +142,18 @@ export default {
       this.$router.go(-1);
     },
     handleDelete(id) {
-       this.$confirm('确认删除该记录吗?', '提示', {type: 'warning'})
-      .then(() => {
-        Request()
-          .delete("/api/warehouse/delete/" + id)
-          .then(response => {
-            this.getList(this.id);
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      });
+      this.$confirm("确认删除该记录吗?", "提示", { type: "warning" }).then(
+        () => {
+          Request()
+            .delete("/api/warehouse/delete/" + id)
+            .then(response => {
+              this.getList(this.id);
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        }
+      );
     }
   }
 };

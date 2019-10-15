@@ -90,13 +90,22 @@ body {
   display: flex;
 }
 
+.el-icon-warning {
+  display: flex;
+  align-items: center;
+  &:before {
+    font-size: 24px;
+    color: #E6A23C;
+  }
+}
+
 .xyh_top {
   .el-menu--horizontal {
     width: 60%;
     li {
       height: 80px;
       font-size: 16px;
-      margin-right: 50px;
+      margin-right: calc(5% - 15px);
       line-height: 80px;
       &.is-active {
         color: #409eff !important;
