@@ -32,7 +32,12 @@
         </div>
       </div>
       <el-container>
-        <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
+        <el-table 
+          :data="tableData" 
+          style="width: 100%" 
+          :row-class-name="rowIndex"
+          v-loading="listLoading"
+        >
           <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
           <el-table-column prop="companyName" label="企业名称" width="120"></el-table-column>
           <el-table-column prop="companyScale" label="企业规模" width="120">

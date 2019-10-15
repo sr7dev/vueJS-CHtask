@@ -13,6 +13,7 @@
         :model="formData" 
         label-width="100px"
         class="form-width" 
+        v-loading="dataloading"
     >
         <el-form-item label="企业名称" prop="companyId" class="input-width label-align">
             <el-select v-model="formData.companyId" disabled>
@@ -32,7 +33,25 @@
             >
             </el-input>
         </el-form-item>
-        <el-form-item label="使用数量" prop="amount" class="input-width label-align">
+        <el-form-item 
+          label="使用数量" 
+          prop="amount" 
+          class="input-width label-align"
+          v-if="bLeft"
+        >
+          <el-input 
+              v-model="formData.amount" 
+              auto-complete="off"
+              disabled
+          >
+          </el-input>
+        </el-form-item>
+        <el-form-item 
+          label="采购数量" 
+          prop="amount" 
+          class="input-width label-align"
+          v-else
+        >
             <el-input 
                 v-model="formData.amount" 
                 auto-complete="off"

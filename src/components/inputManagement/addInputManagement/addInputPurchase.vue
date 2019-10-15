@@ -2,8 +2,8 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item>培训经费管理</el-breadcrumb-item>
-        <el-breadcrumb-item class="actived">添加经费</el-breadcrumb-item>
+        <el-breadcrumb-item>投入品管理</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">添加记录</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
 
@@ -14,31 +14,9 @@
         :rules="rules" 
         label-width="100px"
         class="form-width" 
-        v-loading="dataLoading"
+        v-loading="dataloading"
     >
-        <el-form-item prop="projectName" label="项目名称:" class="input-width label-align">
-            <el-input 
-                v-model="addForm.projectName" 
-                auto-complete="off"
-            >
-            </el-input>
-        </el-form-item>
-        <el-form-item label="申请金额:" prop="appliedAmount" class="input-width label-align">
-             <el-input 
-                v-model="addForm.appliedAmount" 
-                auto-complete="off"
-                type="number"
-            >
-            </el-input>
-        </el-form-item>
-        <el-form-item label="申请人：" prop="proposer" class="input-width label-align" style="margin-right:30px">
-            <el-input 
-                v-model="addForm.proposer" 
-                auto-complete="off"
-            >
-            </el-input>
-        </el-form-item>
-        <el-form-item label="所在单位：" prop="companyId" class="input-width label-align2">
+        <el-form-item label="企业名称" prop="companyId" class="input-width label-align">
             <el-select v-model="addForm.companyId">
                 <el-option
                     v-for="item in companyProduction"
@@ -47,6 +25,21 @@
                     :value="item.companyId"
                 ></el-option>
             </el-select>
+        </el-form-item>
+        <el-form-item label="样品名称" prop="sampleName" class="input-width label-align">
+             <el-input 
+                v-model="addForm.sampleName" 
+                auto-complete="off"
+            >
+            </el-input>
+        </el-form-item>
+        <el-form-item label="采购数量" prop="amount" class="input-width label-align">
+            <el-input 
+                v-model="addForm.amount" 
+                auto-complete="off"
+                type="number"
+            >
+            </el-input>
         </el-form-item>
         <el-form-item label="" prop="file_live_1">
             <input
@@ -81,24 +74,23 @@ export default {
   data() {
     return {
         addForm: {
-            projectName: "",
-            appliedAmount: "",
-            proposer: "",
             companyId: "",
+            amount: "",
+            sampleName: "",
         },
         companyProduction: [],
         rules: {
-            projectName: [
+            amount: [
             {
                 required: true,
                 message: "请插入",
                 trigger: "change"
             }],
-            appliedAmount: [
+            sampleName: [
             {
                 required: true,
                 message: "请插入",
-                trigger: "change",
+                trigger: "change"
             }],
             companyId: [
             {
@@ -106,16 +98,10 @@ export default {
                 message: "请选择",
                 trigger: "change"
             }],
-            proposer: [
-            {
-                required: true,
-                message: "请插入",
-                trigger: "change"
-            }],
         },
         fileName: '',
         file_live_1: null,
-        dataLoading: false
+        dataloading: false
     };
   },
   mounted() {
@@ -135,15 +121,15 @@ export default {
     onSubmit(formName) {
         this.$refs[formName].validate(valid => {
             if (valid) {
-                this.dataLoading = true;
+                this.dataloading = true;
                 var formData = new FormData();
                 formData = this.makeFormData();
                 Request()
-                    .post("/api/training_funds/create", formData)
+                    .post("/api/inputsPurchase/create", formData)
                     .then(response => {
-                        this.$router.push({ path: "/trainingFunds" });
+                        this.$router.go(-1);
                         setTimeout(() => {
-                            this.dataLoading = false;
+                            this.dataloading = false;
                         }, 0.01 * 1000);
                     })
                     .catch(error => {});
@@ -159,12 +145,11 @@ export default {
     },
     makeFormData() {
         var mainFormData = new FormData();
-        mainFormData.append("projectName", this.addForm.projectName);
-        mainFormData.append("appliedAmount", this.addForm.appliedAmount);
-        mainFormData.append("proposer", this.addForm.proposer);
         mainFormData.append("companyId", this.addForm.companyId);
-        mainFormData.append("id", 0);
+        mainFormData.append("amount", this.addForm.amount);
+        mainFormData.append("sampleName", this.addForm.sampleName);
         mainFormData.append("file", this.file_live_1);
+        mainFormData.append("id", 0);
         return mainFormData;
     },
   }
@@ -172,4 +157,5 @@ export default {
 </script>
 
 <style lang="scss">
+    @import "../inputManagement.scss";
 </style>

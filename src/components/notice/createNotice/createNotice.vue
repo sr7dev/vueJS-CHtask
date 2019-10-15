@@ -14,6 +14,7 @@
         :rules="rules" 
         label-width="100px"
         class="form-width" 
+        v-loading="listLoading"
     >
         <el-form-item prop="timingRelease" label="定时发布" class="input-width label-align">
             <el-input 
