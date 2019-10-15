@@ -144,10 +144,14 @@ export default {
     handleDelete(id) {
       this.$confirm("确认删除该记录吗?", "提示", { type: "warning" }).then(
         () => {
+          this.listLoading = true;
           Request()
             .delete("/api/warehouse/delete/" + id)
             .then(response => {
               this.getList(this.id);
+              setTimeout(() => {
+                this.listLoading = false;
+              }, 0.5 * 100);
             })
             .catch(error => {
               console.log(error);

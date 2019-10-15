@@ -112,14 +112,22 @@ export default {
   },
   methods: {
     handleDelete(id) {
-      Request()
-        .delete("/api/product_property/delete/" + id)
-        .then(response => {
-          this.getList(this.id);
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      this.$confirm("确认删除该记录吗?", "提示", { type: "warning" }).then(
+        () => {
+          this.listLoading = true;
+          Request()
+            .delete("/api/product_property/delete/" + id)
+            .then(response => {
+              this.getList(this.id);
+              setTimeout(() => {
+                this.listLoading = false;
+              }, 0.5 * 1000);
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        }
+      );
     },
     getList(id) {
       this.listLoading = true;

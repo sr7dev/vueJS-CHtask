@@ -104,12 +104,14 @@ export default {
             "propertySort": this.ruleFormValue.propertySort,
             "doShare": this.ruleFormValue.doShare
           }
+          this.listLoading = true;
           Request()
             .post("/api/product_property/create", formData)
             .then(response => {
-              this.$router.push({
-                path: `/productionSubject/mainProduct/productProperty/${this.ruleFormValue.productId}`
-              });
+              setTimeout(() => {
+                this.listLoading = false;
+              }, 0.5 * 1000);
+              this.goBack();
             })
             .catch(error => {});
         } else {

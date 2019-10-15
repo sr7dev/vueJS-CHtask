@@ -16,6 +16,7 @@
         :model="ruleFormValue"
         :rules="rules"
         label-width="100px"
+        v-loading="listLoading"
       >
         <el-row>
           <el-col :span="6">
@@ -61,6 +62,7 @@ export default {
   name: "editProductProperty",
   data() {
     return {
+      listLoading: false,
       ruleFormValue: {
         propertyName: "",
         propertyOptions: "",
@@ -100,9 +102,13 @@ export default {
   },
   methods: {
     getProductPropertyInfo() {
+      this.listLoading = true;
       Request()
         .get("/api/product_property/get/" + this.ruleFormValue.id)
         .then(response => {
+          setTimeout(() => {
+            this.listLoading = false;          
+          }, 0.5*100);
           this.ruleFormValue.propertyName = response.propertyName;
           this.ruleFormValue.propertyOptions = response.propertyOptions;
           this.ruleFormValue.propertySort = response.propertySort;
@@ -117,10 +123,13 @@ export default {
           formData.append("propertyName", this.ruleFormValue.propertyName);
           formData.append("propertyOptions", this.ruleFormValue.propertyOptions);
           formData.append("propertySort", this.propertySort);
-
+          this.listLoading = true;
           Request()
             .put("/api/product_property/update/" + this.ruleFormValue.id, formData)
             .then(response => {
+              setTimeout(() => {
+                this.listLoading = false;          
+              }, 0.5*100);
               this.$router.push({
                 path: `/productionSubject/mainProduct/productProperty/${this.ruleFormValue.productId}`
               });
