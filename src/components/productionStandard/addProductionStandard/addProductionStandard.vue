@@ -7,7 +7,13 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
+      <el-form
+        ref="ruleForm"
+        :model="ruleFormValue"
+        :rules="rules"
+        label-width="100px"
+        v-loading="pageLoading"
+      >
         <el-row>
           <el-col :span="5">
             <el-form-item label="产品名称：" prop="productId">
@@ -36,7 +42,7 @@
         </el-row>
         <el-row>
           <el-col :span="5">
-            <el-form-item label="发布日期：" prop="createTime">
+            <el-form-item label="发布日期：" prop="releaseTime">
               <el-date-picker
                 v-model="ruleFormValue.releaseTime"
                 align="right"
@@ -59,7 +65,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item label="">
+        <el-form-item label>
           <el-col :span="8">
             <div class="item" style="display:flex">
               <div class="item-label" style="margin-bottom:20px;">
@@ -85,7 +91,7 @@
             </div>
           </el-col>
         </el-form-item>
-        <el-form-item label="">
+        <el-form-item label>
           <el-button type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
           <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
@@ -105,6 +111,7 @@ export default {
       file: null,
       productionList: [],
       selloading: false,
+      pageLoading: false,
       options: [
         { id: 1, name: "畜牧业" },
         { id: 2, name: "水产业" },
@@ -174,11 +181,15 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.pageLoading = true;
           var formData = new FormData();
           formData = this.makeFormData();
           Request()
             .post("/api/production_standard/create", formData)
             .then(response => {
+              setTimeout(() => {
+                this.pageLoading = false;
+              }, 0.5 * 1000);
               this.$router.push({ path: "/productionStandard" });
             })
             .catch(error => {

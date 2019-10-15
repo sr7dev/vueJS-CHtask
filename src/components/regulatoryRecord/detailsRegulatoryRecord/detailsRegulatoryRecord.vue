@@ -254,6 +254,9 @@
           <el-button type="primary" plain v-on:click="$router.go(-1)">返回</el-button>
         </el-form-item>
       </el-form>
+      <template v-if="listLoading">
+        <div v-loading="listLoading">装货...</div>
+      </template>
     </div>
   </div>
 </template>

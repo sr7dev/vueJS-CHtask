@@ -59,7 +59,7 @@
                 "
               >查看</el-button>
               <el-button
-                type="success"
+                type="warning"
                 plain
                 v-if="loggedinUserType === 1 || loggedinUserType === 0"
                 v-on:click="

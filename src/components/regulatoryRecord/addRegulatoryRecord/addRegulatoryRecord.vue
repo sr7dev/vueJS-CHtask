@@ -16,7 +16,7 @@
           <el-button @click="dialogVisible = false" type="primary" plain>Cancel</el-button>
         </span>
       </el-dialog>
-      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules">
+      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" v-loading="listLoading">
         <el-row>
           <el-col :span="12">
             <el-form-item prop="companyType">
@@ -302,6 +302,7 @@ export default {
       fileName: "",
       signs: [],
       signName: "",
+      listLoading: false,
       ruleFormValue: {
         companyType: "1",
         townShip: "",
@@ -398,11 +399,15 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.listLoading = true;
           var formData = new FormData();
           formData = this.makeFormData();
           Request()
             .post("/api/supervision_record/create", formData)
             .then(response => {
+              setTimeout(() => {
+                this.listLoading = false;
+              }, 0.5 * 1000);
               this.$router.push({ path: "/regulatoryRecord" });
             })
             .catch(error => {});

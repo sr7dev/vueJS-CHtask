@@ -11,18 +11,18 @@
         <el-row>
           <el-col :span="5">
             <el-form-item label="文件夹名称" prop="productId">
-              <el-input v-model="productId"></el-input>
+              <el-input v-model="ruleFormValue.productId"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="创建者" prop="category">
-              <el-input v-model="category"></el-input>
+            <el-form-item label="创建者" prop="releasePerson">
+              <el-input v-model="ruleFormValue.releasePerson"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="5">
-            <el-form-item label="是否可见" prop="createTime">
+            <el-form-item label="是否可见" prop="category">
               <el-select v-model="ruleFormValue.category" class="w-100">
                 <el-option
                   v-for="item in options"

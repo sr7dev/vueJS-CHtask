@@ -17,13 +17,16 @@
             <div>搜索</div>
             <el-input v-model="productId" class="w-80 margin-left-10"></el-input>
           </el-col>
+          <el-col :span="2">
+            <el-button type="success" v-on:click="getList()" plain>搜索</el-button>
+          </el-col>
         </el-row>
       </div>
       <el-dialog :visible.sync="openDialog" width="60%">
         <el-row>
           <el-col :span="3" class="margin-bottom-30 margin-left-30">文件上传</el-col>
         </el-row>
-        <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
+        <el-form ref="ruleForm" :model="ruleFormValue" label-width="100px">
           <el-row>
             <el-col :span="7">
               <el-form-item label="上传单位" prop="productId">
@@ -120,7 +123,53 @@ export default {
       },
       listLoading: true,
       total: 0,
-      tableData: []
+      tableData: [],
+      file: null,
+      productId: null,
+      category: null,
+      productionList: [],
+      selloading: false,
+      options: [{ id: 0, name: "不可见" }, { id: 2, name: "可见" }],
+      ruleFormValue: {
+        productId: null,
+        category: null,
+        releaseTime: "",
+        releasePerson: "",
+        productionStandard: ""
+      },
+      rules: {
+        productId: [
+          {
+            required: true,
+            message: "请选择",
+            trigger: "change"
+          }
+        ],
+        category: [
+          {
+            required: true,
+            message: "请选择"
+          }
+        ],
+        releaseTime: [
+          {
+            required: true,
+            message: "请选择"
+          }
+        ],
+        releasePerson: [
+          {
+            required: true,
+            message: "请选择"
+          }
+        ],
+        productionStandard: [
+          {
+            required: true,
+            message: "请选择"
+          }
+        ]
+      }
     };
   },
   created() {
