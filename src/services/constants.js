@@ -4,17 +4,16 @@ let environment = "production";
 let Urls = {
   API_BASE_URL: () => {
     if (environment == "local") {
-      return "http://intelligent-agriculture-funny-dingo.cfapps.io"
+      return process.env.VUE_APP_API
     } else if (environment == "production") {
-      return "http://intelligent-agriculture-funny-dingo.cfapps.io"
+      return process.env.VUE_APP_API
     }
 
     return "NOTHING"
   },
   DOWNLOAD_URL: () => {
-    return "http://intelligent-agriculture-funny-dingo.cfapps.io/api"
+    return process.env.VUE_APP_DOWNLOAD
   }
-
 };
 
 let StorageKeys = {
