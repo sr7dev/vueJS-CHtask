@@ -144,7 +144,7 @@ export default {
     },
     handleDelete(id) {
       Request()
-        .delete("/api/product_check_record/delete/" + this.id)
+        .delete("/api/product_check_record/delete/" + id)
         .then(response => {
           this.getList();
         })
