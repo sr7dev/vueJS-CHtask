@@ -14,11 +14,22 @@
         <el-button
           type="primary"
           plain
-          @click="$router.push({path: `/inputManagement/add`})"
+          @click="$router.push({path: `/inputManagement/addPurchase`})"
           v-if="!mode"
         >添加</el-button>
+        <el-button
+          type="primary"
+          plain
+          @click="$router.push({path: `/inputManagement/addUse`})"
+          v-else
+        >添加</el-button>
       </div>
-      <el-table v-show="mode" :data="tableData" :row-class-name="rowIndex">
+      <el-table 
+        v-show="mode" 
+        :data="tableData" 
+        :row-class-name="rowIndex"
+        v-loading="listLoading"
+      >
         <el-table-column :formatter="order" label="序号" width="100px"></el-table-column>
         <el-table-column prop="companyId" label="企业名称">
           <template slot-scope="{ row }">{{ filterCompnay(row.companyId) }}</template>
@@ -27,11 +38,23 @@
         <el-table-column prop="amount" label="使用数量(公斤)"></el-table-column>
         <el-table-column prop="operations" label="操作" class-name="text-center">
           <template slot-scope="{ row }">
-            <el-button v-on:click="showDetailsSampleCheck(row)" type="success" plain>查看</el-button>
+            <el-button 
+              type="success" 
+              plain
+              v-on:click="$router.push({
+                path: `/inputManagement/view/${row.id}`,
+                query: { mode: mode }})"
+            >查看</el-button>
           </template>
         </el-table-column>
       </el-table>
-      <el-table v-show="!mode" :data="tableData" style="width: 100%" :row-class-name="rowIndex">
+      <el-table 
+        v-show="!mode" 
+        :data="tableData" 
+        style="width: 100%" 
+        :row-class-name="rowIndex"
+        v-loading="listLoading"
+      >
         <el-table-column :formatter="order" label="序号"></el-table-column>
         <el-table-column prop="companyId" label="企业名称">
           <template slot-scope="{ row }">{{ filterCompnay(row.companyId) }}</template>
@@ -79,7 +102,7 @@ export default {
       tableData: [],
       companyProduction: [],
       mode: true,
-      listLoading: false
+      listLoading: true
     };
   },
   created() {

@@ -14,6 +14,7 @@
         :rules="rules" 
         label-width="100px"
         class="form-width" 
+        v-loading="dataloading"
     >
         <el-form-item label="企业名称" prop="companyId" class="input-width label-align">
             <el-select v-model="addForm.companyId">
@@ -36,6 +37,7 @@
             <el-input 
                 v-model="addForm.amount" 
                 auto-complete="off"
+                type="number"
             >
             </el-input>
         </el-form-item>
@@ -123,9 +125,9 @@ export default {
                 var formData = new FormData();
                 formData = this.makeFormData();
                 Request()
-                    .post("/api/inputsPurchase/create", formData)
+                    .post("/api/inputsUse/create", formData)
                     .then(response => {
-                        this.$router.push({ path: "/inputManagement"});
+                        this.$router.go(-1);
                         setTimeout(() => {
                             this.dataloading = false;
                         }, 0.01 * 1000);

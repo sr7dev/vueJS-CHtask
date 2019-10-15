@@ -119,10 +119,14 @@ export default {
       this.$confirm("确认删除该记录吗?", "提示", {
         type: "warning"
       }).then(() => {
+        this.listLoading = true;
         Request()
           .delete("/api/job_definition/delete/" + id)
           .then(response => {
             this.getList();
+            setTimeout(() => {
+              this.listLoading = false;
+            }, 0.5 * 1000);
           })
           .catch(error => {
             console.log(error);

@@ -8,7 +8,10 @@
     </div>
 
     <div class="box">
-      <el-form ref="form" v-if="!listLoading">
+      <el-form 
+        ref="form" 
+        v-loading="listLoading"
+      >
         <el-row>
           <el-col :span="12">
             <el-form-item>
@@ -272,7 +275,7 @@ export default {
       data: null,
       conclusionData: null,
       supervisionInfo: null,
-      listLoading: false,
+      listLoading: true,
       downloadUrl: ""
     };
   },

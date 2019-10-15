@@ -275,7 +275,7 @@ export default {
       this.$refs.file.click();
     },
     chooseDownLoadFile() {
-      fetch(Urls.DOWNLOAD_URL() + '/app/uploads')
+      fetch(Urls.DOWNLOAD_URL() + '/uploads')
         .then(response => response.blob())
         .then(blob => {
           const url = window.URL.createObjectURL(blob);

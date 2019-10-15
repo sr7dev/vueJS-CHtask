@@ -130,7 +130,8 @@ import addTrainingFunds from "@/components/trainingFunds/addTrainingFunds/addTra
 import viewTrainingFunds from "@/components/trainingFunds/viewTrainingFunds/viewTrainingFunds";
 
 import inputManagement from "@/components/inputManagement/inputManagement";
-import addInputManagement from "@/components/inputManagement/addInputManagement/addInputManagement";
+import addInputPurchase from "@/components/inputManagement/addInputManagement/addInputPurchase";
+import addInputUse from "@/components/inputManagement/addInputManagement/addInputUse";
 import viewInputManagement from "@/components/inputManagement/viewInputManagement/viewInputManagement";
 
 import Auth from "@/services/authentication/auth";
@@ -580,9 +581,14 @@ export default new Router({
           component: inputManagement
         },
         {
-          path: "/inputManagement/add",
-          name: "addInputManagement", // 投入品管理
-          component: addInputManagement
+          path: "/inputManagement/addPurchase",
+          name: "addInputPurchase", // 投入品管理
+          component: addInputPurchase
+        },
+        {
+          path: "/inputManagement/addUse",
+          name: "addInputUse", // 投入品管理
+          component: addInputUse
         },
         {
           path: "/inputManagement/view/:id",
