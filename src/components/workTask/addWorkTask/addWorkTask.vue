@@ -8,7 +8,13 @@
     </div>
 
     <div class="box">
-      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
+      <el-form
+        ref="ruleForm"
+        :model="ruleFormValue"
+        :rules="rules"
+        label-width="100px"
+        v-loading="listLoading"
+      >
         <el-row>
           <el-col :span="9">
             <el-form-item label="发布日期" prop="releaseTime">
@@ -92,6 +98,7 @@ export default {
         title: "",
         content: ""
       },
+      listLoading: false,
       rules: {
         releaseTime: [
           {
@@ -129,11 +136,15 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.listLoading = true;
           var formData = new FormData();
           formData = this.makeFormData();
           Request()
             .post("/api/work_task/create", formData)
             .then(response => {
+              setTimeout(() => {
+                this.listLoading = false;
+              }, 0.5 * 1000);
               this.$router.push({ path: "/workTask" });
             })
             .catch(error => {

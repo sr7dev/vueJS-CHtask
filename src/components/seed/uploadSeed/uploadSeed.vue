@@ -7,7 +7,13 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
+      <el-form
+        ref="ruleForm"
+        :model="ruleFormValue"
+        :rules="rules"
+        label-width="100px"
+        v-loading="listLoading"
+      >
         <el-row>
           <el-col :span="6">
             <el-form-item label="输入市，区" prop="cityId">
@@ -73,6 +79,7 @@
                   v-on:change="handleFileUpload()"
                 />
                 <el-button type="warning" plain @click="chooseFile()">添加附件</el-button>
+                <!-- <el-button type="warning" plain @click="downloadFile()">例文档下载</el-button> -->
               </div>
               <div
                 class="item-value"
@@ -83,6 +90,21 @@
               >
                 <span v-if="file">({{ file.name }})</span>
                 <span v-else>请选择需要上传的文件...</span>
+                <!-- <span>种子.xlsx</span> -->
+              </div>
+            </div>
+            <div class="item" style="display:flex">
+              <div class="item-label" style="margin-bottom:20px;">
+                <el-button type="warning" plain @click="downloadFile()">例文档下载</el-button>
+              </div>
+              <div
+                class="item-value"
+                style="margin-left:10px;
+                      display: flex;
+                      align-items: center;
+                      padding-bottom: 20px;"
+              >
+                <span>种子.xlsx</span>
               </div>
             </div>
           </el-col>
@@ -99,6 +121,7 @@
 <script>
 import Request from "../../../services/api/request.js";
 import { Urls } from "../../../services/constants";
+import axios from "axios";
 export default {
   name: "uploadSeed",
   data() {
@@ -108,6 +131,7 @@ export default {
       villageList: [],
       townList: [],
       companyProduction: [],
+      listLoading: false,
       ruleFormValue: {
         cityId: null,
         townId: null,
@@ -136,9 +160,9 @@ export default {
         ],
         companyId: [
           {
-          required: true,
-          message: "请选择",
-          trigger: "change"
+            required: true,
+            message: "请选择",
+            trigger: "change"
           }
         ]
       }
@@ -198,11 +222,15 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.listLoading = true;
           var formData = new FormData();
           formData = this.makeFormData();
           Request()
             .post("/api/seed/create", formData)
             .then(response => {
+              setTimeout(() => {
+                this.listLoading = false;
+              }, 0.5 * 1000);
               this.$router.push({ path: "/seed" });
             })
             .catch(error => {
@@ -214,7 +242,7 @@ export default {
     makeFormData() {
       var mainFormData = new FormData();
       if (this.file) {
-        mainFormData.append("file", this.file);        
+        mainFormData.append("file", this.file);
       }
       mainFormData.append("id", 0);
       mainFormData.append("cityId", this.ruleFormValue.cityId);
@@ -228,6 +256,22 @@ export default {
     },
     handleFileUpload() {
       this.file = this.$refs.file.files[0];
+    },
+    downloadFile() {
+      const sampleFile = "/uploads/default.xlsx";
+      axios({
+        url: Urls.DOWNLOAD_URL() + sampleFile,
+        method: "GET",
+        responseType: "blob" // important
+      }).then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", sampleFile.replace("/uploads/", "")); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      });
     }
   }
 };

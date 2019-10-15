@@ -6,10 +6,10 @@
         <el-breadcrumb-item class="actived">汇报任务</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="box" v-if="!workData">
+    <div class="box" v-if="!workData" v-loading="pageLoading">
       <div>装货...</div>
     </div>
-    <div class="box" v-else>
+    <div class="box" v-loading="listLoading" v-else>
       <el-row class="w-100 text-center margin-bottom-30">
         <el-col>
           <h1 class="middle-font">{{workData.title}}</h1>
@@ -90,6 +90,8 @@ export default {
       selectedId: null,
       workData: null,
       township: [],
+      listLoading: false,
+      pageLoading: true,
       ruleFormValue: {
         townId: "",
         reportPerson: "",
@@ -157,11 +159,15 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.listLoading = true;
           var formData = new FormData();
           formData = this.makeFormData();
           Request()
             .post("/api/work_task_report/create", formData)
             .then(response => {
+              setTimeout(() => {
+                this.listLoading = false;
+              }, 0.5 * 1000);
               this.$router.push({ path: "/workTask" });
             })
             .catch(error => {

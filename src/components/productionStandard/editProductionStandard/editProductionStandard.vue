@@ -6,8 +6,15 @@
         <el-breadcrumb-item class="actived">修改生产标准</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="box">
-      <el-form ref="dataFormRef" :model="dataForm" :rules="rules" label-width="100px">
+    <div class="box" v-if="!dataForm" v-loading="listLoading">装货...</div>
+    <div class="box" v-else>
+      <el-form
+        ref="dataFormRef"
+        :model="dataForm"
+        :rules="rules"
+        label-width="100px"
+        v-loading="pageLoading"
+      >
         <el-row>
           <el-col :span="5">
             <el-form-item label="产品名称：" prop="productId">
@@ -43,7 +50,6 @@
                 class="w-100"
                 type="date"
                 placeholder="开始日期"
-               
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -99,6 +105,8 @@ export default {
     return {
       file: null,
       productionList: [],
+      listLoading: false,
+      pageLoading: false,
       options: [
         { id: "1", name: "畜牧业" },
         { id: "2", name: "水产业" },
@@ -156,10 +164,14 @@ export default {
         });
     },
     getData(id) {
+      this.listLoading = true;
       Request()
         .get("/api/production_standard/get/" + id)
         .then(response => {
           this.dataForm = response;
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
         })
         .catch(error => {
           console.log(error);
@@ -186,11 +198,18 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.pageLoading = true;
           var formData = new FormData();
           formData = this.makeFormData();
           Request()
-            .put("/api/production_standard/update/"+ this.dataForm.id, formData)
+            .put(
+              "/api/production_standard/update/" + this.dataForm.id,
+              formData
+            )
             .then(response => {
+              setTimeout(() => {
+                this.pageLoading = false;
+              }, 0.5 * 1000);
               this.$router.push({ path: "/productionStandard" });
             })
             .catch(error => {
@@ -215,7 +234,10 @@ export default {
       mainFormData.append("releaseTime", this.dataForm.releaseTime);
       mainFormData.append("releasePerson", this.dataForm.releasePerson);
       mainFormData.append("productStandard", this.dataForm.productStandard);
-      mainFormData.append("productionStandardProfiles", this.dataForm.productionStandardProfiles);
+      mainFormData.append(
+        "productionStandardProfiles",
+        this.dataForm.productionStandardProfiles
+      );
       return mainFormData;
     },
     chooseFile() {

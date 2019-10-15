@@ -91,7 +91,7 @@
               }}
             </template>
           </el-table-column>
-          <el-table-column prop="unitinspec" label="受检单位">
+          <el-table-column prop="unitinspec" label="受检单位" class-name="padding-left-20">
             <template slot-scope="{ row }">
               {{
               filterCompanyName(row.companyId)
@@ -126,7 +126,7 @@
                 "
               >查看</el-button>
               <el-button
-                type="danger"
+                type="warning"
                 v-on:click="$router.push(`/regulatoryRecord/edit/${row.id}`)"
                 plain
               >整改记录</el-button>
@@ -238,7 +238,7 @@ export default {
       }
     },
     filterCompanyName(companyId) {
-      let company = this.township.find(x => x.id === companyId);
+      let company = this.companyList.find(x => x.companyId === companyId);
       if (company) {
         return company.companyName;
       } else {

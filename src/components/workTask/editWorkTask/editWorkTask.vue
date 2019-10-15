@@ -16,8 +16,13 @@
       </span>
     </el-dialog>
     <div class="box">
-      <div v-if="!data">装货...</div>
-      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px" v-else>
+      <el-form
+        ref="ruleForm"
+        :model="ruleFormValue"
+        :rules="rules"
+        label-width="100px"
+        v-loading="listLoading"
+      >
         <el-row>
           <el-col :span="9">
             <el-form-item label="发布日期" prop="releaseTime">
@@ -100,6 +105,7 @@ export default {
       selectedId: null,
       data: null,
       dialogVisible: false,
+      listLoading: false,
       ruleFormValue: {
         releaseTime: "",
         releasePerson: "",
@@ -144,6 +150,7 @@ export default {
   },
   methods: {
     getData(id) {
+      this.listLoading = true;
       Request()
         .get("/api/work_task/get/" + id)
         .then(response => {
@@ -154,6 +161,9 @@ export default {
           this.ruleFormValue.content = this.data.content;
           this.file = response.workTaskProfiles;
           this.fileName = response.workTaskProfiles;
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
         })
         .catch(error => {
           console.log(error);
@@ -162,11 +172,15 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.listLoading = true;
           var formData = new FormData();
           formData = this.makeFormData();
           Request()
             .put("/api/work_task/update/" + this.selectedId, formData)
             .then(response => {
+              setTimeout(() => {
+                this.listLoading = false;
+              }, 0.5 * 1000);
               this.$router.push({ path: "/workTask" });
             })
             .catch(error => {
@@ -200,11 +214,13 @@ export default {
       this.fileName = this.file.name;
     },
     handleDelete() {
+      this.dialogVisible = false;
+      this.listLoading = true;
       Request()
         .delete("/api/work_task/delete/" + this.selectedId)
         .then(response => {
           setTimeout(() => {
-            this.dialogVisible = false;
+            this.listLoading = false;
           }, 0.5 * 1000);
           this.$router.push({ path: "/workTask" });
         })
