@@ -6,20 +6,20 @@
         <el-breadcrumb-item class="actived">添加用户</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="box" v-if="!this.ruleFormValue.contactName">装货...</div>
-    <div class="box" v-if="this.ruleFormValue.contactName">
+    <div class="box" v-if="!this.ruleFormValue.contactName" v-loading="listLoading">装货...</div>
+    <div class="box" v-if="this.ruleFormValue.contactName" v-loading="pageLoading">
       <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="150px">
         <el-row>
           <el-col :span="6">
             <el-form-item label="登录名：" prop="userId">
-              <el-input v-model="ruleFormValue.userId"></el-input>
+              <el-input v-model="ruleFormValue.userId" placeholder="例: admin"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
             <el-form-item label="名称：" prop="contactName">
-              <el-input v-model="ruleFormValue.contactName"></el-input>
+              <el-input v-model="ruleFormValue.contactName" placeholder="例: 管理员"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -29,7 +29,7 @@
               <el-select
                 class="w-100"
                 v-model="ruleFormValue.userType"
-                v-if="loggedinUserType === 2 || loggedinUserType === 0"
+                v-if="loggedinUserType === 2"
                 disabled
               >
                 <el-option
@@ -95,6 +95,8 @@ export default {
   name: "editUser",
   data() {
     return {
+      listLoading: true,
+      pageLoading: false,
       ruleFormValue: {
         creditCode: "",
         contactName: "",
@@ -174,7 +176,6 @@ export default {
       Request()
         .get("/api/user/get/" + this.selectedId)
         .then(response => {
-          console.log(response);
           this.ruleFormValue.contactName = response.contactName;
           this.ruleFormValue.contactPerson = response.contactPerson;
           this.ruleFormValue.contactWay = response.contactWay;
@@ -192,6 +193,7 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.pageLoading = true;
           Request()
             .put("/api/user/update/" + this.selectedId, {
               contactName: this.ruleFormValue.contactName,
@@ -205,6 +207,9 @@ export default {
               userType: this.ruleFormValue.userType
             })
             .then(response => {
+              setTimeout(() => {
+                this.pageLoading = false;
+              }, 0.5 * 1000);
               this.$router.push({ path: "/userManagement" });
             })
             .catch(error => {});

@@ -69,9 +69,9 @@
         <el-form-item>
           <el-col :span="18">
             <div class="item" style="display:flex">
-              <div class="item-label" style="margin-bottom:20px; margin-right:2rem;">
+              <!-- <div class="item-label" style="margin-bottom:20px; margin-right:2rem;">
                 <el-button type="warning" plain @click="chooseDownLoadFile()">例文档下载</el-button>
-              </div>
+              </div>-->
               <div class="item-label" style="margin-bottom:20px;">
                 <input
                   type="file"
@@ -273,20 +273,6 @@ export default {
     },
     chooseFile() {
       this.$refs.file.click();
-    },
-    chooseDownLoadFile() {
-      fetch(Urls.DOWNLOAD_URL() + '/uploads')
-        .then(response => response.blob())
-        .then(blob => {
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.style.display = 'none';
-          a.href = url;
-          a.download = '种子.xlsx';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(url);
-        }).catch((error) => console.log(error));
     },
     handleFileUpload() {
       this.file = this.$refs.file.files[0];

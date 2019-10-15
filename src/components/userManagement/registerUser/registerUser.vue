@@ -7,18 +7,24 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="150px">
+      <el-form
+        ref="ruleForm"
+        :model="ruleFormValue"
+        :rules="rules"
+        label-width="150px"
+        v-loading="listLoading"
+      >
         <el-row>
           <el-col :span="6">
             <el-form-item label="登录名：" prop="userId">
-              <el-input v-model="ruleFormValue.userId"></el-input>
+              <el-input v-model="ruleFormValue.userId" placeholder="例: admin"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
             <el-form-item label="名称：" prop="contactName">
-              <el-input v-model="ruleFormValue.contactName"></el-input>
+              <el-input v-model="ruleFormValue.contactName" placeholder="例: 管理员"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -116,6 +122,7 @@ export default {
     };
     return {
       capsTooltip: false,
+      listLoading: false,
       ruleFormValue: {
         creditCode: "",
         contactName: "",
@@ -192,6 +199,7 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.listLoading = true;
           Request()
             .post("/api/user/create", {
               contactName: this.ruleFormValue.contactName,
@@ -205,6 +213,9 @@ export default {
               userType: this.ruleFormValue.userType
             })
             .then(response => {
+              setTimeout(() => {
+                this.listLoading = false;
+              }, 0.5 * 1000);
               this.$router.push({ path: "/userManagement" });
             })
             .catch(error => {});
