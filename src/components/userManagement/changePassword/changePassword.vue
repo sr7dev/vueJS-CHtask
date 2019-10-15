@@ -6,8 +6,8 @@
         <el-breadcrumb-item class="actived">修改密码</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="box" v-if="!this.ruleFormValue.contactName">装货...</div>
-    <div class="box" v-if="this.ruleFormValue.contactName">
+    <div class="box" v-if="!this.ruleFormValue.contactName" v-loading="listLoading">装货...</div>
+    <div class="box" v-if="this.ruleFormValue.contactName" v-loading="pageLoading">
       <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="150px">
         <el-row>
           <el-col :span="6">
@@ -61,6 +61,8 @@ export default {
       }
     };
     return {
+      listLoading: true,
+      pageLoading: false,
       ruleFormValue: {
         contactName: "",
         password: "",
@@ -102,7 +104,6 @@ export default {
       Request()
         .get("/api/user/get/" + this.selectedId)
         .then(response => {
-          console.log(response);
           this.ruleFormValue.contactName = response.contactName;
           this.ruleFormValue.userId = response.userId;
           this.oldPassword = response.password;
@@ -114,6 +115,7 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.pageLoading = true;
           Request()
             .post(
               "/api/user/changePassword?" +
@@ -127,6 +129,9 @@ export default {
                 this.ruleFormValue.userId
             )
             .then(response => {
+              setTimeout(() => {
+                this.pageLoading = false;
+              }, 0.5 * 1000);
               this.$router.push({ path: "/userManagement" });
             })
             .catch(error => {});
