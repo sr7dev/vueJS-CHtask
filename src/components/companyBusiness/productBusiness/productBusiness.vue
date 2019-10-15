@@ -11,7 +11,7 @@
         <div class="filter-item">
           <el-button
             type="primary"
-            v-if="loggedinUserType === 3"
+            v-if="loggedinUserType === 3 || loggedinUserType === 0"
             @click="$router.push(`/companyBusiness/productBusiness/create/${id}`)"
             plain
           >添加</el-button>
@@ -93,8 +93,8 @@ export default {
           sortBy: this.sortBy
         })
 
-        .then(response => {          
-          this.tableData = response.data;          
+        .then(response => {
+          this.tableData = response.data;
           this.total = response.total;
           setTimeout(() => {
             this.listLoading = false;
@@ -111,21 +111,20 @@ export default {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
     },
 
-    handleDelete(id){
-      this.$confirm('确认删除该记录吗?', '提示', {
-                type: 'warning'
-      })
-      .then(() => {
+    handleDelete(id) {
+      this.$confirm("确认删除该记录吗?", "提示", {
+        type: "warning"
+      }).then(() => {
         Request()
-        .delete("/api/product_business/" + id)
-        .then(response => {
-          this.getList();
-        })
-        .catch(error => {
-          console.log(error);
-        });
-      })
-    },
+          .delete("/api/product_business/" + id)
+          .then(response => {
+            this.getList();
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      });
+    }
   }
 };
 </script>

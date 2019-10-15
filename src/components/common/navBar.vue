@@ -28,10 +28,16 @@
         <el-menu-item index="/disabilityCheck">
           <router-link slot="title" to="/disabilityCheck">农残检测</router-link>
         </el-menu-item>
-        <el-menu-item index="/jobDefinition" v-if="loggedinUserType === 3">
+        <el-menu-item
+          index="/jobDefinition"
+          v-if="loggedinUserType === 3 || loggedinUserType === 0"
+        >
           <router-link slot="title" to="/jobDefinition">作业定义</router-link>
         </el-menu-item>
-        <el-menu-item index="/productionRecord" v-if="loggedinUserType === 3">
+        <el-menu-item
+          index="/productionRecord"
+          v-if="loggedinUserType === 3 || loggedinUserType === 0"
+        >
           <router-link slot="title" to="/productionRecord">生产记录</router-link>
         </el-menu-item>
         <el-menu-item index="/regulatoryRecord" v-if="loggedinUserType !== 3">
@@ -43,9 +49,9 @@
         <el-menu-item index="/notice" v-if="loggedinUserType!== 3">
           <router-link slot="title" to="/notice">通知管理</router-link>
         </el-menu-item>
-        <el-menu-item index="/aquatic">
+        <el-menu-item index="/aquatic" v-if="loggedinUserType!== 3">
           <router-link slot="title" to="/aquatic">水产站</router-link>
-        </el-menu-item>        
+        </el-menu-item>
         <el-menu-item index="/trainingFunds" v-if="loggedinUserType!==3">
           <router-link slot="title" to="/trainingFunds">培训经费管理</router-link>
         </el-menu-item>
@@ -61,7 +67,10 @@
         <el-menu-item index="/sampleCheck">
           <router-link slot="title" to="/sampleCheck">例行抽样管理</router-link>
         </el-menu-item>
-        <el-menu-item index="/inputManagement" v-if="loggedinUserType === 3">
+        <el-menu-item
+          index="/inputManagement"
+          v-if="loggedinUserType === 3 || loggedinUserType === 0"
+        >
           <router-link slot="title" to="/inputManagement">投入品管理</router-link>
         </el-menu-item>
         <el-menu-item index="/">
@@ -72,6 +81,12 @@
         </el-menu-item>
         <el-menu-item index="/redBlackList">
           <router-link slot="title" to="/redBlackList">红黑名单</router-link>
+        </el-menu-item>
+        <el-menu-item
+          index="/productionStandard"
+          v-if="loggedinUserType === 3 || loggedinUserType === 0"
+        >
+          <router-link slot="title" to="/productionStandard">生产标准</router-link>
         </el-menu-item>
       </el-menu>
     </el-col>

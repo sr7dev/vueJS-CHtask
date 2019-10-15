@@ -18,7 +18,7 @@
       <el-menu-item index="/statisticsFarmers">
         <router-link slot="title" to="/statisticsFarmers">统计（农残）</router-link>
       </el-menu-item>
-      <el-menu-item index="/productionStandard" v-if="loggedinUserType !== 3">
+      <el-menu-item index="/productionStandard">
         <router-link slot="title" to="/productionStandard">生产标准</router-link>
       </el-menu-item>
       <el-menu-item index="/shareFiles">
@@ -67,7 +67,7 @@ export default {
         })
         .then(async () => {
           Auth().logout();
-            Toast.success("再 见");
+          Toast.success("再 见");
           /**
            * THIS IS SO BAD!
            * @TODO

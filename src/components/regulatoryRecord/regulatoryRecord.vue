@@ -10,7 +10,7 @@
         <el-button
           type="primary"
           plain
-          v-if="!companyId && loggedinUserType === 2"
+          v-if="!companyId && (loggedinUserType === 2 || loggedinUserType === 0)"
           v-on:click="$router.push(`/regulatoryRecord/create`)"
         >添加监管记录</el-button>
         <div v-else-if="companyId" class="fixed-value">
@@ -25,7 +25,6 @@
         >常用语管理</el-button>
         <el-button type="primary" plain v-if="!companyId">扫码下载客户端</el-button>
         <el-button type="primary" plain v-if="!companyId">说明书下载</el-button>
-        <el-button type="primary" plain v-on:click="$router.go(-1)">返回</el-button>
         <div class="special-container" style="margin-left:auto">
           <el-button
             type="success"
@@ -33,7 +32,7 @@
             v-if="isShowCheckbox != 0"
             plain
             @click="actionConfirm(1)"
-          >添加到专项1</el-button>
+          >添加到专项</el-button>
           <el-button
             type="danger"
             icon="el-icon-minus"
@@ -109,7 +108,7 @@
           </el-table-column>
           <el-table-column prop="otherProblems" label="其他" width="80"></el-table-column>
           <el-table-column prop="scenePhotos" label="照片" width="70" class-name="text-center">
-            <template slot-scope="{ row }">{{ getCountElement(row.scenePhotos) }}</template>
+            <template slot-scope="{ row }">{{ getCountElement(row.scenePhotos, row.sign) }}</template>
           </el-table-column>
           <el-table-column prop="sign" label="确认" width="70" class-name="text-center">
             <template slot-scope="{ row }">{{ checkSign(row.sign) }}</template>
@@ -256,9 +255,9 @@ export default {
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
     },
-    getCountElement(val) {
-      if (!val) return 0;
-      else return val.split(",").length;
+    getCountElement(val1, val2) {
+      if (!val1 && !val2) return 0;
+      else return val1.split(",").length + val2.split(",").length;
     },
     checkSign(val) {
       if (!val) return "";

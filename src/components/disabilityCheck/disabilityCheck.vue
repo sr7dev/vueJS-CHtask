@@ -407,7 +407,6 @@ export default {
     },
     updateSelectedRows() {
       for (let index in this.selectedRows) {
-        console.log(this.selectedRows[index]);
         this.confirm_dialogVisible = false;
         this.listLoading = true;
         Request()

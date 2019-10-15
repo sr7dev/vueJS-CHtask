@@ -11,113 +11,56 @@
         <div class="filter-item">
           <el-button
             type="primary"
-            v-if="loggedinUserType === 3"
+            v-if="loggedinUserType === 3 || loggedinUserType === 0"
             @click="$router.push(`/companyBusiness/productBusiness/create/${id}`)"
             plain
           >添加</el-button>
-          <el-button type="primary" plain @click="$router.go(-1)"
-            >返回</el-button
-          >
+          <el-button type="primary" plain @click="$router.go(-1)">返回</el-button>
         </div>
       </div>
-      <el-table
-        :data="tableData"
-        style="width: 100%"
-        :row-class-name="rowIndex"
-      >
-        <el-table-column
-          :formatter="order"
-          label="序号"
-          width="70"
-        ></el-table-column>
-        <el-table-column
-          prop="productName"
-          label="产品名称"
-        ></el-table-column>
-        <el-table-column
-          prop="doOrganic"
-          label="是否为有机产品"
-        >
-          <template slot-scope="{ row }">
-            {{ row.doOrganic ? "是" : "否" }}
-          </template>
+      <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
+        <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
+        <el-table-column prop="productName" label="产品名称"></el-table-column>
+        <el-table-column prop="doOrganic" label="是否为有机产品">
+          <template slot-scope="{ row }">{{ row.doOrganic ? "是" : "否" }}</template>
         </el-table-column>
-        <el-table-column
-          prop="atunitprice"
-          label="单价"
-        ></el-table-column>
-        <el-table-column
-          prop="productArea"
-          label="产地"
-        ></el-table-column>
-        <el-table-column
-          prop="variety"
-          label="品种"
-        ></el-table-column>
-        <el-table-column
-          prop="specification"
-          label="规格"
-        ></el-table-column>
-        <el-table-column
-          prop="grade"
-          label="评级"
-        ></el-table-column>
-        <el-table-column
-          prop="operations"
-          label="操作"
-          width="270"
-        >
-          <template
-            slot-scope="{ row }"
-          >
-            <el-button 
-              v-on:click="showSamplingRecord(row)"
-              type="success"
-              plain
-            >第三方抽检记录</el-button>
-            <el-button
-              v-on:click="showProductBatch(row)"
-              type="success"
-              plain
-            >产品批次</el-button>
+        <el-table-column prop="atunitprice" label="单价"></el-table-column>
+        <el-table-column prop="productArea" label="产地"></el-table-column>
+        <el-table-column prop="variety" label="品种"></el-table-column>
+        <el-table-column prop="specification" label="规格"></el-table-column>
+        <el-table-column prop="grade" label="评级"></el-table-column>
+        <el-table-column prop="operations" label="操作" width="270">
+          <template slot-scope="{ row }">
+            <el-button v-on:click="showSamplingRecord(row)" type="success" plain>第三方抽检记录</el-button>
+            <el-button v-on:click="showProductBatch(row)" type="success" plain>产品批次</el-button>
             <el-button
               v-on:click="showProductVariety(row)"
               type="success"
               plain
-              v-if="loggedinUserType === 3"
+              v-if="loggedinUserType === 3 || loggedinUserType === 0"
             >品种定义</el-button>
             <el-button
               v-on:click="showProductGrade(row)"
               type="success"
               plain
-              v-if="loggedinUserType === 3"
+              v-if="loggedinUserType === 3 || loggedinUserType === 0"
             >定义等级</el-button>
           </template>
         </el-table-column>
-        <el-table-column
-          prop="operations"
-          label=""
-          width="230"
-        >
-          <template 
-            slot-scope="{ row }"
-          >
-            <el-button
-              v-on:click="showInventoryDynamics(row)"
-              type="success"
-              plain
-            >库存动态</el-button>
+        <el-table-column prop="operations" label width="230">
+          <template slot-scope="{ row }">
+            <el-button v-on:click="showInventoryDynamics(row)" type="success" plain>库存动态</el-button>
             <el-button
               v-on:click="showProcessDefinition(row)"
               type="success"
               plain
-              v-if="loggedinUserType === 3"
+              v-if="loggedinUserType === 3 || loggedinUserType === 0"
             >作业定义</el-button>
             <el-button
               v-on:click="showProductProperty(row)"
               type="success"
               plain
-              v-if="loggedinUserType === 3"
+              v-if="loggedinUserType === 3 || loggedinUserType === 0"
             >属性管理</el-button>
           </template>
         </el-table-column>
@@ -162,7 +105,7 @@ export default {
     this.loggedinUserType = Auth().user().attrs.userType;
   },
   methods: {
-    showSamplingRecord(row) {           
+    showSamplingRecord(row) {
       this.$router.push(
         `/productionSubject/mainProduct/thirdPartySamplingRecord/${row.productId}`
       );
@@ -187,14 +130,14 @@ export default {
     showProductProperty(row) {
       this.$router.push({
         path: `/productionSubject/mainProduct/productProperty/${this.$route.params.id}`
-      });      
+      });
     },
-    showProductVariety(row){
+    showProductVariety(row) {
       this.$router.push({
         path: `/productVariety/${row.productId}`
       });
     },
-    showProductGrade(row){
+    showProductGrade(row) {
       this.$router.push({
         path: `/productionGrade/${row.productId}`
       });
@@ -207,8 +150,8 @@ export default {
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize
         })
-        .then(response => {          
-          this.tableData = response.data;          
+        .then(response => {
+          this.tableData = response.data;
           this.total = response.total;
           setTimeout(() => {
             this.listLoading = false;

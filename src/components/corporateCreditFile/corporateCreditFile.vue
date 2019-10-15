@@ -47,13 +47,21 @@
           highlight-current-row
         >
           <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
-          <el-table-column label="企业名称" width="150" v-if="loggedinUserType ===2">
+          <el-table-column
+            label="企业名称"
+            width="150"
+            v-if="loggedinUserType ===2 || loggedinUserType === 0"
+          >
             <template slot-scope="{row}">{{filterCompnay(row.creditCode)}}</template>
           </el-table-column>
           <el-table-column label="名称" width="150" v-if="loggedinUserType !==2">
             <template slot-scope="{row}">{{filterCompnay(row.creditCode)}}</template>
           </el-table-column>
-          <el-table-column prop="creditCode" label="统一社会信用代码" v-if="loggedinUserType ===2"></el-table-column>
+          <el-table-column
+            prop="creditCode"
+            label="统一社会信用代码"
+            v-if="loggedinUserType ===2 || loggedinUserType === 0"
+          ></el-table-column>
           <el-table-column prop="creditCode" label="信用代码" v-if="loggedinUserType !==2"></el-table-column>
           <el-table-column prop="public_license" label="行政许可信息">
             <template slot-scope="{row}">

@@ -55,7 +55,11 @@
               >修改密码</el-button>
             </template>
           </el-table-column>
-          <el-table-column label="操作" class-name="text-center" v-if="loggedinUserType === 1">
+          <el-table-column
+            label="操作"
+            class-name="text-center"
+            v-if="loggedinUserType === 1 || loggedinUserType === 0"
+          >
             <template slot-scope="{ row }">
               <el-button
                 type="primary"
