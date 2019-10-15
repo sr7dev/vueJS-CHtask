@@ -7,7 +7,7 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
+      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px" v-loading="listLoading">
         <el-row>
           <el-col :span="6">
             <el-form-item label="输入市，区" prop="cityId">
@@ -63,6 +63,9 @@
         <el-form-item>
           <el-col :span="18">
             <div class="item" style="display:flex">
+              <div class="item-label" style="margin-bottom:20px; margin-right:2rem;">
+                <el-button type="warning" plain @click="chooseDownLoadFile()">例文档下载</el-button>
+              </div>
               <div class="item-label" style="margin-bottom:20px;">
                 <input
                   type="file"
@@ -73,7 +76,7 @@
                   v-on:change="handleFileUpload()"
                 />
                 <el-button type="warning" plain @click="chooseFile()">添加附件</el-button>
-              </div>
+              </div>              
               <div
                 class="item-value"
                 style="margin-left:10px;
@@ -108,6 +111,7 @@ export default {
       villageList: [],
       townList: [],
       companyProduction: [],
+      listLoading: false,
       ruleFormValue: {
         cityId: null,
         townId: null,
@@ -151,9 +155,13 @@ export default {
   },
   methods: {
     getCity() {
+      this.listLoading = true;
       Request()
         .get("/api/city/all")
         .then(response => {
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 100);
           this.cityList = response;
         })
         .catch(error => {
@@ -161,9 +169,13 @@ export default {
         });
     },
     getVillage() {
+      this.listLoading = true;
       Request()
         .get("/api/village/all")
         .then(response => {
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 100);
           this.villageList = response;
         })
         .catch(error => {
@@ -171,9 +183,13 @@ export default {
         });
     },
     getTown() {
+      this.listLoading = true;
       Request()
         .get("/api/town/all")
         .then(response => {
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 100);
           this.townList = response;
         })
         .catch(error => {
@@ -181,11 +197,15 @@ export default {
         });
     },
     getCompany() {
+      this.listLoading = true;
       Request()
         .get("/api/company_production/all", {
           townId: this.ruleFormValue.townId
         })
         .then(response => {
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 100);
           this.companyProduction = response.data;
         })
         .catch(error => {
@@ -200,9 +220,13 @@ export default {
         if (valid) {
           var formData = new FormData();
           formData = this.makeFormData();
+          this.listLoading = true;
           Request()
             .post("/api/seed/create", formData)
             .then(response => {
+              setTimeout(() => {
+                this.listLoading = false;
+              }, 0.5 * 1000);
               this.$router.push({ path: "/seed" });
             })
             .catch(error => {
@@ -225,6 +249,20 @@ export default {
     },
     chooseFile() {
       this.$refs.file.click();
+    },
+    chooseDownLoadFile() {
+      fetch(Urls.DOWNLOAD_URL() + '/app/uploads')
+        .then(response => response.blob())
+        .then(blob => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.style.display = 'none';
+          a.href = url;
+          a.download = '种子.xlsx';
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+        }).catch((error) => console.log(error));
     },
     handleFileUpload() {
       this.file = this.$refs.file.files[0];

@@ -171,9 +171,13 @@ export default {
           if (this.file != null) {
             formData.append("file", this.file);
           }
+          this.listLoading = true;
           Request()
             .put("/api/product_task/update/" + this.ruleFormValue.id, formData)
             .then(response => {
+              setTimeout(() => {
+                this.listLoading = false;
+              }, 0.5 * 1000);
               this.goBack();
             })
             .catch(error => {});
