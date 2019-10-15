@@ -212,21 +212,29 @@ export default {
             });
           }
           this.tableData = [];
+          let indexItem = 0;
           tmpData.map(item => {
-            this.getNowGrade(item.creditCode).then(res => {
+            let gradeArrayName = "credit_grade_data_" + indexItem;
+            this.getNowGrade(response[gradeArrayName]).then(res => {
               item.nowGrade = this.getGradeString(res);
               this.tableData.push(item);
               this.total = this.tableData.length;
             });
+            indexItem++;
           });
-          // this.total = this.tableData.length;
-
+          this.total = this.tableData.length;
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
         })
         .catch(error => {
           console.log(error);
+          this.tableData = [];
+          this.srcData = [];
+          this.total = 0;
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
         });
     },
     /* eslint-enable */
@@ -238,25 +246,13 @@ export default {
         return "";
       }
     },
-    async getNowGrade(creditCode) {
+    async getNowGrade(creditCode, gradeArray) {
       let nowGrade = "";
-      await Request()
-        .get("/api/company_credit_grade/all", {
-          approvalStatus: -1,
-          creditCode: creditCode,
-          // sortBy: 'creditGradeId DESC',
-          pageNo: 0,
-          pageSize: 20,
-          townId: 0
-        })
-        .then(response => {
-          if (!response || !response.length) nowGrade = "";
-          else nowGrade = response.pop().nowGrade;
-          return nowGrade;
-        })
-        .catch(error => {
-          console.error(error);
-        });
+      if (!gradeArray || !gradeArray.length) {
+        nowGrade = "";
+      } else {
+        nowGrade = gradeArray.pop().nowGrade;
+      } 
       return nowGrade;
     },
     // getGrade(dataTable) {

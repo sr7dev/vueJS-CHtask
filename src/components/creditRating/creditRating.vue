@@ -91,8 +91,7 @@
                   $router.push({
                     path: `/creditRating/edit/${row.creditGradeId}`,
                     query: { company: filterCompnay(row.creditCode) }
-                  })
-                "
+                  })"
               >修改评级</el-button>
             </template>
           </el-table-column>
