@@ -12,35 +12,19 @@
       </div>
 
       <el-container>
-        <el-table
-          :data="tableData"
-          style="width: 100%"
-          :row-class-name="rowIndex"
-        >
-          <el-table-column
-            :formatter="order"
-            label="序号"
-            width="180"
-          ></el-table-column>
+        <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
+          <el-table-column :formatter="order" label="序号" width="180"></el-table-column>
           <el-table-column prop="name" label="产品名称"></el-table-column>
-          <el-table-column
-            prop="classification"
-            label="是否有机"
-          ></el-table-column>
+          <el-table-column prop="classification" label="是否有机"></el-table-column>
           <el-table-column prop="classification" label="单价"></el-table-column>
           <el-table-column prop="type" label="产地"></el-table-column>
           <el-table-column prop="bookNo" label="品种"></el-table-column>
           <el-table-column prop="date" label="规格"></el-table-column>
           <el-table-column prop="date" label="评级"></el-table-column>
-          <el-table-column prop="yield" label="操作">
+          <el-table-column prop="yield" label="操作" class-name="text-center">
             <!-- <template slot-scope="scope"> -->
             <template>
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="产品批次"
-                placement="top"
-              >
+              <el-tooltip class="item" effect="dark" content="产品批次" placement="top">
                 <el-button
                   icon="el-icon-edit"
                   circle
@@ -49,12 +33,7 @@
                   type="success"
                 ></el-button>
               </el-tooltip>
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="作业定义"
-                placement="top"
-              >
+              <el-tooltip class="item" effect="dark" content="作业定义" placement="top">
                 <el-button
                   icon="el-icon-warning-outline"
                   circle
@@ -63,12 +42,7 @@
                   @click="goJobDefinition()"
                 ></el-button>
               </el-tooltip>
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="品种定义"
-                placement="top"
-              >
+              <el-tooltip class="item" effect="dark" content="品种定义" placement="top">
                 <el-button
                   icon="el-icon-office-building"
                   circle
@@ -77,40 +51,13 @@
                   type="warning"
                 ></el-button>
               </el-tooltip>
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="修改"
-                placement="top"
-              >
-                <el-button
-                  icon="el-icon-edit"
-                  circle
-                  @click="goEdit()"
-                  plain
-                  type="danger"
-                ></el-button>
+              <el-tooltip class="item" effect="dark" content="修改" placement="top">
+                <el-button icon="el-icon-edit" circle @click="goEdit()" plain type="danger"></el-button>
               </el-tooltip>
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="第三方抽检记录"
-                placement="top"
-              >
-                <el-button
-                  icon="el-icon-close"
-                  circle
-                  @click="goThirdRecords()"
-                  plain
-                  type="info"
-                ></el-button>
+              <el-tooltip class="item" effect="dark" content="第三方抽检记录" placement="top">
+                <el-button icon="el-icon-close" circle @click="goThirdRecords()" plain type="info"></el-button>
               </el-tooltip>
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="属性管理"
-                placement="top"
-              >
+              <el-tooltip class="item" effect="dark" content="属性管理" placement="top">
                 <el-button
                   icon="el-icon-warning-outline"
                   circle
@@ -119,12 +66,7 @@
                   type="danger"
                 ></el-button>
               </el-tooltip>
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="定义等级"
-                placement="top"
-              >
+              <el-tooltip class="item" effect="dark" content="定义等级" placement="top">
                 <el-button
                   icon="el-icon-office-building"
                   circle
@@ -133,12 +75,7 @@
                   type="success"
                 ></el-button>
               </el-tooltip>
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="库存动态"
-                placement="top"
-              >
+              <el-tooltip class="item" effect="dark" content="库存动态" placement="top">
                 <el-button
                   icon="el-icon-close"
                   circle

@@ -58,7 +58,11 @@
             }}
           </template>
         </el-table-column>
-        <el-table-column v-if="loggedinUserType === 3 || loggedinUserType === 0" label="操作">
+        <el-table-column
+          v-if="loggedinUserType === 3 || loggedinUserType === 0"
+          label="操作"
+          class-name="text-center"
+        >
           <template slot-scope="{ row }">
             <el-button
               type="success"

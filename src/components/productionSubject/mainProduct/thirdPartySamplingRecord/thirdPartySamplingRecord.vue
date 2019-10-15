@@ -52,7 +52,11 @@
         </el-table-column>
         <el-table-column prop="checkStandard" label="检测标准"></el-table-column>
         <el-table-column prop="checkOrganization" label="检测机构"></el-table-column>
-        <el-table-column label="操作" v-if="loggedinUserType === 3 || loggedinUserType === 0">
+        <el-table-column
+          label="操作"
+          v-if="loggedinUserType === 3 || loggedinUserType === 0"
+          class-name="text-center"
+        >
           <template slot-scope="{ row }">
             <el-button
               type="success"

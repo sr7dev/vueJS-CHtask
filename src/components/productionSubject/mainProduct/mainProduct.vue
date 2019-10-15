@@ -29,7 +29,7 @@
         <el-table-column prop="variety" label="品种"></el-table-column>
         <el-table-column prop="specification" label="规格"></el-table-column>
         <el-table-column prop="grade" label="评级"></el-table-column>
-        <el-table-column prop="operations" label="操作" width="270">
+        <el-table-column prop="operations" label="操作" width="270" class-name="text-center">
           <template slot-scope="{ row }">
             <el-button v-on:click="showSamplingRecord(row)" type="success" plain>第三方抽检记录</el-button>
             <el-button v-on:click="showProductBatch(row)" type="success" plain>产品批次</el-button>

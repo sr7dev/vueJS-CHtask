@@ -14,8 +14,7 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          >
-          </el-option>
+          ></el-option>
         </el-select>
         <div class="select_label">企业规模</div>
         <el-select v-model="value" placeholder="请选择">
@@ -24,49 +23,26 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          >
-          </el-option>
+          ></el-option>
         </el-select>
       </div>
 
       <el-container>
-        <el-table
-          :data="tableData"
-          style="width: 100%"
-          :row-class-name="rowIndex"
-        >
-          <el-table-column :formatter="order" label="序号" width="180">
-          </el-table-column>
-          <el-table-column prop="name" label="企业名称"> </el-table-column>
-          <el-table-column prop="classification" label="企业规模">
-          </el-table-column>
-          <el-table-column prop="type" label="产品类型"> </el-table-column>
-          <el-table-column prop="bookNo" label="法定代表人"> </el-table-column>
-          <el-table-column prop="date" label="企业地址"> </el-table-column>
-          <el-table-column prop="limitedPeriod" label="社会信用统一代码">
-          </el-table-column>
-          <el-table-column prop="yield" label="联系方式"> </el-table-column>
-          <el-table-column prop="yield" label="监管对象性质"> </el-table-column>
-          <el-table-column label="操作">
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="企业详情"
-              placement="top"
-            >
-              <el-button
-                icon="el-icon-search"
-                circle
-                plain
-                type="success"
-              ></el-button>
+        <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
+          <el-table-column :formatter="order" label="序号" width="180"></el-table-column>
+          <el-table-column prop="name" label="企业名称"></el-table-column>
+          <el-table-column prop="classification" label="企业规模"></el-table-column>
+          <el-table-column prop="type" label="产品类型"></el-table-column>
+          <el-table-column prop="bookNo" label="法定代表人"></el-table-column>
+          <el-table-column prop="date" label="企业地址"></el-table-column>
+          <el-table-column prop="limitedPeriod" label="社会信用统一代码"></el-table-column>
+          <el-table-column prop="yield" label="联系方式"></el-table-column>
+          <el-table-column prop="yield" label="监管对象性质"></el-table-column>
+          <el-table-column label="操作" class-name="text-center">
+            <el-tooltip class="item" effect="dark" content="企业详情" placement="top">
+              <el-button icon="el-icon-search" circle plain type="success"></el-button>
             </el-tooltip>
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="经营产品"
-              placement="top"
-            >
+            <el-tooltip class="item" effect="dark" content="经营产品" placement="top">
               <el-button
                 icon="el-icon-goods"
                 circle
@@ -88,8 +64,7 @@
           :page-size="page.pageSize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total"
-        >
-        </el-pagination>
+        ></el-pagination>
       </div>
     </div>
   </div>

@@ -27,7 +27,7 @@
           <el-table-column prop="variety" label="品种"></el-table-column>
           <el-table-column prop="grade" label="评级"></el-table-column>
           <el-table-column prop="specification" label="规格"></el-table-column>
-          <el-table-column prop="yield" label="操作">
+          <el-table-column prop="yield" label="操作" class-name="text-center">
             <!-- <template slot-scope="scope"> -->
             <template slot-scope="{ row }">
               <el-button @click="handleDelete(`${row.id}`)" plain type="danger">删除</el-button>

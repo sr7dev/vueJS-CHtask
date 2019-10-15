@@ -39,7 +39,7 @@
         <el-table-column prop="warehouseScope" label="仓库规模">
           <template slot-scope="{ row }">{{row.warehouseScope}}</template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" class-name="text-center">
           <template slot-scope="{ row }">
             <el-button
               type="success"
