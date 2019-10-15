@@ -13,55 +13,23 @@
       </div>
 
       <el-container>
-        <el-table
-          :data="tableData"
-          style="width: 100%"
-          :row-class-name="rowIndex"
-        >
-          <el-table-column
-            :formatter="order"
-            label="序号"
-            width="180"
-          ></el-table-column>
+        <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
+          <el-table-column :formatter="order" label="序号" width="180"></el-table-column>
           <el-table-column prop="name" label="日期"></el-table-column>
           <el-table-column prop="classification" label="样品"></el-table-column>
-          <el-table-column
-            prop="classification"
-            label="检测项目"
-          ></el-table-column>
+          <el-table-column prop="classification" label="检测项目"></el-table-column>
           <el-table-column prop="type" label="检测结果"></el-table-column>
           <el-table-column prop="bookNo" label="判定"></el-table-column>
           <el-table-column prop="date" label="检测标准"></el-table-column>
           <el-table-column prop="date" label="检测机构"></el-table-column>
-          <el-table-column prop="yield" label="操作">
+          <el-table-column prop="yield" label="操作" class-name="text-center">
             <!-- <template slot-scope="scope"> -->
             <template>
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="修改"
-                placement="top"
-              >
-                <el-button
-                  icon="el-icon-edit"
-                  circle
-                  @click="edit()"
-                  plain
-                  type="warning"
-                ></el-button>
+              <el-tooltip class="item" effect="dark" content="修改" placement="top">
+                <el-button icon="el-icon-edit" circle @click="edit()" plain type="warning"></el-button>
               </el-tooltip>
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="删除"
-                placement="top"
-              >
-                <el-button
-                  icon="el-icon-close"
-                  circle
-                  plain
-                  type="danger"
-                ></el-button>
+              <el-tooltip class="item" effect="dark" content="删除" placement="top">
+                <el-button icon="el-icon-close" circle plain type="danger"></el-button>
               </el-tooltip>
             </template>
           </el-table-column>
@@ -111,12 +79,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false" plain type="success"
-          >取 消</el-button
-        >
-        <el-button type="primary" @click="dialogFormVisible = false" plain
-          >确 定</el-button
-        >
+        <el-button @click="dialogFormVisible = false" plain type="success">取 消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false" plain>确 定</el-button>
       </div>
     </el-dialog>
   </div>

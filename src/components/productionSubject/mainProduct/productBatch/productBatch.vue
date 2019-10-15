@@ -22,7 +22,11 @@
         <el-table-column prop="sales" label="销售"></el-table-column>
         <el-table-column prop="attributeName" label="属性名称"></el-table-column>
         <el-table-column prop="testReport" label="检测报告"></el-table-column>
-        <el-table-column label="操作" v-if="loggedinUserType === 3 || loggedinUserType === 0">
+        <el-table-column
+          label="操作"
+          v-if="loggedinUserType === 3 || loggedinUserType === 0"
+          class-name="text-center"
+        >
           <template>
             <el-button plain>修改</el-button>
             <el-button plain>作业</el-button>

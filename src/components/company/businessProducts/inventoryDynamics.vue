@@ -9,13 +9,7 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button
-          style="margin-right: 25px"
-          @click="add()"
-          type="primary"
-          plain
-          >添加</el-button
-        >
+        <el-button style="margin-right: 25px" @click="add()" type="primary" plain>添加</el-button>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -27,56 +21,21 @@
       </div>
 
       <el-container>
-        <el-table
-          :data="tableData"
-          style="width: 100%"
-          :row-class-name="rowIndex"
-        >
-          <el-table-column
-            :formatter="order"
-            label="序号"
-            width="180"
-          ></el-table-column>
+        <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
+          <el-table-column :formatter="order" label="序号" width="180"></el-table-column>
           <el-table-column prop="name" label="产品名称"></el-table-column>
-          <el-table-column
-            prop="classification"
-            label="所在仓库"
-          ></el-table-column>
-          <el-table-column
-            prop="classification"
-            label="储存数量"
-          ></el-table-column>
+          <el-table-column prop="classification" label="所在仓库"></el-table-column>
+          <el-table-column prop="classification" label="储存数量"></el-table-column>
           <el-table-column prop="classification" label="品种"></el-table-column>
           <el-table-column prop="classification" label="评级"></el-table-column>
-          <el-table-column prop="yield" label="操作">
+          <el-table-column prop="yield" label="操作" class-name="text-center">
             <!-- <template slot-scope="scope"> -->
             <template>
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="修改"
-                placement="top"
-              >
-                <el-button
-                  icon="el-icon-edit"
-                  circle
-                  @click="edit()"
-                  type="primary"
-                  plain
-                ></el-button>
+              <el-tooltip class="item" effect="dark" content="修改" placement="top">
+                <el-button icon="el-icon-edit" circle @click="edit()" type="primary" plain></el-button>
               </el-tooltip>
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="删除"
-                placement="top"
-              >
-                <el-button
-                  icon="el-icon-close"
-                  circle
-                  type="danger"
-                  plain
-                ></el-button>
+              <el-tooltip class="item" effect="dark" content="删除" placement="top">
+                <el-button icon="el-icon-close" circle type="danger" plain></el-button>
               </el-tooltip>
             </template>
           </el-table-column>
@@ -128,12 +87,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false" plain type="success"
-          >取 消</el-button
-        >
-        <el-button type="primary" @click="dialogFormVisible = false"
-          >确 定</el-button
-        >
+        <el-button @click="dialogFormVisible = false" plain type="success">取 消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
       </div>
     </el-dialog>
   </div>

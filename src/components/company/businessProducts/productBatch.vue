@@ -13,48 +13,21 @@
       </div>
 
       <el-container>
-        <el-table
-          :data="tableData"
-          style="width: 100%"
-          :row-class-name="rowIndex"
-        >
-          <el-table-column
-            :formatter="order"
-            label="序号"
-            width="180"
-          ></el-table-column>
+        <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
+          <el-table-column :formatter="order" label="序号" width="180"></el-table-column>
           <el-table-column prop="name" label="批次名称"></el-table-column>
-          <el-table-column
-            prop="classification"
-            label="批次号"
-          ></el-table-column>
+          <el-table-column prop="classification" label="批次号"></el-table-column>
           <el-table-column prop="classification" label="作业"></el-table-column>
           <el-table-column prop="type" label="销售"></el-table-column>
           <el-table-column prop="bookNo" label="属性名称"></el-table-column>
           <el-table-column prop="date" label="检查报告"></el-table-column>
-          <el-table-column prop="yield" label="操作">
+          <el-table-column prop="yield" label="操作" class-name="text-center">
             <!-- <template slot-scope="scope"> -->
             <template>
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="修改"
-                placement="top"
-              >
-                <el-button
-                  icon="el-icon-edit"
-                  circle
-                  @click="goEdit()"
-                  plain
-                  type="warn"
-                ></el-button>
+              <el-tooltip class="item" effect="dark" content="修改" placement="top">
+                <el-button icon="el-icon-edit" circle @click="goEdit()" plain type="warn"></el-button>
               </el-tooltip>
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="作业"
-                placement="top"
-              >
+              <el-tooltip class="item" effect="dark" content="作业" placement="top">
                 <el-button
                   icon="el-icon-warning-outline"
                   circle
@@ -63,12 +36,7 @@
                   type="danger"
                 ></el-button>
               </el-tooltip>
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="上传检测报告"
-                placement="top"
-              >
+              <el-tooltip class="item" effect="dark" content="上传检测报告" placement="top">
                 <el-button
                   icon="el-icon-office-building"
                   circle
@@ -77,32 +45,11 @@
                   type="info"
                 ></el-button>
               </el-tooltip>
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="属性"
-                placement="top"
-              >
-                <el-button
-                  icon="el-icon-edit"
-                  circle
-                  @click="goEdit()"
-                  plain
-                  type="primary"
-                ></el-button>
+              <el-tooltip class="item" effect="dark" content="属性" placement="top">
+                <el-button icon="el-icon-edit" circle @click="goEdit()" plain type="primary"></el-button>
               </el-tooltip>
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="销售"
-                placement="top"
-              >
-                <el-button
-                  icon="el-icon-close"
-                  circle
-                  plain
-                  type="danger"
-                ></el-button>
+              <el-tooltip class="item" effect="dark" content="销售" placement="top">
+                <el-button icon="el-icon-close" circle plain type="danger"></el-button>
               </el-tooltip>
             </template>
           </el-table-column>

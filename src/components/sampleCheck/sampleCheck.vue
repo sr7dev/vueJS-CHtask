@@ -21,7 +21,7 @@
           <template slot-scope="{ row }">{{ row.sampleTime | formatDate }}</template>
         </el-table-column>
         <el-table-column prop="checkPerson" label="检测人员"></el-table-column>
-        <el-table-column prop="operations" label="操作">
+        <el-table-column prop="operations" label="操作" class-name="text-center">
           <template slot-scope="{ row }">
             <el-button v-on:click="showDetailsSampleCheck(row)" type="success" plain>查看</el-button>
           </template>
@@ -38,7 +38,7 @@
           <template slot-scope="{ row }">{{ row.checkResult == 1 ? "合格" : "不合格" }}</template>
         </el-table-column>
         <el-table-column prop="checkPerson" label="检测人员"></el-table-column>
-        <el-table-column prop="operations" label="操作">
+        <el-table-column prop="operations" label="操作" class-name="text-center">
           <template slot-scope="{ row }">
             <el-button v-on:click="showDetailsSampleCheckResult(row)" type="success" plain>查看</el-button>
           </template>
@@ -104,34 +104,34 @@ export default {
         Request()
           .get("/api/sample_check/all", {
             pageNo: this.page.pageIndex - 1,
-            pageSize: this.page.pageSize,
+            pageSize: this.page.pageSize
           })
           .then(response => {
             this.tableData = response.data;
             this.total = response.total;
             setTimeout(() => {
               this.listLoading = false;
-          }, 0.5 * 1000);
+            }, 0.5 * 1000);
           })
           .catch(error => {
             console.log(error);
           });
       } else {
         Request()
-        .get("/api/sample_check_result/all", {
-          pageNo: this.page.pageIndex - 1,
-          pageSize: this.page.pageSize,
-        })
-        .then(response => {
-          this.tableData = response.data;
-          this.total = response.total;
-          setTimeout(() => {
-            this.listLoading = false;
-          }, 0.5 * 1000);
-        })
-        .catch(error => {
-          console.log(error);
-        });
+          .get("/api/sample_check_result/all", {
+            pageNo: this.page.pageIndex - 1,
+            pageSize: this.page.pageSize
+          })
+          .then(response => {
+            this.tableData = response.data;
+            this.total = response.total;
+            setTimeout(() => {
+              this.listLoading = false;
+            }, 0.5 * 1000);
+          })
+          .catch(error => {
+            console.log(error);
+          });
       }
     },
     rowIndex({ row, rowIndex }) {
@@ -142,11 +142,11 @@ export default {
     },
     clickTabLeft() {
       this.mode = true;
-      this.getList()
+      this.getList();
     },
     clickTabRight() {
       this.mode = false;
-      this.getList()
+      this.getList();
     }
   }
 };

@@ -173,7 +173,7 @@
             <span class="rating-action" v-on:click="gotoCreditRatingPage(row)">{{ row.nowGrade }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="operations" label="操作" width="450">
+        <el-table-column prop="operations" label="操作" width="450" class-name="text-center">
           <template slot-scope="{ row }">
             <el-button
               v-on:click="gotoEditProductPage(row)"
