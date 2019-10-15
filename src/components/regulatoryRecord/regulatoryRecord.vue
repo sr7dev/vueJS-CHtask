@@ -25,6 +25,7 @@
         >常用语管理</el-button>
         <el-button type="primary" plain v-if="!companyId">扫码下载客户端</el-button>
         <el-button type="primary" plain v-if="!companyId">说明书下载</el-button>
+        <el-button type="primary" plain v-if="companyId" @click="$router.go(-1)">返回</el-button>
         <div class="special-container" style="margin-left:auto">
           <el-button
             type="success"
@@ -186,7 +187,7 @@ export default {
     };
   },
   created() {
-    this.companyId = this.$route.params.id;
+    this.companyId = this.$route.query.companyId;
     this.getData();
     this.getTown();
     this.getCompanyProduct();
