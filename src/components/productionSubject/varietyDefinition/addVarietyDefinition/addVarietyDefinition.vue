@@ -16,7 +16,7 @@
       </span>
     </el-dialog>
     <div class="box">
-      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
+      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px" v-loading="dialogLoading">
         <el-row>
           <el-col :span="6">
             <el-form-item label="是否共享" prop="filter_Share">
@@ -62,6 +62,7 @@ export default {
   data() {
     return {
       filter_Share: 0,
+      dialogLoading: true,
       dialogVisible: false,
       productId: -1,
       ruleFormValue: {
@@ -89,11 +90,13 @@ export default {
   },
   created() {
     this.productId = this.$route.params.id;
+    this.dialogLoading = false;
   },
   methods: {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.dialogLoading = true;
           Request()
             .post("/api/product_variety/create", {
               createTime: new Date().toJSON(),
@@ -107,6 +110,7 @@ export default {
               varietySort: this.ruleFormValue.varietySort
             })
             .then(response => {
+              setTimeout(() => { this.dialogLoading = false; }, 0.01 * 1000);
               this.$router.go(-1);
             })
             .catch(error => {});

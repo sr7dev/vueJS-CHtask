@@ -104,6 +104,7 @@ export default {
     handleDelete(id) {
       this.$confirm("确认删除该记录吗?", "提示", { type: "warning" }).then(
         () => {
+          this.listLoading = true;
           Request()
             .delete("/api/product_grade/delete/" + id)
             .then(response => {

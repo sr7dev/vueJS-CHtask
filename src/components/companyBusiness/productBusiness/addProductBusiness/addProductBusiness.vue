@@ -8,7 +8,7 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <el-form ref="ruleFormValue" :model="ruleFormValue" :rules="rules" label-width="100px">
+      <el-form ref="ruleFormValue" :model="ruleFormValue" :rules="rules" label-width="100px" v-loading="listLoading">
         <el-row>
           <el-col :span="12">
             <el-form-item label="产品名称" prop="productName">
@@ -84,7 +84,8 @@ export default {
         productArea: "",
         variety: "",
         specification: "",
-        productProfile: ""
+        productProfile: "",
+        listLoading: true,
       },
       rules: {
         productName: [
@@ -141,11 +142,13 @@ export default {
   },
   created() {
     this.companyId = this.$route.params.id;
+    this.listLoading = false;
   },
   methods: {
-    onSubmit(formName) {
+    onSubmit(formName) {      
       this.$refs[formName].validate(valid => {
         if (valid) {
+            this.listLoading = true;
             var formData = new FormData();
             formData.append("atunitprice", this.ruleFormValue.atunitprice);
             formData.append("companyId", this.companyId);
@@ -165,6 +168,7 @@ export default {
           Request()
             .post("/api/product_business/create", formData)
             .then(response => {
+              setTimeout(() => { this.listLoading = false; }, 0.01 * 1000);
               this.$router.go(-1);
             })
             .catch(error => {});

@@ -16,7 +16,7 @@
       </span>
     </el-dialog>
     <div class="box">
-      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
+      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px" v-loading="dialogloading">
         <el-row>
           <el-col :span="6">
             <el-form-item label="是否共享">
@@ -64,6 +64,7 @@ export default {
     return {
       filter_Share: 0,
       dialogVisible: false,
+      dialogloading: true,
       productId: -1,
       ruleFormValue: {
         gradeName: "",
@@ -90,11 +91,13 @@ export default {
   },
   created() {
     this.productId = this.$route.params.id;
+    this.dialogloading = false;
   },
   methods: {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.dialogloading = true;
           Request()
             .post("/api/product_grade/create", {
               createTime: new Date().toJSON(),
@@ -108,6 +111,7 @@ export default {
               updateUserId: Auth().user().attrs.id
             })
             .then(response => {
+              setTimeout(() => { this.dataloading = false; }, 0.01 * 1000);
               this.$router.go(-1);
             })
             .catch(error => {});

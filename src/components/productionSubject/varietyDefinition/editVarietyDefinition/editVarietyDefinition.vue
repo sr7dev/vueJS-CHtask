@@ -21,7 +21,7 @@
         :model="ruleFormValue"
         :rules="rules"
         label-width="100px"
-        v-if="!dataloading"
+        v-loading="dataloading"
       >
         <el-row>
           <el-col :span="6">
@@ -71,7 +71,7 @@ export default {
     return {
       filter_Share: 0,
       dialogVisible: false,
-      dataloading: false,
+      dataloading: true,
       varietyId: -1,
       ruleFormValue: {
         varietyName: "",
@@ -119,6 +119,7 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.dataloading = true;
           Request()
             .put("/api/product_variety/update/" + this.varietyId, {
               createTime: this.ruleFormValue.createTime,
@@ -132,6 +133,7 @@ export default {
               varietySort: this.ruleFormValue.varietySort
             })
             .then(response => {
+              setTimeout(() => { this.dataloading = false; }, 0.01 * 1000);
               this.$router.go(-1);
             })
             .catch(error => {});

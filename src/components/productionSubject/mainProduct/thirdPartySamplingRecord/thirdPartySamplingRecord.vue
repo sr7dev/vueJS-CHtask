@@ -25,7 +25,7 @@
       <div class="iptBox">
         <div class="filter-item">银针 第三方质量安全检测记录</div>
       </div>
-      <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
+      <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex" v-loading="listLoading">
         <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
         <el-table-column prop="productCheckTime" label="日期" width="150">
           <template slot-scope="{ row }">
@@ -104,7 +104,8 @@ export default {
       },
       total: 100,
       radio: "1",
-      tableData: []
+      tableData: [],
+      listLoading: false,
     };
   },
   created() {
@@ -141,6 +142,7 @@ export default {
     handleDelete(id) {
       this.$confirm("确认删除该记录吗?", "提示", { type: "warning" }).then(
         () => {
+          this.listLoading = true;
           Request()
             .delete("/api/product_check_record/delete/" + id)
             .then(response => {
