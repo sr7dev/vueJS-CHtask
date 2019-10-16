@@ -6,7 +6,8 @@
         <el-breadcrumb-item class="actived">修改生产标准</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="box">
+    <div class="box" v-if="listLoading" v-loading="listLoading">装货...</div>
+    <div class="box" v-else>
       <el-form
         ref="dataFormRef"
         :model="dataForm"
@@ -105,6 +106,7 @@ export default {
       file: null,
       productionList: [],
       pageLoading: false,
+      listLoading: false,
       options: [
         { id: "1", name: "畜牧业" },
         { id: "2", name: "水产业" },
@@ -162,13 +164,13 @@ export default {
         });
     },
     getData(id) {
-      this.pageLoading = true;
+      this.listLoading = true;
       Request()
         .get("/api/production_standard/get/" + id)
         .then(response => {
           this.dataForm = response;
           setTimeout(() => {
-            this.pageLoading = false;
+            this.listLoading = false;
           }, 0.5 * 1000);
         })
         .catch(error => {
