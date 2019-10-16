@@ -44,6 +44,7 @@
             <el-button
               type="success"
               v-on:click="showDetailWarehouse(row)"
+              plain
               v-if="loggedinUserType === 3 || loggedinUserType === 0"
             >修改</el-button>
             <el-button
@@ -54,6 +55,7 @@
             >删除</el-button>
             <el-button
               type="primary"
+              plain
               v-on:click="showViewWarehouse(row)"
               v-if="loggedinUserType !== 3"
             >查看</el-button>
