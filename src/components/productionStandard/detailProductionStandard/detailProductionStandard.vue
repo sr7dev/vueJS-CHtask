@@ -6,7 +6,8 @@
         <el-breadcrumb-item class="actived">详情</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="box" v-loading="pageLoading">
+    <div class="box" v-if="listLoading" v-loading="listLoading">装货...</div>
+    <div class="box" v-if="!listLoading">
       <el-form ref="ruleForm" label-width="100px">
         <el-row>
           <el-col :span="5">
@@ -92,7 +93,7 @@ export default {
   data() {
     return {
       file: null,
-      pageLoading: true,
+      listLoading: false,
       productionList: [],
       data: [],
       options: [
@@ -118,13 +119,13 @@ export default {
         });
     },
     getData(id) {
-      this.pageLoading = true;
+      this.listLoading = true;
       Request()
         .get("/api/production_standard/get/" + id)
         .then(response => {
           this.data = response;
           setTimeout(() => {
-            this.pageLoading = false;
+            this.listLoading = false;
           }, 0.5 * 1000);
         })
         .catch(error => {

@@ -6,13 +6,13 @@
         <el-breadcrumb-item class="actived">修改记录</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="box">
+    <div class="box" v-if="!data" v-loading="listLoading">装货...</div>
+    <div class="box" v-else>
       <el-form
         ref="ruleForm"
         :model="ruleFormValue"
         :rules="rules"
         label-width="120px"
-        v-if="data"
         v-loading="pageLoading"
       >
         <el-row>
@@ -87,7 +87,6 @@
           <el-button type="primary" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
       </el-form>
-      <div v-if="!data" v-loading="listLoading">装货...</div>
     </div>
   </div>
 </template>
@@ -102,8 +101,8 @@ export default {
     return {
       file: null,
       id: "",
-      listLoading: true,
       pageLoading: false,
+      listLoading: false,
       data: null,
       productNameList: [],
       ruleFormValue: {
@@ -156,9 +155,13 @@ export default {
   },
   methods: {
     getData(id) {
+      this.listLoading = true;
       Request()
         .get("/api/production_record/get/" + id)
         .then(response => {
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
           this.data = response;
           this.ruleFormValue.productId = this.data.productId;
           this.ruleFormValue.productionQuantity = this.data.productionQuantity;
