@@ -114,6 +114,9 @@ body {
       &.is-active {
         color: #409eff !important;
       }
+      a.router-link-active {
+        color: #409eff !important;
+      }
     }
   }
 }

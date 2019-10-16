@@ -102,6 +102,8 @@ export default {
       this.listLoading = true;
       Request()
         .get("/api/training_funds/all", {
+          createTimeFrom: "",
+          createTimeTo: "",
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize
         })
