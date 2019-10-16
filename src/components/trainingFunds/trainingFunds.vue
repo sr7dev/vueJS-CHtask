@@ -215,7 +215,7 @@ export default {
           .put(
             "/api/training_funds/update_special_flag/" +
               this.selectedRows[index] +
-              "?specialFlag=" +
+              "/" +
               this.action
           )
           .then(response => {
