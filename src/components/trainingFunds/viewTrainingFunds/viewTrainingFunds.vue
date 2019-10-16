@@ -66,25 +66,25 @@
             plain
             v-on:click="$router.go(-1)"
             type="success"
-            v-if="loggedinUserType === 1"
+            v-if="loggedinUserType === 1 || loggedinUserType === 0"
           >通过</el-button>
           <el-button
             plain
             v-on:click="$router.go(-1)"
             type="warning"
-            v-if="loggedinUserType === 1"
+            v-if="loggedinUserType === 1 || loggedinUserType === 0"
           >拒绝</el-button>
           <el-button
             plain
             v-on:click="$router.go(-1)"
             type="primary"
-            v-if="loggedinUserType === 1"
+            v-if="loggedinUserType === 1 || loggedinUserType === 0"
           >取消</el-button>
           <el-button
             plain
             v-on:click="$router.go(-1)"
             type="success"
-            v-if="loggedinUserType === 2"
+            v-if="loggedinUserType === 2 || loggedinUserType === 0"
           >返回</el-button>
         </el-form-item>
       </el-form>
@@ -139,7 +139,7 @@ export default {
     getData(id) {
       this.dataloading = true;
       Request()
-        .get("/api/trainingfunds/get/" + id)
+        .get("/api/training_funds/get/" + id)
         .then(response => {
           this.formData = response;
           this.file = response.trainingFundsProfiles;

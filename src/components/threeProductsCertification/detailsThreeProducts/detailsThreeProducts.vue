@@ -8,7 +8,7 @@
     </div>
 
     <div class="box">
-      <el-form label-width="100px" v-if="!dataloading">
+      <el-form label-width="100px" v-model="data">
         <el-row>
           <el-col :span="7">
             <el-form-item label="企业名称">
@@ -22,7 +22,7 @@
           </el-col>
         </el-row>
         <el-form-item label="认证类别">
-          <el-radio-group v-model="data.argriculturalClassification">
+          <el-radio-group v-model="data.argriculturalClassification" disabled>
             <el-radio label="1">无公害产品</el-radio>
             <el-radio label="2">绿色食品</el-radio>
             <el-radio label="3">有机食品</el-radio>
@@ -32,12 +32,12 @@
         <el-row>
           <el-col :span="7">
             <el-form-item label="认证类别">
-              <el-input v-model="data.cretficationCategory" disabled></el-input>
+              <el-input v-model="data.certificationCategory" disabled></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="7">
             <el-form-item label="农业分类">
-              <el-select v-model="data.cretficationType" placeholder="请选择">
+              <el-select v-model="data.certificationType" placeholder="请选择" disabled>
                 <el-option
                   v-for="item in options"
                   :key="item.value"
@@ -51,7 +51,7 @@
         <el-row>
           <el-col :span="7">
             <el-form-item label="证书编号">
-              <el-input v-model="data.cretficationNo" disabled></el-input>
+              <el-input v-model="data.certificationNo" disabled></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -84,28 +84,29 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="6">
+          <el-col :span="16">
             <el-form-item>
               <div class="item-row">
                 <div class="item">
                   <div class="item-label">
                     <input
                       type="file"
-                      id="file"
+                      id="files"
                       style="display: none"
-                      ref="file"
+                      ref="files"
                       v-on:change="handleFileUpload()"
                     />
-                    <el-button type="warning" plain>下载附件</el-button>
+                    <el-button type="warning" plain @click="downloadFile()">下载附件</el-button>
+                    <span class="item-value" v-if="!files">
+                      <el-link @click="downloadFile()">
+                        {{
+                          fileName
+                        }}
+                      </el-link>
+                    </span>
+                    <span class="item-value" v-if="files">({{ fileName }})</span>
                   </div>
-                  <div class="item-value" v-if="!file">
-                    <el-link @click="downloadFile()">
-                      {{
-                        fileName
-                      }}
-                    </el-link>
-                  </div>
-                  <div class="item-value" v-if="file">({{ file.name }})</div>
+                  
                 </div>
               </div>
             </el-form-item>
@@ -115,7 +116,6 @@
           <el-button type="danger" @click="goBack" plain>返回</el-button>
         </el-form-item>
       </el-form>
-          <template v-if="dataLoading">装货...</template>
     </div>
   </div>
 </template>
@@ -130,12 +130,13 @@ export default {
     return {
       id: -1,
       pageName: this.$route.name,
-      data: null,
-      file: null,
+      data: [],
+      files: null,
       fileName: "",
       companyName: "",
       productName: "",
       dataloading: false,
+      argriculturalClassification: 0,
       options: [
         { value: "2", label: "养殖业" },
         { value: "1", label: "畜牧业" },
@@ -156,6 +157,10 @@ export default {
         .get("/api/quality_standard/get/" + id)
         .then(response => {
           this.data = response;
+          this.data.argriculturalClassification = parseInt(response.argriculturalClassification);
+          this.files = response.files;
+          if (!response.files)
+            this.fileName = "";
           setTimeout(() => {
             this.dataloading = false;
           }, 0.01 * 1000);
@@ -168,15 +173,16 @@ export default {
       this.$router.go(-1);
     },
     chooseFile() {
-      this.$refs.file.click();
+      this.$refs.files.click();
     },
 
     handleFileUpload() {
-      this.file = this.$refs.file.files[0];
+      this.files = this.$refs.files.files[0];
+
     },
     downloadFile() {
       axios({
-        url: Urls.DOWNLOAD_URL() + this.data.checkFiles,
+        url: Urls.DOWNLOAD_URL() + this.files,
         method: "GET",
         responseType: "blob" // important
       }).then(response => {
@@ -185,7 +191,7 @@ export default {
         link.href = url;
         link.setAttribute(
           "download", 
-          this.data.checkFiles.replace("/uploads/", "")
+          this.files.replace("/uploads/", "")
         ); //or any other extension
         document.body.appendChild(link);
         link.click();

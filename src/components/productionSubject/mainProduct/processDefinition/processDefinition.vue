@@ -2,9 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/productionSubject' }"
-          >监管对象</el-breadcrumb-item
-        >
+        <el-breadcrumb-item :to="{ path: '/productionSubject' }">监管对象</el-breadcrumb-item>
         <el-breadcrumb-item>主营产品</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">/作业定义</el-breadcrumb-item>
       </el-breadcrumb>
@@ -12,23 +10,23 @@
     <div class="box">
       <div class="iptBox">
         <div class="filter-item">
-          <el-button 
+          <el-button
             type="primary"
             plain
             style="margin-right: .5rem"
             @click="$router.push({
-              path: `/productionSubject/mainProduct/processDefinition/addProcessDefinition/${id}`,
+              path: `/productionSubject/mainProduct/processDefinition/addProcessDefinition/${productId}`,
               query: {
-                doShare: 1
+                doShare: 1,
+                companyId: id
               }
             })"
-            >添加</el-button
-          >
+          >添加</el-button>
           <el-select
-              v-model="processType"
-              :disabled="!(options.length > 0)"
-              style="margin-right: .5rem"
-            >
+            v-model="processType"
+            :disabled="!(options.length > 0)"
+            style="margin-right: .5rem"
+          >
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -36,12 +34,7 @@
               :value="item.value"
             ></el-option>
           </el-select>
-          <el-button
-            type="primary"
-            plain
-            @click="$router.go(-1)"
-            >返回</el-button
-          >
+          <el-button type="primary" plain @click="$router.go(-1)">返回</el-button>
         </div>
       </div>
       <el-table
@@ -50,37 +43,27 @@
         :row-class-name="rowIndex"
         v-loading="listLoading"
       >
-        <el-table-column
-          :formatter="order"
-          label="序号"
-          width="70"
-        ></el-table-column>
+        <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
         <el-table-column prop="taskName" label="作业名称">
           <template slot-scope="{ row }">{{ row.taskName }}</template>
         </el-table-column>
         <el-table-column prop="taskType" label="作业类型">
           <template slot-scope="{ row }">{{ taskTypeList[row.taskType - 1] }}</template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" class-name="text-center">
           <template slot-scope="{ row }">
             <el-button
-              type="success"              
+              type="success"
               plain
               @click="$router.push({
-                path: `/productionSubject/mainProduct/processDefinition/editProcessDefinition/${id}`,
+                path: `/productionSubject/mainProduct/processDefinition/editProcessDefinition/${row.id}`,
                 query: {
-                  id: row.id
+                  companyId: id
                 }
               })
               "
-            >修改
-            </el-button>
-            <el-button
-              type="danger"
-              v-on:click="handleDelete(`${row.id}`)"
-              plain
-            >删除
-            </el-button>
+            >修改</el-button>
+            <el-button type="danger" v-on:click="handleDelete(`${row.id}`)" plain>删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -100,7 +83,7 @@
 <script>
 import Pagination from "@/components/common/pagination";
 import Request from "@/services/api/request";
-export default {  
+export default {
   name: "processDefinition",
   components: { Pagination },
   data() {
@@ -111,10 +94,11 @@ export default {
         pageSize: 20
       },
       listLoading: true,
-      total: 100,
+      total: 0,
       radio: "1",
       tableData: null,
       productName: "",
+      productId: 0,
       doShare: "",
       taskImages: "",
       taskName: "",
@@ -130,20 +114,24 @@ export default {
   },
   created() {
     this.id = this.$route.params.id;
-    this.productName = this.$route.query.productName;
-    this.getList(this.id);
+    this.productId = this.$route.query.productId;
+    this.getList(this.productId);
   },
   methods: {
     handleDelete(id) {
-      Request()
-        .delete("/api/product_task/delete/" + id)
-        .then(response => {
-          this.getList(this.id);          
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },    
+      this.$confirm("确认删除该记录吗?", "提示", { type: "warning" }).then(
+        () => {
+          Request()
+            .delete("/api/product_task/delete/" + id)
+            .then(response => {
+              this.getList(this.productId);
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        }
+      );
+    },
     getList(id) {
       this.listLoading = true;
       Request()

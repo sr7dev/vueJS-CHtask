@@ -75,7 +75,7 @@
             </template>
           </el-table-column>
           <el-table-column label="操作" v-if="loggedinUserType !== 3" class-name="text-center">
-            <template slot-scope="{ row }" v-if="loggedinUserType === 1">
+            <template slot-scope="{ row }" v-if="loggedinUserType === 1 || loggedinUserType === 0">
               <el-button
                 v-on:click="$router.push(`/creditRating/${row.creditGradeId}`)"
                 plain
@@ -86,13 +86,12 @@
               <el-button
                 plain
                 type="success"
-                v-if="loggedinUserType === 2"
+                v-if="loggedinUserType === 2 || loggedinUserType === 0"
                 v-on:click="
                   $router.push({
                     path: `/creditRating/edit/${row.creditGradeId}`,
                     query: { company: filterCompnay(row.creditCode) }
-                  })
-                "
+                  })"
               >修改评级</el-button>
             </template>
           </el-table-column>

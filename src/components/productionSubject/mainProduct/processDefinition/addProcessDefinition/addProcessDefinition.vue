@@ -42,33 +42,27 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="添加图片" prop="file">
-              <div class="item" style="display:flex">
-                <div class="item-label">
-                  <input
-                    type="file"
-                    id="file"
-                    style="display: none"
-                    ref="file"
-                    v-on:change="handleFileUpload()"
-                  />
-                  <el-button type="warning" plain @click="chooseFile()">选择文件</el-button>
-                </div>
-                <div
-                  class="item-value"
-                  style="margin-left:.1rem;
-                        display: flex;
-                        align-items: center;"
+        <el-form-item label="添加图片" prop="file" class="label-margin">
+              <input
+                type="file"
+                id="file"
+                style="display: none"
+                ref="file"
+                accept="image/*"
+                v-on:change="handleFileUpload()"
+              />
+                <div 
+                  style="border:solid 1px; width:100px; height:100px" 
+                  @click="chooseFile()"
                 >
-                  <span v-if="file" style="margin-left: .5rem">({{ file.name }})</span>
-                  <span v-else style="margin-left: .5rem">请选择需要上传的文件...</span>
+                  <img v-if="!imageSelectedUrl && ruleFormValue.taskImages" :src="imageUrl + ruleFormValue.taskImages" style="width: 7rem; height: 7rem;"/>
+                  <img v-if="imageSelectedUrl" :src="imageSelectedUrl" style="width: 7rem; height: 7rem;"/>
                 </div>
-              </div>
-            </el-form-item>  
-          </el-col>
-        </el-row>
+                <div class="item-value" >
+                  <div v-if="file" style="">({{ file.name }})</div>
+                  <div v-else style="">请选择需要上传的文件...</div>
+                </div>
+        </el-form-item>  
         <el-form-item>
           <el-button type="success" @click="onSubmit('ruleForm')" plain
             >保存</el-button
@@ -88,6 +82,9 @@ export default {
     return {
       file: null,
       listLoading: false,
+      imageUrl: "",
+      imageSelectedUrl: "",
+      companyId: -1,
       ruleFormValue: {
         file: null,
         taskType: "",
@@ -123,6 +120,7 @@ export default {
   created() {    
     this.ruleFormValue.productId = this.$route.params.id;
     this.ruleFormValue.doShare = this.$route.query.doShare;
+    this.companyId = this.$route.query.companyId;
   },
   methods: {
     chooseFile() {
@@ -130,6 +128,15 @@ export default {
     },
     handleFileUpload() {
       this.file = this.$refs.file.files[0];
+      let reader = new FileReader();
+      this.imageSelectedUrl ="";
+      let that = this;
+      reader.onload = function(e) {
+        that.imageSelectedUrl  = e.target.result;
+      };
+      if (this.file) {
+        reader.readAsDataURL(this.file);
+      }
     },
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
@@ -145,9 +152,7 @@ export default {
           Request()
             .post("/api/product_task/create", formData)
             .then(response => {
-              this.$router.push({
-                path: `/productionSubject/mainProduct/processDefinition/${this.ruleFormValue.productId}`
-              });
+              this.goBack();
             })
             .catch(error => {});
         } else {
@@ -163,5 +168,6 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss">
+@import "../processDefinition.scss";
 </style>

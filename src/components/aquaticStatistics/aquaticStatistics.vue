@@ -8,10 +8,11 @@
     <div class="box">
       <div class="iptBox">
         <el-button type="primary" plain v-on:click="handleImportExcel()">添加</el-button>
+        <el-button type="primary" plain v-on:click="handleDownloadSample()">例文档下载</el-button>
         <input
           type="file"
           id="file"
-          ref="file"          
+          ref="file"
           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
           v-on:change="handleFileUpload()"
           name="Upload Excel"
@@ -48,7 +49,6 @@
           :page.sync="page.pageIndex"
           :limit.sync="page.pageSize"
           @pagination="getList"
-          layout="prev, pager, next, sizes, jumper"
         />
       </div>
     </div>
@@ -59,6 +59,8 @@
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
 import Auth from "@/services/authentication/auth.js";
+import { Urls } from "@/services/constants";
+import axios from "axios";
 import XLSX from "xlsx";
 
 export default {
@@ -73,7 +75,8 @@ export default {
       file: null,
       total: 0,
       tableData: [],
-      listLoading: false
+      listLoading: false,
+      filesample:"AquaticSample.xlsx",
     };
   },
 
@@ -90,7 +93,6 @@ export default {
           pageSize: this.page.pageSize
         })
         .then(response => {
-          
           this.tableData = response.data;
           this.total = response.total;
           setTimeout(() => {
@@ -101,7 +103,22 @@ export default {
           console.log(error);
         });
     },
-        
+
+    handleDownloadSample() {
+      axios({
+        url: Urls.DOWNLOAD_URL() + this.filesample,
+        method: "GET",
+        responseType: "blob" // important
+      }).then(response => {
+        const url = window.URL.createObjectURL(response.data)
+        const link = document.createElement('a')
+        link.href = url
+        link.setAttribute('download', 'file.png') //or any other extension
+        document.body.appendChild(link)
+        link.click()
+      }).catch(()=> console.log('error occured'))
+    },
+
     fixdata(data) {
       var o = "",
         l = 0,
@@ -116,45 +133,49 @@ export default {
     },
 
     workbook_make_json(workbook) {
-      var key={
-        "区县":"district",
-        "呋喃唑酮代谢物":"furaMeta",
-        "孔雀石绿":"malaGreen",
-        "市别":"city",
-        "样品名称":"sampleName",
-        "样品学名":"sampleScientificName",
-        "样品类型":"sampleType",
-        "样品编号":"sampleSerialNum",
-        "检测室名称":"detectionRoomName",
-        "检测室编号":"detectionRoomNum",
-        "检测时间":"detectionTime",
-        "被检单位":"inspectedUnit"
+      var key = {
+        区县: "district",
+        呋喃唑酮代谢物: "furaMeta",
+        孔雀石绿: "malaGreen",
+        市别: "city",
+        样品名称: "sampleName",
+        样品学名: "sampleScientificName",
+        样品类型: "sampleType",
+        样品编号: "sampleSerialNum",
+        检测室名称: "detectionRoomName",
+        检测室编号: "detectionRoomNum",
+        检测时间: "detectionTime",
+        被检单位: "inspectedUnit"
       };
-      var result = [];            
+      var result = [];
       var index = 0;
-      workbook.SheetNames.forEach(function(sheetName) {        
+      workbook.SheetNames.forEach(function(sheetName) {
         var roa = XLSX.utils.sheet_to_row_object_array(
           workbook.Sheets[sheetName]
         );
-        
+
         if (roa.length > 0) {
-         roa.forEach(function(row){
-             let changeVal = Object.keys(row).map(k => {
-              let v = key[k] || k;                            
-              return { [v] : row[k] };
+          roa.forEach(function(row) {
+            let changeVal = Object.keys(row).map(k => {
+              let v = key[k] || k;
+              return { [v]: row[k] };
             });
-            
-            result.push(Object.assign({}, ...changeVal, 
-            {"createTime" : new Date().toJSON()}, 
-            {"createUserId" : Auth().user().attrs.id}, 
-            {"id" : 0}, 
-            {"updateTime" : new Date().toJSON()}, 
-            {"updateUserId" : Auth().user().attrs.id})) ;      
-                 
-         });
+
+            result.push(
+              Object.assign(
+                {},
+                ...changeVal,
+                { createTime: new Date().toJSON() },
+                { createUserId: Auth().user().attrs.id },
+                { id: 0 },
+                { updateTime: new Date().toJSON() },
+                { updateUserId: Auth().user().attrs.id }
+              )
+            );
+          });
         }
       });
-      
+
       return result;
     },
 
@@ -168,19 +189,18 @@ export default {
       var obj = this;
 
       reader.onload = function(e) {
-        
         let fixedData = obj.fixdata(e.target.result),
           workbook = XLSX.read(btoa(fixedData), { type: "base64" });
         let val = obj.workbook_make_json(workbook);
-        
+
         Request()
-        .post('/api/aquatic_statistics/create', val)
-        .then(response=>{
-          obj.getList();
-        })
-        .catch(error => {
-              console.log(error);
-        });        
+          .post("/api/aquatic_statistics/create", val)
+          .then(response => {
+            obj.getList();
+          })
+          .catch(error => {
+            console.log(error);
+          });
       };
 
       reader.readAsArrayBuffer(this.file);

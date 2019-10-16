@@ -7,7 +7,11 @@
     </div>
     <div class="box">
       <div class="iptBox" v-if="loggedinUserType === 2">
-        <el-button type="primary" v-on:click="$router.push(`/trainingFunds/add`)" plain>添加</el-button>
+        <div class="iptBox">
+          <div class="filter-item">
+            <el-button type="primary" v-on:click="$router.push(`/trainingFunds/add`)" plain>添加</el-button>
+          </div>
+        </div>
       </div>
 
       <el-container>
@@ -29,7 +33,7 @@
           </el-table-column>
           <!-- <el-table-column prop="status" label="状态">
           </el-table-column>-->
-          <el-table-column label="操作">
+          <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
               <el-button
                 type="success"
@@ -97,7 +101,7 @@ export default {
     getList() {
       this.listLoading = true;
       Request()
-        .get("/api/trainingfunds/all", {
+        .get("/api/training_funds/all", {
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize
         })

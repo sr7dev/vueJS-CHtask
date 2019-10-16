@@ -11,7 +11,7 @@
     </div>
 
     <div class="box">
-      <el-form label-width="100px" ref="dataForm" :model="data" :rules="rules" v-if="!dataloading">
+      <el-form label-width="100px" ref="dataForm" :model="data" :rules="rules" v-loading="dataloading">
         <el-row>
           <el-col :span="6">
             <el-form-item label="日期">
@@ -82,8 +82,15 @@ export default {
     return {
       id : -1,
       oldDate: null,
-      data: null,     
-      dataloading: false,
+      data: {
+        specimen:"",
+        checkItem:"", 
+        checkResult:"", 
+        determine:"", 
+        checkStandard:"", 
+        checkOrganization:"", 
+      },     
+      dataloading: true,
       rules: {
         createTime: [
           {
@@ -138,16 +145,15 @@ export default {
     };
   },
   created() {       
-    this.getData(this.$route.query.checkId);
+    this.getData(this.$route.query.checkId);   
   },
   methods: {    
-    getData(id) {
+    getData(id) {      
       this.dataloading = true;
       Request()
         .get("/api/product_check_record/get/" + id)        
         .then(response => {
           this.data = response;
-          console.log(this.data);
           this.oldDate = this.data.createTime.slice(0,10);
           setTimeout(()=>{ this.dataloading = false }, 0.01*1000);
         })

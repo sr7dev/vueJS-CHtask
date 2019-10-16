@@ -2,9 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/productionSubject' }"
-          >监管对象</el-breadcrumb-item
-        >
+        <el-breadcrumb-item :to="{ path: '/productionSubject' }">监管对象</el-breadcrumb-item>
         <el-breadcrumb-item>主营产品</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">库存动态</el-breadcrumb-item>
       </el-breadcrumb>
@@ -12,24 +10,18 @@
     <div class="box">
       <div class="iptBox">
         <div class="filter-item">
-          <el-button 
-            type="primary"
-            plain
-            @click="$router.push({
-              path: `/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/${id}`,
-              query: {
-                productName: productName
-              }
-            })
-            "
-            >添加</el-button
-          >
           <el-button
             type="primary"
             plain
-            @click="$router.go(-1)"
-            >返回</el-button
-          >
+            @click="$router.push({
+              path: `/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/${companyId}`,
+              query: {
+                productId: productId
+              }
+            })"
+            v-if="loggedinUserType === 3 || loggedinUserType === 0"
+          >添加</el-button>
+          <el-button type="primary" plain @click="$router.go(-1)">返回</el-button>
         </div>
       </div>
       <el-table
@@ -38,18 +30,18 @@
         :row-class-name="rowIndex"
         v-loading="listLoading"
       >
-        <el-table-column
-          :formatter="order"
-          label="序号"
-          width="70"
-        ></el-table-column>
-        <el-table-column prop="productId" label="产品名称">
-          <template>{{ productName }}</template>
+        <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
+        <el-table-column prop="productName" label="产品名称">
+          <template slot-scope="{ row }">
+            {{
+            filterProduct(row.productId)
+            }}
+          </template>
         </el-table-column>
         <el-table-column prop="warehouse" label="所在仓库">
           <template slot-scope="{ row }">
             {{
-              getWarehouseName(row.warehouseId)
+            filterWarehouse(row.warehouseId)
             }}
           </template>
         </el-table-column>
@@ -62,35 +54,33 @@
         <el-table-column prop="grade" label="评级">
           <template slot-scope="{row}">
             {{
-              getGradeName(row.grade)
+            getGradeName(row.grade)
             }}
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column
+          v-if="loggedinUserType === 3 || loggedinUserType === 0"
+          label="操作"
+          class-name="text-center"
+        >
           <template slot-scope="{ row }">
             <el-button
-              type="success"              
+              type="success"
               plain
               @click="$router.push({
-                path: `/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/${id}`,
+                path: `/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/${row.id}`,
                 query: {
-                  productName: productName,
+                  productId: row.productId,
                   repertoryAmount: row.repertoryAmount,
                   warehouseId: row.warehouseId,
                   grade: row.grade,
                   variety: row.variety,
-                  id: row.id
+                  companyId: companyId
                 }
               })
               "
-            >修改
-            </el-button>
-            <el-button
-              type="danger"
-              v-on:click="handleDelete(`${row.id}`)"
-              plain
-            >删除
-            </el-button>
+            >修改</el-button>
+            <el-button type="danger" v-on:click="handleDelete(`${row.id}`)" plain>删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -108,83 +98,99 @@
 </template>
 
 <script>
-import sampleData from "./_data";
 import Pagination from "@/components/common/pagination";
 import Request from "@/services/api/request";
-export default {  
+import Auth from "@/services/authentication/auth.js";
+export default {
   name: "inventoryDynamics",
   components: { Pagination },
   data() {
     return {
-      id: -1,
+      loggedinUserType: null,
+      companyId: -1,
       page: {
         pageIndex: 1,
         pageSize: 20
       },
       listLoading: true,
-      total: 100,
+      total: 0,
       radio: "1",
       tableData: null,
       productName: "",
-      warehouses: []
+      warehouses: [],
+      productId: -1,
+      productDetail: []
     };
   },
   created() {
-    this.id = this.$route.params.id;
-    this.productName = this.$route.query.productName;
-    this.getList(this.id);
+    this.companyId = this.$route.params.id;
+    this.productId = this.$route.query.productId;
+    this.getList();
+    this.getProductionDetail();
+    this.getWarehouseDetail();
+    this.loggedinUserType = Auth().user().attrs.userType;
   },
   methods: {
     handleDelete(id) {
-      Request()
-        .delete("/api/product_repetory/delete/" + id)
-        .then(response => {
-          this.getList(this.id);          
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },    
-    getGradeName(id) {
-      const grade = ["低级", "中级", "高级", "特级"];
-      return grade[id - 1];
+      this.$confirm("确认删除该记录吗?", "提示", { type: "warning" }).then(
+        () => {
+          Request()
+            .delete("/api/product_repetory/delete/" + id)
+            .then(response => {
+              this.getList();
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        }
+      );
     },
-    getWarehouseName(id) {
-      for (let index = 0; index < this.warehouses.length; index++) {
-        const element = this.warehouses[index];
-        if (element.id == id) return element.warehouseName;
-      }
-      return "";
-    },
-    getList(id) {
-      this.listLoading = true;
+    getWarehouseDetail() {
       Request()
         .get("/api/warehose/all", {
-          company_id: 0,
-          pageNo: 0,
-          pageSize: 20,
+          company_id: this.companyId,
+          pageNo: this.page.pageIndex - 1,
+          pageSize: this.page.pageSize,
           sortBy: "id"
         })
         .then(response => {
           this.warehouses = response.data;
-          console.log(this.warehouses);
-          Request()
-            .get("/api/product_repetory/all", {
-              product_id: id,
-              pageNo: this.page.pageIndex - 1,
-              pageSize: this.page.pageSize
-            })
-            .then(res => {
-              console.log(res.data);
-              this.tableData = res.data;
-              this.total = res.total;
-              setTimeout(() => {
-                this.listLoading = false;
-              }, 0.5 * 1000);
-            })
-            .catch(error => {
-              console.error(error);
-            });
+        })
+        .catch(error => {
+          error;
+        });
+    },
+    filterWarehouse(ID) {
+      console.log(this.warehouses, ID);
+      let warehouse = this.warehouses.find(x => x.id === ID);
+      console.log(warehouse);
+      if (warehouse) {
+        return warehouse.warehouseName;
+      } else {
+        return "";
+      }
+    },
+    getGradeName(id) {
+      const grade = ["低级", "中级", "高级", "特级"];
+      return grade[id - 1];
+    },
+    getList() {
+      this.listLoading = true;
+      Request()
+        .get("/api/product_repetory/all", {
+          product_id: this.productId,
+          pageNo: this.page.pageIndex - 1,
+          pageSize: this.page.pageSize
+        })
+        .then(res => {
+          this.tableData = res.data;
+          this.total = res.total;
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
+        })
+        .catch(error => {
+          console.error(error);
         });
     },
     rowIndex({ row, rowIndex }) {
@@ -192,6 +198,24 @@ export default {
     },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
+    },
+    getProductionDetail() {
+      Request()
+        .get("/api/product_production/name")
+        .then(response => {
+          this.productDetail = response;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    filterProduct(ID) {
+      let product = this.productDetail.find(x => x.productId === ID);
+      if (product) {
+        return product.productName;
+      } else {
+        return "";
+      }
     }
   }
 };

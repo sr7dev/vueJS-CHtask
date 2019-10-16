@@ -7,7 +7,9 @@
       </el-breadcrumb>
     </div>
     <el-dialog :visible.sync="dialogVisible" width="30%" modal>
-      <span>选择文件 !!!</span>
+      <span>
+        <i class="el-icon-warning">&nbsp;选择文件 !!!</i>
+      </span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false" type="primary" plain>取消</el-button>
       </span>
@@ -92,14 +94,13 @@ export default {
   name: "addProductionRecord",
   data() {
     return {
-      
       productNameList: [],
       ruleFormValue: {
         productId: "",
         productionQuantity: "",
         productionArea: "",
         productionTime: "",
-        file: null,
+        file: null
       },
       dialogVisible: false,
       rules: {

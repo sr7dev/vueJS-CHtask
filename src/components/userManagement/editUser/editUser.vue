@@ -29,7 +29,7 @@
               <el-select
                 class="w-100"
                 v-model="ruleFormValue.userType"
-                v-if="loggedinUserType === 2"
+                v-if="loggedinUserType === 2 || loggedinUserType === 0"
                 disabled
               >
                 <el-option

@@ -33,10 +33,10 @@
                 :disabled="!(this.warehouseOptions.length > 0)"
               >
                 <el-option
-                  v-for="(item, index) in warehouseOptions"
+                  v-for="item in warehouseOptions"
                   :key="item.value"
                   :label="item.label"
-                  :value="index"
+                  :value="item.value"
                 ></el-option>
               </el-select>
             </el-form-item>
@@ -45,7 +45,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="储存数量" prop="repertoryAmount">
-              <el-input v-model="ruleFormValue.repertoryAmount"></el-input>
+              <el-input v-model="ruleFormValue.repertoryAmount" type="number"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -103,7 +103,8 @@ export default {
         variety: "",
         warehouseId: null,
         productName: "",
-        id: 0        
+        id: 0,
+        companyId: 0
       },
       rules: {
         variety: [
@@ -144,17 +145,34 @@ export default {
     };
   },
   created() {
-    this.ruleFormValue.productName = this.$route.query.productName;
-    this.ruleFormValue.productId = this.$route.params.id;
+    this.ruleFormValue.productId = this.$route.query.productId;
     this.ruleFormValue.repertoryAmount = this.$route.query.repertoryAmount.toString().match(/(\d+)/)[0];
-    this.ruleFormValue.warehouseId = this.$route.query.warehouseId - 1;
+    this.ruleFormValue.warehouseId = this.$route.query.warehouseId;
     this.ruleFormValue.grade = this.$route.query.grade;
     this.ruleFormValue.variety = this.$route.query.variety;
-    this.ruleFormValue.id = this.$route.query.id;
+    this.ruleFormValue.id = this.$route.params.id;
+    this.ruleFormValue.companyId = this.$route.query.companyId;
+    this.getProductionDetail();
     this.getWarehouseList();
     this.getCurrentTime();
   },
   methods: {
+    getProductionDetail() {
+      this.listLoading = true;
+      Request()
+        .get("/api/product_production/name", {
+          productid: this.ruleFormValue.productId
+        })
+        .then(response => {
+          this.ruleFormValue.productName = response[0].productName;
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     getCurrentTime() {
       var currentDate = new Date();
       this.ruleFormValue.createTime = currentDate.toISOString();
@@ -164,7 +182,7 @@ export default {
       this.listLoading = true;
       Request()
         .get("/api/warehose/all", {
-          company_id: 0
+          company_id: this.ruleFormValue.companyId
         })
         .then(response =>{
           for (var indexOption in response.data) {
@@ -187,17 +205,12 @@ export default {
             "productId": this.ruleFormValue.productId,
             "repertoryAmount": this.ruleFormValue.repertoryAmount,
             "variety": this.ruleFormValue.variety,
-            "warehouseId": this.ruleFormValue.warehouseId + 1
+            "warehouseId": this.ruleFormValue.warehouseId
           }
           Request()
             .put("/api/product_repetory/update/" + this.ruleFormValue.id, formData)
             .then(response => {
-              this.$router.push({
-                path: `/productionSubject/mainProduct/inventoryDynamics/${this.ruleFormValue.productId}`,
-                query: {
-                  productName: this.ruleFormValue.productName
-                }
-              });
+              this.goBack();
             })
             .catch(error => {});
         } else {

@@ -9,28 +9,41 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button type="primary"   @click="$router.push(`/productVariety/create/${productId}`)"  plain>添加</el-button>
+        <el-button
+          type="primary"
+          @click="$router.push(`/productVariety/create/${productId}`)"
+          plain
+        >添加</el-button>
         <el-button type="primary" plain @click="$router.go(-1)">返回</el-button>
-       <!-- <div class="select_label">是否共享</div>
+        <!-- <div class="select_label">是否共享</div>
         <el-select v-model="filter_Share" placeholder="请选择是否共享" @change="getList()">
           <el-option  v-for="item in options"
             :key="item.value"
             :label="item.label"
             :value="item.value"
           ></el-option>
-        </el-select>   -->     
+        </el-select>-->
       </div>
 
       <el-container>
-        <el-table  :data="tableData" style="width: 100%" :row-class-name="rowIndex" v-loading="listLoading">
-          <el-table-column  :formatter="order"  label="序号"   width="180"></el-table-column>
+        <el-table
+          :data="tableData"
+          style="width: 100%"
+          :row-class-name="rowIndex"
+          v-loading="listLoading"
+        >
+          <el-table-column :formatter="order" label="序号" width="180"></el-table-column>
           <el-table-column prop="varietyName" label="品种名称"></el-table-column>
-          <el-table-column prop="varietySort"  label="品种排序"></el-table-column>
-          <el-table-column prop="yield" label="操作">
+          <el-table-column prop="varietySort" label="品种排序"></el-table-column>
+          <el-table-column prop="yield" label="操作" class-name="text-center">
             <!-- <template slot-scope="scope"> -->
             <template slot-scope="{ row }">
-              <el-button  @click="$router.push({path:`/productVariety/edit/${row.id}`})"  plain   type="success">修改</el-button>
-              <el-button @click="handleDelete(`${row.id}`)" plain   type="danger">删除</el-button>
+              <el-button
+                @click="$router.push({path:`/productVariety/edit/${row.id}`})"
+                plain
+                type="success"
+              >修改</el-button>
+              <el-button @click="handleDelete(`${row.id}`)" plain type="danger">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -44,7 +57,7 @@
           @pagination="getList"
         />
       </div>
-    </div>    
+    </div>
   </div>
 </template>
 
@@ -52,7 +65,7 @@
 import Pagination from "@/components/common/pagination";
 import Request from "@/services/api/request";
 export default {
-  name:"varietyDefinition",
+  name: "varietyDefinition",
   components: { Pagination },
   data() {
     return {
@@ -61,24 +74,24 @@ export default {
       listLoading: false,
       page: {
         pageIndex: 1,
-        pageSize: 10
+        pageSize: 20
       },
-      total: 100,
+      total: 0,
       options: [
         { value: 0, label: "全部" },
         { value: 1, label: "否" },
-        { value: 2, label: "是" },
-      ],            
-      tableData: [],
+        { value: 2, label: "是" }
+      ],
+      tableData: []
     };
   },
-  created(){
+  created() {
     this.productId = this.$route.params.id;
     this.getList();
   },
   methods: {
-    getList(){
-      this.listLoading = true;      
+    getList() {
+      this.listLoading = true;
       Request()
         .get("/api/product_variety/all", {
           pageNo: this.page.pageIndex - 1,
@@ -86,48 +99,52 @@ export default {
           productId: this.productId
         })
         .then(response => {
-          
-          var tempData = response.data;          
+          var tempData = response.data;
           this.total = tempData.length;
 
           // if (this.filter_Share == 1) {
           //   this.tableData = tempData.filter(function(obj){
           //       return obj.doShare == 0;
-          //   })            
+          //   })
           // }
           // else if ( this.filter_Share == 2) {
           //   this.tableData = tempData.filter(function(obj){
           //       return obj.doShare == 1;
-          //   })            
+          //   })
           // }
           // else {
-            this.tableData = tempData;
+          this.tableData = tempData;
           // }
 
           setTimeout(() => {
             this.listLoading = false;
-          }, 0.01 * 1000);       
+          }, 0.01 * 1000);
         })
         .catch(error => {
           console.error(error);
         });
-    },    
-    handleDelete(id){
-      Request()
-        .delete("/api/product_variety/delete/" + id)
-        .then(response => {
-          this.getList();
-        })
-        .catch(error => {
-          console.log(error);
-        });
+    },
+    handleDelete(id) {
+      this.$confirm("确认删除该记录吗?", "提示", { type: "warning" }).then(
+        () => {
+          this.listLoading = true;
+          Request()
+            .delete("/api/product_variety/delete/" + id)
+            .then(response => {
+              this.getList();
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        }
+      );
     },
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
     },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
-    },
+    }
   }
 };
 </script>

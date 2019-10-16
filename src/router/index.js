@@ -31,10 +31,12 @@ import changePassword from "@/components/userManagement/changePassword/changePas
 import productionStandard from "@/components/productionStandard/productionStandard";
 import addProductionStandard from "@/components/productionStandard/addProductionStandard/addProductionStandard";
 import detailProductionStandard from "@/components/productionStandard/detailProductionStandard/detailProductionStandard";
+import editProductionStandard from "@/components/productionStandard/editProductionStandard/editProductionStandard";
 import shareFiles from "@/components/shareFiles/shareFiles";
 import addShareFiles from "@/components/shareFiles/addShareFiles/addShareFiles";
 import editShareFiles from "@/components/shareFiles/editShareFiles/editShareFiles";
 import detailShareFiles from "@/components/shareFiles/detailShareFiles/detailShareFiles";
+import specialCategory from "@/components/specialCategory/specialCategory";
 
 // 企业
 import cp_productionSubject from "@/components/company/productionSubject/productionSubject"; //生产主体
@@ -65,6 +67,7 @@ import detailsRegulatoryObject from "@/components/productionSubject/detailsRegul
 
 import warehouseEnv from "@/components/productionSubject/warehouseEnv/warehouseEnv";
 import detailsWarehouse from "@/components/productionSubject/warehouseEnv/detailsWarehouse/detailsWarehouse";
+import viewWarehouse from "@/components/productionSubject/warehouseEnv/viewWarehouse/viewWarehouse";
 import addWarehouse from "@/components/productionSubject/warehouseEnv/addWarehouse/addWarehouse";
 import mainProduct from "@/components/productionSubject/mainProduct/mainProduct";
 import thirdPartySamplingRecord from "@/components/productionSubject/mainProduct/thirdPartySamplingRecord/thirdPartySamplingRecord";
@@ -89,6 +92,8 @@ import editProductProperty from "@/components/productionSubject/mainProduct/prod
 import customProductProperty from "@/components/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/customProductProperty";
 import addCustomProductProperty from "@/components/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/addCustomProductProperty/addCustomProductProperty";
 import editCustomProductProperty from "@/components/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/editCustomProductProperty/editCustomProductProperty";
+import threeProduct from "@/components/productionSubject/threeProduct_ps/threeProduct";
+import addThreeProduct from "@/components/productionSubject/threeProduct_ps/addThreeProduct/addThreeProduct";
 
 
 import companyBusiness from "@/components/companyBusiness/companyBusiness";
@@ -240,6 +245,11 @@ export default new Router({
           component: detailsWarehouse
         },
         {
+          path: "/productionSubject/warehouseEnv/viewWarehouse/:id",
+          name: "viewWarehouse",
+          component: viewWarehouse
+        },
+        {
           path: "/productionSubject/warehouseEnv/addWarehouse/:id",
           name: "addWarehouse",
           component: addWarehouse
@@ -328,6 +338,16 @@ export default new Router({
           path: "/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/editCustomProductProperty/:id",
           name: "editCustomProductProperty",
           component: editCustomProductProperty
+        },
+        {
+          path: "/productionSubject/threeProduct",
+          name: "threeProduct",
+          component: threeProduct
+        },
+        {
+          path: "/productionSubject/threeProduct/addThreeProduct",
+          name: "addThreeProduct",
+          component: addThreeProduct
         },
         {
           path: "/threeProductsCertification",
@@ -660,6 +680,11 @@ export default new Router({
           component: detailProductionStandard
         },
         {
+          path: "/productionStandard/edit/:id",
+          name: "editProductionStandard", // 生产标准
+          component: editProductionStandard
+        },
+        {
           path:"/productionGrade/:id",
           name:"definitionLevel",
           component:definitionLevel
@@ -693,6 +718,11 @@ export default new Router({
           path: "/shareFiles/detail/:id",
           name: "detailShareFiles", // 共享文件
           component: detailShareFiles
+        },
+        {
+          path: "/specialCategory",
+          name: "specialCategory",
+          component: specialCategory
         }
       ]
     },

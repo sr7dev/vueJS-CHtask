@@ -10,23 +10,30 @@
         <el-row class="w-100">
           <el-col :span="6">
             <div class="select_label no-margin-left">开始日期</div>
-            <el-date-picker 
-              v-model="releaseTimeFrom" 
-              align="right" 
-              type="date" 
+            <el-date-picker
+              v-model="releaseTimeFrom"
+              align="right"
+              type="date"
               placeholder="开始日期"
-              v-on:change="getList"></el-date-picker>
+              v-on:change="getList"
+            ></el-date-picker>
           </el-col>
           <el-col :span="6">
             <div class="select_label no-margin-left">结束日期</div>
-            <el-date-picker v-model="releaseTimeTo" align="right" type="date" placeholder="结束日期" v-on:change="getList"></el-date-picker>
+            <el-date-picker
+              v-model="releaseTimeTo"
+              align="right"
+              type="date"
+              placeholder="结束日期"
+              v-on:change="getList"
+            ></el-date-picker>
           </el-col>
           <el-col :span="3">
             <el-button
               type="primary"
               v-on:click="$router.push(`/workTask/create`)"
               plain
-              v-if="loggedinUserType === 1"
+              v-if="loggedinUserType === 1 || loggedinUserType === 0"
             >添加工作任务</el-button>
           </el-col>
         </el-row>
@@ -51,7 +58,7 @@
               <el-button
                 type="warning"
                 plain
-                v-if="loggedinUserType === 2"
+                v-if="loggedinUserType === 2 || loggedinUserType === 0"
                 v-on:click="
                   $router.push({
                     path: `/workTask/report/create`,
@@ -64,7 +71,7 @@
               <el-button
                 type="success"
                 plain
-                v-if="loggedinUserType === 1"
+                v-if="loggedinUserType === 1 || loggedinUserType === 0"
                 v-on:click="
                   $router.push({
                     path: `/workTask/edit/${row.id}`
@@ -74,7 +81,7 @@
               <el-button
                 type="primary"
                 plain
-                v-if="loggedinUserType === 1"
+                v-if="loggedinUserType === 1 || loggedinUserType === 0"
                 v-on:click="
                   $router.push({
                     path: `/workTask/report/detail/`+ row.id
