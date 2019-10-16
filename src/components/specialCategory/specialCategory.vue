@@ -49,7 +49,7 @@
                 <el-table-column prop="unitinspec" label="检查单位">
                   <template slot-scope="{ row }">
                     {{
-                    filterCompanyName(row.companyId)
+                    getCompanyName(row.companyId)
                     }}
                   </template>
                 </el-table-column>
@@ -107,10 +107,16 @@
                   <template slot-scope="{ row }">{{ row.createTime | formatDate }}</template>
                 </el-table-column>
                 <el-table-column label="乡镇">
-                  <template slot-scope="{ row }">{{ row.companyId }}</template>
+                  <template slot-scope="{ row }">
+                    {{ 
+                      getTownName(row.companyId)
+                    }}
+                  </template>
                 </el-table-column>
-                <el-table-column label="文件">
-                  <template slot-scope="{ row }">{{ row.trainingFundsProfiles }}</template>
+                <el-table-column label="文件">                  
+                  <template slot-scope="{ row }">
+                    <el-button type="warning" plain @click="downloadFile(row.trainingFundsProfiles)">下载附件</el-button>
+                  </template>
                 </el-table-column>
               </el-table>
             </el-container>
@@ -122,6 +128,8 @@
 </template>
 <script>
 import Request from "../../services/api/request.js";
+import { Urls } from "../../services/constants";
+import axios from "axios";
 import Auth from "@/services/authentication/auth.js";
 export default {
   name: "specialCategory",
@@ -137,7 +145,9 @@ export default {
       listLoading: true,
       companyList: [],
       companyId: 0,
+      companyName: "",
       township: [],
+      townName: "",
       year: "",
       supervisionRecordTimeFrom: "",
       supervisionRecordTimeTo: "",
@@ -252,15 +262,32 @@ export default {
           console.log(error);
         });
     },
-    getCompanyProduct() {
+    getCompanyName(id) {
       Request()
-        .get("/api/company_production/name")
+        .get("/api/company_production/name", {
+          companyId: id
+        })
         .then(response => {
-          this.companyList = this.companyList.concat(response);
+          this.companyName = response[0].companyName;
         })
         .catch(error => {
           console.log(error);
         });
+      return this.companyName;
+    },
+    getTownName(id) {
+      Request()
+        .get("/api/company_production/name", {
+          companyId: id
+        })
+        .then(response => {
+          this.townName = this.filterTownship(response[0].townId);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      return this.townName;
+
     },
     filterTownship(townId) {
       let town = this.township.find(x => x.id === townId);
@@ -280,6 +307,24 @@ export default {
     },
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
+    },
+    downloadFile(downloadFileName) {
+      axios({
+        url: Urls.DOWNLOAD_URL() + downloadFileName,
+        method: "GET",
+        responseType: "blob"
+      }).then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute(
+          "download",
+          downloadFileName.replace("/uploads/", "")
+        );
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      });
     }
   }
 };

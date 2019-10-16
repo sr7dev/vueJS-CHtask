@@ -78,40 +78,7 @@ class Request {
     return http[method](this.baseUrl(url), options).then(
       success => {
         let response = success.data;
-
-        // if (response['status'] === 'error') {
-        // 	// TODO: Implement norefresh on backend side for endpoints
-        // 	// that makes no sense to refresh like login, signup
-        // 	if (!refreshed && !norefresh && response['authenticated'] === false) {
-        // 		console.log('token error', response);
-
-        // 		// refresh access token and send request again.
-        // 		return this.refreshAccessToken()
-        // 			.then(
-        // 				success => {
-        // 					console.log('Refreshed the auth token successfully.');
-        // 					return this.makeRequest(method, url, options, true);
-        // 				},
-        // 				error => {
-        // 					// notify to resign-in
-        // 					console.log('Failed to refresh the auth token...', error);
-        // 					EventBus().publish('App.authTokenExpired');
-        // 					return Promise.reject({});
-        // 				}
-        // 			);
-        // 	}
-
-        // 	return Promise.reject(response);
-        // }
         return Promise.resolve(response);
-        // if (response['status'] === 'success') {
-        // 	return Promise.resolve(response);
-        // }
-
-        // return Promise.reject({
-        // 	status: 'error',
-        // 	message: 'No status value set!'
-        // })
       },
 
       error => {
@@ -126,28 +93,6 @@ class Request {
       }
     );
   }
-
-  // TODO: Refactor auth token refresh logic
-  // refreshAccessToken() {
-  // 	//Check whether there's refresh token set or not.
-  // 	if (!TokenManager().refreshToken) {
-  // 		return Promise.reject('no refresh token');
-  // 	}
-
-  // 	return http['post'](this.baseUrl('auth/refresh_token'), {
-  // 		'refresh_token': TokenManager().refreshToken
-  // 	}).then(
-  // 		success => {
-  // 			// update access token
-  // 			TokenManager().accessToken = success['data']['id_token'];
-  // 			axios.defaults.headers.common['token'] = TokenManager().accessToken;
-  // 			return Promise.resolve();
-  // 		},
-  // 		error => {
-  // 			return Promise.reject(error);
-  // 		}
-  // 	)
-  // }
 
   get(url, params = {}) {
     return this.request("get", url, params);
