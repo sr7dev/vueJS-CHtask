@@ -7,7 +7,13 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
+      <el-form
+        ref="ruleForm"
+        :model="ruleFormValue"
+        :rules="rules"
+        label-width="100px"
+        v-loading="listLoading"
+      >
         <el-row>
           <el-col :span="6">
             <el-form-item label="企业名称" prop="creditCode">
@@ -74,16 +80,15 @@
               <el-input v-model="ruleFormValue.certificationNo"></el-input>
             </el-form-item>
           </el-col>
-        </el-row> -->
+        </el-row>-->
         <el-form-item label="认证有效期" style="text-align: center" required>
           <el-col :span="4" class="text-left">
             <el-form-item prop="certificationStartTime">
               <el-date-picker
                 class="w-80"
-                type="datetime"
                 v-model="ruleFormValue.certificationStartTime"
                 style="width: 100%;"
-                value-format="dd.MM.yyyy HH:mm:ss"
+                value-format="dd.MM.yyyy"
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -92,8 +97,7 @@
             <el-form-item prop="certificationEndTime">
               <el-date-picker
                 class="w-100"
-                type="datetime"
-                value-format="dd.MM.yyyy HH:mm:ss"
+                value-format="dd.MM.yyyy"
                 v-model="ruleFormValue.certificationEndTime"
                 style="width: 100%;"
               ></el-date-picker>
@@ -119,8 +123,8 @@
                   v-on:change="handleFileUpload()"
                 />
                 <el-button type="warning" plain @click="chooseFile()">添加附件</el-button>
-                <span v-if="file">({{ file.name }})</span>
-                <span v-else>请选择需要上传的文件...</span>
+                <span v-if="file" class="margin-left-10">({{ file.name }})</span>
+                <span v-else class="margin-left-10">请选择需要上传的文件...</span>
               </el-form-item>
             </div>
           </el-col>
@@ -142,6 +146,7 @@ export default {
   name: "addThreeProducts",
   data() {
     return {
+      listLoading: false,
       ruleFormValue: {
         creditCode: "",
         productId: "",
@@ -237,12 +242,15 @@ export default {
 
     getProductionDetail() {
       var companyId = this.filterCompany(this.ruleFormValue.creditCode);
-
+      this.listLoading = true;
       Request()
         .get("/api/product_production/all", {
           company_id: companyId
         })
         .then(response => {
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
           this.productNameList = response.data;
         })
         .catch(error => {
