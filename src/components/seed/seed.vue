@@ -93,11 +93,11 @@ export default {
           pageSize: this.page.pageSize
         })
         .then(response => {
-          this.tableData = response.data;
-          this.total = response.total;
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
+          this.tableData = response.data;
+          this.total = response.total;
         })
         .catch(error => {
           console.log(error);

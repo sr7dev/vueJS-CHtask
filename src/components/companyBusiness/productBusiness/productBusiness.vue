@@ -19,7 +19,12 @@
         </div>
       </div>
       <el-container>
-        <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex" v-loading="listLoading">
+        <el-table 
+          :data="tableData" 
+          style="width: 100%" 
+          :row-class-name="rowIndex"
+          v-loading="listLoading"
+        >
           <el-table-column :formatter="order" label="序号"></el-table-column>
           <el-table-column prop="productName" label="产品名称"></el-table-column>
           <el-table-column prop="atunitprice" label="单价"></el-table-column>

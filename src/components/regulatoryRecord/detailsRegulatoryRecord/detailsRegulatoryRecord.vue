@@ -8,7 +8,7 @@
     </div>
 
     <div class="box">
-      <el-form ref="form" v-if="!listLoading">
+      <el-form ref="form" v-if="data">
         <el-row>
           <el-col :span="12">
             <el-form-item>
@@ -251,7 +251,9 @@
           <el-button type="primary" plain v-on:click="$router.go(-1)">返回</el-button>
         </el-form-item>
       </el-form>
-      <template v-if="listLoading">装货...</template>
+      <template v-if="!data">
+        <div v-loading="listLoading">装货...</div>
+      </template>
     </div>
   </div>
 </template>
@@ -270,7 +272,7 @@ export default {
       data: null,
       conclusionData: null,
       supervisionInfo: null,
-      listLoading: false,
+      listLoading: true,
       downloadUrl: ""
     };
   },

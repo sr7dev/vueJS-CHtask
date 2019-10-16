@@ -8,7 +8,13 @@
     </div>
 
     <div class="box">
-      <el-form ref="editForm" :model="editForm" :rules="rules" label-width="120px">
+      <el-form 
+        ref="editForm" 
+        :model="editForm" 
+        :rules="rules" 
+        label-width="120px"
+        v-loading="dataloading"
+    >
         <el-form-item prop="jobName" label="作业名称" class="job-name-width">
             <el-input 
                 v-model="editForm.jobName" 
@@ -106,7 +112,7 @@ export default {
         },
         images:[],
         file: null,
-        dataloading: false,
+        dataloading: true,
         id: 0
 
     };

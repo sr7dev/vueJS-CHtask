@@ -9,7 +9,7 @@
 
     <div class="box">
       <el-row>
-        <div v-if="listLoading">请选择</div>
+        <div v-if="listLoading" v-loading="listLoading">装货...</div>
       </el-row>
       <el-dialog :visible.sync="dialogVisible" width="30%">
         <span>
@@ -19,7 +19,7 @@
           <el-button @click="dialogVisible = false" type="primary" plain>取消</el-button>
         </span>
       </el-dialog>
-      <el-form v-if="!listLoading && !isNanData">
+      <el-form v-if="!listLoading && !isNanData" v-loading="pageLoading">
         <el-row>
           <el-col :span="5">
             <el-form-item label="乡镇">
@@ -434,6 +434,7 @@ export default {
       superId: -1,
       listLoading: false,
       data: [],
+      pageLoading: false,
       imageUrl_Live: "",
       imageUrl_Sign: "",
       imageUrl_ConfirmSign: "",
@@ -578,9 +579,13 @@ export default {
         formData.append("conclusionFalseInfo", newConclusionData);
         this.$refs[formName].validate(valid => {
           if (valid) {
+            this.pageLoading = true;
             Request()
               .post("/api/rectification_record/create", formData)
               .then(response => {
+                setTimeout(() => {
+                  this.pageLoading = false;
+                }, 0.5 * 1000);
                 this.$router.push({ path: "/regulatoryRecord" });
               })
               .catch(error => {
@@ -611,9 +616,11 @@ export default {
           this.data.rectificationRecordTime
         );
         formData.append("conclusionFalseInfo", newConclusionData);
+        this.pageLoading = true;
         Request()
           .put("/api/rectification_record/update/" + this.data.id, formData)
           .then(response => {
+            this.pageLoading = false;
             this.$router.push({ path: "/regulatoryRecord" });
           })
           .catch(error => {});

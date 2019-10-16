@@ -11,9 +11,10 @@
       <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
         <el-row>
           <el-col :span="6">
-            <el-form-item label="企业" prop="creditCode">
-                {{filterCompanyName(ruleFormValue.creditCode)}}
-            </el-form-item>
+            <el-form-item
+              label="企业"
+              prop="creditCode"
+            >{{filterCompanyName(ruleFormValue.creditCode)}}</el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="产品名称" prop="productId">
@@ -64,16 +65,15 @@
               <el-input v-model="ruleFormValue.certificationNo"></el-input>
             </el-form-item>
           </el-col>
-        </el-row> -->
+        </el-row>-->
         <el-form-item label="认证有效期" style="text-align: center" required>
           <el-col :span="4" class="text-left">
             <el-form-item prop="certificationStartTime">
               <el-date-picker
                 class="w-80"
-                type="datetime"
                 v-model="ruleFormValue.certificationStartTime"
                 style="width: 100%;"
-                value-format="dd.MM.yyyy HH:mm:ss"
+                value-format="dd.MM.yyyy"
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -82,10 +82,9 @@
             <el-form-item prop="certificationEndTime">
               <el-date-picker
                 class="w-100"
-                type="datetime"
                 v-model="ruleFormValue.certificationEndTime"
                 style="width: 100%;"
-                value-format="dd.MM.yyyy HH:mm:ss"
+                value-format="dd.MM.yyyy"
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -193,7 +192,7 @@ export default {
         ]
       },
       file: null,
-      creditCode:"",
+      creditCode: "",
       companyNameList: [],
       productNameList: [],
       options: [
@@ -294,7 +293,7 @@ export default {
           Request()
             .post("/api/quality_standard/create", formData)
             .then(response => {
-              this.$router.push({ path: "/threeProductsCertification" });
+              this.goBack();
             })
             .catch(error => {});
         } else {
@@ -314,7 +313,7 @@ export default {
     filterCompanyName(credit) {
       let company = this.companyNameList.find(x => x.creditCode === credit);
       if (company) {
-        this.prod
+        this.prod;
         return company.companyName;
       } else {
         return "";

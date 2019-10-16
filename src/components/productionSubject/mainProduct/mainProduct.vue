@@ -18,7 +18,12 @@
           <el-button type="primary" plain @click="$router.go(-1)">返回</el-button>
         </div>
       </div>
-      <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
+      <el-table 
+        :data="tableData" 
+        style="width: 100%" 
+        :row-class-name="rowIndex"
+        v-loading="listLoading"
+      >
         <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
         <el-table-column prop="productName" label="产品名称"></el-table-column>
         <el-table-column prop="doOrganic" label="是否为有机产品">
@@ -31,35 +36,54 @@
         <el-table-column prop="grade" label="评级"></el-table-column>
         <el-table-column prop="operations" label="操作" width="270" class-name="text-center">
           <template slot-scope="{ row }">
-            <el-button v-on:click="showSamplingRecord(row)" type="success" plain>第三方抽检记录</el-button>
-            <el-button v-on:click="showProductBatch(row)" type="success" plain>产品批次</el-button>
+            <el-button 
+              v-on:click="showSamplingRecord(row)" 
+              type="success" 
+              plain
+              style="margin-bottom: 5px;"
+            >第三方抽检记录</el-button>
+            <el-button 
+              v-on:click="showProductBatch(row)" 
+              type="success" 
+              plain
+              style="margin-bottom: 5px;"
+            >产品批次</el-button>
             <el-button
               v-on:click="showProductVariety(row)"
               type="success"
               plain
+              style="margin-bottom: 5px;"
               v-if="loggedinUserType === 3 || loggedinUserType === 0"
             >品种定义</el-button>
             <el-button
               v-on:click="showProductGrade(row)"
               type="success"
               plain
+              style="margin-bottom: 5px;"
               v-if="loggedinUserType === 3 || loggedinUserType === 0"
             >定义等级</el-button>
           </template>
         </el-table-column>
         <el-table-column prop="operations" label width="230">
           <template slot-scope="{ row }">
-            <el-button v-on:click="showInventoryDynamics(row)" type="success" plain>库存动态</el-button>
+            <el-button 
+              v-on:click="showInventoryDynamics(row)" 
+              type="success" 
+              plain
+              style="margin-bottom: 5px;"
+            >库存动态</el-button>
             <el-button
               v-on:click="showProcessDefinition(row)"
               type="success"
               plain
+              style="margin-bottom: 5px;"
               v-if="loggedinUserType === 3 || loggedinUserType === 0"
             >作业定义</el-button>
             <el-button
               v-on:click="showProductProperty(row)"
               type="success"
               plain
+              style="margin-bottom: 5px;"
               v-if="loggedinUserType === 3 || loggedinUserType === 0"
             >属性管理</el-button>
           </template>
@@ -96,7 +120,8 @@ export default {
       },
       total: 0,
       radio: "1",
-      tableData: []
+      tableData: [],
+      listLoading: true
     };
   },
   created() {

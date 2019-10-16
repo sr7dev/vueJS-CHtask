@@ -6,7 +6,7 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <div class="iptBox" v-if="loggedinUserType===1">
+      <div class="iptBox" v-if="loggedinUserType===1 || loggedinUserType===0">
         <el-row class="w-100">
           <el-col :span="3">
             <el-button type="primary" v-on:click="$router.push(`/shareFiles/create`)" plain>新建文件夹</el-button>
@@ -15,6 +15,15 @@
       </div>
 
       <el-container>
+        <el-dialog :visible.sync="dialogVisible" width="30%" modal>
+          <span>
+            <i class="el-icon-warning">&nbsp;你确定你要删除?</i>
+          </span>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false" type="primary" plain>取消</el-button>
+            <el-button @click="handleDelete" type="success" plain>确认</el-button>
+          </span>
+        </el-dialog>
         <el-table
           :data="tableData"
           v-loading="listLoading"
@@ -23,11 +32,11 @@
           highlight-current-row
         >
           <el-table-column :formatter="order" label="序号" width="100"></el-table-column>
-          <el-table-column prop="releaseTime" label="文件名" class-name="text-center">
-            <template slot-scope="{ row }">{{ row.releaseTime | formatDate }}</template>
+          <el-table-column prop="fileName" label="文件名" class-name="text-center"></el-table-column>
+          <el-table-column prop="title" label="修改时间">
+            <template slot-scope="{ row }">{{ row.createTime | formatDate }}</template>
           </el-table-column>
-          <el-table-column prop="title" label="修改时间"></el-table-column>
-          <el-table-column prop="releasePerson" label="创建者"></el-table-column>
+          <el-table-column prop="creater" label="创建者"></el-table-column>
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
               <el-button
@@ -36,16 +45,13 @@
                 v-on:click="
                   $router.push({
                     path: `/shareFiles/detail/`+row.id,
-                    query: {
-                      id: row.id
-                    }
                   })
                 "
               >查看</el-button>
               <el-button
                 type="primary"
                 plain
-                v-if="loggedinUserType===1"
+                v-if="loggedinUserType===1 || loggedinUserType===0"
                 v-on:click="
                   $router.push({
                     path: `/shareFiles/edit/`+row.id,
@@ -55,7 +61,12 @@
                   })
                 "
               >修改</el-button>
-              <el-button type="danger" plain v-if="loggedinUserType===1">删除</el-button>
+              <el-button
+                type="danger"
+                plain
+                v-if="loggedinUserType===1 || loggedinUserType===0"
+                @click="confirmDelete(row.id)"
+              >删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -91,7 +102,9 @@ export default {
       listLoading: true,
       total: 0,
       tableData: [],
-      loggedinUserType: null
+      loggedinUserType: null,
+      dialogVisible: false,
+      selectedId: null
     };
   },
   created() {
@@ -102,9 +115,7 @@ export default {
     getList() {
       this.listLoading = true;
       Request()
-        .get("/api/work_task/all", {
-          fromDate: this.creditCode,
-          toDate: this.productCategory,
+        .get("/api/shareFiles/all", {
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize
         })
@@ -124,6 +135,23 @@ export default {
     },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
+    },
+    confirmDelete(id) {
+      this.dialogVisible = true;
+      this.selectedId = id;
+    },
+    handleDelete() {
+      this.dialogVisible = false;
+      this.listLoading = true;
+      Request()
+        .delete("/api/shareFiles/delete/" + this.selectedId)
+        .then(response => {
+          this.listLoading = false;
+          this.getList();
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 };

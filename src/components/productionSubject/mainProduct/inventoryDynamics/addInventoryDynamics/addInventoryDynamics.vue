@@ -201,9 +201,13 @@ export default {
             "variety": this.ruleFormValue.variety,
             "warehouseId": this.ruleFormValue.warehouseId
           }
+          this.listLoading = true;
           Request()
             .post("/api/product_repetory/create", formData)
             .then(response => {
+              setTimeout(() => {
+                this.listLoading = false;
+              }, 0.5 * 1000);
               this.goBack();
             })
             .catch(error => {});

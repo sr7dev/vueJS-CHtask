@@ -148,10 +148,13 @@ export default {
           formData.append("taskName", this.ruleFormValue.taskName);
           formData.append("taskType", this.ruleFormValue.taskType);
           formData.append("file", this.file);
-
+          this.listLoading = true;
           Request()
             .post("/api/product_task/create", formData)
             .then(response => {
+              setTimeout(() => {
+                this.listLoading = false;
+              }, 0.5 * 1000);
               this.goBack();
             })
             .catch(error => {});

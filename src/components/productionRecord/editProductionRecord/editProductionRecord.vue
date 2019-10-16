@@ -6,8 +6,15 @@
         <el-breadcrumb-item class="actived">修改记录</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="box">
-      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px" v-if="data">
+    <div class="box" v-if="!data" v-loading="listLoading">装货...</div>
+    <div class="box" v-else>
+      <el-form
+        ref="ruleForm"
+        :model="ruleFormValue"
+        :rules="rules"
+        label-width="120px"
+        v-loading="pageLoading"
+      >
         <el-row>
           <el-col :span="6">
             <el-form-item label="产品名称" prop="productId">
@@ -38,7 +45,7 @@
         </el-row>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="生产时长" prop="productionTime">
+            <el-form-item label="生产时长(天)" prop="productionTime">
               <el-input v-model.number="ruleFormValue.productionTime"></el-input>
             </el-form-item>
           </el-col>
@@ -80,7 +87,6 @@
           <el-button type="primary" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
       </el-form>
-      <span v-if="!data">装货...</span>
     </div>
   </div>
 </template>
@@ -95,6 +101,8 @@ export default {
     return {
       file: null,
       id: "",
+      pageLoading: false,
+      listLoading: false,
       data: null,
       productNameList: [],
       ruleFormValue: {
@@ -147,9 +155,13 @@ export default {
   },
   methods: {
     getData(id) {
+      this.listLoading = true;
       Request()
         .get("/api/production_record/get/" + id)
         .then(response => {
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
           this.data = response;
           this.ruleFormValue.productId = this.data.productId;
           this.ruleFormValue.productionQuantity = this.data.productionQuantity;
@@ -173,11 +185,15 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.pageLoading = true;
           var formData = new FormData();
           formData = this.makeFormData();
           Request()
             .put("/api/production_record/update/" + this.data.id, formData)
             .then(response => {
+              setTimeout(() => {
+                this.pageLoading = false;
+              }, 0.5 * 1000);
               this.$router.push({ path: "/productionRecord" });
             })
             .catch(error => {
