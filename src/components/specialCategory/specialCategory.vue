@@ -12,6 +12,7 @@
             <el-select 
               v-model="year"
               v-on:change="getYear()"
+              v-loading="listLoading"
               :disabled="!(options.length > 0)"
             >
               <el-option
