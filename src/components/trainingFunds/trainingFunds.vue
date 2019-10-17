@@ -7,13 +7,52 @@
     </div>
     <div class="box">
       <div class="iptBox" v-if="loggedinUserType === 2 || loggedinUserType === 0">
-        <div class="iptBox">
+        <div class="iptBox w-100">
           <div class="filter-item">
             <el-button type="primary" v-on:click="$router.push(`/trainingFunds/add`)" plain>添加</el-button>
           </div>
+          <div class="special-container" style="margin-left:auto">
+            <el-button
+              type="success"
+              icon="el-icon-plus"
+              v-if="isShowCheckbox != 0"
+              plain
+              @click="actionConfirm(1)"
+            >添加到专项</el-button>
+            <el-button
+              type="danger"
+              icon="el-icon-minus"
+              v-if="isShowCheckbox != 0"
+              plain
+              @click="actionConfirm(0)"
+              style="margin-right:10px"
+            >从专项1移除</el-button>
+            <el-checkbox
+              v-model="isShowCheckbox"
+              true-label="1"
+              false-label="0"
+              @change="showCheckbox"
+            >专项1:绿色优质农产品生产基地</el-checkbox>
+          </div>
         </div>
       </div>
-
+      <el-dialog :visible.sync="alert_dialogVisible" width="30%" modal>
+        <span>
+          <i class="el-icon-warning">&nbsp;请选择 !!!</i>
+        </span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="alert_dialogVisible = false" type="primary" plain>取消</el-button>
+        </span>
+      </el-dialog>
+      <el-dialog :visible.sync="confirm_dialogVisible" width="30%" modal>
+        <span>
+          <i class="el-icon-warning">&nbsp;继续？请再次检查</i>
+        </span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
+          <el-button :type="btnColor" @click="updateSelectedRows()" plain>确认</el-button>
+        </span>
+      </el-dialog>
       <el-container>
         <el-table
           :data="tableData"
@@ -22,6 +61,11 @@
           :row-class-name="rowIndex"
           highlight-current-row
         >
+          <el-table-column label width="35" v-if="isShowCheckbox != 0">
+            <template slot-scope="{ row }">
+              <el-checkbox style="margin-left:auto" @change="changeCheckStatus(row.id)"></el-checkbox>
+            </template>
+          </el-table-column>
           <el-table-column :formatter="order" label="序号"></el-table-column>
           <el-table-column prop="projectName" label="项目名称"></el-table-column>
           <el-table-column prop="appliedAmount" label="申请金额">
@@ -40,6 +84,11 @@
                 plain
                 v-on:click="$router.push({path: `/trainingFunds/view/${row.id}`})"
               >查看</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column prop="yield" label="专利1" align="center" width="100">
+            <template slot-scope="{ row }">
+              <i class="el-icon-check" v-if="row.specialFlag"></i>
             </template>
           </el-table-column>
         </el-table>
@@ -81,7 +130,13 @@ export default {
       tableData: [],
       loggedinUserType: null,
       companyProduction: [],
-      appStatus: ["全部", "待审批", "已同意", "已拒绝"]
+      appStatus: ["全部", "待审批", "已同意", "已拒绝"],
+      isShowCheckbox: 0,
+      selectedRows: [],
+      alert_dialogVisible: false,
+      confirm_dialogVisible: false,
+      btnColor: "",
+      action: ""
     };
   },
   mounted() {
@@ -134,6 +189,51 @@ export default {
         return company.companyName;
       } else {
         return "";
+      }
+    },
+    changeCheckStatus(id) {
+      let index = this.selectedRows.indexOf(id);
+      if (index > -1) this.selectedRows.splice(index, 1);
+      if (event.target.checked) {
+        this.selectedRows.push(id);
+      }
+    },
+    actionConfirm(action) {
+      this.action = action;
+      if (!this.selectedRows.length) {
+        this.alert_dialogVisible = true;
+      } else {
+        this.confirm_dialogVisible = true;
+        this.btnColor = action > 0 ? "success" : "danger";
+      }
+    },
+    updateSelectedRows() {
+      for (let index in this.selectedRows) {
+        this.confirm_dialogVisible = false;
+        this.listLoading = true;
+        Request()
+          .put(
+            "/api/training_funds/update_special_flag/" +
+              this.selectedRows[index] +
+              "/" +
+              this.action
+          )
+          .then(response => {
+            setTimeout(() => {
+              this.listLoading = false;
+            }, 0.5 * 1000);
+            this.selectedRows = [];
+            this.isShowCheckbox = 0;
+            this.getList();
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    },
+    showCheckbox() {
+      if (!event.target.checked) {
+        this.selectedRows = [];
       }
     }
   }
