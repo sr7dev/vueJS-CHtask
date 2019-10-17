@@ -9,14 +9,16 @@
     <div class="box">
       <div class="iptBox" style="align-items:center">
         <div class="header-left">
-          <span class="header-span">
-            <p v-if="villageId>0">{{ filterVillage(villageId) }},</p>
-            <p v-if="townId>0">{{ filterTown(townId) }},</p>
-            <p v-if="cityId>0">{{ filterCity(cityId) }}</p>
-          </span>
+          <el-button class="margin-left-20" type="primary" plain :disabled="true">
+            <div style="display: flex">
+              <span v-if="villageId>0">{{ filterVillage(villageId) }}</span>
+              <span v-if="townId>0">{{ filterTown(townId) }}</span>
+              <span v-if="cityId>0">{{ filterCity(cityId) }}</span>
+            </div>
+          </el-button>
           <el-button class="margin-left-20" type="primary" plain v-on:click="$router.go(-1)">返回</el-button>
         </div>
-        <div class="w-80" style="margin-left:auto">
+        <div style="margin-left:auto; width: 70%;">
           <el-row class="margin-bottom-10">
             <el-col :span="1">合计：</el-col>
             <el-col :span="5">补贴面积(亩)：{{sum1}}</el-col>
@@ -39,26 +41,25 @@
           highlight-current-row
         >
           <el-table-column :formatter="order" label="序号"></el-table-column>
-          <el-table-column prop="field_1" label="户名"></el-table-column>
-          <el-table-column prop="field_2" label="品种名称"></el-table-column>
-          <el-table-column prop="field_3" label="补贴面积 (亩)"></el-table-column>
-          <el-table-column prop="field_4" label="供种面积 （亩）"></el-table-column>
-          <el-table-column prop="field_5" label="中标价格 （元/公斤）"></el-table-column>
-          <el-table-column prop="field_6" label="种子应收金额 （元）"></el-table-column>
-          <el-table-column prop="field_7" label="种子补贴金额 （元）"></el-table-column>
-          <el-table-column prop="field_8" label="农户自负金额 （元）"></el-table-column>
+          <el-table-column prop="field1" label="户名"></el-table-column>
+          <el-table-column prop="field2" label="品种名称"></el-table-column>
+          <el-table-column prop="field3" label="补贴面积 (亩)"></el-table-column>
+          <el-table-column prop="field4" label="供种面积 （亩）"></el-table-column>
+          <el-table-column prop="field5" label="中标价格 （元/公斤）"></el-table-column>
+          <el-table-column prop="field6" label="种子应收金额 （元）"></el-table-column>
+          <el-table-column prop="field7" label="种子补贴金额 （元）"></el-table-column>
+          <el-table-column prop="field8" label="农户自负金额 （元）"></el-table-column>
         </el-table>
       </el-container>
 
       <div class="pageBox">
-        <!-- <pagination
+        <pagination
           v-show="total > 0"
           :total="total"
           :page.sync="page.pageIndex"
           :limit.sync="page.pageSize"
           @pagination="getData"
-          layout="prev, pager, next, sizes, jumper"
-        />-->
+        />
       </div>
     </div>
   </div>
@@ -67,9 +68,10 @@
 <script>
 import Pagination from "@/components/common/pagination";
 import Request from "../../../services/api/request";
+
 export default {
   name: "detailSeed",
-  // components: { Pagination },
+  components: { Pagination },
   data() {
     return {
       page: {
@@ -83,7 +85,7 @@ export default {
       tableData: [],
       listLoading: false,
       companyProduction: null,
-      selectedId: null,
+      id: -1,
       townId: null,
       cityId: null,
       villageId: null,
@@ -95,29 +97,29 @@ export default {
     };
   },
   created() {
-    this.selectedId = this.$route.params.id;
+    this.id = this.$route.params.id;
     this.villageId = this.$route.query.villageId;
     this.cityId = this.$route.query.cityId;
-    this.townId = this.$route.query.cityId;
-    // this.getData(this.$route.params.id);
+    this.townId = this.$route.query.townId;
+    this.getData();
     this.getCity();
     this.getVillage();
     this.getTown();
   },
   methods: {
-    getData(id) {
+    getData() {
       this.listLoading = true;
       Request()
-        .get("/api/seed/profile/" + id)
+        .get("/api/seed/profile/" + this.id)
         .then(response => {
-          this.tableData = response;
-          // this.total = response.total;
-          for (let index in response) {
-            this.sum1 = this.sum1 + response[index].field_3;
-            this.sum2 = this.sum2 + response[index].field_6;
-            this.sum3 = this.sum3 + response[index].field_8;
-            this.sum4 = this.sum4 + response[index].field_4;
-            this.sum5 = this.sum5 + response[index].field_7;
+          this.tableData = response.data;
+          this.total = response.total;
+          for (let index in response.data) {
+            this.sum1 = this.sum1 + parseFloat(response.data[index].field3);
+            this.sum2 = this.sum2 + parseInt(response.data[index].field6);
+            this.sum3 = this.sum3 + parseInt(response.data[index].field8);
+            this.sum4 = this.sum4 + parseInt(response.data[index].field4);
+            this.sum5 = this.sum5 + parseInt(response.data[index].field7);
           }
           setTimeout(() => {
             this.listLoading = false;

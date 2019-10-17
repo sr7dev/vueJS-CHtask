@@ -7,18 +7,24 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="150px">
+      <el-form
+        ref="ruleForm"
+        :model="ruleFormValue"
+        :rules="rules"
+        label-width="150px"
+        v-loading="listLoading"
+      >
         <el-row>
           <el-col :span="6">
             <el-form-item label="登录名：" prop="userId">
-              <el-input v-model="ruleFormValue.userId"></el-input>
+              <el-input v-model="ruleFormValue.userId" placeholder="例: admin"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
             <el-form-item label="名称：" prop="contactName">
-              <el-input v-model="ruleFormValue.contactName"></el-input>
+              <el-input v-model="ruleFormValue.contactName" placeholder="例: 管理员"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -44,6 +50,26 @@
                   :key="item.id"
                   :label="item.name"
                   :value="item.id"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="乡镇：" prop="townId" v-if="ruleFormValue.userType === 2">
+              <el-select v-model="ruleFormValue.townId" class="w-100">
+                <el-option
+                  v-for="town in township"
+                  :key="town.id"
+                  :label="town.name"
+                  :value="town.id"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="企业：" prop="companyId" v-if="ruleFormValue.userType === 3">
+              <el-select v-model="ruleFormValue.companyId" class="w-100">
+                <el-option
+                  v-for="item in companyData"
+                  :key="item.companyId"
+                  :label="item.companyName"
+                  :value="item.companyId"
                 ></el-option>
               </el-select>
             </el-form-item>
@@ -116,6 +142,7 @@ export default {
     };
     return {
       capsTooltip: false,
+      listLoading: false,
       ruleFormValue: {
         creditCode: "",
         contactName: "",
@@ -123,7 +150,9 @@ export default {
         contactWay: "",
         password: "",
         userId: "",
-        userType: null
+        userType: null,
+        townId: null,
+        companyId: null
       },
       rules: {
         creditCode: [
@@ -174,6 +203,20 @@ export default {
             message: "请选择",
             trigger: "change"
           }
+        ],
+        townId: [
+          {
+            required: true,
+            message: "请选择",
+            trigger: "change"
+          }
+        ],
+        companyId: [
+          {
+            required: true,
+            message: "请选择",
+            trigger: "change"
+          }
         ]
       },
       options: [
@@ -181,17 +224,22 @@ export default {
         { id: 2, name: "乡镇管理员" },
         { id: 3, name: "普通用户" }
       ],
-      loggedinUserType: null
+      loggedinUserType: null,
+      township: [],
+      companyData: []
     };
   },
   created() {
     this.loggedinUserType = Auth().user().attrs.userType;
     if (this.loggedinUserType === 2) this.ruleFormValue.userType = 3;
+    this.getTown();
+    this.getCompanyProduction();
   },
   methods: {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.listLoading = true;
           Request()
             .post("/api/user/create", {
               contactName: this.ruleFormValue.contactName,
@@ -202,9 +250,16 @@ export default {
               id: 0,
               password: this.ruleFormValue.password,
               userId: this.ruleFormValue.userId,
-              userType: this.ruleFormValue.userType
+              userType: this.ruleFormValue.userType,
+              townId: this.ruleFormValue.townId ? this.ruleFormValue.townId : 0,
+              companyId: this.ruleFormValue.companyId
+                ? this.ruleFormValue.companyId
+                : 0
             })
             .then(response => {
+              setTimeout(() => {
+                this.listLoading = false;
+              }, 0.5 * 1000);
               this.$router.push({ path: "/userManagement" });
             })
             .catch(error => {});
@@ -213,6 +268,34 @@ export default {
           return false;
         }
       });
+    },
+    getTown() {
+      this.listLoading = true;
+      Request()
+        .get("/api/town/all")
+        .then(response => {
+          this.township = this.township.concat(response);
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getCompanyProduction() {
+      this.listLoading = true;
+      Request()
+        .get("/api/company_production/name")
+        .then(response => {
+          this.companyData = response;
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     checkCapslock({ shiftKey, key } = {}) {
       if (key && key.length === 1) {

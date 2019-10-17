@@ -8,7 +8,7 @@
     </div>
 
     <div class="box">
-      <div v-if="data">
+      <el-form v-loading="dataLoading">
         <el-row>
           <el-col :span="6">
             <div class="title">公司简介</div>
@@ -61,8 +61,7 @@
         <el-button plain v-on:click="$router.go(-1)" type="success"
           >返回</el-button
         >
-      </div>
-      <span v-if="!data">装货...</span>
+      </el-form>
     </div>
   </div>
 </template>
@@ -76,7 +75,8 @@ export default {
     return {
       data: null,
       companyProducts: [],
-      url: Urls.API_BASE_URL()
+      url: Urls.API_BASE_URL(),
+      dataLoading: true
     };
   },
   created() {
@@ -85,6 +85,7 @@ export default {
   },
   methods: {
     getData(id) {
+      this.dataLoading = true;
       Request()
         .get("/api/company_business/get/" + id)
         .then(response => {
@@ -97,6 +98,9 @@ export default {
             })
             .then(res => {
               this.companyProducts = res;
+              setTimeout(() => {
+                this.dataLoading = false;
+              }, 0.5 * 1000);
             })
             .catch(error => {
               console.log(error);

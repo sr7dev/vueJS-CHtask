@@ -16,10 +16,10 @@
       </span>
     </el-dialog>
     <div class="box">
-      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
+      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px" v-loading="dialogLoading">
         <el-row>
           <el-col :span="6">
-            <el-form-item label="是否共享">
+            <el-form-item label="是否共享" prop="filter_Share">
               <el-select v-model="filter_Share" placeholder="请选择是否共享">
                 <el-option
                   v-for="item in options"
@@ -33,19 +33,19 @@
         </el-row>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="品种名称">
-              <el-input v-model.number="ruleFormValue.varietyName"></el-input>
+            <el-form-item label="品种名称" prop="varietyName">
+              <el-input v-model="ruleFormValue.varietyName"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="品种排序">
-              <el-input v-model="ruleFormValue.varietySort"></el-input>
+            <el-form-item label="品种排序" prop="varietySort">
+              <el-input v-model.number="ruleFormValue.varietySort"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item class="left-margin">
+        <el-form-item>
           <el-button type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
           <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
@@ -62,6 +62,7 @@ export default {
   data() {
     return {
       filter_Share: 0,
+      dialogLoading: true,
       dialogVisible: false,
       productId: -1,
       ruleFormValue: {
@@ -81,7 +82,10 @@ export default {
           {
             required: true,
             message: "请选择",
-            trigger: "change"
+          },
+         {
+            type: "number",
+            message: "插入号码"
           }
         ]
       }
@@ -89,11 +93,13 @@ export default {
   },
   created() {
     this.productId = this.$route.params.id;
+    this.dialogLoading = false;
   },
   methods: {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.dialogLoading = true;
           Request()
             .post("/api/product_variety/create", {
               createTime: new Date().toJSON(),
@@ -107,6 +113,7 @@ export default {
               varietySort: this.ruleFormValue.varietySort
             })
             .then(response => {
+              setTimeout(() => { this.dialogLoading = false; }, 0.01 * 1000);
               this.$router.go(-1);
             })
             .catch(error => {});

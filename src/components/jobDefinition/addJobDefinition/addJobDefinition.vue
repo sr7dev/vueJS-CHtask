@@ -8,7 +8,13 @@
     </div>
 
     <div class="box">
-      <el-form ref="addForm" :model="addForm" :rules="rules" label-width="120px">
+      <el-form 
+        ref="addForm" 
+        :model="addForm" 
+        :rules="rules" 
+        label-width="120px"
+        v-loading="dataLoading"
+      >
         <el-form-item prop="jobName" label="作业名称" class="job-name-width">
             <el-input 
                 v-model="addForm.jobName" 
@@ -98,7 +104,8 @@ export default {
         },
         images:[],
         fileName: '',
-        file_live_1: null
+        file_live_1: null,
+        dataLoading: false
 
     };
   },
@@ -108,12 +115,16 @@ export default {
     onSubmit(formName) {
         this.$refs[formName].validate(valid => {
             if (valid) {
+                this.dataLoading = true;
                 var formData = new FormData();
                 formData = this.makeFormData();
                 Request()
                     .post("/api/job_definition/create", formData)
                     .then(response => {
                         this.$router.push({ path: "/jobDefinition" });
+                        setTimeout(() => {
+                            this.dataLoading = false;
+                        }, 0.01 * 1000);
                     })
                     .catch(error => {});
             }

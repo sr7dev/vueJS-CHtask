@@ -12,10 +12,13 @@
       text-color="#ffffff"
       v-if="loggedinUserType!==3"
     >
+      <el-menu-item index="/specialCategory">
+        <router-link slot="title" to="/specialCategory">专项</router-link>
+      </el-menu-item>
       <el-menu-item index="/statisticsFarmers">
         <router-link slot="title" to="/statisticsFarmers">统计（农残）</router-link>
       </el-menu-item>
-       <el-menu-item index="/productionStandard" v-if="loggedinUserType !== 3">
+      <el-menu-item index="/productionStandard">
         <router-link slot="title" to="/productionStandard">生产标准</router-link>
       </el-menu-item>
       <el-menu-item index="/shareFiles">
@@ -27,7 +30,8 @@
     </el-menu>
     <div class="quit">
       <span style="padding-right: 20px">
-        <img src="../../assets/images/head.png" alt />admin
+        <img src="../../assets/images/head.png" alt />
+        {{userName}}
       </span>
       <span @click="quit()">
         <img src="../../assets/images/quit.png" alt />
@@ -52,6 +56,7 @@ export default {
   },
   created() {
     this.loggedinUserType = Auth().user().attrs.userType;
+    this.userName = Auth().user().attrs.contactName;
   },
   methods: {
     quit: function() {
@@ -64,7 +69,7 @@ export default {
         })
         .then(async () => {
           Auth().logout();
-            Toast.success("再 见");
+          Toast.success("再 见");
           /**
            * THIS IS SO BAD!
            * @TODO

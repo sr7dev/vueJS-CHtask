@@ -16,7 +16,7 @@
       </span>
     </el-dialog>
     <div class="box">
-      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
+      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px" v-loading="dialogloading">
         <el-row>
           <el-col :span="6">
             <el-form-item label="是否共享">
@@ -34,19 +34,19 @@
         </el-row>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="等级名称">
+            <el-form-item label="等级名称" prop="gradeName">
               <el-input v-model="ruleFormValue.gradeName"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="等级排序">
-              <el-input v-model="ruleFormValue.gradeSort"></el-input>
+            <el-form-item label="等级排序" prop="gradeSort">
+              <el-input v-model.number="ruleFormValue.gradeSort"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item class="left-margin">
+        <el-form-item>
           <el-button type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
           <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
@@ -64,37 +64,43 @@ export default {
     return {
       filter_Share: 0,
       dialogVisible: false,
+      dialogloading: true,
       productId: -1,
       ruleFormValue: {
-        varietyName: "",
-        varietySort: ""
+        gradeName: "",
+        gradeSort: 0
       },
       options: [{ value: 0, label: "否" }, { value: 1, label: "是" }],
       rules: {
-        varietyName: [
+        gradeName: [
           {
             required: true,
             message: "请选择",
             trigger: "change"
           }
         ],
-        varietySort: [
+        gradeSort: [
           {
             required: true,
-            message: "请选择",
-            trigger: "change"
+            message: "请选择"          
+          },
+          {
+            type: "number",
+            message: "插入号码"
           }
-        ]
+        ],
       }
     };
   },
   created() {
     this.productId = this.$route.params.id;
+    this.dialogloading = false;
   },
   methods: {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.dialogloading = true;
           Request()
             .post("/api/product_grade/create", {
               createTime: new Date().toJSON(),
@@ -108,6 +114,7 @@ export default {
               updateUserId: Auth().user().attrs.id
             })
             .then(response => {
+              setTimeout(() => { this.dataloading = false; }, 0.01 * 1000);
               this.$router.go(-1);
             })
             .catch(error => {});

@@ -70,12 +70,10 @@
             </template>
           </el-table-column>
           <el-table-column label="认证类型" prop="certificationType">
-            <template slot-scope="{ row }">
-              {{ appStatus2[parseInt(row.certificationType)] }}
-            </template>
+            <template slot-scope="{ row }">{{ appStatus2[parseInt(row.certificationType)] }}</template>
           </el-table-column>
           <el-table-column prop="certificationNo" label="证书编号"></el-table-column>
-          <el-table-column label="操作">
+          <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
               <el-button
                 type="success"

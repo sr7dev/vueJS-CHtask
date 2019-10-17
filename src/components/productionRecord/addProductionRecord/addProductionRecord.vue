@@ -15,7 +15,13 @@
       </span>
     </el-dialog>
     <div class="box">
-      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
+      <el-form
+        ref="ruleForm"
+        :model="ruleFormValue"
+        :rules="rules"
+        label-width="120px"
+        v-loading="listLoading"
+      >
         <el-row>
           <el-col :span="6">
             <el-form-item label="产品名称" prop="productId">
@@ -46,7 +52,7 @@
         </el-row>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="生产时长" prop="productionTime">
+            <el-form-item label="生产时长(天)" prop="productionTime">
               <el-input v-model.number="ruleFormValue.productionTime"></el-input>
             </el-form-item>
           </el-col>
@@ -95,6 +101,7 @@ export default {
   data() {
     return {
       productNameList: [],
+      listLoading: false,
       ruleFormValue: {
         productId: "",
         productionQuantity: "",
@@ -158,20 +165,20 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          if (!this.ruleFormValue.file) {
-            this.dialogVisible = true;
-          } else {
-            var formData = new FormData();
-            formData = this.makeFormData();
-            Request()
-              .post("/api/production_record/create", formData)
-              .then(response => {
-                this.$router.push({ path: "/productionRecord" });
-              })
-              .catch(error => {
-                console.log(error);
-              });
-          }
+          this.listLoading = true;
+          var formData = new FormData();
+          formData = this.makeFormData();
+          Request()
+            .post("/api/production_record/create", formData)
+            .then(response => {
+              setTimeout(() => {
+                this.listLoading = false;
+              }, 0.5 * 1000);
+              this.$router.push({ path: "/productionRecord" });
+            })
+            .catch(error => {
+              console.log(error);
+            });
         }
       });
     },

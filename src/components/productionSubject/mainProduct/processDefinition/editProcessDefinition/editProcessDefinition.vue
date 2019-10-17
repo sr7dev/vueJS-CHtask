@@ -42,34 +42,27 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="添加图片" prop="file" style="display:flex; align-items:center;">
-              <div class="item" style="display:flex; align-items:center;">
-                <div class="item-label">
-                  <input
-                    type="file"
-                    id="file"                    
-                    style="display: none"
-                    ref="file"
-                    accept="image/*"
-                    v-on:change="handleFileUpload()"
-                  />
-                  <el-button type="warning" plain @click="chooseFile()">选择文件</el-button>
-                </div>
-                <div
-                  class="item-value"
-                  style="margin-left: 1rem;
-                        display: flex;
-                        align-items: center;"
-                >
-                  <img v-if="!imageSelectedUrl && ruleFormValue.taskImages" :src="imageUrl + ruleFormValue.taskImages" style="width: 7rem; height: 7rem;"/>
-                  <img v-if="imageSelectedUrl" :src="imageSelectedUrl" style="width: 7rem; height: 7rem;"/>
-                </div>                
-              </div>
-            </el-form-item>  
-          </el-col>
-        </el-row>
+        <el-form-item label="添加图片" prop="file" class="label-margin">
+          <input
+            type="file"
+            id="file"
+            style="display: none"
+            ref="file"
+            accept="image/*"
+            v-on:change="handleFileUpload()"
+          />
+          <div 
+            style="border:solid 1px; width:100px; height:100px" 
+            @click="chooseFile()"
+          >
+            <img v-if="!imageSelectedUrl && ruleFormValue.taskImages" :src="imageUrl + ruleFormValue.taskImages" style="width: 7rem; height: 7rem;"/>
+            <img v-if="imageSelectedUrl" :src="imageSelectedUrl" style="width: 7rem; height: 7rem;"/>
+          </div>
+          <div class="item-value" >
+            <div v-if="file">({{ fileName }})</div>
+            <div v-else style="">请选择需要上传的文件...</div>
+          </div>
+        </el-form-item>
         <el-form-item>
           <el-button type="success" @click="onSubmit('ruleForm')" plain
             >保存</el-button
@@ -89,9 +82,11 @@ export default {
   data() {
     return {
       file: null,
+      fileName: "",
       listLoading: false,
       imageUrl: "",
       imageSelectedUrl: "",
+      companyId: -1,
       ruleFormValue: {
         doShare: "",
         taskName: "",
@@ -125,8 +120,8 @@ export default {
     };
   },
   created() {
-    this.ruleFormValue.id = this.$route.query.id;
-    this.ruleFormValue.productId = this.$route.params.id;
+    this.ruleFormValue.id = this.$route.params.id;
+    this.companyId = this.$route.query.companyId;
     this.getInfo();
   },
   methods: {
@@ -139,7 +134,10 @@ export default {
           this.ruleFormValue.taskName = response.taskName;
           this.ruleFormValue.doShare = response.doShare;
           this.ruleFormValue.taskImages = response.taskImages;
+          this.ruleFormValue.productId = response.productId;
           this.imageUrl = Urls.DOWNLOAD_URL();
+          this.file = response.taskImages;
+          this.fileName = response.taskImages;
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
@@ -159,6 +157,7 @@ export default {
       };
       if (this.file) {
         reader.readAsDataURL(this.file);
+        this.fileName = this.file.name;
       }
     },
     onSubmit(formName) {
@@ -169,14 +168,17 @@ export default {
           formData.append("taskName", this.ruleFormValue.taskName);
           formData.append("taskType", this.ruleFormValue.taskType);
           formData.append("productId", this.ruleFormValue.productId);
-          if (this.file != null) formData.append("file", this.file);
-
+          if (this.file != null) {
+            formData.append("file", this.file);
+          }
+          this.listLoading = true;
           Request()
             .put("/api/product_task/update/" + this.ruleFormValue.id, formData)
             .then(response => {
-              this.$router.push({
-                path: `/productionSubject/mainProduct/processDefinition/${this.ruleFormValue.productId}`
-              });
+              setTimeout(() => {
+                this.listLoading = false;
+              }, 0.5 * 1000);
+              this.goBack();
             })
             .catch(error => {});
         } else {

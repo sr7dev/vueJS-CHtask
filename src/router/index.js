@@ -31,22 +31,12 @@ import changePassword from "@/components/userManagement/changePassword/changePas
 import productionStandard from "@/components/productionStandard/productionStandard";
 import addProductionStandard from "@/components/productionStandard/addProductionStandard/addProductionStandard";
 import detailProductionStandard from "@/components/productionStandard/detailProductionStandard/detailProductionStandard";
+import editProductionStandard from "@/components/productionStandard/editProductionStandard/editProductionStandard";
 import shareFiles from "@/components/shareFiles/shareFiles";
 import addShareFiles from "@/components/shareFiles/addShareFiles/addShareFiles";
 import editShareFiles from "@/components/shareFiles/editShareFiles/editShareFiles";
 import detailShareFiles from "@/components/shareFiles/detailShareFiles/detailShareFiles";
-
-// 企业
-import cp_productionSubject from "@/components/company/productionSubject/productionSubject"; //生产主体
-import cp_editProduction from "@/components/company/productionSubject/editProduction"; // 修改生产主体
-import cp_businessProducts from "@/components/company/businessProducts/businessProducts"; // 主营产品 goProductBatch
-import cp_productBatch from "@/components/company/businessProducts/productBatch"; //产品批次
-import cp_jobDefinition from "@/components/company/businessProducts/jobDefinition"; //作业定义
-import cp_editProduct from "@/components/company/businessProducts/editProduct"; //修改产品
-import cp_thirdRecords from "@/components/company/businessProducts/thirdRecords"; //第三方抽检记录
-import cp_attributeManagement from "@/components/company/businessProducts/attributeManagement"; //属性管理
-import cp_definitionLevel from "@/components/company/businessProducts/definitionLevel"; //定义等级
-import cp_inventoryDynamics from "@/components/company/businessProducts/inventoryDynamics"; //库存动态
+import specialCategory from "@/components/specialCategory/specialCategory";
 
 import creditRating from "@/components/creditRating/creditRating";
 import editRating from "@/components/creditRating/editRating/editRating";
@@ -62,9 +52,11 @@ import productionSubject from "@/components/productionSubject/productionSubject"
 import addRegulatoryObject from "@/components/productionSubject/addRegulatoryObject/addRegulatoryObject";
 import editRegulatoryObject from "@/components/productionSubject/editRegulatoryObject/editRegulatoryObject";
 import detailsRegulatoryObject from "@/components/productionSubject/detailsRegulatoryObject/detailsRegulatoryObject";
-
+import supervisionGrid from "@/components/supervisionGrid/supervisionGrid"
+import manageSupervisionGrid from "@/components/supervisionGrid/manageSupervisionGrid/manageSupervisionGrid"
 import warehouseEnv from "@/components/productionSubject/warehouseEnv/warehouseEnv";
 import detailsWarehouse from "@/components/productionSubject/warehouseEnv/detailsWarehouse/detailsWarehouse";
+import viewWarehouse from "@/components/productionSubject/warehouseEnv/viewWarehouse/viewWarehouse";
 import addWarehouse from "@/components/productionSubject/warehouseEnv/addWarehouse/addWarehouse";
 import mainProduct from "@/components/productionSubject/mainProduct/mainProduct";
 import thirdPartySamplingRecord from "@/components/productionSubject/mainProduct/thirdPartySamplingRecord/thirdPartySamplingRecord";
@@ -95,7 +87,7 @@ import addThreeProduct from "@/components/productionSubject/threeProduct_ps/addT
 
 import companyBusiness from "@/components/companyBusiness/companyBusiness";
 import productBusiness from "@/components/companyBusiness/productBusiness/productBusiness";
-import  addProductBusiness from "@/components/companyBusiness/productBusiness/addProductBusiness/addProductBusiness";
+import addProductBusiness from "@/components/companyBusiness/productBusiness/addProductBusiness/addProductBusiness";
 import detailsCompanyBusiness from "@/components/companyBusiness/detailsCompanyBusiness/detailsCompanyBusiness";
 
 import sampleCheck from "@/components/sampleCheck/sampleCheck";
@@ -127,7 +119,8 @@ import addTrainingFunds from "@/components/trainingFunds/addTrainingFunds/addTra
 import viewTrainingFunds from "@/components/trainingFunds/viewTrainingFunds/viewTrainingFunds";
 
 import inputManagement from "@/components/inputManagement/inputManagement";
-import addInputManagement from "@/components/inputManagement/addInputManagement/addInputManagement";
+import addInputPurchase from "@/components/inputManagement/addInputManagement/addInputPurchase";
+import addInputUse from "@/components/inputManagement/addInputManagement/addInputUse";
 import viewInputManagement from "@/components/inputManagement/viewInputManagement/viewInputManagement";
 
 import Auth from "@/services/authentication/auth";
@@ -139,7 +132,7 @@ export default new Router({
       path: "/",
       name: "home",
       component: home,
-      redirect: "cp_productionSubject",
+      redirect: "productionSubject",
       beforeEnter(to, from, next) {
         if (!Auth().check()) {
           next({
@@ -240,6 +233,11 @@ export default new Router({
           path: "/productionSubject/warehouseEnv/detailsWarehouse/:id",
           name: "detailsWarehouse",
           component: detailsWarehouse
+        },
+        {
+          path: "/productionSubject/warehouseEnv/viewWarehouse/:id",
+          name: "viewWarehouse",
+          component: viewWarehouse
         },
         {
           path: "/productionSubject/warehouseEnv/addWarehouse/:id",
@@ -422,56 +420,6 @@ export default new Router({
           component: companyDetails
         },
         {
-          path: "/cp_productionSubject",
-          name: "cp_productionSubject",
-          component: cp_productionSubject
-        },
-        {
-          path: "/cp_editProduction",
-          name: "cp_editProduction",
-          component: cp_editProduction
-        },
-        {
-          path: "/cp_businessProducts",
-          name: "cp_businessProducts",
-          component: cp_businessProducts
-        },
-        {
-          path: "/cp_productBatch",
-          name: "cp_productBatch",
-          component: cp_productBatch
-        },
-        {
-          path: "/cp_jobDefinition",
-          name: "cp_jobDefinition",
-          component: cp_jobDefinition
-        },
-        {
-          path: "/cp_editProduct",
-          name: "cp_editProduct",
-          component: cp_editProduct
-        },
-        {
-          path: "/cp_thirdRecords",
-          name: "cp_thirdRecords",
-          component: cp_thirdRecords
-        },
-        {
-          path: "/cp_attributeManagement",
-          name: "cp_attributeManagement",
-          component: cp_attributeManagement
-        },
-        {
-          path: "/cp_definitionLevel",
-          name: "cp_definitionLevel",
-          component: cp_definitionLevel
-        },
-        {
-          path: "/cp_inventoryDynamics",
-          name: "cp_inventoryDynamics",
-          component: cp_inventoryDynamics
-        },
-        {
           path: "/disabilityCheck",
           name: "disabilityCheck", // 农残检测
           component: disabilityCheck
@@ -572,9 +520,14 @@ export default new Router({
           component: inputManagement
         },
         {
-          path: "/inputManagement/add",
-          name: "addInputManagement", // 投入品管理
-          component: addInputManagement
+          path: "/inputManagement/addPurchase",
+          name: "addInputPurchase", // 投入品管理
+          component: addInputPurchase
+        },
+        {
+          path: "/inputManagement/addUse",
+          name: "addInputUse", // 投入品管理
+          component: addInputUse
         },
         {
           path: "/inputManagement/view/:id",
@@ -672,19 +625,24 @@ export default new Router({
           component: detailProductionStandard
         },
         {
-          path:"/productionGrade/:id",
-          name:"definitionLevel",
-          component:definitionLevel
+          path: "/productionStandard/edit/:id",
+          name: "editProductionStandard", // 生产标准
+          component: editProductionStandard
         },
         {
-          path:"/productionGrade/create/:id",
-          name:"addDefinitionLevel",
-          component:addDefinitionLevel
+          path: "/productionGrade/:id",
+          name: "definitionLevel",
+          component: definitionLevel
         },
         {
-          path:"/productionGrade/edit/:id",
-          name:"editDefinitionLevel",
-          component:editDefinitionLevel
+          path: "/productionGrade/create/:id",
+          name: "addDefinitionLevel",
+          component: addDefinitionLevel
+        },
+        {
+          path: "/productionGrade/edit/:id",
+          name: "editDefinitionLevel",
+          component: editDefinitionLevel
         },
         {
           path: "/shareFiles",
@@ -705,6 +663,21 @@ export default new Router({
           path: "/shareFiles/detail/:id",
           name: "detailShareFiles", // 共享文件
           component: detailShareFiles
+        },
+        {
+          path: "/specialCategory",
+          name: "specialCategory",
+          component: specialCategory
+        },
+        {
+          path: "/supervisionGrid",
+          name: "supervisionGrid", // 监管网格
+          component: supervisionGrid
+        },
+        {
+          path: "/supervisionGrid/manage/:id",
+          name: "manageSupervisionGrid", // 监管网格
+          component: manageSupervisionGrid
         }
       ]
     },

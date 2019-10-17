@@ -89,9 +89,13 @@ export default {
             "name": this.ruleFormValue.name,
             "sort": this.ruleFormValue.sort
           }
+          this.listLoading = true;
           Request()
             .put("/api/product_property_option/update/" + this.ruleFormValue.id, formData)
             .then(response => {
+              setTimeout(() => {
+                this.listLoading = false;          
+              }, 0.5*100);
               this.$router.push({
                 path: `/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/${this.ruleFormValue.id}`
               });

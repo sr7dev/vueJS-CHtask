@@ -14,6 +14,15 @@
           class="no-margin-left"
         >添加用户</el-button>
       </div>
+      <el-dialog :visible.sync="dialogVisible" width="30%" modal>
+        <span>
+          <i class="el-icon-warning">&nbsp;你确定你要删除?</i>
+        </span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false" type="primary" plain>取消</el-button>
+          <el-button @click="handleDelete" type="success" plain>确认</el-button>
+        </span>
+      </el-dialog>
       <el-container>
         <el-table
           :data="tableData"
@@ -30,7 +39,12 @@
             <template slot-scope="{ row }">{{ userTypeLsit[row.userType] }}</template>
           </el-table-column>
           <el-table-column prop="creditCode" label="统一社会信用代码"></el-table-column>
-          <el-table-column label="操作" class-name="text-center" v-if="loggedinUserType === 2">
+          <el-table-column
+            label="操作"
+            class-name="text-center"
+            v-if="loggedinUserType === 2"
+            width="300"
+          >
             <template slot-scope="{ row }">
               <el-button
                 type="primary"
@@ -53,9 +67,20 @@
                   })
                 "
               >修改密码</el-button>
+              <el-button
+                v-if="row.userType === 3"
+                type="danger"
+                v-on:click="confirmDelete(`${row.id}`)"
+                plain
+              >删除</el-button>
             </template>
           </el-table-column>
-          <el-table-column label="操作" class-name="text-center" v-if="loggedinUserType === 1">
+          <el-table-column
+            label="操作"
+            class-name="text-center"
+            width="300"
+            v-if="loggedinUserType === 1 || loggedinUserType === 0"
+          >
             <template slot-scope="{ row }">
               <el-button
                 type="primary"
@@ -75,6 +100,7 @@
                   })
                 "
               >修改密码</el-button>
+              <el-button type="danger" v-on:click="confirmDelete(`${row.id}`)" plain>删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -106,6 +132,7 @@ export default {
         pageIndex: 1,
         pageSize: 20
       },
+      dialogVisible: false,
       total: 0,
       tableData: [],
       listLoading: false,
@@ -150,6 +177,25 @@ export default {
       } else {
         return "";
       }
+    },
+    confirmDelete(id) {
+      this.dialogVisible = true;
+      this.selectedId = id;
+    },
+    handleDelete() {
+      this.dialogVisible = false;
+      this.listLoading = true;
+      Request()
+        .delete("/api/user/delete/" + this.selectedId)
+        .then(response => {
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
+          this.getData();
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 };

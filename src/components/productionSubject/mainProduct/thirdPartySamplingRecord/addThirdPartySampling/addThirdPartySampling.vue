@@ -11,7 +11,7 @@
     </div>
 
     <div class="box">
-      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
+      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px" v-loading="listLoading">
         <el-row>
           <el-col :span="6">
             <el-form-item label="日期" prop="createTime">
@@ -81,6 +81,7 @@ export default {
   data() {    
     return {      
       productId: -1,
+      listLoading:true,
       ruleFormValue: {
         createTime: new Date().toISOString().slice(0,10),
         specimen: "",
@@ -88,7 +89,7 @@ export default {
         checkResult: "",
         determine: "",
         checkStandard: "",
-        checkOrganization: ""
+        checkOrganization: "",
       },
       rules: {
         createTime: [
@@ -145,12 +146,13 @@ export default {
   },
   created() {
     this.productId = this.$route.params.id;
+    this.listLoading = false;
   },
   methods: {     
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-
+          this.listLoading = true;
           Request()
             .post("/api/product_check_record/create", {
               "checkItem": this.ruleFormValue.checkItem,
@@ -168,8 +170,9 @@ export default {
               "updateUserId": Auth().user().attrs.id,
             })
             .then(response => {
-              //this.$router.push({ path: "/threeProductsCertification" });
+              //this.$router.push({ path: "/threeProductsCertification" });              
               this.$router.go(-1);
+              setTimeout(() => { this.listLoading = false; }, 0.01 * 1000);
             })
             .catch(error => {});
         } else {

@@ -7,23 +7,29 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
+      <el-form
+        ref="ruleForm"
+        :model="ruleFormValue"
+        :rules="rules"
+        label-width="100px"
+        v-loading="listLoading"
+      >
         <el-row>
           <el-col :span="5">
-            <el-form-item label="文件夹名称" prop="productId">
-              <el-input v-model="productId"></el-input>
+            <el-form-item label="文件夹名称" prop="fileName">
+              <el-input v-model="ruleFormValue.fileName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="创建者" prop="category">
-              <el-input v-model="category"></el-input>
+            <el-form-item label="创建者" prop="creater">
+              <el-input v-model="ruleFormValue.creater"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="5">
-            <el-form-item label="是否可见" prop="createTime">
-              <el-select v-model="ruleFormValue.category" class="w-100">
+            <el-form-item label="是否可见" prop="isVisible">
+              <el-select v-model="ruleFormValue.isVisible" class="w-100">
                 <el-option
                   v-for="item in options"
                   :key="item.id"
@@ -35,7 +41,7 @@
           </el-col>
         </el-row>
         <el-form-item class="left-margin">
-          <el-button type="success" plain @click="onSubmit('ruleForm')" disabled>保存</el-button>
+          <el-button type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
           <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
       </el-form>
@@ -46,49 +52,35 @@
 <script>
 import Request from "../../../services/api/request.js";
 import { Urls } from "../../../services/constants";
+import Auth from "@/services/authentication/auth.js";
 
 export default {
   name: "addSharedFiles",
   data() {
     return {
-      file: null,
-      productionList: [],
-      selloading: false,
+      listLoading: false,
+      userId: null,
       options: [{ id: 0, name: "不可见" }, { id: 2, name: "可见" }],
       ruleFormValue: {
-        productId: null,
-        category: null,
-        releaseTime: "",
-        releasePerson: "",
-        productionStandard: ""
+        fileName: null,
+        creater: null,
+        isVisible: 0
       },
       rules: {
-        productId: [
+        fileName: [
           {
             required: true,
-            message: "请选择",
+            message: "请插入",
             trigger: "change"
           }
         ],
-        category: [
+        creater: [
           {
             required: true,
-            message: "请选择"
+            message: "请插入"
           }
         ],
-        releaseTime: [
-          {
-            required: true,
-            message: "请选择"
-          }
-        ],
-        releasePerson: [
-          {
-            required: true,
-            message: "请选择"
-          }
-        ],
-        productionStandard: [
+        isVisible: [
           {
             required: true,
             message: "请选择"
@@ -98,68 +90,36 @@ export default {
     };
   },
   created() {
-    this.getProduction();
+    this.userId = Auth().user().attrs.id;
   },
   methods: {
-    getProduction() {
-      this.selloading = true;
-      Request()
-        .get("/api/product_production/all")
-        .then(response => {
-          this.productionList = response.data;
-          setTimeout(() => {
-            this.selloading = false;
-          }, 0.5 * 1000);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
-
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          var formData = new FormData();
-          formData = this.makeFormData();
+          this.listLoading = true;
+          let createDate = new Date();
           Request()
-            .post("/api/production_standard/create", formData)
+            .post("/api/shareFiles/create", {
+              createTime: createDate,
+              createUserId: this.userId,
+              creater: this.ruleFormValue.creater,
+              fileName: this.ruleFormValue.fileName,
+              id: 0,
+              isVisible: this.ruleFormValue.isVisible,
+              updateTime: createDate,
+              updateUserId: 0
+            })
             .then(response => {
-              this.$router.push({ path: "/productionStandard" });
+              setTimeout(() => {
+                this.listLoading = false;
+              }, 0.5 * 1000);
+              this.$router.push({ path: "/shareFiles" });
             })
             .catch(error => {
               console.log(error);
             });
         }
       });
-    },
-    makeFormData() {
-      var mainFormData = new FormData();
-      if (this.file) {
-        mainFormData.append("file", this.file);
-      }
-      mainFormData.append("id", 0);
-      mainFormData.append("productId", this.ruleFormValue.productId);
-      const productName = this.filterProduct(this.ruleFormValue.productId);
-      mainFormData.append("productName", productName);
-      this.ruleFormValue.releaseTime = new Date(
-        this.ruleFormValue.releaseTime
-      ).toDateString("YYYY-MM-DD");
-      mainFormData.append("category", this.ruleFormValue.category);
-      mainFormData.append("releaseTime", this.ruleFormValue.releaseTime);
-      mainFormData.append("releasePerson", this.ruleFormValue.releasePerson);
-      mainFormData.append(
-        "productStandard",
-        this.ruleFormValue.productionStandard
-      );
-      return mainFormData;
-    },
-    filterProduct(id) {
-      let Product = this.productionList.find(x => x.productId === id);
-      if (Product) {
-        return Product.productName;
-      } else {
-        return "";
-      }
     }
   }
 };

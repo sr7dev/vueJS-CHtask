@@ -8,12 +8,19 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
+      <el-form
+        ref="ruleForm"
+        :model="ruleFormValue"
+        :rules="rules"
+        label-width="100px"
+        v-loading="listLoading"
+      >
         <el-row>
           <el-col :span="6">
-            <el-form-item label="企业" prop="creditCode">
-                {{filterCompanyName(ruleFormValue.creditCode)}}
-            </el-form-item>
+            <el-form-item
+              label="企业"
+              prop="creditCode"
+            >{{filterCompanyName(ruleFormValue.creditCode)}}</el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="产品名称" prop="productId">
@@ -31,8 +38,8 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item label="认证类型" prop="certficationType">
-          <el-radio-group v-model="ruleFormValue.certficationType">
+        <el-form-item label="认证类型" prop="certificationType">
+          <el-radio-group v-model="ruleFormValue.certificationType">
             <el-radio label="1">无公害产品</el-radio>
             <el-radio label="2">绿色食品</el-radio>
             <el-radio label="3">有机食品</el-radio>
@@ -41,8 +48,8 @@
         </el-form-item>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="认证类别" prop="certficationCategory">
-              <el-input v-model="ruleFormValue.certficationCategory"></el-input>
+            <el-form-item label="认证类别" prop="certificationCategory">
+              <el-input v-model="ruleFormValue.certificationCategory"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -60,19 +67,20 @@
         </el-row>
         <!-- <el-row>
           <el-col :span="6">
-            <el-form-item label="证书编号" prop="certficationNo">
-              <el-input v-model="ruleFormValue.certficationNo"></el-input>
+            <el-form-item label="证书编号" prop="certificationNo">
+              <el-input v-model="ruleFormValue.certificationNo"></el-input>
             </el-form-item>
           </el-col>
-        </el-row> -->
+        </el-row>-->
         <el-form-item label="认证有效期" style="text-align: center" required>
           <el-col :span="4" class="text-left">
             <el-form-item prop="certificationStartTime">
               <el-date-picker
                 class="w-80"
-                type="date"
                 v-model="ruleFormValue.certificationStartTime"
                 style="width: 100%;"
+                type="datetime"
+                value-format="dd.MM.yyyy HH:mm:ss"
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -81,9 +89,10 @@
             <el-form-item prop="certificationEndTime">
               <el-date-picker
                 class="w-100"
-                type="date"
                 v-model="ruleFormValue.certificationEndTime"
                 style="width: 100%;"
+                type="datetime"
+                value-format="dd.MM.yyyy HH:mm:ss"
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -132,8 +141,8 @@ export default {
       ruleFormValue: {
         creditCode: "",
         productId: "",
-        certficationType: "",
-        certficationCategory: "",
+        certificationType: "",
+        certificationCategory: "",
         argriculturalClassification: "",
         certificationStartTime: "",
         certificationEndTime: "",
@@ -147,14 +156,14 @@ export default {
             trigger: "change"
           }
         ],
-        certficationType: [
+        certificationType: [
           {
             required: true,
             message: "请选择",
             trigger: "change"
           }
         ],
-        certficationCategory: [
+        certificationCategory: [
           {
             required: true,
             message: "请插入",
@@ -191,15 +200,16 @@ export default {
         ]
       },
       file: null,
-      creditCode:"",
+      creditCode: "",
       companyNameList: [],
+      listLoading: false,
       productNameList: [],
       options: [
         { value: "1", label: "养殖业" },
         { value: "2", label: "畜牧业" },
         { value: "3", label: "种植业" }
       ],
-      certficationTypes: [
+      certificationTypes: [
         { value: "1", label: "无公害产品" },
         { value: "2", label: "绿色食品" },
         { value: "3", label: "有机食品" },
@@ -242,27 +252,21 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           var formData = new FormData();
-
+          this.listLoading = true;
           formData.append("creditCode", this.ruleFormValue.creditCode);
           formData.append("productId", this.ruleFormValue.productId);
           formData.append(
             "certificationType",
-            this.ruleFormValue.certficationType
+            this.ruleFormValue.certificationType
           );
           formData.append(
-            "certficationCategory",
-            this.ruleFormValue.certficationCategory
+            "certificationCategory",
+            this.ruleFormValue.certificationCategory
           );
           formData.append(
             "argriculturalClassification",
             this.ruleFormValue.argriculturalClassification
           );
-          this.ruleFormValue.certificationStartTime = new Date(
-            this.ruleFormValue.certificationStartTime
-          ).toDateString("YYYY-MM-DD");
-          this.ruleFormValue.certificationEndTime = new Date(
-            this.ruleFormValue.certificationEndTime
-          ).toDateString("YYYY-MM-DD");
           formData.append(
             "certificationStartTime",
             this.ruleFormValue.certificationStartTime
@@ -275,30 +279,33 @@ export default {
             "createDate",
             this.ruleFormValue.certificationStartTime
           );
-          formData.append(
-            "createTime",
-            this.ruleFormValue.certificationStartTime
-          );
+          // formData.append(
+          //   "createTime",
+          //   this.ruleFormValue.certificationStartTime
+          // );
           formData.append(
             "updateDate",
             this.ruleFormValue.certificationStartTime
           );
-          formData.append(
-            "updateTime",
-            this.ruleFormValue.certificationStartTime
-          );
+          // formData.append(
+          //   "updateTime",
+          //   this.ruleFormValue.certificationStartTime
+          // );
           formData.append("updater", "string");
-          formData.append("updateUserId", 0);
-          formData.append("createUserId", 0);
+          // formData.append("updateUserId", 0);
+          // formData.append("createUserId", 0);
           formData.append("creater", "string");
           formData.append("id", 0);
           if (this.file) {
-            formData.append("files", this.file);
+            formData.append("file", this.file);
           }
           Request()
             .post("/api/quality_standard/create", formData)
             .then(response => {
-              this.$router.push({ path: "/threeProductsCertification" });
+              setTimeout(() => {
+                this.listLoading = false;
+              }, 0.5 * 1000);
+              this.goBack();
             })
             .catch(error => {});
         } else {
@@ -318,7 +325,7 @@ export default {
     filterCompanyName(credit) {
       let company = this.companyNameList.find(x => x.creditCode === credit);
       if (company) {
-        this.prod
+        this.prod;
         return company.companyName;
       } else {
         return "";

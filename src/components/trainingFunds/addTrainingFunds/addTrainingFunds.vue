@@ -14,6 +14,7 @@
         :rules="rules" 
         label-width="100px"
         class="form-width" 
+        v-loading="dataLoading"
     >
         <el-form-item prop="projectName" label="项目名称:" class="input-width label-align">
             <el-input 
@@ -26,6 +27,7 @@
              <el-input 
                 v-model="addForm.appliedAmount" 
                 auto-complete="off"
+                type="number"
             >
             </el-input>
         </el-form-item>
@@ -96,7 +98,7 @@ export default {
             {
                 required: true,
                 message: "请插入",
-                trigger: "change"
+                trigger: "change",
             }],
             companyId: [
             {
@@ -113,7 +115,7 @@ export default {
         },
         fileName: '',
         file_live_1: null,
-        dataloading: false
+        dataLoading: false
     };
   },
   mounted() {
@@ -133,22 +135,15 @@ export default {
     onSubmit(formName) {
         this.$refs[formName].validate(valid => {
             if (valid) {
-                this.dataloading = true;
+                this.dataLoading = true;
                 var formData = new FormData();
                 formData = this.makeFormData();
                 Request()
-                    .post("/api/trainingfunds/create", //formData)
-                    {   projectName: this.addForm.projectName,
-                        appliedAmount: this.addForm.appliedAmount,
-                        proposer: this.addForm.proposer,
-                        companyId: this.addForm.companyId,
-                        id: 0,
-                        file: this.file_live_1
-                    })
+                    .post("/api/training_funds/create", formData)
                     .then(response => {
                         this.$router.push({ path: "/trainingFunds" });
                         setTimeout(() => {
-                            this.dataloading = false;
+                            this.dataLoading = false;
                         }, 0.01 * 1000);
                     })
                     .catch(error => {});

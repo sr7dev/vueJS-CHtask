@@ -6,7 +6,7 @@
         <el-breadcrumb-item class="actived">详情</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="box" v-if="!workData">
+    <div class="box" v-if="!workData" v-loading="pageLoading">
       <div>装货...</div>
     </div>
     <div class="box" v-else>
@@ -81,6 +81,7 @@ export default {
         pageSize: 20
       },
       listLoading: false,
+      pageLoading: true,
       total: 0,
       tableData: [],
       file: null,

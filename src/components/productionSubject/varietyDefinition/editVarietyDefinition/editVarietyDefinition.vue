@@ -21,7 +21,7 @@
         :model="ruleFormValue"
         :rules="rules"
         label-width="100px"
-        v-if="!dataloading"
+        v-loading="dataloading"
       >
         <el-row>
           <el-col :span="6">
@@ -40,19 +40,19 @@
         </el-row>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="品种名称">
+            <el-form-item label="品种名称" prop="varietyName">
               <el-input v-model="ruleFormValue.varietyName"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="品种排序">
-              <el-input v-model="ruleFormValue.varietySort"></el-input>
+            <el-form-item label="品种排序" prop="varietySort">
+              <el-input v-model.number="ruleFormValue.varietySort"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item class="left-margin">
+        <el-form-item>
           <el-button type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
           <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
@@ -71,7 +71,7 @@ export default {
     return {
       filter_Share: 0,
       dialogVisible: false,
-      dataloading: false,
+      dataloading: true,
       varietyId: -1,
       ruleFormValue: {
         varietyName: "",
@@ -90,7 +90,10 @@ export default {
           {
             required: true,
             message: "请选择",
-            trigger: "change"
+          },
+          {
+            type: "number",
+            message: "插入号码"
           }
         ]
       }
@@ -107,8 +110,8 @@ export default {
         .get("/api/product_variety/get/" + id)
         .then(response => {
           this.ruleFormValue = response;
+          this.ruleFormValue.varietySort = Number(this.ruleFormValue.varietySort);
           this.filter_Share = this.ruleFormValue.doShare;
-          console.log(this.ruleFormValue);
           setTimeout(() => {
             this.dataloading = false;
           }, 0.01 * 1000);
@@ -120,6 +123,7 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.dataloading = true;
           Request()
             .put("/api/product_variety/update/" + this.varietyId, {
               createTime: this.ruleFormValue.createTime,
@@ -133,6 +137,7 @@ export default {
               varietySort: this.ruleFormValue.varietySort
             })
             .then(response => {
+              setTimeout(() => { this.dataloading = false; }, 0.01 * 1000);
               this.$router.go(-1);
             })
             .catch(error => {});

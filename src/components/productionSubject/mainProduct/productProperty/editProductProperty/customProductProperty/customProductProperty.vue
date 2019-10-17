@@ -2,9 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/productionSubject' }"
-          >监管对象</el-breadcrumb-item
-        >
+        <el-breadcrumb-item :to="{ path: '/productionSubject' }">监管对象</el-breadcrumb-item>
         <el-breadcrumb-item>主营产品</el-breadcrumb-item>
         <el-breadcrumb-item>属性管理</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">/编辑选项</el-breadcrumb-item>
@@ -13,21 +11,15 @@
     <div class="box">
       <div class="iptBox">
         <div class="filter-item">
-          <el-button 
+          <el-button
             type="primary"
             plain
             style="margin-right: .5rem"
             @click="$router.push({
               path: `/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/addCustomProductProperty/${id}`
             })"
-            >添加</el-button
-          >
-          <el-button
-            type="primary"
-            plain
-            @click="$router.go(-1)"
-            >返回</el-button
-          >
+          >添加</el-button>
+          <el-button type="primary" plain @click="$router.go(-1)">返回</el-button>
         </div>
       </div>
       <el-table
@@ -36,21 +28,17 @@
         :row-class-name="rowIndex"
         v-loading="listLoading"
       >
-        <el-table-column
-          :formatter="order"
-          label="序号"
-          width="70"
-        ></el-table-column>
+        <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
         <el-table-column prop="name" label="选项名称">
           <template slot-scope="{ row }">{{ row.name }}</template>
         </el-table-column>
         <el-table-column prop="sort" label="选项排序">
           <template slot-scope="{ row }">{{ row.sort }}</template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" class-name="text-center">
           <template slot-scope="{ row }">
             <el-button
-              type="success"              
+              type="success"
               plain
               @click="$router.push({
                 path: `/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/editCustomProductProperty/${id}`,
@@ -61,14 +49,8 @@
                 }
               })
               "
-            >修改
-            </el-button>
-            <el-button
-              type="danger"
-              v-on:click="handleDelete(`${row.id}`)"
-              plain
-            >删除
-            </el-button>
+            >修改</el-button>
+            <el-button type="danger" v-on:click="handleDelete(`${row.id}`)" plain>删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -88,7 +70,7 @@
 <script>
 import Pagination from "@/components/common/pagination";
 import Request from "@/services/api/request";
-export default {  
+export default {
   name: "customProductProperty",
   components: { Pagination },
   data() {
@@ -100,7 +82,7 @@ export default {
       },
       tableData: null,
       listLoading: true,
-      total: 100,
+      total: 0,
       radio: "1",
       name: "",
       sort: ""
@@ -112,15 +94,23 @@ export default {
   },
   methods: {
     handleDelete(id) {
-      Request()
-        .delete("/api/product_property_option/delete/" + id)
-        .then(response => {
-          this.getList(this.id);          
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },    
+      this.$confirm("确认删除该记录吗?", "提示", { type: "warning" }).then(
+        () => {
+          this.listLoading = true;
+          Request()
+            .delete("/api/product_property_option/delete/" + id)
+            .then(response => {
+              setTimeout(() => {
+                this.listLoading = false;
+              }, 0.5 * 1000);
+              this.getList(this.id);
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        }
+      );
+    },
     getList() {
       this.listLoading = true;
       Request()

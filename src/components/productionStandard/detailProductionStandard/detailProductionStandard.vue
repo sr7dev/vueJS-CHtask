@@ -6,10 +6,8 @@
         <el-breadcrumb-item class="actived">详情</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="box" v-if="!data">
-      <div>装货...</div>
-    </div>
-    <div class="box" v-else>
+    <div class="box" v-if="listLoading" v-loading="listLoading">装货...</div>
+    <div class="box" v-if="!listLoading">
       <el-form ref="ruleForm" label-width="100px">
         <el-row>
           <el-col :span="5">
@@ -63,7 +61,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item label="">
+        <el-form-item label>
           <el-col :span="8">
             <el-button
               type="warning"
@@ -78,8 +76,8 @@
             <span class="margin-left-20" v-else>没有数据</span>
           </el-col>
         </el-form-item>
-        <el-form-item label="">
-          <el-button type="danger" plain v-on:click="$router.go(-1)">返回</el-button>
+        <el-form-item label>
+          <el-button type="success" plain v-on:click="$router.go(-1)">返回</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -95,6 +93,7 @@ export default {
   data() {
     return {
       file: null,
+      listLoading: false,
       productionList: [],
       data: [],
       options: [
@@ -120,10 +119,14 @@ export default {
         });
     },
     getData(id) {
+      this.listLoading = true;
       Request()
         .get("/api/production_standard/get/" + id)
         .then(response => {
           this.data = response;
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
         })
         .catch(error => {
           console.log(error);

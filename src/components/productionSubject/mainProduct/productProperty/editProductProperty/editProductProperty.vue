@@ -16,6 +16,7 @@
         :model="ruleFormValue"
         :rules="rules"
         label-width="100px"
+        v-loading="listLoading"
       >
         <el-row>
           <el-col :span="6">
@@ -34,7 +35,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="属性排序" prop="propertySort">
-              <el-input v-model="ruleFormValue.propertySort" ></el-input>
+              <el-input v-model="ruleFormValue.propertySort" type="number" ></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -61,11 +62,14 @@ export default {
   name: "editProductProperty",
   data() {
     return {
+      listLoading: false,
+      companyId: -1,
       ruleFormValue: {
         propertyName: "",
         propertyOptions: "",
-        propertySort: "",
+        propertySort: null,
         productId: 0,
+        doShare: "",
         id: -1
       },
       rules: {
@@ -94,35 +98,49 @@ export default {
     };
   },
   created() {    
-    this.ruleFormValue.productId = this.$route.params.id;
-    this.ruleFormValue.id = this.$route.query.id;
+    this.ruleFormValue.productId = this.$route.query.productId;
+    this.companyId = this.$route.query.companyId;
+    this.ruleFormValue.id = this.$route.params.id;
     this.getProductPropertyInfo();
   },
   methods: {
     getProductPropertyInfo() {
+      this.listLoading = true;
       Request()
         .get("/api/product_property/get/" + this.ruleFormValue.id)
         .then(response => {
+          setTimeout(() => {
+            this.listLoading = false;          
+          }, 0.5*100);
           this.ruleFormValue.propertyName = response.propertyName;
           this.ruleFormValue.propertyOptions = response.propertyOptions;
-          this.ruleFormValue.propertySort = response.propertySort;
+          this.ruleFormValue.propertySort = parseInt(response.propertySort);
+          this.ruleFormValue.doShare = response.doShare;
         })
         .catch(error => {});
     },
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          var formData = new FormData();
-          formData.append("productId", this.ruleFormValue.productId);
-          formData.append("propertyName", this.ruleFormValue.propertyName);
-          formData.append("propertyOptions", this.ruleFormValue.propertyOptions);
-          formData.append("propertySort", this.propertySort);
-
+          var formData = {
+            "productId": this.ruleFormValue.productId,
+            "propertyName": this.ruleFormValue.propertyName,
+            "propertyOptions": this.ruleFormValue.propertyOptions,
+            "propertySort": this.ruleFormValue.propertySort.toString(),
+            "doShare": this.ruleFormValue.doShare
+          };
+          this.listLoading = true;
           Request()
             .put("/api/product_property/update/" + this.ruleFormValue.id, formData)
             .then(response => {
+              setTimeout(() => {
+                this.listLoading = false;          
+              }, 0.5*100);
               this.$router.push({
-                path: `/productionSubject/mainProduct/productProperty/${this.ruleFormValue.productId}`
+                path: `/productionSubject/mainProduct/productProperty/${this.companyId}`,
+                query: {
+                  productId: this.ruleFormValue.productId
+                }
               });
             })
             .catch(error => {});

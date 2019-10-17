@@ -7,7 +7,13 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
+      <el-form
+        ref="ruleForm"
+        :model="ruleFormValue"
+        :rules="rules"
+        label-width="100px"
+        v-loading="listLoading"
+      >
         <el-row>
           <el-col :span="6">
             <el-form-item label="企业名称" prop="creditCode">
@@ -41,8 +47,8 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item label="认证类型" prop="certficationType">
-          <el-radio-group v-model="ruleFormValue.certficationType">
+        <el-form-item label="认证类型" prop="certificationType">
+          <el-radio-group v-model="ruleFormValue.certificationType">
             <el-radio label="1">无公害产品</el-radio>
             <el-radio label="2">绿色食品</el-radio>
             <el-radio label="3">有机食品</el-radio>
@@ -51,8 +57,8 @@
         </el-form-item>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="认证类别" prop="certficationCategory">
-              <el-input v-model="ruleFormValue.certficationCategory"></el-input>
+            <el-form-item label="认证类别" prop="certificationCategory">
+              <el-input v-model="ruleFormValue.certificationCategory"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -70,19 +76,20 @@
         </el-row>
         <!-- <el-row>
           <el-col :span="6">
-            <el-form-item label="证书编号" prop="certficationNo">
-              <el-input v-model="ruleFormValue.certficationNo"></el-input>
+            <el-form-item label="证书编号" prop="certificationNo">
+              <el-input v-model="ruleFormValue.certificationNo"></el-input>
             </el-form-item>
           </el-col>
-        </el-row> -->
+        </el-row>-->
         <el-form-item label="认证有效期" style="text-align: center" required>
           <el-col :span="4" class="text-left">
             <el-form-item prop="certificationStartTime">
               <el-date-picker
+                type="datetime"
                 class="w-80"
-                type="date"
                 v-model="ruleFormValue.certificationStartTime"
                 style="width: 100%;"
+                value-format="dd.MM.yyyy HH:mm:ss"
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -91,7 +98,8 @@
             <el-form-item prop="certificationEndTime">
               <el-date-picker
                 class="w-100"
-                type="date"
+                type="datetime"
+                value-format="dd.MM.yyyy HH:mm:ss"
                 v-model="ruleFormValue.certificationEndTime"
                 style="width: 100%;"
               ></el-date-picker>
@@ -101,7 +109,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="产量" prop="output">
-              <el-input v-model="ruleFormValue.output"></el-input>
+              <el-input v-model.number="ruleFormValue.output"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -117,8 +125,8 @@
                   v-on:change="handleFileUpload()"
                 />
                 <el-button type="warning" plain @click="chooseFile()">添加附件</el-button>
-                <span v-if="file">({{ file.name }})</span>
-                <span v-else>请选择需要上传的文件...</span>
+                <span v-if="file" class="margin-left-10">({{ file.name }})</span>
+                <span v-else class="margin-left-10">请选择需要上传的文件...</span>
               </el-form-item>
             </div>
           </el-col>
@@ -140,11 +148,12 @@ export default {
   name: "addThreeProducts",
   data() {
     return {
+      listLoading: false,
       ruleFormValue: {
         creditCode: "",
         productId: "",
-        certficationType: "",
-        certficationCategory: "",
+        certificationType: "",
+        certificationCategory: "",
         argriculturalClassification: "",
         certificationStartTime: "",
         certificationEndTime: "",
@@ -165,14 +174,14 @@ export default {
             trigger: "change"
           }
         ],
-        certficationType: [
+        certificationType: [
           {
             required: true,
             message: "请选择",
             trigger: "change"
           }
         ],
-        certficationCategory: [
+        certificationCategory: [
           {
             required: true,
             message: "请插入",
@@ -205,7 +214,8 @@ export default {
             required: true,
             message: "请插入",
             trigger: "change"
-          }
+          },
+          { type: "number", message: "插入号码" }
         ]
       },
       file: null,
@@ -235,12 +245,15 @@ export default {
 
     getProductionDetail() {
       var companyId = this.filterCompany(this.ruleFormValue.creditCode);
-
+      this.listLoading = true;
       Request()
         .get("/api/product_production/all", {
           company_id: companyId
         })
         .then(response => {
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
           this.productNameList = response.data;
         })
         .catch(error => {
@@ -255,23 +268,17 @@ export default {
           formData.append("creditCode", this.ruleFormValue.creditCode);
           formData.append("productId", this.ruleFormValue.productId);
           formData.append(
-            "certficationType",
-            this.ruleFormValue.certficationType
+            "certificationType",
+            this.ruleFormValue.certificationType
           );
           formData.append(
-            "certficationCategory",
-            this.ruleFormValue.certficationCategory
+            "certificationCategory",
+            this.ruleFormValue.certificationCategory
           );
           formData.append(
             "argriculturalClassification",
             this.ruleFormValue.argriculturalClassification
           );
-          this.ruleFormValue.certificationStartTime = new Date(
-            this.ruleFormValue.certificationStartTime
-          ).toDateString("YYYY-MM-DD");
-          this.ruleFormValue.certificationEndTime = new Date(
-            this.ruleFormValue.certificationEndTime
-          ).toDateString("YYYY-MM-DD");
           formData.append(
             "certificationStartTime",
             this.ruleFormValue.certificationStartTime
@@ -284,25 +291,25 @@ export default {
             "createDate",
             this.ruleFormValue.certificationStartTime
           );
-          formData.append(
-            "createTime",
-            this.ruleFormValue.certificationStartTime
-          );
+          // formData.append(
+          //   "createTime",
+          //   this.ruleFormValue.certificationStartTime
+          // );
           formData.append(
             "updateDate",
             this.ruleFormValue.certificationStartTime
           );
-          formData.append(
-            "updateTime",
-            this.ruleFormValue.certificationStartTime
-          );
+          // formData.append(
+          //   "updateTime",
+          //   this.ruleFormValue.certificationStartTime
+          // );
           formData.append("updater", "string");
-          formData.append("updateUserId", 0);
-          formData.append("createUserId", 0);
+          // formData.append("updateUserId", 0);
+          // formData.append("createUserId", 0);
           formData.append("creater", "string");
           formData.append("id", 0);
           if (this.file) {
-            formData.append("files", this.file);
+            formData.append("file", this.file);
           }
           Request()
             .post("/api/quality_standard/create", formData)

@@ -13,7 +13,7 @@
               type="primary"
               v-on:click="$router.push(`/productionStandard/create`)"
               plain
-              v-if="loggedinUserType === 1"
+              v-if="loggedinUserType === 1 || loggedinUserType === 0"
             >添加生产标准</el-button>
           </el-col>
           <el-col :span="6">
@@ -51,12 +51,23 @@
               <el-button
                 type="success"
                 plain
+                v-if="loggedinUserType !== 1"
                 v-on:click="
                   $router.push({
                     path: `/productionStandard/detail/`+ row.id
                   })
                 "
               >查看</el-button>
+              <el-button
+                type="warning"
+                plain
+                v-if="loggedinUserType === 1 || loggedinUserType === 0"
+                v-on:click="
+                  $router.push({
+                    path: `/productionStandard/edit/`+ row.id
+                  })
+                "
+              >修改</el-button>
             </template>
           </el-table-column>
         </el-table>

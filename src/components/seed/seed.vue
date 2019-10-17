@@ -7,7 +7,12 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button type="primary" plain v-on:click="$router.push(`/seed/upload`)">上传种子</el-button>
+        <el-button
+          type="primary"
+          plain
+          v-on:click="$router.push(`/seed/upload`)"
+          v-if="loggedinUserType === 2 || loggedinUserType === 0"
+        >上传种子</el-button>
       </div>
       <el-container>
         <el-table
@@ -19,7 +24,7 @@
         >
           <el-table-column :formatter="order" label="序号"></el-table-column>
           <el-table-column prop="companyId" label="企业名称">
-            <template slot-scope="{ row }">{{filterCompnay( row.companyId )}}</template>
+            <template slot-scope="{ row }">{{filterCompany( row.companyId )}}</template>
           </el-table-column>
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
@@ -48,7 +53,6 @@
           :page.sync="page.pageIndex"
           :limit.sync="page.pageSize"
           @pagination="getData"
-          layout="prev, pager, next, sizes, jumper"
         />
       </div>
     </div>
@@ -58,11 +62,13 @@
 <script>
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
+import Auth from "@/services/authentication/auth.js";
 export default {
   name: "seed",
   components: { Pagination },
   data() {
     return {
+      loggedinUserType: null,
       page: {
         pageIndex: 1,
         pageSize: 20
@@ -76,6 +82,7 @@ export default {
   created() {
     this.getData();
     this.getCompanyProduction();
+    this.loggedinUserType = Auth().user().attrs.userType;
   },
   methods: {
     getData() {
@@ -86,11 +93,11 @@ export default {
           pageSize: this.page.pageSize
         })
         .then(response => {
-          this.tableData = response.data;
-          this.total = response.total;
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
+          this.tableData = response.data;
+          this.total = response.total;
         })
         .catch(error => {
           console.log(error);
@@ -112,7 +119,7 @@ export default {
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
     },
-    filterCompnay(id) {
+    filterCompany(id) {
       let company = this.companyProduction.find(x => x.companyId === id);
       if (company) {
         return company.companyName;

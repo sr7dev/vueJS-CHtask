@@ -68,7 +68,6 @@ class Auth {
     this.setToken();
 
     // // instantiate current user
-    // console.log(data['user_meta']);
     this.loggedInUser = User.create({
       id: data["id"],
       userId: data["userId"],
@@ -80,9 +79,10 @@ class Auth {
       createUserId: data["createUserId"],
       creditCode: data["creditCode"],
       updateTime: data["updateTime"],
-      updateUserId: data["updateUserId"]
+      updateUserId: data["updateUserId"],
+      townId: data["townId"],
+      companyId: data["companyId"]
     });
-
     // // save user locally
     Storage.set("userData", JSON.stringify(this.loggedInUser.attrs));
   }
