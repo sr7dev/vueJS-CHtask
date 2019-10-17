@@ -164,7 +164,8 @@ export default {
 
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
-        if (valid) {          
+        if (valid) {         
+          this.dataloading = true; 
           Request()
             .put("/api/product_check_record/update/" + this.data.id, {
               "checkItem": this.data.checkItem,
@@ -183,6 +184,7 @@ export default {
             })
             .then(response => {
               //this.$router.push({ path: "/threeProductsCertification" });
+              setTimeout(() => { this.dataloading = false; }, 0.01 * 1000);
               this.$router.go(-1);
             })
             .catch(error => {});

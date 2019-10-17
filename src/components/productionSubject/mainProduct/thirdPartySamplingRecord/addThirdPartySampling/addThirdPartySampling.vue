@@ -81,6 +81,7 @@ export default {
   data() {    
     return {      
       productId: -1,
+      listLoading:true,
       ruleFormValue: {
         createTime: new Date().toISOString().slice(0,10),
         specimen: "",
@@ -89,7 +90,6 @@ export default {
         determine: "",
         checkStandard: "",
         checkOrganization: "",
-        listLoading:true,
       },
       rules: {
         createTime: [

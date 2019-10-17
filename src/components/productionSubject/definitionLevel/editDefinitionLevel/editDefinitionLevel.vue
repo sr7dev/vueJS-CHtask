@@ -48,7 +48,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="等级排序" prop="gradeSort">
-              <el-input v-model="ruleFormValue.gradeSort"></el-input>
+              <el-input v-model.number="ruleFormValue.gradeSort"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -75,7 +75,7 @@ export default {
       varietyId: -1,
       ruleFormValue: {
         gradeName: "",
-        gradeSort: ""
+        gradeSort: 0
       },
       options: [{ value: "0", label: "否" }, { value: "1", label: "是" }],
       rules: {
@@ -89,8 +89,11 @@ export default {
         gradeSort: [
           {
             required: true,
-            message: "请选择",
-            trigger: "change"
+            message: "请选择"            
+          },
+          {
+            type: "number",
+            message: "插入号码"
           }
         ]
       }
@@ -107,7 +110,7 @@ export default {
         .get("/api/product_grade/get/" + id)
         .then(response => {
           this.ruleFormValue = response;
-          console.log(this.ruleFormValue);
+          this.ruleFormValue.gradeSort = Number(this.ruleFormValue.gradeSort);
           this.filter_Share = this.ruleFormValue.doShare;
           setTimeout(() => {
             this.dataloading = false;

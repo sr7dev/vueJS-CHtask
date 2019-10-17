@@ -34,14 +34,14 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="品种名称" prop="varietyName">
-              <el-input v-model.number="ruleFormValue.varietyName"></el-input>
+              <el-input v-model="ruleFormValue.varietyName"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
             <el-form-item label="品种排序" prop="varietySort">
-              <el-input v-model="ruleFormValue.varietySort"></el-input>
+              <el-input v-model.number="ruleFormValue.varietySort"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -82,7 +82,10 @@ export default {
           {
             required: true,
             message: "请选择",
-            trigger: "change"
+          },
+         {
+            type: "number",
+            message: "插入号码"
           }
         ]
       }
