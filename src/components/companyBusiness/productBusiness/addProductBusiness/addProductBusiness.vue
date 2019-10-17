@@ -76,6 +76,7 @@ export default {
   name: "addProductBusiness",
   data() {
     return {
+      listLoading: true,
       companyId: -1,
       ruleFormValue: {
         productName: "",
@@ -85,7 +86,7 @@ export default {
         variety: "",
         specification: "",
         productProfile: "",
-        listLoading: true,
+        
       },
       rules: {
         productName: [
@@ -98,8 +99,11 @@ export default {
         atunitprice: [
           {
             required: true,
-            message: "请插入",
-            trigger: "change"
+            message: "请插入"
+          },
+          {
+            type: "number",
+            message: "插入号码"
           }
         ],
         grade: [
@@ -148,7 +152,7 @@ export default {
     onSubmit(formName) {      
       this.$refs[formName].validate(valid => {
         if (valid) {
-            this.listLoading = true;
+          this.listLoading = true;
             var formData = new FormData();
             formData.append("atunitprice", this.ruleFormValue.atunitprice);
             formData.append("companyId", this.companyId);
@@ -168,7 +172,7 @@ export default {
           Request()
             .post("/api/product_business/create", formData)
             .then(response => {
-              setTimeout(() => { this.listLoading = false; }, 0.01 * 1000);
+              setTimeout(() => { this.listLoading = false; }, 1 * 1000);
               this.$router.go(-1);
             })
             .catch(error => {});

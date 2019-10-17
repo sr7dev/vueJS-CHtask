@@ -48,7 +48,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="品种排序" prop="varietySort">
-              <el-input v-model="ruleFormValue.varietySort"></el-input>
+              <el-input v-model.number="ruleFormValue.varietySort"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -90,7 +90,10 @@ export default {
           {
             required: true,
             message: "请选择",
-            trigger: "change"
+          },
+          {
+            type: "number",
+            message: "插入号码"
           }
         ]
       }
@@ -107,6 +110,7 @@ export default {
         .get("/api/product_variety/get/" + id)
         .then(response => {
           this.ruleFormValue = response;
+          this.ruleFormValue.varietySort = Number(this.ruleFormValue.varietySort);
           this.filter_Share = this.ruleFormValue.doShare;
           setTimeout(() => {
             this.dataloading = false;
