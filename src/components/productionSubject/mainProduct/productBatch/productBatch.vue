@@ -27,7 +27,7 @@
           label="序号"
           width="70"
         ></el-table-column>
-        <el-table-column prop="batchName" label="批次名称"></el-table-column>
+        <el-table-column prop="grade" label="批次名称"></el-table-column>
         <el-table-column prop="batchNumber" label="批次号"></el-table-column>
         <el-table-column prop="operation" label="作业"></el-table-column>
         <el-table-column prop="sales" label="销售"></el-table-column>
@@ -51,8 +51,8 @@
 </template>
 
 <script>
-import sampleData from "./_data";
 import Pagination from "@/components/common/pagination";
+import Request from "@/services/api/request";
 export default {
   name: "productBatch",
   components: { Pagination },
@@ -61,11 +61,12 @@ export default {
       id: -1,
       page: {
         pageIndex: 1,
-        pageSize: 10
+        pageSize: 20
       },
-      total: 100,
+      total: 0,
       radio: "1",
-      tableData: sampleData
+      tableData: null,
+      listLoading: false
     };
   },
   created() {
@@ -73,19 +74,24 @@ export default {
     this.getList();
   },
   methods: {
-    // gotoWarehousingEnvironmentPage(row) {
-    //   this.$router.push(`/warehouseEnv`)
-    // },
     getList() {
       this.listLoading = true;
-      // fetchListAPI(this.status, this.page.pageIndex, this.page.pageSize, "credit_gradeid")
-      //   .then(response => {
-      this.tableData = sampleData; // this.tableData = response;
-      this.total = this.tableData.length;
-      setTimeout(() => {
-        this.listLoading = false;
-      }, 0.5 * 1000);
-      // })
+      Request()
+        .get("/api/product_batch/all", {
+          productId: this.id,
+          pageNo: this.page.pageIndex - 1,
+          pageSize: this.page.pageSize,
+        })
+        .then(res => {
+          this.tableData = res.data;
+          this.total = res.total;
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
+        })
+        .catch(error => {
+          console.error(error);
+        });
     },
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
