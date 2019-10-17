@@ -154,7 +154,8 @@ export default {
     },
     showProductProperty(row) {
       this.$router.push({
-        path: `/productionSubject/mainProduct/productProperty/${this.$route.params.id}`
+        path: `/productionSubject/mainProduct/productProperty/${this.$route.params.id}`,
+        query: { productId: row.productId}
       });
     },
     showProductVariety(row) {

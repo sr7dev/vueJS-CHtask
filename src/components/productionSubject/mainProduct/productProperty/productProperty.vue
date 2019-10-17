@@ -52,9 +52,10 @@
               type="success"
               plain
               @click="$router.push({
-                path: `/productionSubject/mainProduct/productProperty/editProductProperty/${id}`,
+                path: `/productionSubject/mainProduct/productProperty/editProductProperty/${row.id}`,
                 query: {
-                  id: row.id
+                  productId: id,
+                  companyId: companyId
                 }
               })
               "
@@ -85,6 +86,7 @@ export default {
   data() {
     return {
       id: -1,
+      companyId: -1,
       page: {
         pageIndex: 1,
         pageSize: 20
@@ -93,7 +95,6 @@ export default {
       total: 0,
       radio: "1",
       tableData: null,
-      productName: "",
       propertyName: "",
       propertyOptions: "",
       propertySort: "",
@@ -106,8 +107,8 @@ export default {
     };
   },
   created() {
-    this.id = this.$route.params.id;
-    this.productName = this.$route.query.productName;
+    this.id = this.$route.query.productId;
+    this.companyId = this.$route.params.id;
     this.getList(this.id);
   },
   methods: {

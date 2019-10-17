@@ -115,7 +115,7 @@
                 </el-table-column>
                 <el-table-column label="文件">                  
                   <template slot-scope="{ row }">
-                    <el-button type="warning" plain @click="downloadFile(row.trainingFundsProfiles)">下载附件</el-button>
+                    <el-button type="success" plainv @click="downloadFile(row.trainingFundsProfiles)">下载附件</el-button>
                   </template>
                 </el-table-column>
               </el-table>
@@ -245,10 +245,10 @@ export default {
       this.detectTimeTo = this.year+"-"+"12"+"-"+"31"+" "+"00:00:00";
       this.createTimeFrom = this.year+"-"+"01"+"-"+"01"+" "+"00:00:00";
       this.createTimeTo = this.year+"-"+"12"+"-"+"31"+" "+"00:00:00";
-      this.tableData = null;
-      this.detectTableData = null;
-      this.total = null;
-      this.detectTotal = null;
+      this.tableData = [];
+      this.detectTableData = [];
+      this.total = [];
+      this.detectTotal = [];
       this.getList();
       this.getDetectList();
     },
