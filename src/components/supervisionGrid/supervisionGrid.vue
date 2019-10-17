@@ -21,44 +21,40 @@
           <el-table-column prop="group1" label="分管副镇长">
             <template slot-scope="{row}">
               <div class="w-100">
-                <p
-                  class="p-item"
-                  v-for="item in row.group1"
-                  :key="item.id"
-                >{{item.function}}:{{item.name}}</p>
+                <p class="p-item" v-for="item in row.group1" :key="item.id">
+                  <i class="el-icon-user-solid"></i>
+                  {{item.function}}:{{item.name}}
+                </p>
               </div>
             </template>
           </el-table-column>
           <el-table-column prop="group2" label="农服办">
             <template slot-scope="{row}">
               <div class="w-100">
-                <p
-                  class="p-item"
-                  v-for="item in row.group2"
-                  :key="item.id"
-                >{{item.function}}:{{item.name}}</p>
+                <p class="p-item" v-for="item in row.group2" :key="item.id">
+                  <i class="el-icon-user-solid"></i>
+                  {{item.function}}:{{item.name}}
+                </p>
               </div>
             </template>
           </el-table-column>
           <el-table-column prop="group3" label="站所">
             <template slot-scope="{row}">
               <div class="w-100">
-                <p
-                  class="p-item"
-                  v-for="item in row.group3"
-                  :key="item.id"
-                >{{item.function}}:{{item.name}}</p>
+                <p class="p-item" v-for="item in row.group3" :key="item.id">
+                  <i class="el-icon-user-solid"></i>
+                  {{item.function}}:{{item.name}}
+                </p>
               </div>
             </template>
           </el-table-column>
           <el-table-column prop="group4" label="村级协管">
             <template slot-scope="{row}">
               <div class="w-100">
-                <p
-                  class="p-item"
-                  v-for="item in row.group4"
-                  :key="item.id"
-                >{{item.function}}:{{item.name}}</p>
+                <p class="p-item" v-for="item in row.group4" :key="item.id">
+                  <i class="el-icon-user-solid"></i>
+                  {{item.function}}:{{item.name}}
+                </p>
               </div>
             </template>
           </el-table-column>
