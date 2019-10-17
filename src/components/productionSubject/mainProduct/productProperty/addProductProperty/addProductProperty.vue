@@ -35,7 +35,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="属性排序" prop="propertySort">
-              <el-input v-model="ruleFormValue.propertySort" ></el-input>
+              <el-input v-model="ruleFormValue.propertySort" type="number"></el-input>
             </el-form-item>  
           </el-col>
         </el-row>
@@ -101,7 +101,7 @@ export default {
             "productId": this.ruleFormValue.productId,
             "propertyName": this.ruleFormValue.propertyName,
             "propertyOptions": this.ruleFormValue.propertyOptions,
-            "propertySort": this.ruleFormValue.propertySort,
+            "propertySort": this.ruleFormValue.propertySort.toString(),
             "doShare": this.ruleFormValue.doShare
           }
           this.listLoading = true;
