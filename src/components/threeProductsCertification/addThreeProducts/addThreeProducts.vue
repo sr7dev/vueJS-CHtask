@@ -85,10 +85,11 @@
           <el-col :span="4" class="text-left">
             <el-form-item prop="certificationStartTime">
               <el-date-picker
+                type="datetime"
                 class="w-80"
                 v-model="ruleFormValue.certificationStartTime"
                 style="width: 100%;"
-                value-format="dd.MM.yyyy"
+                value-format="dd.MM.yyyy HH:mm:ss"
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -97,7 +98,8 @@
             <el-form-item prop="certificationEndTime">
               <el-date-picker
                 class="w-100"
-                value-format="dd.MM.yyyy"
+                type="datetime"
+                value-format="dd.MM.yyyy HH:mm:ss"
                 v-model="ruleFormValue.certificationEndTime"
                 style="width: 100%;"
               ></el-date-picker>
@@ -107,7 +109,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="产量" prop="output">
-              <el-input v-model="ruleFormValue.output"></el-input>
+              <el-input v-model.number="ruleFormValue.output"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -212,7 +214,8 @@ export default {
             required: true,
             message: "请插入",
             trigger: "change"
-          }
+          },
+          { type: "number", message: "插入号码" }
         ]
       },
       file: null,

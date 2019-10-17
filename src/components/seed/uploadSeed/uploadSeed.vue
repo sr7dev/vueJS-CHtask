@@ -98,7 +98,7 @@
             </div>
             <div class="item" style="display:flex">
               <div class="item-label" style="margin-bottom:20px;">
-                <el-button type="warning" plain @click="downloadFile()">例文档下载</el-button>
+                <el-button type="success" plain @click="downloadFile()">例文档下载</el-button>
               </div>
               <div
                 class="item-value"
