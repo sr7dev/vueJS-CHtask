@@ -52,6 +52,12 @@
         <el-menu-item index="/notice" v-if="loggedinUserType!== 3">
           <router-link slot="title" to="/notice">通知管理</router-link>
         </el-menu-item>
+        <el-menu-item
+          index="/uploadSituation"
+          v-if="loggedinUserType === 1 || loggedinUserType === 0"
+        >
+          <router-link slot="title" to="/uploadSituation">上传情况</router-link>
+        </el-menu-item>
         <el-menu-item index="/aquatic" v-if="loggedinUserType!== 3">
           <router-link slot="title" to="/aquatic">水产站</router-link>
         </el-menu-item>

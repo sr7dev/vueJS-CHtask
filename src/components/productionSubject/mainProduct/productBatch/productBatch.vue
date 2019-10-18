@@ -52,6 +52,7 @@
 <script>
 import Pagination from "@/components/common/pagination";
 import Request from "@/services/api/request";
+import Auth from "@/services/authentication/auth.js";
 export default {
   name: "productBatch",
   components: { Pagination },
@@ -81,7 +82,7 @@ export default {
         .get("/api/product_batch/all", {
           productId: this.id,
           pageNo: this.page.pageIndex - 1,
-          pageSize: this.page.pageSize,
+          pageSize: this.page.pageSize
         })
         .then(res => {
           this.tableData = res.data;

@@ -1,0 +1,49 @@
+export default [{
+  "month": "2018-09",
+  "income": 200,
+  "expenses": 21.1
+}, {
+  "month": "2018-10",
+  "income": 470,
+  "expenses": 300
+}, {
+  "month": "2018-11",
+  "income": 650,
+  "expenses": 500
+}, {
+  "month": "2018-12",
+  "income": 800,
+  "expenses": 23.1
+}, {
+  "month": "2019-01",
+  "income": 1300,
+  "expenses": 28.2
+}, {
+  "month": "2019-02",
+  "income": 1500,
+  "expenses": 31.9
+}, {
+  "month": "2019-03",
+  "income": 1650,
+  "expenses": 31.9
+}, {
+  "month": "2019-04",
+  "income": 1350,
+  "expenses": 31.9
+}, {
+  "month": "2019-05",
+  "income": 615,
+  "expenses": 31.9
+}, {
+  "month": "2019-06",
+  "income": 723,
+  "expenses": 31.9
+}, {
+  "month": "2019-07",
+  "income": 351,
+  "expenses": 31.9
+}, {
+  "month": "2019-08",
+  "income": 1232,
+  "expenses": 31.9
+}];
