@@ -18,6 +18,9 @@ body {
 
 .w-100 {
   width: 100% !important;
+  .el-form-item__content {
+    width: 100%;
+  }
 }
 
 .flex-center {
@@ -72,10 +75,17 @@ body {
 
 .margin-left-20 {
   margin-left: 20px !important;
+  .el-form-item__content {
+    margin-left: 20px!important;
+  }
 }
 
 .margin-right-20 {
   margin-right: 20px !important;
+}
+
+.margin-right-40 {
+  margin-right: 40px !important;
 }
 
 .margin-left-30 {
@@ -88,6 +98,10 @@ body {
 
 .padding-left-20 {
   padding-left: 20px !important;
+}
+
+.padding-bottom-0 {
+  padding-bottom: 0 !important;
 }
 
 .flex-box {
@@ -218,4 +232,23 @@ body {
   align-items: baseline;
   margin-bottom: 20px;
   text-align: left;
+}
+
+.p-item {
+  border-radius: 5px;
+  outline: none;
+  padding: 8px;
+  margin: 0 8px 5px 0;
+  cursor: default;
+  display: inline-block;
+  box-shadow: 1px 1px 6px 1px rgba(10, 8, 10, 0.3);
+}
+
+.el-table thead.is-group th {
+  background: #ecf5fc;
+  border-bottom: 1px solid #d3e1ec;
+}
+
+.el-table--border td {
+  border-right: none;
 }

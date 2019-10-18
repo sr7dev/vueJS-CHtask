@@ -8,7 +8,13 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px">
+      <el-form
+        ref="ruleForm"
+        :model="ruleFormValue"
+        :rules="rules"
+        label-width="100px"
+        v-loading="listLoading"
+      >
         <el-row>
           <el-col :span="6">
             <el-form-item
@@ -73,7 +79,8 @@
                 class="w-80"
                 v-model="ruleFormValue.certificationStartTime"
                 style="width: 100%;"
-                value-format="dd.MM.yyyy"
+                type="datetime"
+                value-format="dd.MM.yyyy HH:mm:ss"
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -84,7 +91,8 @@
                 class="w-100"
                 v-model="ruleFormValue.certificationEndTime"
                 style="width: 100%;"
-                value-format="dd.MM.yyyy"
+                type="datetime"
+                value-format="dd.MM.yyyy HH:mm:ss"
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -194,6 +202,7 @@ export default {
       file: null,
       creditCode: "",
       companyNameList: [],
+      listLoading: false,
       productNameList: [],
       options: [
         { value: "1", label: "养殖业" },
@@ -243,7 +252,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           var formData = new FormData();
-
+          this.listLoading = true;
           formData.append("creditCode", this.ruleFormValue.creditCode);
           formData.append("productId", this.ruleFormValue.productId);
           formData.append(
@@ -293,6 +302,9 @@ export default {
           Request()
             .post("/api/quality_standard/create", formData)
             .then(response => {
+              setTimeout(() => {
+                this.listLoading = false;
+              }, 0.5 * 1000);
               this.goBack();
             })
             .catch(error => {});

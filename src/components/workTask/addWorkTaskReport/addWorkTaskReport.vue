@@ -46,7 +46,7 @@
           </el-col>
           <el-col :span="4">
             <el-form-item label="汇报单位：" prop="townId">
-              <el-select placeholder="请选择" v-model="ruleFormValue.townId">
+              <el-select placeholder="请选择" v-model="ruleFormValue.townId" disabled>
                 <el-option
                   v-for="town in township"
                   :key="town.id"
@@ -81,6 +81,7 @@
 <script>
 import Request from "../../../services/api/request.js";
 import { Urls } from "../../../services/constants";
+import Auth from "@/services/authentication/auth.js";
 import axios from "axios";
 export default {
   name: "addWorkTaskReport",
@@ -134,6 +135,7 @@ export default {
     this.selectedId = this.$route.query.id;
     this.getData(this.$route.query.id);
     this.getTown();
+    this.ruleFormValue.townId = Auth().user().attrs.townId;
   },
   methods: {
     getData(id) {
