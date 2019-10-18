@@ -18,6 +18,9 @@
       <el-menu-item index="/statisticsFarmers">
         <router-link slot="title" to="/statisticsFarmers">统计（农残）</router-link>
       </el-menu-item>
+      <el-menu-item index="/greenProducts">
+        <router-link slot="title" to="/greenProducts">绿色优质产品</router-link>
+      </el-menu-item>
       <el-menu-item index="/productionStandard">
         <router-link slot="title" to="/productionStandard">生产标准</router-link>
       </el-menu-item>
