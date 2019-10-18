@@ -70,13 +70,13 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
+        <!-- <el-row>
           <el-col :span="6">
             <el-form-item label="密码：" prop="password">
               <el-input v-model="ruleFormValue.password" type="password"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
+        </el-row>-->
         <el-row>
           <el-col :span="6">
             <el-form-item label="联系人：" prop="contactPerson">
@@ -122,7 +122,7 @@ export default {
         contactName: "",
         contactPerson: "",
         contactWay: "",
-        password: "",
+        // password: "",
         userId: "",
         userType: null,
         townId: null,
@@ -157,13 +157,13 @@ export default {
             trigger: "change"
           }
         ],
-        password: [
-          {
-            required: true,
-            message: "请选择",
-            trigger: "change"
-          }
-        ],
+        // password: [
+        //   {
+        //     required: true,
+        //     message: "请选择",
+        //     trigger: "change"
+        //   }
+        // ],
         userType: [
           {
             required: true,
@@ -258,7 +258,7 @@ export default {
               createUserId: this.loggedinUserType,
               creditCode: this.ruleFormValue.creditCode,
               id: 0,
-              password: this.ruleFormValue.password,
+              // password: this.ruleFormValue.password,
               userId: this.ruleFormValue.userId,
               userType: this.ruleFormValue.userType,
               townId: this.ruleFormValue.townId ? this.ruleFormValue.townId : 0,

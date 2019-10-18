@@ -124,6 +124,7 @@ import inputManagement from "@/components/inputManagement/inputManagement";
 import addInputPurchase from "@/components/inputManagement/addInputManagement/addInputPurchase";
 import addInputUse from "@/components/inputManagement/addInputManagement/addInputUse";
 import viewInputManagement from "@/components/inputManagement/viewInputManagement/viewInputManagement";
+import uploadSituation from "@/components/uploadSituation/uploadSituation";
 
 import Auth from "@/services/authentication/auth";
 
@@ -685,6 +686,11 @@ export default new Router({
           path: "/supervisionGrid/manage/:id",
           name: "manageSupervisionGrid", // 监管网格
           component: manageSupervisionGrid
+        },
+        {
+          path: "/uploadSituation",
+          name: "uploadSituation", // 上传情况
+          component: uploadSituation
         }
       ]
     },
