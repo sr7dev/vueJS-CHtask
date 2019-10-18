@@ -53,7 +53,6 @@
 import Pagination from "@/components/common/pagination";
 import Auth from "@/services/authentication/auth.js";
 import Request from "@/services/api/request";
-import Auth from "@/services/authentication/auth.js";
 export default {
   name: "productBatch",
   components: { Pagination },
