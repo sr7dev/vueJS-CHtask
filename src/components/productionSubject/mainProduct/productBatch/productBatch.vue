@@ -51,6 +51,7 @@
 
 <script>
 import Pagination from "@/components/common/pagination";
+import Auth from "@/services/authentication/auth.js";
 import Request from "@/services/api/request";
 export default {
   name: "productBatch",
