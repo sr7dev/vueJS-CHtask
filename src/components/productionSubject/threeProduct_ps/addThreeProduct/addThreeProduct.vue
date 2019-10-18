@@ -100,7 +100,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="产量" prop="output">
-              <el-input v-model="ruleFormValue.output"></el-input>
+              <el-input v-model.number="ruleFormValue.output"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -116,8 +116,8 @@
                   v-on:change="handleFileUpload()"
                 />
                 <el-button type="warning" plain @click="chooseFile()">添加附件</el-button>
-                <span v-if="file">({{ file.name }})</span>
-                <span v-else>请选择需要上传的文件...</span>
+                <span v-if="file" class="margin-left-10">({{ file.name }})</span>
+                <span v-else class="margin-left-10">请选择需要上传的文件...</span>
               </el-form-item>
             </div>
           </el-col>
@@ -196,6 +196,10 @@ export default {
             required: true,
             message: "请插入",
             trigger: "change"
+          },
+          {
+            type: "number",
+            message: "插入号码"
           }
         ]
       },
