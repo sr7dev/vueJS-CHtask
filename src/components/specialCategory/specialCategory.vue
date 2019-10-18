@@ -115,7 +115,6 @@
                 style="width: 100%"
                 :data="trainTableData"
                 :row-class-name="rowIndex"
-                v-loading="listLoading"
                 highlight-current-row
               >
                 <el-table-column label width="35" v-if="isShowCheckbox != 0">
@@ -242,7 +241,6 @@ export default {
         });
     },
     getTrainList() {
-      this.listLoading = true;
       Request()
         .get("/api/training_funds/all", {
           specialFlag: this.specialFlag,
@@ -250,13 +248,8 @@ export default {
           createTimeTo: this.createTimeTo
         })
         .then(response => {
-          console.log('----------------');
-          console.log(response);
           this.trainTableData = response.data;
           this.trainTotal = response.total;
-          setTimeout(() => {
-            this.listLoading = false;
-          }, 0.5 * 1000);
         })
         .catch(error => {
           console.log(error);
@@ -300,16 +293,12 @@ export default {
       return this.companyName;
     },
     getTownName(id) {
-      this.listLoading = true;
       Request()
         .get("/api/company_production/name", {
           companyId: id
         })
         .then(response => {
           this.townName = this.filterTownship(response[0].townId);
-          setTimeout(() => {
-            this.listLoading = false;
-          }, 0.5 * 100);
         })
         .catch(error => {
           console.log(error);
@@ -364,8 +353,8 @@ export default {
     updateSelectedRows() {
       this.$confirm("确认删除该记录吗?", "提示", { type: "warning" }).then(
         () => {
+          this.listLoading = true;
           for (let index in this.selectedRows) {
-            this.listLoading = true;
             let specialFlag = 0;
             Request()
               .put(
