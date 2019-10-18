@@ -16,24 +16,32 @@
             plain
             style="margin-right: .5rem"
             @click="$router.push({
-              path: `/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/addCustomProductProperty/${id}`
+              path: `/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/addCustomProductProperty/${id}`,
+              query: {
+                productId: productId,
+                optionData: tableData,
+                propertySort: propertySort,
+                companyId: companyId
+              }
             })"
           >添加</el-button>
-          <el-button type="primary" plain @click="$router.go(-1)">返回</el-button>
+          <el-button 
+            type="primary" 
+            plain 
+            v-on:click="goBack()">返回</el-button>
         </div>
       </div>
       <el-table
         :data="tableData"
         style="width: 100%"
         :row-class-name="rowIndex"
-        v-loading="listLoading"
       >
         <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
-        <el-table-column prop="name" label="选项名称">
+        <el-table-column label="选项名称">
           <template slot-scope="{ row }">{{ row.name }}</template>
         </el-table-column>
-        <el-table-column prop="sort" label="选项排序">
-          <template slot-scope="{ row }">{{ row.sort }}</template>
+        <el-table-column label="选项排序">
+          <template>{{ propertySort }}</template>
         </el-table-column>
         <el-table-column label="操作" class-name="text-center">
           <template slot-scope="{ row }">
@@ -43,97 +51,78 @@
               @click="$router.push({
                 path: `/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/editCustomProductProperty/${id}`,
                 query: {
-                  id: row.id,
-                  name: row.name,
-                  sort: row.sort
+                  productId: productId,
+                  optionData: tableData,
+                  propertySort: propertySort,
+                  companyId: companyId,
+                  id: row.rowIndex
                 }
               })
               "
             >修改</el-button>
-            <el-button type="danger" v-on:click="handleDelete(`${row.id}`)" plain>删除</el-button>
+            <el-button type="danger" v-on:click="handleDelete(`${rowIndex}`)" plain>删除</el-button>
           </template>
         </el-table-column>
       </el-table>
-      <div class="pageBox">
-        <pagination
-          v-show="total > 0"
-          :total="total"
-          :page.sync="page.pageIndex"
-          :limit.sync="page.pageSize"
-          @pagination="getList"
-        />
-      </div>
     </div>
   </div>
 </template>
 
 <script>
-import Pagination from "@/components/common/pagination";
 import Request from "@/services/api/request";
 export default {
   name: "customProductProperty",
-  components: { Pagination },
   data() {
     return {
       id: -1,
+      companyId: -1,
+      productId: -1,
       page: {
         pageIndex: 1,
         pageSize: 20
       },
       tableData: null,
+      propertySort: null,
       listLoading: true,
       total: 0,
       radio: "1",
       name: "",
-      sort: ""
+      sort: "",
+      customValue: 1
     };
   },
   created() {
     this.id = this.$route.params.id;
-    this.getList();
+    this.productId = this.$route.query.productId;
+    this.tableData = this.$route.query.optionData;
+    this.propertySort = this.$route.query.propertySort;
+    this.companyId = this.$route.query.companyId;
   },
   methods: {
     handleDelete(id) {
       this.$confirm("确认删除该记录吗?", "提示", { type: "warning" }).then(
         () => {
-          this.listLoading = true;
-          Request()
-            .delete("/api/product_property_option/delete/" + id)
-            .then(response => {
-              setTimeout(() => {
-                this.listLoading = false;
-              }, 0.5 * 1000);
-              this.getList(this.id);
-            })
-            .catch(error => {
-              console.log(error);
-            });
+          this.tableData.splice(id, 1);
         }
       );
-    },
-    getList() {
-      this.listLoading = true;
-      Request()
-        .get("/api/product_property_option/all", {
-          pageNo: this.page.pageIndex - 1,
-          pageSize: this.page.pageSize
-        })
-        .then(res => {
-          this.tableData = res.data;
-          this.total = res.total;
-          setTimeout(() => {
-            this.listLoading = false;
-          }, 0.5 * 1000);
-        })
-        .catch(error => {
-          console.error(error);
-        });
     },
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
     },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
+    },
+    goBack() {
+      this.$router.push({
+        path: `/productionSubject/mainProduct/productProperty/editProductProperty/${this.id}`,
+        query: {
+          productId: this.productId,
+          optionData: this.tableData,
+          propertySort: this.propertySort,
+          companyId: this.companyId,
+          customValue: 1
+        }
+      });
     }
   }
 };

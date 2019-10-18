@@ -55,7 +55,8 @@
                 path: `/productionSubject/mainProduct/productProperty/editProductProperty/${row.id}`,
                 query: {
                   productId: id,
-                  companyId: companyId
+                  companyId: companyId,
+                  customValue: 0
                 }
               })
               "
