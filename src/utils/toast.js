@@ -1,5 +1,6 @@
 import * as alertify from 'alertifyjs';
 import 'alertifyjs/build/css/alertify.min.css';
+import 'alertifyjs/build/css/themes/default.min.css';
 
 class Toast {
 
@@ -22,7 +23,7 @@ class Toast {
    */
   static error(message, duration = 2500) {
     alertify
-      .alert('错误', message, function() {});
+      .alert('错误', message, function() {}).set('label', '取 消');
   }
 
   /**
@@ -32,7 +33,7 @@ class Toast {
    */
   static message(message) {
     alertify
-      .alert('PARQYT', message, function() {});
+      .alert('注意', message, function() {});
   }
 
   /**
