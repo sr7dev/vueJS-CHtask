@@ -48,6 +48,26 @@
                 ></el-option>
               </el-select>
             </el-form-item>
+            <el-form-item label="乡镇：" prop="townId" v-if="ruleFormValue.userType === 2">
+              <el-select v-model="ruleFormValue.townId" class="w-100">
+                <el-option
+                  v-for="town in township"
+                  :key="town.id"
+                  :label="town.name"
+                  :value="town.id"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="企业：" prop="companyId" v-if="ruleFormValue.userType === 3">
+              <el-select v-model="ruleFormValue.companyId" class="w-100">
+                <el-option
+                  v-for="item in companyData"
+                  :key="item.companyId"
+                  :label="item.companyName"
+                  :value="item.companyId"
+                ></el-option>
+              </el-select>
+            </el-form-item>
           </el-col>
         </el-row>
         <el-row>
@@ -104,7 +124,9 @@ export default {
         contactWay: "",
         password: "",
         userId: "",
-        userType: null
+        userType: null,
+        townId: null,
+        companyId: null
       },
       rules: {
         creditCode: [
@@ -162,7 +184,9 @@ export default {
         { id: 2, name: "乡镇管理员" },
         { id: 3, name: "普通用户" }
       ],
-      loggedinUserType: null
+      loggedinUserType: null,
+      township: [],
+      companyData: []
     };
   },
   created() {
@@ -170,6 +194,8 @@ export default {
     if (this.loggedinUserType === 2) this.ruleFormValue.userType = 3;
     this.selectedId = this.$route.params.id;
     this.getData();
+    this.getTown();
+    this.getCompanyProduction();
   },
   methods: {
     getData() {
@@ -182,6 +208,36 @@ export default {
           this.ruleFormValue.creditCode = response.creditCode;
           this.ruleFormValue.userType = response.userType;
           this.ruleFormValue.userId = response.userId;
+          this.ruleFormValue.townId = response.townId;
+          this.ruleFormValue.companyId = response.companyId;
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getTown() {
+      this.listLoading = true;
+      Request()
+        .get("/api/town/all")
+        .then(response => {
+          this.township = this.township.concat(response);
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getCompanyProduction() {
+      this.listLoading = true;
+      Request()
+        .get("/api/company_production/name")
+        .then(response => {
+          this.companyData = response;
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
@@ -204,7 +260,11 @@ export default {
               id: 0,
               password: this.ruleFormValue.password,
               userId: this.ruleFormValue.userId,
-              userType: this.ruleFormValue.userType
+              userType: this.ruleFormValue.userType,
+              townId: this.ruleFormValue.townId ? this.ruleFormValue.townId : 0,
+              companyId: this.ruleFormValue.companyId
+                ? this.ruleFormValue.companyId
+                : 0
             })
             .then(response => {
               setTimeout(() => {

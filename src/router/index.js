@@ -52,7 +52,8 @@ import productionSubject from "@/components/productionSubject/productionSubject"
 import addRegulatoryObject from "@/components/productionSubject/addRegulatoryObject/addRegulatoryObject";
 import editRegulatoryObject from "@/components/productionSubject/editRegulatoryObject/editRegulatoryObject";
 import detailsRegulatoryObject from "@/components/productionSubject/detailsRegulatoryObject/detailsRegulatoryObject";
-
+import supervisionGrid from "@/components/supervisionGrid/supervisionGrid"
+import manageSupervisionGrid from "@/components/supervisionGrid/manageSupervisionGrid/manageSupervisionGrid"
 import warehouseEnv from "@/components/productionSubject/warehouseEnv/warehouseEnv";
 import detailsWarehouse from "@/components/productionSubject/warehouseEnv/detailsWarehouse/detailsWarehouse";
 import viewWarehouse from "@/components/productionSubject/warehouseEnv/viewWarehouse/viewWarehouse";
@@ -674,6 +675,16 @@ export default new Router({
           path: "/specialCategory",
           name: "specialCategory",
           component: specialCategory
+        },
+        {
+          path: "/supervisionGrid",
+          name: "supervisionGrid", // 监管网格
+          component: supervisionGrid
+        },
+        {
+          path: "/supervisionGrid/manage/:id",
+          name: "manageSupervisionGrid", // 监管网格
+          component: manageSupervisionGrid
         }
       ]
     },

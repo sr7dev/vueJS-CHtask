@@ -40,6 +40,9 @@
         >
           <router-link slot="title" to="/productionRecord">生产记录</router-link>
         </el-menu-item>
+        <el-menu-item index="/supervisionGrid" v-if="loggedinUserType !== 3">
+          <router-link slot="title" to="/supervisionGrid">监管网格</router-link>
+        </el-menu-item>
         <el-menu-item index="/regulatoryRecord" v-if="loggedinUserType !== 3">
           <router-link slot="title" to="/regulatoryRecord">监管记录</router-link>
         </el-menu-item>
