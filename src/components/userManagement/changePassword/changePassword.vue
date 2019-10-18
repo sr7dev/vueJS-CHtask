@@ -32,6 +32,7 @@
                   type="password"
                   @keyup.native="checkCapslock"
                   @blur="capsTooltip = false"
+                  @keyup.enter.native="onSubmit('ruleForm')"
                 ></el-input>
               </el-form-item>
             </el-tooltip>
