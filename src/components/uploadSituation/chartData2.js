@@ -1,14 +1,14 @@
 export default [{
   "month": "2018-09",
-  "income": 200,
+  "income": 1200,
   "expenses": 21.1
 }, {
   "month": "2018-10",
-  "income": 470,
+  "income": 900,
   "expenses": 300
 }, {
   "month": "2018-11",
-  "income": 650,
+  "income": 750,
   "expenses": 500
 }, {
   "month": "2018-12",
@@ -40,7 +40,7 @@ export default [{
   "expenses": 31.9
 }, {
   "month": "2019-07",
-  "income": 351,
+  "income": 500,
   "expenses": 31.9
 }, {
   "month": "2019-08",

@@ -173,7 +173,7 @@ export default {
       let lineSeries = chart.series.push(new am4charts.LineSeries());
       lineSeries.dataFields.categoryX = "month";
       lineSeries.dataFields.valueY = "income";
-      lineSeries.tooltipText = "上传数量";
+      lineSeries.tooltipText = "数量: {valueY.value}";
       lineSeries.fillOpacity = 0.6;
       lineSeries.stroke = am4core.color("#2381e4");
       lineSeries.strokeWidth = 3;
