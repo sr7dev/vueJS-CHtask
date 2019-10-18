@@ -110,6 +110,8 @@ import editNotice from "@/components/notice/editNotice/editNotice";
 import aquaticStatistics from "@/components/aquaticStatistics/aquaticStatistics";
 import statisticsFarmers from "@/components/statisticsFarmers/statisticsFarmers";
 
+import greenProducts from "@/components/greenProducts/greenProducts";
+
 import internalMessage from "@/components/internalMessage/internalMessage";
 import addInternalMessage from "@/components/internalMessage/addInternalMessage/addInternalMessage";
 
@@ -502,6 +504,11 @@ export default new Router({
           path: "/statisticsFarmers",
           name: "statisticsFarmers", // 统计（农残）
           component: statisticsFarmers
+        },
+        {
+          path: "/greenProducts",
+          name: "greenProducts", // 绿色优质产品
+          component: greenProducts
         },
         {
           path: "/internalMessage",
