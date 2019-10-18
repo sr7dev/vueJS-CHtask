@@ -6,7 +6,7 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <el-form>
+      <el-form v-loading="listLoading">
         <div class="row year-select-panel">
           <el-form-item label="年度">
             <el-select 
@@ -83,16 +83,31 @@
           </div>
           <div class="cate-item-panel">
             <div style="display: flex; justify-content: space-between;">
-              <el-form-item label="培训记录"></el-form-item>
-              <el-button
-                type="danger"
-                plain
-                v-if="loggedinUserType === 1 || loggedinUserType === 0"
-              >删除</el-button>
+              <el-form-item label="培训记录" ></el-form-item>
+              <div>
+                <el-button
+                  type="danger"
+                  plain
+                  v-if="loggedinUserType === 1 || loggedinUserType === 0"
+                  @click="updateSelectedRows()"
+                  :disabled="!(trainTableData.length > 0)"
+                >删除</el-button>
+                <el-checkbox
+                  v-model="isShowCheckbox"
+                  true-label="1"
+                  false-label="0"
+                  @change="showCheckbox"
+                  v-if="trainTableData.length > 0"
+                  style="margin-top: 10px; margin-left: 20px;"
+                />
+              </div>  
               <el-button
                 type="primary"
                 plain
                 v-if="loggedinUserType === 2 || loggedinUserType === 0"
+                @click="$router.push({
+                  path: `/trainingFunds`
+                })"
               >添加附件</el-button>
             </div>
             <el-container>
@@ -103,6 +118,11 @@
                 v-loading="listLoading"
                 highlight-current-row
               >
+                <el-table-column label width="35" v-if="isShowCheckbox != 0">
+                  <template slot-scope="{ row }">
+                    <el-checkbox style="margin-left:auto" @change="changeCheckStatus(row.id)"></el-checkbox>
+                  </template>
+                </el-table-column>
                 <el-table-column label="日期">
                   <template slot-scope="{ row }">{{ row.createTime | formatDate }}</template>
                 </el-table-column>
@@ -113,7 +133,7 @@
                     }}
                   </template>
                 </el-table-column>
-                <el-table-column label="文件">                  
+                <el-table-column label="文件">
                   <template slot-scope="{ row }">
                     <el-button type="success" plainv @click="downloadFile(row.trainingFundsProfiles)">下载附件</el-button>
                   </template>
@@ -163,7 +183,9 @@ export default {
         { value: "2021" },
         { value: "2022" },
         { value: "2023" }
-      ]
+      ],
+      isShowCheckbox: 0,
+      selectedRows: []
     };
   },
   created() {
@@ -228,6 +250,8 @@ export default {
           createTimeTo: this.createTimeTo
         })
         .then(response => {
+          console.log('----------------');
+          console.log(response);
           this.trainTableData = response.data;
           this.trainTotal = response.total;
           setTimeout(() => {
@@ -276,12 +300,16 @@ export default {
       return this.companyName;
     },
     getTownName(id) {
+      this.listLoading = true;
       Request()
         .get("/api/company_production/name", {
           companyId: id
         })
         .then(response => {
           this.townName = this.filterTownship(response[0].townId);
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 100);
         })
         .catch(error => {
           console.log(error);
@@ -325,6 +353,43 @@ export default {
         link.click();
         link.remove();
       });
+    },
+    changeCheckStatus(id) {
+      let index = this.selectedRows.indexOf(id);
+      if (index > -1) this.selectedRows.splice(index, 1);
+      if (event.target.checked) {
+        this.selectedRows.push(id);
+      }
+    },
+    updateSelectedRows() {
+      this.$confirm("确认删除该记录吗?", "提示", { type: "warning" }).then(
+        () => {
+          for (let index in this.selectedRows) {
+            this.listLoading = true;
+            let specialFlag = 0;
+            Request()
+              .put(
+                "/api/training_funds/update_special_flag/" +
+                  this.selectedRows[index] + "/" + specialFlag )
+              .then(response => {                
+                this.selectedRows = [];
+                this.isShowCheckbox = 0;
+                this.getTrainList();
+                setTimeout(() => {
+                  this.listLoading = false;
+                }, 0.5 * 1000);
+              })
+              .catch(error => {
+                console.log(error);
+              });
+          }          
+        }
+      );
+    },
+    showCheckbox() {
+      if (!event.target.checked) {
+        this.selectedRows = [];
+      }
     }
   }
 };
