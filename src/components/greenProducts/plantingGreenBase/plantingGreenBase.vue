@@ -157,8 +157,13 @@ export default {
     },
     totalQuality() {
       let total = 0;
+      let index = 0;
       this.tableData.forEach(data => {
-        total += data.baseArea - data.coincidentArea;
+        if (index === this.tableData.length - 1)      
+          return total;
+
+        total += (data.baseArea - data.coincidentArea);
+        index ++;
       });
       return total;
     },
