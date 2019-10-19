@@ -32,6 +32,7 @@
                   type="password"
                   @keyup.native="checkCapslock"
                   @blur="capsTooltip = false"
+                  @keyup.enter.native="onSubmit('ruleForm')"
                 ></el-input>
               </el-form-item>
             </el-tooltip>
@@ -50,6 +51,7 @@
 import Request from "../../../services/api/request.js";
 import { Urls } from "../../../services/constants";
 import Auth from "@/services/authentication/auth.js";
+import Toast from "@/utils/toast";
 export default {
   name: "addThreeProducts",
   data() {
@@ -113,33 +115,35 @@ export default {
         });
     },
     onSubmit(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          this.pageLoading = true;
-          Request()
-            .post(
-              "/api/user/changePassword?" +
-                "newPassword=" +
-                this.ruleFormValue.password +
-                "&" +
-                "oldPassword=" +
-                this.oldPassword +
-                "&" +
-                "userId=" +
-                this.ruleFormValue.userId
-            )
-            .then(response => {
-              setTimeout(() => {
-                this.pageLoading = false;
-              }, 0.5 * 1000);
-              this.$router.push({ path: "/userManagement" });
-            })
-            .catch(error => {});
-        } else {
-          console.log("错误 !!");
-          return false;
-        }
-      });
+      let userData = Auth().user().attrs;
+      if (userData) {
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            this.pageLoading = true;
+            Request()
+              .post(
+                "/api/user/changePassword?" +
+                  "newPassword=" +
+                  this.ruleFormValue.password +
+                  "&" +
+                  "userId=" +
+                  this.ruleFormValue.userId
+              )
+              .then(response => {
+                setTimeout(() => {
+                  this.pageLoading = false;
+                }, 0.5 * 1000);
+                this.$router.push({ path: "/userManagement" });
+              })
+              .catch(error => {});
+          } else {
+            console.log("错误 !!");
+            return false;
+          }
+        });
+      } else {
+        this.quit();
+      }
     },
     checkCapslock({ shiftKey, key } = {}) {
       if (key && key.length === 1) {
@@ -158,6 +162,15 @@ export default {
     },
     goBack() {
       this.$router.go(-1);
+    },
+    quit() {
+      Auth().logout();
+      Toast.error("未经授权的用户");
+      setTimeout(() => {
+        this.$router.push({
+          path: "/login"
+        });
+      }, 500);
     }
   }
 };

@@ -6,8 +6,8 @@
         <el-breadcrumb-item class="actived">管理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="box padding-bottom-0">
-      <div class="container padding-bottom-0">
+    <div class="box no-padding-bottom">
+      <div class="container no-padding-bottom">
         <el-button type="primary" plain v-on:click="$router.go(-1)">返回</el-button>
       </div>
     </div>

@@ -10,12 +10,32 @@
       <div class="iptBox">
         <div class="select_label">{{ getCompanyName() }}</div>
         <div class="select_label">分类</div>
-        <el-select v-model="filterStatus" placeholder="请选择" @change="getList" style="margin-right: 30px">
-          <el-option v-for="(item, index) in argriculturalClassification" :key="item" :label="item" :value="index"></el-option>
+        <el-select
+          v-model="filterStatus"
+          placeholder="请选择"
+          @change="getList"
+          style="margin-right: 30px"
+        >
+          <el-option
+            v-for="(item, index) in argriculturalClassification"
+            :key="item"
+            :label="item"
+            :value="index"
+          ></el-option>
         </el-select>
         <div class="select_label">认证类型</div>
-        <el-select v-model="certificationType" placeholder="请选择" @change="getList" style="margin-right: 30px">
-          <el-option v-for="(item, index) in certificationTypes" :key="item" :label="item" :value="index"></el-option>
+        <el-select
+          v-model="certificationType"
+          placeholder="请选择"
+          @change="getList"
+          style="margin-right: 30px"
+        >
+          <el-option
+            v-for="(item, index) in certificationTypes"
+            :key="item"
+            :label="item"
+            :value="index"
+          ></el-option>
         </el-select>
         <el-button
           type="primary"
@@ -23,9 +43,7 @@
                                     query: {creditCode:creditCode}})"
           plain
         >添加认证</el-button>
-        <el-button type="primary" v-on:click="$router.go(-1)" plain
-          >返回</el-button
-        >
+        <el-button type="primary" v-on:click="$router.go(-1)" plain>返回</el-button>
       </div>
       <el-container>
         <el-table
@@ -36,47 +54,45 @@
           :row-class-name="rowIndex"
           highlight-current-row
         >
-          <el-table-column
-            :formatter="order"
-            label="序号"
-            width="70"
-          ></el-table-column>
+          <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
           <el-table-column prop="productName" label="产品" width>
-            <template slot-scope="{ row }">{{
+            <template slot-scope="{ row }">
+              {{
               filterProduct(row.productId)
-            }}</template>
+              }}
+            </template>
           </el-table-column>
           <el-table-column prop="argriculturalClassification" label="分类" width>
-            <template slot-scope="{ row }">{{
+            <template slot-scope="{ row }">
+              {{
               appStatus1[row.argriculturalClassification]
-            }}</template>
+              }}
+            </template>
           </el-table-column>
-          <el-table-column
-            prop="certificationType"
-            label="认证类型"
-            width
-          >
-            <template slot-scope="{ row }">{{
-                certificationTypes[row.certificationType]
-              }}</template>
+          <el-table-column prop="certificationType" label="认证类型" width>
+            <template slot-scope="{ row }">
+              {{
+              certificationTypes[row.certificationType]
+              }}
+            </template>
           </el-table-column>
-          <el-table-column
-            prop="certificationNo"
-            label="证书编号"
-            width
-          ></el-table-column>
+          <el-table-column prop="certificationNo" label="证书编号" width></el-table-column>
           <el-table-column label="证书有效期" width>
-            <template slot-scope="{ row }">{{
+            <template slot-scope="{ row }">
+              {{
               getCertification(
-                row.certificationStartTime,
-                row.certificationEndTime
+              row.certificationStartTime,
+              row.certificationEndTime
               )
-            }}</template>
+              }}
+            </template>
           </el-table-column>
           <el-table-column label="有效时间" width>
-            <template slot-scope="{ row }">{{
+            <template slot-scope="{ row }">
+              {{
               getPeriod(row.certificationStartTime, row.certificationEndTime)
-            }}</template>
+              }}
+            </template>
           </el-table-column>
           <el-table-column prop="output" label="产量" width></el-table-column>
         </el-table>
@@ -118,7 +134,13 @@ export default {
       certificationType: 0,
       appStatus1: ["全部", "养殖业", "畜牧业", "种植业"],
       argriculturalClassification: ["全部", "养殖业", "畜牧业", "种植业"],
-      certificationTypes: ["全部", "无公害产品", "绿色食品", "有机食品", '地理标志']
+      certificationTypes: [
+        "全部",
+        "无公害产品",
+        "绿色食品",
+        "有机食品",
+        "地理标志"
+      ]
     };
   },
   created() {

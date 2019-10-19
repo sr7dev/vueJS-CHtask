@@ -263,6 +263,7 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.listLoading = true;
           var formData = new FormData();
 
           formData.append("creditCode", this.ruleFormValue.creditCode);
@@ -314,6 +315,9 @@ export default {
           Request()
             .post("/api/quality_standard/create", formData)
             .then(response => {
+              setTimeout(() => {
+                this.listLoading = false;
+              }, 0.5 * 1000);
               this.$router.push({ path: "/threeProductsCertification" });
             })
             .catch(error => {});

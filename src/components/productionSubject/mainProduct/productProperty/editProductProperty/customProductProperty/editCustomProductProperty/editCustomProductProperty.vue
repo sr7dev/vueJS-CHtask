@@ -30,7 +30,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="选项排序" prop="sort">
-              <el-input v-model="ruleFormValue.sort" ></el-input>
+              <el-input v-model="ruleFormValue.sort" type="number" ></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -46,16 +46,20 @@
 </template>
 
 <script>
-import Request from "../../../../../../../services/api/request.js";
 export default {
   name: "editCustomProductProperty",
   data() {
     return {
       listLoading: false,
+      rootId: null,
+      companyId: null,
+      productId: null,
       ruleFormValue: {
-        id: -1,
+        id: 1,
         name: "",
-        sort: ""      
+        sort: "",
+        optionData: null,
+        propertySort: null
       },
       rules: {
         name: [
@@ -77,38 +81,42 @@ export default {
   },
   created() {    
     this.ruleFormValue.id = this.$route.query.id;
-    this.ruleFormValue.name = this.$route.query.name;
-    this.ruleFormValue.sort = this.$route.query.sort;
+    this.ruleFormValue.optionData = this.$route.query.optionData;
+    this.ruleFormValue.sort = this.$route.query.propertySort;
+    this.ruleFormValue.name = this.ruleFormValue.optionData[this.ruleFormValue.id].name;
+    this.companyId = this.$route.query.companyId;
+    this.rootId = this.$route.params.id;
+    this.productId = this.$route.query.productId;
   },
   methods: {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          var formData = {
-            "id": 0,
-            "name": this.ruleFormValue.name,
-            "sort": this.ruleFormValue.sort
-          }
-          this.listLoading = true;
-          Request()
-            .put("/api/product_property_option/update/" + this.ruleFormValue.id, formData)
-            .then(response => {
-              setTimeout(() => {
-                this.listLoading = false;          
-              }, 0.5*100);
-              this.$router.push({
-                path: `/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/${this.ruleFormValue.id}`
-              });
-            })
-            .catch(error => {});
-        } else {
-          console.log("错误 !!");
-          return false;
+          this.ruleFormValue.optionData[this.ruleFormValue.id].name = this.ruleFormValue.name;
+          this.$router.push({
+            path: `/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/${this.rootId}`,
+            query: {
+              id: this.ruleFormValue.id,
+              productId: this.productId,
+              optionData: this.ruleFormValue.optionData,
+              propertySort: this.ruleFormValue.sort,
+              companyId: this.companyId
+            }
+          });
         }
       });
     },
     goBack() {
-      this.$router.go(-1);
+      this.$router.push({
+        path: `/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/${this.rootId}`,
+        query: {
+          id: this.ruleFormValue.id,
+          productId: this.productId,
+          optionData: this.ruleFormValue.optionData,
+          propertySort: this.ruleFormValue.sort,
+          companyId: this.companyId
+        }
+      });
     }
   }
 };
