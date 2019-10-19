@@ -1,34 +1,13 @@
 <template>
   <div class="container">
     <div class="box">
-      <div class="iptBox">
-        <el-button type="primary" plain @click="getAll()">全部</el-button>
-        <el-button type="primary" plain @click="shajiabanTown()">沙家浜镇</el-button>
-        <el-button type="primary" plain @click="merlinTown()">梅林镇</el-button>
-        <el-button type="primary" plain @click="zhitangTown()">支塘镇</el-button>
-      </div>
-      <el-dialog :visible.sync="alert_dialogVisible" width="30%" modal>
-        <span>
-          <i class="el-icon-warning">&nbsp;请选择 !!!</i>
-        </span>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="alert_dialogVisible = false" type="primary" plain>取消</el-button>
-        </span>
-      </el-dialog>
-      <el-dialog :visible.sync="confirm_dialogVisible" width="30%" modal>
-        <span>
-          <i class="el-icon-warning">&nbsp;继续？请再次检查</i>
-        </span>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
-        </span>
-      </el-dialog>
-
       <el-container>
+        <el-header>2019年建设中待验收种植业绿色优质基地</el-header>
         <el-table
           :data="tableData"
           style="width: 100%"
           :row-class-name="rowIndex"
+          :span-method="objectSpanMethod"
           v-loading="listLoading"
           highlight-current-row
         >
@@ -37,9 +16,17 @@
           <el-table-column prop="productType" label="产品类型"></el-table-column>
           <el-table-column prop="baseArea" label="基地面积"></el-table-column>
           <el-table-column prop="baseAddress" label="基地地址(到村)"></el-table-column>
-          <el-table-column prop="coincident" label="与部基地,产品基地重合(是/否)"></el-table-column>
-          <el-table-column prop="company" label="应扣除的重合部分(重合企业/部基地)"></el-table-column>
-          <el-table-column prop="coincidentArea" label="应扣除的重合部分(重合面积)"></el-table-column>
+          <el-table-column label="与部基地,产品基地重合">
+            <el-table-column prop="coincident" label="(是/否)"></el-table-column>
+          </el-table-column>
+          <el-table-column label="应扣除的重合部分">
+            <el-table-column
+              :prop="col.prop"
+              :label="col.label"
+              v-for="col in columns"
+              :key="col.prop"
+            ></el-table-column>
+          </el-table-column>
           <el-table-column prop="remarks" label="备注"></el-table-column>
         </el-table>
       </el-container>
@@ -72,6 +59,16 @@ export default {
   },
   data() {
     return {
+      columns: [
+        {
+          prop: "company",
+          label: "重合企业/部基地"
+        },
+        {
+          prop: "coincidentArea",
+          label: "重合面积"
+        }
+      ],
       alert_dialogVisible: false,
       confirm_dialogVisible: false,
 
@@ -87,7 +84,7 @@ export default {
           productType: "粮油",
           baseArea: 2.48,
           baseAddress:
-            "常熟市尚湖镇罗墩村、常兴村、新裕村、吉桥村、练南村、福寿村、新鑫村、新和村、新巷村",
+            "常熟市尚湖镇罗墩村,常兴村,新裕村,吉桥村,练南村,福寿村,新鑫村,新和村,新巷村",
           coincident: "是",
           company: "常熟市虞盛农产品专业合作社",
           coincidentArea: 0.15,
@@ -98,7 +95,7 @@ export default {
           productType: "粮油",
           baseArea: 2.48,
           baseAddress:
-            "常熟市尚湖镇罗墩村、常兴村、新裕村、吉桥村、练南村、福寿村、新鑫村、新和村、新巷村",
+            "常熟市尚湖镇罗墩村,常兴村,新裕村,吉桥村,练南村,福寿村,新鑫村,新和村,新巷村",
           coincident: "是",
           company: "常熟市虞盛农产品专业合作社",
           coincidentArea: 0.15,
@@ -116,11 +113,95 @@ export default {
     getData() {
       this.listLoading = false;
       this.total = this.tableData.length;
+      this.calculateTotal();
+      this.Total();
     },
-    getAll() {},
-    shajiabanTown() {},
-    merlinTown() {},
-    zhitangTown() {},
+
+    calculateTotal() {
+      this.tableData.push({
+        createUnit: "合计",
+        productType: "",
+        baseArea: this.baseQuality(),
+        baseAddress: "",
+        coincident: "",
+        company: "",
+        coincidentArea: this.coincidentQuality(),
+        remarks: ""
+      });
+    },
+    baseQuality() {
+      let total = 0;
+      this.tableData.forEach(data => {
+        total += data.baseArea;
+      });
+      return total;
+    },
+    coincidentQuality() {
+      let total = 0;
+      this.tableData.forEach(data => {
+        total += data.coincidentArea;
+      });
+      return total;
+    },
+    Total() {
+      this.tableData.push({
+        createUnit: "纳入统计范围的基地面积（扣除重合后）：",
+        productType: "",
+        baseArea: "",
+        baseAddress: "",
+        coincident: this.totalQuality(),
+        company: "",
+        coincidentArea: "",
+        remarks: ""
+      });
+    },
+    totalQuality() {
+      let total = 0;
+      this.tableData.forEach(data => {
+        total += data.baseArea - data.coincidentArea;
+      });
+      return total;
+    },
+    objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+      if (rowIndex == this.tableData.length - 2) {
+        if (columnIndex == 0) {
+          return {
+            rowspan: 0,
+            colspan: 0
+          };
+        } else if (columnIndex == 1) {
+          return {
+            rowspan: 1,
+            colspan: 2
+          };
+        }
+      } else if (rowIndex == this.tableData.length - 1) {
+        if (columnIndex == 1) {
+          return {
+            rowspan: 1,
+            colspan: 5
+          };
+        } else if (columnIndex == 5) {
+          return {
+            rowspan: 1,
+            colspan: 4
+          };
+        } else if (
+          columnIndex == 0 ||
+          columnIndex == 2 ||
+          columnIndex == 3 ||
+          columnIndex == 4 ||
+          columnIndex == 6 ||
+          columnIndex == 7 ||
+          columnIndex == 8
+        ) {
+          return {
+            rowspan: 0,
+            colspan: 0
+          };
+        }
+      }
+    },
 
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
@@ -131,3 +212,12 @@ export default {
   }
 };
 </script>
+
+<style>
+.el-header {
+  color: #333;
+  text-align: center;
+  line-height: 60px;
+  font-size: 25px;
+}
+</style>
