@@ -1,36 +1,15 @@
 <template>
   <div class="container">
     <div class="box">
-      <div class="iptBox">
-        <el-button type="primary" plain @click="getAll()">全部</el-button>
-        <el-button type="primary" plain @click="shajiabanTown()">沙家浜镇</el-button>
-        <el-button type="primary" plain @click="merlinTown()">梅林镇</el-button>
-        <el-button type="primary" plain @click="zhitangTown()">支塘镇</el-button>
-      </div>
-      <el-dialog :visible.sync="alert_dialogVisible" width="30%" modal>
-        <span>
-          <i class="el-icon-warning">&nbsp;请选择 !!!</i>
-        </span>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="alert_dialogVisible = false" type="primary" plain>取消</el-button>
-        </span>
-      </el-dialog>
-      <el-dialog :visible.sync="confirm_dialogVisible" width="30%" modal>
-        <span>
-          <i class="el-icon-warning">&nbsp;继续？请再次检查</i>
-        </span>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
-        </span>
-      </el-dialog>
-
       <el-container>
+        <el-header>种植业绿色优质农产品统计汇总</el-header>
         <el-table
           :data="tableData"
           style="width: 100%"
           :row-class-name="rowIndex"
           v-loading="listLoading"
           highlight-current-row
+          :span-method="objectSpanMethod"
         >
           <el-table-column :formatter="order" label="序号"></el-table-column>
           <el-table-column prop="plate" label="板块"></el-table-column>
@@ -124,13 +103,131 @@ export default {
   },
   methods: {
     getData() {
-      this.listLoading = false;
       this.total = this.tableData.length;
+      this.getTotal();
+      this.listLoading = false;
     },
-    getAll() {},
-    shajiabanTown() {},
-    merlinTown() {},
-    zhitangTown() {},
+    getTotal() {
+      this.tableData.push({
+        plate: "合计",
+        greenFoodArea: this.greenFoodQuality(),
+        organicArea: this.organicAreaQuality(),
+        greenHighBaseArea: this.greenHighQuality(),
+        repeatArea: this.repeatAreaQuality(),
+        total: this.totalQuality(),
+        cultivatedArea: this.cultivateQuality(),
+        proportion: this.proportionQuality(),
+        greenOrganic: this.greenOrganicQuality(),
+        landMark: this.landmarkQuality(),
+        estimatedArea: this.estimateQuality(),
+        expectedRatio: this.expectedQuality()
+      });
+    },
+
+    greenFoodQuality() {
+      let total = 0;
+      this.tableData.forEach(data => {
+        total += data.greenFoodArea;
+      });
+      return total;
+    },
+
+    organicAreaQuality() {
+      let total = 0;
+      this.tableData.forEach(data => {
+        total += data.organicArea;
+      });
+      return total;
+    },
+
+    greenHighQuality() {
+      let total = 0;
+      this.tableData.forEach(data => {
+        total += data.greenHighBaseArea;
+      });
+      return total;
+    },
+
+    repeatAreaQuality() {
+      let total = 0;
+      this.tableData.forEach(data => {
+        total += data.repeatArea;
+      });
+      return total;
+    },
+
+    totalQuality() {
+      let total = 0;
+      this.tableData.forEach(data => {
+        total += data.total;
+      });
+      return total;
+    },
+
+    cultivateQuality() {
+      let total = 0;
+      this.tableData.forEach(data => {
+        total += data.cultivatedArea;
+      });
+      return total;
+    },
+
+    proportionQuality() {
+      let total = 0;
+      this.tableData.forEach(data => {
+        total += data.proportion;
+      });
+      return total;
+    },
+
+    greenOrganicQuality() {
+      let total = 0;
+      this.tableData.forEach(data => {
+        total += data.greenOrganic;
+      });
+      return total;
+    },
+
+    landmarkQuality() {
+      let total = 0;
+      this.tableData.forEach(data => {
+        total += data.landMark;
+      });
+      return total;
+    },
+
+    estimateQuality() {
+      let total = 0;
+      this.tableData.forEach(data => {
+        total += data.estimatedArea;
+      });
+      return total;
+    },
+
+    objectSpanMethod({ row, col, rowIndex, columnIndex }) {
+      if (rowIndex == this.tableData.length - 1) {
+        if (columnIndex == 0) {
+          return {
+            rowspan: 0,
+            colspan: 0
+          };
+        } 
+        if (columnIndex == 1) {
+          return {
+            rowspan: 1,
+            colspan: 2
+          };
+        } 
+      }
+    },
+
+    expectedQuality() {
+      let total = 0;
+      this.tableData.forEach(data => {
+        total += data.expectedRatio;
+      });
+      return total;
+    },
 
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
@@ -141,3 +238,12 @@ export default {
   }
 };
 </script>
+
+<style>
+.el-header {
+  color: #333;
+  text-align: center;
+  line-height: 60px;
+  font-size: 25px;
+}
+</style>

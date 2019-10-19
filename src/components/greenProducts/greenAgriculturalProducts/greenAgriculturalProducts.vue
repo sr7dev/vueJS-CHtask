@@ -1,36 +1,15 @@
 <template>
   <div class="container">
     <div class="box">
-      <div class="iptBox">
-        <el-button type="primary" plain @click="getAll()">全部</el-button>
-        <el-button type="primary" plain @click="shajiabanTown()">沙家浜镇</el-button>
-        <el-button type="primary" plain @click="merlinTown()">梅林镇</el-button>
-        <el-button type="primary" plain @click="zhitangTown()">支塘镇</el-button>
-      </div>
-      <el-dialog :visible.sync="alert_dialogVisible" width="30%" modal>
-        <span>
-          <i class="el-icon-warning">&nbsp;请选择 !!!</i>
-        </span>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="alert_dialogVisible = false" type="primary" plain>取消</el-button>
-        </span>
-      </el-dialog>
-      <el-dialog :visible.sync="confirm_dialogVisible" width="30%" modal>
-        <span>
-          <i class="el-icon-warning">&nbsp;继续？请再次检查</i>
-        </span>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
-        </span>
-      </el-dialog>
-
       <el-container>
+        <el-header>绿色优质农产品统计汇总</el-header>
         <el-table
           :data="tableData"
           style="width: 100%"
           :row-class-name="rowIndex"
           v-loading="listLoading"
           highlight-current-row
+          :span-method="spanMethod"
         >
           <el-table-column :formatter="order" label="序号"></el-table-column>
           <el-table-column prop="plate" label="板块"></el-table-column>
@@ -109,13 +88,49 @@ export default {
   },
   methods: {
     getData() {
-      this.listLoading = false;
+      
       this.total = this.tableData.length;
+      this.calcualteTotal();
+      this.listLoading = false;
     },
-    getAll() {},
-    shajiabanTown() {},
-    merlinTown() {},
-    zhitangTown() {},
+
+    calcualteTotal(){
+      let plantTotal = 0, liveTotal = 0, greenTotal = 0, expectedTotal = 0, estimateTotal = 0, greenHighTotal = 0;
+      this.tableData.forEach(data => {
+        plantTotal += data.plantingIndustry;
+        liveTotal += data.livestockRatio;
+        greenTotal += data.greenArgriculturalProducts;
+        expectedTotal += data.expectedPlantingIndustry;
+        estimateTotal += data.estimatedShare;
+        greenHighTotal += data.greenHighQuality;
+      });
+      this.tableData.push({        
+          plate: "合计",
+          plantingIndustry: plantTotal,
+          livestockRatio: liveTotal,
+          greenArgriculturalProducts: greenTotal,
+          expectedPlantingIndustry: expectedTotal,
+          estimatedShare: estimateTotal,
+          greenHighQuality: greenHighTotal,
+      });      
+    },
+
+    spanMethod({ row, column, rowIndex, columnIndex }){
+      if (rowIndex == this.tableData.length - 1){
+        if (columnIndex == 0){
+          return{
+            rowspan: 0,
+            colspan: 0,
+          }
+        }
+        else if (columnIndex == 1){
+          return{
+            rowspan: 1,
+            colspan: 2,
+          }
+        }       
+      }
+    },
 
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
@@ -126,3 +141,13 @@ export default {
   }
 };
 </script>
+
+
+<style>
+.el-header {
+    color: #333;
+    text-align: center;
+    line-height: 60px;
+    font-size: 25px;
+  }
+</style>

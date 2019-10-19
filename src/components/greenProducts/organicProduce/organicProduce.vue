@@ -1,45 +1,25 @@
 <template>
   <div class="container">
     <div class="box">
-      <div class="iptBox">
-        <el-button type="primary" plain @click="getAll()">全部</el-button>
-        <el-button type="primary" plain @click="shajiabanTown()">沙家浜镇</el-button>
-        <el-button type="primary" plain @click="merlinTown()">梅林镇</el-button>
-        <el-button type="primary" plain @click="zhitangTown()">支塘镇</el-button>
-      </div>
-      <el-dialog :visible.sync="alert_dialogVisible" width="30%" modal>
-        <span>
-          <i class="el-icon-warning">&nbsp;请选择 !!!</i>
-        </span>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="alert_dialogVisible = false" type="primary" plain>取消</el-button>
-        </span>
-      </el-dialog>
-      <el-dialog :visible.sync="confirm_dialogVisible" width="30%" modal>
-        <span>
-          <i class="el-icon-warning">&nbsp;继续？请再次检查</i>
-        </span>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
-        </span>
-      </el-dialog>
-
       <el-container>
+        <el-header>有机农产品清单</el-header>
         <el-table
           :data="tableData"
           style="width: 100%"
           :row-class-name="rowIndex"
+          :span-method="objectSpanMethod"
           v-loading="listLoading"
+          border
           highlight-current-row
         >
           <el-table-column :formatter="order" label="序号"></el-table-column>
-          <el-table-column prop="townDistrict" label="所在镇(区)"></el-table-column>
-          <el-table-column prop="declarationUnitName" label="申报单位名称"></el-table-column>
-          <el-table-column prop="numbering" label="编号"></el-table-column>
-          <el-table-column prop="productName" label="产品名称"></el-table-column>
-          <el-table-column prop="area" label="面积(亩)"></el-table-column>
-          <el-table-column prop="production" label="产量(吨)"></el-table-column>
-          <el-table-column prop="address" label="详细地址"></el-table-column>
+          <el-table-column prop="townDistrict.value" label="所在镇(区)"></el-table-column>
+          <el-table-column prop="declarationUnitName.value" label="申报单位名称"></el-table-column>
+          <el-table-column prop="numbering.value" label="编号"></el-table-column>
+          <el-table-column prop="productName.value" label="产品名称"></el-table-column>
+          <el-table-column prop="area.value" label="面积(亩)"></el-table-column>
+          <el-table-column prop="production.value" label="产量(吨)"></el-table-column>
+          <el-table-column prop="address.value" label="详细地址"></el-table-column>
         </el-table>
       </el-container>
 
@@ -80,24 +60,99 @@ export default {
         pageSize: 20
       },
       total: 0,
-      tableData: [
+      tableData: [],
+      objData: [
         {
           townDistrict: "虞山街道(637.6)",
-          declarationUnitName: "常熟市维摩剑门绿茶有限公司",
-          numbering: "100OP1200293",
-          productName: "太白茶",
-          area: 637.6,
-          production: 1.1,
-          address: "常熟市虞山中路维摩"
+          declarationUnit: [
+            {
+              declarationUnitName: "常熟市维摩剑门绿茶有限公司",
+              declaration: [
+                {
+                  numbering: "100OP1200293",
+                  product: [
+                    {
+                      productName: "太白茶",
+                      production: 1.1
+                    },
+                    {
+                      productName: "碧螺春",
+                      production: 2.5
+                    },
+                    {
+                      productName: "茗毫",
+                      production: 10
+                    }
+                  ],
+                  address: "常熟市虞山中路维摩"
+                },
+                {
+                  numbering: "100OP1200292",
+                  product: [
+                    {
+                      productName: "茶青",
+                      production: 94.4
+                    }
+                  ],
+                  address: "江苏常熟市虞山中路维摩茶园"
+                }
+              ],
+              area: 637.6
+            }
+          ]
         },
         {
-          townDistrict: "虞山街道(637.6)",
-          declarationUnitName: "常熟市维摩剑门绿茶有限公司",
-          numbering: "100OP1200293",
-          productName: "太白茶",
-          area: 637.6,
-          production: 1.1,
-          address: "常熟市虞山中路维摩"
+          townDistrict: "梅李镇(699.6)",
+          declarationUnit: [
+            {
+              declarationUnitName: "苏州市吉成酱油酿造有限公司",
+              declaration: [
+                {
+                  numbering: "100OP1200519",
+                  product: [
+                    {
+                      productName: "缘木记酱油",
+                      production: 60
+                    },
+                    {
+                      productName: "缘木记黑豆酱油",
+                      production: 14
+                    },
+                    {
+                      productName: "缘木记蔬菜汁酱油",
+                      production: 15
+                    }
+                  ],
+                  address: "江苏省常熟市梅李镇聚沙路11号"
+                }
+              ],
+              area: 0
+            },
+            {
+              declarationUnitName: "常熟市海明现代农业发展有限公司",
+              declaration: [
+                {
+                  numbering: "134OP1400173",
+                  product: [
+                    {
+                      productName: "青菜",
+                      production: 171
+                    },
+                    {
+                      productName: "白菜",
+                      production: 94.4
+                    },
+                    {
+                      productName: "散叶莴苣 ",
+                      production: 19.2
+                    }
+                  ],
+                  address: "江苏省苏州市常熟市梅李镇海城村"
+                }
+              ],
+              area: 699.6
+            }
+          ]
         }
       ],
       listLoading: true
@@ -111,12 +166,179 @@ export default {
     getData() {
       this.listLoading = false;
       this.total = this.tableData.length;
+      this.arrangData();
     },
-    getAll() {},
-    shajiabanTown() {},
-    merlinTown() {},
-    zhitangTown() {},
+    arrangData() {
+      let data = this.objData;
+      this.total = data.length;
+      let index = 0;
+      data.forEach(obj => {
+        let objtotal = 0;
 
+        obj.declarationUnit.forEach(declare => {
+          let dectotal = 0;
+
+          declare.declaration.forEach(deunit => {
+            let deunitotal = 0;
+
+            deunit.product.forEach(pro => {
+              this.tableData.push({
+                townDistrict: { value: obj.townDistrict, spaning: 0 }, //dcnt*ducnt*pcnt},
+                declarationUnitName: {
+                  value: declare.declarationUnitName,
+                  spaning: 0
+                }, //ducnt * pcnt},
+                numbering: { value: deunit.numbering, spaning: 0 }, // pcnt},
+                productName: { value: pro.productName, spaning: 0 },
+                production: { value: pro.production, spaning: 0 },
+                address: { value: deunit.address, spaning: 0 }, //pcnt},
+                area: { value: declare.area, spaning: 0 } //ducnt * pcnt}
+              });
+
+              deunitotal++;
+              index++;
+            });
+
+            this.tableData[index - deunitotal].numbering.spaning = deunitotal;
+            this.tableData[index - deunitotal].address.spaning = deunitotal;
+            dectotal += deunitotal;
+          });
+
+          this.tableData[
+            index - dectotal
+          ].declarationUnitName.spaning = dectotal;
+          this.tableData[index - dectotal].area.spaning = dectotal;
+          objtotal += dectotal;
+        });
+
+        this.tableData[index - objtotal].townDistrict.spaning = objtotal;
+      });
+
+      this.tableData.push({
+        townDistrict: { value: "合计", spaning: 0 },
+        declarationUnitName: { value: "", spaning: 0 },
+        numbering: { value: "", spaning: 0 },
+        productName: { value: "", spaning: 0 },
+        production: { value: this.productionQuality(), spaning: 0 },
+        address: { value: "预计下半年通过15000亩认证面积", spaning: 0 },
+        area: { value: this.areaQualtiy(), spaning: 0 }
+      });
+    },
+
+    areaQualtiy() {
+      let total = 0;
+      this.objData.forEach(obj => {
+        obj.declarationUnit.forEach(dec => {
+          total += dec.area;
+        });
+      });
+      return total;
+    },
+
+    productionQuality() {
+      let total = 0;
+      this.objData.forEach(obj => {
+        obj.declarationUnit.forEach(dec => {
+          dec.declaration.forEach(pro => {
+            pro.product.forEach(p => {
+              total += p.production;
+            });
+          });
+        });
+      });
+      return parseFloat(total).toFixed(2) ;
+    },
+
+    objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+      if (rowIndex < this.tableData.length - 1) {
+        if (columnIndex == 1) {
+          if (row.townDistrict.spaning > 0) {
+            return {
+              rowspan: row.townDistrict.spaning,
+              colspan: 1
+            };
+          } else {
+            return {
+              rowspan: 0,
+              colspan: 0
+            };
+          }
+        }
+
+        if (columnIndex == 2) {
+          if (row.declarationUnitName.spaning > 0) {
+            return {
+              rowspan: row.declarationUnitName.spaning,
+              colspan: 1
+            };
+          } else {
+            return {
+              rowspan: 0,
+              colspan: 0
+            };
+          }
+        }
+        if (columnIndex == 3) {
+          if (row.numbering.spaning > 0) {
+            return {
+              rowspan: row.numbering.spaning,
+              colspan: 1
+            };
+          } else {
+            return {
+              rowspan: 0,
+              colspan: 0
+            };
+          }
+        }
+
+        if (columnIndex == 5) {
+          if (row.area.spaning > 0) {
+            return {
+              rowspan: row.area.spaning,
+              colspan: 1
+            };
+          } else {
+            return {
+              rowspan: 0,
+              colspan: 0
+            };
+          }
+        }
+
+        if (columnIndex == 7) {
+          if (row.address.spaning > 0) {
+            return {
+              rowspan: row.address.spaning,
+              colspan: 1
+            };
+          } else {
+            return {
+              rowspan: 0,
+              colspan: 0
+            };
+          }
+        }
+      } else {
+        if (columnIndex == 1) {
+          return {
+            rowspan: 1,
+            colspan: 2
+          };
+        }
+        else if (columnIndex == 2) {
+          return {
+            rowspan: 1,
+            colspan: 3
+          };
+        } else if ( columnIndex == 0 || columnIndex == 3 || columnIndex == 4) {
+          return {
+            rowspan: 0,
+            colspan: 0
+          };
+        }
+      }
+    },
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
     },
@@ -126,3 +348,12 @@ export default {
   }
 };
 </script>
+
+<style>
+.el-header {
+  color: #333;
+  text-align: center;
+  line-height: 60px;
+  font-size: 25px;
+}
+</style>
