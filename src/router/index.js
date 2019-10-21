@@ -63,6 +63,8 @@ import thirdPartySamplingRecord from "@/components/productionSubject/mainProduct
 import addThirdPartySampling from "@/components/productionSubject/mainProduct/thirdPartySamplingRecord/addThirdPartySampling/addThirdPartySampling";
 import editThirdPartySampling from "@/components/productionSubject/mainProduct/thirdPartySamplingRecord/editThirdPartySampling/editThirdPartySampling";
 import productBatch from "@/components/productionSubject/mainProduct/productBatch/productBatch";
+import addProductBatch from "@/components/productionSubject/mainProduct/productBatch/addProductBatch/addProductBatch";
+import editProductBatch from "@/components/productionSubject/mainProduct/productBatch/editProductBatch/editProductBatch";
 import inventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/inventoryDynamics";
 import varietyDefinition from "@/components/productionSubject/varietyDefinition/varietyDefinition";
 import addVarietyDefinition from "@/components/productionSubject/varietyDefinition/addVarietyDefinition/addVarietyDefinition";
@@ -271,6 +273,16 @@ export default new Router({
           path: "/productionSubject/mainProduct/productBatch/:id",
           name: "productBatch",
           component: productBatch
+        },
+        {
+          path: "/productionSubject/mainProduct/productBatch/:id/create",
+          name: "addProductBatch",
+          component: addProductBatch
+        },
+        {
+          path: "/productionSubject/mainProduct/productBatch/:id/edit/:id1",
+          name: "editProductBatch",
+          component: editProductBatch
         },
         {
           path: "/productionSubject/mainProduct/inventoryDynamics/:id",

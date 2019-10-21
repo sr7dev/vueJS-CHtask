@@ -242,7 +242,7 @@ export default {
               contactWay: this.ruleFormValue.contactWay,
               createUserId: this.loggedinUserType,
               creditCode: this.ruleFormValue.creditCode,
-              id: 0,
+              id: this.selectedId,
               password: "",
               userId: this.ruleFormValue.userId,
               userType: this.ruleFormValue.userType,

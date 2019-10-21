@@ -57,6 +57,10 @@ body {
   margin-left: 0 !important;
 }
 
+.no-margin-top {
+  margin-top: 0 !important;
+}
+
 .margin-top-20 {
   margin-top: 20px!important;
 }
@@ -290,4 +294,9 @@ input[type=number]::-webkit-inner-spin-button {
   color: #000000!important;
   text-shadow: none!important;
   font-weight: bold;
+}
+
+.ajs-button {
+  padding: 5px 20px;
+  border-radius: 10px;
 }
