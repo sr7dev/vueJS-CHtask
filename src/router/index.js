@@ -130,6 +130,11 @@ import addInputUse from "@/components/inputManagement/addInputManagement/addInpu
 import viewInputManagement from "@/components/inputManagement/viewInputManagement/viewInputManagement";
 import uploadSituation from "@/components/uploadSituation/uploadSituation";
 
+import statisticsCredit from "@/components/statisticsCredit/statisticsCredit";
+import statisticsSupervision from "@/components/statisticsSupervision/statisticsSupervision";
+import statisticsTracing from "@/components/statisticsTracing/statisticsTracing";
+import statisticsTracingCompany from "@/components/statisticsTracingCompany/statisticsTracingCompany";
+
 import Auth from "@/services/authentication/auth";
 
 Vue.use(Router);
@@ -710,6 +715,26 @@ export default new Router({
           path: "/uploadSituation",
           name: "uploadSituation", // 上传情况
           component: uploadSituation
+        },
+        {
+          path: "/statisticsCredit",
+          name: "statisticsCredit", // 上传情况
+          component: statisticsCredit
+        },
+        {
+          path: "/statisticsSupervision",
+          name: "statisticsSupervision", // 上传情况
+          component: statisticsSupervision
+        },
+        {
+          path: "/statisticsTracing",
+          name: "statisticsTracing", // 上传情况
+          component: statisticsTracing
+        },
+        {
+          path: "/statisticsTracingCompany",
+          name: "statisticsTracingCompany", // 上传情况
+          component: statisticsTracingCompany
         }
       ]
     },
