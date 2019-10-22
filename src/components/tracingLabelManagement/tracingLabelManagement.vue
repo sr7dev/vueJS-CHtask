@@ -163,14 +163,20 @@
               <el-table-column prop="tracingNumber" label="溯源码"></el-table-column>
               <el-table-column prop="printStatus" label="标签生成" class-name="text-center">
                 <template slot-scope="{row}">
-                  <span v-if="row.printStatus==0">待生成</span>
                   <el-button
                     @click="goToTagGeneration(row)"
                     type="success"
                     class="margin-left-10"
                     plain
                     v-if="row.printStatus==0"
-                  >标签打印</el-button>
+                  >待生成</el-button>
+                  <el-button
+                    @click="goToTagGeneration(row)"
+                    type="success"
+                    class="margin-left-10"
+                    plain
+                    v-if="row.printStatus==1"
+                  >已生成</el-button>
                 </template>
               </el-table-column>
             </el-table>
