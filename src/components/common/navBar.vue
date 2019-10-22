@@ -97,12 +97,12 @@
         <el-menu-item index="/redBlackList">
           <router-link slot="title" to="/redBlackList">红黑名单</router-link>
         </el-menu-item>
-        <el-menu-item
+         <el-menu-item
           index="/productionStandard"
-          v-if="loggedinUserType === 3 || loggedinUserType === 0"
+          v-if="loggedinUserType === 3"
         >
           <router-link slot="title" to="/productionStandard">生产标准</router-link>
-        </el-menu-item>
+        </el-menu-item> 
       </el-menu>
     </el-col>
   </el-row>
