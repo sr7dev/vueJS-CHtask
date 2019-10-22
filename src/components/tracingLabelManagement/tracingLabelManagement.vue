@@ -450,6 +450,7 @@ export default {
   created() {
     this.companyId = Auth().user().attrs.companyId;
     this.getBaseList();
+    this.getVarietyData();
   },
   methods: {
     showDetailsSampleCheck(row) {
@@ -504,9 +505,6 @@ export default {
         })
         .then(response => {
           this.productionList = response.data;
-          setTimeout(() => {
-            this.listLoading = false;
-          }, 0.5 * 1000);
         })
         .catch(error => {
           console.log(error);
@@ -641,6 +639,14 @@ export default {
     onPrint() {
       this.show_QRCode = false;
       this.listLoading = true;
+      let targetbatchName = "";
+      let targetbatch = this.batchList.find(
+        x => x.batchNumber == this.ruleFormValue2.batchNumber
+      );
+      if (targetbatch) {
+        targetbatchName = targetbatch.batchName.split(" ");
+        targetbatchName = targetbatchName[1] + "," + targetbatchName[2];
+      }
       Request()
         .put("/api/tracing/update/" + this.selectedTracingRow.id, {
           id: this.selectedTracingRow.id,
@@ -648,6 +654,7 @@ export default {
           createUserId: this.selectedTracingRow.createUserId,
           createTime: new Date(this.selectedTracingRow.createTime),
           batchNumber: this.ruleFormValue2.batchNumber,
+          batchName: targetbatchName,
           printStatus: 1,
           validTime: new Date(this.ruleFormValue2.validTime),
           tracingAmount: this.ruleFormValue2.tracingAmount,
@@ -697,7 +704,6 @@ export default {
       }
       if (tab.index == 3) {
         this.getProductProduction();
-        this.getVarietyData();
         this.getTracingList();
       }
     },
