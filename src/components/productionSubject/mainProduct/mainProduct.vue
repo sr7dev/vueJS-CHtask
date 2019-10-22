@@ -137,9 +137,10 @@ export default {
       );
     },
     showProductBatch(row) {
-      this.$router.push(
-        `/productionSubject/mainProduct/productBatch/${row.productId}`
-      );
+      this.$router.push({
+        path: `/productionSubject/mainProduct/productBatch/${row.productId}`,
+        query: { companyId: this.id }
+      });
     },
     showInventoryDynamics(row) {
       this.$router.push({
