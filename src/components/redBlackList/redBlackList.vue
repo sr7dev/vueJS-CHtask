@@ -136,7 +136,7 @@ export default {
       }
       Request()
       .get("/api/company_credit_grade/all", {
-          approvalStatus: this.status - 1,
+          approvalStatus: 2,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
           townId: this.currTown,
