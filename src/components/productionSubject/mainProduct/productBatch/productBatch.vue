@@ -77,14 +77,13 @@
                 style="display:table"
                 @click="downloadFile(fileName1)"
                 v-if="!file_live_1 && fileName1"
-                class="margin-left-10"
               >
                 {{
                 fileName1.replace("/uploads/", "")
                 }}
               </el-link>
-              <p v-if="file_live_1" class="margin-left-10">({{ file_live_1.name }})</p>
-              <p v-if="!file_live_1 && !fileName1" class="margin-left-10">请选择需要上传的文件...</p>
+              <p v-if="file_live_1">({{ file_live_1.name }})</p>
+              <p v-if="!file_live_1 && !fileName1">请选择需要上传的文件...</p>
             </el-col>
             <el-col :span="5">
               <div class="img-container no-margin-top margin-bottom-30 margin-left-10">
@@ -140,6 +139,24 @@
                 :rules="{ required: true, message: '请选择', trigger:'change' }"
               >
                 <el-date-picker class="w-100" type="datetime" v-model="ruleFormValue2.reportDate"></el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="20">
+              <el-form-item
+                label="结果"
+                prop="reportResult"
+                :rules="{ required: true, message: '请选择', trigger:'change' }"
+              >
+                <el-select class="w-100" type="datetime" v-model="ruleFormValue2.reportResult">
+                  <el-option
+                    v-for="item in resultOption"
+                    :key="item.value"
+                    :value="item.value"
+                    :label="item.label"
+                  ></el-option>
+                </el-select>
               </el-form-item>
             </el-col>
           </el-row>
@@ -359,6 +376,7 @@
           <template slot-scope="{ row }">
             <div class="w-100">
               <el-link
+                style="display:table"
                 v-for="item in row.taskData"
                 :key="item.id"
                 @click="onClickTaskRow(item)"
@@ -370,6 +388,7 @@
           <template slot-scope="{ row }">
             <div class="w-100">
               <el-link
+                style="display:table"
                 v-for="item in row.saleData"
                 :key="item.id"
                 @click="onClickSaleRow(item)"
@@ -381,16 +400,18 @@
           <template slot-scope="{ row }">
             <div class="w-100">
               <el-link
+                style="display:table"
                 v-for="item in row.property"
                 :key="item.index"
-                style="display:table"
                 @click="onClickPropertyRow(item, row)"
               >{{getPropertyName(item.propertyName)}}</el-link>
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="reportTime" label="检测报告">
-          <template slot-scope="{row}">{{ row.reportTime | formatDate }}</template>
+        <el-table-column prop="reportResult" label="检测报告">
+          <template
+            slot-scope="{row}"
+          >{{ row.reportResult>-1 ? resultOption[row.reportResult].label : "没有报告" }}</template>
         </el-table-column>
         <el-table-column
           label="操作"
@@ -481,12 +502,14 @@ export default {
       propertyList: [],
       selectedBatchRow: [],
       propertyValueList: [],
+      companyId: null,
       ruleFormValue1: {
         productTask: null,
         taskDate: ""
       },
       ruleFormValue2: {
-        reportDate: ""
+        reportDate: "",
+        reportResult: null
       },
       ruleFormValue4: {
         productSaleDestination: "",
@@ -502,12 +525,14 @@ export default {
         { gradeId: 2, gradeName: "高级" },
         { gradeId: 3, gradeName: "中级" },
         { gradeId: 4, gradeName: "低级" }
-      ]
+      ],
+      resultOption: [{ value: 0, label: "不合格" }, { value: 1, label: "合格" }]
     };
   },
   async created() {
     this.productId = this.$route.params.id;
     this.downloadUrl = Urls.DOWNLOAD_URL();
+    this.companyId = this.$route.query.companyId;
     this.getVarietyData();
     this.getTaskList();
     this.getProductProperty();
@@ -673,6 +698,7 @@ export default {
     },
     showDialog(rowData, dialogName, isHideDeleteButton) {
       this.ruleFormValue2.reportDate = rowData.reportTime;
+      this.ruleFormValue2.reportResult = rowData.reportResult;
       this.fileName2 = rowData.reportFile;
       this.formatData();
       switch (dialogName) {
@@ -830,6 +856,58 @@ export default {
         if (valid) {
           this.show_ReportDialog = false;
           this.listLoading = true;
+          const tmpDate = new Date(this.ruleFormValue2.reportDate);
+          if (this.ruleFormValue2.reportResult > 0) {
+            let tracingFormData = new FormData();
+            const batchSubName1 = this.getVarietyName(
+              this.selectedBatchRow.varietyId
+            );
+            const batchSubName2 = this.getGradeName(
+              this.selectedBatchRow.varietyGrade
+            );
+            tracingFormData.append("id", 0);
+            tracingFormData.append("productId", this.productId);
+            tracingFormData.append("companyId", 0); //temporary - later this.companyId
+            let tmpTaskDate;
+            if (this.selectedBatchRow.taskData) {
+              tmpTaskDate = new Date(
+                this.selectedBatchRow.taskData[0].taskDate
+              );
+            }
+            tracingFormData.append("productionTime", tmpTaskDate);
+            tracingFormData.append("locationId", 0);
+            tracingFormData.append("charge", "");
+
+            tracingFormData.append("reportTime", tmpDate);
+            tracingFormData.append(
+              "batchNumber",
+              this.selectedBatchRow.batchNumber
+            );
+            tracingFormData.append(
+              "batchName",
+              batchSubName1 + "," + batchSubName2
+            );
+            tracingFormData.append("tracingNumber", "");
+            // tracingFormData.append("tracingTime", createTime);
+            tracingFormData.append("tracingTimeType", 0);
+            // tracingFormData.append("webTime", createTime);
+            tracingFormData.append("webTimeType", 0);
+            tracingFormData.append("tracingAmount", 0);
+            tracingFormData.append("printStatus", 0);
+            tracingFormData.append("createTime", new Date());
+            tracingFormData.append("createUserId", Auth().user().attrs.id);
+            tracingFormData.append("updateTime", new Date());
+            tracingFormData.append("updateUserId", 0);
+
+            Request()
+              .post("/api/tracing/create", tracingFormData)
+              .then(response => {
+                console.log(response);
+              })
+              .catch(error => {
+                console.error(error);
+              });
+          }
           let formData = new FormData();
           const createTime = new Date();
           formData.append("batchNumber", this.selectedBatchRow.batchNumber);
@@ -848,13 +926,8 @@ export default {
           formData.append("updateUserId", Auth().user().attrs.id);
           if (this.file_live_2) {
             formData.append("file", this.file_live_2);
-            formData.append("reportResult", 1);
-          } else {
-            formData.append("reportResult", 0);
           }
-          const tmpDate = new Date(
-            this.ruleFormValue2.reportDate
-          ).toDateString();
+          formData.append("reportResult", this.ruleFormValue2.reportResult);
           formData.append("reportTime", tmpDate);
           Request()
             .put("/api/product_batch/update/" + this.selectedBatchId, formData)
@@ -925,7 +998,7 @@ export default {
           formData.append("varietyId", this.selectedBatchRow.varietyId);
           formData.append("updateTime", createTime);
           formData.append("updateUserId", Auth().user().attrs.id);
-          if (this.selectedBatchRow.reportResult)
+          if (this.selectedBatchRow.reportResult > -1)
             formData.append("reportResult", this.selectedBatchRow.reportResult);
           if (this.selectedBatchRow.reportTime) {
             const tmpDate = new Date(this.selectedBatchRow.reportTime);
@@ -1075,12 +1148,11 @@ export default {
       formData.append("varietyId", this.selectedBatchRow.varietyId);
       formData.append("updateTime", createTime);
       formData.append("updateUserId", Auth().user().attrs.id);
-      formData.append("reportResult", this.selectedBatchRow.reportResult);
       if (this.selectedBatchRow.reportTime) {
         const tmpDate = new Date(this.selectedBatchRow.reportTime);
         formData.append("reportTime", tmpDate);
       }
-      if (this.selectedBatchRow.reportResult) {
+      if (this.selectedBatchRow.reportResult > -1) {
         formData.append("reportResult", this.selectedBatchRow.reportResult);
       }
       Request()
