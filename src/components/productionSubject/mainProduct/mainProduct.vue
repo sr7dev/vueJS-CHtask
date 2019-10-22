@@ -18,9 +18,9 @@
           <el-button type="primary" plain @click="$router.go(-1)">返回</el-button>
         </div>
       </div>
-      <el-table 
-        :data="tableData" 
-        style="width: 100%" 
+      <el-table
+        :data="tableData"
+        style="width: 100%"
         :row-class-name="rowIndex"
         v-loading="listLoading"
       >
@@ -34,17 +34,17 @@
         <el-table-column prop="variety" label="品种"></el-table-column>
         <el-table-column prop="specification" label="规格"></el-table-column>
         <el-table-column prop="grade" label="评级"></el-table-column>
-        <el-table-column prop="operations" label="操作" width="270" class-name="text-center">
+        <el-table-column prop="operations" label="操作" width="270" class-name="text-right">
           <template slot-scope="{ row }">
-            <el-button 
-              v-on:click="showSamplingRecord(row)" 
-              type="success" 
+            <el-button
+              v-on:click="showSamplingRecord(row)"
+              type="success"
               plain
               style="margin-bottom: 5px;"
             >第三方抽检记录</el-button>
-            <el-button 
-              v-on:click="showProductBatch(row)" 
-              type="success" 
+            <el-button
+              v-on:click="showProductBatch(row)"
+              type="success"
               plain
               style="margin-bottom: 5px;"
             >产品批次</el-button>
@@ -64,11 +64,11 @@
             >定义等级</el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="operations" label width="230">
+        <el-table-column prop="operations" label width="230" class="text-left">
           <template slot-scope="{ row }">
-            <el-button 
-              v-on:click="showInventoryDynamics(row)" 
-              type="success" 
+            <el-button
+              v-on:click="showInventoryDynamics(row)"
+              type="success"
               plain
               style="margin-bottom: 5px;"
             >库存动态</el-button>
@@ -84,6 +84,7 @@
               type="success"
               plain
               style="margin-bottom: 5px;"
+              class="no-margin-left"
               v-if="loggedinUserType === 3 || loggedinUserType === 0"
             >属性管理</el-button>
           </template>
@@ -155,7 +156,7 @@ export default {
     showProductProperty(row) {
       this.$router.push({
         path: `/productionSubject/mainProduct/productProperty/${this.$route.params.id}`,
-        query: { productId: row.productId}
+        query: { productId: row.productId }
       });
     },
     showProductVariety(row) {

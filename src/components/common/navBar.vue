@@ -73,6 +73,12 @@
         <el-menu-item index="/threeProductsCertification" v-if="loggedinUserType!== 3">
           <router-link slot="title" to="/threeProductsCertification">三品一标管理</router-link>
         </el-menu-item>
+        <el-menu-item
+          index="/tracingLabelManagement"
+          v-if="loggedinUserType === 3 || loggedinUserType === 0"
+        >
+          <router-link slot="title" to="/tracingLabelManagement">溯源标签管理</router-link>
+        </el-menu-item>
         <el-menu-item index="/sampleCheck">
           <router-link slot="title" to="/sampleCheck">例行抽样管理</router-link>
         </el-menu-item>
