@@ -98,6 +98,8 @@ import addSampleCheckResult from "@/components/sampleCheck/addSampleCheckResult/
 import detailsSampleCheck from "@/components/sampleCheck/detailsSampleCheck/detailsSampleCheck";
 import detailsSampleCheckResult from "@/components/sampleCheck/detailsSampleCheckResult/detailsSampleCheckResult";
 
+import tracingLabelManagement from "@/components/tracingLabelManagement/tracingLabelManagement";
+
 import jobDefinition from "@/components/jobDefinition/jobDefinition";
 import addJobDefinition from "@/components/jobDefinition/addJobDefinition/addJobDefinition";
 import editJobDefinition from "@/components/jobDefinition/editJobDefinition/editJobDefinition";
@@ -172,6 +174,11 @@ export default new Router({
           path: "/sampleCheck/detailsSampleCheckResult/:id",
           name: "detailsSampleCheckResult",
           component: detailsSampleCheckResult
+        },
+        {
+          path: "/tracingLabelManagement",
+          name: "tracingLabelManagement",
+          component: tracingLabelManagement
         },
         {
           path: "/companyBusiness",

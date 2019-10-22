@@ -14,7 +14,13 @@
       <div class="iptBox">
         <el-button type="primary" plain @click="addSample()">添加</el-button>
       </div>
-      <el-table v-show="mode" :data="tableData" style="width: 100%" :row-class-name="rowIndex">
+      <el-table
+        v-show="mode"
+        v-loading="listLoading"
+        :data="tableData"
+        style="width: 100%"
+        :row-class-name="rowIndex"
+      >
         <el-table-column :formatter="order" label="序号" width="80"></el-table-column>
         <el-table-column prop="sampleName" label="检测名称"></el-table-column>
         <el-table-column prop="sampleTime" label="检测时间">
@@ -27,7 +33,13 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-table v-show="!mode" :data="tableData" style="width: 100%" :row-class-name="rowIndex">
+      <el-table
+        v-show="!mode"
+        v-loading="listLoading"
+        :data="tableData"
+        style="width: 100%"
+        :row-class-name="rowIndex"
+      >
         <el-table-column :formatter="order" label="序号" width="80"></el-table-column>
         <el-table-column prop="sampleName" label="检测名称"></el-table-column>
         <el-table-column prop="checkUnit" label="检测单位"></el-table-column>

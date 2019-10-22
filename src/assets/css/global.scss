@@ -300,3 +300,10 @@ input[type=number]::-webkit-inner-spin-button {
   padding: 5px 20px;
   border-radius: 10px;
 }
+
+.el-tabs__header {
+  margin-bottom: 40px;
+  .el-tabs__item {
+    font-size: 1.2rem;
+  }
+}
