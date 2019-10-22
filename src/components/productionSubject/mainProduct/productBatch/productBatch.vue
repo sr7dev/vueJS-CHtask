@@ -389,8 +389,8 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="reportResult" label="检测报告">
-          <template slot-scope="{row}">{{ row.reportResult > 0 ? "合格" : "不合格" }}</template>
+        <el-table-column prop="reportTime" label="检测报告">
+          <!-- <template slot-scope="{row}">{{ row.reportResult > 0 ? "合格" : "不合格" }}</template> -->
         </el-table-column>
         <el-table-column
           label="操作"
