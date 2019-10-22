@@ -446,7 +446,7 @@ export default {
       Request()
       .post("/api/company_credit_grade/create", {
               approvalGrade: "B",
-              approvalStatus: "0",
+              approvalStatus: "1",
               createTime: current,              
               createUserId: Auth().user().attrs.id,
               creditAvailableEnd: current,

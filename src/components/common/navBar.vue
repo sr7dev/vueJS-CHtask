@@ -127,7 +127,6 @@
         >
           <router-link slot="title" to="/internalMessage">站内消息</router-link>
         </el-menu-item>
-
       </el-menu>
     </el-col>
   </el-row>
