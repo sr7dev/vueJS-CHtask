@@ -220,16 +220,20 @@ export default {
             });
           }
           this.tableData = [];
-          let indexItem = 0;
-          tmpData.map(item => {
-            let gradeArrayName = "credit_grade_data_" + indexItem;
-            this.getNowGrade(response[gradeArrayName]).then(res => {
-              item.nowGrade = this.getGradeString(res);
-              this.tableData.push(item);
-              this.total = this.tableData.length;
-            });
-            indexItem++;
+          tmpData.forEach(e => {
+            e.nowGrade = this.getGradeString(e);
           });
+          this.tableData = tmpData;
+          // let indexItem = 0;
+          // tmpData.map(item => {
+          //   let gradeArrayName = "credit_grade_data_" + indexItem;
+          //   this.getNowGrade(response[gradeArrayName]).then(res => {
+          //     item.nowGrade = this.getGradeString(res);
+          //     this.tableData.push(item);
+          //     this.total = this.tableData.length;
+          //   });
+          //   indexItem++;
+          // });
           this.total = this.tableData.length;
           setTimeout(() => {
             this.listLoading = false;
@@ -290,16 +294,16 @@ export default {
       let strGrade = "";
       switch (grade) {
         case "A":
-          strGrade = "A级（守信）";
+          strGrade = "A:守信";
           break;
         case "B":
-          strGrade = "B级（基本守信）";
+          strGrade = "B:基本守信";
           break;
         case "C":
-          strGrade = "C级（失信）";
+          strGrade = "C:失信";
           break;
         default:
-          strGrade = "A级（守信）";
+          strGrade = "A:守信";
       }
       return strGrade;
     },

@@ -311,21 +311,30 @@ export default {
           townId: this.townId
         })
         .then(response => {
-          let dt = response.data;
-          this.tableData = [];
-          this.srcData = [];
+          let dt = response.data;          
           this.total = response.total;
 
-          let indexItem = 0;
-          dt.map(item => {
-            let gradeArrayName = "credit_grade_data_" + indexItem;
-            this.getNowGrade(response[gradeArrayName]).then(res => {
-              item.nowGrade = this.getGradeString(res);
-              this.tableData.push(item);
-              this.srcData.push(item);
-            });
-            indexItem++;
+          dt.forEach(e => {
+            e.nowGrade = this.getGradeString(e.grade);
           });
+
+          this.tableData = dt;
+          this.srcData = dt;
+          
+          // this.tableData = [];
+          // this.srcData = [];
+          // this.total = response.total;
+
+          // let indexItem = 0;
+          // dt.map(item => {
+          //   let gradeArrayName = "credit_grade_data_" + indexItem;
+          //   this.getNowGrade(response[gradeArrayName]).then(res => {
+          //     item.nowGrade = this.getGradeString(res);
+          //     this.tableData.push(item);
+          //     this.srcData.push(item);
+          //   });
+          //   indexItem++;
+          // });
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
@@ -345,16 +354,16 @@ export default {
       let strGrade = "";
       switch (grade) {
         case "A":
-          strGrade = "守信";
+          strGrade = "A:守信";
           break;
         case "B":
-          strGrade = "基本守信";
+          strGrade = "B:基本守信";
           break;
         case "C":
-          strGrade = "失信";
+          strGrade = "C:失信";
           break;
         default:
-          strGrade = "A级";
+          strGrade = "A:守信";
       }
       return strGrade;
     },
