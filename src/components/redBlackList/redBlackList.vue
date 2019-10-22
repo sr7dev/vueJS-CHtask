@@ -17,7 +17,11 @@
           </el-select>
         </div>
         <el-container>
-          <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
+          <el-table 
+            :data="tableData" 
+            style="width: 100%" 
+            :row-class-name="rowIndex"
+            v-loading = "listLoading">
             <el-table-column :formatter="order" label="序号" width="180"></el-table-column>
             <el-table-column label="企业名称" v-if="loggedinUserType===2">
               <template slot-scope="{ row }">
@@ -89,6 +93,7 @@ export default {
       township: [{ id: 0, name: "全部" }],
       currTown: 0,
       status: 1,
+      nowGrade: "A",
       tableData: [],
       companyProduction: [],
       loggedinUserType: null
@@ -127,13 +132,15 @@ export default {
       if (this.status !== newStatus) {
         this.status = newStatus;
         this.page.pageIndex = 1;
+        this.nowGrade = this.status === 1 ? "A" : "C";
       }
       Request()
-        .get("/api/blacklist/all", {
-          blacklistType: this.status,
+      .get("/api/company_credit_grade/all", {
+          approvalStatus: this.status - 1,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
-          townId: this.currTown
+          townId: this.currTown,
+          nowGrade: this.nowGrade
         })
         .then(response => {
           this.tableData = response.data;
