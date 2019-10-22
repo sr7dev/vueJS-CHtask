@@ -98,11 +98,36 @@
           <router-link slot="title" to="/redBlackList">红黑名单</router-link>
         </el-menu-item>
         <el-menu-item
+          index="/specialCategory"
+          v-if="loggedinUserType === 0 || loggedinUserType === 1 || loggedinUserType === 2"
+        >
+          <router-link slot="title" to="/specialCategory">专项</router-link>
+        </el-menu-item>
+        <el-menu-item
+          index="/greenProducts"
+          v-if="loggedinUserType === 0 || loggedinUserType === 1 || loggedinUserType === 2"
+        >
+          <router-link slot="title" to="/greenProducts">绿色优质产品</router-link>
+        </el-menu-item>
+        <el-menu-item
           index="/productionStandard"
-          v-if="loggedinUserType === 3 || loggedinUserType === 0"
+          v-if="loggedinUserType === 0 || loggedinUserType === 1 || loggedinUserType === 2"
         >
           <router-link slot="title" to="/productionStandard">生产标准</router-link>
         </el-menu-item>
+        <el-menu-item
+          index="/shareFiles"
+          v-if="loggedinUserType === 0 || loggedinUserType === 1 || loggedinUserType === 2"
+        >
+          <router-link slot="title" to="/shareFiles">共享文件</router-link>
+        </el-menu-item>
+        <el-menu-item
+          index="/internalMessage"
+          v-if="loggedinUserType === 0 || loggedinUserType === 1 || loggedinUserType === 2"
+        >
+          <router-link slot="title" to="/internalMessage">站内消息</router-link>
+        </el-menu-item>
+
       </el-menu>
     </el-col>
   </el-row>

@@ -11,24 +11,21 @@
       background-color="#253032"
       text-color="#ffffff"
       v-if="loggedinUserType!==3"
-    >
-      <el-menu-item index="/specialCategory">
-        <router-link slot="title" to="/specialCategory">专项</router-link>
+    > 
+    <el-menu-item index="/statisticsCredit">
+        <router-link slot="title" to="/statisticsCredit">诚信系统看板</router-link>
       </el-menu-item>
+      <el-menu-item index="/statisticsSupervision">
+        <router-link slot="title" to="/statisticsSupervision">监管记录看板</router-link>
+      </el-menu-item>
+      <el-menu-item index="/statisticsTracing">
+        <router-link slot="title" to="/statisticsTracing">溯源记录看板</router-link>
+      </el-menu-item>
+      <el-menu-item index="/statisticsTracingCompany">
+        <router-link slot="title" to="/statisticsTracingCompany">溯源企业看板</router-link>
+      </el-menu-item>     
       <el-menu-item index="/statisticsFarmers">
         <router-link slot="title" to="/statisticsFarmers">统计（农残）</router-link>
-      </el-menu-item>
-      <el-menu-item index="/greenProducts">
-        <router-link slot="title" to="/greenProducts">绿色优质产品</router-link>
-      </el-menu-item>
-      <el-menu-item index="/productionStandard">
-        <router-link slot="title" to="/productionStandard">生产标准</router-link>
-      </el-menu-item>
-      <el-menu-item index="/shareFiles">
-        <router-link slot="title" to="/shareFiles">共享文件</router-link>
-      </el-menu-item>
-      <el-menu-item index="/internalMessage">
-        <router-link slot="title" to="/internalMessage">站内消息</router-link>
       </el-menu-item>
     </el-menu>
     <div class="quit">
