@@ -152,9 +152,11 @@
               <el-table-column prop="productId" label="品名">
                 <template slot-scope="{row}">{{filterProductName(row.productId)}}</template>
               </el-table-column>
-              <el-table-column prop="productionTime" label="生产日期"></el-table-column>
+              <el-table-column prop="productionTime" label="生产日期">
+                <template slot-scope="{row}">{{row.productionTime | formatDate}}</template>
+              </el-table-column>
               <el-table-column prop="locationId" label="基地">
-                <template slot-scope="{row}">{{filterTracingLocation(row.id)}}</template>
+                <template slot-scope="{row}">{{filterTracingLocation(row.locationId)}}</template>
               </el-table-column>
               <el-table-column prop="charge" label="负责人"></el-table-column>
               <el-table-column prop="batchNumber" label="批次号"></el-table-column>
@@ -196,7 +198,7 @@
               </el-row>
               <el-row>
                 <el-col :span="22" class="text-right">
-                  <el-button type="success" plain @click="show_QRCode = false">打印</el-button>
+                  <el-button type="success" plain @click="onPrint()">打印</el-button>
                 </el-col>
               </el-row>
             </el-dialog>
@@ -636,6 +638,49 @@ export default {
         }
       });
     },
+    onPrint() {
+      this.show_QRCode = false;
+      this.listLoading = true;
+      Request()
+        .put("/api/tracing/update/" + this.selectedTracingRow.id, {
+          id: this.selectedTracingRow.id,
+          companyId: this.companyId,
+          createUserId: this.selectedTracingRow.createUserId,
+          createTime: new Date(this.selectedTracingRow.createTime),
+          batchNumber: this.ruleFormValue2.batchNumber,
+          printStatus: 1,
+          validTime: new Date(this.ruleFormValue2.validTime),
+          tracingAmount: this.ruleFormValue2.tracingAmount,
+          productId: this.ruleFormValue2.productId,
+          tracingTimeType: this.ruleFormValue2.tracingTimeType,
+          tracingTime: new Date(this.ruleFormValue2.tracingTime),
+          webTimeType: this.ruleFormValue2.webTimeType,
+          webTime: new Date(this.ruleFormValue2.webTime),
+          productionTime: new Date(this.selectedTracingRow.productionTime),
+          locationId: this.ruleFormValue2.locationId,
+          charge: this.ruleFormValue2.charge,
+          updateUserId: Auth().user().attrs.id
+        })
+        .then(response => {
+          this.ruleFormValue2.productId = null;
+          this.ruleFormValue2.batchNumber = null;
+          this.ruleFormValue2.tracingTimeType = null;
+          this.ruleFormValue2.tracingTime = null;
+          this.ruleFormValue2.webTimeType = null;
+          this.ruleFormValue2.webTime = null;
+          this.ruleFormValue2.charge = null;
+          this.ruleFormValue2.locationId = null;
+          this.ruleFormValue2.validTime = null;
+          this.ruleFormValue2.tracingAmount = null;
+          setTimeout(() => {
+            this.listLoading = false;
+            document.getElementById("tab-tagQuery").click();
+          }, 0.5 * 1000);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
     },
@@ -643,7 +688,6 @@ export default {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
     },
     handleClick(tab, event) {
-      console.log(tab, event);
       if (tab.index == 0) {
         this.getBaseList();
       }
@@ -658,6 +702,7 @@ export default {
       }
     },
     goToTagGeneration(rowData) {
+      this.selectedTracingRow = rowData;
       document.getElementById("tab-labelPrinting").click();
       if (rowData) {
         if (rowData.productId)

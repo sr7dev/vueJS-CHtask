@@ -390,7 +390,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="reportTime" label="检测报告">
-          <!-- <template slot-scope="{row}">{{ row.reportResult > 0 ? "合格" : "不合格" }}</template> -->
+          <template slot-scope="{row}">{{ row.reportTime | formatDate }}</template>
         </el-table-column>
         <el-table-column
           label="操作"
