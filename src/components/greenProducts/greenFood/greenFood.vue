@@ -9,10 +9,9 @@
           :row-class-name="rowIndex"
           :span-method="mainSpanMethod"
           v-loading="listLoading"
-          border
           highlight-current-row
         >
-          <el-table-column :formatter="order" label="序号"></el-table-column>
+          <el-table-column :formatter="order" label="序号" width="100"></el-table-column>
           <el-table-column prop="plate.value" label="板块"></el-table-column>
           <el-table-column prop="productionUnit.value" label="生产单位"></el-table-column>
           <el-table-column prop="productName.value" label="产品名称"></el-table-column>
@@ -20,12 +19,13 @@
           <el-table-column prop="baseArea.value" label="基地面积(亩)"></el-table-column>
           <el-table-column prop="production.value" label="产量(吨)"></el-table-column>
           <el-table-column prop="baseAddress.value" label="基地地址(到村)"></el-table-column>
-          <el-table-column label="面积统计">
+          <el-table-column label="面积统计" align="center" style="color: black">
             <el-table-column
               :prop="col.prop"
               :label="col.label"
               v-for="col in columns"
               :key="col.prop"
+              align="center"
             ></el-table-column>
           </el-table-column>
         </el-table>
@@ -366,4 +366,12 @@ export default {
   line-height: 60px;
   font-size: 25px;
 }
+
+.el-table thead {
+    color: #333 !important; 
+}
+
+.el-table--border td{
+  border-right: 1px solid #EBEEF5 !important;
+} 
 </style>

@@ -345,13 +345,13 @@ export default {
       let strGrade = "";
       switch (grade) {
         case "A":
-          strGrade = "A级";
+          strGrade = "守信";
           break;
         case "B":
-          strGrade = "B级";
+          strGrade = "基本守信";
           break;
         case "C":
-          strGrade = "C级";
+          strGrade = "失信";
           break;
         default:
           strGrade = "A级";

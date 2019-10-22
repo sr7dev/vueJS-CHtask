@@ -9,6 +9,7 @@
           :row-class-name="rowIndex"
           v-loading="listLoading"
           highlight-current-row
+          border
           :span-method="spanMethod"
         >
           <el-table-column :formatter="order" label="序号"></el-table-column>

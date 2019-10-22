@@ -11,15 +11,15 @@
           v-loading="listLoading"
           highlight-current-row
         >
-          <el-table-column :formatter="order" label="序号"></el-table-column>
+          <el-table-column :formatter="order" label="序号" width="100"></el-table-column>
           <el-table-column prop="createUnit" label="创建单位"></el-table-column>
           <el-table-column prop="productType" label="产品类型"></el-table-column>
           <el-table-column prop="baseArea" label="基地面积"></el-table-column>
           <el-table-column prop="baseAddress" label="基地地址(到村)"></el-table-column>
           <el-table-column label="与部基地,产品基地重合">
-            <el-table-column prop="coincident" label="(是/否)"></el-table-column>
+            <el-table-column prop="coincident" label="(是/否)" align="center"></el-table-column>
           </el-table-column>
-          <el-table-column label="应扣除的重合部分">
+          <el-table-column label="应扣除的重合部分" align="center">
             <el-table-column
               :prop="col.prop"
               :label="col.label"
@@ -27,7 +27,7 @@
               :key="col.prop"
             ></el-table-column>
           </el-table-column>
-          <el-table-column prop="remarks" label="备注"></el-table-column>
+          <el-table-column prop="remarks" label="备注" align="center"></el-table-column>
         </el-table>
       </el-container>
 
