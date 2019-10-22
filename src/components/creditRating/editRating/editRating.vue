@@ -6,7 +6,7 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <template v-if="data">
+      <el-form v-if="data" v-loading="updateLoading">
         <div class="item-row">
           <div class="item">
             <div class="item-label">状态</div>
@@ -82,8 +82,8 @@
             </div>
           </div>
         </div>
-      </template>
-      <template v-if="!data">装货...</template>
+      </el-form>
+      <el-form v-if="!data">装货...</el-form>
     </div>
   </div>
 </template>
@@ -97,6 +97,7 @@ export default {
   name: "EditRating",
   data() {
     return {
+      updateLoading: false,
       id: -1,
       file: null,
       pageName: this.$route.name,
@@ -133,6 +134,7 @@ export default {
     },
 
     saveChanges(event) {
+      this.updateLoading = true;
       var formData = new FormData();
       formData.append("updatedNowGrade", this.data.nowGrade);
       formData.append("id", this.data.creditGradeId);
@@ -146,6 +148,22 @@ export default {
           formData
         )
         .then(response => {
+          this.saveChangeUpdateGrade();
+        })
+        .catch(error => {});
+    },
+
+    saveChangeUpdateGrade(){      
+      Request()
+        .put(
+          "/api/company_production/updateGrade/" + this.data.creditCode,
+          {
+            creditCode : this.data.creditCode,
+            grade: this.data.nowGrade
+          }
+        )
+        .then(response => {
+          this.updateLoading = false;
           this.$router.push({ path: "/creditRating" });
         })
         .catch(error => {});

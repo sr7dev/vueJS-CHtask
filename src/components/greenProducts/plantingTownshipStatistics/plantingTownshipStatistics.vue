@@ -9,6 +9,7 @@
           :row-class-name="rowIndex"
           v-loading="listLoading"
           highlight-current-row
+          border
           :span-method="objectSpanMethod"
         >
           <el-table-column :formatter="order" label="序号"></el-table-column>
@@ -246,4 +247,5 @@ export default {
   line-height: 60px;
   font-size: 25px;
 }
+
 </style>

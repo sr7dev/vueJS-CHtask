@@ -8,24 +8,25 @@
     <div class="box">
       <div class="iptBox">
         <el-row class="w-100">
-          <el-col :span="3">
+           <!-- <el-col :span="3">
             <el-button
               type="primary"
               v-on:click="$router.push(`/productionStandard/create`)"
               plain
               v-if="loggedinUserType === 1 || loggedinUserType === 0"
             >添加生产标准</el-button>
+          </el-col>  -->
+          <el-col :span="12">
+            <div class="select_label no-margin-left">标准名称</div>
+            <el-input v-model="productName" class="w-80"></el-input>                                          
           </el-col>
-          <el-col :span="6">
-            <div class="select_label no-margin-left">产品名称</div>
-            <el-input v-model="productName" @change="getList()" class="w-80"></el-input>
-          </el-col>
-          <el-col :span="6">
+          <el-button type="primary" @click="getList()" plain>搜索</el-button>
+          <!-- <el-col :span="12">
             <div class="select_label">类别</div>
             <el-select v-model="category" @change="getList()">
               <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item.id"></el-option>
             </el-select>
-          </el-col>
+          </el-col> -->
         </el-row>
       </div>
 
@@ -38,10 +39,10 @@
           highlight-current-row
         >
           <el-table-column :formatter="order" label="序号" width="100"></el-table-column>
-          <el-table-column prop="productName" label="产品"></el-table-column>
-          <el-table-column prop="category" label="类别">
+          <el-table-column prop="productName" label="标准"></el-table-column>
+          <!-- <el-table-column prop="category" label="类别">
             <template slot-scope="{ row }">{{ filterCategory(row.category) }}</template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column prop="releaseTime" label="发布时间" class-name="text-center">
             <template slot-scope="{ row }">{{ row.releaseTime | formatDate }}</template>
           </el-table-column>
@@ -49,7 +50,7 @@
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
               <el-button
-                type="success"
+                type="primary"
                 plain
                 v-if="loggedinUserType !== 1"
                 v-on:click="
@@ -59,6 +60,12 @@
                 "
               >查看</el-button>
               <el-button
+                type="success"
+                plain
+                v-if="row.productionStandardProfiles !== '' && row.productionStandardProfiles !== undefined"
+                v-on:click="downloadStandardProfiles(row.productionStandardProfiles)"
+              >下载</el-button>
+              <!-- <el-button
                 type="warning"
                 plain
                 v-if="loggedinUserType === 1 || loggedinUserType === 0"
@@ -67,7 +74,7 @@
                     path: `/productionStandard/edit/`+ row.id
                   })
                 "
-              >修改</el-button>
+              >修改</el-button> -->
             </template>
           </el-table-column>
         </el-table>
@@ -86,8 +93,10 @@
 </template>
 <script>
 import Pagination from "@/components/common/pagination";
-import Request from "../../services/api/request.js";
+import Request from "@/services/api/request.js";
+import { Urls } from "@/services/constants";
 import Auth from "@/services/authentication/auth.js";
+import axios from "axios";
 
 export default {
   name: "productStandard",
@@ -139,6 +148,27 @@ export default {
           console.log(error);
         });
     },
+
+    downloadStandardProfiles(profile) {
+      
+      axios({
+        url: Urls.DOWNLOAD_URL() + profile,
+        method: "GET",
+        responseType: "blob" // important
+      }).then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute(
+          "download",
+          profile.replace("/uploads/", "")
+        ); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      });
+    },
+
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
     },

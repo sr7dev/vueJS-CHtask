@@ -11,9 +11,9 @@
           highlight-current-row
           :span-method="spanMethod"
         >
-          <el-table-column :formatter="order" label="序号"></el-table-column>
+          <el-table-column :formatter="order" label="序号" width="100"></el-table-column>
           <el-table-column prop="title" label=""></el-table-column>
-          <el-table-column label="绿色优质农产品比重(畜牧)">
+          <el-table-column label="绿色优质农产品比重(畜牧)" align="center">
             <el-table-column :prop="col.prop" :label="col.label" v-for="col in columns" :key="col.prop"></el-table-column>
           </el-table-column>
         </el-table>

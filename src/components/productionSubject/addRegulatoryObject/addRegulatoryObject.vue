@@ -8,7 +8,7 @@
     </div>
 
     <div class="box">
-      <el-form ref="form" :model="form" label-width="150px" :rules="rules" class="data-form">
+      <el-form ref="form" :model="form" label-width="150px" :rules="rules" class="data-form" v-loading="createLoading">
         <el-row>
           <el-col :span="12">
             <el-form-item>
@@ -329,6 +329,7 @@ export default {
       }
     ];
     return {
+      createLoading: false,
       townList: [],
       form: {
         agriculturalClassification: "1",
@@ -407,6 +408,7 @@ export default {
 
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.createLoading = true;
           Request()
             .post("/api/company_production/create", {
               agriculturalClassification: this.form.agriculturalClassification,
@@ -434,10 +436,36 @@ export default {
               updateUserId: user.attrs.id
             })
             .then(res => {
-              this.$router.push({ path: "/productionSubject" });
+              this.onSendCreditGrade();
             });
           }
       });
+    },
+    onSendCreditGrade(){
+      let current = new Date().toJSON();
+      Request()
+      .post("/api/company_credit_grade/create", {
+              approvalGrade: "B",
+              approvalStatus: "0",
+              createTime: current,              
+              createUserId: Auth().user().attrs.id,
+              creditAvailableEnd: current,
+              creditAvailableStart: current,
+              creditCode: this.form.creditCode,              
+              creditGradeId: 0,
+              gradeTime: current,
+              gradeUnit: "",
+              gradeUnitId: "0",
+              nowGrade: "B",              
+              originalGrade: "B",
+              updateTime: current,
+              updateUserId: Auth().user().attrs.id,
+              uploadFileName: "",
+            })
+            .then(res => {
+              this.createLoading = false;
+              this.$router.push({ path: "/productionSubject" });
+            });
     }
   }
 };
