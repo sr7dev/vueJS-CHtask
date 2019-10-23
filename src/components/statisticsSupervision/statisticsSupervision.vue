@@ -114,10 +114,9 @@
                   <el-container>
                     <el-table
                       :data="specialData1"
-                      style="width: 100%"
+                      style="width: 100%; height: 293px;"
                       :show-header="false"
-                      v-if="specialData1 !== null && specialData1.length > 0"                      
-                      height="292"
+                      v-if="specialData1 !== null && specialData1.length > 0"                                                                  
                       class="fixed-height margin-top-10 padding-left-20 padding-right-20"
                     >
                       <el-table-column prop="townName" width="70"></el-table-column>
@@ -144,10 +143,9 @@
                   <el-container>
                     <el-table
                       :data="specialData2"
-                      style="width: 100%"
+                      style="width: 100%; height: 293px;"
                       :show-header="false"
                       v-if="specialData2 !== null && specialData2.length > 0"
-                      height="292"
                       class="fixed-height margin-top-10 padding-left-20 padding-right-20"
                     >
                       <el-table-column prop="townName" width="70"></el-table-column>
