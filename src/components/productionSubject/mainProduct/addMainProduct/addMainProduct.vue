@@ -2,8 +2,8 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item>经营主体</el-breadcrumb-item>
-        <el-breadcrumb-item>经营产品</el-breadcrumb-item>
+        <el-breadcrumb-item>生产主体</el-breadcrumb-item>
+        <el-breadcrumb-item>主营产品</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">添加产品</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -57,11 +57,19 @@
           <el-col :span="12">
             <el-form-item label="产品介绍" prop="productProfile">
               <el-input
+                class="no-margin-bottom"
                 v-model="ruleFormValue.productProfile"
-                ato-complete="off"
+                auto-complete="off"
                 type="textarea"
                 :rows="10"
               ></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label prop="doOrganic">
+              <el-checkbox v-model="ruleFormValue.doOrganic" true-label="1" false-label="0">有机</el-checkbox>
             </el-form-item>
           </el-col>
         </el-row>
