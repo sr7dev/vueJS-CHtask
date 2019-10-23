@@ -321,22 +321,25 @@ export default {
     },
     filterList() {
       this.tableData = this.srcData;
-      if (this.agriculturalClassification > 0) {
-        this.tableData = this.tableData.filter(
-          it => it.agriculturalClassification == this.agriculturalClassification
-        );
-      }
+      this.getList();
+      // if (this.agriculturalClassification > 0) {
+      //   this.tableData = this.tableData.filter(
+      //     it => it.agriculturalClassification == this.agriculturalClassification
+      //   );
+      // }
     },
     getList() {
       this.listLoading = true;
+       
       Request()
-        .get("/api/company_production/all", {
+        .get("/api/company_production/getAllList", {
+          agriculturalClassification: this.agriculturalClassification,
           companyType: this.companyType,
-          pageNo: this.page.pageIndex - 1,
-          pageSize: this.page.pageSize,
           townId: this.townId
         })
         .then(response => {
+          console.log(response);
+          
           let dt = response.data;
           this.total = response.total;
 
@@ -346,21 +349,7 @@ export default {
 
           this.tableData = dt;
           this.srcData = dt;
-
-          // this.tableData = [];
-          // this.srcData = [];
-          // this.total = response.total;
-
-          // let indexItem = 0;
-          // dt.map(item => {
-          //   let gradeArrayName = "credit_grade_data_" + indexItem;
-          //   this.getNowGrade(response[gradeArrayName]).then(res => {
-          //     item.nowGrade = this.getGradeString(res);
-          //     this.tableData.push(item);
-          //     this.srcData.push(item);
-          //   });
-          //   indexItem++;
-          // });
+          
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
