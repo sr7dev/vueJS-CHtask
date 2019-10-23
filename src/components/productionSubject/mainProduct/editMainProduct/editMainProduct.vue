@@ -4,7 +4,7 @@
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>生产主体</el-breadcrumb-item>
         <el-breadcrumb-item>主营产品</el-breadcrumb-item>
-        <el-breadcrumb-item class="actived">添加产品</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">修改产品</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
@@ -87,7 +87,7 @@
 import Request from "@/services/api/request.js";
 import Auth from "@/services/authentication/auth";
 export default {
-  name: "addMainProduct",
+  name: "editMainProduct",
   data() {
     return {
       listLoading: true,
@@ -159,8 +159,9 @@ export default {
     };
   },
   created() {
-    this.companyId = this.$route.params.id;
+    this.productId = this.$route.params.id;
     this.listLoading = false;
+    this.getData();
   },
   methods: {
     onSubmit(formName) {
@@ -168,15 +169,21 @@ export default {
         if (valid) {
           this.listLoading = true;
           Request()
-            .post("/api/product_production/create", {
+            .post("/api/product_production/update/" + this.productId, {
               atunitprice: this.ruleFormValue.atunitprice,
-              companyId: this.companyId,
-              createTime: new Date(),
-              createUserId: Auth().user().attrs.id,
+              companyId: this.ruleFormValue.companyId
+                ? this.ruleFormValue.companyId
+                : 0,
+              createTime: this.ruleFormValue.createTime
+                ? this.ruleFormValue.createTime
+                : new Date(),
+              createUserId: this.ruleFormValue.createUserId
+                ? this.ruleFormValue.createUserId
+                : Auth().user().attrs.id,
               doOrganic: this.ruleFormValue.doOrganic,
               grade: this.ruleFormValue.grade,
               productArea: this.ruleFormValue.productArea,
-              productId: 0,
+              productId: this.productId,
               productName: this.ruleFormValue.productName,
               productProfile: this.ruleFormValue.productProfile,
               specification: this.ruleFormValue.specification,
@@ -196,6 +203,19 @@ export default {
           return false;
         }
       });
+    },
+    getData() {
+      this.listLoading = true;
+      Request()
+        .get("/api/product_production/name?productid=" + this.productId)
+        .then(response => {
+          this.ruleFormValue = response[0];
+          console.log(this.ruleFormValue);
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
+        })
+        .catch(error => {});
     }
   }
 };

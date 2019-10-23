@@ -74,7 +74,7 @@
               style="margin-bottom: 5px;"
             >库存动态</el-button>
             <el-button
-              v-on:click="showProcessDefinition(row)"
+              v-on:click="goToEditMainProduct(row)"
               type="success"
               plain
               style="margin-bottom: 5px;"
@@ -166,6 +166,11 @@ export default {
       this.$router.push({
         path: `/productionSubject/mainProduct/productProperty/${this.$route.params.id}`,
         query: { productId: row.productId }
+      });
+    },
+    goToEditMainProduct(row) {
+      this.$router.push({
+        path: `/productionSubject/mainProduct/edit/${row.productId}`
       });
     },
     showProductVariety(row) {
