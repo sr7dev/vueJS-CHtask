@@ -251,6 +251,9 @@ export default {
         .then(res => {
           this.visionData = res.data;
           this.getTown();
+        })
+        .catch(err => {
+          console.error(err);
         });
     },
 
