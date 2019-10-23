@@ -14,37 +14,37 @@
     >
       <el-menu-item index="/statisticsCredit">
         <router-link slot="title" to="/statisticsCredit">
-          <sapn>
+          <span>
             <i class="el-icon-data-analysis vertical-text-bottom"></i>诚信系统看板
-          </sapn>
+          </span>
         </router-link>
       </el-menu-item>
       <el-menu-item index="/statisticsSupervision">
         <router-link slot="title" to="/statisticsSupervision">
-          <sapn>
+          <span>
             <i class="el-icon-s-check vertical-text-bottom"></i>监管记录看板
-          </sapn>
+          </span>
         </router-link>
       </el-menu-item>
       <el-menu-item index="/statisticsTracing">
         <router-link slot="title" to="/statisticsTracing">
-          <sapn>
+          <span>
             <i class="el-icon-s-data vertical-text-bottom"></i>溯源记录看板
-          </sapn>
+          </span>
         </router-link>
       </el-menu-item>
       <el-menu-item index="/statisticsTracingCompany">
         <router-link slot="title" to="/statisticsTracingCompany">
-          <sapn>
+          <span>
             <i class="el-icon-s-marketing vertical-text-bottom"></i>溯源企业看板
-          </sapn>
+          </span>
         </router-link>
       </el-menu-item>
       <el-menu-item index="/statisticsFarmers">
         <router-link slot="title" to="/statisticsFarmers">
-          <sapn>
+          <span>
             <i class="el-icon-pie-chart vertical-text-bottom"></i>农残检测看板
-          </sapn>
+          </span>
         </router-link>
       </el-menu-item>
     </el-menu>

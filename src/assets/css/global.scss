@@ -89,6 +89,10 @@ body {
   margin-top: 20px!important;
 }
 
+.no-margin-bottom {
+  margin-bottom: 0 !important;
+}
+
 .margin-bottom-10 {
   margin-bottom: 10px !important;
 }
@@ -154,6 +158,10 @@ body {
 
 .button-img {
   cursor: pointer;
+  width: 18px;
+  &.small-size {
+    width: 16px;
+  }
 }
 
 .button-p {
