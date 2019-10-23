@@ -25,7 +25,7 @@
         <router-link slot="title" to="/statisticsTracingCompany">溯源企业看板</router-link>
       </el-menu-item>     
       <el-menu-item index="/statisticsFarmers">
-        <router-link slot="title" to="/statisticsFarmers">统计（农残）</router-link>
+        <router-link slot="title" to="/statisticsFarmers">农残检测看板</router-link>
       </el-menu-item>
     </el-menu>
     <div class="quit">
