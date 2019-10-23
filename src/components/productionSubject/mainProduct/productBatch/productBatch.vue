@@ -436,6 +436,7 @@
               type="success"
               class="margin-bottom-10"
               @click="showDialog(row,'show_ReportDialog', true)"
+              :disabled="row.taskData.length==0"
             >上传检测报告</el-button>
             <el-button plain type="success" @click="showDialog(row,'show_PropertyDialog', true)">属性</el-button>
             <el-button plain type="success" @click="showDialog(row,'show_SaleDialog', true)">销售</el-button>
@@ -461,6 +462,7 @@ import Auth from "@/services/authentication/auth.js";
 import Request from "@/services/api/request.js";
 import { Urls } from "@/services/constants.js";
 import axios from "axios";
+import Storage from "store";
 export default {
   name: "productBatch",
   components: { Pagination },
@@ -533,6 +535,9 @@ export default {
     this.productId = this.$route.params.id;
     this.downloadUrl = Urls.DOWNLOAD_URL();
     this.companyId = this.$route.query.companyId;
+    if (this.companyId) {
+      Storage.set("selectedCompanyId", this.companyId);
+    }
     this.getVarietyData();
     this.getTaskList();
     this.getProductProperty();
@@ -728,7 +733,7 @@ export default {
             const createTime = new Date();
             this.listLoading = true;
             formData.append("createTime", createTime);
-            formData.append("companyId", 0);
+            formData.append("companyId", Storage.get("selectedCompanyId"));
             formData.append("file", this.file_live_1);
             formData.append("id", 0);
             formData.append("createUserId", Auth().user().attrs.id);
@@ -754,7 +759,7 @@ export default {
             let formData = new FormData();
             const createTime = new Date();
             this.listLoading = true;
-            formData.append("companyId", 0);
+            formData.append("companyId", Storage.get("selectedCompanyId"));
             if (this.file_live_1) {
               formData.append("file", this.file_live_1);
             }
@@ -791,7 +796,7 @@ export default {
             const createTime = new Date();
             this.listLoading = true;
             formData.append("createTime", createTime);
-            formData.append("companyId", 0);
+            formData.append("companyId", Storage.get("selectedCompanyId"));
             formData.append("file", this.file_live_3);
             formData.append("id", 0);
             formData.append("createUserId", Auth().user().attrs.id);
@@ -820,7 +825,7 @@ export default {
             let formData = new FormData();
             const createTime = new Date();
             this.listLoading = true;
-            formData.append("companyId", 0);
+            formData.append("companyId", Storage.get("selectedCompanyId"));
             if (this.file_live_3) {
               formData.append("file", this.file_live_3);
             }
@@ -867,9 +872,12 @@ export default {
             );
             tracingFormData.append("id", 0);
             tracingFormData.append("productId", this.productId);
-            tracingFormData.append("companyId", 0); //temporary - later this.companyId
+            tracingFormData.append(
+              "companyId",
+              Storage.get("selectedCompanyId")
+            ); //temporary - later this.companyId
             let tmpTaskDate;
-            if (this.selectedBatchRow.taskData) {
+            if (this.selectedBatchRow.taskData.length > 0) {
               tmpTaskDate = new Date(
                 this.selectedBatchRow.taskData[0].taskDate
               );
@@ -912,7 +920,7 @@ export default {
           const createTime = new Date();
           formData.append("batchNumber", this.selectedBatchRow.batchNumber);
           formData.append("createTime", this.selectedBatchRow.createTime);
-          formData.append("companyId", 0);
+          formData.append("companyId", Storage.get("selectedCompanyId"));
           formData.append("id", this.selectedBatchId);
           formData.append("createUserId", this.selectedBatchRow.createUserId);
           formData.append("productId", this.productId);
@@ -989,7 +997,7 @@ export default {
           }
           formData.append("batchNumber", this.selectedBatchRow.batchNumber);
           formData.append("createTime", this.selectedBatchRow.createTime);
-          formData.append("companyId", 0);
+          formData.append("companyId", Storage.get("selectedCompanyId"));
           formData.append("id", this.selectedBatchId);
           formData.append("createUserId", this.selectedBatchRow.createUserId);
           formData.append("productId", this.productId);
@@ -1139,7 +1147,7 @@ export default {
 
       formData.append("batchNumber", this.selectedBatchRow.batchNumber);
       formData.append("createTime", this.selectedBatchRow.createTime);
-      formData.append("companyId", 0);
+      formData.append("companyId", Storage.get("selectedCompanyId"));
       formData.append("id", this.selectedBatchId);
       formData.append("createUserId", this.selectedBatchRow.createUserId);
       formData.append("productId", this.productId);
