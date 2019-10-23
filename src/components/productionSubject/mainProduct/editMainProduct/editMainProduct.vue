@@ -169,7 +169,7 @@ export default {
         if (valid) {
           this.listLoading = true;
           Request()
-            .post("/api/product_production/update/" + this.productId, {
+            .put("/api/product_production/update/" + this.productId, {
               atunitprice: this.ruleFormValue.atunitprice,
               companyId: this.ruleFormValue.companyId
                 ? this.ruleFormValue.companyId
@@ -184,10 +184,10 @@ export default {
               grade: this.ruleFormValue.grade,
               productArea: this.ruleFormValue.productArea,
               productId: this.productId,
-              productName: this.ruleFormValue.productName,
-              productProfile: this.ruleFormValue.productProfile,
               specification: this.ruleFormValue.specification,
               updateTime: new Date(),
+              productName: this.ruleFormValue.productName,
+              productProfile: this.ruleFormValue.productProfile,
               updateUserId: Auth().user().attrs.id,
               variety: this.ruleFormValue.variety
             })
