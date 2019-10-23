@@ -28,13 +28,13 @@
           <el-table-column prop="productionQuantity" label="检测数量"></el-table-column>
           <el-table-column prop="productionQuantity" label="数量对比">
             <div class="sub-title">50</div>
-            <el-progress :percentage="50"></el-progress>
+            <el-progress :percentage="50" :show-text="false"></el-progress>
           </el-table-column>
           <el-table-column prop="productionQuantity" label="合格"></el-table-column>
           <el-table-column prop="productionQuantity" label="不合格"></el-table-column>
           <el-table-column prop="productionQuantity" label="合格率比">
             <div class="sub-title">100</div>
-            <el-progress :percentage="100"></el-progress>
+            <el-progress :percentage="100" :show-text="false"></el-progress>
           </el-table-column>
         </el-table>
       </el-container>

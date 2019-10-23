@@ -12,6 +12,10 @@ body {
   font-weight: normal;
 }
 
+.w-50 {
+  width: 50% !important;
+}
+
 .w-80 {
   width: 80% !important;
 }
@@ -57,12 +61,24 @@ body {
   text-align: right !important;
 }
 
+.no-border-right {
+  border-right: none!important;
+}
+
+.no-border-left {
+  border-left: none!important;
+}
+
 .no-margin-left {
   margin-left: 0 !important;
 }
 
 .no-margin-top {
   margin-top: 0 !important;
+}
+
+.margin-top-10 {
+  margin-top: 10px!important;
 }
 
 .margin-top-20 {
@@ -79,6 +95,10 @@ body {
 
 .margin-bottom-30 {
   margin-bottom: 30px !important;
+}
+
+.margin-left-auto {
+  margin-left: auto;
 }
 
 .margin-left-10 {
@@ -114,6 +134,10 @@ body {
 
 .padding-left-20 {
   padding-left: 20px !important;
+}
+
+.padding-right-20 {
+  padding-right: 20px !important;
 }
 
 .no-padding-bottom {
@@ -237,8 +261,21 @@ body {
 }
 
 .el-table {
+  &.border-curved {
+    border-radius: 10px;
+  }
+  &.fixed-height {
+    .el-table__body-wrapper {
+      height: 210px;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+  }
   th.is-leaf {
     font-size: 14px;
+  }
+  .success-row {
+    background: #f0f9eb;
   }
 }
 
@@ -281,6 +318,16 @@ input[type=number]::-webkit-inner-spin-button {
   margin-bottom: 5px;
   &.third-container {
     width: 99%;
+  }
+  &.disability-chart {
+    height: 400px;
+    font-size: 12px;
+    border: 1px solid #000000;
+  }
+  .divider {
+    border: 1px solid #d9d9d9;
+    height: 70%;
+    align-self: center;
   }
 }
 
