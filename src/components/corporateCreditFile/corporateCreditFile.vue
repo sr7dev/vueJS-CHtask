@@ -81,7 +81,7 @@
               <el-button
                 v-if="row.ppCount > 0"
                 v-on:click="$router.push({path: `/corporateCreditFile/adminPenaltyInfo`,query: {creditCode:row.creditCode}})"
-              >行政许可信息</el-button>
+              >行政处罚信息</el-button>
               <el-button
                 v-else
                 disabled
@@ -172,16 +172,16 @@ export default {
         });
       } else if (this.plCount == 2) {
         tmpData = tmpData.filter(function(licesnse) {
-          return licesnse.plCount == null;
+          return licesnse.plCount == null || licesnse.plCount == 0;
         });
       }
       if (this.ppCount == 1) {
         tmpData = tmpData.filter(function(punish) {
           return punish.ppCount > 0;
         });
-      } else if (this.public_punish == 2) {
+      } else if (this.ppCount == 2) {
         tmpData = tmpData.filter(function(punish) {
-          return punish.ppCount == null;
+          return punish.ppCount == null || punish.ppCount == 0;
         });
       }
       this.tableData = [];
