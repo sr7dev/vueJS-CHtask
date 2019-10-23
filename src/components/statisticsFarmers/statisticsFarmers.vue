@@ -95,7 +95,7 @@
           <div class="w-100 flex-box disability-chart chart-container">
             <div class="w-50" ref="chartdiv"></div>
             <div class="divider"></div>
-            <div class="w-50" ref="chartdiv2"></div>
+            <div class="w-50" ref="chartdiv2" v-loading="lineChartLoading"></div>
           </div>
         </el-col>
       </el-row>
@@ -135,6 +135,8 @@ export default {
       ],
       summaryData: [],
       listLoading: false,
+      lineChartLoading: false,
+      lineChartData: [],
       toYear: null,
       toMonth: null,
       // maxCnt: null,
@@ -142,8 +144,10 @@ export default {
       progressColor: ""
     };
   },
-  mounted() {
+  async mounted() {
     this.getData();
+    await this.getLineChartData();
+    this.makeLineChart();
   },
   methods: {
     createGrid(value, valueAxis) {
@@ -167,7 +171,6 @@ export default {
           detectTimeTo: detectTimeTo
         })
         .then(response => {
-          this.listLoading = false;
           // this.tableData = [];
           // this.maxCnt = null;
           let tmpData = response.data;
@@ -191,13 +194,51 @@ export default {
             rowTotalSum: rowTotalSum,
             rowOkSum: rowOkSum
           });
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
           this.makeXYChart();
           this.makePieChart();
-          this.makeLineChart();
         })
         .catch(error => {
           console.log(error);
         });
+    },
+    getLineChartData() {
+      this.lineChartData = [];
+
+      for (let i = 11; i >= 0; i--) {
+        let tmpDate = new Date();
+        tmpDate.setMonth(tmpDate.getMonth() - i);
+        let yearNo = tmpDate.getFullYear();
+        let monthNo = tmpDate.getMonth();
+        let fromDate = new Date(yearNo, monthNo, 1);
+        let toDate = new Date(yearNo, monthNo + 1, 0);
+        Request()
+          .get("/api/disability_check/statis", {
+            detectTimeFrom: fromDate,
+            detectTimeTo: toDate
+          })
+          .then(response => {
+            this.listLoading = false;
+            let tmpData = response.data;
+            let rowTotalSum = 0;
+            for (let index in tmpData) {
+              rowTotalSum = rowTotalSum + parseInt(tmpData[index][1]);
+            }
+            monthNo = monthNo + 1;
+            this.lineChartData.push({
+              month: yearNo + "-" + monthNo,
+              totalCnt: rowTotalSum
+            });
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+      setTimeout(() => {
+        this.lineChartLoading = false;
+      }, 0.5 * 1000);
     },
     makeXYChart() {
       let chart = am4core.create(this.$refs.chartdiv, am4charts.XYChart);
@@ -266,7 +307,8 @@ export default {
     },
     makeLineChart() {
       let chart = am4core.create(this.$refs.chartdiv2, am4charts.XYChart);
-      chart.data = chartData1;
+      chart.data = this.lineChartData;
+      console.log(chart.data);
       let title = chart.titles.create();
       title.text = "最近12个月每月上传数据统计";
       title.fontSize = 20;
@@ -292,7 +334,7 @@ export default {
 
       let lineSeries = chart.series.push(new am4charts.LineSeries());
       lineSeries.dataFields.categoryX = "month";
-      lineSeries.dataFields.valueY = "income";
+      lineSeries.dataFields.valueY = "totalCnt";
       lineSeries.tooltipText = "数量: {valueY.value}";
       lineSeries.fillOpacity = 0.6;
       lineSeries.stroke = am4core.color("#2381e4");
