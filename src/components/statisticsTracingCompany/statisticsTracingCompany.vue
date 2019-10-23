@@ -158,7 +158,7 @@ export default {
       chart.data = this.tableData;
       let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
       let title = chart.titles.create();
-      title.text = "各乡镇溯源记录上传数据的比例分布";
+      title.text = "各乡镇溯源记录上传数据统计";
       title.fontSize = 20;
       title.marginBottom = 30;
 
