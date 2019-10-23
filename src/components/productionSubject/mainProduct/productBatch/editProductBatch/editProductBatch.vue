@@ -48,7 +48,7 @@
 <script>
 import Request from "@/services/api/request";
 import Auth from "@/services/authentication/auth.js";
-
+import Storage from "store";
 export default {
   name: "addProductBatch",
   data() {
@@ -117,7 +117,7 @@ export default {
           this.listLoading = true;
           formData.append("batchNumber", this.rowData.batchNumber);
           formData.append("createTime", this.rowData.createTime);
-          formData.append("companyId", 0);
+          formData.append("companyId", Storage.get("selectedCompanyId"));
           formData.append("id", this.rowData.id);
           formData.append("createUserId", this.rowData.createUserId);
           formData.append("productId", this.productId);
