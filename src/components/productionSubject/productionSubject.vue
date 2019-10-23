@@ -112,9 +112,9 @@
         </div>
         <div class="allCompany" v-if="loggedinUserType !== 3">共计{{ total }}家企业</div>
       </div>
-      <el-table 
-        :data="tableData" 
-        style="width: 100%" 
+      <el-table
+        :data="tableData"
+        style="width: 100%"
         :row-class-name="rowIndex"
         v-loading="listLoading"
       >
@@ -137,12 +137,7 @@
             >认证信息</el-button>
           </template>
         </el-table-column>
-        <el-table-column
-          prop="doSupervision"
-          label="监管记录"
-          width="120"
-          v-if="loggedinUserType !== 3"
-        >
+        <el-table-column prop="doSupervision" label="监管记录" width="90" v-if="loggedinUserType !== 3">
           <template slot-scope="{ row }">
             <el-button
               plain
@@ -155,7 +150,7 @@
             >是</el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="address" label="农药检测" width="120" v-if="loggedinUserType !== 3">
+        <el-table-column prop="address" label="农药检测" width="90" v-if="loggedinUserType !== 3">
           <template slot-scope="{ row }">
             <el-button
               plain
@@ -164,18 +159,26 @@
             >是</el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="contactPerson" label="联系人" width="120"></el-table-column>
+        <el-table-column prop="contactPerson" label="联系人" width="90"></el-table-column>
         <el-table-column prop="contactMobile" label="联系方式" width="120"></el-table-column>
-        <el-table-column prop="address" label="所在乡镇" width="120">
+        <el-table-column prop="address" label="所在乡镇" width="90">
           <template slot-scope="{ row }">
             {{
             getTownship(row.townId)
             }}
           </template>
         </el-table-column>
-        <el-table-column prop="nowGrade" label="企业诚信" width>
+        <el-table-column prop="nowGrade" label="企业诚信" width="200">
           <template slot-scope="{ row }">
-            <span class="rating-action" v-on:click="gotoCreditRatingPage(row)">{{ row.nowGrade }}</span>
+            <span class="rating-action" v-on:click="gotoCreditRatingPage(row)">
+              <el-rate
+                v-model="value2"
+                :max="3"
+                :texts="['A:守信', 'B:基本守信', 'C:失信']"
+                disabled
+                show-text
+              ></el-rate>
+            </span>
           </template>
         </el-table-column>
         <el-table-column prop="operations" label="操作" width="450" class-name="text-center">
@@ -183,15 +186,13 @@
             <el-button
               v-on:click="gotoEditProductPage(row)"
               type="warning"
-              plain
               v-if="loggedinUserType !== 1"
             >修改</el-button>
-            <el-button v-on:click="gotoProductPage(row)" type="success" plain>产品</el-button>
-            <el-button v-on:click="gotoWarehousingEnvironmentPage(row)" type="primary" plain>仓储环境</el-button>
+            <el-button v-on:click="gotoProductPage(row)" type="primary">产品</el-button>
+            <el-button v-on:click="gotoWarehousingEnvironmentPage(row)" type="success">仓储环境</el-button>
             <el-button
               v-on:click="gotoDetailsProductPage(row)"
               type="info"
-              plain
               v-if="loggedinUserType !== 3"
             >详情</el-button>
           </template>
@@ -235,7 +236,9 @@ export default {
       listLoading: true,
       townList: [],
       tableData: [],
-      srcData: []
+      srcData: [],
+      colors: ["#99A9BF", "#F7BA2A", "#FF9900"],
+      value2: 2
     };
   },
   created() {
@@ -290,7 +293,7 @@ export default {
         nowGrade = "";
       } else {
         nowGrade = gradeArray.pop().nowGrade;
-      } 
+      }
       return nowGrade;
     },
     filterList() {
@@ -311,7 +314,7 @@ export default {
           townId: this.townId
         })
         .then(response => {
-          let dt = response.data;          
+          let dt = response.data;
           this.total = response.total;
 
           dt.forEach(e => {
@@ -320,7 +323,7 @@ export default {
 
           this.tableData = dt;
           this.srcData = dt;
-          
+
           // this.tableData = [];
           // this.srcData = [];
           // this.total = response.total;
