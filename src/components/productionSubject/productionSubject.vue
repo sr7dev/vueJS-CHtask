@@ -106,6 +106,7 @@
           <el-button
             type="primary"
             plain
+            size="small"
             @click="gotoAddRegulatoryObject()"
             class="margin-left-20"
           >添加监管对象</el-button>
@@ -131,7 +132,7 @@
         >
           <template slot-scope="{ row }">
             <el-image
-              class="button-img"
+              class="button-img small-size"
               :src="Button2"
               @click="$router.push({path: `/productionSubject/threeProduct`,query: {creditCode:row.creditCode}})"
             ></el-image>
@@ -199,18 +200,24 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="operations" label="操作" width="450" class-name="text-center">
+        <el-table-column prop="operations" label="操作" width="300" class-name="text-center">
           <template slot-scope="{ row }">
             <el-button
               v-on:click="gotoEditProductPage(row)"
               type="warning"
+              size="small"
               v-if="loggedinUserType !== 1"
             >修改</el-button>
-            <el-button v-on:click="gotoProductPage(row)" type="primary">产品</el-button>
-            <el-button v-on:click="gotoWarehousingEnvironmentPage(row)" type="success">仓储环境</el-button>
+            <el-button v-on:click="gotoProductPage(row)" type="primary" size="small">产品</el-button>
+            <el-button
+              v-on:click="gotoWarehousingEnvironmentPage(row)"
+              size="small"
+              type="success"
+            >仓储环境</el-button>
             <el-button
               v-on:click="gotoDetailsProductPage(row)"
               type="info"
+              size="small"
               v-if="loggedinUserType !== 3"
             >详情</el-button>
           </template>
