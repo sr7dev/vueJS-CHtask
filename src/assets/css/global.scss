@@ -89,10 +89,6 @@ body {
   margin-top: 20px!important;
 }
 
-.no-margin-bottom {
-  margin-bottom: 0 !important;
-}
-
 .margin-bottom-10 {
   margin-bottom: 10px !important;
 }
@@ -307,6 +303,12 @@ body {
   }
   .success-row {
     background: #f0f9eb;
+  }
+}
+
+.no-margin-bottom {
+  textarea {
+    margin-bottom: 0 !important;
   }
 }
 
