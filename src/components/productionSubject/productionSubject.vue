@@ -327,7 +327,6 @@ export default {
       return nowGrade;
     },
     filterList() {
-      this.tableData = this.srcData;
       this.getList();
       // if (this.agriculturalClassification > 0) {
       //   this.tableData = this.tableData.filter(
@@ -336,8 +335,8 @@ export default {
       // }
     },
     getList() {
-      this.listLoading = true;
-       
+      this.tableData = [];
+      this.listLoading = true;       
       Request()
         .get("/api/company_production/getAllList", {
           agriculturalClassification: this.agriculturalClassification,
@@ -347,15 +346,12 @@ export default {
         .then(response => {
           console.log(response);
           
-          let dt = response.data;
-          this.total = response.total;
+          this.tableData = response;
+          this.total = this.tableData.length;
 
-          dt.forEach(e => {
+          this.tableData.forEach(e => {
             e.nowGrade = this.getGradeString(e.grade);
           });
-
-          this.tableData = dt;
-          this.srcData = dt;
           
           setTimeout(() => {
             this.listLoading = false;
@@ -365,7 +361,6 @@ export default {
           console.error(error);
 
           this.tableData = [];
-          this.srcData = [];
           this.total = 0;
           setTimeout(() => {
             this.listLoading = false;
