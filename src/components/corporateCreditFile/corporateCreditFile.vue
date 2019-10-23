@@ -15,7 +15,7 @@
         <el-radio v-model="bTypes" label="1" v-on:change="getList(true)">企业</el-radio>
         <el-radio v-model="bTypes" label="2" v-on:change="getList(true)">农户</el-radio>
         <div class="select_label">行政许可</div>
-        <el-select v-model="public_license" placeholder="请选择" @change="onSelectPubLicense">
+        <el-select v-model="plCount" placeholder="请选择" @change="onSelectFilterPub">
           <el-option
             v-for="item in publicOptions"
             :key="item.id"
@@ -24,7 +24,7 @@
           ></el-option>
         </el-select>
         <div class="select_label">行政处罚</div>
-        <el-select v-model="public_punish" placeholder="请选择" @change="onSelectPubPunish">
+        <el-select v-model="ppCount" placeholder="请选择" @change="onSelectFilterPub">
           <el-option
             v-for="item in publicOptions"
             :key="item.id"
@@ -51,11 +51,12 @@
             label="企业名称"
             width="150"
             v-if="loggedinUserType ===2 || loggedinUserType === 0"
+            prop="companyName"
           >
-            <template slot-scope="{row}">{{filterCompnay(row.creditCode)}}</template>
+            <!-- <template slot-scope="{row}">{{filterCompnay(row.creditCode)}}</template> -->
           </el-table-column>
-          <el-table-column label="名称" width="150" v-if="loggedinUserType !==2">
-            <template slot-scope="{row}">{{filterCompnay(row.creditCode)}}</template>
+          <el-table-column label="名称" width="150" prop="companyName" v-if="loggedinUserType !==2">
+            <!-- <template slot-scope="{row}">{{filterCompnay(row.creditCode)}}</template> -->
           </el-table-column>
           <el-table-column
             prop="creditCode"
@@ -63,10 +64,10 @@
             v-if="loggedinUserType ===2 || loggedinUserType === 0"
           ></el-table-column>
           <el-table-column prop="creditCode" label="信用代码" v-if="loggedinUserType !==2"></el-table-column>
-          <el-table-column prop="public_license" label="行政许可信息">
+          <el-table-column prop="plCount" label="行政许可信息">
             <template slot-scope="{row}">
               <el-button
-                v-if="row.public_license > 0"
+                v-if="row.plCount > 0"
                 v-on:click="$router.push({path: `/corporateCreditFile/adminLicenseInfo`,query: {creditCode:row.creditCode}})"
               >行政许可信息</el-button>
               <el-button
@@ -75,10 +76,10 @@
               >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
             </template>
           </el-table-column>
-          <el-table-column prop="public_punish" label="行政处罚信息">
+          <el-table-column prop="ppCount" label="行政处罚信息">
             <template slot-scope="{row}">
               <el-button
-                v-if="row.public_punish > 0"
+                v-if="row.ppCount > 0"
                 v-on:click="$router.push({path: `/corporateCreditFile/adminPenaltyInfo`,query: {creditCode:row.creditCode}})"
               >行政许可信息</el-button>
               <el-button
@@ -92,7 +93,7 @@
               <span
                 class="rating-action"
                 v-on:click="$router.push({path: `/corporateCreditFile/ratingInfo`,query: {creditCode:row.creditCode}})"
-              >{{row.nowGrade}}</span>
+              >{{ getGradeString(row.grade) }}</span>
             </template>
           </el-table-column>
           <el-table-column label="三品一标认证" width="200">
@@ -134,8 +135,8 @@ export default {
         { id: 2, name: "无" }
       ],
       currTown: 0,
-      public_license: 0,
-      public_punish: 0,
+      plCount: 0,
+      ppCount: 0,
       page: {
         pageIndex: 1,
         pageSize: 20
@@ -145,6 +146,7 @@ export default {
       status: 0,
       total: 0,
       tableData: [],
+      tableDataOrigin: [],
       companyProduction: [],
       gradData: [],
       loggedinUserType: null
@@ -162,12 +164,44 @@ export default {
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
     },
-    onSelectPubLicense() {
-      this.getList();
+    onSelectFilterPub() {
+      var tmpData = this.tableDataOrigin;
+      if (this.plCount == 1) {
+        tmpData = tmpData.filter(function(licesnse) {
+          return licesnse.plCount > 0;
+        });
+      } else if (this.plCount == 2) {
+        tmpData = tmpData.filter(function(licesnse) {
+          return licesnse.plCount == null;
+        });
+      }
+      if (this.ppCount == 1) {
+        tmpData = tmpData.filter(function(punish) {
+          return punish.ppCount > 0;
+        });
+      } else if (this.public_punish == 2) {
+        tmpData = tmpData.filter(function(punish) {
+          return punish.ppCount == null;
+        });
+      }
+      this.tableData = [];
+      this.tableData = tmpData;
     },
-    onSelectPubPunish() {
-      this.getList();
-    },
+    // onSelectPubPunish() {
+    //   var tmpData = this.tableDataOrigin;
+    //   if (this.ppCount == 1) {
+    //     tmpData = tmpData.filter(function(punish) {
+    //       return punish.ppCount > 0;
+    //     });
+    //   } else if (this.public_punish == 2) {
+    //     tmpData = tmpData.filter(function(punish) {
+    //       return punish.ppCount == 0;
+    //     });
+    //   }
+            
+    //   this.tableData = [];
+    //   this.tableData = tmpData;
+    // },
     getCompanyProduction() {
       Request()
         .get("/api/company_production/name")
@@ -192,38 +226,39 @@ export default {
     getList(update = false) {
       this.listLoading = true;
       Request()
-        .get("/api/company_production/all", {
+        .get("/api/company_production/getCreditList", {
           companyType: this.bTypes,
-          approvalStatus: this.status - 1,
-          pageNo: this.page.pageIndex - 1,
-          pageSize: this.page.pageSize,
+          // approvalStatus: this.status - 1,
+          // pageNo: this.page.pageIndex - 1,
+          // pageSize: this.page.pageSize,
           townId: this.currTown
         })
         .then(response => {
-          var tmpData = response.data;
-          if (this.public_license == 1) {
-            tmpData = tmpData.filter(function(licesnse) {
-              return licesnse.public_license > 0;
-            });
-          } else if (this.public_license == 2) {
-            tmpData = tmpData.filter(function(licesnse) {
-              return licesnse.public_license == 0;
-            });
-          }
-          if (this.public_punish == 1) {
-            tmpData = tmpData.filter(function(punish) {
-              return punish.public_punish > 0;
-            });
-          } else if (this.public_punish == 2) {
-            tmpData = tmpData.filter(function(punish) {
-              return punish.public_punish == 0;
-            });
-          }
-          this.tableData = [];
-          tmpData.forEach(e => {
-            e.nowGrade = this.getGradeString(e);
-          });
-          this.tableData = tmpData;
+          // var tmpData = response.data;
+          // if (this.public_license == 1) {
+          //   tmpData = tmpData.filter(function(licesnse) {
+          //     return licesnse.public_license > 0;
+          //   });
+          // } else if (this.public_license == 2) {
+          //   tmpData = tmpData.filter(function(licesnse) {
+          //     return licesnse.public_license == 0;
+          //   });
+          // }
+          // if (this.public_punish == 1) {
+          //   tmpData = tmpData.filter(function(punish) {
+          //     return punish.public_punish > 0;
+          //   });
+          // } else if (this.public_punish == 2) {
+          //   tmpData = tmpData.filter(function(punish) {
+          //     return punish.public_punish == 0;
+          //   });
+          // }
+          // this.tableData = [];
+          // tmpData.forEach(e => {
+          //   e.nowGrade = this.getGradeString(e);
+          // });
+          this.tableDataOrigin = response;
+          this.tableData = response;
           // let indexItem = 0;
           // tmpData.map(item => {
           //   let gradeArrayName = "credit_grade_data_" + indexItem;
