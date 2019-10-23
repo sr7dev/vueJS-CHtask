@@ -728,7 +728,7 @@ export default {
             const createTime = new Date();
             this.listLoading = true;
             formData.append("createTime", createTime);
-            formData.append("companyId", 0);
+            formData.append("companyId", this.companyId);
             formData.append("file", this.file_live_1);
             formData.append("id", 0);
             formData.append("createUserId", Auth().user().attrs.id);
@@ -754,7 +754,7 @@ export default {
             let formData = new FormData();
             const createTime = new Date();
             this.listLoading = true;
-            formData.append("companyId", 0);
+            formData.append("companyId", this.companyId);
             if (this.file_live_1) {
               formData.append("file", this.file_live_1);
             }
@@ -791,7 +791,7 @@ export default {
             const createTime = new Date();
             this.listLoading = true;
             formData.append("createTime", createTime);
-            formData.append("companyId", 0);
+            formData.append("companyId", this.companyId);
             formData.append("file", this.file_live_3);
             formData.append("id", 0);
             formData.append("createUserId", Auth().user().attrs.id);
@@ -820,7 +820,7 @@ export default {
             let formData = new FormData();
             const createTime = new Date();
             this.listLoading = true;
-            formData.append("companyId", 0);
+            formData.append("companyId", this.companyId);
             if (this.file_live_3) {
               formData.append("file", this.file_live_3);
             }
@@ -867,7 +867,7 @@ export default {
             );
             tracingFormData.append("id", 0);
             tracingFormData.append("productId", this.productId);
-            tracingFormData.append("companyId", 0); //temporary - later this.companyId
+            tracingFormData.append("companyId", this.companyId); //temporary - later this.companyId
             let tmpTaskDate;
             if (this.selectedBatchRow.taskData) {
               tmpTaskDate = new Date(
@@ -912,7 +912,7 @@ export default {
           const createTime = new Date();
           formData.append("batchNumber", this.selectedBatchRow.batchNumber);
           formData.append("createTime", this.selectedBatchRow.createTime);
-          formData.append("companyId", 0);
+          formData.append("companyId", this.companyId);
           formData.append("id", this.selectedBatchId);
           formData.append("createUserId", this.selectedBatchRow.createUserId);
           formData.append("productId", this.productId);
@@ -989,7 +989,7 @@ export default {
           }
           formData.append("batchNumber", this.selectedBatchRow.batchNumber);
           formData.append("createTime", this.selectedBatchRow.createTime);
-          formData.append("companyId", 0);
+          formData.append("companyId", this.companyId);
           formData.append("id", this.selectedBatchId);
           formData.append("createUserId", this.selectedBatchRow.createUserId);
           formData.append("productId", this.productId);
@@ -1139,7 +1139,7 @@ export default {
 
       formData.append("batchNumber", this.selectedBatchRow.batchNumber);
       formData.append("createTime", this.selectedBatchRow.createTime);
-      formData.append("companyId", 0);
+      formData.append("companyId", this.companyId);
       formData.append("id", this.selectedBatchId);
       formData.append("createUserId", this.selectedBatchRow.createUserId);
       formData.append("productId", this.productId);
