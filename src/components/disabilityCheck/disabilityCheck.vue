@@ -1,326 +1,442 @@
 <template>
-  <div class="container customized">
+  <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item class="actived">上传情况</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">农残检测</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="box padding-modified" v-loading="listLoading">
-      <el-row class="w-100">
-        <el-col :span="14">
-          <div class="disability-chart chart-container">
-            <el-row class="w-100 flex-center margin-top-10 margin-bottom-10">
-              <el-col :span="4" class="margin-left-10">
-                <h1>农残监测统计</h1>
-              </el-col>
-              <el-col :span="4" class="margin-left-auto flex-center">
-                <div>按年</div>
-                <el-input v-model="toYear" class="w-50 margin-left-10" size="small" type="number"></el-input>
-              </el-col>
-              <el-col :span="3" class="margin-left-20 flex-center">
-                <div>按月</div>
-                <el-input v-model="toMonth" class="w-50 margin-left-10" size="small" type="number"></el-input>
-              </el-col>
-              <el-col :span="3" class="margin-left-20">
-                <el-button type="primary" plain size="medium" @click="getData()">开始统计</el-button>
-              </el-col>
-            </el-row>
-            <el-container>
-              <el-table :data="tableData" style="width: 100%" class="fixed-height">
-                <el-table-column prop="detect_unit" label="站点"></el-table-column>
-                <el-table-column prop="cnt" label="检测数量">
-                  <template slot-scope="{ row }">
-                    <div class="sub-title">
-                      <h3>{{row.cnt}}</h3>
-                    </div>
-                    <el-progress
-                      :percentage="getPercent(row.cnt, maxCnt,1)"
-                      :stroke-width="10"
-                      :width="50"
-                      :show-text="false"
-                    ></el-progress>
-                  </template>
-                </el-table-column>
-                <el-table-column prop="cnt_ok" label="合格" class-name="padding-left-20"></el-table-column>
-                <el-table-column prop="cnt_ok" label="不合格">
-                  <template slot-scope="{row}">{{row.cnt-row.cnt_ok}}</template>
-                </el-table-column>
-                <el-table-column prop="cnt" label="合格率" class-name="padding-right-20">
-                  <template slot-scope="{ row }">
-                    <div class="sub-title">
-                      <h3>{{getPercent(row.cnt_ok, row.cnt,2)}}%</h3>
-                    </div>
-                    <el-progress
-                      :percentage="getPercent(row.cnt_ok, row.cnt,2)"
-                      :stroke-width="10"
-                      :status="progressColor"
-                      :show-text="false"
-                    ></el-progress>
-                  </template>
-                </el-table-column>
-              </el-table>
-            </el-container>
-            <el-table
-              :data="summaryData"
-              :show-header="false"
-              row-class-name="success-row"
-              class="border-curved"
-            >
-              <el-table-column prop="name" label="站点"></el-table-column>
-              <el-table-column label="检测数量"></el-table-column>
-              <el-table-column prop="rowTotalSum" label="合格" class-name="padding-left-20"></el-table-column>
-              <el-table-column prop="rowOkSum" label="不合格"></el-table-column>
-              <el-table-column prop="name" label="合格率" class-name="padding-right-20">
-                <template slot-scope="{ row }">
-                  <div class="sub-title">
-                    <h3>{{getPercent(row.rowOkSum, row.rowTotalSum,2)}}%</h3>
-                  </div>
-                  <el-progress
-                    :percentage="getPercent(row.rowOkSum, row.rowTotalSum,2)"
-                    :stroke-width="10"
-                    :status="progressColor"
-                    :show-text="false"
-                  ></el-progress>
-                </template>
-              </el-table-column>
-            </el-table>
-          </div>
-        </el-col>
-        <el-col :span="10">
-          <div class="disability-chart chart-container margin-left-10" ref="chartdiv1"></div>
-        </el-col>
-      </el-row>
-      <el-row class="w-100">
-        <el-col>
-          <div class="w-100 flex-box disability-chart chart-container">
-            <div class="w-50" ref="chartdiv"></div>
-            <div class="divider"></div>
-            <div class="w-50" ref="chartdiv2"></div>
-          </div>
-        </el-col>
-      </el-row>
+    <div class="box">
+      <div class="iptBox">
+        <div v-if="typeof this.creditCode == 'undefined'" class="select_label no-margin-left">乡镇</div>
+        <div v-else class="select_label no-margin-left" style="display: none">乡镇</div>
+        <el-select
+          v-if="typeof this.creditCode == 'undefined'"
+          v-model="currTown"
+          placeholder="全部"
+          @change="getList"
+        >
+          <el-option
+            v-for="item in township"
+            :key="item.id"
+            :label="item.name"
+            :value="item.divisionCode"
+            size="large"
+          ></el-option>
+        </el-select>
+        <div v-else class="select_label">{{ getCompanyName() }}</div>
+        <div class="select_label">项目</div>
+        <el-select v-model="itemValue" placeholder="全部" @change="getList">
+          <el-option v-for="item in items" :key="item.id" :label="item.item" :value="item.item"></el-option>
+        </el-select>
+        <div class="select_label">样品</div>
+        <el-select v-model="samplesValue" placeholder="全部" @change="getList">
+          <el-option
+            v-for="item in samples"
+            :key="item.id"
+            :label="item.sample"
+            :value="item.sample"
+          ></el-option>
+        </el-select>
+        <div class="select_label">定性</div>
+        <el-select v-model="result" placeholder="全部" @change="getList">
+          <el-option v-for="item in results" :key="item.id" :label="item.name" :value="item.id"></el-option>
+        </el-select>
+        <div class="select_label" v-if="loggedinUserType !== 3">检测单位</div>
+        <el-select
+          v-model="detectionUnitValue"
+          placeholder="全部"
+          @change="getList"
+          v-if="loggedinUserType !== 3"
+        >
+          <el-option
+            v-for="item in detectionUnit"
+            :key="item.id"
+            :label="item.detectUnit"
+            :value="item.detectUnit"
+          ></el-option>
+        </el-select>
+      </div>
+      <div class="iptBox">
+        <el-row class="w-100">
+          <el-col :span="5">
+            <div class="select_label no-margin-left">开始日期</div>
+            <el-date-picker
+              type="date"
+              placeholder="选择日期"
+              v-model="startDate"
+              style="width: 300px;"
+              @change="getList"
+            ></el-date-picker>
+          </el-col>
+          <el-col :span="5">
+            <div class="select_label no-margin-left">结束日期</div>
+            <el-date-picker
+              type="date"
+              placeholder="选择日期"
+              v-model="endDate"
+              style="width: 300px;"
+              @change="getList"
+            ></el-date-picker>
+          </el-col>
+          <el-col :span="6" class="flex-center">
+            <el-button v-on:click="handleDownload" type="success" plain>导出表格</el-button>
+            <el-button
+              v-if="typeof this.creditCode != 'undefined'"
+              type="primary"
+              plain
+              v-on:click="$router.go(-1)"
+            >返回</el-button>
+            <el-button
+              v-else
+              plain
+              type="primary"
+              v-on:click="$router.go(-1)"
+              style="display: none;"
+            >返回</el-button>
+            <span style="float: right" class="margin-left-20">总计{{ totalSize }}条检测</span>
+          </el-col>
+          <el-col :span="8" class="flex-center justify-right" style="height:40px">
+            <el-button
+              type="success"
+              icon="el-icon-plus"
+              v-if="isShowCheckbox != 0"
+              plain
+              @click="actionConfirm(1)"
+            >添加到专项1</el-button>
+            <el-button
+              type="danger"
+              icon="el-icon-minus"
+              v-if="isShowCheckbox != 0"
+              plain
+              @click="actionConfirm(0)"
+              style="margin-right:10px"
+            >从专项1移除</el-button>
+            <el-checkbox
+              v-model="isShowCheckbox"
+              true-label="1"
+              false-label="0"
+              @change="showCheckbox"
+            >专项1:绿色优质农产品生产基地</el-checkbox>
+          </el-col>
+        </el-row>
+        <el-dialog :visible.sync="alert_dialogVisible" width="30%" modal>
+          <span>
+            <i class="el-icon-warning">&nbsp;请选择 !!!</i>
+          </span>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="alert_dialogVisible = false" type="primary" plain>取消</el-button>
+          </span>
+        </el-dialog>
+        <el-dialog :visible.sync="confirm_dialogVisible" width="30%" modal>
+          <span>
+            <i class="el-icon-warning">&nbsp;继续？请再次检查</i>
+          </span>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
+            <el-button :type="btnColor" @click="updateSelectedRows()" plain>确认</el-button>
+          </span>
+        </el-dialog>
+      </div>
+      <el-container>
+        <el-table
+          :data="tableData"
+          style="width: 100%"
+          :row-class-name="rowIndex"
+          v-loading="listLoading"
+        >
+          <el-table-column label width="35" v-if="isShowCheckbox != 0">
+            <template slot-scope="{ row }">
+              <el-checkbox style="margin-left:auto" @change="changeCheckStatus(row.id)"></el-checkbox>
+            </template>
+          </el-table-column>
+          <el-table-column :formatter="order" label="序号" width="80"></el-table-column>
+          <el-table-column prop="no" label="编号"></el-table-column>
+          <el-table-column prop="item" label="检测项目"></el-table-column>
+          <el-table-column prop="sample" label="样品名称"></el-table-column>
+          <el-table-column prop="source" label="来源"></el-table-column>
+          <el-table-column prop="resultDl" label="定量结果"></el-table-column>
+          <el-table-column prop="resultDx" label="定性结果"></el-table-column>
+          <el-table-column prop="detectTime" label="检测时间" width="120">
+            <template slot-scope="{ row }">
+              {{
+              row.detectTime | formatDate
+              }}
+            </template>
+          </el-table-column>
+          <el-table-column prop="detectUnit" label="检测单位" width="150"></el-table-column>
+          <el-table-column prop="operator" label="检验员"></el-table-column>
+          <el-table-column label="专项1">
+            <template slot-scope="{ row }">
+              <i v-if="row.specialFlag == 1" class="el-icon-check"></i>
+              <i v-else></i>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-container>
+      <div class="pageBox">
+        <pagination
+          v-show="total > 0"
+          :total="total"
+          :page.sync="page.pageIndex"
+          :limit.sync="page.pageSize"
+          @pagination="getList"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import Request from "@/services/api/request.js";
 import Pagination from "@/components/common/pagination";
+import Request from "../../services/api/request.js";
 import Auth from "@/services/authentication/auth.js";
-import * as am4core from "@amcharts/amcharts4/core";
-import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-import chartData from "./chartData1";
-import chartData1 from "./chartData2";
-am4core.useTheme(am4themes_animated);
-
 export default {
   name: "disabilityCheck",
-  // components: { Pagination },
+  components: { Pagination },
   data() {
     return {
+      listLoading: false,
+      creditCode: "",
       page: {
         pageIndex: 1,
-        pageSize: 50
+        pageSize: 20
       },
-      tableData: [
-        { detect_unit: "adsasd1", cnt: 34, cnt_ok: 2 },
-        { detect_unit: "adsasd2", cnt: 4, cnt_ok: 4 },
-        { detect_unit: "adsasd3", cnt: 30, cnt_ok: 28 },
-        { detect_unit: "adsasd4", cnt: 31, cnt_ok: 17 },
-        { detect_unit: "adsasd5", cnt: 23, cnt_ok: 22 },
-        { detect_unit: "adsas6", cnt: 45, cnt_ok: 12 },
-        { detect_unit: "adsasd7", cnt: 32, cnt_ok: 32 },
-        { detect_unit: "adsas8", cnt: 10, cnt_ok: 9 }
+      total: 0,
+      options: [
+        {
+          value: "全部",
+          label: ""
+        }
       ],
-      summaryData: [],
-      listLoading: false,
-      toYear: null,
-      toMonth: null,
-      // maxCnt: null,
-      maxCnt: 45,
-      progressColor: ""
+      loggedinUserType: null,
+      township: [{ id: 0, name: "全部", divisionCode: 0 }],
+      currTown: "",
+      status: 1,
+      tableData: [],
+      items: [{ id: 0, item: "全部" }],
+      itemValue: "",
+      samples: [{ id: 0, sample: "全部" }],
+      samplesValue: "",
+      results: [
+        { id: 0, name: "全部" },
+        { id: 1, name: "不合格" },
+        { id: 2, name: "合格 " },
+        { id: 3, name: "疑似" }
+      ],
+      result: "",
+      detectionUnit: [{ id: "0", detectUnit: "全部" }],
+      detectionUnitValue: "",
+      startDate: "",
+      endDate: "",
+      isShowCheckbox: 0,
+      selectedRows: [],
+      alert_dialogVisible: false,
+      confirm_dialogVisible: false,
+      btnColor: "",
+      action: "",
+      totalSize: "",
+      companyData: [],
+      filename: "农残检测"
     };
   },
-  mounted() {
-    this.getData();
+  created() {
+    this.getTown();
+    this.getItem();
+    this.getSample();
+    this.getDetectUnit();
+    this.getList();
+    this.getCompanyProduction();
+    this.creditCode = this.$route.query.creditCode;
+    this.loggedinUserType = Auth().user().attrs.userType;
   },
   methods: {
-    createGrid(value, valueAxis) {
-      var range = valueAxis.axisRanges.create();
-      range.value = value;
-      range.label.text = this.formatNumber(value);
+    handleDownload() {
+      this.downloadLoading = true;
+      import("@/vendor/Export2Excel").then(excel => {
+        const tHeader = [
+          "编号",
+          "编号",
+          "检测项目",
+          "来源",
+          "定量结果",
+          "定性结果",
+          "检测时间",
+          "检测单位",
+          "检验员",
+          "专项1"
+        ];
+        const filterVal = [
+          "no",
+          "item",
+          "sample",
+          "source",
+          "resultDl",
+          "resultDx",
+          "detectTime",
+          "detectUnit",
+          "particular"
+        ];
+        const data = this.formatJson(filterVal, this.tableData);
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: this.filename,
+          bookType: "csv"
+        });
+        this.downloadLoading = false;
+      });
     },
-    formatNumber(value) {
-      return value / 1000 + "K";
-    },
-    getData() {
-      this.listLoading = true;
-      let detectTimeTo;
-      if (this.toYear && this.toMonth) {
-        detectTimeTo = new Date(this.toYear, this.toMonth, 0);
-      } else {
-        detectTimeTo = new Date();
-      }
-      Request()
-        .get("/api/disability_check/statis", {
-          detectTimeTo: detectTimeTo
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v =>
+        filterVal.map(j => {
+          return v[j];
         })
+      );
+    },
+    getCompanyProduction() {
+      Request()
+        .get("/api/company_production/name")
         .then(response => {
-          this.listLoading = false;
-          // this.tableData = [];
-          // this.maxCnt = null;
-          let tmpData = response.data;
-          let rowTotalSum = 0;
-          let rowOkSum = 0;
-          for (let index in tmpData) {
-            // if (tmpData[index][1] > this.maxCnt) {
-            //   this.maxCnt = tmpData[index][1];
-            // }
-            // this.tableData.push({
-            //   detect_unit: tmpData[index][0],
-            //   cnt: tmpData[index][1],
-            //   cnt_ok: tmpData[index][2]
-            // });
-            rowTotalSum = rowTotalSum + parseInt(tmpData[index][1]);
-            rowOkSum = rowOkSum + parseInt(tmpData[index][2]);
-          }
-          this.summaryData = [];
-          this.summaryData.push({
-            name: "合计",
-            rowTotalSum: rowTotalSum,
-            rowOkSum: rowOkSum
-          });
-          this.makeXYChart();
-          this.makePieChart();
-          this.makeLineChart();
+          this.companyData = response;
         })
         .catch(error => {
           console.log(error);
         });
     },
-    makeXYChart() {
-      let chart = am4core.create(this.$refs.chartdiv, am4charts.XYChart);
-      chart.data = this.tableData;
-      let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-      let title = chart.titles.create();
-      title.text = "农产品质量安全董监管站";
-      title.fontSize = 20;
-      title.marginBottom = 30;
-      title.fontWeight = "bold";
-      title.textAlign = "left";
-      categoryAxis.dataFields.category = "detect_unit";
-      categoryAxis.renderer.grid.template.location = 0;
-      categoryAxis.renderer.minGridDistance = 20;
-      categoryAxis.renderer.labels.template.rotation = -45;
-      categoryAxis.renderer.labels.template.horizontalCenter = "right";
-      let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-      // valueAxis.title.text = "镇农产品质量安全董监管站(管站)";
-      valueAxis.min = 0;
-      valueAxis.max = 15000;
-      valueAxis.renderer.minGridDistance = 5;
-      valueAxis.renderer.grid.template.disabled = true;
-      valueAxis.renderer.labels.template.disabled = true;
-      // Create series
-      let series = chart.series.push(new am4charts.ColumnSeries());
-      series.dataFields.valueY = "cnt";
-      series.dataFields.categoryX = "detect_unit";
-      series.name = "cnt";
-      series.columns.template.tooltipText = "{categoryX}: [bold]{valueY}[/]";
-      series.columns.template.fillOpacity = 1;
-      let valueLabel = series.bullets.push(new am4charts.LabelBullet());
-      valueLabel.label.text = "{cnt}";
-      valueLabel.label.dy = -10;
-      let columnTemplate = series.columns.template;
-      columnTemplate.strokeWidth = 2;
-      columnTemplate.strokeOpacity = 1;
-      this.createGrid(0, valueAxis);
-      this.createGrid(5000, valueAxis);
-      this.createGrid(10000, valueAxis);
-      this.createGrid(15000, valueAxis);
+    getTown() {
+      Request()
+        .get("/api/town/all")
+        .then(response => {
+          this.township = this.township.concat(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
-    makePieChart() {
-      let chart = am4core.create(this.$refs.chartdiv1, am4charts.PieChart);
-      chart.data = this.tableData;
-      chart.responsive.enabled = true;
-      // Add and configure Series
-      let pieSeries = chart.series.push(new am4charts.PieSeries());
-      let title = chart.titles.create();
-      title.text = "农产品质量安全董监管站";
-      title.fontSize = 20;
-      title.marginBottom = -20;
-      title.marginTop = 10;
-      title.fontWeight = "bold";
-      // pieSeries.radius = 100;
-      pieSeries.dataFields.value = "cnt";
-      pieSeries.dataFields.category = "detect_unit";
-      pieSeries.dataFields.radiusValue = "cnt";
-      pieSeries.slices.template.stroke = am4core.color("#fff");
-      pieSeries.slices.template.strokeWidth = 2;
-      pieSeries.slices.template.strokeOpacity = 1;
-
-      // This creates initial animation
-      pieSeries.hiddenState.properties.opacity = 1;
-      pieSeries.hiddenState.properties.endAngle = -90;
-      pieSeries.hiddenState.properties.startAngle = -90;
+    getItem() {
+      Request()
+        .get("/api/disability_check/item")
+        .then(response => {
+          this.items = this.items.concat(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
-    makeLineChart() {
-      let chart = am4core.create(this.$refs.chartdiv2, am4charts.XYChart);
-      chart.data = chartData1;
-      let title = chart.titles.create();
-      title.text = "最近12个月每月上传数据统计";
-      title.fontSize = 20;
-      title.marginBottom = 30;
-      title.fontWeight = "bold";
-      let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-      categoryAxis.renderer.grid.template.location = 0;
-      categoryAxis.renderer.ticks.template.disabled = true;
-      categoryAxis.renderer.line.opacity = 0;
-      categoryAxis.renderer.grid.template.disabled = true;
-      categoryAxis.renderer.minGridDistance = 40;
-      categoryAxis.dataFields.category = "month";
-      categoryAxis.startLocation = 0.4;
-      categoryAxis.endLocation = 0.6;
-
-      let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-      valueAxis.tooltip.disabled = true;
-      // valueAxis.title.text = "镇农产品质量安全董监管站(管站)";
-      valueAxis.renderer.line.opacity = 0;
-      valueAxis.renderer.ticks.template.disabled = true;
-      valueAxis.min = 0;
-      valueAxis.max = 1700;
-
-      let lineSeries = chart.series.push(new am4charts.LineSeries());
-      lineSeries.dataFields.categoryX = "month";
-      lineSeries.dataFields.valueY = "income";
-      lineSeries.tooltipText = "数量: {valueY.value}";
-      lineSeries.fillOpacity = 0.6;
-      lineSeries.stroke = am4core.color("#2381e4");
-      lineSeries.strokeWidth = 3;
-      lineSeries.fill = am4core.color("#90bff2");
-
-      let bullet = lineSeries.bullets.push(new am4charts.CircleBullet());
-      bullet.circle.radius = 3;
-      bullet.circle.stroke = am4core.color("#2381e4");
-      bullet.circle.fill = am4core.color("#2381e4");
-      bullet.circle.strokeWidth = 3;
-
-      chart.cursor = new am4charts.XYCursor();
-      chart.cursor.behavior = "panX";
-      chart.cursor.lineX.opacity = 0;
-      chart.cursor.lineY.opacity = 0;
-
-      chart.scrollbarX = new am4core.Scrollbar();
-      chart.scrollbarX.parent = chart.bottomAxesContainer;
+    getSample() {
+      Request()
+        .get("/api/disability_check/sample ")
+        .then(response => {
+          this.samples = this.samples.concat(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
-    getPercent(cnt1, cnt2, type) {
-      if (!cnt1 || !cnt2) return 0;
-      if (type === 2) {
-        this.progressColor =
-          parseInt((cnt1 / cnt2) * 100) < 100 ? "warning" : "success";
+    getDetectUnit() {
+      Request()
+        .get("/api/disability_check/detect_unit")
+        .then(response => {
+          this.detectionUnit = this.detectionUnit.concat(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getList() {
+      this.listLoading = true;
+      Request()
+        .get("/api/disability_check/all", {
+          creditCode: this.$route.query.creditCode,
+          detectUnit:
+            this.detectionUnitValue == "全部" ? "" : this.detectionUnitValue,
+          fromDate: this.startDate,
+          toDate: this.endDate,
+          sample: this.samplesValue == "全部" ? "" : this.samplesValue,
+          item: this.itemValue == "全部" ? "" : this.itemValue,
+          resultDx: this.result - 1,
+          townDivisionCode: this.currTown == 0 ? "" : this.currTown,
+          pageNo: this.page.pageIndex - 1,
+          pageSize: this.page.pageSize
+        })
+        .then(response => {
+          this.tableData = response.data;
+          this.total = response.total;
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getCompanyName() {
+      let product = this.companyData.find(
+        x => x.creditCode === this.creditCode
+      );
+      if (product) {
+        return product.companyName;
+      } else {
+        return "";
       }
-      return parseInt((cnt1 / cnt2) * 100);
+    },
+    rowIndex({ row, rowIndex }) {
+      row.rowIndex = rowIndex;
+    },
+    order(row) {
+      return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
+    },
+    goAdd() {
+      this.$router.push({ path: "addDisabilityCheck" });
+    },
+    changeCheckStatus(id) {
+      let index = this.selectedRows.indexOf(id);
+      if (index > -1) this.selectedRows.splice(index, 1);
+      if (event.target.checked) {
+        this.selectedRows.push(id);
+      }
+    },
+    actionConfirm(action) {
+      this.action = action;
+      if (!this.selectedRows.length) {
+        this.alert_dialogVisible = true;
+      } else {
+        this.confirm_dialogVisible = true;
+        this.btnColor = action > 0 ? "success" : "danger";
+      }
+    },
+    updateSelectedRows() {
+      for (let index in this.selectedRows) {
+        this.confirm_dialogVisible = false;
+        this.listLoading = true;
+        Request()
+          .put(
+            "/api/disability_check/update_special_flag/" +
+              this.selectedRows[index] +
+              "?specialFlag=" +
+              this.action
+          )
+          .then(response => {
+            setTimeout(() => {
+              this.listLoading = false;
+            }, 0.5 * 1000);
+            this.selectedRows = [];
+            this.isShowCheckbox = 0;
+            this.getList();
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    },
+    showCheckbox() {
+      if (!event.target.checked) {
+        this.selectedRows = [];
+      }
     }
   }
 };
 </script>
+
+<style scoped>
+</style>
