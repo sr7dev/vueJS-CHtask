@@ -1,21 +1,323 @@
 <template>
-    <div class="container">
+  <div class="container">
+    <div class="title">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item class="actived">诚信系统看板</el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
+    <el-row class="w-100">
+        <el-col :span="14">
+            <div class="disability-chart chart-container maring-right-10" ref="chartdiv1" v-loading="listLoading"></div>
+        </el-col>
+        <el-col :span="10">
+            <div class="disability-chart chart-container margin-left-10" ref="chartdiv2" v-loading="listLoading"></div>
+        </el-col>
+    </el-row>
+    <el-row class="w-100">
+        <el-col :span="14">
+            <div class="disability-chart chart-container maring-right-10" ref="chartdiv3" v-loading="listLoading"></div>
+        </el-col>
+        <el-col :span="10">
+            <div class="disability-chart chart-container margin-left-10" ref="chartdiv4" v-loading="listLoading"></div>
+        </el-col>
+    </el-row>
+  </div>
 </template>
 
+
 <script>
+import Request from "@/services/api/request.js";
+import Pagination from "@/components/common/pagination";
+import Auth from "@/services/authentication/auth.js";
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import chartData from "./chartData1";
+import chartData1 from "./chartData2";
+import axios from "axios";
+am4core.useTheme(am4themes_animated);
+
 export default {
-    name: "statisticsCredit",
-    data() {
-        return {
-            
-        }
+  name: "statisticsCredit",
+  // components: { Pagination },
+  data() {
+    return {
+      page: {
+        pageIndex: 1,
+        pageSize: 50
+      },
+      listLoading: false,
+      toYear: null,
+      toMonth: null,
+      // maxCnt: null,
+      maxCnt: 45,
+			progressColor: "",
+			leftTopData: [],
+			leftDownData: [],
+			rightTopData: [],
+			township: []
+    };
+  },
+  mounted() {
+		this.getTown();
+    // this.makeXYChart();
+    // this.makePieChart();
+    // this.makeLineChart();
+  },
+  methods: {
+		async getTown() {
+			this.listLoading = true;
+      Request()
+        .get("/api/town/all")
+        .then(response => {
+					this.township = this.township.concat(response);
+					setTimeout(() => {
+            this.listLoading = false;
+					}, 0.5 * 1000);
+					this.getLeftTopData();
+					this.getRightTopData();
+					this.getLeftDownData();
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
-    created() {
-        
+    createGrid(value, valueAxis) {
+      var range = valueAxis.axisRanges.create();
+      range.value = value;
+      range.label.text = value; // this.formatNumber(value);
     },
-    methods: {
-        
+    formatNumber(value) {
+      return value / 1000 + "K";
     },
-}
+    getLeftTopData() {
+      this.listLoading = true;
+      Request()
+        .get("/api/company_production/getTownCreditStatis")
+        .then(response => {
+					this.leftTopData = response.data;
+					setTimeout(() => {
+            this.listLoading = false;
+					}, 0.5 * 1000);
+					this.makeChartLeftTop();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+		},
+		getRightTopData() {
+      this.listLoading = true;
+      Request()
+        .get("/api/company_credit_grade/getCreditStatis")
+        .then(response => {
+					this.leftTopData = response.data;
+					setTimeout(() => {
+            this.listLoading = false;
+					}, 0.5 * 1000);
+					this.makeChartRightTop();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+		},
+		getLeftDownData() {
+      this.listLoading = true;
+      Request()
+        .get("/api/company_credit_grade/getCreditStatis")
+        .then(response => {
+					this.leftDownData = response.data;
+					setTimeout(() => {
+            this.listLoading = false;
+					}, 0.5 * 1000);
+					this.makeChartLeftDown();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+		},
+		filterTownName(id) {
+      let town = this.township.find(x => x.id === id);
+      if (town) {
+        return town.name;
+      } else {
+        return "";
+      }
+    },
+    makeChartLeftTop() {
+			let chart = am4core.create(this.$refs.chartdiv1, am4charts.XYChart);
+			let data = [];
+			this.leftTopData.map(item => {
+				data.push({
+					"townId": this.filterTownName(item[0]), 
+					"A级": item[1],
+					"B级": item[2],
+					"C级": item[3]
+				});
+			});
+			chart.data = data;
+			chart.responsive.enabled = true;
+			
+			// Add legend
+      let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+      let title = chart.titles.create();
+      title.text = "农产品质量安全董监管站";
+      title.fontSize = 20;
+      title.marginBottom = 30;
+      title.fontWeight = "bold";
+      title.textAlign = "left";
+			categoryAxis.dataFields.category = "townId";
+      categoryAxis.renderer.grid.template.location = 0;
+      categoryAxis.renderer.minGridDistance = 20;
+      categoryAxis.renderer.labels.template.horizontalCenter = "right";
+      let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      valueAxis.min = 0;
+      valueAxis.max = 3;
+      valueAxis.renderer.minGridDistance = 1;
+      valueAxis.renderer.grid.template.disabled = true;
+      valueAxis.renderer.labels.template.disabled = true;
+			
+			// Create series
+      let series = chart.series.push(new am4charts.ColumnSeries());
+      series.dataFields.valueY = "A级";
+			series.dataFields.categoryX = "townId";
+			series.name = "A级";
+			series.tooltipText = "{name}: [bold]{valueY}[/]";
+			let series2 = chart.series.push(new am4charts.ColumnSeries());
+      series2.dataFields.valueY = "B级";
+			series2.dataFields.categoryX = "townId";
+			series2.name = "B级";
+			series2.tooltipText = "{name}: [bold]{valueY}[/]";
+			let series3 = chart.series.push(new am4charts.ColumnSeries());
+      series3.dataFields.valueY = "C级";
+			series3.dataFields.categoryX = "townId";
+			series3.name = "C级";
+			series3.tooltipText = "{name}: [bold]{valueY}[/]";
+
+			// Add cursor
+			chart.cursor = new am4charts.XYCursor();
+			chart.legend = new am4charts.Legend();
+			
+      // valueLabel.label.dy = -10;
+      let columnTemplate = series.columns.template;
+      columnTemplate.strokeWidth = 2;
+      columnTemplate.strokeOpacity = 1;
+      this.createGrid(0, valueAxis);
+      this.createGrid(1, valueAxis);
+      this.createGrid(2, valueAxis);
+      this.createGrid(3, valueAxis);
+    },
+    makeChartRightTop() {
+			let chart = am4core.create(this.$refs.chartdiv2, am4charts.PieChart);
+			let data = [];
+			this.leftTopData.map(item => {
+				data.push({
+					"cnt": item[0],
+					"townId": this.filterTownName(item[1]), 
+				});
+			});
+      chart.data = data;
+      chart.responsive.enabled = true;
+      // Add and configure Series
+      let pieSeries = chart.series.push(new am4charts.PieSeries());
+      let title = chart.titles.create();
+      title.text = "农产品质量安全董监管站";
+      title.fontSize = 20;
+      title.marginBottom = -20;
+      title.marginTop = 10;
+      title.fontWeight = "bold";
+      // pieSeries.radius = 100;
+      pieSeries.dataFields.value = "cnt";
+      pieSeries.dataFields.category = "townId";
+      pieSeries.dataFields.radiusValue = "cnt";
+      pieSeries.slices.template.stroke = am4core.color("#fff");
+      pieSeries.slices.template.strokeWidth = 2;
+      pieSeries.slices.template.strokeOpacity = 1;
+
+			// Add cursor
+			chart.cursor = new am4charts.XYCursor();
+			chart.legend = new am4charts.Legend();
+
+      // This creates initial animation
+      pieSeries.hiddenState.properties.opacity = 1;
+      pieSeries.hiddenState.properties.endAngle = -90;
+      pieSeries.hiddenState.properties.startAngle = -90;
+    },
+    makeChartLeftDown() {
+      let chart = am4core.create(this.$refs.chartdiv3, am4charts.XYChart);
+			let data = [];
+			this.leftDownData.map(item => {
+				data.push({
+					"townId": this.filterTownName(item[1]), 
+					"cnt": item[0]
+				});
+			});
+			chart.data = data;
+			chart.responsive.enabled = true;
+			
+			// Add legend
+      let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+      let title = chart.titles.create();
+      title.text = "农产品质量安全董监管站";
+      title.fontSize = 20;
+      title.marginBottom = 30;
+      title.fontWeight = "bold";
+      title.textAlign = "left";
+			categoryAxis.dataFields.category = "townId";
+      categoryAxis.renderer.grid.template.location = 0;
+      categoryAxis.renderer.minGridDistance = 20;
+      categoryAxis.renderer.labels.template.horizontalCenter = "right";
+      let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      valueAxis.min = 0;
+      valueAxis.max = 20;
+      valueAxis.renderer.minGridDistance = 5;
+      valueAxis.renderer.grid.template.disabled = true;
+      valueAxis.renderer.labels.template.disabled = true;
+			
+			// Create series
+      let series = chart.series.push(new am4charts.ColumnSeries());
+      series.dataFields.valueY = "cnt";
+			series.dataFields.categoryX = "townId";
+			series.name = "cnt";
+			series.tooltipText = "{name}: [bold]{valueY}[/]";
+
+			// Add cursor
+			chart.cursor = new am4charts.XYCursor();
+			chart.legend = new am4charts.Legend();
+			
+      // valueLabel.label.dy = -10;
+      let columnTemplate = series.columns.template;
+      columnTemplate.strokeWidth = 2;
+      columnTemplate.strokeOpacity = 1;
+      this.createGrid(0, valueAxis);
+      this.createGrid(5, valueAxis);
+      this.createGrid(10, valueAxis);
+      this.createGrid(15, valueAxis);
+    },
+    getPercent(cnt1, cnt2, type) {
+      if (!cnt1 || !cnt2) return 0;
+      if (type === 2) {
+        this.progressColor =
+          parseInt((cnt1 / cnt2) * 100) < 100 ? "warning" : "success";
+      }
+      return parseInt((cnt1 / cnt2) * 100);
+		},
+		getGradeString(id) {
+      let strGrade = "";
+      switch (id) {
+        case "A":
+          strGrade = "A:守信";
+          break;
+        case "B":
+          strGrade = "B:基本守信";
+          break;
+        case "C":
+          strGrade = "C:失信";
+          break;
+        default:
+          strGrade = "A:守信";
+      }
+      return strGrade;
+    },
+  }
+};
 </script>
