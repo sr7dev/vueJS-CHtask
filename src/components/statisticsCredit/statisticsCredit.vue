@@ -18,7 +18,23 @@
             <div class="disability-chart chart-container maring-right-10" ref="chartdiv3" v-loading="listLoading"></div>
         </el-col>
         <el-col :span="10">
-            <div class="disability-chart chart-container margin-left-10" ref="chartdiv4" v-loading="listLoading"></div>
+            <div class="disability-chart chart-container margin-left-10" ref="chartdiv4" v-loading="listLoading">
+							<el-row style="font-size: 20px; font-weight: bold; color: #000000; margin:10px">红黑名单</el-row>
+							<el-row style="margin:30px 10px 30px 10px; border-bottom: solid 1px;">
+								<div style="font-size:15px">红名单</div>
+								<div style="margin:20px 0 20px 20px; line-height:3em">
+									<span style="margin-right:40px;" v-for="item in redData" :key="item.id" :value="item.id">{{ item }}
+									</span>
+								</div>
+							</el-row>
+							<el-row style="margin:30px 0 30px 10px">
+								<div style="font-size:15px">黑名单</div>
+								<div style="margin:20px 0 20px 20px; line-height:3em">
+									<span style="margin-right:40px;" v-for="item in blackData" :key="item.id" :value="item.id">{{ item }}
+									</span>
+								</div>
+							</el-row>
+						</div>
         </el-col>
     </el-row>
   </div>
@@ -55,11 +71,15 @@ export default {
 			leftTopData: [],
 			leftDownData: [],
 			rightTopData: [],
-			township: []
+			redData: [],
+			blackData: [],
+			township: [],
+			companyProduction: []
     };
   },
   mounted() {
 		this.getTown();
+		this.getCompanyProduction();
     // this.makeXYChart();
     // this.makePieChart();
     // this.makeLineChart();
@@ -85,7 +105,7 @@ export default {
     createGrid(value, valueAxis) {
       var range = valueAxis.axisRanges.create();
       range.value = value;
-      range.label.text = value; // this.formatNumber(value);
+      range.label.text = this.formatNumber(value);
     },
     formatNumber(value) {
       return value / 1000 + "K";
@@ -135,6 +155,74 @@ export default {
           console.log(error);
         });
 		},
+		getRedData() {
+      this.listLoading = true;
+      Request()
+      .get("/api/company_credit_grade/all", {
+					approvalStatus: 2,
+					nowGrade: "A"
+        })
+        .then(response => {
+          // this.redData = response.data;
+          // this.total = response.total;
+          setTimeout(() => {
+            this.listLoading = false;
+					}, 0.5 * 1000);
+					let index = 0;
+					this.redData = response.data.map(item => {
+						return this.filterCompnay(item.creditCode);
+					});
+        })
+        .catch(error => {
+          console.log(error);
+        });
+		},
+		getBlackData() {
+      this.listLoading = true;
+      Request()
+      .get("/api/company_credit_grade/all", {
+					approvalStatus: 2,
+					nowGrade: "C"
+        })
+        .then(response => {
+          // this.blackData = response.data;
+          // this.total = response.total;
+          setTimeout(() => {
+            this.listLoading = false;
+					}, 0.5 * 1000);
+					let index = 0;
+					this.blackData = response.data.map(item => {
+						return this.filterCompnay(item.creditCode);
+					});
+        })
+        .catch(error => {
+          console.log(error);
+        });
+		},
+		getCompanyProduction() {
+			this.listLoading = true;
+      Request()
+        .get("/api/company_production/name")
+        .then(response => {
+					this.companyProduction = response;
+					setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
+					this.getRedData();
+					this.getBlackData();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+		},
+		filterCompnay(credit) {
+			let company = this.companyProduction.find(x => x.creditCode === credit);
+      if (company) {
+        return company.companyName;
+      } else {
+        return "";
+      }
+    },
 		filterTownName(id) {
       let town = this.township.find(x => x.id === id);
       if (town) {
@@ -148,7 +236,7 @@ export default {
 			let data = [];
 			this.leftTopData.map(item => {
 				data.push({
-					"townId": this.filterTownName(item[0]), 
+					"townId": this.filterTownName(item[4]), 
 					"A级": item[1],
 					"B级": item[2],
 					"C级": item[3]
@@ -160,7 +248,7 @@ export default {
 			// Add legend
       let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
       let title = chart.titles.create();
-      title.text = "农产品质量安全董监管站";
+      title.text = "诚信等级企业数量汇总";
       title.fontSize = 20;
       title.marginBottom = 30;
       title.fontWeight = "bold";
@@ -171,8 +259,8 @@ export default {
       categoryAxis.renderer.labels.template.horizontalCenter = "right";
       let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
       valueAxis.min = 0;
-      valueAxis.max = 3;
-      valueAxis.renderer.minGridDistance = 1;
+      valueAxis.max = 600;
+      valueAxis.renderer.minGridDistance = 2;
       valueAxis.renderer.grid.template.disabled = true;
       valueAxis.renderer.labels.template.disabled = true;
 			
@@ -202,9 +290,9 @@ export default {
       columnTemplate.strokeWidth = 2;
       columnTemplate.strokeOpacity = 1;
       this.createGrid(0, valueAxis);
-      this.createGrid(1, valueAxis);
-      this.createGrid(2, valueAxis);
-      this.createGrid(3, valueAxis);
+      this.createGrid(200, valueAxis);
+      this.createGrid(400, valueAxis);
+      this.createGrid(600, valueAxis);
     },
     makeChartRightTop() {
 			let chart = am4core.create(this.$refs.chartdiv2, am4charts.PieChart);
@@ -220,7 +308,7 @@ export default {
       // Add and configure Series
       let pieSeries = chart.series.push(new am4charts.PieSeries());
       let title = chart.titles.create();
-      title.text = "农产品质量安全董监管站";
+      title.text = "各站点诚信等级上传数据的比例分布";
       title.fontSize = 20;
       title.marginBottom = -20;
       title.marginTop = 10;
@@ -257,29 +345,33 @@ export default {
 			// Add legend
       let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
       let title = chart.titles.create();
-      title.text = "农产品质量安全董监管站";
+      title.text = "各站点上传数据统计";
       title.fontSize = 20;
       title.marginBottom = 30;
       title.fontWeight = "bold";
       title.textAlign = "left";
 			categoryAxis.dataFields.category = "townId";
+			categoryAxis.renderer.labels.template.rotation = -45;
       categoryAxis.renderer.grid.template.location = 0;
       categoryAxis.renderer.minGridDistance = 20;
       categoryAxis.renderer.labels.template.horizontalCenter = "right";
       let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
       valueAxis.min = 0;
-      valueAxis.max = 20;
+			valueAxis.max = 15000;
       valueAxis.renderer.minGridDistance = 5;
       valueAxis.renderer.grid.template.disabled = true;
       valueAxis.renderer.labels.template.disabled = true;
-			
+
 			// Create series
       let series = chart.series.push(new am4charts.ColumnSeries());
       series.dataFields.valueY = "cnt";
 			series.dataFields.categoryX = "townId";
 			series.name = "cnt";
 			series.tooltipText = "{name}: [bold]{valueY}[/]";
-
+			let valueLabel = series.bullets.push(new am4charts.LabelBullet());
+      valueLabel.label.text = "{cnt}";
+      valueLabel.label.rotation = -45;
+      valueLabel.label.dy = -10;
 			// Add cursor
 			chart.cursor = new am4charts.XYCursor();
 			chart.legend = new am4charts.Legend();
@@ -289,10 +381,10 @@ export default {
       columnTemplate.strokeWidth = 2;
       columnTemplate.strokeOpacity = 1;
       this.createGrid(0, valueAxis);
-      this.createGrid(5, valueAxis);
-      this.createGrid(10, valueAxis);
-      this.createGrid(15, valueAxis);
-    },
+      this.createGrid(5000, valueAxis);
+      this.createGrid(10000, valueAxis);
+      this.createGrid(15000, valueAxis);
+		},
     getPercent(cnt1, cnt2, type) {
       if (!cnt1 || !cnt2) return 0;
       if (type === 2) {
@@ -301,23 +393,6 @@ export default {
       }
       return parseInt((cnt1 / cnt2) * 100);
 		},
-		getGradeString(id) {
-      let strGrade = "";
-      switch (id) {
-        case "A":
-          strGrade = "A:守信";
-          break;
-        case "B":
-          strGrade = "B:基本守信";
-          break;
-        case "C":
-          strGrade = "C:失信";
-          break;
-        default:
-          strGrade = "A:守信";
-      }
-      return strGrade;
-    },
   }
 };
 </script>
