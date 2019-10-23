@@ -11,21 +11,41 @@
       background-color="#253032"
       text-color="#ffffff"
       v-if="loggedinUserType!==3"
-    > 
-    <el-menu-item index="/statisticsCredit">
-        <router-link slot="title" to="/statisticsCredit">诚信系统看板</router-link>
+    >
+      <el-menu-item index="/statisticsCredit">
+        <router-link slot="title" to="/statisticsCredit">
+          <sapn>
+            <i class="el-icon-data-analysis vertical-text-bottom"></i>诚信系统看板
+          </sapn>
+        </router-link>
       </el-menu-item>
       <el-menu-item index="/statisticsSupervision">
-        <router-link slot="title" to="/statisticsSupervision">监管记录看板</router-link>
+        <router-link slot="title" to="/statisticsSupervision">
+          <sapn>
+            <i class="el-icon-s-check vertical-text-bottom"></i>监管记录看板
+          </sapn>
+        </router-link>
       </el-menu-item>
       <el-menu-item index="/statisticsTracing">
-        <router-link slot="title" to="/statisticsTracing">溯源记录看板</router-link>
+        <router-link slot="title" to="/statisticsTracing">
+          <sapn>
+            <i class="el-icon-s-data vertical-text-bottom"></i>溯源记录看板
+          </sapn>
+        </router-link>
       </el-menu-item>
       <el-menu-item index="/statisticsTracingCompany">
-        <router-link slot="title" to="/statisticsTracingCompany">溯源企业看板</router-link>
-      </el-menu-item>     
+        <router-link slot="title" to="/statisticsTracingCompany">
+          <sapn>
+            <i class="el-icon-s-marketing vertical-text-bottom"></i>溯源企业看板
+          </sapn>
+        </router-link>
+      </el-menu-item>
       <el-menu-item index="/statisticsFarmers">
-        <router-link slot="title" to="/statisticsFarmers">农残检测看板</router-link>
+        <router-link slot="title" to="/statisticsFarmers">
+          <sapn>
+            <i class="el-icon-pie-chart vertical-text-bottom"></i>农残检测看板
+          </sapn>
+        </router-link>
       </el-menu-item>
     </el-menu>
     <div class="quit">

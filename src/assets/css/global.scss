@@ -61,6 +61,10 @@ body {
   text-align: right !important;
 }
 
+.vertical-text-bottom {
+  vertical-align: text-bottom!important;
+}
+
 .no-border-right {
   border-right: none!important;
 }
@@ -132,6 +136,10 @@ body {
   margin-left: 40px !important;
 }
 
+.padding-left-10 {
+  padding-left: 10px !important;
+}
+
 .padding-left-20 {
   padding-left: 20px !important;
 }
@@ -142,6 +150,15 @@ body {
 
 .no-padding-bottom {
   padding-bottom: 0 !important;
+}
+
+.button-img {
+  cursor: pointer;
+}
+
+.button-p {
+  cursor: pointer;
+  color: #409eff;
 }
 
 .flex-box {
@@ -168,7 +185,13 @@ body {
       &.is-active {
         color: #409eff !important;
       }
+      i {
+        color: #ffffff;
+      }
       a.router-link-active {
+        i {
+          color: #409eff !important;
+        }
         color: #409eff !important;
       }
     }
@@ -308,6 +331,22 @@ body {
 
 input[type=number]::-webkit-inner-spin-button {
   margin-right: -15px;
+}
+
+.el-button {
+  .el-icon-check {
+    font-size: 14px;
+    color: #ffffff;
+  }
+}
+
+.normal-line-height {
+  .cell {
+    line-height: unset;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .chart-container {
