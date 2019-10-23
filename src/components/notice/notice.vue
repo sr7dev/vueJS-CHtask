@@ -10,6 +10,12 @@
       <div class="iptBox">
         <el-button type="primary" v-on:click="$router.push({path: `/notice/create`})" plain>发布公告</el-button>
         <el-button type="primary" plain>短信记录</el-button>
+        <el-button 
+          type="primary" 
+          plain 
+          v-if="loggedinUserType===0 || loggedinUserType===1"
+          v-on:click="$router.push({path: `/notice/smsNotice`})"
+        >短信通知</el-button>
       </div>
 
       <el-container>
@@ -60,12 +66,13 @@
 <script>
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
-
+import Auth from "@/services/authentication/auth.js";
 export default {
   name: "notice",
   components: { Pagination },
   data() {
     return {
+      loggedinUserType: null,
       releasePerson: "",
       emergencyDegree: 0,
       releaseTime: "",
@@ -87,6 +94,7 @@ export default {
   },
   mounted() {
     this.getList();
+    this.loggedinUserType = Auth().user().attrs.userType;
   },
   methods: {
     order(row) {
