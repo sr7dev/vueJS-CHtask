@@ -122,7 +122,7 @@ export default {
       for (var index = 1; index < this.ruleFormValue.optionData.length; index++) {
         this.ruleFormValue.propertyOptions = this.ruleFormValue.propertyOptions + "," + this.ruleFormValue.optionData[index].name;
       }
-
+      this.splitStatus(this.ruleFormValue.propertyOptions);
       this.listLoading = true;
       Request()
         .get("/api/product_property/get/" + this.$route.params.id)
