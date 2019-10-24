@@ -27,7 +27,7 @@
             v-model="agriculturalClassification"
             placeholder="请选择"
             style="width:150px;"
-            @change="filterList"
+            @change="getList"
           >
             <el-option
               v-for="item in [
@@ -318,14 +318,32 @@ export default {
       }
       return nowGrade;
     },
-    filterList() {
-      this.getList();
-      // if (this.agriculturalClassification > 0) {
-      //   this.tableData = this.tableData.filter(
-      //     it => it.agriculturalClassification == this.agriculturalClassification
-      //   );
-      // }
+
+    filterList() {    
+      this.tableData = this.srcData;
+      
+      if (this.quality_standard === 1){
+        this.tableData = this.tableData.filter(it => it.qualityStandard > 0)
+      }
+      else if ( this.quality_standard === 0){
+        this.tableData = this.tableData.filter(it => it.qualityStandard === 0 || it.qualityStandard == null)
+      }
+
+      if (this.supervision_record === 1){
+        this.tableData = this.tableData.filter(it => it.supervisionRecord > 0)
+      }
+      else if ( this.supervision_record === 0){
+        this.tableData = this.tableData.filter(it => it.supervisionRecord === 0 || it.supervisionRecord == null)
+      }
+
+      if (this.disability_check === 1){
+        this.tableData = this.tableData.filter(it => it.disabilityCheck > 0)
+      }
+      else if ( this.disability_check === 0){
+        this.tableData = this.tableData.filter(it => it.disabilityCheck === 0 || it.disabilityCheck == null)
+      }
     },
+
     getList() {
       this.tableData = [];
       this.listLoading = true;
@@ -337,12 +355,14 @@ export default {
         })
         .then(response => {
           this.tableData = response;
+          this.srcData = response;
           this.total = this.tableData.length;
 
           this.tableData.forEach(e => {
             e.nowGrade = this.getGradeString(e.grade);
           });
 
+          this.filterList();
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
