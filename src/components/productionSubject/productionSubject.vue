@@ -103,14 +103,18 @@
           </el-select>
         </div>
         <div class="filter-item" v-if="loggedinUserType === 2 || loggedinUserType === 0">
-          <el-button size="small"
+          <el-button
+            size="small"
             type="primary"
             plain
             @click="gotoAddRegulatoryObject()"
             class="margin-left-20"
           >添加监管对象</el-button>
         </div>
-        <div class="allCompany" v-if="loggedinUserType !== 3">共计{{ total }}家企业</div>
+        <div class="allCompany" v-if="loggedinUserType !== 3">
+          共计
+          <b class="blue-colored">{{ total }}</b> 家企业
+        </div>
       </div>
       <el-table
         :data="tableData"
@@ -217,14 +221,20 @@
         </el-table-column>
         <el-table-column prop="operations" label="操作" width="300" class-name="text-center">
           <template slot-scope="{ row }">
-            <el-button size="small"
+            <el-button
+              size="small"
               v-on:click="gotoEditProductPage(row)"
               type="warning"
               v-if="loggedinUserType !== 1"
             >修改</el-button>
             <el-button size="small" v-on:click="gotoProductPage(row)" type="primary">产品</el-button>
-            <el-button size="small" v-on:click="gotoWarehousingEnvironmentPage(row)" type="success">仓储环境</el-button>
-            <el-button size="small"
+            <el-button
+              size="small"
+              v-on:click="gotoWarehousingEnvironmentPage(row)"
+              type="success"
+            >仓储环境</el-button>
+            <el-button
+              size="small"
               v-on:click="gotoDetailsProductPage(row)"
               type="info"
               v-if="loggedinUserType !== 3"
