@@ -146,7 +146,7 @@
               v-if="row.qualityStandard !== 0 && row.qualityStandard != null"
             >认证信息</p>
             <p
-              class="padding-left-10 button-p"              
+              class="padding-left-10"              
               v-if="row.qualityStandard === 0 || row.qualityStandard == null"
             >无</p>
           </template>
@@ -170,7 +170,7 @@
                 v-if="row.supervisionRecord !== 0 && row.supervisionRecord != null"
             ></el-image>
             <p
-              class="padding-left-10 button-p"              
+              class="padding-left-10"              
               v-if="row.supervisionRecord === 0 || row.supervisionRecord == null"
             >无</p>
           </template>
@@ -191,7 +191,7 @@
               v-if="row.disabilityCheck !== 0 && row.disabilityCheck != null"
             ></el-image>
             <p
-              class="padding-left-10 button-p"              
+              class="padding-left-10"              
               v-if="row.disabilityCheck === 0 || row.disabilityCheck == null"
             >无</p>
           </template>
