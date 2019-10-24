@@ -112,6 +112,7 @@ import detailsNotice from "@/components/notice/detailsNotice/detailsNotice";
 import createNotice from "@/components/notice/createNotice/createNotice";
 import editNotice from "@/components/notice/editNotice/editNotice";
 import smsNotice from "@/components/notice/smsNotice/smsNotice";
+import detailSms from "@/components/notice/detailSms/detailSms";
 
 import aquaticStatistics from "@/components/aquaticStatistics/aquaticStatistics";
 import statisticsFarmers from "@/components/statisticsFarmers/statisticsFarmers";
@@ -488,9 +489,14 @@ export default new Router({
           component: createNotice
         },
         {
-          path: "/notice/smsNotice",
-          name: "smsNotice", // 通知管理
+          path: "/notice/smsNotice/:id",
+          name: "smsNotice", // 短信通知
           component: smsNotice
+        },
+        {
+          path: "/notice/detailSms",
+          name: "detailSms", // 短信记录
+          component: detailSms
         },
         {
           path: "/aquatic",

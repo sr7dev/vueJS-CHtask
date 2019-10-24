@@ -9,13 +9,7 @@
       <div class="iptBox">通知公告</div>
       <div class="iptBox">
         <el-button type="primary" v-on:click="$router.push({path: `/notice/create`})" plain>发布公告</el-button>
-        <el-button type="primary" plain>短信记录</el-button>
-        <el-button 
-          type="primary" 
-          plain 
-          v-if="loggedinUserType===0 || loggedinUserType===1"
-          v-on:click="$router.push({path: `/notice/smsNotice`})"
-        >短信通知</el-button>
+        <el-button type="primary" v-on:click="$router.push({path: `/notice/detailSms`})" plain>短信记录</el-button>
       </div>
 
       <el-container>
@@ -35,7 +29,7 @@
           <el-table-column prop="emergencyDegree" label="紧急程度">
             <template slot-scope="{ row }">{{ getEmergencyDegree(row.emergencyDegree) }}</template>
           </el-table-column>
-          <el-table-column label="操作" class-name="text-center">
+          <el-table-column label="操作" class-name="text-center" width="300">
             <template slot-scope="{ row }">
               <el-button
                 type="success"
@@ -47,6 +41,12 @@
                 v-on:click="$router.push({path: `/notice/edit/${row.id}`})"
                 plain
               >修改</el-button>
+              <el-button 
+                type="primary" 
+                plain 
+                v-if="loggedinUserType===0 || loggedinUserType===1"
+                v-on:click="$router.push({path: `/notice/smsNotice/${row.id}`})"
+              >短信通知</el-button>
             </template>
           </el-table-column>
         </el-table>
