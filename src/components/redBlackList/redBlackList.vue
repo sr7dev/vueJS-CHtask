@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator=" ">
-        <el-breadcrumb-item class="actived">绿色优质产品</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">红黑名单</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
