@@ -134,11 +134,17 @@
               class="button-img small-size"
               :src="Button2"
               @click="$router.push({path: `/productionSubject/threeProduct`,query: {creditCode:row.creditCode}})"
+              v-if="row.qualityStandard !== 0 && row.qualityStandard != null"
             ></el-image>
             <p
               class="padding-left-10 button-p"
               @click="$router.push({path: `/productionSubject/threeProduct`,query: {creditCode:row.creditCode}})"
+              v-if="row.qualityStandard !== 0 && row.qualityStandard != null"
             >认证信息</p>
+            <p
+              class="padding-left-10 button-p"              
+              v-if="row.qualityStandard === 0 || row.qualityStandard == null"
+            >无</p>
           </template>
         </el-table-column>
         <el-table-column
@@ -157,7 +163,12 @@
                   path: `/regulatoryRecord/`,
                   query: { companyId: row.companyId }
                 })"
+                v-if="row.supervisionRecord !== 0 && row.supervisionRecord != null"
             ></el-image>
+            <p
+              class="padding-left-10 button-p"              
+              v-if="row.supervisionRecord === 0 || row.supervisionRecord == null"
+            >无</p>
           </template>
         </el-table-column>
         <el-table-column
@@ -173,7 +184,12 @@
               class="button-img"
               :src="Button1"
               v-on:click="$router.push({path: `/disabilityCheck/`,query: { creditCode: row.creditCode }})"
+              v-if="row.disabilityCheck !== 0 && row.disabilityCheck != null"
             ></el-image>
+            <p
+              class="padding-left-10 button-p"              
+              v-if="row.disabilityCheck === 0 || row.disabilityCheck == null"
+            >无</p>
           </template>
         </el-table-column>
         <el-table-column prop="contactPerson" label="联系人" width="90"></el-table-column>
