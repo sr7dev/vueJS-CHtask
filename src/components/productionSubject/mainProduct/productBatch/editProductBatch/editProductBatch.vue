@@ -37,8 +37,8 @@
           </el-select>
         </el-form-item>
         <el-form-item label>
-          <el-button type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
-          <el-button type="danger" plain @click="$router.go(-1)">取消</el-button>
+          <el-button size="small" type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
+          <el-button size="small" type="danger" plain @click="$router.go(-1)">取消</el-button>
         </el-form-item>
       </el-form>
     </div>

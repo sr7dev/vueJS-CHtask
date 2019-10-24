@@ -9,7 +9,7 @@
       <div class="iptBox" v-if="loggedinUserType===1 || loggedinUserType===0">
         <el-row class="w-100">
           <el-col :span="3">
-            <el-button type="primary" v-on:click="$router.push(`/shareFiles/create`)" plain>新建文件夹</el-button>
+            <el-button size="small" type="primary" v-on:click="$router.push(`/shareFiles/create`)" plain>新建文件夹</el-button>
           </el-col>
         </el-row>
       </div>
@@ -20,8 +20,8 @@
             <i class="el-icon-warning">&nbsp;你确定你要删除?</i>
           </span>
           <span slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false" type="primary" plain>取消</el-button>
-            <el-button @click="handleDelete" type="success" plain>确认</el-button>
+            <el-button size="small" @click="dialogVisible = false" type="primary" plain>取消</el-button>
+            <el-button size="small" @click="handleDelete" type="success" plain>确认</el-button>
           </span>
         </el-dialog>
         <el-table
@@ -39,7 +39,7 @@
           <el-table-column prop="creater" label="创建者"></el-table-column>
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
-              <el-button
+              <el-button size="small"
                 type="success"
                 plain
                 v-on:click="
@@ -48,7 +48,7 @@
                   })
                 "
               >查看</el-button>
-              <el-button
+              <el-button size="small"
                 type="primary"
                 plain
                 v-if="loggedinUserType===1 || loggedinUserType===0"
@@ -61,7 +61,7 @@
                   })
                 "
               >修改</el-button>
-              <el-button
+              <el-button size="small"
                 type="danger"
                 plain
                 v-if="loggedinUserType===1 || loggedinUserType===0"

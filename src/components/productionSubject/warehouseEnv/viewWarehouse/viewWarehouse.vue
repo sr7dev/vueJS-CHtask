@@ -43,7 +43,7 @@
           </el-col>
         </el-row>
         <el-form-item >
-          <el-button type="primary" @click="goBack" plain>返回</el-button>
+          <el-button size="small" type="primary" @click="goBack" plain>返回</el-button>
         </el-form-item>
       </el-form>
     </div>

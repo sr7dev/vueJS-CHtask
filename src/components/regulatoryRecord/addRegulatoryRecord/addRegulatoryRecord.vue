@@ -13,7 +13,7 @@
           <i class="el-icon-warning">&nbsp;请选择图片 !!!</i>
         </span>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false" type="primary" plain>Cancel</el-button>
+          <el-button size="small" @click="dialogVisible = false" type="primary" plain>Cancel</el-button>
         </span>
       </el-dialog>
       <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" v-loading="listLoading">
@@ -50,7 +50,7 @@
                   :value="item.companyId"
                 ></el-option>
               </el-select>
-              <el-button type="primary" plain icon="el-icon-plus" size="mini" class="min-plus"></el-button>
+              <el-button size="small" type="primary" plain icon="el-icon-plus" class="min-plus"></el-button>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -283,8 +283,8 @@
         </el-row>
 
         <el-form-item class="left-margin">
-          <el-button type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
-          <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
+          <el-button size="small" type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
+          <el-button size="small" type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
       </el-form>
     </div>

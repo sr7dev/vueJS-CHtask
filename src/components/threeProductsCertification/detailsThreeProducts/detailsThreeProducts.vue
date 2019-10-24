@@ -96,7 +96,7 @@
                       ref="files"
                       v-on:change="handleFileUpload()"
                     />
-                    <el-button type="warning" plain @click="downloadFile()">下载附件</el-button>
+                    <el-button size="small" type="warning" plain @click="downloadFile()">下载附件</el-button>
                     <span class="item-value" v-if="!files">
                       <el-link @click="downloadFile()">
                         {{
@@ -113,7 +113,7 @@
           </el-col>
         </el-row>
         <el-form-item>
-          <el-button type="danger" @click="goBack" plain>返回</el-button>
+          <el-button size="small" type="danger" @click="goBack" plain>返回</el-button>
         </el-form-item>
       </el-form>
     </div>

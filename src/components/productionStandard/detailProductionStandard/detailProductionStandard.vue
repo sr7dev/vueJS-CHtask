@@ -63,7 +63,7 @@
         </el-row>
         <el-form-item label>
           <el-col :span="8">
-            <el-button
+            <el-button size="small"
               type="warning"
               plain
               @click="downloadFile()"
@@ -77,7 +77,7 @@
           </el-col>
         </el-form-item>
         <el-form-item label>
-          <el-button type="success" plain v-on:click="$router.go(-1)">返回</el-button>
+          <el-button size="small" type="success" plain v-on:click="$router.go(-1)">返回</el-button>
         </el-form-item>
       </el-form>
     </div>

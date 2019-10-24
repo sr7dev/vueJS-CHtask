@@ -85,7 +85,7 @@
             <div style="display: flex; justify-content: space-between;">
               <el-form-item label="培训记录" ></el-form-item>
               <div>
-                <el-button
+                <el-button size="small"
                   type="danger"
                   plain
                   v-if="loggedinUserType === 1 || loggedinUserType === 0"
@@ -101,7 +101,7 @@
                   style="margin-top: 10px; margin-left: 20px;"
                 />
               </div>  
-              <el-button
+              <el-button size="small"
                 type="primary"
                 plain
                 v-if="loggedinUserType === 2 || loggedinUserType === 0"
@@ -134,7 +134,7 @@
                 </el-table-column>
                 <el-table-column label="文件">
                   <template slot-scope="{ row }">
-                    <el-button type="success" plainv @click="downloadFile(row.trainingFundsProfiles)">下载附件</el-button>
+                    <el-button size="small" type="success" plainv @click="downloadFile(row.trainingFundsProfiles)">下载附件</el-button>
                   </template>
                 </el-table-column>
               </el-table>

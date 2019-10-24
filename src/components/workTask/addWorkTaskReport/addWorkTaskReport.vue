@@ -24,7 +24,7 @@
       </el-row>
       <el-row class="w-100 flex-justify-center margin-bottom-30" v-if="workData.workTaskProfiles">
         <el-col :span="12">
-          <el-button type="warning" plain @click="downloadFile()">附件下载</el-button>
+          <el-button size="small" type="warning" plain @click="downloadFile()">附件下载</el-button>
           <span class="margin-left-20">{{workData.workTaskProfiles.replace("/uploads/", "")}}</span>
         </el-col>
       </el-row>
@@ -70,8 +70,8 @@
           </el-col>
         </el-row>
         <el-form-item class="left-margin">
-          <el-button type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
-          <el-button type="primary" plain v-on:click="$router.go(-1)">取消</el-button>
+          <el-button size="small" type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
+          <el-button size="small" type="primary" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
       </el-form>
     </div>

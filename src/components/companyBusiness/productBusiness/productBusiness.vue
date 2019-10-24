@@ -9,13 +9,13 @@
     <div class="box">
       <div class="iptBox">
         <div class="filter-item">
-          <el-button
+          <el-button size="small"
             type="primary"
             v-if="loggedinUserType === 3 || loggedinUserType === 0"
             @click="$router.push(`/companyBusiness/productBusiness/create/${id}`)"
             plain
           >添加</el-button>
-          <el-button plain @click="$router.go(-1)" type="success">返回</el-button>
+          <el-button size="small" plain @click="$router.go(-1)" type="success">返回</el-button>
         </div>
       </div>
       <el-container>
@@ -35,7 +35,7 @@
           <el-table-column prop="yield" label="操作" class-name="text-center">
             <!-- <template slot-scope="scope"> -->
             <template slot-scope="{ row }">
-              <el-button @click="handleDelete(`${row.id}`)" plain type="danger">删除</el-button>
+              <el-button size="small" @click="handleDelete(`${row.id}`)" plain type="danger">删除</el-button>
             </template>
           </el-table-column>
         </el-table>

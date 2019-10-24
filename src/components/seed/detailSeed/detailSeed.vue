@@ -9,14 +9,14 @@
     <div class="box">
       <div class="iptBox" style="align-items:center">
         <div class="header-left">
-          <el-button class="margin-left-20" type="primary" plain :disabled="true">
+          <el-button size="small" class="margin-left-20" type="primary" plain :disabled="true">
             <div style="display: flex">
               <span v-if="villageId>0">{{ filterVillage(villageId) }}</span>
               <span v-if="townId>0">{{ filterTown(townId) }}</span>
               <span v-if="cityId>0">{{ filterCity(cityId) }}</span>
             </div>
           </el-button>
-          <el-button class="margin-left-20" type="primary" plain v-on:click="$router.go(-1)">返回</el-button>
+          <el-button size="small" class="margin-left-20" type="primary" plain v-on:click="$router.go(-1)">返回</el-button>
         </div>
         <div style="margin-left:auto; width: 70%;">
           <el-row class="margin-bottom-10">

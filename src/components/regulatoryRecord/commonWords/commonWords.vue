@@ -8,10 +8,10 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button type="primary" v-on:click="$router.go(-1)" plain>
+        <el-button size="small" type="primary" v-on:click="$router.go(-1)" plain>
           <i class="el-icon-back"></i> 返回
         </el-button>
-        <el-button type="success" @click="handleAdd" plain>
+        <el-button size="small" type="success" @click="handleAdd" plain>
           <i class="el-icon-plus"></i> 添加
         </el-button>
       </div>
@@ -27,10 +27,10 @@
           <el-table-column prop="word" label="常用语"></el-table-column>
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
-              <el-button type="primary" plain @click="handleEdit(row.index, row)">
+              <el-button size="small" type="primary" plain @click="handleEdit(row.index, row)">
                 <i class="el-icon-edit"></i>查看
               </el-button>
-              <el-button type="danger" plain @click="handleDel(row.index, row)">
+              <el-button size="small" type="danger" plain @click="handleDel(row.index, row)">
                 <i class="el-icon-close"></i>删除
               </el-button>
             </template>
@@ -44,8 +44,8 @@
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button type="primary" @click.native="addSubmit" plain :loading="addLoading">保存</el-button>
-          <el-button @click.native="addFormVisible = false" plain type="warning">关闭</el-button>
+          <el-button size="small" type="primary" @click.native="addSubmit" plain :loading="addLoading">保存</el-button>
+          <el-button size="small" @click.native="addFormVisible = false" plain type="warning">关闭</el-button>
         </div>
       </el-dialog>
       <el-dialog title="修改" :visible.sync="editFormVisible" :close-on-click-modal="false">
@@ -55,8 +55,8 @@
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button type="primary" plain @click.native="editSubmit" :loading="editLoading">保存</el-button>
-          <el-button @click.native="editFormVisible = false" type="warning" plain>关闭</el-button>
+          <el-button size="small" type="primary" plain @click.native="editSubmit" :loading="editLoading">保存</el-button>
+          <el-button size="small" @click.native="editFormVisible = false" type="warning" plain>关闭</el-button>
         </div>
       </el-dialog>
       <div class="pageBox">

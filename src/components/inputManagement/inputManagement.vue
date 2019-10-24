@@ -11,13 +11,13 @@
         <div class="tab-header" type @click="clickTabRight" v-bind:class="{ active: !mode }">采购信息</div>
       </div>
       <div class="iptBox">
-        <el-button
+        <el-button size="small"
           type="primary"
           plain
           @click="$router.push({path: `/inputManagement/addPurchase`})"
           v-if="!mode"
         >添加</el-button>
-        <el-button
+        <el-button size="small"
           type="primary"
           plain
           @click="$router.push({path: `/inputManagement/addUse`})"
@@ -38,7 +38,7 @@
         <el-table-column prop="amount" label="使用数量(公斤)"></el-table-column>
         <el-table-column prop="operations" label="操作" class-name="text-center">
           <template slot-scope="{ row }">
-            <el-button 
+            <el-button size="small" 
               type="success" 
               plain
               v-on:click="$router.push({
@@ -63,7 +63,7 @@
         <el-table-column prop="amount" label="采购数量(公斤)"></el-table-column>
         <el-table-column label="操作" class-name="text-center">
           <template slot-scope="{ row }">
-            <el-button
+            <el-button size="small"
               type="success"
               plain
               v-on:click="$router.push({

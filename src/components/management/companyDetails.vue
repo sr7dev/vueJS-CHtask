@@ -55,7 +55,7 @@
           <p>无锡市新吴区国家软件园</p>
         </el-col>
       </el-row>
-      <el-button style="margin-top: 50px" plain type="primary">返回</el-button>
+      <el-button size="small" style="margin-top: 50px" plain type="primary">返回</el-button>
     </div>
   </div>
 </template>

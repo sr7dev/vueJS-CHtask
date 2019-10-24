@@ -7,7 +7,7 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button
+        <el-button size="small"
           type="primary"
           plain
           v-on:click="$router.push(`/userManagement/create`)"
@@ -19,8 +19,8 @@
           <i class="el-icon-warning">&nbsp;你确定你要删除?</i>
         </span>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false" type="primary" plain>取消</el-button>
-          <el-button @click="handleDelete" type="success" plain>确认</el-button>
+          <el-button size="small" @click="dialogVisible = false" type="primary" plain>取消</el-button>
+          <el-button size="small" @click="handleDelete" type="success" plain>确认</el-button>
         </span>
       </el-dialog>
       <el-container>
@@ -46,7 +46,7 @@
             width="300"
           >
             <template slot-scope="{ row }">
-              <el-button
+              <el-button size="small"
                 type="primary"
                 v-if="row.userType === 3"
                 plain
@@ -57,7 +57,7 @@
                   })
                 "
               >管理</el-button>
-              <el-button
+              <el-button size="small"
                 type="success"
                 plain
                 v-if="row.userType === 3"
@@ -67,7 +67,7 @@
                   })
                 "
               >修改密码</el-button>
-              <el-button
+              <el-button size="small"
                 v-if="row.userType === 3"
                 type="danger"
                 v-on:click="confirmDelete(`${row.id}`)"
@@ -82,7 +82,7 @@
             v-if="loggedinUserType === 1 || loggedinUserType === 0"
           >
             <template slot-scope="{ row }">
-              <el-button
+              <el-button size="small"
                 type="primary"
                 plain
                 v-on:click="
@@ -91,7 +91,7 @@
                   })
                 "
               >管理</el-button>
-              <el-button
+              <el-button size="small"
                 type="success"
                 plain
                 v-on:click="
@@ -100,7 +100,7 @@
                   })
                 "
               >修改密码</el-button>
-              <el-button type="danger" v-on:click="confirmDelete(`${row.id}`)" plain>删除</el-button>
+              <el-button size="small" type="danger" v-on:click="confirmDelete(`${row.id}`)" plain>删除</el-button>
             </template>
           </el-table-column>
         </el-table>

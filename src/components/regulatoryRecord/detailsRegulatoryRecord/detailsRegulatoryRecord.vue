@@ -248,7 +248,7 @@
           </el-col>
         </el-row>
         <el-form-item class="left-margin">
-          <el-button type="primary" plain v-on:click="$router.go(-1)">返回</el-button>
+          <el-button size="small" type="primary" plain v-on:click="$router.go(-1)">返回</el-button>
         </el-form-item>
       </el-form>
       <template v-if="!data">

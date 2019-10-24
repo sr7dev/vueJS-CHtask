@@ -60,7 +60,7 @@
             </el-input>
         </el-form-item>
         <el-form-item label="">
-            <el-button plain @click="downloadFile()">附件下载</el-button>
+            <el-button size="small" plain @click="downloadFile()">附件下载</el-button>
             <span class="item-value" v-if="!file">
                 <el-link @click="downloadFile()">
                     {{ fileName }}
@@ -71,7 +71,7 @@
             </span>
         </el-form-item>
         <el-form-item>
-            <el-button plain v-on:click="$router.go(-1)" type="success">
+            <el-button size="small" plain v-on:click="$router.go(-1)" type="success">
                 返回
             </el-button>
         </el-form-item>

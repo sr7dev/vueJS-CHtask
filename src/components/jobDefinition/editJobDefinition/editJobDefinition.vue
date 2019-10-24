@@ -67,10 +67,10 @@
             </div>
         </el-form-item>
         <el-form-item class="left-margin">
-            <el-button type="success" plain @click="onSubmit('editForm')">
+            <el-button size="small" type="success" plain @click="onSubmit('editForm')">
                 保存
             </el-button>
-            <el-button type="danger" plain v-on:click="$router.go(-1)">
+            <el-button size="small" type="danger" plain v-on:click="$router.go(-1)">
                 取消
             </el-button>
         </el-form-item>

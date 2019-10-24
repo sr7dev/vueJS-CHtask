@@ -8,7 +8,7 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button plain type="primary">返回</el-button>
+        <el-button size="small" plain type="primary">返回</el-button>
       </div>
       <el-container>
         <el-table

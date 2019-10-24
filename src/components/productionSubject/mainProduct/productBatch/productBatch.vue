@@ -10,13 +10,13 @@
     <div class="box">
       <div class="iptBox">
         <div class="filter-item">
-          <el-button
+          <el-button size="small"
             type="primary"
             v-if="loggedinUserType === 3 || loggedinUserType === 0"
             plain
             v-on:click="$router.push({path: `/productionSubject/mainProduct/productBatch/${productId}/create`})"
           >添加</el-button>
-          <el-button type="primary" plain @click="$router.go(-1)">返回</el-button>
+          <el-button size="small" type="primary" plain @click="$router.go(-1)">返回</el-button>
         </div>
       </div>
       <el-dialog :visible.sync="confirm_dialogVisible" width="30%" modal>
@@ -24,8 +24,8 @@
           <i class="el-icon-warning">&nbsp;继续？请再次检查</i>
         </span>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
-          <el-button type="success" @click="deleteSelectedRow()" plain>确认</el-button>
+          <el-button size="small" @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
+          <el-button size="small" type="success" @click="deleteSelectedRow()" plain>确认</el-button>
         </span>
       </el-dialog>
       <el-dialog :visible.sync="show_TaskDialog" width="30%" modal>
@@ -67,7 +67,7 @@
           <el-row>
             <el-col :span="5">&nbsp;</el-col>
             <el-col :span="10">
-              <el-button
+              <el-button size="small"
                 type="warning"
                 plain
                 @click="chooseFile_Live()"
@@ -111,14 +111,14 @@
           <el-row>
             <el-col :span="20" class="text-right">
               <el-form-item class="flex-box w-100">
-                <el-button @click="show_TaskDialog = false" type="primary" plain>关闭</el-button>
-                <el-button
+                <el-button size="small" @click="show_TaskDialog = false" type="primary" plain>关闭</el-button>
+                <el-button size="small"
                   @click="showConfirmDialog(1)"
                   type="danger"
                   plain
                   v-if="!isHideDeleteButton"
                 >删除</el-button>
-                <el-button @click="onSubmitTask('ruleForm1')" type="success" plain>保存</el-button>
+                <el-button size="small" @click="onSubmitTask('ruleForm1')" type="success" plain>保存</el-button>
               </el-form-item>
             </el-col>
           </el-row>
@@ -163,7 +163,7 @@
           <el-row>
             <el-col :span="5">&nbsp;</el-col>
             <el-col :span="18" class="margin-bottom-30">
-              <el-button
+              <el-button size="small"
                 type="warning"
                 plain
                 @click="chooseFile_Report()"
@@ -198,8 +198,8 @@
           <el-row>
             <el-col :span="20" class="text-right">
               <el-form-item class="flex-box w-100">
-                <el-button @click="show_ReportDialog = false" type="primary" plain>关闭</el-button>
-                <el-button @click="onSubmitReport('ruleForm2')" type="success" plain>保存</el-button>
+                <el-button size="small" @click="show_ReportDialog = false" type="primary" plain>关闭</el-button>
+                <el-button size="small" @click="onSubmitReport('ruleForm2')" type="success" plain>保存</el-button>
               </el-form-item>
             </el-col>
           </el-row>
@@ -255,14 +255,14 @@
           <el-row>
             <el-col :span="20" class="text-right">
               <el-form-item class="flex-box w-100">
-                <el-button @click="show_PropertyDialog = false" type="primary" plain>关闭</el-button>
-                <el-button
+                <el-button size="small" @click="show_PropertyDialog = false" type="primary" plain>关闭</el-button>
+                <el-button size="small"
                   @click="showConfirmDialog(3)"
                   type="danger"
                   plain
                   v-if="!isHideDeleteButton"
                 >删除</el-button>
-                <el-button @click="onSubmitProperty('ruleForm3')" type="success" plain>保存</el-button>
+                <el-button size="small" @click="onSubmitProperty('ruleForm3')" type="success" plain>保存</el-button>
               </el-form-item>
             </el-col>
           </el-row>
@@ -309,7 +309,7 @@
           <el-row>
             <el-col :span="5">&nbsp;</el-col>
             <el-col :span="18" class="margin-bottom-30">
-              <el-button
+              <el-button size="small"
                 type="warning"
                 plain
                 @click="chooseFile_Sale()"
@@ -344,14 +344,14 @@
           <el-row>
             <el-col :span="20" class="text-right">
               <el-form-item class="flex-box w-100">
-                <el-button @click="show_SaleDialog = false" type="primary" plain>关闭</el-button>
-                <el-button
+                <el-button size="small" @click="show_SaleDialog = false" type="primary" plain>关闭</el-button>
+                <el-button size="small"
                   @click="showConfirmDialog(2)"
                   type="danger"
                   plain
                   v-if="!isHideDeleteButton"
                 >删除</el-button>
-                <el-button @click="onSubmitSale('ruleForm4')" type="success" plain>保存</el-button>
+                <el-button size="small" @click="onSubmitSale('ruleForm4')" type="success" plain>保存</el-button>
               </el-form-item>
             </el-col>
           </el-row>
@@ -419,27 +419,27 @@
           class-name="text-center"
         >
           <template slot-scope="{ row }">
-            <el-button
+            <el-button size="small"
               plain
               type="warning"
               class="margin-bottom-10"
               v-on:click="$router.push({path: `/productionSubject/mainProduct/productBatch/${productId}/edit/${row.id}`})"
             >修改</el-button>
-            <el-button
+            <el-button size="small"
               plain
               type="success"
               class="margin-bottom-10"
               @click="showDialog(row,'show_TaskDialog',true)"
             >作业</el-button>
-            <el-button
+            <el-button size="small"
               plain
               type="success"
               class="margin-bottom-10"
               @click="showDialog(row,'show_ReportDialog', true)"
               :disabled="row.taskData.length==0"
             >上传检测报告</el-button>
-            <el-button plain type="success" @click="showDialog(row,'show_PropertyDialog', true)">属性</el-button>
-            <el-button plain type="success" @click="showDialog(row,'show_SaleDialog', true)">销售</el-button>
+            <el-button size="small" plain type="success" @click="showDialog(row,'show_PropertyDialog', true)">属性</el-button>
+            <el-button size="small" plain type="success" @click="showDialog(row,'show_SaleDialog', true)">销售</el-button>
           </template>
         </el-table-column>
       </el-table>

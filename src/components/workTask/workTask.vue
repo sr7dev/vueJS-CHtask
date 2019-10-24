@@ -29,7 +29,7 @@
             ></el-date-picker>
           </el-col>
           <el-col :span="3">
-            <el-button
+            <el-button size="small"
               type="primary"
               v-on:click="$router.push(`/workTask/create`)"
               plain
@@ -55,7 +55,7 @@
           <el-table-column prop="releasePerson" label="发布者"></el-table-column>
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
-              <el-button
+              <el-button size="small"
                 type="warning"
                 plain
                 v-if="loggedinUserType === 2 || loggedinUserType === 0"
@@ -68,7 +68,7 @@
                   })
                 "
               >修改</el-button>
-              <el-button
+              <el-button size="small"
                 type="success"
                 plain
                 v-if="loggedinUserType === 1 || loggedinUserType === 0"
@@ -78,7 +78,7 @@
                   })
                 "
               >查看任务</el-button>
-              <el-button
+              <el-button size="small"
                 type="primary"
                 plain
                 v-if="loggedinUserType === 1 || loggedinUserType === 0"
