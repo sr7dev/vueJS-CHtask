@@ -292,8 +292,8 @@ export default {
       categoryAxis.renderer.labels.template.horizontalCenter = "right";
       let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
       valueAxis.min = 0;
-      valueAxis.max = 600;
-      valueAxis.renderer.minGridDistance = 2;
+      // valueAxis.max = 600;
+      // valueAxis.renderer.minGridDistance = 2;
       valueAxis.renderer.grid.template.disabled = true;
       valueAxis.renderer.labels.template.disabled = true;
 			
@@ -367,10 +367,10 @@ export default {
       let columnTemplate = series.columns.template;
       columnTemplate.strokeWidth = 2;
       columnTemplate.strokeOpacity = 1;
-      this.createGrid1(0, valueAxis);
-      this.createGrid1(200, valueAxis);
-      this.createGrid1(400, valueAxis);
-      this.createGrid1(600, valueAxis);
+      // this.createGrid1(0, valueAxis);
+      // this.createGrid1(200, valueAxis);
+      // this.createGrid1(400, valueAxis);
+      // this.createGrid1(600, valueAxis);
     },
     makeChartRightTop() {
 			let chart = am4core.create(this.$refs.chartdiv2, am4charts.PieChart);
@@ -436,8 +436,8 @@ export default {
       categoryAxis.renderer.labels.template.horizontalCenter = "right";
       let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
       valueAxis.min = 0;
-			valueAxis.max = 15000;
-      valueAxis.renderer.minGridDistance = 5;
+			// valueAxis.max = 15000;
+      // valueAxis.renderer.minGridDistance = 5;
       valueAxis.renderer.grid.template.disabled = true;
       valueAxis.renderer.labels.template.disabled = true;
 
@@ -466,10 +466,10 @@ export default {
       let columnTemplate = series.columns.template;
       columnTemplate.strokeWidth = 2;
       columnTemplate.strokeOpacity = 1;
-      this.createGrid(0, valueAxis);
-      this.createGrid(5000, valueAxis);
-      this.createGrid(10000, valueAxis);
-      this.createGrid(15000, valueAxis);
+      // this.createGrid(0, valueAxis);
+      // this.createGrid(5000, valueAxis);
+      // this.createGrid(10000, valueAxis);
+      // this.createGrid(15000, valueAxis);
 		},
     getPercent(cnt1, cnt2, type) {
       if (!cnt1 || !cnt2) return 0;
