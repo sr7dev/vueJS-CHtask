@@ -210,7 +210,6 @@ export default {
         .get("/api/product_production/name?productid=" + this.productId)
         .then(response => {
           this.ruleFormValue = response[0];
-          console.log(this.ruleFormValue);
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);

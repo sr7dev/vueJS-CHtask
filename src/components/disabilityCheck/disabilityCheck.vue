@@ -80,30 +80,37 @@
           </el-col>
           <el-col :span="6" class="flex-center">
             <el-button size="small" v-on:click="handleDownload" type="success" plain>导出表格</el-button>
-            <el-button size="small"
+            <el-button
+              size="small"
               v-if="typeof this.creditCode != 'undefined'"
               type="primary"
               plain
               v-on:click="$router.go(-1)"
             >返回</el-button>
-            <el-button size="small"
+            <el-button
+              size="small"
               v-else
               plain
               type="primary"
               v-on:click="$router.go(-1)"
               style="display: none;"
             >返回</el-button>
-            <span style="float: right" class="margin-left-20">总计{{ totalSize }}条检测</span>
+            <span style="float: right" class="margin-left-20">
+              总计
+              <b class="blue-colored">{{ total }}</b> 条检测
+            </span>
           </el-col>
           <el-col :span="8" class="flex-center justify-right" style="height:40px">
-            <el-button size="small"
+            <el-button
+              size="small"
               type="success"
               icon="el-icon-plus"
               v-if="isShowCheckbox != 0"
               plain
               @click="actionConfirm(1)"
             >添加到专项1</el-button>
-            <el-button size="small"
+            <el-button
+              size="small"
               type="danger"
               icon="el-icon-minus"
               v-if="isShowCheckbox != 0"
@@ -234,7 +241,6 @@ export default {
       confirm_dialogVisible: false,
       btnColor: "",
       action: "",
-      totalSize: "",
       companyData: [],
       filename: "农残检测"
     };

@@ -40,9 +40,14 @@
             </el-table-column>
             <el-table-column label="现信用评级">
               <template slot-scope="{ row }">
-                {{
-                getGrade(row.nowGrade)
-                }}
+                <el-rate
+                  :value="getGradeString(row.nowGrade)"
+                  :max="getGradeString(row.nowGrade)"
+                  :texts="['C级（失信）', 'B级（基本守信）', 'A级（守信）']"
+                  :colors="colors"
+                  disabled
+                  show-text
+                ></el-rate>
               </template>
             </el-table-column>
             <el-table-column prop="gradeTime" label="评级时间">
@@ -97,7 +102,8 @@ export default {
       nowGrade: "A",
       tableData: [],
       companyProduction: [],
-      loggedinUserType: null
+      loggedinUserType: null,
+      colors: { 1: "#f00", 2: "#F7BA2A", 3: "#0f0" }
     };
   },
   created() {
@@ -171,17 +177,22 @@ export default {
         return "";
       }
     },
-    getGrade(grade) {
+    getGradeString(grade) {
+      let strGrade = "";
       switch (grade) {
         case "A":
-          return "A级（守信）";
+          strGrade = 3;
+          break;
         case "B":
-          return "B级（基本守信）";
+          strGrade = 2;
+          break;
         case "C":
-          return "C级（失信）";
+          strGrade = 1;
+          break;
         default:
-          return "A级（守信）";
+          strGrade = 3;
       }
+      return strGrade;
     }
   }
 };
