@@ -44,7 +44,7 @@
         <div class="item-row">
           <div class="item">
             <div class="item-label">
-              <el-button type="warning" plain variant="outline-dark">下载附件</el-button>
+              <el-button size="small" type="warning" plain variant="outline-dark">下载附件</el-button>
             </div>
             <div class="item-value">{{ data.creditCode }}</div>
           </div>
@@ -52,10 +52,10 @@
         <div class="item-row">
           <div class="item">
             <div class="item-label">
-              <el-button type="success" plain @click="$router.go(-1)">同意</el-button>
+              <el-button size="small" type="success" plain @click="$router.go(-1)">同意</el-button>
             </div>
             <div class="item-value">
-              <el-button type="danger" plain @click="$router.go(-1)">拒绝</el-button>
+              <el-button size="small" type="danger" plain @click="$router.go(-1)">拒绝</el-button>
             </div>
           </div>
         </div>

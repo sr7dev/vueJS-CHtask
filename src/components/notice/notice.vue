@@ -8,8 +8,8 @@
     <div class="box">
       <div class="iptBox">通知公告</div>
       <div class="iptBox">
-        <el-button type="primary" v-on:click="$router.push({path: `/notice/create`})" plain>发布公告</el-button>
-        <el-button type="primary" plain>短信记录</el-button>
+        <el-button size="small" type="primary" v-on:click="$router.push({path: `/notice/create`})" plain>发布公告</el-button>
+        <el-button size="small" type="primary" plain>短信记录</el-button>
       </div>
 
       <el-container>
@@ -31,12 +31,12 @@
           </el-table-column>
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
-              <el-button
+              <el-button size="small"
                 type="success"
                 plain
                 v-on:click="$router.push({path: `/notice/view/${row.id}`})"
               >查看</el-button>
-              <el-button
+              <el-button size="small"
                 type="warning"
                 v-on:click="$router.push({path: `/notice/edit/${row.id}`})"
                 plain

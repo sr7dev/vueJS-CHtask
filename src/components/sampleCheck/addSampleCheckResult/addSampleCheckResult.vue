@@ -32,14 +32,14 @@
             <div class="item-label">
               <input type="file" id="file" style="display: none" ref="file"
                 v-on:change="handleFileUpload()"/>
-              <el-button plain @click="chooseFile()">添加附件</el-button>
+              <el-button size="small" plain @click="chooseFile()">添加附件</el-button>
             </div>
             <span class="item-value" style="width: 500px;">{{data.checkFiles}}</span>
           </div>
         </el-form-item>
         <el-form-item label="">
-            <el-button type="success" plain @click="onSubmit()">保存</el-button>
-            <el-button type="danger" plain @click="$router.go(-1)">取消</el-button>
+            <el-button size="small" type="success" plain @click="onSubmit()">保存</el-button>
+            <el-button size="small" type="danger" plain @click="$router.go(-1)">取消</el-button>
         </el-form-item>
       </el-form>
       <template v-if="!data">No matching data!</template>

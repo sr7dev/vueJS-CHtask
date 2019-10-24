@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator=" ">
-        <el-breadcrumb-item class="actived">红黑名单</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">绿色优质产品</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
@@ -17,11 +17,12 @@
           </el-select>
         </div>
         <el-container>
-          <el-table 
-            :data="tableData" 
-            style="width: 100%" 
+          <el-table
+            :data="tableData"
+            style="width: 100%"
             :row-class-name="rowIndex"
-            v-loading = "listLoading">
+            v-loading="listLoading"
+          >
             <el-table-column :formatter="order" label="序号" width="180"></el-table-column>
             <el-table-column label="企业名称" v-if="loggedinUserType===2">
               <template slot-scope="{ row }">
@@ -135,7 +136,7 @@ export default {
         this.nowGrade = this.status === 1 ? "A" : "C";
       }
       Request()
-      .get("/api/company_credit_grade/all", {
+        .get("/api/company_credit_grade/all", {
           approvalStatus: 2,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,

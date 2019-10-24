@@ -9,12 +9,12 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button
+        <el-button size="small"
           type="primary"
           @click="$router.push(`/productionGrade/create/${productId}`)"
           plain
         >添加</el-button>
-        <el-button type="primary" plain @click="$router.go(-1)">返回</el-button>
+        <el-button size="small" type="primary" plain @click="$router.go(-1)">返回</el-button>
       </div>
 
       <el-container>
@@ -30,12 +30,12 @@
           <el-table-column prop="yield" label="操作" class-name="text-center">
             <!-- <template slot-scope="scope"> -->
             <template slot-scope="{ row }">
-              <el-button
+              <el-button size="small"
                 @click="$router.push({path:`/productionGrade/edit/${row.id}`})"
                 plain
                 type="success"
               >修改</el-button>
-              <el-button @click="handleDelete(`${row.id}`)" plain type="danger">删除</el-button>
+              <el-button size="small" @click="handleDelete(`${row.id}`)" plain type="danger">删除</el-button>
             </template>
           </el-table-column>
         </el-table>

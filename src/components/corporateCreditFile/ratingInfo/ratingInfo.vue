@@ -2,17 +2,13 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }"
-          >行政处罚信息</el-breadcrumb-item
-        >
+        <el-breadcrumb-item :to="{ path: '/' }">行政处罚信息</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
       <div class="iptBox">
         <div class="select_label">{{ companyName }}</div>
-        <el-button type="primary" v-on:click="$router.go(-1)" plain
-          >返回</el-button
-        >
+        <el-button size="small" type="primary" v-on:click="$router.go(-1)" plain>返回</el-button>
       </div>
 
       <el-container>
@@ -24,20 +20,18 @@
           :row-class-name="rowIndex"
           highlight-current-row
         >
-          <el-table-column
-            :formatter="order"
-            label="序号"
-            width="70"
-          ></el-table-column>
+          <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
           <el-table-column prop="gradeTime" label="评级时间">
-            <template slot-scope="{ row }">{{
+            <template slot-scope="{ row }">
+              {{
               row.gradeTime | formatDate
-            }}</template>
+              }}
+            </template>
           </el-table-column>
           <el-table-column prop="creditAvailableStart" label="评级有效期">
             <template slot-scope="{ row }">
               {{ row.creditAvailableStart | formatDate }}至{{
-                row.creditAvailableEnd | formatDate
+              row.creditAvailableEnd | formatDate
               }}
             </template>
           </el-table-column>
@@ -45,9 +39,16 @@
             <template>{{ companyName }}</template>
           </el-table-column>
           <el-table-column label="评级">
-            <template slot-scope="{ row }">{{
-              getGradeString(row.nowGrade)
-            }}</template>
+            <template slot-scope="{ row }">
+              <el-rate
+                :value="getGradeString(row.nowGrade)"
+                :max="getGradeString(row.nowGrade)"
+                :texts="['C级（失信）', 'B级（基本守信）', 'A级（守信）']"
+                :colors="colors"
+                disabled
+                show-text
+              ></el-rate>
+            </template>
           </el-table-column>
           <!-- <el-table-column prop="punishTypeF" label="评级有效期" width="150"></el-table-column> -->
           <el-table-column prop="gradeUnit" label="评级单位"></el-table-column>
@@ -82,7 +83,8 @@ export default {
       total: 0,
       tableData: [],
       creditCode: null,
-      companyName: ""
+      companyName: "",
+      colors: { 1: "#f00", 2: "#F7BA2A", 3: "#0f0" }
     };
   },
   created() {
@@ -131,16 +133,16 @@ export default {
       let strGrade = "";
       switch (grade) {
         case "A":
-          strGrade = "A级（守信）";
+          strGrade = 3;
           break;
         case "B":
-          strGrade = "B级（基本守信）";
+          strGrade = 2;
           break;
         case "C":
-          strGrade = "C级（失信）";
+          strGrade = 1;
           break;
         default:
-          strGrade = "A级（守信）";
+          strGrade = 3;
       }
       return strGrade;
     },

@@ -305,7 +305,7 @@
         </el-row>
 
         <el-form-item>
-          <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
+          <el-button size="small" type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
       </el-form>
     </div>

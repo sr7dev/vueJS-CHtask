@@ -60,7 +60,7 @@
                 ref="file"
                 v-on:change="handleFileUpload()"
               />
-              <el-button type="warning" plain @click="chooseFile()">添加附件</el-button>
+              <el-button size="small" type="warning" plain @click="chooseFile()">添加附件</el-button>
             </div>
             <div class="item-value" v-if="!file">
               <el-link @click="downloadFile()">
@@ -75,10 +75,10 @@
         <div class="item-row">
           <div class="item">
             <div class="item-label">
-              <el-button type="success" plain @click="saveChanges()">保存修改</el-button>
+              <el-button size="small" type="success" plain @click="saveChanges()">保存修改</el-button>
             </div>
             <div class="item-value">
-              <el-button type="danger" plain @click="$router.go(-1)">返回</el-button>
+              <el-button size="small" type="danger" plain @click="$router.go(-1)">返回</el-button>
             </div>
           </div>
         </div>

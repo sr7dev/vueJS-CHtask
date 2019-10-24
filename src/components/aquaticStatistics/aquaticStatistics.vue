@@ -7,8 +7,8 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button type="primary" plain v-on:click="handleImportExcel()">添加</el-button>
-        <el-button type="success" plain v-on:click="handleDownloadSample()">例文档下载</el-button>
+        <el-button size="small" type="primary" plain v-on:click="handleImportExcel()">添加</el-button>
+        <el-button size="small" type="success" plain v-on:click="handleDownloadSample()">例文档下载</el-button>
         <input
           type="file"
           id="file"

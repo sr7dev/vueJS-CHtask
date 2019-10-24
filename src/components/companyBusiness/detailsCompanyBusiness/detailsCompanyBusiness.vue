@@ -58,7 +58,7 @@
             <div class="content">地址：{{ data.companyAddress }}</div>
           </el-col>
         </el-row>
-        <el-button plain v-on:click="$router.go(-1)" type="success"
+        <el-button size="small" plain v-on:click="$router.go(-1)" type="success"
           >返回</el-button
         >
       </el-form>

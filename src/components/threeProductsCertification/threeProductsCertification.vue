@@ -7,7 +7,7 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button
+        <el-button size="small"
           type="primary"
           v-on:click="$router.push(`/threeProductsCertification/create`)"
           plain
@@ -35,8 +35,8 @@
           <i class="el-icon-warning">&nbsp;你确定你要删除?</i>
         </span>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false" type="primary" plain>取消</el-button>
-          <el-button @click="handleDelete" type="success" plain>确认</el-button>
+          <el-button size="small" @click="dialogVisible = false" type="primary" plain>取消</el-button>
+          <el-button size="small" @click="handleDelete" type="success" plain>确认</el-button>
         </span>
       </el-dialog>
       <el-container>
@@ -75,7 +75,7 @@
           <el-table-column prop="certificationNo" label="证书编号"></el-table-column>
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
-              <el-button
+              <el-button size="small"
                 type="success"
                 plain
                 v-on:click="
@@ -88,7 +88,7 @@
                   })
                 "
               >查看</el-button>
-              <el-button type="danger" v-on:click="confirmDelete(`${row.id}`)" plain>删除</el-button>
+              <el-button size="small" type="danger" v-on:click="confirmDelete(`${row.id}`)" plain>删除</el-button>
             </template>
           </el-table-column>
         </el-table>
