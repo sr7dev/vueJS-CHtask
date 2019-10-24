@@ -15,12 +15,12 @@
 						</div>
 						<div style="position: absolute;top: 55px;left: 38%;" v-loading="totalLoading">
 							合计: 
-							<span style="margin-left:20px; color: darkblue">A级 </span>
-							<span style="font-weight:bold; font-style:italic; color: darkblue; font-size:25px; line-height:0.9em; vertical-align:bottom">{{totalA}}</span> 
-							<span style="margin-left:20px; color: blue">B级 </span>
-							<span style="font-weight:bold; font-style:italic; color: darkblue; font-size:25px; line-height:0.9em; vertical-align:bottom">{{totalB}}</span>
-							<span style="margin-left:20px; color: blue">C级 </span>
-							<span style="font-weight:bold; font-style:italic; color: darkblue; font-size:25px; line-height:0.9em; vertical-align:bottom">{{totalC}}</span>
+							<span style="margin-left:20px;">A级 </span>
+							<span style="font-weight:bold; font-style:italic; font-size:25px; line-height:0.9em; vertical-align:bottom">{{totalA}}</span> 
+							<span style="margin-left:20px;">B级 </span>
+							<span style="font-weight:bold; font-style:italic; font-size:25px; line-height:0.9em; vertical-align:bottom">{{totalB}}</span>
+							<span style="margin-left:20px;">C级 </span>
+							<span style="font-weight:bold; font-style:italic; font-size:25px; line-height:0.9em; vertical-align:bottom">{{totalC}}</span>
 						</div>
         </el-col>
         <el-col :span="10">
@@ -129,6 +129,11 @@ export default {
       var range = valueAxis.axisRanges.create();
       range.value = value;
       range.label.text = this.formatNumber(value);
+		},
+		createGrid1(value, valueAxis) {
+      var range = valueAxis.axisRanges.create();
+      range.value = value;
+      range.label.text = value;//this.formatNumber(value);
     },
     formatNumber(value) {
       return value / 1000 + "K";
@@ -344,6 +349,7 @@ export default {
 
 			// Add cursor
 			chart.cursor = new am4charts.XYCursor();
+			console.log(chart.cursor)
 			chart.legend = new am4charts.Legend();
 			chart.legend.position = "top";
 			chart.legend.contentAlign = "left";
@@ -361,10 +367,10 @@ export default {
       let columnTemplate = series.columns.template;
       columnTemplate.strokeWidth = 2;
       columnTemplate.strokeOpacity = 1;
-      this.createGrid(0, valueAxis);
-      this.createGrid(200, valueAxis);
-      this.createGrid(400, valueAxis);
-      this.createGrid(600, valueAxis);
+      this.createGrid1(0, valueAxis);
+      this.createGrid1(200, valueAxis);
+      this.createGrid1(400, valueAxis);
+      this.createGrid1(600, valueAxis);
     },
     makeChartRightTop() {
 			let chart = am4core.create(this.$refs.chartdiv2, am4charts.PieChart);
