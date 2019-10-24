@@ -28,7 +28,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="属性可选项" prop="propertyOptions">
-              <el-input v-model="ruleFormValue.propertyOptions" :readonly="true" ></el-input>
+              <el-input v-model="ruleFormValue.propertyOptions" disabled="true" ></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -78,13 +78,6 @@ export default {
       },
       rules: {
         propertyName: [
-          {
-            required: true,
-            message: "请插入",
-            trigger: "change"
-          }
-        ],
-        propertyOptions: [
           {
             required: true,
             message: "请插入",
