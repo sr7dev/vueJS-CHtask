@@ -458,6 +458,7 @@ export default {
               gradeUnitId: "0",
               nowGrade: "B",              
               originalGrade: "B",
+              townId:this.form.townId,
               updateTime: current,
               updateUserId: Auth().user().attrs.id,
               uploadFileName: "",

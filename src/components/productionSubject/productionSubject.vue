@@ -106,92 +106,118 @@
           <el-button
             type="primary"
             plain
+            size="small"
             @click="gotoAddRegulatoryObject()"
             class="margin-left-20"
           >添加监管对象</el-button>
         </div>
         <div class="allCompany" v-if="loggedinUserType !== 3">共计{{ total }}家企业</div>
       </div>
-      <el-table 
-        :data="tableData" 
-        style="width: 100%" 
+      <el-table
+        :data="tableData"
+        style="width: 100%"
         :row-class-name="rowIndex"
         v-loading="listLoading"
       >
         <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
-        <el-table-column prop="companyName" label="企业名称" width="100"></el-table-column>
+        <el-table-column prop="companyName" label="企业名称" width="150"></el-table-column>
         <el-table-column prop="chargePerson" label="法人代表" width="150"></el-table-column>
         <el-table-column prop="companyAddress" label="企业地址"></el-table-column>
         <el-table-column
           prop="qualityStandardId"
           label="三品认证"
+          class-name="text-center normal-line-height"
           width="120"
           v-if="loggedinUserType !== 3"
         >
           <template slot-scope="{ row }">
-            <!-- <el-button v-if="row.quality_standard==0" disabled>否</el-button> -->
-            <el-button
-              plain
-              type="success"
+            <el-image
+              class="button-img small-size"
+              :src="Button2"
               @click="$router.push({path: `/productionSubject/threeProduct`,query: {creditCode:row.creditCode}})"
-            >认证信息</el-button>
+            ></el-image>
+            <p
+              class="padding-left-10 button-p"
+              @click="$router.push({path: `/productionSubject/threeProduct`,query: {creditCode:row.creditCode}})"
+            >认证信息</p>
           </template>
         </el-table-column>
         <el-table-column
           prop="doSupervision"
           label="监管记录"
-          width="120"
+          class-name="text-center normal-line-height"
+          width="90"
           v-if="loggedinUserType !== 3"
         >
           <template slot-scope="{ row }">
-            <el-button
-              plain
-              type="warning"
+            <el-image
+              class="button-img"
+              :src="Button1"
               v-on:click="
                 $router.push({
                   path: `/regulatoryRecord/`,
                   query: { companyId: row.companyId }
                 })"
-            >是</el-button>
+            ></el-image>
           </template>
         </el-table-column>
-        <el-table-column prop="address" label="农药检测" width="120" v-if="loggedinUserType !== 3">
+        <el-table-column
+          prop="address"
+          label="农药检测"
+          size="mini"
+          class-name="text-center normal-line-height"
+          width="90"
+          v-if="loggedinUserType !== 3"
+        >
           <template slot-scope="{ row }">
-            <el-button
-              plain
-              type="primary"
+            <el-image
+              class="button-img"
+              :src="Button1"
               v-on:click="$router.push({path: `/disabilityCheck/`,query: { creditCode: row.creditCode }})"
-            >是</el-button>
+            ></el-image>
           </template>
         </el-table-column>
-        <el-table-column prop="contactPerson" label="联系人" width="120"></el-table-column>
+        <el-table-column prop="contactPerson" label="联系人" width="90"></el-table-column>
         <el-table-column prop="contactMobile" label="联系方式" width="120"></el-table-column>
-        <el-table-column prop="address" label="所在乡镇" width="120">
+        <el-table-column prop="address" label="所在乡镇" width="90">
           <template slot-scope="{ row }">
             {{
             getTownship(row.townId)
             }}
           </template>
         </el-table-column>
-        <el-table-column prop="nowGrade" label="企业诚信" width>
+        <el-table-column prop="nowGrade" label="企业诚信" width="150">
           <template slot-scope="{ row }">
-            <span class="rating-action" v-on:click="gotoCreditRatingPage(row)">{{ row.nowGrade }}</span>
+            <span class="rating-action" v-on:click="gotoCreditRatingPage(row)">
+              <el-rate
+                :value="row.nowGrade"
+                :max="row.nowGrade"
+                :texts="['C:失信', 'B:基本守信', 'A:守信']"
+                :colors="colors"
+                disabled
+                show-text
+              ></el-rate>
+            </span>
           </template>
         </el-table-column>
-        <el-table-column prop="operations" label="操作" width="450" class-name="text-center">
+        <el-table-column prop="operations" label="操作" width="300" class-name="text-center">
           <template slot-scope="{ row }">
             <el-button
               v-on:click="gotoEditProductPage(row)"
               type="warning"
-              plain
+              size="small"
               v-if="loggedinUserType !== 1"
             >修改</el-button>
-            <el-button v-on:click="gotoProductPage(row)" type="success" plain>产品</el-button>
-            <el-button v-on:click="gotoWarehousingEnvironmentPage(row)" type="primary" plain>仓储环境</el-button>
+            <el-button v-on:click="gotoProductPage(row)" type="primary" size="small">产品</el-button>
+            <el-button
+              v-on:click="gotoWarehousingEnvironmentPage(row)"
+              size="small"
+              type="success"
+            >仓储环境</el-button>
             <el-button
               v-on:click="gotoDetailsProductPage(row)"
               type="info"
-              plain
+              size="small"
               v-if="loggedinUserType !== 3"
             >详情</el-button>
           </template>
@@ -214,11 +240,15 @@
 import Pagination from "@/components/common/pagination";
 import Request from "@/services/api/request";
 import Auth from "@/services/authentication/auth.js";
+import Button1 from "@/assets/images/button1.png";
+import Button2 from "@/assets/images/button2.png";
 export default {
   name: "productionSubject",
   components: { Pagination },
   data() {
     return {
+      Button1: Button1,
+      Button2: Button2,
       loggedinUserType: null,
       townId: 0,
       companyType: 0,
@@ -235,7 +265,10 @@ export default {
       listLoading: true,
       townList: [],
       tableData: [],
-      srcData: []
+      srcData: [],
+      colors: { 1: "#f00", 2: "#F7BA2A", 3: "#0f0" },
+      //{ 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
+      value2: 2
     };
   },
   created() {
@@ -290,51 +323,36 @@ export default {
         nowGrade = "";
       } else {
         nowGrade = gradeArray.pop().nowGrade;
-      } 
+      }
       return nowGrade;
     },
     filterList() {
-      this.tableData = this.srcData;
-      if (this.agriculturalClassification > 0) {
-        this.tableData = this.tableData.filter(
-          it => it.agriculturalClassification == this.agriculturalClassification
-        );
-      }
+      this.getList();
+      // if (this.agriculturalClassification > 0) {
+      //   this.tableData = this.tableData.filter(
+      //     it => it.agriculturalClassification == this.agriculturalClassification
+      //   );
+      // }
     },
     getList() {
-      this.listLoading = true;
+      this.tableData = [];
+      this.listLoading = true;       
       Request()
-        .get("/api/company_production/all", {
+        .get("/api/company_production/getAllList", {
+          agriculturalClassification: this.agriculturalClassification,
           companyType: this.companyType,
-          pageNo: this.page.pageIndex - 1,
-          pageSize: this.page.pageSize,
           townId: this.townId
         })
         .then(response => {
-          let dt = response.data;          
-          this.total = response.total;
+          console.log(response);
+          
+          this.tableData = response;
+          this.total = this.tableData.length;
 
-          dt.forEach(e => {
+          this.tableData.forEach(e => {
             e.nowGrade = this.getGradeString(e.grade);
           });
-
-          this.tableData = dt;
-          this.srcData = dt;
           
-          // this.tableData = [];
-          // this.srcData = [];
-          // this.total = response.total;
-
-          // let indexItem = 0;
-          // dt.map(item => {
-          //   let gradeArrayName = "credit_grade_data_" + indexItem;
-          //   this.getNowGrade(response[gradeArrayName]).then(res => {
-          //     item.nowGrade = this.getGradeString(res);
-          //     this.tableData.push(item);
-          //     this.srcData.push(item);
-          //   });
-          //   indexItem++;
-          // });
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
@@ -343,7 +361,6 @@ export default {
           console.error(error);
 
           this.tableData = [];
-          this.srcData = [];
           this.total = 0;
           setTimeout(() => {
             this.listLoading = false;
@@ -354,16 +371,16 @@ export default {
       let strGrade = "";
       switch (grade) {
         case "A":
-          strGrade = "A:守信";
+          strGrade = 3;
           break;
         case "B":
-          strGrade = "B:基本守信";
+          strGrade = 2;
           break;
         case "C":
-          strGrade = "C:失信";
+          strGrade = 1;
           break;
         default:
-          strGrade = "A:守信";
+          strGrade = 3;
       }
       return strGrade;
     },

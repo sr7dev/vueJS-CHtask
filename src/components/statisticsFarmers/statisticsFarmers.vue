@@ -189,6 +189,7 @@ export default {
             rowOkSum = rowOkSum + parseInt(tmpData[index][2]);
           }
           this.summaryData = [];
+
           this.summaryData.push({
             name: "合计",
             rowTotalSum: rowTotalSum,

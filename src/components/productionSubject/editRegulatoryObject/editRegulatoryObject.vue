@@ -452,7 +452,6 @@ export default {
               updateUserId: user.attrs.id
             })
             .then(res => {
-              console.log(res);
               this.$router.push({ path: "/productionSubject" });
             });
           } 

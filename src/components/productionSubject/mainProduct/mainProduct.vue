@@ -2,7 +2,8 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item>监管对象</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="loggedinUserType === 3">生产主体</el-breadcrumb-item>
+        <el-breadcrumb-item v-else>监管对象</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">主营产品</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -12,7 +13,7 @@
           <el-button
             type="primary"
             v-if="loggedinUserType === 3 || loggedinUserType === 0"
-            @click="$router.push(`/companyBusiness/productBusiness/create/${id}`)"
+            @click="$router.push(`/productionSubject/mainProduct/create/${id}`)"
             plain
           >添加</el-button>
           <el-button type="primary" plain @click="$router.go(-1)">返回</el-button>
@@ -73,12 +74,12 @@
               style="margin-bottom: 5px;"
             >库存动态</el-button>
             <el-button
-              v-on:click="showProcessDefinition(row)"
+              v-on:click="goToEditMainProduct(row)"
               type="success"
               plain
               style="margin-bottom: 5px;"
               v-if="loggedinUserType === 3 || loggedinUserType === 0"
-            >作业定义</el-button>
+            >修改</el-button>
             <el-button
               v-on:click="showProductProperty(row)"
               type="success"
@@ -87,6 +88,13 @@
               class="no-margin-left"
               v-if="loggedinUserType === 3 || loggedinUserType === 0"
             >属性管理</el-button>
+            <el-button
+              v-on:click="showProcessDefinition(row)"
+              type="success"
+              plain
+              style="margin-bottom: 5px;"
+              v-if="loggedinUserType === 3 || loggedinUserType === 0"
+            >作业定义</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -158,6 +166,11 @@ export default {
       this.$router.push({
         path: `/productionSubject/mainProduct/productProperty/${this.$route.params.id}`,
         query: { productId: row.productId }
+      });
+    },
+    goToEditMainProduct(row) {
+      this.$router.push({
+        path: `/productionSubject/mainProduct/edit/${row.productId}`
       });
     },
     showProductVariety(row) {

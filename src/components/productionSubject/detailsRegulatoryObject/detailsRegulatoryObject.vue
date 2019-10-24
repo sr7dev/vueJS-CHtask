@@ -391,7 +391,7 @@ export default {
     getCompanyInfo(id) {
       Request()
         .get("/api/company_production/get/" + id)
-        .then(response => {
+        .then(response => {          
           this.form = response;
           this.form.productInfo = JSON.parse(response.productInfo);
         })

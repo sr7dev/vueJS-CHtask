@@ -2,8 +2,8 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item>经营主体</el-breadcrumb-item>
-        <el-breadcrumb-item>经营产品</el-breadcrumb-item>
+        <el-breadcrumb-item>生产主体</el-breadcrumb-item>
+        <el-breadcrumb-item>主营产品</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">添加产品</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -57,11 +57,19 @@
           <el-col :span="12">
             <el-form-item label="产品介绍" prop="productProfile">
               <el-input
+                class="no-margin-bottom"
                 v-model="ruleFormValue.productProfile"
-                ato-complete="off"
+                auto-complete="off"
                 type="textarea"
                 :rows="10"
               ></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label prop="doOrganic">
+              <el-checkbox v-model="ruleFormValue.doOrganic" true-label="1" false-label="0">有机</el-checkbox>
             </el-form-item>
           </el-col>
         </el-row>
@@ -79,7 +87,7 @@
 import Request from "@/services/api/request.js";
 import Auth from "@/services/authentication/auth";
 export default {
-  name: "addProductBusiness",
+  name: "addMainProduct",
   data() {
     return {
       listLoading: true,
@@ -91,7 +99,8 @@ export default {
         productArea: "",
         variety: "",
         specification: "",
-        productProfile: ""
+        productProfile: "",
+        doOrganic: "0"
       },
       rules: {
         productName: [
@@ -158,28 +167,27 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.listLoading = true;
-          var formData = new FormData();
-          formData.append("atunitprice", this.ruleFormValue.atunitprice);
-          formData.append("companyId", this.companyId);
-          formData.append("createTime", new Date());
-          formData.append("createUserId", Auth().user().attrs.id);
-          // formData.append("file", "");
-          formData.append("grade", this.ruleFormValue.grade);
-          formData.append("id", 0);
-          formData.append("productArea", this.ruleFormValue.productArea);
-          formData.append("productName", this.ruleFormValue.productName);
-          formData.append("productProfile", this.ruleFormValue.productProfile);
-          formData.append("specification", this.ruleFormValue.specification);
-          formData.append("updateTime", new Date());
-          formData.append("updateUserId", Auth().user().attrs.id);
-          formData.append("variety", this.ruleFormValue.variety);
-
           Request()
-            .post("/api/product_business/create", formData)
+            .post("/api/product_production/create", {
+              atunitprice: this.ruleFormValue.atunitprice,
+              companyId: this.companyId,
+              createTime: new Date(),
+              createUserId: Auth().user().attrs.id,
+              doOrganic: this.ruleFormValue.doOrganic,
+              grade: this.ruleFormValue.grade,
+              productArea: this.ruleFormValue.productArea,
+              productId: 0,
+              productName: this.ruleFormValue.productName,
+              productProfile: this.ruleFormValue.productProfile,
+              specification: this.ruleFormValue.specification,
+              updateTime: new Date(),
+              updateUserId: Auth().user().attrs.id,
+              variety: this.ruleFormValue.variety
+            })
             .then(response => {
               setTimeout(() => {
                 this.listLoading = false;
-              }, 1 * 1000);
+              }, 0.5 * 1000);
               this.$router.go(-1);
             })
             .catch(error => {});
