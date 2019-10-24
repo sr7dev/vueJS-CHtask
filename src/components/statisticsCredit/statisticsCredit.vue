@@ -7,10 +7,29 @@
     </div>
     <el-row class="w-100">
         <el-col :span="14">
-            <div class="disability-chart chart-container maring-right-10" ref="chartdiv1" v-loading="listLoading"></div>
+            <div 
+							class="disability-chart chart-container maring-right-10" 
+							ref="chartdiv1" 
+							v-loading="listLoading"
+						>
+						</div>
+						<div style="position: absolute;top: 55px;left: 38%;" v-loading="totalLoading">
+							合计: 
+							<span style="margin-left:20px; color: darkblue">A级 </span>
+							<span style="font-weight:bold; font-style:italic; color: darkblue; font-size:25px; line-height:0.9em; vertical-align:bottom">{{totalA}}</span> 
+							<span style="margin-left:20px; color: blue">B级 </span>
+							<span style="font-weight:bold; font-style:italic; color: darkblue; font-size:25px; line-height:0.9em; vertical-align:bottom">{{totalB}}</span>
+							<span style="margin-left:20px; color: blue">C级 </span>
+							<span style="font-weight:bold; font-style:italic; color: darkblue; font-size:25px; line-height:0.9em; vertical-align:bottom">{{totalC}}</span>
+						</div>
         </el-col>
         <el-col :span="10">
-            <div class="disability-chart chart-container margin-left-10" ref="chartdiv2" v-loading="listLoading"></div>
+            <div 
+							class="disability-chart chart-container margin-left-10" 
+							ref="chartdiv2" 
+							v-loading="listLoading"
+							style="padding-left:15px"
+						></div>
         </el-col>
     </el-row>
     <el-row class="w-100">
@@ -19,15 +38,15 @@
         </el-col>
         <el-col :span="10">
             <div class="disability-chart chart-container margin-left-10" ref="chartdiv4" v-loading="listLoading">
-							<el-row style="font-size: 20px; font-weight: bold; color: #000000; margin:10px">红黑名单</el-row>
-							<el-row style="margin:30px 10px 30px 10px; border-bottom: solid 1px;">
+							<el-row style="font-size: 20px; font-weight: bold; color: #000000; margin-left:15px; margin-top:10px">红黑名单</el-row>
+							<el-row style="margin:30px 10px 30px 15px; border-bottom: solid 1px;">
 								<div style="font-size:15px">红名单</div>
 								<div style="margin:20px 0 20px 20px; line-height:3em">
 									<span style="margin-right:40px;" v-for="item in redData" :key="item.id" :value="item.id">{{ item }}
 									</span>
 								</div>
 							</el-row>
-							<el-row style="margin:30px 0 30px 10px">
+							<el-row style="margin:30px 0 30px 15px">
 								<div style="font-size:15px">黑名单</div>
 								<div style="margin:20px 0 20px 20px; line-height:3em">
 									<span style="margin-right:40px;" v-for="item in blackData" :key="item.id" :value="item.id">{{ item }}
@@ -62,7 +81,8 @@ export default {
         pageIndex: 1,
         pageSize: 50
       },
-      listLoading: false,
+			listLoading: false,
+			totalLoading: true,
       toYear: null,
       toMonth: null,
       // maxCnt: null,
@@ -74,7 +94,10 @@ export default {
 			redData: [],
 			blackData: [],
 			township: [],
-			companyProduction: []
+			companyProduction: [],
+			totalA: 0,
+			totalB: 0,
+			totalC: 0,
     };
   },
   mounted() {
@@ -120,6 +143,9 @@ export default {
             this.listLoading = false;
 					}, 0.5 * 1000);
 					this.makeChartLeftTop();
+					setTimeout(() => {
+            this.totalLoading = false;
+					}, 0.5 * 1000);
         })
         .catch(error => {
           console.log(error);
@@ -241,18 +267,20 @@ export default {
 					"B级": item[2],
 					"C级": item[3]
 				});
+				this.totalA += item[1];
+				this.totalB += item[2];
+				this.totalC += item[3];
 			});
 			chart.data = data;
 			chart.responsive.enabled = true;
 			
-			// Add legend
       let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
       let title = chart.titles.create();
       title.text = "诚信等级企业数量汇总";
       title.fontSize = 20;
       title.marginBottom = 30;
       title.fontWeight = "bold";
-      title.textAlign = "left";
+      title.align = "left";
 			categoryAxis.dataFields.category = "townId";
       categoryAxis.renderer.grid.template.location = 0;
       categoryAxis.renderer.minGridDistance = 20;
@@ -270,22 +298,66 @@ export default {
 			series.dataFields.categoryX = "townId";
 			series.name = "A级";
 			series.tooltipText = "{name}: [bold]{valueY}[/]";
+			series.stroke = am4core.color("red").lighten(-0.5);
+			var gradient = new am4core.LinearGradient();
+			gradient.addColor(am4core.color("red"));
+			gradient.addColor(am4core.color("white"));
+			gradient.rotation = 90;
+			series.fill = gradient;
+			let valueLabel = series.bullets.push(new am4charts.LabelBullet());
+      valueLabel.label.text = "{A级}";
+      valueLabel.label.rotation = -45;
+      valueLabel.label.dy = -10;
+			
 			let series2 = chart.series.push(new am4charts.ColumnSeries());
       series2.dataFields.valueY = "B级";
 			series2.dataFields.categoryX = "townId";
 			series2.name = "B级";
 			series2.tooltipText = "{name}: [bold]{valueY}[/]";
+			series2.stroke = am4core.color("yellow").lighten(-0.5);
+			var gradient2 = new am4core.LinearGradient();
+			gradient2.addColor(am4core.color("yellow"));
+			gradient2.addColor(am4core.color("white"));
+			gradient2.rotation = 90;
+			series2.fill = gradient2;
+			let valueLabel2 = series2.bullets.push(new am4charts.LabelBullet());
+      valueLabel2.label.text = "{B级}";
+      valueLabel2.label.rotation = -45;
+      valueLabel2.label.dy = -10;
+			
 			let series3 = chart.series.push(new am4charts.ColumnSeries());
       series3.dataFields.valueY = "C级";
 			series3.dataFields.categoryX = "townId";
 			series3.name = "C级";
 			series3.tooltipText = "{name}: [bold]{valueY}[/]";
+			series3.stroke = am4core.color("green").lighten(-0.5);
+			var gradient3 = new am4core.LinearGradient();
+			gradient3.addColor(am4core.color("green"));
+			gradient3.addColor(am4core.color("white"));
+			gradient3.rotation = 90;
+			series3.fill = gradient3;
+			let valueLabel3 = series3.bullets.push(new am4charts.LabelBullet());
+      valueLabel3.label.text = "{C级}";
+      valueLabel3.label.rotation = -45;
+      valueLabel3.label.dy = -10;
+
 
 			// Add cursor
 			chart.cursor = new am4charts.XYCursor();
 			chart.legend = new am4charts.Legend();
+			chart.legend.position = "top";
+			chart.legend.contentAlign = "left";
+			chart.legend.marginTop = -20;
+			var legendTitle = chart.legend.createChild(am4core.Label);
+			legendTitle.text="诚信等级:";
+			legendTitle.fontSize = 15;
+			legendTitle.marginRight = 10;
+			legendTitle.marginLeft = 40;
+			legendTitle.paddingTop = 15;
 			
-      // valueLabel.label.dy = -10;
+
+			console.log(chart)
+
       let columnTemplate = series.columns.template;
       columnTemplate.strokeWidth = 2;
       columnTemplate.strokeOpacity = 1;
@@ -312,7 +384,8 @@ export default {
       title.fontSize = 20;
       title.marginBottom = -20;
       title.marginTop = 10;
-      title.fontWeight = "bold";
+			title.fontWeight = "bold";
+			title.align = "left";
       // pieSeries.radius = 100;
       pieSeries.dataFields.value = "cnt";
       pieSeries.dataFields.category = "townId";
@@ -323,7 +396,7 @@ export default {
 
 			// Add cursor
 			chart.cursor = new am4charts.XYCursor();
-			chart.legend = new am4charts.Legend();
+			// chart.legend = new am4charts.Legend()
 
       // This creates initial animation
       pieSeries.hiddenState.properties.opacity = 1;
@@ -349,7 +422,7 @@ export default {
       title.fontSize = 20;
       title.marginBottom = 30;
       title.fontWeight = "bold";
-      title.textAlign = "left";
+      title.align = "left";
 			categoryAxis.dataFields.category = "townId";
 			categoryAxis.renderer.labels.template.rotation = -45;
       categoryAxis.renderer.grid.template.location = 0;
@@ -368,13 +441,20 @@ export default {
 			series.dataFields.categoryX = "townId";
 			series.name = "cnt";
 			series.tooltipText = "{name}: [bold]{valueY}[/]";
+			series.stroke = am4core.color("lightblue").lighten(-0.5);
+			var gradient = new am4core.LinearGradient();
+			gradient.addColor(am4core.color("lightblue"));
+			gradient.addColor(am4core.color("blue"));
+			gradient.rotation = 90;
+			series.fill = gradient;
+
 			let valueLabel = series.bullets.push(new am4charts.LabelBullet());
       valueLabel.label.text = "{cnt}";
       valueLabel.label.rotation = -45;
       valueLabel.label.dy = -10;
 			// Add cursor
 			chart.cursor = new am4charts.XYCursor();
-			chart.legend = new am4charts.Legend();
+			// chart.legend = new am4charts.Legend();
 			
       // valueLabel.label.dy = -10;
       let columnTemplate = series.columns.template;
