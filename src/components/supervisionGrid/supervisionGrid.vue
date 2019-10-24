@@ -60,13 +60,13 @@
           </el-table-column>
           <el-table-column label="操作" class-name="text-center" width="100">
             <template slot-scope="{ row }">
-              <el-button
+              <el-button size="small"
                 type="warning"
                 plain
                 class="no-margin-left margin-bottom-10 w-100"
                 disabled
               >网格图</el-button>
-              <el-button
+              <el-button size="small"
                 type="primary"
                 plain
                 class="no-margin-left w-100"

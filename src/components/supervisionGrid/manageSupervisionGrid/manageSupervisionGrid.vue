@@ -8,7 +8,7 @@
     </div>
     <div class="box no-padding-bottom">
       <div class="container no-padding-bottom">
-        <el-button type="primary" plain v-on:click="$router.go(-1)">返回</el-button>
+        <el-button size="small" type="primary" plain v-on:click="$router.go(-1)">返回</el-button>
       </div>
     </div>
     <el-dialog :visible.sync="openDialog" width="60%">
@@ -79,9 +79,9 @@
           <el-col :span="15"></el-col>
         </el-row>
         <el-form-item class="left-margin flex-box w-100">
-          <el-button @click="addFormRow()" type="primary" plain>添加</el-button>
-          <el-button @click="deleteSelectedRows()" type="danger" plain>删除</el-button>
-          <el-button
+          <el-button size="small" @click="addFormRow()" type="primary" plain>添加</el-button>
+          <el-button size="small" @click="deleteSelectedRows()" type="danger" plain>删除</el-button>
+          <el-button size="small"
             @click="onSubmit('dynamicValidateForm')"
             type="success"
             plain
@@ -96,8 +96,8 @@
         <i class="el-icon-warning">&nbsp;继续？请再次检查</i>
       </span>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
-        <el-button type="success" @click="updateSelectedRows()" plain>确认</el-button>
+        <el-button size="small" @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
+        <el-button size="small" type="success" @click="updateSelectedRows()" plain>确认</el-button>
       </span>
     </el-dialog>
     <div class="box">
@@ -106,7 +106,7 @@
           <div class="container">
             <div class="iptBox margin-bottom-10">
               <p>{{supervisorType[i-1]}}</p>
-              <el-button
+              <el-button size="small"
                 type="success"
                 plain
                 style="margin-left:auto"

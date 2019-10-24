@@ -7,7 +7,7 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button type="primary" v-on:click="$router.push(`/jobDefinition/create`)" plain>添加</el-button>
+        <el-button size="small" type="primary" v-on:click="$router.push(`/jobDefinition/create`)" plain>添加</el-button>
       </div>
 
       <el-container>
@@ -25,7 +25,7 @@
           </el-table-column>
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
-              <el-button
+              <el-button size="small"
                 type="success"
                 plain
                 v-on:click="
@@ -37,7 +37,7 @@
                                         }
                                     })"
               >修改</el-button>
-              <el-button type="danger" v-on:click="handleDelete(`${row.id}`)" plain>删除</el-button>
+              <el-button size="small" type="danger" v-on:click="handleDelete(`${row.id}`)" plain>删除</el-button>
             </template>
           </el-table-column>
         </el-table>

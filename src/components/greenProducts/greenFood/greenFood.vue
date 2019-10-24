@@ -6,6 +6,7 @@
         <el-table
           :data="tableData"
           style="width: 100%"
+          border
           :row-class-name="rowIndex"
           :span-method="mainSpanMethod"
           v-loading="listLoading"
@@ -213,42 +214,42 @@ export default {
     baseQuality() {
       let total = 0;
       this.objectData.forEach(obj => {
-        obj.productionInfo.forEach(pro =>{
-          pro.productUnitInfo.forEach( product =>{
+        obj.productionInfo.forEach(pro => {
+          pro.productUnitInfo.forEach(product => {
             total += product.baseArea;
-          })
-        })
+          });
+        });
       });
-      
+
       return total;
     },
 
     productionQuality() {
       let total = 0;
       this.objectData.forEach(obj => {
-        obj.productionInfo.forEach(pro =>{
-          pro.productUnitInfo.forEach( product =>{
+        obj.productionInfo.forEach(pro => {
+          pro.productUnitInfo.forEach(product => {
             total += product.production;
-          })
-        })
+          });
+        });
       });
-      
+
       return total;
     },
 
     cetifiyQuality() {
       let total = 0;
       this.objectData.forEach(obj => {
-        total += obj.certified;         
+        total += obj.certified;
       });
-      
+
       return total;
     },
 
     declareQuality() {
       let total = 0;
       this.objectData.forEach(obj => {
-        total += obj.declared;         
+        total += obj.declared;
       });
       return total;
     },
@@ -323,22 +324,20 @@ export default {
         }
       } else {
         if (rowIndex == this.tableData.length - 1) {
-          if  (columnIndex == 1){
-            return{
-              rowspan: 1,
-              colspan: 2,
-            };
-          }          
-          else if (columnIndex == 2) {
+          if (columnIndex == 1) {
             return {
               rowspan: 1,
-              colspan: 3,
+              colspan: 2
             };
-          }
-          else if ( columnIndex == 0 || columnIndex == 3 ||  columnIndex == 4){
+          } else if (columnIndex == 2) {
+            return {
+              rowspan: 1,
+              colspan: 3
+            };
+          } else if (columnIndex == 0 || columnIndex == 3 || columnIndex == 4) {
             return {
               rowspan: 0,
-              colspan: 0,
+              colspan: 0
             };
           }
         }
@@ -368,10 +367,10 @@ export default {
 }
 
 .el-table thead {
-    color: #333 !important; 
+  color: #333 !important;
 }
 
-.el-table--border td{
-  border-right: 1px solid #EBEEF5 !important;
-} 
+.el-table--border td {
+  border-right: 1px solid #ebeef5 !important;
+}
 </style>

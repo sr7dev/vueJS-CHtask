@@ -16,7 +16,7 @@
           <el-option v-for="(item, index) in appStatus" :key="item" :label="item" :value="index"></el-option>
         </el-select>
         <div class="select_label">
-          <el-button disabled type="primary" plain>同步数据</el-button>
+          <el-button size="small" disabled type="primary" plain>同步数据</el-button>
         </div>
       </div>
 
@@ -39,16 +39,26 @@
           </el-table-column>
           <el-table-column label="原信用评级">
             <template slot-scope="{ row }">
-              {{
-              getGradeString(row.originalGrade)
-              }}
+              <el-rate
+                :value="getGradeString(row.originalGrade)"
+                :max="getGradeString(row.originalGrade)"
+                :texts="['C级（失信）', 'B级（基本守信）', 'A级（守信）']"
+                :colors="colors"
+                disabled
+                show-text
+              ></el-rate>
             </template>
           </el-table-column>
           <el-table-column label="现信用评级">
             <template slot-scope="{ row }">
-              {{
-              getGradeString(row.nowGrade)
-              }}
+              <el-rate
+                :value="getGradeString(row.nowGrade)"
+                :max="getGradeString(row.nowGrade)"
+                :texts="['C级（失信）', 'B级（基本守信）', 'A级（守信）']"
+                :colors="colors"
+                disabled
+                show-text
+              ></el-rate>
             </template>
           </el-table-column>
           <el-table-column prop="gradeTime" label="评级时间">
@@ -76,14 +86,14 @@
           </el-table-column>
           <el-table-column label="操作" v-if="loggedinUserType !== 3" class-name="text-center">
             <template slot-scope="{ row }" v-if="loggedinUserType === 1 || loggedinUserType === 0">
-              <el-button
+              <el-button size="small"
                 v-on:click="$router.push(`/creditRating/${row.creditGradeId}`)"
                 plain
                 type="success"
               >查看</el-button>
             </template>
             <template slot-scope="{ row }">
-              <el-button
+              <el-button size="small"
                 plain
                 type="success"
                 v-if="loggedinUserType === 2 || loggedinUserType === 0"
@@ -132,7 +142,8 @@ export default {
       listLoading: true,
       total: 100,
       tableData: [],
-      loggedinUserType: null
+      loggedinUserType: null,
+      colors: { 1: "#f00", 2: "#F7BA2A", 3: "#0f0" }
     };
   },
   created() {
@@ -201,16 +212,16 @@ export default {
       let strGrade = "";
       switch (grade) {
         case "A":
-          strGrade = "A级（守信）";
+          strGrade = 3;
           break;
         case "B":
-          strGrade = "B级（基本守信）";
+          strGrade = 2;
           break;
         case "C":
-          strGrade = "C级（失信）";
+          strGrade = 1;
           break;
         default:
-          strGrade = "A级（守信）";
+          strGrade = 3;
       }
       return strGrade;
     },

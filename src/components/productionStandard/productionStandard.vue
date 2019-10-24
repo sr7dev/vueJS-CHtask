@@ -8,25 +8,25 @@
     <div class="box">
       <div class="iptBox">
         <el-row class="w-100">
-           <!-- <el-col :span="3">
-            <el-button
+          <!-- <el-col :span="3">
+            <el-button size="small"
               type="primary"
               v-on:click="$router.push(`/productionStandard/create`)"
               plain
               v-if="loggedinUserType === 1 || loggedinUserType === 0"
             >添加生产标准</el-button>
-          </el-col>  -->
-          <el-col :span="12">
+          </el-col>-->
+          <el-col :span="7">
             <div class="select_label no-margin-left">标准名称</div>
-            <el-input v-model="productName" class="w-80"></el-input>                                          
+            <el-input v-model="productName" class="w-80"></el-input>
           </el-col>
-          <el-button type="primary" @click="getList()" plain>搜索</el-button>
+          <el-button size="small" type="primary" @click="getList()" plain>搜索</el-button>
           <!-- <el-col :span="12">
             <div class="select_label">类别</div>
             <el-select v-model="category" @change="getList()">
               <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item.id"></el-option>
             </el-select>
-          </el-col> -->
+          </el-col>-->
         </el-row>
       </div>
 
@@ -42,7 +42,7 @@
           <el-table-column prop="productName" label="标准"></el-table-column>
           <!-- <el-table-column prop="category" label="类别">
             <template slot-scope="{ row }">{{ filterCategory(row.category) }}</template>
-          </el-table-column> -->
+          </el-table-column>-->
           <el-table-column prop="releaseTime" label="发布时间" class-name="text-center">
             <template slot-scope="{ row }">{{ row.releaseTime | formatDate }}</template>
           </el-table-column>
@@ -50,6 +50,7 @@
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
               <el-button
+                size="small"
                 type="primary"
                 plain
                 v-if="loggedinUserType !== 1"
@@ -60,12 +61,13 @@
                 "
               >查看</el-button>
               <el-button
+                size="small"
                 type="success"
                 plain
                 v-if="row.productionStandardProfiles !== '' && row.productionStandardProfiles !== undefined"
                 v-on:click="downloadStandardProfiles(row.productionStandardProfiles)"
               >下载</el-button>
-              <!-- <el-button
+              <!-- <el-button size="small"
                 type="warning"
                 plain
                 v-if="loggedinUserType === 1 || loggedinUserType === 0"
@@ -74,7 +76,7 @@
                     path: `/productionStandard/edit/`+ row.id
                   })
                 "
-              >修改</el-button> -->
+              >修改</el-button>-->
             </template>
           </el-table-column>
         </el-table>
@@ -150,7 +152,6 @@ export default {
     },
 
     downloadStandardProfiles(profile) {
-      
       axios({
         url: Urls.DOWNLOAD_URL() + profile,
         method: "GET",
@@ -159,10 +160,7 @@ export default {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute(
-          "download",
-          profile.replace("/uploads/", "")
-        ); //or any other extension
+        link.setAttribute("download", profile.replace("/uploads/", "")); //or any other extension
         document.body.appendChild(link);
         link.click();
         link.remove();

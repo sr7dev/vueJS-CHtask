@@ -20,9 +20,9 @@
             <el-input v-model="monthVal" class="w-80 margin-left-10" type="number"></el-input>
           </el-col>
           <el-col :span="8" class="margin-left-20">
-            <el-button type="primary" plain class="margin-left-20">开始统计</el-button>
-            <el-button type="success" plain class="margin-left-20">排序 (升)</el-button>
-            <el-button type="success" plain class="margin-left-20">排序 (降)</el-button>
+            <el-button size="small" type="primary" plain class="margin-left-20">开始统计</el-button>
+            <el-button size="small" type="success" plain class="margin-left-20">排序 (升)</el-button>
+            <el-button size="small" type="success" plain class="margin-left-20">排序 (降)</el-button>
           </el-col>
         </el-row>
       </div>

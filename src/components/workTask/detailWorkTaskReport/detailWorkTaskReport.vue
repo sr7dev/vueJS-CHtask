@@ -24,7 +24,7 @@
       </el-row>
       <el-row class="w-100 flex-justify-center margin-bottom-30" v-if="workData.workTaskProfiles">
         <el-col :span="12">
-          <el-button type="warning" plain @click="downloadFile()">附件下载</el-button>
+          <el-button size="small" type="warning" plain @click="downloadFile()">附件下载</el-button>
           <span
             class="margin-left-20"
             v-if="workData.workTaskProfiles"
@@ -61,7 +61,7 @@
           layout="prev, pager, next, sizes, jumper"
         />
       </div>
-      <el-button type="primary" plain v-on:click="$router.go(-1)">取消</el-button>
+      <el-button size="small" type="primary" plain v-on:click="$router.go(-1)">取消</el-button>
     </div>
   </div>
 </template>

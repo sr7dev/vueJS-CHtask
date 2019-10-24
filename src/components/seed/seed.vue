@@ -7,7 +7,7 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button
+        <el-button size="small"
           type="primary"
           plain
           v-on:click="$router.push(`/seed/upload`)"
@@ -28,7 +28,7 @@
           </el-table-column>
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
-              <el-button
+              <el-button size="small"
                 type="success"
                 plain
                 v-on:click="

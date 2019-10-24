@@ -9,7 +9,7 @@
         </div>
         <div class="box">
             <div class="iptBox">
-                <el-button
+                <el-button size="small"
                     type="primary"
                     v-on:click="$router.push(`/internalMessage/add`)"
                     plain

@@ -8,7 +8,7 @@
     <div class="box">
       <div class="iptBox">
         <div class="select_label">{{ getCompanyName() }}</div>
-        <el-button type="primary" v-on:click="$router.go(-1)" plain
+        <el-button size="small" type="primary" v-on:click="$router.go(-1)" plain
           >返回</el-button
         >
       </div>

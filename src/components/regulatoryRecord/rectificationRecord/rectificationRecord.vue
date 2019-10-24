@@ -16,7 +16,7 @@
           <i class="el-icon-warning">&nbsp;请选择图片 !!!</i>
         </span>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false" type="primary" plain>取消</el-button>
+          <el-button size="small" @click="dialogVisible = false" type="primary" plain>取消</el-button>
         </span>
       </el-dialog>
       <el-form v-if="!listLoading && !isNanData" v-loading="pageLoading">
@@ -229,8 +229,8 @@
         </el-row>
 
         <el-form-item class="left-margin">
-          <el-button type="success" plain v-on:click="onSubmit">保存</el-button>
-          <el-button type="danger" v-on:click="$router.go(-1)" plain>取消</el-button>
+          <el-button size="small" type="success" plain v-on:click="onSubmit">保存</el-button>
+          <el-button size="small" type="danger" v-on:click="$router.go(-1)" plain>取消</el-button>
         </el-form-item>
       </el-form>
       <el-form
@@ -409,8 +409,8 @@
           </el-col>
         </el-row>
         <el-form-item class="left-margin">
-          <el-button type="success" plain v-on:click="onSubmit('ruleForm')">保存</el-button>
-          <el-button type="danger" v-on:click="$router.go(-1)" plain>取消</el-button>
+          <el-button size="small" type="success" plain v-on:click="onSubmit('ruleForm')">保存</el-button>
+          <el-button size="small" type="danger" v-on:click="$router.go(-1)" plain>取消</el-button>
         </el-form-item>
       </el-form>
     </div>

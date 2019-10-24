@@ -10,7 +10,7 @@
     <div class="box">
       <div class="iptBox">
         <div class="filter-item">
-          <el-button
+          <el-button size="small"
             type="primary"
             @click="
                     $router.push({
@@ -19,7 +19,7 @@
             v-if="loggedinUserType === 3 || loggedinUserType === 0"
             plain
           >添加</el-button>
-          <el-button type="primary" plain @click="$router.go(-1)">返回</el-button>
+          <el-button size="small" type="primary" plain @click="$router.go(-1)">返回</el-button>
         </div>
       </div>
       <div class="iptBox">
@@ -58,7 +58,7 @@
           class-name="text-center"
         >
           <template slot-scope="{ row }">
-            <el-button
+            <el-button size="small"
               type="success"
               plain
               v-on:click="
@@ -70,7 +70,7 @@
                   })
                 "
             >修改</el-button>
-            <el-button type="danger" v-on:click="handleDelete(`${row.id}`)" plain>删除</el-button>
+            <el-button size="small" type="danger" v-on:click="handleDelete(`${row.id}`)" plain>删除</el-button>
           </template>
         </el-table-column>
       </el-table>

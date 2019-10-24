@@ -10,15 +10,15 @@
       <div class="iptBox">
         <el-row class="w-100">
           <el-col :span="3">
-            <el-button type="primary" v-on:click="openDialog=true" plain>上传文件</el-button>
-            <el-button type="warning" v-on:click="$router.go(-1)" plain>返回</el-button>
+            <el-button size="small" type="primary" v-on:click="openDialog=true" plain>上传文件</el-button>
+            <el-button size="small" type="warning" v-on:click="$router.go(-1)" plain>返回</el-button>
           </el-col>
           <el-col :span="5" class="margin-left-20 flex-center">
             <div>搜索</div>
             <el-input v-model="uploadCompany" class="w-80 margin-left-10"></el-input>
           </el-col>
           <el-col :span="2">
-            <el-button type="success" v-on:click="getList()" plain>搜索</el-button>
+            <el-button size="small" type="success" v-on:click="getList()" plain>搜索</el-button>
           </el-col>
         </el-row>
       </div>
@@ -27,8 +27,8 @@
           <i class="el-icon-warning">&nbsp;你确定你要删除?</i>
         </span>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false" type="primary" plain>取消</el-button>
-          <el-button @click="handleDelete" type="success" plain>确认</el-button>
+          <el-button size="small" @click="dialogVisible = false" type="primary" plain>取消</el-button>
+          <el-button size="small" @click="handleDelete" type="success" plain>确认</el-button>
         </span>
       </el-dialog>
       <el-dialog :visible.sync="openDialog" width="60%">
@@ -59,7 +59,7 @@
                     ref="file"
                     v-on:change="handleFileUpload()"
                   />
-                  <el-button type="warning" plain @click="chooseFile()">添加附件</el-button>
+                  <el-button size="small" type="warning" plain @click="chooseFile()">添加附件</el-button>
                 </div>
                 <div
                   class="item-value"
@@ -75,8 +75,8 @@
             </el-col>
           </el-row>
           <el-form-item class="left-margin">
-            <el-button @click="onSubmit('ruleForm')" type="primary" plain>添加</el-button>
-            <el-button @click="openDialog = false" type="warning" plain>取消</el-button>
+            <el-button size="small" @click="onSubmit('ruleForm')" type="primary" plain>添加</el-button>
+            <el-button size="small" @click="openDialog = false" type="warning" plain>取消</el-button>
           </el-form-item>
         </el-form>
       </el-dialog>
@@ -98,8 +98,8 @@
           <el-table-column prop="uploadCompany" label="上传单位"></el-table-column>
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
-              <el-button type="success" plain @click="downloadFile(row.uploadProfile)">下载</el-button>
-              <el-button type="danger" plain @click="confirmDelete(row.id)">删除</el-button>
+              <el-button size="small" type="success" plain @click="downloadFile(row.uploadProfile)">下载</el-button>
+              <el-button size="small" type="danger" plain @click="confirmDelete(row.id)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>

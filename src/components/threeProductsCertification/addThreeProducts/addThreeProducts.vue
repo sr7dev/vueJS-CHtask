@@ -124,7 +124,7 @@
                   ref="file"
                   v-on:change="handleFileUpload()"
                 />
-                <el-button type="warning" plain @click="chooseFile()">添加附件</el-button>
+                <el-button size="small" type="warning" plain @click="chooseFile()">添加附件</el-button>
                 <span v-if="file" class="margin-left-10">({{ file.name }})</span>
                 <span v-else class="margin-left-10">请选择需要上传的文件...</span>
               </el-form-item>
@@ -132,8 +132,8 @@
           </el-col>
         </el-row>
         <el-form-item>
-          <el-button type="success" @click="onSubmit('ruleForm')" plain>保存</el-button>
-          <el-button type="danger" @click="goBack" plain>取消</el-button>
+          <el-button size="small" type="success" @click="onSubmit('ruleForm')" plain>保存</el-button>
+          <el-button size="small" type="danger" @click="goBack" plain>取消</el-button>
         </el-form-item>
       </el-form>
     </div>

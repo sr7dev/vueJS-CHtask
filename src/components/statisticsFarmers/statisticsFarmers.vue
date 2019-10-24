@@ -22,7 +22,7 @@
                 <el-input v-model="toMonth" class="w-50 margin-left-10" size="small" type="number"></el-input>
               </el-col>
               <el-col :span="3" class="margin-left-20">
-                <el-button type="primary" plain size="medium" @click="getData()">开始统计</el-button>
+                <el-button size="small" type="primary" plain @click="getData()">开始统计</el-button>
               </el-col>
             </el-row>
             <el-container>

@@ -63,8 +63,8 @@
         </el-row>
 
         <el-form-item>
-          <el-button type="success" @click="onSubmit('dataForm')" plain>保存</el-button>
-          <el-button type="danger" @click="goBack" plain>取消</el-button>
+          <el-button size="small" type="success" @click="onSubmit('dataForm')" plain>保存</el-button>
+          <el-button size="small" type="danger" @click="goBack" plain>取消</el-button>
         </el-form-item>
       </el-form>
     </div>

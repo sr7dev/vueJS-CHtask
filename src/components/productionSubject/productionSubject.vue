@@ -103,10 +103,9 @@
           </el-select>
         </div>
         <div class="filter-item" v-if="loggedinUserType === 2 || loggedinUserType === 0">
-          <el-button
+          <el-button size="small"
             type="primary"
             plain
-            size="small"
             @click="gotoAddRegulatoryObject()"
             class="margin-left-20"
           >添加监管对象</el-button>
@@ -202,22 +201,16 @@
         </el-table-column>
         <el-table-column prop="operations" label="操作" width="300" class-name="text-center">
           <template slot-scope="{ row }">
-            <el-button
+            <el-button size="small"
               v-on:click="gotoEditProductPage(row)"
               type="warning"
-              size="small"
               v-if="loggedinUserType !== 1"
             >修改</el-button>
-            <el-button v-on:click="gotoProductPage(row)" type="primary" size="small">产品</el-button>
-            <el-button
-              v-on:click="gotoWarehousingEnvironmentPage(row)"
-              size="small"
-              type="success"
-            >仓储环境</el-button>
-            <el-button
+            <el-button size="small" v-on:click="gotoProductPage(row)" type="primary">产品</el-button>
+            <el-button size="small" v-on:click="gotoWarehousingEnvironmentPage(row)" type="success">仓储环境</el-button>
+            <el-button size="small"
               v-on:click="gotoDetailsProductPage(row)"
               type="info"
-              size="small"
               v-if="loggedinUserType !== 3"
             >详情</el-button>
           </template>
@@ -267,7 +260,6 @@ export default {
       tableData: [],
       srcData: [],
       colors: { 1: "#f00", 2: "#F7BA2A", 3: "#0f0" },
-      //{ 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
       value2: 2
     };
   },
@@ -336,7 +328,7 @@ export default {
     },
     getList() {
       this.tableData = [];
-      this.listLoading = true;       
+      this.listLoading = true;
       Request()
         .get("/api/company_production/getAllList", {
           agriculturalClassification: this.agriculturalClassification,
@@ -344,15 +336,13 @@ export default {
           townId: this.townId
         })
         .then(response => {
-          console.log(response);
-          
           this.tableData = response;
           this.total = this.tableData.length;
 
           this.tableData.forEach(e => {
             e.nowGrade = this.getGradeString(e.grade);
           });
-          
+
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
