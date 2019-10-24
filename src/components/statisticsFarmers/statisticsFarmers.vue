@@ -120,8 +120,8 @@ import Auth from "@/services/authentication/auth.js";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-import chartData from "./chartData1";
-import chartData1 from "./chartData2";
+// import chartData from "./chartData1";
+// import chartData1 from "./chartData2";
 am4core.useTheme(am4themes_animated);
 
 export default {
@@ -255,8 +255,8 @@ export default {
       let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
       // valueAxis.title.text = "镇农产品质量安全董监管站(管站)";
       valueAxis.min = 0;
-      valueAxis.max = 15000;
-      valueAxis.renderer.minGridDistance = 5;
+      // valueAxis.max = 15000;
+      // valueAxis.renderer.minGridDistance = 5;
       valueAxis.renderer.grid.template.disabled = true;
       valueAxis.renderer.labels.template.disabled = true;
       // Create series
@@ -273,10 +273,10 @@ export default {
       let columnTemplate = series.columns.template;
       columnTemplate.strokeWidth = 2;
       columnTemplate.strokeOpacity = 1;
-      this.createGrid(0, valueAxis);
-      this.createGrid(5000, valueAxis);
-      this.createGrid(10000, valueAxis);
-      this.createGrid(15000, valueAxis);
+      // this.createGrid(0, valueAxis);
+      // this.createGrid(5000, valueAxis);
+      // this.createGrid(10000, valueAxis);
+      // this.createGrid(15000, valueAxis);
     },
     makePieChart() {
       let chart = am4core.create(this.$refs.chartdiv1, am4charts.PieChart);
@@ -330,7 +330,7 @@ export default {
       valueAxis.renderer.line.opacity = 0;
       valueAxis.renderer.ticks.template.disabled = true;
       valueAxis.min = 0;
-      valueAxis.max = 1700;
+      // valueAxis.max = 1700;
 
       let lineSeries = chart.series.push(new am4charts.LineSeries());
       lineSeries.dataFields.categoryX = "month";
