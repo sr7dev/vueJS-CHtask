@@ -40,14 +40,14 @@
             <div class="disability-chart chart-container margin-left-10" ref="chartdiv4" v-loading="listLoading">
 							<el-row style="font-size: 20px; font-weight: bold; color: #000000; margin-left:15px; margin-top:10px">红黑名单</el-row>
 							<el-row style="margin:30px 10px 30px 15px; border-bottom: solid 1px;">
-								<div style="font-size:15px">红名单</div>
+								<div style="font-size:15px;font-weight: bold;">红名单</div>
 								<div style="margin:20px 0 20px 20px; line-height:3em">
 									<span style="margin-right:40px;" v-for="item in redData" :key="item.id" :value="item.id">{{ item }}
 									</span>
 								</div>
 							</el-row>
 							<el-row style="margin:30px 0 30px 15px">
-								<div style="font-size:15px">黑名单</div>
+								<div style="font-size:15px;font-weight: bold;">黑名单</div>
 								<div style="margin:20px 0 20px 20px; line-height:3em">
 									<span style="margin-right:40px;" v-for="item in blackData" :key="item.id" :value="item.id">{{ item }}
 									</span>
