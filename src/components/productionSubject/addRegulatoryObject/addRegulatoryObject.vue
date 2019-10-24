@@ -307,8 +307,8 @@
         </el-row>
 
         <el-form-item>
-          <el-button type="success" plain @click="onSubmit">保存</el-button>
-          <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
+          <el-button size="small" type="success" plain @click="onSubmit">保存</el-button>
+          <el-button size="small" type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -458,6 +458,7 @@ export default {
               gradeUnitId: "0",
               nowGrade: "B",              
               originalGrade: "B",
+              townId:this.form.townId,
               updateTime: current,
               updateUserId: Auth().user().attrs.id,
               uploadFileName: "",

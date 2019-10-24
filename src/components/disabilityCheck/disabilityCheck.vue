@@ -79,14 +79,14 @@
             ></el-date-picker>
           </el-col>
           <el-col :span="6" class="flex-center">
-            <el-button v-on:click="handleDownload" type="success" plain>导出表格</el-button>
-            <el-button
+            <el-button size="small" v-on:click="handleDownload" type="success" plain>导出表格</el-button>
+            <el-button size="small"
               v-if="typeof this.creditCode != 'undefined'"
               type="primary"
               plain
               v-on:click="$router.go(-1)"
             >返回</el-button>
-            <el-button
+            <el-button size="small"
               v-else
               plain
               type="primary"
@@ -96,14 +96,14 @@
             <span style="float: right" class="margin-left-20">总计{{ totalSize }}条检测</span>
           </el-col>
           <el-col :span="8" class="flex-center justify-right" style="height:40px">
-            <el-button
+            <el-button size="small"
               type="success"
               icon="el-icon-plus"
               v-if="isShowCheckbox != 0"
               plain
               @click="actionConfirm(1)"
             >添加到专项1</el-button>
-            <el-button
+            <el-button size="small"
               type="danger"
               icon="el-icon-minus"
               v-if="isShowCheckbox != 0"
@@ -124,7 +124,7 @@
             <i class="el-icon-warning">&nbsp;请选择 !!!</i>
           </span>
           <span slot="footer" class="dialog-footer">
-            <el-button @click="alert_dialogVisible = false" type="primary" plain>取消</el-button>
+            <el-button size="small" @click="alert_dialogVisible = false" type="primary" plain>取消</el-button>
           </span>
         </el-dialog>
         <el-dialog :visible.sync="confirm_dialogVisible" width="30%" modal>
@@ -132,8 +132,8 @@
             <i class="el-icon-warning">&nbsp;继续？请再次检查</i>
           </span>
           <span slot="footer" class="dialog-footer">
-            <el-button @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
-            <el-button :type="btnColor" @click="updateSelectedRows()" plain>确认</el-button>
+            <el-button size="small" @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
+            <el-button size="small" :type="btnColor" @click="updateSelectedRows()" plain>确认</el-button>
           </span>
         </el-dialog>
       </div>

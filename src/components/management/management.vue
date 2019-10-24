@@ -40,10 +40,10 @@
           <el-table-column prop="yield" label="监管对象性质"></el-table-column>
           <el-table-column label="操作" class-name="text-center">
             <el-tooltip class="item" effect="dark" content="企业详情" placement="top">
-              <el-button icon="el-icon-search" circle plain type="success"></el-button>
+              <el-button size="small" icon="el-icon-search" circle plain type="success"></el-button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="经营产品" placement="top">
-              <el-button
+              <el-button size="small"
                 icon="el-icon-goods"
                 circle
                 @click="goBussinessProducts"

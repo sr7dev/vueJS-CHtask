@@ -305,7 +305,7 @@
         </el-row>
 
         <el-form-item>
-          <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
+          <el-button size="small" type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -391,7 +391,7 @@ export default {
     getCompanyInfo(id) {
       Request()
         .get("/api/company_production/get/" + id)
-        .then(response => {
+        .then(response => {          
           this.form = response;
           this.form.productInfo = JSON.parse(response.productInfo);
         })

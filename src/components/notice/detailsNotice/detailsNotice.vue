@@ -27,7 +27,7 @@
             <p style="word-wrap: break-word;line-height: 1.5em;">{{ formData.content }}</p>
         </el-form-item>
         <el-form-item label="" prop="file">
-            <el-button plain @click="downloadFile()">附件下载</el-button>
+            <el-button size="small" plain @click="downloadFile()">附件下载</el-button>
             <span class="item-value" v-if="!file_live_1">
                 <el-link @click="downloadFile()">
                     {{ fileName }}
@@ -38,7 +38,7 @@
             </span>
         </el-form-item>
         <el-form-item>
-            <el-button plain v-on:click="$router.go(-1)" type="success">
+            <el-button size="small" plain v-on:click="$router.go(-1)" type="success">
                 返回
             </el-button>
         </el-form-item>

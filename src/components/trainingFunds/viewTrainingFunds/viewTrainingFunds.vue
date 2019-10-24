@@ -56,7 +56,7 @@
               ref="file"
               v-on:change="handleFileUpload()"
             />
-            <el-button type="warning" plain @click="downloadFile()">下载附件</el-button>
+            <el-button size="small" type="warning" plain @click="downloadFile()">下载附件</el-button>
           </span>
           <span v-if="!file">
             <el-link @click="downloadFile()">
@@ -68,25 +68,25 @@
           <span v-if="file">({{ fileName }})</span>
         </el-form-item>
         <el-form-item>
-          <el-button
+          <el-button size="small"
             plain
             v-on:click="$router.go(-1)"
             type="success"
             v-if="loggedinUserType === 1 || loggedinUserType === 0"
           >通过</el-button>
-          <el-button
+          <el-button size="small"
             plain
             v-on:click="$router.go(-1)"
             type="warning"
             v-if="loggedinUserType === 1 || loggedinUserType === 0"
           >拒绝</el-button>
-          <el-button
+          <el-button size="small"
             plain
             v-on:click="$router.go(-1)"
             type="primary"
             v-if="loggedinUserType === 1 || loggedinUserType === 0"
           >取消</el-button>
-          <el-button
+          <el-button size="small"
             plain
             v-on:click="$router.go(-1)"
             type="success"

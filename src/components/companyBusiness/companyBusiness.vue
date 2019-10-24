@@ -55,8 +55,8 @@
           </el-table-column>
           <el-table-column prop="operations" label="操作" width="250" class-name="text-center">
             <template slot-scope="{ row }">
-              <el-button v-on:click="gotoDetailPage(row)" plain type="primary">企业详情</el-button>
-              <el-button v-on:click="gotoProductBusinessPage(row)" plain type="success">经营产品</el-button>
+              <el-button size="small" v-on:click="gotoDetailPage(row)" plain type="primary">企业详情</el-button>
+              <el-button size="small" v-on:click="gotoProductBusinessPage(row)" plain type="success">经营产品</el-button>
             </template>
           </el-table-column>
         </el-table>

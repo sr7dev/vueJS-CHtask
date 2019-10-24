@@ -43,7 +43,7 @@
               ref="file"
               v-on:change="handleFileUpload()"
             />
-            <el-button type="warning" plain>下载附件</el-button>
+            <el-button size="small" type="warning" plain>下载附件</el-button>
           </div>
           <div class="item-value" v-if="!file">
             <el-link @click="downloadFile()">
@@ -58,7 +58,7 @@
       <div class="item-row">
           <div class="item">
             <div class="item-value">
-              <el-button plain @click="$router.go(-1)" type="primary"
+              <el-button size="small" plain @click="$router.go(-1)" type="primary"
                 >返回</el-button
               >
             </div>

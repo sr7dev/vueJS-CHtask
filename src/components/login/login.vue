@@ -57,7 +57,7 @@
         <el-form-item class="margin-bottom-20" prop="isRemember">
           <el-checkbox v-model="loginForm.isRemember">记住我</el-checkbox>
         </el-form-item>
-        <el-button :loading="loading" type="primary" @click.native.prevent="handleLogin">登录</el-button>
+        <el-button size="small" :loading="loading" type="primary" @click.native.prevent="handleLogin">登录</el-button>
         <!-- <el-link>忘记密码?</el-link> -->
       </el-form>
     </div>

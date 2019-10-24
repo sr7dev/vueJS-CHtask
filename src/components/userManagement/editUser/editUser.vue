@@ -92,8 +92,8 @@
           </el-col>
         </el-row>
         <el-form-item>
-          <el-button type="success" @click="onSubmit('ruleForm')" plain>保存</el-button>
-          <el-button type="primary" @click="goBack" plain>取消</el-button>
+          <el-button size="small" type="success" @click="onSubmit('ruleForm')" plain>保存</el-button>
+          <el-button size="small" type="primary" @click="goBack" plain>取消</el-button>
         </el-form-item>
       </el-form>
     </div>

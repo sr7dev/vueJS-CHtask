@@ -2,20 +2,21 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item>监管对象</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="loggedinUserType === 3">生产主体</el-breadcrumb-item>
+        <el-breadcrumb-item v-else>监管对象</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">主营产品</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
       <div class="iptBox">
         <div class="filter-item">
-          <el-button
+          <el-button size="small"
             type="primary"
             v-if="loggedinUserType === 3 || loggedinUserType === 0"
-            @click="$router.push(`/companyBusiness/productBusiness/create/${id}`)"
+            @click="$router.push(`/productionSubject/mainProduct/create/${id}`)"
             plain
           >添加</el-button>
-          <el-button type="primary" plain @click="$router.go(-1)">返回</el-button>
+          <el-button size="small" type="primary" plain @click="$router.go(-1)">返回</el-button>
         </div>
       </div>
       <el-table
@@ -36,26 +37,26 @@
         <el-table-column prop="grade" label="评级"></el-table-column>
         <el-table-column prop="operations" label="操作" width="270" class-name="text-right">
           <template slot-scope="{ row }">
-            <el-button
+            <el-button size="small"
               v-on:click="showSamplingRecord(row)"
               type="success"
               plain
               style="margin-bottom: 5px;"
             >第三方抽检记录</el-button>
-            <el-button
+            <el-button size="small"
               v-on:click="showProductBatch(row)"
               type="success"
               plain
               style="margin-bottom: 5px;"
             >产品批次</el-button>
-            <el-button
+            <el-button size="small"
               v-on:click="showProductVariety(row)"
               type="success"
               plain
               style="margin-bottom: 5px;"
               v-if="loggedinUserType === 3 || loggedinUserType === 0"
             >品种定义</el-button>
-            <el-button
+            <el-button size="small"
               v-on:click="showProductGrade(row)"
               type="success"
               plain
@@ -66,20 +67,20 @@
         </el-table-column>
         <el-table-column prop="operations" label width="230" class="text-left">
           <template slot-scope="{ row }">
-            <el-button
+            <el-button size="small"
               v-on:click="showInventoryDynamics(row)"
               type="success"
               plain
               style="margin-bottom: 5px;"
             >库存动态</el-button>
-            <el-button
-              v-on:click="showProcessDefinition(row)"
+            <el-button size="small"
+              v-on:click="goToEditMainProduct(row)"
               type="success"
               plain
               style="margin-bottom: 5px;"
               v-if="loggedinUserType === 3 || loggedinUserType === 0"
-            >作业定义</el-button>
-            <el-button
+            >修改</el-button>
+            <el-button size="small"
               v-on:click="showProductProperty(row)"
               type="success"
               plain
@@ -87,6 +88,13 @@
               class="no-margin-left"
               v-if="loggedinUserType === 3 || loggedinUserType === 0"
             >属性管理</el-button>
+            <el-button size="small"
+              v-on:click="showProcessDefinition(row)"
+              type="success"
+              plain
+              style="margin-bottom: 5px;"
+              v-if="loggedinUserType === 3 || loggedinUserType === 0"
+            >作业定义</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -158,6 +166,11 @@ export default {
       this.$router.push({
         path: `/productionSubject/mainProduct/productProperty/${this.$route.params.id}`,
         query: { productId: row.productId }
+      });
+    },
+    goToEditMainProduct(row) {
+      this.$router.push({
+        path: `/productionSubject/mainProduct/edit/${row.productId}`
       });
     },
     showProductVariety(row) {

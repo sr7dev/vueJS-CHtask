@@ -33,7 +33,7 @@
           ></el-option>
         </el-select>
         <div class="select_label" v-if="loggedinUserType !== 3">
-          <el-button type="outline-primary" v-on:click="getList()" disabled>导入</el-button>
+          <el-button size="small" type="primary" v-on:click="getList()" disabled plain>导入</el-button>
         </div>
       </div>
 
@@ -64,27 +64,35 @@
             v-if="loggedinUserType ===2 || loggedinUserType === 0"
           ></el-table-column>
           <el-table-column prop="creditCode" label="信用代码" v-if="loggedinUserType !==2"></el-table-column>
-          <el-table-column prop="plCount" label="行政许可信息">
+          <el-table-column prop="plCount" label="行政许可信息" class-name="text-center">
             <template slot-scope="{row}">
-              <el-button
+              <el-button size="small"
+                type="success"
+                plain
                 v-if="row.plCount > 0"
                 v-on:click="$router.push({path: `/corporateCreditFile/adminLicenseInfo`,query: {creditCode:row.creditCode}})"
               >行政许可信息</el-button>
-              <el-button
+              <el-button size="small"
                 v-else
                 disabled
+                type="success"
+                plain
               >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
             </template>
           </el-table-column>
-          <el-table-column prop="ppCount" label="行政处罚信息">
+          <el-table-column prop="ppCount" label="行政处罚信息" class-name="text-center">
             <template slot-scope="{row}">
-              <el-button
+              <el-button size="small"
+                type="success"
+                plain
                 v-if="row.ppCount > 0"
                 v-on:click="$router.push({path: `/corporateCreditFile/adminPenaltyInfo`,query: {creditCode:row.creditCode}})"
               >行政处罚信息</el-button>
-              <el-button
+              <el-button size="small"
                 v-else
                 disabled
+                type="success"
+                plain
               >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
             </template>
           </el-table-column>
@@ -93,12 +101,23 @@
               <span
                 class="rating-action"
                 v-on:click="$router.push({path: `/corporateCreditFile/ratingInfo`,query: {creditCode:row.creditCode}})"
-              >{{ getGradeString(row.grade) }}</span>
+              >
+                <el-rate
+                  :value="getGradeString(row.grade)"
+                  :max="getGradeString(row.grade)"
+                  :texts="['C:失信', 'B:基本守信', 'A:守信']"
+                  :colors="colors"
+                  disabled
+                  show-text
+                ></el-rate>
+              </span>
             </template>
           </el-table-column>
-          <el-table-column label="三品一标认证" width="200">
+          <el-table-column label="三品一标认证" width="200" class-name="text-center">
             <template slot-scope="{row}">
-              <el-button
+              <el-button size="small"
+                type="primary"
+                plain
                 v-on:click="$router.push({path: `/corporateCreditFile/threeProduction`,query: {creditCode:row.creditCode}})"
               >三品一标</el-button>
             </template>
@@ -149,7 +168,8 @@ export default {
       tableDataOrigin: [],
       companyProduction: [],
       gradData: [],
-      loggedinUserType: null
+      loggedinUserType: null,
+      colors: { 1: "#f00", 2: "#F7BA2A", 3: "#0f0" }
     };
   },
   mounted() {
@@ -198,7 +218,7 @@ export default {
     //       return punish.ppCount == 0;
     //     });
     //   }
-            
+
     //   this.tableData = [];
     //   this.tableData = tmpData;
     // },
@@ -299,7 +319,7 @@ export default {
         nowGrade = "";
       } else {
         nowGrade = gradeArray.pop().nowGrade;
-      } 
+      }
       return nowGrade;
     },
     // getGrade(dataTable) {
@@ -329,16 +349,16 @@ export default {
       let strGrade = "";
       switch (grade) {
         case "A":
-          strGrade = "A:守信";
+          strGrade = 3;
           break;
         case "B":
-          strGrade = "B:基本守信";
+          strGrade = 2;
           break;
         case "C":
-          strGrade = "C:失信";
+          strGrade = 1;
           break;
         default:
-          strGrade = "A:守信";
+          strGrade = 3;
       }
       return strGrade;
     },

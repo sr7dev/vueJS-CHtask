@@ -37,13 +37,13 @@
             :value="index"
           ></el-option>
         </el-select>
-        <el-button
+        <el-button size="small"
           type="primary"
           v-on:click="$router.push({path:`/productionSubject/threeProduct/addThreeProduct`,
                                     query: {creditCode:creditCode}})"
           plain
         >添加认证</el-button>
-        <el-button type="primary" v-on:click="$router.go(-1)" plain>返回</el-button>
+        <el-button size="small" type="primary" v-on:click="$router.go(-1)" plain>返回</el-button>
       </div>
       <el-container>
         <el-table

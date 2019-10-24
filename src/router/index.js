@@ -59,6 +59,8 @@ import detailsWarehouse from "@/components/productionSubject/warehouseEnv/detail
 import viewWarehouse from "@/components/productionSubject/warehouseEnv/viewWarehouse/viewWarehouse";
 import addWarehouse from "@/components/productionSubject/warehouseEnv/addWarehouse/addWarehouse";
 import mainProduct from "@/components/productionSubject/mainProduct/mainProduct";
+import addMainProduct from "@/components/productionSubject/mainProduct/addMainProduct/addMainProduct";
+import editMainProduct from "@/components/productionSubject/mainProduct/editMainProduct/editMainProduct";
 import thirdPartySamplingRecord from "@/components/productionSubject/mainProduct/thirdPartySamplingRecord/thirdPartySamplingRecord";
 import addThirdPartySampling from "@/components/productionSubject/mainProduct/thirdPartySamplingRecord/addThirdPartySampling/addThirdPartySampling";
 import editThirdPartySampling from "@/components/productionSubject/mainProduct/thirdPartySamplingRecord/editThirdPartySampling/editThirdPartySampling";
@@ -267,6 +269,16 @@ export default new Router({
           path: "/productionSubject/mainProduct/:id",
           name: "mainProduct",
           component: mainProduct
+        },
+        {
+          path: "/productionSubject/mainProduct/create/:id",
+          name: "addMainProduct",
+          component: addMainProduct
+        },
+        {
+          path: "/productionSubject/mainProduct/edit/:id",
+          name: "editMainProduct",
+          component: editMainProduct
         },
         {
           path: "/productionSubject/mainProduct/thirdPartySamplingRecord/:id",

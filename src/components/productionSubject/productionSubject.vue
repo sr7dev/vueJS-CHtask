@@ -103,7 +103,7 @@
           </el-select>
         </div>
         <div class="filter-item" v-if="loggedinUserType === 2 || loggedinUserType === 0">
-          <el-button
+          <el-button size="small"
             type="primary"
             plain
             @click="gotoAddRegulatoryObject()"
@@ -131,7 +131,7 @@
         >
           <template slot-scope="{ row }">
             <el-image
-              class="button-img"
+              class="button-img small-size"
               :src="Button2"
               @click="$router.push({path: `/productionSubject/threeProduct`,query: {creditCode:row.creditCode}})"
             ></el-image>
@@ -199,16 +199,16 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="operations" label="操作" width="450" class-name="text-center">
+        <el-table-column prop="operations" label="操作" width="300" class-name="text-center">
           <template slot-scope="{ row }">
-            <el-button
+            <el-button size="small"
               v-on:click="gotoEditProductPage(row)"
               type="warning"
               v-if="loggedinUserType !== 1"
             >修改</el-button>
-            <el-button v-on:click="gotoProductPage(row)" type="primary">产品</el-button>
-            <el-button v-on:click="gotoWarehousingEnvironmentPage(row)" type="success">仓储环境</el-button>
-            <el-button
+            <el-button size="small" v-on:click="gotoProductPage(row)" type="primary">产品</el-button>
+            <el-button size="small" v-on:click="gotoWarehousingEnvironmentPage(row)" type="success">仓储环境</el-button>
+            <el-button size="small"
               v-on:click="gotoDetailsProductPage(row)"
               type="info"
               v-if="loggedinUserType !== 3"
@@ -260,7 +260,6 @@ export default {
       tableData: [],
       srcData: [],
       colors: { 1: "#f00", 2: "#F7BA2A", 3: "#0f0" },
-      //{ 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
       value2: 2
     };
   },
@@ -320,47 +319,30 @@ export default {
       return nowGrade;
     },
     filterList() {
-      this.tableData = this.srcData;
-      if (this.agriculturalClassification > 0) {
-        this.tableData = this.tableData.filter(
-          it => it.agriculturalClassification == this.agriculturalClassification
-        );
-      }
+      this.getList();
+      // if (this.agriculturalClassification > 0) {
+      //   this.tableData = this.tableData.filter(
+      //     it => it.agriculturalClassification == this.agriculturalClassification
+      //   );
+      // }
     },
     getList() {
+      this.tableData = [];
       this.listLoading = true;
       Request()
-        .get("/api/company_production/all", {
+        .get("/api/company_production/getAllList", {
+          agriculturalClassification: this.agriculturalClassification,
           companyType: this.companyType,
-          pageNo: this.page.pageIndex - 1,
-          pageSize: this.page.pageSize,
           townId: this.townId
         })
         .then(response => {
-          let dt = response.data;
-          this.total = response.total;
+          this.tableData = response;
+          this.total = this.tableData.length;
 
-          dt.forEach(e => {
+          this.tableData.forEach(e => {
             e.nowGrade = this.getGradeString(e.grade);
           });
 
-          this.tableData = dt;
-          this.srcData = dt;
-
-          // this.tableData = [];
-          // this.srcData = [];
-          // this.total = response.total;
-
-          // let indexItem = 0;
-          // dt.map(item => {
-          //   let gradeArrayName = "credit_grade_data_" + indexItem;
-          //   this.getNowGrade(response[gradeArrayName]).then(res => {
-          //     item.nowGrade = this.getGradeString(res);
-          //     this.tableData.push(item);
-          //     this.srcData.push(item);
-          //   });
-          //   indexItem++;
-          // });
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
@@ -369,7 +351,6 @@ export default {
           console.error(error);
 
           this.tableData = [];
-          this.srcData = [];
           this.total = 0;
           setTimeout(() => {
             this.listLoading = false;

@@ -73,6 +73,10 @@ body {
   border-left: none!important;
 }
 
+.no-border-bottom {
+  border-bottom: none!important;
+}
+
 .no-margin-left {
   margin-left: 0 !important;
 }
@@ -154,6 +158,10 @@ body {
 
 .button-img {
   cursor: pointer;
+  width: 18px;
+  &.small-size {
+    width: 16px;
+  }
 }
 
 .button-p {
@@ -299,6 +307,12 @@ body {
   }
   .success-row {
     background: #f0f9eb;
+  }
+}
+
+.no-margin-bottom {
+  textarea {
+    margin-bottom: 0 !important;
   }
 }
 

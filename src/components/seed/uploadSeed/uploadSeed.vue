@@ -70,7 +70,7 @@
           <el-col :span="18">
             <div class="item" style="display:flex">
               <!-- <div class="item-label" style="margin-bottom:20px; margin-right:2rem;">
-                <el-button type="warning" plain @click="chooseDownLoadFile()">例文档下载</el-button>
+                <el-button size="small" type="warning" plain @click="chooseDownLoadFile()">例文档下载</el-button>
               </div>-->
               <div class="item-label" style="margin-bottom:20px;">
                 <input
@@ -81,8 +81,8 @@
                   accept=".xls, .xlsx"
                   v-on:change="handleFileUpload()"
                 />
-                <el-button type="warning" plain @click="chooseFile()">添加附件</el-button>
-                <!-- <el-button type="warning" plain @click="downloadFile()">例文档下载</el-button> -->
+                <el-button size="small" type="warning" plain @click="chooseFile()">添加附件</el-button>
+                <!-- <el-button size="small" type="warning" plain @click="downloadFile()">例文档下载</el-button> -->
               </div>
               <div
                 class="item-value"
@@ -98,7 +98,7 @@
             </div>
             <div class="item" style="display:flex">
               <div class="item-label" style="margin-bottom:20px;">
-                <el-button type="success" plain @click="downloadFile()">例文档下载</el-button>
+                <el-button size="small" type="success" plain @click="downloadFile()">例文档下载</el-button>
               </div>
               <div
                 class="item-value"
@@ -113,8 +113,8 @@
           </el-col>
         </el-form-item>
         <el-form-item>
-          <el-button type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
-          <el-button type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
+          <el-button size="small" type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
+          <el-button size="small" type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
         </el-form-item>
       </el-form>
     </div>

@@ -7,15 +7,15 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button type="primary" plain v-on:click="$router.push(`/productionRecord/create`)">添加</el-button>
+        <el-button size="small" type="primary" plain v-on:click="$router.push(`/productionRecord/create`)">添加</el-button>
       </div>
       <el-dialog :visible.sync="confirm_dialogVisible" width="30%" modal>
         <span>
           <i class="el-icon-warning">&nbsp;你确定要删除吗?</i>
         </span>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
-          <el-button type="success" @click="deleteRow()" plain>确认</el-button>
+          <el-button size="small" @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
+          <el-button size="small" type="success" @click="deleteRow()" plain>确认</el-button>
         </span>
       </el-dialog>
       <el-container>
@@ -35,7 +35,7 @@
           </el-table-column>
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
-              <el-button
+              <el-button size="small"
                 type="success"
                 plain
                 v-on:click="
@@ -44,7 +44,7 @@
                   })
                 "
               >修改</el-button>
-              <el-button type="danger" @click="showConfirmDialog(`${row.id}`)" plain>删除</el-button>
+              <el-button size="small" type="danger" @click="showConfirmDialog(`${row.id}`)" plain>删除</el-button>
             </template>
           </el-table-column>
         </el-table>

@@ -32,7 +32,7 @@
                 ></el-date-picker>
               </el-col>
               <el-col :span="5" class="margin-left-20">
-                <el-button type="primary" plain size="medium" @click="getData()">开始统计</el-button>
+                <el-button size="small" type="primary" plain @click="getData()">开始统计</el-button>
               </el-col>
             </el-row>
             <el-row>
@@ -103,8 +103,8 @@
           <div class="w-100 flex-box disability-chart chart-container">
             <div class="w-50" ref="chartpie2"></div>
             <div class="divider"></div>
-            <div class="w-50" >
-              <el-row v-if="specialData1 !== null && specialData1.length > 0"  >
+            <div class="w-50">
+              <el-row v-if="specialData1 !== null && specialData1.length > 0">
                 <el-col align="center" class="margin-top-10" style="font-size: 20px;">
                   <h1>绿色优质数量/占比</h1>
                 </el-col>
@@ -116,26 +116,24 @@
                       :data="specialData1"
                       style="width: 100%; height: 293px;"
                       :show-header="false"
-                      v-if="specialData1 !== null && specialData1.length > 0"                                                                  
+                      v-if="specialData1 !== null && specialData1.length > 0"
                       class="fixed-height margin-top-10 padding-left-20 padding-right-20"
                     >
-                      <el-table-column prop="townName" width="70"></el-table-column>
-                      <el-table-column prop="progress">
+                      <el-table-column prop="townName" width="70" class-name="no-border-bottom"></el-table-column>
+                      <el-table-column prop="progress" class-name="no-border-bottom">
                         <template slot-scope="{ row }">
-                            <div>
+                          <div>
                             <h3>{{row.townCnt}}</h3>
-                        </div>
+                          </div>
                           <el-progress
                             :percentage="row.progress"
                             :stroke-width="10"
-                            :status="getColor(row.progress)"                            
+                            :status="getColor(row.progress)"
                             :show-text="false"
                           ></el-progress>
-                          
-                        </template>                        
-                        
+                        </template>
                       </el-table-column>
-                      <el-table-column prop="label"></el-table-column>
+                      <el-table-column prop="label" class-name="no-border-bottom"></el-table-column>
                     </el-table>
                   </el-container>
                 </el-col>
@@ -148,22 +146,21 @@
                       v-if="specialData2 !== null && specialData2.length > 0"
                       class="fixed-height margin-top-10 padding-left-20 padding-right-20"
                     >
-                      <el-table-column prop="townName" width="70"></el-table-column>
-                      <el-table-column prop="progress">
+                      <el-table-column prop="townName" width="70" class-name="no-border-bottom"></el-table-column>
+                      <el-table-column prop="progress" class-name="no-border-bottom">
                         <template slot-scope="{ row }">
-                            <div>
+                          <div>
                             <h3>{{row.townCnt}}</h3>
-                        </div>
+                          </div>
                           <el-progress
                             :percentage="row.progress"
                             :stroke-width="10"
                             :status="getColor(row.progress)"
                             :show-text="false"
                           ></el-progress>
-                          
                         </template>
                       </el-table-column>
-                      <el-table-column prop="label"></el-table-column>
+                      <el-table-column prop="label" class-name="no-border-bottom"></el-table-column>
                     </el-table>
                   </el-container>
                 </el-col>
@@ -180,8 +177,8 @@
                     <el-table-column prop="townName" align="center" width="120"></el-table-column>
                     <el-table-column prop="specialProgress">
                       <template slot-scope="{ row }">
-                          <div>
-                            <h3>{{row.townCnt}}</h3>
+                        <div>
+                          <h3>{{row.townCnt}}</h3>
                         </div>
                         <el-progress
                           :percentage="row.specialProgress"
@@ -189,7 +186,6 @@
                           :status="getColor(row.specialProgress)"
                           :show-text="false"
                         ></el-progress>
-                        
                       </template>
                     </el-table-column>
                     <el-table-column prop="specialLabel" width="120"></el-table-column>
@@ -251,6 +247,9 @@ export default {
         .then(res => {
           this.visionData = res.data;
           this.getTown();
+        })
+        .catch(err => {
+          console.error(err);
         });
     },
 
@@ -313,8 +312,9 @@ export default {
               rate: cnt - cnt_ok,
               progress: parseInt(((cnt - cnt_ok) * 100) / cnt),
               chatName: townname + "监管...",
-              specialLabel: item[2] + "/" + parseInt(item[2]*100 / cnt) + "%",
-              specialProgress: parseInt( item[2] * 100 / cnt)
+              specialLabel:
+                item[2] + "/" + parseInt((item[2] * 100) / cnt) + "%",
+              specialProgress: parseInt((item[2] * 100) / cnt)
             });
           });
 
@@ -325,8 +325,9 @@ export default {
               townCnt2: tCnt2,
               rate: tRate,
               progress: tRate / tCnt,
-              specialLabel: tSpecial + "/" + parseInt(tSpecial * 100 / tCnt) + "%",
-              specialProgress: parseInt(tSpecial * 100 / tCnt)
+              specialLabel:
+                tSpecial + "/" + parseInt((tSpecial * 100) / tCnt) + "%",
+              specialProgress: parseInt((tSpecial * 100) / tCnt)
             });
 
             this.makePieChat1();
@@ -433,13 +434,10 @@ export default {
           townCnt: this.tableData[i].townCnt
         });
       }
-    },
+    }
   }
 };
 </script>
 
 <style>
-.el-table td {
-    border-bottom: none !important;
-}
 </style>
