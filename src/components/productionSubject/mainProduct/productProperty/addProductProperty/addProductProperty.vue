@@ -28,7 +28,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="属性可选项" prop="propertyOptions">
-              <el-input v-model="ruleFormValue.propertyOptions" ></el-input>
+              <el-input v-model="ruleFormValue.propertyOptions" disabled="true"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -72,13 +72,6 @@ export default {
             trigger: "change"
           }
         ],
-        propertyOptions: [
-          {
-            required: true,
-            message: "请插入",
-            trigger: "change"
-          }
-        ],
         propertySort: [
           {
             required: true,
@@ -100,7 +93,7 @@ export default {
             "id": 0,
             "productId": this.ruleFormValue.productId,
             "propertyName": this.ruleFormValue.propertyName,
-            "propertyOptions": this.ruleFormValue.propertyOptions,
+            "propertyOptions": "",
             "propertySort": this.ruleFormValue.propertySort.toString(),
             "doShare": this.ruleFormValue.doShare
           }
