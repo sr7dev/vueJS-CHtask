@@ -9,7 +9,7 @@
       <div class="iptBox">通知公告</div>
       <div class="iptBox">
         <el-button size="small" type="primary" v-on:click="$router.push({path: `/notice/create`})" plain>发布公告</el-button>
-        <el-button size="small" type="primary" plain>短信记录</el-button>
+        <el-button size="small" type="primary" v-on:click="$router.push({path: `/notice/detailSms`})" plain>短信记录</el-button>
       </div>
 
       <el-container>
@@ -29,7 +29,7 @@
           <el-table-column prop="emergencyDegree" label="紧急程度">
             <template slot-scope="{ row }">{{ getEmergencyDegree(row.emergencyDegree) }}</template>
           </el-table-column>
-          <el-table-column label="操作" class-name="text-center">
+          <el-table-column label="操作" class-name="text-center" width="300">
             <template slot-scope="{ row }">
               <el-button size="small"
                 type="success"
@@ -41,6 +41,13 @@
                 v-on:click="$router.push({path: `/notice/edit/${row.id}`})"
                 plain
               >修改</el-button>
+              <el-button 
+                size="small"
+                type="primary" 
+                plain 
+                v-if="loggedinUserType===0 || loggedinUserType===1"
+                v-on:click="$router.push({path: `/notice/smsNotice/${row.id}`})"
+              >短信通知</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -60,12 +67,13 @@
 <script>
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
-
+import Auth from "@/services/authentication/auth.js";
 export default {
   name: "notice",
   components: { Pagination },
   data() {
     return {
+      loggedinUserType: null,
       releasePerson: "",
       emergencyDegree: 0,
       releaseTime: "",
@@ -87,6 +95,7 @@ export default {
   },
   mounted() {
     this.getList();
+    this.loggedinUserType = Auth().user().attrs.userType;
   },
   methods: {
     order(row) {
