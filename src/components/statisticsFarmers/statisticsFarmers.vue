@@ -5,7 +5,7 @@
         <el-breadcrumb-item class="actived">农残检测看板</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="box padding-modified header"></div>
+    <div class="box padding-modified header statisticFarmerHeader"></div>
     <div class="box padding-modified body">
       <el-row class="w-100">
         <el-col :span="14">
@@ -302,7 +302,8 @@ export default {
       categoryAxis.renderer.labels.template.fill = "white";
       categoryAxis.renderer.labels.template.rotation = -45;
       categoryAxis.renderer.labels.template.truncate = true;
-      categoryAxis.renderer.labels.template.maxWidth = 120;
+      categoryAxis.renderer.labels.template.maxWidth = 150;
+      categoryAxis.renderer.labels.template.fontSize = 15;
       categoryAxis.renderer.labels.template.horizontalCenter = "right";
       categoryAxis.renderer.line.strokeOpacity = 1;
       categoryAxis.renderer.line.strokeWidth = 2;
@@ -311,7 +312,6 @@ export default {
       // valueAxis.title.text = "镇农产品质量安全董监管站(管站)";
       valueAxis.min = 0;
       // valueAxis.max = 15000;
-      // valueAxis.renderer.minGridDistance = 5;
       // valueAxis.renderer.grid.template.disabled = true;
       // valueAxis.renderer.labels.template.disabled = true;
       valueAxis.renderer.labels.template.fill = "white";
@@ -348,7 +348,7 @@ export default {
       let chart = am4core.create(this.$refs.chartdiv1, am4charts.PieChart);
       chart.data = this.tableData;
       chart.responsive.enabled = true;
-      chart.width = am4core.percent(50);
+      chart.width = am4core.percent(55);
       chart.height = am4core.percent(100);
       chart.align = "center";
       // Add and configure Series
@@ -357,12 +357,19 @@ export default {
       pieSeries.dataFields.value = "cnt";
       pieSeries.dataFields.category = "detect_unit";
       pieSeries.dataFields.radiusValue = "cnt";
+      pieSeries.labels.template.truncate = true;
+      pieSeries.labels.template.fontSize = 15;
+      pieSeries.labels.template.maxWidth = 180;
       pieSeries.labels.template.fill = "white";
       pieSeries.labels.template.text =
         "{value.percent.formatNumber('#.0')}% {category}";
+
+      pieSeries.ticks.template.strokeWidth = 1;
+      pieSeries.ticks.template.strokeOpacity = 0.7;
+      pieSeries.ticks.template.fill = am4core.color("#012f8a");
+      pieSeries.ticks.template.fillOpacity = 1;
       pieSeries.slices.template.stroke = am4core.color("#fff");
-      pieSeries.slices.template.strokeWidth = 2;
-      pieSeries.slices.template.strokeOpacity = 1;
+      pieSeries.slices.template.strokeWidth = 1;
 
       // This creates initial animation
       pieSeries.hiddenState.properties.opacity = 1;

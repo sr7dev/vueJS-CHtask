@@ -2,22 +2,31 @@
   <div class="container customized">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item>溯源企业看板</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">溯源企业看板</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="box padding-modified" v-loading="listLoading">
+    <div class="box padding-modified header statisticsTracingCompany"></div>
+    <div class="box padding-modified body" v-loading="listLoading">
       <el-row class="W-100">
-        <el-col :span="12">
+        <el-col :span="12" class="position-relative">
+          <h1 style="font-size:20px" class="gradient-colored chart-title margin-left-10">乡镇溯源企业统计</h1>
           <div class="disability-chart chart-container" ref="chartpie1"></div>
         </el-col>
-        <el-col :span="12">
-          <div class="disability-chart chart-container" ref="chartpie2"></div>
+        <el-col :span="12" class="position-relative">
+          <h1
+            style="font-size:20px"
+            class="gradient-colored chart-title margin-left-10"
+          >各乡镇监管记录上传数据的比例分布</h1>
+          <div class="disability-chart chart-container margin-left-10" ref="chartpie2"></div>
         </el-col>
       </el-row>
-      <el-row class="W-100">
+      <el-row class="W-100 position-relative">
         <el-col>
-          <div class="w-100 flex-box disability-chart chart-container" ref="chartstick">              
-          </div>
+          <h1
+            style="font-size:20px"
+            class="gradient-colored chart-title margin-left-10"
+          >各乡镇溯源记录上传数据统计</h1>
+          <div class="w-100 flex-box disability-chart chart-container" ref="chartstick"></div>
         </el-col>
       </el-row>
     </div>
@@ -91,9 +100,8 @@ export default {
         this.tableData.push({
           townName: townname,
           companyCnt: res[0],
-          pie1Label: townname + " " + res[0] + " ",
-          pie2Label: townname+"监管..."
-
+          pie1Label: townname,
+          pie2Label: townname
         });
       });
 
@@ -111,16 +119,25 @@ export default {
       let pieSeries = chart.series.push(new am4charts.PieSeries());
       let title = chart.titles.create();
       title.text = "乡镇溯源企业统计";
-      title.fontSize = 20;
-      title.marginBottom = -20;
+      title.fontSize = 5;
+      title.marginBottom = 40;
       title.marginTop = 10;
-      title.fontWeight = "bold";
+      title.fill = am4core.color("#012f8a");
 
       pieSeries.dataFields.value = "companyCnt";
       pieSeries.dataFields.category = "pie1Label";
-
+      pieSeries.labels.template.fill = "white";
+      pieSeries.labels.template.truncate = true;
+      pieSeries.labels.template.maxWidth = 150;
+      pieSeries.labels.template.fontSize = 15;
+      pieSeries.labels.template.text =
+        "{value.value} / {value.percent.formatNumber('#.0')}% {category}";
       chart.innerRadius = am4core.percent(40);
       pieSeries.slices.template.fillOpacity = 1;
+      pieSeries.ticks.template.fill = am4core.color("#FFF");
+      pieSeries.ticks.template.strokeWidth = 1;
+      pieSeries.ticks.template.strokeOpacity = 0.7;
+      pieSeries.ticks.template.fillOpacity = 1;
 
       let hs = pieSeries.slices.template.states.getKey("hover");
       hs.properties.scale = 1;
@@ -128,56 +145,72 @@ export default {
     },
 
     makePieChat2() {
-        let chart = am4core.create(this.$refs.chartpie2, am4charts.PieChart);
+      let chart = am4core.create(this.$refs.chartpie2, am4charts.PieChart);
       chart.data = this.tableData;
       chart.responsive.enabled = true;
       let pieSeries = chart.series.push(new am4charts.PieSeries());
 
       let title = chart.titles.create();
       title.text = "各乡镇监管记录上传数据的比例分布";
-      title.fontSize = 20;
-      title.marginBottom = -20;
+      title.fontSize = 5;
+      title.marginBottom = 40;
       title.marginTop = 10;
-      title.fontWeight = "bold";
+      title.fill = am4core.color("#012f8a");
 
       pieSeries.dataFields.value = "companyCnt";
       pieSeries.dataFields.category = "pie2Label";
       pieSeries.dataFields.radiusValue = "companyCnt";
+      pieSeries.labels.template.fill = "white";
+      pieSeries.labels.template.truncate = true;
+      pieSeries.labels.template.fontSize = 15;
+      pieSeries.labels.template.maxWidth = 180;
+      pieSeries.labels.template.text =
+        "{value.percent.formatNumber('#.0')}% {category}";
       pieSeries.slices.template.stroke = am4core.color("#fff");
       pieSeries.slices.template.strokeWidth = 2;
       pieSeries.slices.template.strokeOpacity = 1;
-
+      pieSeries.ticks.template.fill = am4core.color("#FFF");
+      pieSeries.ticks.template.strokeWidth = 1;
+      pieSeries.ticks.template.strokeOpacity = 0.7;
+      pieSeries.ticks.template.fillOpacity = 1;
       // This creates initial animation
       pieSeries.hiddenState.properties.opacity = 1;
       pieSeries.hiddenState.properties.endAngle = -90;
       pieSeries.hiddenState.properties.startAngle = -90;
     },
 
-    makeStickChat(){
-        let chart = am4core.create(this.$refs.chartstick, am4charts.XYChart);
+    makeStickChat() {
+      let chart = am4core.create(this.$refs.chartstick, am4charts.XYChart);
       chart.data = this.tableData;
       let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
       let title = chart.titles.create();
       title.text = "各乡镇溯源记录上传数据统计";
-      title.fontSize = 20;
-      title.marginBottom = 30;
+      title.fontSize = 5;
+      title.marginBottom = 40;
+      title.fill = am4core.color("#012f8a");
 
-      title.fontWeight = "bold";
-      title.align = "left";
       categoryAxis.dataFields.category = "townName";
-      categoryAxis.renderer.grid.template.location = 0;
       categoryAxis.renderer.minGridDistance = 20;
+      categoryAxis.renderer.labels.template.fill = "white";
       categoryAxis.renderer.labels.template.rotation = -45;
       categoryAxis.renderer.labels.template.truncate = true;
-//      categoryAxis.renderer.labels.template.maxWidth = 120;
+      categoryAxis.renderer.labels.template.maxWidth = 150;
+      categoryAxis.renderer.labels.template.fontSize = 15;
       categoryAxis.renderer.labels.template.horizontalCenter = "right";
+      categoryAxis.renderer.line.strokeOpacity = 1;
+      categoryAxis.renderer.line.strokeWidth = 2;
+      categoryAxis.renderer.line.stroke = am4core.color("#3787ac");
       let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
       // valueAxis.title.text = "镇农产品质量安全董监管站(管站)";
       valueAxis.min = 0;
-      valueAxis.max = 15000;
-      valueAxis.renderer.minGridDistance = 5;
-      valueAxis.renderer.grid.template.disabled = true;
-      valueAxis.renderer.labels.template.disabled = true;
+      // valueAxis.max = 15000;
+      valueAxis.renderer.labels.template.fill = "white";
+      valueAxis.renderer.grid.template.stroke = am4core.color("#fff");
+      valueAxis.renderer.line.strokeOpacity = 1;
+      valueAxis.renderer.line.strokeWidth = 2;
+      valueAxis.renderer.line.stroke = am4core.color("#3787ac");
+      // valueAxis.renderer.grid.template.disabled = true;
+      // valueAxis.renderer.labels.template.disabled = true;
       // Create series
       let series = chart.series.push(new am4charts.ColumnSeries());
       series.dataFields.valueY = "companyCnt";
@@ -185,17 +218,26 @@ export default {
       series.name = "companyCnt";
       series.columns.template.tooltipText = "{categoryX}: [bold]{valueY}[/]";
       series.columns.template.fillOpacity = 1;
+      var gradient = new am4core.LinearGradient();
+      gradient.addColor(am4core.color("#08d3fc"));
+      gradient.addColor(am4core.color("#4687eb"));
+      gradient.rotation = 90;
+      series.fill = gradient;
       let valueLabel = series.bullets.push(new am4charts.LabelBullet());
       valueLabel.label.text = "{companyCnt}";
+      valueLabel.label.fill = am4core.color("#20beff");
+      valueLabel.label.truncate = true;
+      valueLabel.label.maxWidth = 150;
+      valueLabel.label.fontSize = 15;
       valueLabel.label.rotation = -45;
       valueLabel.label.dy = -10;
       let columnTemplate = series.columns.template;
       columnTemplate.strokeWidth = 2;
       columnTemplate.strokeOpacity = 1;
-      this.createGrid(0, valueAxis);
-      this.createGrid(5000, valueAxis);
-      this.createGrid(10000, valueAxis);
-      this.createGrid(15000, valueAxis);
+      // this.createGrid(0, valueAxis);
+      // this.createGrid(5000, valueAxis);
+      // this.createGrid(10000, valueAxis);
+      // this.createGrid(15000, valueAxis);
     },
 
     createGrid(value, valueAxis) {
@@ -206,8 +248,7 @@ export default {
 
     formatNumber(value) {
       return value / 1000 + "K";
-    },
-
+    }
   }
 };
 </script>
