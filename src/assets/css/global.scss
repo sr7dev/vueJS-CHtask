@@ -478,7 +478,12 @@ input[type=number]::-webkit-inner-spin-button {
   background: linear-gradient(55deg, rgb(0, 37, 128) 0%, #003b95 95%);
   &.header {
     position: absolute;
-    background-image: url("../../assets/images/statisticFarmerHeader.png");
+    &.statisticFarmerHeader {
+      background-image: url("../../assets/images/statisticFarmerHeader.png");
+    }
+    &.statisticsTracingCompany {
+      background-image: url("../../assets/images/statisticsTracingCompany.png");
+    }
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
