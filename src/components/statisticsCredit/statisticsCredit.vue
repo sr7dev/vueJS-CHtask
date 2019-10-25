@@ -144,7 +144,25 @@ export default {
       companyProduction: [],
       totalA: 0,
       totalB: 0,
-      totalC: 0
+      totalC: 0,
+      colorList: [
+        "#229efe",
+        "#20beff",
+        "#21e3ff",
+        "#21ffda",
+        "#1fffa6",
+        "#61f779",
+        "#96f65f",
+        "#c9fb64",
+        "#c9fb64",
+        "#fbd661",
+        "#f1be51",
+        "#f68a63",
+        "#f17263",
+        "#ed6082",
+        "#ee63ca",
+        "#7366f4"
+      ]
     };
   },
   mounted() {
@@ -454,9 +472,6 @@ export default {
       pieSeries.dataFields.value = "cnt";
       pieSeries.dataFields.category = "townId";
       pieSeries.dataFields.radiusValue = "cnt";
-      pieSeries.slices.template.stroke = am4core.color("#fff");
-      pieSeries.slices.template.strokeWidth = 1;
-      pieSeries.slices.template.strokeOpacity = 1;
       pieSeries.labels.template.truncate = true;
       pieSeries.labels.template.fontSize = 15;
       pieSeries.labels.template.maxWidth = 180;
@@ -475,6 +490,11 @@ export default {
       pieSeries.hiddenState.properties.opacity = 1;
       pieSeries.hiddenState.properties.endAngle = -90;
       pieSeries.hiddenState.properties.startAngle = -90;
+      let colorSet = new am4core.ColorSet();
+      colorSet.list = this.colorList.map(color => {
+        return new am4core.color(color);
+      });
+      pieSeries.colors = colorSet;
     },
     makeChartLeftDown() {
       let chart = am4core.create(this.$refs.chartdiv3, am4charts.XYChart);
