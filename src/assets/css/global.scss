@@ -7,14 +7,33 @@ body {
   background-color: rgba(121, 121, 121, 1);
 }
 
+.large-font {
+  font-size: 28px!important;
+}
+
 .middle-font {
   font-size: 20px;
   font-weight: normal;
 }
 
 .blue-colored {
-  color: #409EFF;
+  color: #20beff;
   font-size: 1.2rem;
+}
+
+.white-colored {
+  color: #ffffff;
+}
+
+.gradient-colored {
+  background: linear-gradient(to right, #255ee3 10%, #20beff 50%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+}
+
+.position-relative {
+  position: relative;
 }
 
 .w-50 {
@@ -143,6 +162,10 @@ body {
 
 .margin-left-40 {
   margin-left: 40px !important;
+}
+
+.padding-10 {
+  padding: 10px;
 }
 
 .padding-left-10 {
@@ -296,15 +319,56 @@ body {
   }
 }
 
+.chart-input {
+  input {
+    background: #036ebe!important;
+    color: #ffffff;
+    border: none;
+  }
+}
+
+.chart-title {
+  position: absolute;
+  top: 15px;
+  left: 10px;
+}
+
 .el-table {
-  &.border-curved {
-    border-radius: 10px;
+  &.border-hide {
+    &::before {
+      background: none!important;
+    }
   }
   &.fixed-height {
+    &::before {
+      opacity: 0.1;
+    }
     .el-table__body-wrapper {
-      height: 210px;
+      height: 410px;
       overflow-x: hidden;
       overflow-y: auto;
+    }
+  }
+  &.chart-table {
+    .el-table__header-wrapper {
+      table {
+        th {
+          background: #1a5bab;
+          color: #ffffff;
+          height: 30px;
+          padding: 0px;
+          border-bottom: none;
+        }
+      }
+    }
+    .el-table__body-wrapper {
+      background: #00338e;
+      table {
+        td {
+          background: #00338e;
+          border-bottom: none;
+        }
+      }
     }
   }
   th.is-leaf {
@@ -357,6 +421,11 @@ input[type=number]::-webkit-inner-spin-button {
     font-size: 14px;
     color: #ffffff;
   }
+  &.no-effect {
+    background: transparent;
+    border: none;
+    outline: none;
+  }
 }
 
 .normal-line-height {
@@ -369,34 +438,58 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 .chart-container {
+  box-shadow: inset 0px 0px 29px -6px #1b67c5;
   height: 500px;
   font-size: 12px;
-  border: 2px solid #409eff;
-  border-radius: 10px;
+  border: 1px solid #1b67c5;
   margin-bottom: 10px;
   &.third-container {
     width: 99%;
   }
   &.disability-chart {
-    height: 400px;
+    height: 450px;
+    &.large {
+      height: 600px;
+      &.padding-10 {
+        height: 580px;
+      }
+    }
     font-size: 12px;
-    border: 1px solid #000000;
   }
   .divider {
     border: 1px solid #d9d9d9;
-    height: 70%;
+    height: 80%;
     align-self: center;
+    opacity: 0.1;
+    margin-left: 15px;
+    margin-right: -20px;
   }
 }
 
 .container {
   &.customized {
+    position: relative;
     padding: 20px 0!important;
   }
 }
 
 .padding-modified {
   padding: 20px;
+  background: linear-gradient(55deg, rgb(0, 37, 128) 0%, #003b95 95%);
+  &.header {
+    position: absolute;
+    background-image: url("../../assets/images/statisticFarmerHeader.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    z-index: 10;
+    box-shadow: 0px 3px 8px #002580;
+    height: 85px;
+    width: 100%;
+  }
+  &.body {
+    padding-top: 100px;
+  }
 }
 
 .ajs-message {

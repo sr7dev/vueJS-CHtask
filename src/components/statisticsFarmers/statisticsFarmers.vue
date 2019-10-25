@@ -5,55 +5,70 @@
         <el-breadcrumb-item class="actived">农残检测看板</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="box padding-modified">
+    <div class="box padding-modified header"></div>
+    <div class="box padding-modified body">
       <el-row class="w-100">
         <el-col :span="14">
-          <div class="disability-chart chart-container">
-            <el-row class="w-100 flex-center margin-top-10 margin-bottom-10">
+          <div class="disability-chart chart-container padding-10 large">
+            <el-row class="w-100 flex-center margin-bottom-10">
               <el-col :span="4" class="margin-left-10">
-                <h1 style="font-size:20px">农残监测统计</h1>
+                <h1 style="font-size:20px" class="gradient-colored">农残监测统计</h1>
               </el-col>
               <el-col :span="4" class="margin-left-auto flex-center">
-                <div>按年</div>
-                <el-input v-model="toYear" class="w-50 margin-left-10" size="small" type="number"></el-input>
+                <div class="white-colored">按年</div>
+                <el-input
+                  v-model="toYear"
+                  class="w-50 margin-left-10 chart-input"
+                  size="small"
+                  type="number"
+                ></el-input>
               </el-col>
               <el-col :span="3" class="margin-left-20 flex-center">
-                <div>按月</div>
-                <el-input v-model="toMonth" class="w-50 margin-left-10" size="small" type="number"></el-input>
+                <div class="white-colored">按月</div>
+                <el-input
+                  v-model="toMonth"
+                  class="w-50 margin-left-10 chart-input"
+                  size="small"
+                  type="number"
+                ></el-input>
               </el-col>
               <el-col :span="3" class="margin-left-20">
-                <el-button size="small" type="primary" plain @click="getData()">开始统计</el-button>
+                <el-button type="primary" plain @click="getData()" class="no-effect">开始统计</el-button>
               </el-col>
             </el-row>
             <el-container>
               <el-table
                 :data="tableData"
                 style="width: 100%"
-                class="fixed-height"
+                class="fixed-height chart-table"
                 v-loading="listLoading"
               >
-                <el-table-column prop="detect_unit" label="站点"></el-table-column>
+                <el-table-column prop="detect_unit" label="站点" class-name="white-colored"></el-table-column>
                 <el-table-column prop="cnt" label="检测数量">
                   <template slot-scope="{ row }">
                     <div class="sub-title">
-                      <h3>{{row.cnt}}</h3>
+                      <h3 class="blue-colored">{{row.cnt}}</h3>
                     </div>
                     <el-progress
                       :percentage="getPercent(row.cnt, maxCnt,1)"
                       :stroke-width="10"
-                      :width="50"
                       :show-text="false"
                     ></el-progress>
                   </template>
                 </el-table-column>
-                <el-table-column prop="cnt_ok" label="合格" class-name="padding-left-20"></el-table-column>
-                <el-table-column prop="cnt_ok" label="不合格">
+                <el-table-column
+                  prop="cnt_ok"
+                  label="合格"
+                  class-name="padding-left-20 blue-colored"
+                  width="100"
+                ></el-table-column>
+                <el-table-column prop="cnt_ok" label="不合格" width="100" class-name="blue-colored">
                   <template slot-scope="{row}">{{row.cnt-row.cnt_ok}}</template>
                 </el-table-column>
                 <el-table-column prop="cnt" label="合格率" class-name="padding-right-20">
                   <template slot-scope="{ row }">
                     <div class="sub-title">
-                      <h3>{{getPercent(row.cnt_ok, row.cnt,2)}}%</h3>
+                      <h3 class="blue-colored">{{getPercent(row.cnt_ok, row.cnt,2)}}%</h3>
                     </div>
                     <el-progress
                       :percentage="getPercent(row.cnt_ok, row.cnt,2)"
@@ -69,18 +84,39 @@
               :data="summaryData"
               :show-header="false"
               row-class-name="success-row"
-              class="border-curved"
+              class="border-hide chart-table"
               v-if="summaryData"
             >
-              <el-table-column prop="name" label="站点"></el-table-column>
-              <el-table-column label="检测数量"></el-table-column>
-              <el-table-column prop="rowTotalSum" label="合格" class-name="padding-left-20"></el-table-column>
-              <el-table-column prop="rowOkSum" label="不合格"></el-table-column>
-              <el-table-column prop="name" label="合格率" class-name="padding-right-20">
+              <el-table-column prop="name" label="站点" class-name="white-colored">
+                <template slot-scope="{row}">
+                  <b>{{row.name}}</b>
+                </template>
+              </el-table-column>
+              <el-table-column
+                label="检测数量"
+                prop="rowTotalSum"
+                class-name="blue-colored text-center"
+              >
+                <template slot-scope="{row}">
+                  <h1 class="large-font">{{row.rowTotalSum}}</h1>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="rowOkSum"
+                label="合格"
+                class-name="padding-left-20 blue-colored text-center"
+              >
+                <template slot-scope="{row}">
+                  <h1 class="large-font">{{row.rowOkSum}}</h1>
+                </template>
+              </el-table-column>
+              <el-table-column label="不合格" class-name="blue-colored text-center">
+                <template slot-scope="{row}">
+                  <h1 class="large-font">{{row.rowTotalSum-row.rowOkSum}}</h1>
+                </template>
+              </el-table-column>
+              <el-table-column prop="name" label="合格率">
                 <template slot-scope="{ row }">
-                  <div class="sub-title">
-                    <h3>{{getPercent(row.rowOkSum, row.rowTotalSum,2)}}%</h3>
-                  </div>
                   <el-progress
                     :percentage="getPercent(row.rowOkSum, row.rowTotalSum,2)"
                     :stroke-width="10"
@@ -89,12 +125,25 @@
                   ></el-progress>
                 </template>
               </el-table-column>
+              <el-table-column prop="name" label="合格率" width="100">
+                <template slot-scope="{ row }">
+                  <div class="sub-title">
+                    <h3
+                      class="large-font blue-colored"
+                    >{{getPercent(row.rowOkSum, row.rowTotalSum,2)}}%</h3>
+                  </div>
+                </template>
+              </el-table-column>
             </el-table>
           </div>
         </el-col>
-        <el-col :span="10">
+        <el-col :span="10" class="position-relative">
+          <h1
+            style="font-size:20px"
+            class="gradient-colored chart-title margin-left-10"
+          >各站点衣残捡测上传数据统计</h1>
           <div
-            class="disability-chart chart-container margin-left-10"
+            class="disability-chart chart-container margin-left-10 large"
             ref="chartdiv1"
             v-loading="listLoading"
           ></div>
@@ -103,6 +152,7 @@
       <el-row class="w-100">
         <el-col>
           <div class="w-100 flex-box disability-chart chart-container">
+            <h1 style="font-size:20px" class="gradient-colored chart-title">各站点衣残捡测上传数据的比例分布</h1>
             <div class="w-50" ref="chartdiv" v-loading="listLoading"></div>
             <div class="divider"></div>
             <div class="w-50" ref="chartdiv2" v-loading="lineChartLoading"></div>
@@ -120,8 +170,7 @@ import Auth from "@/services/authentication/auth.js";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-// import chartData from "./chartData1";
-// import chartData1 from "./chartData2";
+
 am4core.useTheme(am4themes_animated);
 
 export default {
@@ -237,28 +286,39 @@ export default {
     makeXYChart() {
       let chart = am4core.create(this.$refs.chartdiv, am4charts.XYChart);
       chart.data = this.tableData;
+      chart.marginTop = 20;
       let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
       let title = chart.titles.create();
-      title.text = "各站点衣残捡测上传数据的比例分布";
-      title.fontSize = 20;
-      title.marginBottom = 30;
+      title.text = "tmp";
+      title.fontSize = 5;
+      title.marginBottom = 40;
+      title.fill = am4core.color("#012f8a");
 
-      title.fontWeight = "bold";
-      title.align = "left";
       categoryAxis.dataFields.category = "detect_unit";
       categoryAxis.renderer.grid.template.location = 0;
+
       categoryAxis.renderer.minGridDistance = 20;
+      categoryAxis.renderer.grid.template.disabled = true;
+      categoryAxis.renderer.labels.template.fill = "white";
       categoryAxis.renderer.labels.template.rotation = -45;
       categoryAxis.renderer.labels.template.truncate = true;
       categoryAxis.renderer.labels.template.maxWidth = 120;
       categoryAxis.renderer.labels.template.horizontalCenter = "right";
+      categoryAxis.renderer.line.strokeOpacity = 1;
+      categoryAxis.renderer.line.strokeWidth = 2;
+      categoryAxis.renderer.line.stroke = am4core.color("#3787ac");
       let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
       // valueAxis.title.text = "镇农产品质量安全董监管站(管站)";
       valueAxis.min = 0;
       // valueAxis.max = 15000;
       // valueAxis.renderer.minGridDistance = 5;
-      valueAxis.renderer.grid.template.disabled = true;
-      valueAxis.renderer.labels.template.disabled = true;
+      // valueAxis.renderer.grid.template.disabled = true;
+      // valueAxis.renderer.labels.template.disabled = true;
+      valueAxis.renderer.labels.template.fill = "white";
+      valueAxis.renderer.grid.template.stroke = am4core.color("#fff");
+      valueAxis.renderer.line.strokeOpacity = 1;
+      valueAxis.renderer.line.strokeWidth = 2;
+      valueAxis.renderer.line.stroke = am4core.color("#3787ac");
       // Create series
       let series = chart.series.push(new am4charts.ColumnSeries());
       series.dataFields.valueY = "cnt";
@@ -266,8 +326,14 @@ export default {
       series.name = "cnt";
       series.columns.template.tooltipText = "{categoryX}: [bold]{valueY}[/]";
       series.columns.template.fillOpacity = 1;
+      var gradient = new am4core.LinearGradient();
+      gradient.addColor(am4core.color("#08d3fc"));
+      gradient.addColor(am4core.color("#4687eb"));
+      gradient.rotation = 90;
+      series.fill = gradient;
       let valueLabel = series.bullets.push(new am4charts.LabelBullet());
       valueLabel.label.text = "{cnt}";
+      valueLabel.label.fill = am4core.color("#20beff");
       valueLabel.label.rotation = -45;
       valueLabel.label.dy = -10;
       let columnTemplate = series.columns.template;
@@ -282,20 +348,18 @@ export default {
       let chart = am4core.create(this.$refs.chartdiv1, am4charts.PieChart);
       chart.data = this.tableData;
       chart.responsive.enabled = true;
+      chart.width = am4core.percent(50);
+      chart.height = am4core.percent(100);
+      chart.align = "center";
       // Add and configure Series
       let pieSeries = chart.series.push(new am4charts.PieSeries());
-      let title = chart.titles.create();
-      title.text = "各站点衣残捡测上传数据统计";
-      title.align = "left";
-      title.fontSize = 20;
-      title.marginLeft = 20;
-      title.marginBottom = -20;
-      title.marginTop = 10;
-      title.fontWeight = "bold";
-      // pieSeries.radius = 100;
+
       pieSeries.dataFields.value = "cnt";
       pieSeries.dataFields.category = "detect_unit";
       pieSeries.dataFields.radiusValue = "cnt";
+      pieSeries.labels.template.fill = "white";
+      pieSeries.labels.template.text =
+        "{value.percent.formatNumber('#.0')}% {category}";
       pieSeries.slices.template.stroke = am4core.color("#fff");
       pieSeries.slices.template.strokeWidth = 2;
       pieSeries.slices.template.strokeOpacity = 1;
@@ -309,16 +373,26 @@ export default {
       await this.getLineChartData();
       let chart = am4core.create(this.$refs.chartdiv2, am4charts.XYChart);
       chart.data = this.lineChartData;
+      let title = chart.titles.create();
+      title.text = "tmp";
+      title.fontSize = 5;
+      title.marginBottom = 40;
+      title.fill = am4core.color("#012f8a");
+
       let label = chart.createChild(am4core.Label);
       label.text = "最近12个月每月上传数据统计";
       label.fontSize = 16;
+      label.fill = "white";
       label.fontWeight = "bold";
       label.align = "center";
       let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
       categoryAxis.renderer.grid.template.location = 0;
       categoryAxis.renderer.ticks.template.disabled = true;
-      categoryAxis.renderer.line.opacity = 0;
+      categoryAxis.renderer.line.strokeOpacity = 1;
+      categoryAxis.renderer.line.strokeWidth = 2;
+      categoryAxis.renderer.line.stroke = am4core.color("#3787ac");
       categoryAxis.renderer.grid.template.disabled = true;
+      categoryAxis.renderer.labels.template.fill = "white";
       categoryAxis.renderer.minGridDistance = 40;
       categoryAxis.dataFields.category = "month";
       categoryAxis.startLocation = 0.4;
@@ -327,7 +401,11 @@ export default {
       let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
       valueAxis.tooltip.disabled = true;
       // valueAxis.title.text = "镇农产品质量安全董监管站(管站)";
-      valueAxis.renderer.line.opacity = 0;
+      valueAxis.renderer.line.strokeOpacity = 1;
+      valueAxis.renderer.line.strokeWidth = 2;
+      valueAxis.renderer.line.stroke = am4core.color("#3787ac");
+      valueAxis.renderer.labels.template.fill = "white";
+      valueAxis.renderer.grid.template.stroke = am4core.color("#fff");
       valueAxis.renderer.ticks.template.disabled = true;
       valueAxis.min = 0;
       // valueAxis.max = 1700;
@@ -336,16 +414,21 @@ export default {
       lineSeries.dataFields.categoryX = "month";
       lineSeries.dataFields.valueY = "totalCnt";
       lineSeries.tooltipText = "数量: {valueY.value}";
-      lineSeries.fillOpacity = 0.6;
-      lineSeries.stroke = am4core.color("#2381e4");
+      lineSeries.fillOpacity = 0.2;
+      lineSeries.stroke = am4core.color("#20beff");
       lineSeries.strokeWidth = 3;
       lineSeries.fill = am4core.color("#90bff2");
 
       let bullet = lineSeries.bullets.push(new am4charts.CircleBullet());
       bullet.circle.radius = 3;
-      bullet.circle.stroke = am4core.color("#2381e4");
-      bullet.circle.fill = am4core.color("#2381e4");
+      bullet.circle.stroke = am4core.color("#20beff");
+      bullet.circle.fill = am4core.color("#20beff");
       bullet.circle.strokeWidth = 3;
+
+      let labelBullet = lineSeries.bullets.push(new am4charts.LabelBullet());
+      labelBullet.label.text = "{totalCnt}";
+      labelBullet.label.fill = am4core.color("#20beff");
+      labelBullet.label.dy = -20;
 
       chart.cursor = new am4charts.XYCursor();
       chart.cursor.behavior = "panX";
