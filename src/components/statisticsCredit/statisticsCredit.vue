@@ -1,84 +1,108 @@
 <template>
-  <div class="container">
+  <div class="container customized">
     <div class="title">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item class="actived">诚信系统看板</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <el-row class="w-100">
-      <el-col :span="14">
-        <div
-          class="disability-chart chart-container maring-right-10"
-          ref="chartdiv1"
-          v-loading="listLoading"
-        ></div>
-        <div style="position: absolute;top: 55px;left: 38%;" v-loading="totalLoading">
-          合计:
-          <span style="margin-left:20px;">A级</span>
-          <span
-            style="font-weight:bold; font-style:italic; font-size:25px; line-height:0.9em; vertical-align:bottom"
-          >{{totalA}}</span>
-          <span style="margin-left:20px;">B级</span>
-          <span
-            style="font-weight:bold; font-style:italic; font-size:25px; line-height:0.9em; vertical-align:bottom"
-          >{{totalB}}</span>
-          <span style="margin-left:20px;">C级</span>
-          <span
-            style="font-weight:bold; font-style:italic; font-size:25px; line-height:0.9em; vertical-align:bottom"
-          >{{totalC}}</span>
-        </div>
-      </el-col>
-      <el-col :span="10">
-        <div
-          class="disability-chart chart-container margin-left-10"
-          ref="chartdiv2"
-          v-loading="listLoading"
-          style="padding-left:15px"
-        ></div>
-      </el-col>
-    </el-row>
-    <el-row class="w-100">
-      <el-col :span="14">
-        <div
-          class="disability-chart chart-container maring-right-10"
-          ref="chartdiv3"
-          v-loading="listLoading"
-        ></div>
-      </el-col>
-      <el-col :span="10">
-        <div
-          class="disability-chart chart-container margin-left-10"
-          ref="chartdiv4"
-          v-loading="listLoading"
-        >
-          <el-row
-            style="font-size: 20px; font-weight: bold; color: #000000; margin-left:15px; margin-top:10px"
-          >红黑名单</el-row>
-          <el-row style="margin:30px 10px 30px 15px; border-bottom: solid 1px;">
-            <div style="font-size:15px;font-weight: bold;">红名单</div>
-            <div style="margin:20px 0 20px 20px; line-height:3em">
-              <span
-                style="margin-right:40px;"
-                v-for="item in redData"
-                :key="item.id"
-                :value="item.id"
-              >{{ item }}</span>
-            </div>
-          </el-row>
-          <el-row style="margin:30px 0 30px 15px">
-            <div style="font-size:15px;font-weight: bold;">黑名单</div>
-            <div style="margin:20px 0 20px 20px; line-height:3em">
-              <span
-                style="margin-right:40px;"
-                v-for="item in blackData"
-                :key="item.id"
-                :value="item.id"
-              >{{ item }}</span>
-            </div>
-          </el-row>
-        </div>
-      </el-col>
-    </el-row>
+    <div class="box padding-modified header statisticsCredit"></div>
+    <div class="box padding-modified body">
+      <el-row class="w-100">
+        <el-col :span="14">
+          <h1 style="font-size:20px" class="gradient-colored chart-title margin-left-10">诚信等级企业数量汇总</h1>
+          <div
+            class="disability-chart chart-container maring-right-10"
+            ref="chartdiv1"
+            v-loading="listLoading"
+          ></div>
+          <div
+            style="position: absolute;top: 45px;left: 38%;"
+            v-loading="totalLoading"
+            class="white-colored"
+          >
+            合计:
+            <span style="margin-left:20px;" class="blue-colored">A级&nbsp;</span>
+            <span
+              class="blue-colored"
+              style="font-weight:bold; font-style:italic; font-size:32px; line-height:0.9em; vertical-align:bottom"
+            >{{totalA}}</span>
+            <span class="blue-colored" style="margin-left:20px;">B级&nbsp;</span>
+            <span
+              class="blue-colored"
+              style="font-weight:bold; font-style:italic; font-size:32px; line-height:0.9em; vertical-align:bottom"
+            >{{totalB}}</span>
+            <span class="blue-colored" style="margin-left:20px;">C级&nbsp;</span>
+            <span
+              class="blue-colored"
+              style="font-weight:bold; font-style:italic; font-size:32px; line-height:0.9em; vertical-align:bottom"
+            >{{totalC}}</span>
+          </div>
+        </el-col>
+        <el-col :span="10" class="position-relative">
+          <h1
+            style="font-size:20px"
+            class="gradient-colored chart-title margin-left-10"
+          >各站点诚信等级上传数据的比例分布</h1>
+          <div
+            class="disability-chart chart-container margin-left-10"
+            ref="chartdiv2"
+            v-loading="listLoading"
+            style="padding-left:15px"
+          ></div>
+        </el-col>
+      </el-row>
+      <el-row class="w-100">
+        <el-col :span="14">
+          <h1 style="font-size:20px" class="gradient-colored chart-title margin-left-10">各站点上传数据统计</h1>
+          <div
+            class="disability-chart chart-container maring-right-10"
+            ref="chartdiv3"
+            v-loading="listLoading"
+          ></div>
+        </el-col>
+        <el-col :span="10">
+          <div
+            class="disability-chart chart-container margin-left-10"
+            ref="chartdiv4"
+            v-loading="listLoading"
+          >
+            <el-row
+              style="display:relative;font-size: 20px; font-weight: bold; color: #000000; margin-bottom:15px; "
+            >
+              <h1 style="font-size:20px" class="gradient-colored chart-title">红黑名单</h1>
+            </el-row>
+            <el-row style="margin:50px 10px 30px 15px; border-bottom: solid 1px #3787ac; ">
+              <div style="font-size:15px;font-weight: bold;" class="white-colored">红名单</div>
+              <div style="margin:20px 0 20px 20px; line-height:3em">
+                <span
+                  class="blue-colored"
+                  style="margin-right:40px;"
+                  v-for="item in redData"
+                  :key="item.id"
+                  :value="item.id"
+                >
+                  <b>{{ item }}</b>
+                </span>
+              </div>
+            </el-row>
+            <el-row style="margin:30px 0 30px 15px">
+              <div style="font-size:15px;font-weight: bold;" class="white-colored">黑名单</div>
+              <div style="margin:20px 0 20px 20px; line-height:3em">
+                <span
+                  class="blue-colored"
+                  style="margin-right:40px;"
+                  v-for="item in blackData"
+                  :key="item.id"
+                  :value="item.id"
+                >
+                  <b>{{ item }}</b>
+                </span>
+              </div>
+            </el-row>
+          </div>
+        </el-col>
+      </el-row>
+    </div>
   </div>
 </template>
 
@@ -305,21 +329,30 @@ export default {
       let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
       let title = chart.titles.create();
       title.text = "诚信等级企业数量汇总";
-      title.fontSize = 20;
-      title.marginBottom = 30;
-      title.fontWeight = "bold";
-      title.align = "left";
+      title.fontSize = 5;
+      title.marginBottom = 40;
+      title.fill = am4core.color("#012f8a");
       categoryAxis.dataFields.category = "townId";
       categoryAxis.renderer.grid.template.location = 0;
+      categoryAxis.renderer.grid.template.disabled = true;
       categoryAxis.renderer.minGridDistance = 20;
       categoryAxis.renderer.labels.template.horizontalCenter = "right";
+      categoryAxis.renderer.labels.template.fill = "white";
+      categoryAxis.renderer.line.strokeOpacity = 1;
+      categoryAxis.renderer.line.strokeWidth = 2;
+      categoryAxis.renderer.labels.template.truncate = true;
+      categoryAxis.renderer.labels.template.maxWidth = 150;
+      categoryAxis.renderer.labels.template.fontSize = 15;
+      categoryAxis.renderer.line.stroke = am4core.color("#3787ac");
       let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
       valueAxis.min = 0;
       // valueAxis.max = 600;
       // valueAxis.renderer.minGridDistance = 2;
-      valueAxis.renderer.grid.template.disabled = true;
-      valueAxis.renderer.labels.template.disabled = true;
-
+      valueAxis.renderer.labels.template.fill = "white";
+      valueAxis.renderer.grid.template.stroke = am4core.color("#fff");
+      valueAxis.renderer.line.strokeOpacity = 1;
+      valueAxis.renderer.line.strokeWidth = 2;
+      valueAxis.renderer.line.stroke = am4core.color("#3787ac");
       // Create series
       let series = chart.series.push(new am4charts.ColumnSeries());
       series.dataFields.valueY = "A级";
@@ -328,13 +361,14 @@ export default {
       series.tooltipText = "{name}: [bold]{valueY}[/]";
       series.stroke = am4core.color("red").lighten(-0.5);
       var gradient = new am4core.LinearGradient();
-      gradient.addColor(am4core.color("red"));
-      gradient.addColor(am4core.color("white"));
+      gradient.addColor(am4core.color("#db4f5a"));
+      gradient.addColor(am4core.color("#e0c2f8"));
       gradient.rotation = 90;
       series.fill = gradient;
       let valueLabel = series.bullets.push(new am4charts.LabelBullet());
       valueLabel.label.text = "{A级}";
       valueLabel.label.rotation = -45;
+      valueLabel.label.fill = am4core.color("#20beff");
       valueLabel.label.dy = -10;
 
       let series2 = chart.series.push(new am4charts.ColumnSeries());
@@ -344,13 +378,14 @@ export default {
       series2.tooltipText = "{name}: [bold]{valueY}[/]";
       series2.stroke = am4core.color("yellow").lighten(-0.5);
       var gradient2 = new am4core.LinearGradient();
-      gradient2.addColor(am4core.color("yellow"));
-      gradient2.addColor(am4core.color("white"));
+      gradient2.addColor(am4core.color("#f7b918"));
+      gradient2.addColor(am4core.color("#f7ffb2"));
       gradient2.rotation = 90;
       series2.fill = gradient2;
       let valueLabel2 = series2.bullets.push(new am4charts.LabelBullet());
       valueLabel2.label.text = "{B级}";
       valueLabel2.label.rotation = -45;
+      valueLabel2.label.fill = am4core.color("#20beff");
       valueLabel2.label.dy = -10;
 
       let series3 = chart.series.push(new am4charts.ColumnSeries());
@@ -360,20 +395,21 @@ export default {
       series3.tooltipText = "{name}: [bold]{valueY}[/]";
       series3.stroke = am4core.color("green").lighten(-0.5);
       var gradient3 = new am4core.LinearGradient();
-      gradient3.addColor(am4core.color("green"));
-      gradient3.addColor(am4core.color("white"));
+      gradient3.addColor(am4core.color("#55ea38"));
+      gradient3.addColor(am4core.color("#c1feb9"));
       gradient3.rotation = 90;
       series3.fill = gradient3;
       let valueLabel3 = series3.bullets.push(new am4charts.LabelBullet());
       valueLabel3.label.text = "{C级}";
+      valueLabel3.label.fill = am4core.color("#20beff");
       valueLabel3.label.rotation = -45;
       valueLabel3.label.dy = -10;
 
       // Add cursor
       chart.cursor = new am4charts.XYCursor();
-      console.log(chart.cursor);
       chart.legend = new am4charts.Legend();
       chart.legend.position = "top";
+      chart.legend.labels.template.fill = "white";
       chart.legend.contentAlign = "left";
       chart.legend.marginTop = -20;
       var legendTitle = chart.legend.createChild(am4core.Label);
@@ -382,8 +418,7 @@ export default {
       legendTitle.marginRight = 10;
       legendTitle.marginLeft = 40;
       legendTitle.paddingTop = 15;
-
-      console.log(chart);
+      legendTitle.fill = "white";
 
       let columnTemplate = series.columns.template;
       columnTemplate.strokeWidth = 2;
@@ -404,23 +439,34 @@ export default {
       });
       chart.data = data;
       chart.responsive.enabled = true;
+      chart.width = am4core.percent(55);
+      chart.height = am4core.percent(100);
+      chart.align = "center";
       // Add and configure Series
       let pieSeries = chart.series.push(new am4charts.PieSeries());
       let title = chart.titles.create();
       title.text = "各站点诚信等级上传数据的比例分布";
-      title.fontSize = 20;
-      title.marginBottom = -20;
+      title.fontSize = 5;
+      title.marginBottom = 20;
       title.marginTop = 10;
-      title.fontWeight = "bold";
-      title.align = "left";
+      title.fill = am4core.color("#012f8a");
       // pieSeries.radius = 100;
       pieSeries.dataFields.value = "cnt";
       pieSeries.dataFields.category = "townId";
       pieSeries.dataFields.radiusValue = "cnt";
       pieSeries.slices.template.stroke = am4core.color("#fff");
-      pieSeries.slices.template.strokeWidth = 2;
+      pieSeries.slices.template.strokeWidth = 1;
       pieSeries.slices.template.strokeOpacity = 1;
-
+      pieSeries.labels.template.truncate = true;
+      pieSeries.labels.template.fontSize = 15;
+      pieSeries.labels.template.maxWidth = 180;
+      pieSeries.labels.template.fill = "white";
+      pieSeries.labels.template.text =
+        "{value.percent.formatNumber('#.0')}% {category}";
+      pieSeries.ticks.template.strokeWidth = 1;
+      pieSeries.ticks.template.strokeOpacity = 0.7;
+      pieSeries.ticks.template.fill = am4core.color("#012f8a");
+      pieSeries.ticks.template.fillOpacity = 1;
       // Add cursor
       chart.cursor = new am4charts.XYCursor();
       // chart.legend = new am4charts.Legend()
@@ -446,21 +492,30 @@ export default {
       let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
       let title = chart.titles.create();
       title.text = "各站点上传数据统计";
-      title.fontSize = 20;
+      title.fontSize = 5;
       title.marginBottom = 30;
-      title.fontWeight = "bold";
-      title.align = "left";
+      title.fill = am4core.color("#012f8a");
       categoryAxis.dataFields.category = "townId";
+      categoryAxis.renderer.grid.template.disabled = true;
+      categoryAxis.renderer.labels.template.fill = "white";
+      categoryAxis.renderer.labels.template.truncate = true;
+      categoryAxis.renderer.labels.template.maxWidth = 150;
+      categoryAxis.renderer.labels.template.fontSize = 15;
       categoryAxis.renderer.labels.template.rotation = -45;
       categoryAxis.renderer.grid.template.location = 0;
-      categoryAxis.renderer.minGridDistance = 20;
+      categoryAxis.renderer.line.strokeOpacity = 1;
+      categoryAxis.renderer.line.strokeWidth = 2;
+      categoryAxis.renderer.line.stroke = am4core.color("#3787ac");
       categoryAxis.renderer.labels.template.horizontalCenter = "right";
       let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
       valueAxis.min = 0;
       // valueAxis.max = 15000;
-      // valueAxis.renderer.minGridDistance = 5;
-      valueAxis.renderer.grid.template.disabled = true;
-      valueAxis.renderer.labels.template.disabled = true;
+      valueAxis.renderer.minGridDistance = 40;
+      valueAxis.renderer.labels.template.fill = "white";
+      valueAxis.renderer.grid.template.stroke = am4core.color("#fff");
+      valueAxis.renderer.line.strokeOpacity = 1;
+      valueAxis.renderer.line.strokeWidth = 2;
+      valueAxis.renderer.line.stroke = am4core.color("#3787ac");
 
       // Create series
       let series = chart.series.push(new am4charts.ColumnSeries());
@@ -468,15 +523,15 @@ export default {
       series.dataFields.categoryX = "townId";
       series.name = "cnt";
       series.tooltipText = "{name}: [bold]{valueY}[/]";
-      series.stroke = am4core.color("lightblue").lighten(-0.5);
       var gradient = new am4core.LinearGradient();
-      gradient.addColor(am4core.color("lightblue"));
-      gradient.addColor(am4core.color("blue"));
+      gradient.addColor(am4core.color("#00d5f7"));
+      gradient.addColor(am4core.color("#4784ee"));
       gradient.rotation = 90;
       series.fill = gradient;
 
       let valueLabel = series.bullets.push(new am4charts.LabelBullet());
       valueLabel.label.text = "{cnt}";
+      valueLabel.label.fill = am4core.color("#20beff");
       valueLabel.label.rotation = -45;
       valueLabel.label.dy = -10;
       // Add cursor

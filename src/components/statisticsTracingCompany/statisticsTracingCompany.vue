@@ -191,6 +191,7 @@ export default {
 
       categoryAxis.dataFields.category = "townName";
       categoryAxis.renderer.minGridDistance = 20;
+      categoryAxis.renderer.grid.template.disabled = true;
       categoryAxis.renderer.labels.template.fill = "white";
       categoryAxis.renderer.labels.template.rotation = -45;
       categoryAxis.renderer.labels.template.truncate = true;
