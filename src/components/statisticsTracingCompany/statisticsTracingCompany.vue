@@ -47,7 +47,9 @@ export default {
     return {
       listLoading: true,
       tableData: null,
+      tableDataByCnt: null,
       companyStatics: null,
+      companyStatics1: null,
       townList: null,
       colorList: [
         "#229efe",
@@ -75,6 +77,7 @@ export default {
   methods: {
     getData() {
       this.tableData = [];
+      this.tableDataByCnt = [];
       this.companyStatics = [];
       this.townList = [];
 
@@ -126,12 +129,45 @@ export default {
       this.makePieChat1();
       this.makePieChat2();
       this.makeStickChat();
+    },
+    getTableData1() {
+      this.companyStatics1.forEach(res => {
+        let town_id = res[1],
+          townname = "";
+        for (let i = 0; i < this.townList.length; i++) {
+          if (this.townList[i].id === town_id) {
+            townname = this.townList[i].name;
+            break;
+          }
+        }
+
+        this.tableDataByCnt.push({
+          townName: townname,
+          companyCnt: res[0],
+          pie1Label: townname,
+          pie2Label: townname
+        });
+      });
       this.listLoading = false;
     },
 
     makePieChat1() {
       let chart = am4core.create(this.$refs.chartpie1, am4charts.PieChart);
-      chart.data = this.tableData;
+      Request()
+        .get("/api/tracing/getCompanyStatis", {
+          tracingTimeFrom: "",
+          tracingTimeTo: "",
+          sortBy: "cnt_company"
+        })
+        .then(res => {
+          this.companyStatics1 = res.data;
+          this.getTableData1();
+          chart.data = this.tableDataByCnt;
+        })
+        .catch(err => {
+          console.error(err);
+        });
+
       chart.responsive.enabled = true;
 
       let pieSeries = chart.series.push(new am4charts.PieSeries());

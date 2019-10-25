@@ -245,8 +245,11 @@ export default {
       createTimeTo: "",
       listLoading: false,
       visionData: null,
+      visionData1: null,
       rectificationData: null,
+      rectificationData1: null,
       tableData: null,
+      tableData1: null,
       townlist: null,
       totalData: null,
       specialData1: null,
@@ -276,18 +279,22 @@ export default {
   },
   created() {},
   methods: {
-    getData() {
+    async getData() {
       this.listLoading = true;
       this.tableData = [];
+      this.tableData1 = [];
       this.rectificationData = [];
+      this.rectificationData1 = [];
       this.visionData = [];
+      this.visionData1 = [];
       this.townlist = [];
+      this.townlist1 = [];
       this.totalData = [];
       this.qualityData = [];
       this.specialData1 = [];
       this.specialData2 = [];
 
-      Request()
+      await Request()
         .get("/api/supervision_record/statis", {
           createTimeFrom:
             this.createTimeFrom == null ? "" : this.createTimeFrom,
@@ -300,6 +307,20 @@ export default {
         .catch(err => {
           console.error(err);
         });
+      Request()
+        .get("/api/supervision_record/statis", {
+          createTimeFrom:
+            this.createTimeFrom == null ? "" : this.createTimeFrom,
+          createTimeTo: this.createTimeTo == null ? "" : this.createTimeTo,
+          sortBy: "cnt"
+        })
+        .then(res => {
+          this.visionData1 = res.data;
+          this.getTown1();
+        })
+        .catch(err => {
+          console.error(err);
+        });
     },
 
     getTown() {
@@ -308,6 +329,17 @@ export default {
         .then(response => {
           this.townlist = response;
           this.getRectification();
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    },
+    getTown1() {
+      Request()
+        .get("/api/town/all", {})
+        .then(response => {
+          this.townlist1 = response;
+          this.getRectification1();
         })
         .catch(err => {
           console.error(err);
@@ -379,14 +411,70 @@ export default {
               specialProgress: parseInt((tSpecial * 100) / tCnt)
             });
 
+            this.makeQualityData();
+          }
+        });
+    },
+    getRectification1() {
+      Request()
+        .get("/api/rectification_record/getStatis", {
+          createTimeFrom:
+            this.createTimeFrom == null ? "" : this.createTimeFrom,
+          createTimeTo: this.createTimeTo == null ? "" : this.createTimeTo
+        })
+        .then(res => {
+          this.rectificationData1 = res.data;
+
+          let tCnt = 0,
+            tRate = 0,
+            tCnt2 = 0,
+            tSpecial = 0;
+          this.visionData1.forEach(item => {
+            let cnt = item[0],
+              cnt_ok = item[1],
+              town_id = item[3],
+              townname = "",
+              cnt2 = 0;
+
+            for (let i = 0; i < this.townlist1.length; i++) {
+              if (this.townlist1[i].id === town_id) {
+                townname = this.townlist1[i].name;
+                break;
+              }
+            }
+
+            for (let i = 0; i < this.rectificationData1.length; i++) {
+              if (town_id === this.rectificationData1[i][1]) {
+                cnt2 = this.rectificationData1[i][0];
+                break;
+              }
+            }
+
+            tCnt += cnt;
+            tCnt2 += cnt2;
+            tRate += cnt - cnt_ok;
+            tSpecial += item[2];
+
+            this.tableData1.push({
+              townName: townname,
+              townCnt: cnt,
+              townCnt2: cnt2,
+              rate: cnt - cnt_ok,
+              progress: parseInt(((cnt - cnt_ok) * 100) / cnt),
+              chatName: townname,
+              specialLabel:
+                item[2] + "/" + parseInt((item[2] * 100) / cnt) + "%",
+              specialProgress: parseInt((item[2] * 100) / cnt)
+            });
+          });
+
+          if (this.tableData1.length > 0) {
             this.makePieChat1();
             this.makePieChat2();
-            this.makeQualityData();
           }
           this.listLoading = false;
         });
     },
-
     getColor(percent) {
       if (percent === 100) return "success";
 
@@ -395,7 +483,7 @@ export default {
 
     makePieChat1() {
       let chart = am4core.create(this.$refs.chartpie, am4charts.PieChart);
-      chart.data = this.tableData;
+      chart.data = this.tableData1;
       chart.responsive.enabled = true;
       chart.width = am4core.percent(55);
       chart.height = am4core.percent(100);
@@ -431,7 +519,8 @@ export default {
         .get("/api/quality_standard/statis", {
           createTimeFrom:
             this.createTimeFrom == null ? "" : this.createTimeFrom,
-          createTimeTo: this.createTimeTo == null ? "" : this.createTimeTo
+          createTimeTo: this.createTimeTo == null ? "" : this.createTimeTo,
+          sortBy: "cnt"
         })
         .then(res => {
           res.data.forEach(item => {
@@ -446,7 +535,7 @@ export default {
             this.qualityData.push({
               townName: townname,
               townCnt: item[0],
-              qualityLabel: townname + " " + item[0] + " "
+              qualityLabel: townname
             });
           });
 
@@ -509,4 +598,4 @@ export default {
 </script>
 
 <style>
-</style>
+</style>v

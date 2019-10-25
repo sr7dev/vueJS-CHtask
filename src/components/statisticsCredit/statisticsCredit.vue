@@ -224,7 +224,9 @@ export default {
     getRightTopData() {
       this.listLoading = true;
       Request()
-        .get("/api/company_credit_grade/getCreditStatis")
+        .get("/api/company_credit_grade/getCreditStatis", {
+          sortBy: "cnt"
+        })
         .then(response => {
           this.leftTopData = response.data;
           setTimeout(() => {
