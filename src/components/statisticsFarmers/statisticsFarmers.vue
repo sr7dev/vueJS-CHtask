@@ -183,6 +183,7 @@ export default {
         pageSize: 50
       },
       tableData: [],
+      tableDataByCnt: [],
       summaryData: [],
       listLoading: false,
       lineChartLoading: false,
@@ -263,8 +264,29 @@ export default {
               rowOkSum: rowOkSum
             });
           }
-          this.makeXYChart();
           this.makePieChart();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      Request()
+        .get("/api/disability_check/statis", {
+          detectTimeTo: detectTimeTo,
+          sortBy: "cnt"
+        })
+        .then(response => {
+          this.listLoading = false;
+          this.tableDataByCnt = [];
+          this.maxCnt = null;
+          let tmpData = response.data;
+          for (let index in tmpData) {
+            this.tableDataByCnt.push({
+              detect_unit: tmpData[index][0],
+              cnt: tmpData[index][1],
+              cnt_ok: tmpData[index][2]
+            });
+          }
+          this.makeXYChart();
         })
         .catch(error => {
           console.log(error);
@@ -304,7 +326,7 @@ export default {
     },
     makeXYChart() {
       let chart = am4core.create(this.$refs.chartdiv, am4charts.XYChart);
-      chart.data = this.tableData;
+      chart.data = this.tableDataByCnt;
       chart.marginTop = 20;
       let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
       let title = chart.titles.create();
@@ -461,9 +483,9 @@ export default {
       labelBullet.label.dy = -20;
 
       chart.cursor = new am4charts.XYCursor();
-      chart.cursor.behavior = "panX";
-      chart.cursor.lineX.opacity = 0;
-      chart.cursor.lineY.opacity = 0;
+      // chart.cursor.behavior = "panX";
+      // chart.cursor.lineX.opacity = 0;
+      // chart.cursor.lineY.opacity = 0;
 
       chart.scrollbarX = new am4core.Scrollbar();
       chart.scrollbarX.parent = chart.bottomAxesContainer;
