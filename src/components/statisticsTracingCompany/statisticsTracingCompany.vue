@@ -48,25 +48,7 @@ export default {
       listLoading: true,
       tableData: null,
       companyStatics: null,
-      townList: null,
-      colorList: [
-        "#229efe",
-        "#20beff",
-        "#21e3ff",
-        "#21ffda",
-        "#1fffa6",
-        "#61f779",
-        "#96f65f",
-        "#c9fb64",
-        "#c9fb64",
-        "#fbd661",
-        "#f1be51",
-        "#f68a63",
-        "#f17263",
-        "#ed6082",
-        "#ee63ca",
-        "#7366f4"
-      ]
+      townList: null
     };
   },
   created() {
@@ -156,11 +138,7 @@ export default {
       pieSeries.ticks.template.strokeWidth = 1;
       pieSeries.ticks.template.strokeOpacity = 0.7;
       pieSeries.ticks.template.fillOpacity = 1;
-      let colorSet = new am4core.ColorSet();
-      colorSet.list = this.colorList.map(color => {
-        return new am4core.color(color);
-      });
-      pieSeries.colors = colorSet;
+
       let hs = pieSeries.slices.template.states.getKey("hover");
       hs.properties.scale = 1;
       hs.properties.fillOpacity = 0.5;
@@ -188,6 +166,8 @@ export default {
       pieSeries.labels.template.maxWidth = 180;
       pieSeries.labels.template.text =
         "{value.percent.formatNumber('#.0')}% {category}";
+      pieSeries.slices.template.stroke = am4core.color("#fff");
+      pieSeries.slices.template.strokeWidth = 2;
       pieSeries.slices.template.strokeOpacity = 1;
       pieSeries.ticks.template.fill = am4core.color("#FFF");
       pieSeries.ticks.template.strokeWidth = 1;
@@ -197,11 +177,6 @@ export default {
       pieSeries.hiddenState.properties.opacity = 1;
       pieSeries.hiddenState.properties.endAngle = -90;
       pieSeries.hiddenState.properties.startAngle = -90;
-      let colorSet = new am4core.ColorSet();
-      colorSet.list = this.colorList.map(color => {
-        return new am4core.color(color);
-      });
-      pieSeries.colors = colorSet;
     },
 
     makeStickChat() {

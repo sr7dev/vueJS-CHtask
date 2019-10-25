@@ -190,25 +190,7 @@ export default {
       toYear: null,
       toMonth: null,
       maxCnt: null,
-      progressColor: "warning",
-      colorList: [
-        "#229efe",
-        "#20beff",
-        "#21e3ff",
-        "#21ffda",
-        "#1fffa6",
-        "#61f779",
-        "#96f65f",
-        "#c9fb64",
-        "#c9fb64",
-        "#fbd661",
-        "#f1be51",
-        "#f68a63",
-        "#f17263",
-        "#ed6082",
-        "#ee63ca",
-        "#7366f4"
-      ]
+      progressColor: "warning"
     };
   },
   created() {
@@ -387,17 +369,13 @@ export default {
       pieSeries.ticks.template.strokeOpacity = 0.7;
       pieSeries.ticks.template.fill = am4core.color("#012f8a");
       pieSeries.ticks.template.fillOpacity = 1;
+      pieSeries.slices.template.stroke = am4core.color("#fff");
+      pieSeries.slices.template.strokeWidth = 1;
 
       // This creates initial animation
       pieSeries.hiddenState.properties.opacity = 1;
       pieSeries.hiddenState.properties.endAngle = -90;
       pieSeries.hiddenState.properties.startAngle = -90;
-
-      let colorSet = new am4core.ColorSet();
-      colorSet.list = this.colorList.map(color => {
-        return new am4core.color(color);
-      });
-      pieSeries.colors = colorSet;
     },
     async makeLineChart() {
       await this.getLineChartData();
