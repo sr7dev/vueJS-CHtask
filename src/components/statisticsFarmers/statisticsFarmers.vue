@@ -85,7 +85,6 @@
               :show-header="false"
               row-class-name="success-row"
               class="border-hide chart-table"
-              v-if="summaryData"
             >
               <el-table-column prop="name" label="站点" class-name="white-colored">
                 <template slot-scope="{row}">
@@ -110,14 +109,15 @@
                   <h1 class="large-font">{{row.rowOkSum}}</h1>
                 </template>
               </el-table-column>
-              <el-table-column label="不合格" class-name="blue-colored text-center">
+              <el-table-column label="不合格" prop="rowOkSum" class-name="blue-colored text-center">
                 <template slot-scope="{row}">
                   <h1 class="large-font">{{row.rowTotalSum-row.rowOkSum}}</h1>
                 </template>
               </el-table-column>
-              <el-table-column prop="name" label="合格率">
+              <el-table-column prop="rowTotalSum" label="不合">
                 <template slot-scope="{ row }">
                   <el-progress
+                    v-if="row.TotalSum"
                     :percentage="getPercent(row.rowOkSum, row.rowTotalSum,2)"
                     :stroke-width="10"
                     :status="progressColor"
@@ -238,12 +238,13 @@ export default {
             rowOkSum = rowOkSum + parseInt(tmpData[index][2]);
           }
           this.summaryData = [];
-
-          this.summaryData.push({
-            name: "合计",
-            rowTotalSum: rowTotalSum,
-            rowOkSum: rowOkSum
-          });
+          if (this.tableData.length > 0) {
+            this.summaryData.push({
+              name: "合计",
+              rowTotalSum: rowTotalSum,
+              rowOkSum: rowOkSum
+            });
+          }
           this.makeXYChart();
           this.makePieChart();
         })
