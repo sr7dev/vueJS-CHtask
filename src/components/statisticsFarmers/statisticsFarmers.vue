@@ -151,11 +151,11 @@
       </el-row>
       <el-row class="w-100">
         <el-col>
-          <div class="w-100 flex-box disability-chart chart-container">
+          <div class="w-100 flex-box disability-chart chart-container" v-loading="lineChartLoading">
             <h1 style="font-size:20px" class="gradient-colored chart-title">各站点衣残捡测上传数据的比例分布</h1>
-            <div class="w-50" ref="chartdiv" v-loading="listLoading"></div>
+            <div class="w-50" ref="chartdiv"></div>
             <div class="divider"></div>
-            <div class="w-50" ref="chartdiv2" v-loading="lineChartLoading"></div>
+            <div class="w-50" ref="chartdiv2"></div>
           </div>
         </el-col>
       </el-row>
@@ -237,9 +237,8 @@ export default {
             rowTotalSum = rowTotalSum + parseInt(tmpData[index][1]);
             rowOkSum = rowOkSum + parseInt(tmpData[index][2]);
           }
-
-          if (this.tableData.length > 0) {
-            this.summaryData = [];
+          this.summaryData = [];
+          if (!this.summaryData) {
             this.summaryData.push({
               name: "合计",
               rowTotalSum: rowTotalSum,

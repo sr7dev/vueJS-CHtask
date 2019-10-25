@@ -253,7 +253,9 @@ export default {
       specialData2: null
     };
   },
-  mounted() {},
+  mounted() {
+    this.getData();
+  },
   created() {},
   methods: {
     getData() {
