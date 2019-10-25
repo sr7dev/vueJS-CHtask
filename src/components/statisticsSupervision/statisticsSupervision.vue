@@ -5,52 +5,57 @@
         <el-breadcrumb-item>监管记录看板</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="box padding-modified" v-loading="listLoading">
+    <div class="box padding-modified header statisticsSupervision"></div>
+    <div class="box padding-modified body" v-loading="listLoading">
       <el-row class="W-100">
         <el-col :span="14">
-          <div class="disability-chart chart-container">
+          <div class="disability-chart chart-container padding-10 large">
             <el-row class="w-100 flex-center margin-top-10 margin-bottom-10">
               <el-col :span="5" class="margin-left-10">
-                <h1>监管记录统计</h1>
+                <h1 style="font-size:20px" class="gradient-colored">监管记录统计</h1>
               </el-col>
               <el-col :span="7" class="margin-left-20 flex-center">
-                <div class="select_label no-margin-left">开始日期</div>
+                <div class="select_label no-margin-left white-colored">开始日期</div>
                 <el-date-picker
                   type="date"
+                  size="small"
                   placeholder="选择日期"
+                  class="chart-input"
                   v-model="createTimeFrom"
                   style="width: 300px;"
                 ></el-date-picker>
               </el-col>
               <el-col :span="7" class="margin-left-20 flex-center">
-                <div class="select_label no-margin-left">结束日期</div>
+                <div class="select_label no-margin-left white-colored">结束日期</div>
                 <el-date-picker
                   type="date"
+                  size="small"
+                  class="chart-input"
                   placeholder="选择日期"
                   v-model="createTimeTo"
                   style="width: 300px;"
                 ></el-date-picker>
               </el-col>
               <el-col :span="5" class="margin-left-20">
-                <el-button size="small" type="primary" plain @click="getData()">开始统计</el-button>
+                <el-button type="primary" plain @click="getData()" class="no-effect">开始统计</el-button>
               </el-col>
             </el-row>
             <el-row>
               <el-container>
-                <el-table
-                  :data="tableData"
-                  style="width: 100%"
-                  highlight-current-row
-                  class="fixed-height"
-                >
-                  <el-table-column prop="townName" label="乡镇名称" width="120"></el-table-column>
-                  <el-table-column prop="townCnt" label="监管记录数量"></el-table-column>
-                  <el-table-column prop="townCnt2" label="整改记录数量"></el-table-column>
-                  <el-table-column prop="rate" label="不合格数量"></el-table-column>
+                <el-table :data="tableData" style="width: 100%" class="fixed-height chart-table">
+                  <el-table-column
+                    prop="townName"
+                    label="乡镇名称"
+                    width="120"
+                    class-name="white-colored"
+                  ></el-table-column>
+                  <el-table-column prop="townCnt" label="监管记录数量" class-name="blue-colored"></el-table-column>
+                  <el-table-column prop="townCnt2" label="整改记录数量" class-name="blue-colored"></el-table-column>
+                  <el-table-column prop="rate" label="不合格数量" class-name="blue-colored"></el-table-column>
                   <el-table-column prop="progress" label="不合格占比">
                     <template slot-scope="{ row }">
                       <div class="sub-title">
-                        <h3>{{row.progress}}%</h3>
+                        <h3 class="blue-colored">{{row.progress}}%</h3>
                       </div>
                       <el-progress
                         :percentage="row.progress"
@@ -69,17 +74,21 @@
                   :data="totalData"
                   style="width: 100%"
                   :show-header="false"
-                  class="border-curved"
+                  class="border-hide chart-table"
                   row-class-name="success-row"
                 >
-                  <el-table-column prop="townName" width="120"></el-table-column>
-                  <el-table-column prop="townCnt"></el-table-column>
-                  <el-table-column prop="townCnt2"></el-table-column>
-                  <el-table-column prop="rate"></el-table-column>
+                  <el-table-column prop="townName" width="120" class-name="white-colored">
+                    <template slot-scope="{row}">
+                      <b>{{row.townName}}</b>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="townCnt" class-name="blue-colored"></el-table-column>
+                  <el-table-column prop="townCnt2" class-name="blue-colored"></el-table-column>
+                  <el-table-column prop="rate" class-name="blue-colored"></el-table-column>
                   <el-table-column prop="progress">
                     <template slot-scope="{ row }">
                       <div class="sub-title">
-                        <h3>{{row.progress}}</h3>
+                        <h3 class="blue-colored">{{row.progress}}</h3>
                       </div>
                       <el-progress
                         :percentage="row.progress * 100"
@@ -94,88 +103,108 @@
             </el-row>
           </div>
         </el-col>
-        <el-col :span="10">
-          <div class="disability-chart chart-container margin-left-10" ref="chartpie"></div>
+        <el-col :span="10" class="position-relative">
+          <h1
+            style="font-size:20px"
+            class="gradient-colored chart-title margin-left-10"
+          >各乡镇监管记录上传数据的比例分布</h1>
+          <div class="disability-chart chart-container margin-left-10 large" ref="chartpie"></div>
         </el-col>
       </el-row>
       <el-row class="W-100">
         <el-col>
           <div class="w-100 flex-box disability-chart chart-container">
+            <h1 style="font-size:20px" class="gradient-colored chart-title margin-left-10">认证统计</h1>
             <div class="w-50" ref="chartpie2"></div>
-            <div class="divider"></div>
+            <div class="divider margin-right-20"></div>
             <div class="w-50">
               <el-row v-if="specialData1 !== null && specialData1.length > 0">
-                <el-col align="center" class="margin-top-10" style="font-size: 20px;">
-                  <h1>绿色优质数量/占比</h1>
+                <el-col class="margin-top-10 text-left" style="font-size: 20px;">
+                  <h1 style="font-size:20px" class="gradient-colored">绿色优质数量/占比</h1>
                 </el-col>
               </el-row>
               <el-row>
-                <el-col :span="12">
-                  <el-container>
-                    <el-table
-                      :data="specialData1"
-                      style="width: 100%; height: 293px;"
-                      :show-header="false"
-                      v-if="specialData1 !== null && specialData1.length > 0"
-                      class="fixed-height margin-top-10 padding-left-20 padding-right-20"
+                <el-col :span="11">
+                  <el-table
+                    :data="specialData1"
+                    style="width: 100%; height: 293px;"
+                    :show-header="false"
+                    v-if="specialData1 !== null && specialData1.length > 0"
+                    class="fixed-height chart-table margin-top-10"
+                  >
+                    <el-table-column
+                      prop="townName"
+                      class-name="no-border-bottom white-colored text-right"
+                    ></el-table-column>
+                    <el-table-column
+                      prop="progress"
+                      width="200"
+                      class-name="no-border-bottom blue-colored"
                     >
-                      <el-table-column prop="townName" width="70" class-name="no-border-bottom"></el-table-column>
-                      <el-table-column prop="progress" class-name="no-border-bottom">
-                        <template slot-scope="{ row }">
-                          <div>
-                            <h3>{{row.townCnt}}</h3>
-                          </div>
-                          <el-progress
-                            :percentage="row.progress"
-                            :stroke-width="10"
-                            :status="getColor(row.progress)"
-                            :show-text="false"
-                          ></el-progress>
-                        </template>
-                      </el-table-column>
-                      <el-table-column prop="label" class-name="no-border-bottom"></el-table-column>
-                    </el-table>
-                  </el-container>
+                      <template slot-scope="{ row }">
+                        <div>
+                          <h3>{{row.townCnt}}</h3>
+                        </div>
+                        <el-progress
+                          :percentage="row.progress"
+                          :stroke-width="10"
+                          :status="getColor(row.progress)"
+                          :show-text="false"
+                        ></el-progress>
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="label" class-name="no-border-bottom blue-colored"></el-table-column>
+                  </el-table>
                 </el-col>
-                <el-col :span="12">
-                  <el-container>
-                    <el-table
-                      :data="specialData2"
-                      style="width: 100%; height: 293px;"
-                      :show-header="false"
-                      v-if="specialData2 !== null && specialData2.length > 0"
-                      class="fixed-height margin-top-10 padding-left-20 padding-right-20"
+                <el-col :span="11">
+                  <el-table
+                    :data="specialData2"
+                    style="width: 100%; height: 293px;"
+                    :show-header="false"
+                    v-if="specialData2 !== null && specialData2.length > 0"
+                    class="fixed-height margin-top-10 chart-table"
+                  >
+                    <el-table-column
+                      prop="townName"
+                      class-name="no-border-bottom text-right white-colored"
+                    ></el-table-column>
+                    <el-table-column
+                      prop="progress"
+                      width="200"
+                      class-name="no-border-bottom blue-colored"
                     >
-                      <el-table-column prop="townName" width="70" class-name="no-border-bottom"></el-table-column>
-                      <el-table-column prop="progress" class-name="no-border-bottom">
-                        <template slot-scope="{ row }">
-                          <div>
-                            <h3>{{row.townCnt}}</h3>
-                          </div>
-                          <el-progress
-                            :percentage="row.progress"
-                            :stroke-width="10"
-                            :status="getColor(row.progress)"
-                            :show-text="false"
-                          ></el-progress>
-                        </template>
-                      </el-table-column>
-                      <el-table-column prop="label" class-name="no-border-bottom"></el-table-column>
-                    </el-table>
-                  </el-container>
+                      <template slot-scope="{ row }">
+                        <div>
+                          <h3>{{row.townCnt}}</h3>
+                        </div>
+                        <el-progress
+                          :percentage="row.progress"
+                          :stroke-width="10"
+                          :status="getColor(row.progress)"
+                          :show-text="false"
+                        ></el-progress>
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="label" class-name="no-border-bottom blue-colored"></el-table-column>
+                  </el-table>
                 </el-col>
               </el-row>
               <el-row>
-                <el-container>
+                <el-col :span="22">
                   <el-table
                     :data="totalData"
                     style="width: 100%"
                     :show-header="false"
-                    class="border-curved"
+                    class="chart-table border-hide"
                     v-if="totalData !== null && totalData.length > 0"
                   >
-                    <el-table-column prop="townName" align="center" width="120"></el-table-column>
-                    <el-table-column prop="specialProgress">
+                    <el-table-column
+                      prop="townName"
+                      align="center"
+                      width="120"
+                      class-name="white-colored"
+                    ></el-table-column>
+                    <el-table-column prop="specialProgress" class-name="blue-colored">
                       <template slot-scope="{ row }">
                         <div>
                           <h3>{{row.townCnt}}</h3>
@@ -188,9 +217,9 @@
                         ></el-progress>
                       </template>
                     </el-table-column>
-                    <el-table-column prop="specialLabel" width="120"></el-table-column>
+                    <el-table-column prop="specialLabel" width="120" class-name="blue-colored"></el-table-column>
                   </el-table>
-                </el-container>
+                </el-col>
               </el-row>
             </div>
           </div>
@@ -311,7 +340,7 @@ export default {
               townCnt2: cnt2,
               rate: cnt - cnt_ok,
               progress: parseInt(((cnt - cnt_ok) * 100) / cnt),
-              chatName: townname + "监管...",
+              chatName: townname,
               specialLabel:
                 item[2] + "/" + parseInt((item[2] * 100) / cnt) + "%",
               specialProgress: parseInt((item[2] * 100) / cnt)
@@ -348,21 +377,25 @@ export default {
       let chart = am4core.create(this.$refs.chartpie, am4charts.PieChart);
       chart.data = this.tableData;
       chart.responsive.enabled = true;
+      chart.width = am4core.percent(55);
+      chart.height = am4core.percent(100);
+      chart.align = "center";
       let pieSeries = chart.series.push(new am4charts.PieSeries());
-
-      let title = chart.titles.create();
-      title.text = "各乡镇监管记录上传数据的比例分布";
-      title.fontSize = 20;
-      title.marginBottom = -20;
-      title.marginTop = 10;
-      title.fontWeight = "bold";
 
       pieSeries.dataFields.value = "townCnt";
       pieSeries.dataFields.category = "chatName";
       pieSeries.dataFields.radiusValue = "townCnt";
       pieSeries.slices.template.stroke = am4core.color("#fff");
-      pieSeries.slices.template.strokeWidth = 2;
+      pieSeries.labels.template.truncate = true;
+      pieSeries.labels.template.fontSize = 15;
+      pieSeries.labels.template.maxWidth = 180;
+      pieSeries.labels.template.fill = "white";
+      pieSeries.slices.template.strokeWidth = 1;
       pieSeries.slices.template.strokeOpacity = 1;
+      pieSeries.ticks.template.strokeWidth = 1;
+      pieSeries.ticks.template.strokeOpacity = 0.7;
+      pieSeries.ticks.template.fill = am4core.color("#012f8a");
+      pieSeries.ticks.template.fillOpacity = 1;
 
       // This creates initial animation
       pieSeries.hiddenState.properties.opacity = 1;
@@ -401,14 +434,22 @@ export default {
           let pieSeries = chart.series.push(new am4charts.PieSeries());
           let title = chart.titles.create();
           title.text = "认证统计";
-          title.fontSize = 20;
-          title.marginBottom = -20;
-          title.marginTop = 10;
-          title.fontWeight = "bold";
+          title.fontSize = 5;
+          title.marginBottom = 10;
+          title.fill = am4core.color("#012f8a");
 
           pieSeries.dataFields.value = "townCnt";
           pieSeries.dataFields.category = "qualityLabel";
-
+          pieSeries.ticks.template.strokeWidth = 1;
+          pieSeries.ticks.template.strokeOpacity = 0.7;
+          pieSeries.ticks.template.fill = am4core.color("#012f8a");
+          pieSeries.ticks.template.fillOpacity = 1;
+          pieSeries.labels.template.truncate = true;
+          pieSeries.labels.template.fontSize = 15;
+          pieSeries.labels.template.maxWidth = 180;
+          pieSeries.labels.template.fill = "white";
+          pieSeries.labels.template.text =
+            "{value.value} / {value.percent.formatNumber('#.0')}% {category}";
           chart.innerRadius = am4core.percent(40);
           pieSeries.slices.template.fillOpacity = 1;
 
