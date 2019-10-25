@@ -21,7 +21,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item label="认证类别">
+        <el-form-item label="认证类型">
           <el-radio-group v-model="data.argriculturalClassification" disabled>
             <el-radio label="1">无公害产品</el-radio>
             <el-radio label="2">绿色食品</el-radio>
@@ -100,13 +100,12 @@
                     <span class="item-value" v-if="!files">
                       <el-link @click="downloadFile()">
                         {{
-                          fileName
+                        fileName
                         }}
                       </el-link>
                     </span>
                     <span class="item-value" v-if="files">({{ fileName }})</span>
                   </div>
-                  
                 </div>
               </div>
             </el-form-item>
@@ -157,10 +156,11 @@ export default {
         .get("/api/quality_standard/get/" + id)
         .then(response => {
           this.data = response;
-          this.data.argriculturalClassification = parseInt(response.argriculturalClassification);
+          this.data.argriculturalClassification = parseInt(
+            response.argriculturalClassification
+          );
           this.files = response.files;
-          if (!response.files)
-            this.fileName = "";
+          if (!response.files) this.fileName = "";
           setTimeout(() => {
             this.dataloading = false;
           }, 0.01 * 1000);
@@ -178,7 +178,6 @@ export default {
 
     handleFileUpload() {
       this.files = this.$refs.files.files[0];
-
     },
     downloadFile() {
       axios({
@@ -189,10 +188,7 @@ export default {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute(
-          "download", 
-          this.files.replace("/uploads/", "")
-        ); //or any other extension
+        link.setAttribute("download", this.files.replace("/uploads/", "")); //or any other extension
         document.body.appendChild(link);
         link.click();
         link.remove();
