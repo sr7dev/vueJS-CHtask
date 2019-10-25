@@ -117,7 +117,7 @@
               <el-table-column prop="rowTotalSum" label="不合">
                 <template slot-scope="{ row }">
                   <el-progress
-                    v-if="row.TotalSum"
+                    v-if="row.rowTotalSum"
                     :percentage="getPercent(row.rowOkSum, row.rowTotalSum,2)"
                     :stroke-width="10"
                     :status="progressColor"
@@ -190,7 +190,7 @@ export default {
       toYear: null,
       toMonth: null,
       maxCnt: null,
-      progressColor: ""
+      progressColor: "warning"
     };
   },
   created() {
@@ -237,8 +237,9 @@ export default {
             rowTotalSum = rowTotalSum + parseInt(tmpData[index][1]);
             rowOkSum = rowOkSum + parseInt(tmpData[index][2]);
           }
-          this.summaryData = [];
+
           if (this.tableData.length > 0) {
+            this.summaryData = [];
             this.summaryData.push({
               name: "合计",
               rowTotalSum: rowTotalSum,

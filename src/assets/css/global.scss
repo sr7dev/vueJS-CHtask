@@ -487,6 +487,9 @@ input[type=number]::-webkit-inner-spin-button {
     &.statisticsSupervision {
       background-image: url("../../assets/images/statisticsSupervision.png");
     }
+    &.statisticsCredit {
+      background-image: url("../../assets/images/statisticsCredit.png");
+    }
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
