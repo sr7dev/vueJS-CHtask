@@ -754,6 +754,66 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           if (this.isHideDeleteButton) {
+            //adding tracing data
+            let tracingFormData = new FormData();
+            const batchSubName1 = this.getVarietyName(
+              this.selectedBatchRow.varietyId
+            );
+            const batchSubName2 = this.getGradeName(
+              this.selectedBatchRow.varietyGrade
+            );
+            tracingFormData.append("id", 0);
+            tracingFormData.append("productId", this.productId);
+            tracingFormData.append(
+              "companyId",
+              Storage.get("selectedCompanyId")
+            ); //temporary - later this.companyId
+
+            tracingFormData.append(
+              "productionTime",
+              this.ruleFormValue1.taskDate
+            );
+            tracingFormData.append("locationId", 0);
+            tracingFormData.append("charge", "");
+            if (this.selectedBatchRow.reportTime) {
+              this.selectedBatchRow.reportTime = new Date(
+                this.selectedBatchRow.reportTime
+              );
+              tracingFormData.append(
+                "reportTime",
+                this.selectedBatchRow.reportTime
+              );
+            }
+
+            tracingFormData.append(
+              "batchNumber",
+              this.selectedBatchRow.batchNumber
+            );
+            tracingFormData.append(
+              "batchName",
+              batchSubName1 + "," + batchSubName2
+            );
+            tracingFormData.append("tracingNumber", "");
+            // tracingFormData.append("tracingTime", createTime);
+            tracingFormData.append("tracingTimeType", 0);
+            // tracingFormData.append("webTime", createTime);
+            tracingFormData.append("webTimeType", 0);
+            tracingFormData.append("tracingAmount", 0);
+            tracingFormData.append("printStatus", 0);
+            tracingFormData.append("createTime", new Date());
+            tracingFormData.append("createUserId", Auth().user().attrs.id);
+            tracingFormData.append("updateTime", new Date());
+            tracingFormData.append("updateUserId", 0);
+
+            Request()
+              .post("/api/tracing/create", tracingFormData)
+              .then(response => {
+                console.log(response);
+              })
+              .catch(error => {
+                console.error(error);
+              });
+
             this.show_TaskDialog = false;
             let formData = new FormData();
             const createTime = new Date();
@@ -888,60 +948,6 @@ export default {
           this.show_ReportDialog = false;
           this.listLoading = true;
           const tmpDate = new Date(this.ruleFormValue2.reportDate);
-          if (this.ruleFormValue2.reportResult > 0) {
-            let tracingFormData = new FormData();
-            const batchSubName1 = this.getVarietyName(
-              this.selectedBatchRow.varietyId
-            );
-            const batchSubName2 = this.getGradeName(
-              this.selectedBatchRow.varietyGrade
-            );
-            tracingFormData.append("id", 0);
-            tracingFormData.append("productId", this.productId);
-            tracingFormData.append(
-              "companyId",
-              Storage.get("selectedCompanyId")
-            ); //temporary - later this.companyId
-            let tmpTaskDate;
-            if (this.selectedBatchRow.taskData.length > 0) {
-              tmpTaskDate = new Date(
-                this.selectedBatchRow.taskData[0].taskDate
-              );
-            }
-            tracingFormData.append("productionTime", tmpTaskDate);
-            tracingFormData.append("locationId", 0);
-            tracingFormData.append("charge", "");
-
-            tracingFormData.append("reportTime", tmpDate);
-            tracingFormData.append(
-              "batchNumber",
-              this.selectedBatchRow.batchNumber
-            );
-            tracingFormData.append(
-              "batchName",
-              batchSubName1 + "," + batchSubName2
-            );
-            tracingFormData.append("tracingNumber", "");
-            // tracingFormData.append("tracingTime", createTime);
-            tracingFormData.append("tracingTimeType", 0);
-            // tracingFormData.append("webTime", createTime);
-            tracingFormData.append("webTimeType", 0);
-            tracingFormData.append("tracingAmount", 0);
-            tracingFormData.append("printStatus", 0);
-            tracingFormData.append("createTime", new Date());
-            tracingFormData.append("createUserId", Auth().user().attrs.id);
-            tracingFormData.append("updateTime", new Date());
-            tracingFormData.append("updateUserId", 0);
-
-            Request()
-              .post("/api/tracing/create", tracingFormData)
-              .then(response => {
-                console.log(response);
-              })
-              .catch(error => {
-                console.error(error);
-              });
-          }
           let formData = new FormData();
           const createTime = new Date();
           formData.append("batchNumber", this.selectedBatchRow.batchNumber);
