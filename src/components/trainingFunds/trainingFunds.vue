@@ -9,17 +9,24 @@
       <div class="iptBox" v-if="loggedinUserType === 2 || loggedinUserType === 0">
         <div class="iptBox w-100">
           <div class="filter-item">
-            <el-button size="small" type="primary" v-on:click="$router.push(`/trainingFunds/add`)" plain>添加</el-button>
+            <el-button
+              size="small"
+              type="primary"
+              v-on:click="$router.push(`/trainingFunds/add`)"
+              plain
+            >添加</el-button>
           </div>
-          <div class="special-container" style="margin-left:auto">
-            <el-button size="small"
+          <div class="special-container inline-block-IE float-right-IE" style="margin-left:auto">
+            <el-button
+              size="small"
               type="success"
               icon="el-icon-plus"
               v-if="isShowCheckbox != 0"
               plain
               @click="actionConfirm(1)"
             >添加到专项</el-button>
-            <el-button size="small"
+            <el-button
+              size="small"
               type="danger"
               icon="el-icon-minus"
               v-if="isShowCheckbox != 0"
@@ -32,6 +39,7 @@
               true-label="1"
               false-label="0"
               @change="showCheckbox"
+              class="margin-top-10"
             >专项1:绿色优质农产品生产基地</el-checkbox>
           </div>
         </div>
@@ -63,7 +71,13 @@
         >
           <el-table-column label width="35" v-if="isShowCheckbox != 0">
             <template slot-scope="{ row }">
-              <el-checkbox style="margin-left:auto" @change="changeCheckStatus(row.id)"></el-checkbox>
+              <el-checkbox
+                style="margin-left:auto"
+                @change="changeCheckStatus(row.id)"
+                true-label="1"
+                false-label="0"
+                v-model="checked[row.id]"
+              ></el-checkbox>
             </template>
           </el-table-column>
           <el-table-column :formatter="order" label="序号"></el-table-column>
@@ -79,7 +93,8 @@
           </el-table-column>-->
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
-              <el-button size="small"
+              <el-button
+                size="small"
                 type="success"
                 plain
                 v-on:click="$router.push({path: `/trainingFunds/view/${row.id}`})"
@@ -136,7 +151,8 @@ export default {
       alert_dialogVisible: false,
       confirm_dialogVisible: false,
       btnColor: "",
-      action: ""
+      action: "",
+      checked: []
     };
   },
   mounted() {
@@ -194,7 +210,7 @@ export default {
     changeCheckStatus(id) {
       let index = this.selectedRows.indexOf(id);
       if (index > -1) this.selectedRows.splice(index, 1);
-      if (event.target.checked) {
+      if (this.checked[id] == 1) {
         this.selectedRows.push(id);
       }
     },
@@ -223,6 +239,7 @@ export default {
               this.listLoading = false;
             }, 0.5 * 1000);
             this.selectedRows = [];
+            this.checked = [];
             this.isShowCheckbox = 0;
             this.getList();
           })
@@ -232,8 +249,9 @@ export default {
       }
     },
     showCheckbox() {
-      if (!event.target.checked) {
+      if (this.isShowCheckbox == 1) {
         this.selectedRows = [];
+        this.checked = [];
       }
     }
   }
