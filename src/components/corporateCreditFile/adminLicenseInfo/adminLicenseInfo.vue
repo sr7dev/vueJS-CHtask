@@ -175,7 +175,8 @@ export default {
         .get("/api/public_license/all", {
           creditCode: this.$route.query.creditCode,
           pageNo: this.page.pageIndex - 1,
-          pageSize: this.page.pageSize
+          pageSize: this.page.pageSize,
+          sortBy: "id"
         })
         .then(response => {
           this.tableData = response.data;

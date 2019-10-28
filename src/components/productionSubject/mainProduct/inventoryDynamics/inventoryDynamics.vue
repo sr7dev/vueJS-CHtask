@@ -184,7 +184,8 @@ export default {
         .get("/api/product_repetory/all", {
           product_id: this.productId,
           pageNo: this.page.pageIndex - 1,
-          pageSize: this.page.pageSize
+          pageSize: this.page.pageSize,
+          sortBy: "id"
         })
         .then(res => {
           this.tableData = res.data;

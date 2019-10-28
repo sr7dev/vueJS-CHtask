@@ -206,7 +206,9 @@ export default {
     getLeftTopData() {
       this.listLoading = true;
       Request()
-        .get("/api/company_production/getTownCreditStatis")
+        .get("/api/company_production/getTownCreditStatis",{
+          sortBy: "town_id"
+        })
         .then(response => {
           this.leftTopData = response.data;
           setTimeout(() => {
@@ -258,7 +260,8 @@ export default {
       Request()
         .get("/api/company_credit_grade/all", {
           approvalStatus: 2,
-          nowGrade: "A"
+          nowGrade: "A",
+          sortBy: "creditGradeId"
         })
         .then(response => {
           // this.redData = response.data;
@@ -280,7 +283,8 @@ export default {
       Request()
         .get("/api/company_credit_grade/all", {
           approvalStatus: 2,
-          nowGrade: "C"
+          nowGrade: "C",
+          sortBy: "creditGradeId"
         })
         .then(response => {
           // this.blackData = response.data;

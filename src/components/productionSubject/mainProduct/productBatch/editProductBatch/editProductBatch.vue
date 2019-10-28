@@ -101,7 +101,9 @@ export default {
     getVarietyData() {
       this.listLoading = true;
       Request()
-        .get("/api/product_variety/all", { productId: this.productId })
+        .get("/api/product_variety/all", { 
+          productId: this.productId,
+          sortBy: "id" })
         .then(response => {
           this.varietyList = response.data;
         })

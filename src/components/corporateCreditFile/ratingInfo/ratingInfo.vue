@@ -104,7 +104,8 @@ export default {
           approvalStatus: -1,
           pageNo: 0,
           pageSize: 20,
-          townId: 0
+          townId: 0,
+          sortBy: "creditGradeId"
         })
         .then(response => {
           this.tableData = response.data;

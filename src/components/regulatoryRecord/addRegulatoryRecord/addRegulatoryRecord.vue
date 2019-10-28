@@ -510,7 +510,9 @@ export default {
     },
     getWords() {
       Request()
-        .get("/api/common_word/all")
+        .get("/api/common_word/all", {
+          sortBy: "id"
+        })
         .then(response => {
           this.wordsList = this.wordsList.concat(response.data);
         })

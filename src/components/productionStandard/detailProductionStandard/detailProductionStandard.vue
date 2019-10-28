@@ -110,7 +110,9 @@ export default {
   methods: {
     getProduction() {
       Request()
-        .get("/api/product_production/all")
+        .get("/api/product_production/all", {
+          sortBy:"productId"
+        })
         .then(response => {
           this.productionList = response.data;
         })

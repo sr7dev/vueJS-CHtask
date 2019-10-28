@@ -115,7 +115,9 @@ export default {
     getReceiveUserId() {
         this.dataloading = true;
         Request()
-            .get("/api/user/all")
+            .get("/api/user/all", {
+                sortBy: "id"
+            })
             .then(response => {
                 this.users = this.users.concat(response.data)
                 setTimeout(() => {

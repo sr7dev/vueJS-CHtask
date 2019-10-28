@@ -116,7 +116,8 @@ export default {
         Request()
           .get("/api/sample_check/all", {
             pageNo: this.page.pageIndex - 1,
-            pageSize: this.page.pageSize
+            pageSize: this.page.pageSize,
+            sortBy: "id"
           })
           .then(response => {
             this.tableData = response.data;
@@ -132,7 +133,8 @@ export default {
         Request()
           .get("/api/sample_check_result/all", {
             pageNo: this.page.pageIndex - 1,
-            pageSize: this.page.pageSize
+            pageSize: this.page.pageSize,
+            sortBy: "id"
           })
           .then(response => {
             this.tableData = response.data;

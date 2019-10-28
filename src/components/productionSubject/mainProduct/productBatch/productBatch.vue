@@ -579,7 +579,8 @@ export default {
         .get("/api/product_batch/all", {
           productId: this.productId,
           pageNo: this.page.pageIndex - 1,
-          pageSize: this.page.pageSize
+          pageSize: this.page.pageSize,
+          sortBy: "id"
         })
         .then(res => {
           let tmpData = res.data;
@@ -618,7 +619,8 @@ export default {
       this.listLoading = true;
       Request()
         .get("/api/product_task/all", {
-          productId: this.productId
+          productId: this.productId,
+          sortBy: "id"
         })
         .then(res => {
           this.taskList = res.data;
@@ -629,7 +631,9 @@ export default {
     },
     getVarietyData() {
       Request()
-        .get("/api/product_variety/all", { productId: this.productId })
+        .get("/api/product_variety/all", { 
+          productId: this.productId,
+          sortBy: "id" })
         .then(response => {
           this.varietyList = response.data;
         })
@@ -641,7 +645,8 @@ export default {
       this.listLoading = true;
       return Request()
         .get("/api/product_batch_task/all", {
-          productId: this.productId
+          productId: this.productId,
+          sortBy: "id"
         })
         .then(response => {
           this.batchTaskList = response.data;
@@ -654,7 +659,8 @@ export default {
       this.listLoading = true;
       return Request()
         .get("/api/product_sale/all", {
-          productId: this.productId
+          productId: this.productId,
+          sortBy: "id"
         })
         .then(response => {
           this.batchSaleList = response.data;
@@ -666,7 +672,8 @@ export default {
     getProductProperty() {
       Request()
         .get("/api/product_property/all", {
-          productId: this.productId
+          productId: this.productId,
+          sortBy: "id"
         })
         .then(response => {
           this.propertyList = response.data;

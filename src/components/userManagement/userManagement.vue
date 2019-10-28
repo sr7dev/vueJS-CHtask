@@ -151,7 +151,8 @@ export default {
       Request()
         .get("/api/user/all", {
           pageNo: this.page.pageIndex - 1,
-          pageSize: this.page.pageSize
+          pageSize: this.page.pageSize,
+          sortBy: "id"
         })
         .then(response => {
           this.tableData = response.data;

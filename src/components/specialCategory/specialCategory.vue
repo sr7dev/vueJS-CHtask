@@ -208,7 +208,8 @@ export default {
           companyId: this.companyId,
           specialFlag: this.specialFlag,
           supervisionRecordTimeFrom: this.supervisionRecordTimeFrom,
-          supervisionRecordTimeTo: this.supervisionRecordTimeTo
+          supervisionRecordTimeTo: this.supervisionRecordTimeTo,
+          sortBy: "id"
         })
         .then(response => {
           this.tableData = response.data;
@@ -227,7 +228,8 @@ export default {
         .get("/api/disability_check/all", {
           specialFlag: this.specialFlag,
           detectTimeFrom: this.detectTimeFrom,
-          detectTimeTo: this.detectTimeTo
+          detectTimeTo: this.detectTimeTo,
+          sortBy: "id"
         })
         .then(response => {
           this.detectTableData = response.data;
@@ -245,7 +247,8 @@ export default {
         .get("/api/training_funds/all", {
           specialFlag: this.specialFlag,
           createTimeFrom: this.createTimeFrom,
-          createTimeTo: this.createTimeTo
+          createTimeTo: this.createTimeTo,
+          sortBy: "id"
         })
         .then(response => {
           this.trainTableData = response.data;

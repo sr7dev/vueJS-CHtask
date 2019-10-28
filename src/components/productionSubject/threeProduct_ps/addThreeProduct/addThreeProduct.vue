@@ -243,7 +243,8 @@ export default {
       var companyId = this.filterCompany(this.ruleFormValue.creditCode);
       Request()
         .get("/api/product_production/all", {
-          company_id: companyId
+          company_id: companyId,
+          sortBy:"productId"
         })
         .then(response => {
           this.productNameList = response.data;

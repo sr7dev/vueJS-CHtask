@@ -521,7 +521,9 @@ export default {
       this.listLoading = true;
       Request()
         .get(
-          "/api/rectification_record/all?supervisionRecordId=" + this.superId
+          "/api/rectification_record/all?supervisionRecordId=" + this.superId, {
+            sortBy: "id"
+          }
         )
         .then(response => {
           let tmpdata = response.data;

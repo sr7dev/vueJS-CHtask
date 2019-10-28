@@ -125,7 +125,8 @@ export default {
       this.listLoading = true;
       Request()
         .get("/api/user/all", {
-          userType : 2
+          userType : 2,
+          sortBy: "id"
         })
         .then(response => {
           this.tableData = response.data;

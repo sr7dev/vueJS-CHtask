@@ -235,7 +235,8 @@ export default {
       }
       Request()
         .get("/api/disability_check/statis", {
-          detectTimeTo: detectTimeTo
+          detectTimeTo: detectTimeTo,
+          sortBy: "detect_unit"
         })
         .then(response => {
           this.listLoading = false;

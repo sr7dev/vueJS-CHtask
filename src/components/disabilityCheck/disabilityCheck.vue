@@ -363,7 +363,8 @@ export default {
           resultDx: this.result - 1,
           townDivisionCode: this.currTown == 0 ? "" : this.currTown,
           pageNo: this.page.pageIndex - 1,
-          pageSize: this.page.pageSize
+          pageSize: this.page.pageSize,
+          sortBy: "id"
         })
         .then(response => {
           this.tableData = response.data;
