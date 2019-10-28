@@ -1,0 +1,99 @@
+@media screen and (min-width: 0\0) {
+  .title-container {
+    text-align: center;
+    h3 {
+      display: inline-block;
+    }
+  }
+  .xyh_top {
+    text-align: right;
+    .el-menu {
+      border-bottom: none;
+      &.el-menu--horizontal {
+        width: 65%;
+        margin-left: 20%;
+        &::after {
+          display: inline;
+        }
+      }
+    }
+    .changshu_left img {
+      height: 104px;
+    }
+    .quit {
+      vertical-align: top;
+      display: inline-block;
+    }
+  }
+  .el-container {
+    overflow: hidden;
+    .el-aside {
+      display: inline-block;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      height: calc(100vh - 90px);
+      .tac {
+        .is-opened {
+          .el-submenu {
+            .el-submenu__title {
+              .el-icon-arrow-down {
+                margin-top: 0;
+              }
+            }
+          }
+        }
+      }
+    }
+    .el-main {
+      height: calc(100vh - 90px);
+      vertical-align: top;
+      width: calc(100vw - 220px);
+      float: right;
+      .margin-top-10-IE {
+        margin-top: 10px;
+      }
+      .float-right-IE {
+        float: right;
+      }
+      .inline-block-IE {
+        display: inline-block;
+      }
+      .margin-left-60-IE {
+        margin-left: 60%!important;
+      }
+      .button-img {
+        margin-bottom: -4px;
+        .el-image__inner--center {
+          transform: none;
+          left: 0;
+        }
+      }
+      .button-p {
+        display: inline-block;
+      }
+      .iptBox {
+        .filter-item {
+          display: inline-block;
+        }
+      }
+      .el-icon-arrow-up {
+        &::before {
+          content: "\E6DF";
+        }
+      }
+      .no-margin-IE {
+        .el-form-item__content {
+          margin-left: 0px!important;
+        }
+      }
+      .item {
+        .item-label {
+          display: inline-block;
+        }
+        .item-value {
+          display: inline-block;
+        }
+      }
+    }
+  }
+}

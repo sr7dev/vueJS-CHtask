@@ -61,7 +61,6 @@ import Request from "../../services/api/request.js";
 import Auth from "@/services/authentication/auth.js";
 import { Urls } from "@/services/constants";
 import axios from "axios";
-import XLSX from "xlsx";
 
 export default {
   name: "aquaticStatistics",
@@ -76,7 +75,7 @@ export default {
       total: 0,
       tableData: [],
       listLoading: false,
-      filesample:"AquaticSample.xlsx",
+      filesample: "AquaticSample.xlsx"
     };
   },
 
@@ -110,14 +109,16 @@ export default {
         url: Urls.DOWNLOAD_URL() + this.filesample,
         method: "GET",
         responseType: "blob" // important
-      }).then(response => {
-        const url = window.URL.createObjectURL(response.data)
-        const link = document.createElement('a')
-        link.href = url
-        link.setAttribute('download', 'file.png') //or any other extension
-        document.body.appendChild(link)
-        link.click()
-      }).catch(()=> console.log('error occured'))
+      })
+        .then(response => {
+          const url = window.URL.createObjectURL(response.data);
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", "file.png"); //or any other extension
+          document.body.appendChild(link);
+          link.click();
+        })
+        .catch(() => console.log("error occured"));
     },
 
     fixdata(data) {
@@ -150,32 +151,32 @@ export default {
       };
       var result = [];
       var index = 0;
-      workbook.SheetNames.forEach(function(sheetName) {
-        var roa = XLSX.utils.sheet_to_row_object_array(
-          workbook.Sheets[sheetName]
-        );
+      // workbook.SheetNames.forEach(function(sheetName) {
+      //   var roa = XLSX.utils.sheet_to_row_object_array(
+      //     workbook.Sheets[sheetName]
+      //   );
 
-        if (roa.length > 0) {
-          roa.forEach(function(row) {
-            let changeVal = Object.keys(row).map(k => {
-              let v = key[k] || k;
-              return { [v]: row[k] };
-            });
+      //   if (roa.length > 0) {
+      //     roa.forEach(function(row) {
+      //       let changeVal = Object.keys(row).map(k => {
+      //         let v = key[k] || k;
+      //         return { [v]: row[k] };
+      //       });
 
-            result.push(
-              Object.assign(
-                {},
-                ...changeVal,
-                { createTime: new Date().toJSON() },
-                { createUserId: Auth().user().attrs.id },
-                { id: 0 },
-                { updateTime: new Date().toJSON() },
-                { updateUserId: Auth().user().attrs.id }
-              )
-            );
-          });
-        }
-      });
+      //       result.push(
+      //         Object.assign(
+      //           {},
+      //           ...changeVal,
+      //           { createTime: new Date().toJSON() },
+      //           { createUserId: Auth().user().id },
+      //           { id: 0 },
+      //           { updateTime: new Date().toJSON() },
+      //           { updateUserId: Auth().user().id }
+      //         )
+      //       );
+      //     });
+      //   }
+      // });
 
       return result;
     },
@@ -189,20 +190,20 @@ export default {
       var reader = new FileReader();
       var obj = this;
 
-      reader.onload = function(e) {
-        let fixedData = obj.fixdata(e.target.result),
-          workbook = XLSX.read(btoa(fixedData), { type: "base64" });
-        let val = obj.workbook_make_json(workbook);
+      // reader.onload = function(e) {
+      //   let fixedData = obj.fixdata(e.target.result),
+      //     workbook = XLSX.read(btoa(fixedData), { type: "base64" });
+      //   let val = obj.workbook_make_json(workbook);
 
-        Request()
-          .post("/api/aquatic_statistics/create", val)
-          .then(response => {
-            obj.getList();
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      };
+      //   Request()
+      //     .post("/api/aquatic_statistics/create", val)
+      //     .then(response => {
+      //       obj.getList();
+      //     })
+      //     .catch(error => {
+      //       console.log(error);
+      //     });
+      // };
 
       reader.readAsArrayBuffer(this.file);
     },

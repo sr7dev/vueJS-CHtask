@@ -2,9 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/productionSubject' }"
-          >监管对象</el-breadcrumb-item
-        >
+        <el-breadcrumb-item>监管对象</el-breadcrumb-item>
         <el-breadcrumb-item>主营产品</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">添加动态</el-breadcrumb-item>
       </el-breadcrumb>
@@ -59,10 +57,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="评级" prop="grade">
-              <el-select
-                v-model="ruleFormValue.grade"
-                :disabled="!(options.length > 0)"
-              >
+              <el-select v-model="ruleFormValue.grade" :disabled="!(options.length > 0)">
                 <el-option
                   v-for="item in options"
                   :key="item.value"
@@ -75,9 +70,7 @@
         </el-row>
 
         <el-form-item>
-          <el-button size="small" type="success" @click="onSubmit('ruleForm')" plain
-            >保存</el-button
-          >
+          <el-button size="small" type="success" @click="onSubmit('ruleForm')" plain>保存</el-button>
           <el-button size="small" type="danger" @click="goBack" plain>取消</el-button>
         </el-form-item>
       </el-form>
@@ -92,7 +85,7 @@ export default {
   data() {
     return {
       listLoading: false,
-      warehouseOptions:[],
+      warehouseOptions: [],
       productDetail: [],
       ruleFormValue: {
         createTime: "",
@@ -103,7 +96,7 @@ export default {
         repertoryAmount: "",
         variety: "",
         warehouseId: null,
-        productName: ""      
+        productName: ""
       },
       rules: {
         variety: [
@@ -179,29 +172,32 @@ export default {
           company_id: this.ruleFormValue.companyId,
           sortBy: "id"
         })
-        .then(response =>{
+        .then(response => {
           for (var index in response.data) {
-            this.warehouseOptions.push({value: response.data[index].id, label: response.data[index].warehouseName});
+            this.warehouseOptions.push({
+              value: response.data[index].id,
+              label: response.data[index].warehouseName
+            });
           }
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
         })
-        .catch(error => {});        
+        .catch(error => {});
     },
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           var formData = {
-            "createTime": this.ruleFormValue.createTime,
-            "updateTime": this.ruleFormValue.updateTime,
-            "grade": this.ruleFormValue.grade,
-            "id": 0,
-            "productId": this.ruleFormValue.productId,
-            "repertoryAmount": this.ruleFormValue.repertoryAmount,
-            "variety": this.ruleFormValue.variety,
-            "warehouseId": this.ruleFormValue.warehouseId
-          }
+            createTime: this.ruleFormValue.createTime,
+            updateTime: this.ruleFormValue.updateTime,
+            grade: this.ruleFormValue.grade,
+            id: 0,
+            productId: this.ruleFormValue.productId,
+            repertoryAmount: this.ruleFormValue.repertoryAmount,
+            variety: this.ruleFormValue.variety,
+            warehouseId: this.ruleFormValue.warehouseId
+          };
           this.listLoading = true;
           Request()
             .post("/api/product_repetory/create", formData)

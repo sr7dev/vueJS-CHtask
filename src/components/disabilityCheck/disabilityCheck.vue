@@ -78,7 +78,7 @@
               @change="getList"
             ></el-date-picker>
           </el-col>
-          <el-col :span="6" class="flex-center">
+          <el-col :span="3" class="flex-center">
             <el-button size="small" v-on:click="handleDownload" type="success" plain>导出表格</el-button>
             <el-button
               size="small"
@@ -95,12 +95,12 @@
               v-on:click="$router.go(-1)"
               style="display: none;"
             >返回</el-button>
-            <span style="float: right" class="margin-left-20">
+            <span class="margin-left-20 margin-top-10-IE">
               总计
               <b class="blue-colored">{{ total }}</b> 条检测
             </span>
           </el-col>
-          <el-col :span="8" class="flex-center justify-right" style="height:40px">
+          <el-col :span="11" class="flex-center justify-right" style="height:40px">
             <el-button
               size="small"
               type="success"
@@ -119,6 +119,7 @@
               style="margin-right:10px"
             >从专项1移除</el-button>
             <el-checkbox
+              class="margin-top-10-IE float-right-IE"
               v-model="isShowCheckbox"
               true-label="1"
               false-label="0"
@@ -153,7 +154,13 @@
         >
           <el-table-column label width="35" v-if="isShowCheckbox != 0">
             <template slot-scope="{ row }">
-              <el-checkbox style="margin-left:auto" @change="changeCheckStatus(row.id)"></el-checkbox>
+              <el-checkbox
+                style="margin-left:auto"
+                @change="changeCheckStatus(row.id)"
+                v-model="checked[row.id]"
+                true-label="1"
+                false-label="0"
+              ></el-checkbox>
             </template>
           </el-table-column>
           <el-table-column :formatter="order" label="序号" width="80"></el-table-column>
@@ -162,7 +169,11 @@
           <el-table-column prop="sample" label="样品名称"></el-table-column>
           <el-table-column prop="source" label="来源"></el-table-column>
           <el-table-column prop="resultDl" label="定量结果"></el-table-column>
-          <el-table-column prop="resultDx" label="定性结果"></el-table-column>
+          <el-table-column prop="resultDx" label="定性结果">
+            <template slot-scope="{ row }">
+              {{ filterResultDx(row.resultDx) }}
+            </template>
+          </el-table-column>
           <el-table-column prop="detectTime" label="检测时间" width="120">
             <template slot-scope="{ row }">
               {{
@@ -242,7 +253,8 @@ export default {
       btnColor: "",
       action: "",
       companyData: [],
-      filename: "农残检测"
+      filename: "农残检测",
+      checked: []
     };
   },
   created() {
@@ -253,7 +265,7 @@ export default {
     this.getList();
     this.getCompanyProduction();
     this.creditCode = this.$route.query.creditCode;
-    this.loggedinUserType = Auth().user().attrs.userType;
+    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     handleDownload() {
@@ -261,8 +273,8 @@ export default {
       import("@/vendor/Export2Excel").then(excel => {
         const tHeader = [
           "编号",
-          "编号",
           "检测项目",
+          "样品名称",
           "来源",
           "定量结果",
           "定性结果",
@@ -280,7 +292,8 @@ export default {
           "resultDx",
           "detectTime",
           "detectUnit",
-          "particular"
+          "particular",
+          "specialFlag"
         ];
         const data = this.formatJson(filterVal, this.tableData);
         excel.export_json_to_excel({
@@ -295,6 +308,19 @@ export default {
     formatJson(filterVal, jsonData) {
       return jsonData.map(v =>
         filterVal.map(j => {
+          if (j === "resultDx") {
+            return this.filterResultDx(v[j]);
+          }
+          if (j === "detectTime") {
+            return v[j].substr(0, 10);
+          }
+          if (j === "specialFlag") {
+            if (v[j] === 1) {
+              return "是";
+            } else {
+              return "";
+            }
+          }
           return v[j];
         })
       );
@@ -351,13 +377,20 @@ export default {
     },
     getList() {
       this.listLoading = true;
+      let tempDateTime = "";
+      if (this.endDate) {
+        tempDateTime = this.endDate.getFullYear() + "-" +
+                           parseInt(this.endDate.getMonth() + 1) + "-" +
+                           this.endDate.getDate() + "T" +
+                           "23:59:59";
+      }
       Request()
         .get("/api/disability_check/all", {
           creditCode: this.$route.query.creditCode,
           detectUnit:
             this.detectionUnitValue == "全部" ? "" : this.detectionUnitValue,
-          fromDate: this.startDate,
-          toDate: this.endDate,
+          detectTimeFrom: this.startDate,
+          detectTimeTo: tempDateTime,
           sample: this.samplesValue == "全部" ? "" : this.samplesValue,
           item: this.itemValue == "全部" ? "" : this.itemValue,
           resultDx: this.result - 1,
@@ -399,18 +432,13 @@ export default {
     changeCheckStatus(id) {
       let index = this.selectedRows.indexOf(id);
       if (index > -1) this.selectedRows.splice(index, 1);
-      if (event.target.checked) {
+      if (this.checked[id] == 1) {
         this.selectedRows.push(id);
       }
     },
     actionConfirm(action) {
       this.action = action;
-      if (!this.selectedRows.length) {
-        this.alert_dialogVisible = true;
-      } else {
-        this.confirm_dialogVisible = true;
-        this.btnColor = action > 0 ? "success" : "danger";
-      }
+      this.updateSelectedRows();
     },
     updateSelectedRows() {
       for (let index in this.selectedRows) {
@@ -428,6 +456,7 @@ export default {
               this.listLoading = false;
             }, 0.5 * 1000);
             this.selectedRows = [];
+            this.checked = [];
             this.isShowCheckbox = 0;
             this.getList();
           })
@@ -437,8 +466,21 @@ export default {
       }
     },
     showCheckbox() {
-      if (!event.target.checked) {
+      if (this.isShowCheckbox == 0) {
         this.selectedRows = [];
+        this.checked = [];
+      }
+    },
+    filterResultDx(id){
+      switch (id) {
+        case 0:
+          return "不合格";
+        case 1:
+          return "合格";
+        case 2:
+          return "疑似";
+        default:
+          return "不合格";
       }
     }
   }

@@ -2,9 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/productionSubject' }"
-          >监管对象</el-breadcrumb-item
-        >
+        <el-breadcrumb-item>监管对象</el-breadcrumb-item>
         <el-breadcrumb-item>主营产品</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">修改属性</el-breadcrumb-item>
       </el-breadcrumb>
@@ -21,27 +19,30 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="属性名称" prop="propertyName">
-              <el-input v-model="ruleFormValue.propertyName" ></el-input>
+              <el-input v-model="ruleFormValue.propertyName"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
             <el-form-item label="属性可选项" prop="propertyOptions">
-              <el-input v-model="ruleFormValue.propertyOptions" disabled="true" ></el-input>
+              <el-input v-model="ruleFormValue.propertyOptions" disabled="true"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
             <el-form-item label="属性排序" prop="propertySort">
-              <el-input v-model="ruleFormValue.propertySort" type="number" ></el-input>
+              <el-input v-model="ruleFormValue.propertySort" type="number"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-form-item>
-          <el-button size="small" type="success" plain
-          @click="$router.push({
+          <el-button
+            size="small"
+            type="success"
+            plain
+            @click="$router.push({
             path: `/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/${ruleFormValue.id}`,
             query: {
               productId: ruleFormValue.productId,
@@ -96,7 +97,7 @@ export default {
       optionData: null
     };
   },
-  created() {    
+  created() {
     this.ruleFormValue.productId = this.$route.query.productId;
     this.companyId = this.$route.query.companyId;
     this.ruleFormValue.id = this.$route.params.id;
@@ -109,11 +110,18 @@ export default {
   },
   methods: {
     getCustomValue() {
-      this.ruleFormValue.propertySort = this.$route.query.propertySort;      
+      this.ruleFormValue.propertySort = this.$route.query.propertySort;
       this.ruleFormValue.optionData = this.$route.query.optionData;
-      this.ruleFormValue.propertyOptions = this.ruleFormValue.optionData[0].name;      
-      for (var index = 1; index < this.ruleFormValue.optionData.length; index++) {
-        this.ruleFormValue.propertyOptions = this.ruleFormValue.propertyOptions + "," + this.ruleFormValue.optionData[index].name;
+      this.ruleFormValue.propertyOptions = this.ruleFormValue.optionData[0].name;
+      for (
+        var index = 1;
+        index < this.ruleFormValue.optionData.length;
+        index++
+      ) {
+        this.ruleFormValue.propertyOptions =
+          this.ruleFormValue.propertyOptions +
+          "," +
+          this.ruleFormValue.optionData[index].name;
       }
       this.splitStatus(this.ruleFormValue.propertyOptions);
       this.listLoading = true;
@@ -121,10 +129,13 @@ export default {
         .get("/api/product_property/get/" + this.$route.params.id)
         .then(response => {
           setTimeout(() => {
-            this.listLoading = false;          
-          }, 0.5*100);
+            this.listLoading = false;
+          }, 0.5 * 100);
           this.ruleFormValue.propertyName = response.propertyName;
-        }).catch((error) => {console.log(error)});
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     getProductPropertyInfo() {
       this.listLoading = true;
@@ -132,8 +143,8 @@ export default {
         .get("/api/product_property/get/" + this.ruleFormValue.id)
         .then(response => {
           setTimeout(() => {
-            this.listLoading = false;          
-          }, 0.5*100);
+            this.listLoading = false;
+          }, 0.5 * 100);
           this.ruleFormValue.propertyName = response.propertyName;
           this.ruleFormValue.propertyOptions = response.propertyOptions;
           this.splitStatus(this.ruleFormValue.propertyOptions);
@@ -146,19 +157,22 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           var formData = {
-            "productId": this.ruleFormValue.productId,
-            "propertyName": this.ruleFormValue.propertyName,
-            "propertyOptions": this.ruleFormValue.propertyOptions,
-            "propertySort": this.ruleFormValue.propertySort.toString(),
-            "doShare": this.ruleFormValue.doShare
+            productId: this.ruleFormValue.productId,
+            propertyName: this.ruleFormValue.propertyName,
+            propertyOptions: this.ruleFormValue.propertyOptions,
+            propertySort: this.ruleFormValue.propertySort.toString(),
+            doShare: this.ruleFormValue.doShare
           };
           this.listLoading = true;
           Request()
-            .put("/api/product_property/update/" + this.ruleFormValue.id, formData)
+            .put(
+              "/api/product_property/update/" + this.ruleFormValue.id,
+              formData
+            )
             .then(response => {
               setTimeout(() => {
-                this.listLoading = false;          
-              }, 0.5*100);
+                this.listLoading = false;
+              }, 0.5 * 100);
               this.$router.push({
                 path: `/productionSubject/mainProduct/productProperty/${this.companyId}`,
                 query: {
@@ -174,7 +188,7 @@ export default {
       });
     },
     goBack() {
-     this.$router.push({
+      this.$router.push({
         path: `/productionSubject/mainProduct/productProperty/${this.companyId}`,
         query: {
           productId: this.ruleFormValue.productId
@@ -186,8 +200,8 @@ export default {
       let stringPropertyArray = stringPropertyOption.split(",");
       for (var index in stringPropertyArray) {
         this.optionList.push({
-          "id": parseInt(index),
-          "name": stringPropertyArray[index]
+          id: parseInt(index),
+          name: stringPropertyArray[index]
         });
       }
     }

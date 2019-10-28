@@ -28,11 +28,17 @@ export class User extends BaseModel {
    * See parent <static create()>
    */
   static create(data) {
-
-    let user = new User;
-
-    return user.fill(data);
-
+    let user = new User();
+    user["id"] = data["id"];
+    user["userId"] = data["userId"];
+    user["userType"] = data["userType"];
+    user["contactName"] = data["contactName"];
+    user["contactPerson"] = data["contactPerson"];
+    user["townId"] = data["townId"];
+    user["createTime"] = data["createTime"];
+    user["createUserId"] = data["createUserId"];
+    //return user.fill(data);
+    return user;
   }
 
   /**

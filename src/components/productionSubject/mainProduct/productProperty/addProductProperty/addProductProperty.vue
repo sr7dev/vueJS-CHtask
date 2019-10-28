@@ -2,9 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/productionSubject' }"
-          >监管对象</el-breadcrumb-item
-        >
+        <el-breadcrumb-item>监管对象</el-breadcrumb-item>
         <el-breadcrumb-item>主营产品</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">添加属性</el-breadcrumb-item>
       </el-breadcrumb>
@@ -21,7 +19,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="属性名称" prop="propertyName">
-              <el-input v-model="ruleFormValue.propertyName" ></el-input>
+              <el-input v-model="ruleFormValue.propertyName"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -36,13 +34,11 @@
           <el-col :span="6">
             <el-form-item label="属性排序" prop="propertySort">
               <el-input v-model="ruleFormValue.propertySort" type="number"></el-input>
-            </el-form-item>  
+            </el-form-item>
           </el-col>
         </el-row>
         <el-form-item>
-          <el-button size="small" type="success" @click="onSubmit('ruleForm')" plain
-            >保存</el-button
-          >
+          <el-button size="small" type="success" @click="onSubmit('ruleForm')" plain>保存</el-button>
           <el-button size="small" type="danger" @click="goBack" plain>取消</el-button>
         </el-form-item>
       </el-form>
@@ -62,7 +58,7 @@ export default {
         propertyName: "",
         propertyOptions: "",
         propertySort: "",
-        productId: 0        
+        productId: 0
       },
       rules: {
         propertyName: [
@@ -82,7 +78,7 @@ export default {
       }
     };
   },
-  created() {    
+  created() {
     this.ruleFormValue.productId = this.$route.params.id;
   },
   methods: {
@@ -90,13 +86,13 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           var formData = {
-            "id": 0,
-            "productId": this.ruleFormValue.productId,
-            "propertyName": this.ruleFormValue.propertyName,
-            "propertyOptions": "",
-            "propertySort": this.ruleFormValue.propertySort.toString(),
-            "doShare": this.ruleFormValue.doShare
-          }
+            id: 0,
+            productId: this.ruleFormValue.productId,
+            propertyName: this.ruleFormValue.propertyName,
+            propertyOptions: "",
+            propertySort: this.ruleFormValue.propertySort.toString(),
+            doShare: this.ruleFormValue.doShare
+          };
           this.listLoading = true;
           Request()
             .post("/api/product_property/create", formData)

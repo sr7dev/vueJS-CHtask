@@ -172,7 +172,7 @@ export default {
               atunitprice: this.ruleFormValue.atunitprice,
               companyId: this.companyId,
               createTime: new Date(),
-              createUserId: Auth().user().attrs.id,
+              createUserId: Auth().user().id,
               doOrganic: this.ruleFormValue.doOrganic,
               grade: this.ruleFormValue.grade,
               productArea: this.ruleFormValue.productArea,
@@ -181,7 +181,7 @@ export default {
               productProfile: this.ruleFormValue.productProfile,
               specification: this.ruleFormValue.specification,
               updateTime: new Date(),
-              updateUserId: Auth().user().attrs.id,
+              updateUserId: Auth().user().id,
               variety: this.ruleFormValue.variety
             })
             .then(response => {

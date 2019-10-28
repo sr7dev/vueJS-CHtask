@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">生产主体</el-breadcrumb-item>
+        <el-breadcrumb-item>生产主体</el-breadcrumb-item>
         <el-breadcrumb-item>主营产品/定义等级</el-breadcrumb-item>
         <el-breadcrumb-item>修改等级</el-breadcrumb-item>
       </el-breadcrumb>
@@ -134,7 +134,7 @@ export default {
               id: 0,
               productId: this.ruleFormValue.productId,
               updateTime: new Date().toJSON(),
-              updateUserId: Auth().user().attrs.id
+              updateUserId: Auth().user().id
             })
             .then(response => {
               setTimeout(() => { this.dataloading = false; }, 0.01 * 1000);

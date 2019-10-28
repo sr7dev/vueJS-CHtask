@@ -2,16 +2,20 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/productionSubject' }"
-          >监管对象</el-breadcrumb-item
-        >
+        <el-breadcrumb-item>监管对象</el-breadcrumb-item>
         <el-breadcrumb-item>主营产品</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">添加认证</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
 
     <div class="box">
-      <el-form label-width="100px" ref="dataForm" :model="data" :rules="rules" v-loading="dataloading">
+      <el-form
+        label-width="100px"
+        ref="dataForm"
+        :model="data"
+        :rules="rules"
+        v-loading="dataloading"
+      >
         <el-row>
           <el-col :span="6">
             <el-form-item label="日期">
@@ -80,16 +84,16 @@ export default {
   name: "detailThirdPartySampling",
   data() {
     return {
-      id : -1,
+      id: -1,
       oldDate: null,
       data: {
-        specimen:"",
-        checkItem:"", 
-        checkResult:"", 
-        determine:"", 
-        checkStandard:"", 
-        checkOrganization:"", 
-      },     
+        specimen: "",
+        checkItem: "",
+        checkResult: "",
+        determine: "",
+        checkStandard: "",
+        checkOrganization: ""
+      },
       dataloading: true,
       rules: {
         createTime: [
@@ -140,22 +144,24 @@ export default {
             message: "请插入",
             trigger: "change"
           }
-        ],
-      },
+        ]
+      }
     };
   },
-  created() {       
-    this.getData(this.$route.query.checkId);   
+  created() {
+    this.getData(this.$route.query.checkId);
   },
-  methods: {    
-    getData(id) {      
+  methods: {
+    getData(id) {
       this.dataloading = true;
       Request()
-        .get("/api/product_check_record/get/" + id)        
+        .get("/api/product_check_record/get/" + id)
         .then(response => {
           this.data = response;
-          this.oldDate = this.data.createTime.slice(0,10);
-          setTimeout(()=>{ this.dataloading = false }, 0.01*1000);
+          this.oldDate = this.data.createTime.slice(0, 10);
+          setTimeout(() => {
+            this.dataloading = false;
+          }, 0.01 * 1000);
         })
         .catch(error => {
           console.log(error);
@@ -164,27 +170,29 @@ export default {
 
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
-        if (valid) {         
-          this.dataloading = true; 
+        if (valid) {
+          this.dataloading = true;
           Request()
             .put("/api/product_check_record/update/" + this.data.id, {
-              "checkItem": this.data.checkItem,
-              "checkOrganization": this.data.checkOrganization,
-              "checkResult": this.data.checkResult,
-              "checkStandard":this.data.checkStandard,
-              "createTime": this.data.createTime,
-              "createUserId": this.data.createUserId,
-              "determine": this.data.determine,
-              "id": this.data.id,
-              "productCheckTime": new Date().toJSON(),
-              "productId": this.data.productId,
-              "specimen": this.data.specimen,
-              "updateTime": new Date().toJSON(),
-              "updateUserId": Auth().user().attrs.id,
+              checkItem: this.data.checkItem,
+              checkOrganization: this.data.checkOrganization,
+              checkResult: this.data.checkResult,
+              checkStandard: this.data.checkStandard,
+              createTime: this.data.createTime,
+              createUserId: this.data.createUserId,
+              determine: this.data.determine,
+              id: this.data.id,
+              productCheckTime: new Date().toJSON(),
+              productId: this.data.productId,
+              specimen: this.data.specimen,
+              updateTime: new Date().toJSON(),
+              updateUserId: Auth().user().id
             })
             .then(response => {
               //this.$router.push({ path: "/threeProductsCertification" });
-              setTimeout(() => { this.dataloading = false; }, 0.01 * 1000);
+              setTimeout(() => {
+                this.dataloading = false;
+              }, 0.01 * 1000);
               this.$router.go(-1);
             })
             .catch(error => {});
@@ -194,10 +202,10 @@ export default {
         }
       });
     },
-    
+
     goBack() {
       this.$router.go(-1);
-    }  
+    }
   }
 };
 </script>

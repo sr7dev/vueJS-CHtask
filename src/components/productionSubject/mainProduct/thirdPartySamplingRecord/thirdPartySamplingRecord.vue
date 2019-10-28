@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/productionSubject' }">监管对象</el-breadcrumb-item>
+        <el-breadcrumb-item>监管对象</el-breadcrumb-item>
         <el-breadcrumb-item>主营产品</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">第三方抽检记录</el-breadcrumb-item>
       </el-breadcrumb>
@@ -10,7 +10,8 @@
     <div class="box">
       <div class="iptBox">
         <div class="filter-item">
-          <el-button size="small"
+          <el-button
+            size="small"
             type="primary"
             @click="
                     $router.push({
@@ -25,7 +26,12 @@
       <div class="iptBox">
         <div class="filter-item">银针 第三方质量安全检测记录</div>
       </div>
-      <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex" v-loading="listLoading">
+      <el-table
+        :data="tableData"
+        style="width: 100%"
+        :row-class-name="rowIndex"
+        v-loading="listLoading"
+      >
         <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
         <el-table-column prop="productCheckTime" label="日期" width="150">
           <template slot-scope="{ row }">
@@ -58,7 +64,8 @@
           class-name="text-center"
         >
           <template slot-scope="{ row }">
-            <el-button size="small"
+            <el-button
+              size="small"
               type="success"
               plain
               v-on:click="
@@ -105,13 +112,13 @@ export default {
       total: 100,
       radio: "1",
       tableData: [],
-      listLoading: false,
+      listLoading: false
     };
   },
   created() {
     this.id = this.$route.params.id;
     this.getList(this.id);
-    this.loggedinUserType = Auth().user().attrs.userType;
+    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     getList(id) {

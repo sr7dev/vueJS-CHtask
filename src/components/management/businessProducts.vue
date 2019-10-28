@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">经营主体</el-breadcrumb-item>
+        <el-breadcrumb-item>经营主体</el-breadcrumb-item>
         <el-breadcrumb-item>经营产品</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -11,19 +11,13 @@
         <el-button size="small" plain type="primary">返回</el-button>
       </div>
       <el-container>
-        <el-table
-          :data="tableData"
-          style="width: 100%"
-          :row-class-name="rowIndex"
-        >
-          <el-table-column :formatter="order" label="序号" width="180">
-          </el-table-column>
-          <el-table-column prop="name" label="产品名称"> </el-table-column>
-          <el-table-column prop="classification" label="单价">
-          </el-table-column>
-          <el-table-column prop="type" label="产地"> </el-table-column>
-          <el-table-column prop="bookNo" label="品种"> </el-table-column>
-          <el-table-column prop="date" label="规格"> </el-table-column>
+        <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
+          <el-table-column :formatter="order" label="序号" width="180"></el-table-column>
+          <el-table-column prop="name" label="产品名称"></el-table-column>
+          <el-table-column prop="classification" label="单价"></el-table-column>
+          <el-table-column prop="type" label="产地"></el-table-column>
+          <el-table-column prop="bookNo" label="品种"></el-table-column>
+          <el-table-column prop="date" label="规格"></el-table-column>
         </el-table>
       </el-container>
       <div class="pageBox">
@@ -36,8 +30,7 @@
           :page-size="page.pageSize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total"
-        >
-        </el-pagination>
+        ></el-pagination>
       </div>
     </div>
   </div>

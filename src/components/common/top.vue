@@ -75,8 +75,8 @@ export default {
     };
   },
   created() {
-    this.loggedinUserType = Auth().user().attrs.userType;
-    this.userName = Auth().user().attrs.contactName;
+    this.loggedinUserType = Auth().user().userType;
+    this.userName = Auth().user().contactName;
   },
   methods: {
     quit: function() {

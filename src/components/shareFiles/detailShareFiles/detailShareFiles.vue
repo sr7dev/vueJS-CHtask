@@ -167,7 +167,7 @@ export default {
   created() {
     this.shareFilesId = this.$route.params.id;
     this.getList();
-    this.userId = Auth().user().attrs.id;
+    this.userId = Auth().user().id;
   },
   methods: {
     getList() {

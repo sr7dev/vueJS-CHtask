@@ -230,7 +230,7 @@ export default {
     };
   },
   created() {
-    this.loggedinUserType = Auth().user().attrs.userType;
+    this.loggedinUserType = Auth().user().userType;
     if (this.loggedinUserType === 2) this.ruleFormValue.userType = 3;
     this.getTown();
     this.getCompanyProduction();

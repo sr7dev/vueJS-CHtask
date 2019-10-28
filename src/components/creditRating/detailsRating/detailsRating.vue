@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">经营主体</el-breadcrumb-item>
+        <el-breadcrumb-item>经营主体</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
@@ -14,11 +14,11 @@
           </div>
         </div>
         <div class="item-row">
-          <div class="item">
+          <div class="item inline-block-IE">
             <div class="item-label">评级时间</div>
             <div class="item-value">{{ data.gradeTime }}</div>
           </div>
-          <div class="item">
+          <div class="item inline-block-IE">
             <div class="item-label">名称</div>
             <div class="item-value">{{ data.approvalGrade }}</div>
           </div>

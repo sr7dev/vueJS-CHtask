@@ -2,9 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/productionSubject' }"
-          >监管对象</el-breadcrumb-item
-        >
+        <el-breadcrumb-item>监管对象</el-breadcrumb-item>
         <el-breadcrumb-item>主营产品</el-breadcrumb-item>
         <el-breadcrumb-item>属性管理</el-breadcrumb-item>
         <el-breadcrumb-item>编辑选项</el-breadcrumb-item>
@@ -23,7 +21,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="选项名称" prop="name">
-              <el-input v-model="ruleFormValue.name" ></el-input>
+              <el-input v-model="ruleFormValue.name"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -35,9 +33,7 @@
           </el-col>
         </el-row>
         <el-form-item>
-          <el-button size="small" type="success" @click="onSubmit('ruleForm')" plain
-            >保存</el-button
-          >
+          <el-button size="small" type="success" @click="onSubmit('ruleForm')" plain>保存</el-button>
           <el-button size="small" type="danger" @click="goBack" plain>取消</el-button>
         </el-form-item>
       </el-form>
@@ -56,7 +52,7 @@ export default {
       ruleFormValue: {
         id: 1,
         name: "",
-        productId: null,        
+        productId: null,
         sort: null,
         optionData: null,
         propertySort: null
@@ -91,8 +87,8 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.ruleFormValue.optionData.push({
-            "id": this.ruleFormValue.optionData.length + 1,
-            "name": this.ruleFormValue.name
+            id: this.ruleFormValue.optionData.length + 1,
+            name: this.ruleFormValue.name
           });
           this.$router.push({
             path: `/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/${this.rootId}`,
@@ -117,7 +113,6 @@ export default {
           optionData: this.ruleFormValue.optionData,
           propertySort: this.ruleFormValue.sort,
           companyId: this.companyId
-
         }
       });
     }

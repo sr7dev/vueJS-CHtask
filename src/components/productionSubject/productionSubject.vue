@@ -146,7 +146,7 @@
               v-if="row.qualityStandard !== 0 && row.qualityStandard != null"
             >认证信息</p>
             <p
-              class="padding-left-10"              
+              class="padding-left-10"
               v-if="row.qualityStandard === 0 || row.qualityStandard == null"
             >无</p>
           </template>
@@ -167,10 +167,10 @@
                   path: `/regulatoryRecord/`,
                   query: { companyId: row.companyId }
                 })"
-                v-if="row.supervisionRecord !== 0 && row.supervisionRecord != null"
+              v-if="row.supervisionRecord !== 0 && row.supervisionRecord != null"
             ></el-image>
             <p
-              class="padding-left-10"              
+              class="padding-left-10"
               v-if="row.supervisionRecord === 0 || row.supervisionRecord == null"
             >无</p>
           </template>
@@ -191,7 +191,7 @@
               v-if="row.disabilityCheck !== 0 && row.disabilityCheck != null"
             ></el-image>
             <p
-              class="padding-left-10"              
+              class="padding-left-10"
               v-if="row.disabilityCheck === 0 || row.disabilityCheck == null"
             >无</p>
           </template>
@@ -292,7 +292,7 @@ export default {
   created() {
     this.getList();
     this.getTownList();
-    this.loggedinUserType = Auth().user().attrs.userType;
+    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     getTownship(townId) {
@@ -345,28 +345,31 @@ export default {
       return nowGrade;
     },
 
-    filterList() {    
+    filterList() {
       this.tableData = this.srcData;
-      
-      if (this.quality_standard === 1){
-        this.tableData = this.tableData.filter(it => it.qualityStandard > 0)
-      }
-      else if ( this.quality_standard === 0){
-        this.tableData = this.tableData.filter(it => it.qualityStandard === 0 || it.qualityStandard == null)
+
+      if (this.quality_standard === 1) {
+        this.tableData = this.tableData.filter(it => it.qualityStandard > 0);
+      } else if (this.quality_standard === 0) {
+        this.tableData = this.tableData.filter(
+          it => it.qualityStandard === 0 || it.qualityStandard == null
+        );
       }
 
-      if (this.supervision_record === 1){
-        this.tableData = this.tableData.filter(it => it.supervisionRecord > 0)
-      }
-      else if ( this.supervision_record === 0){
-        this.tableData = this.tableData.filter(it => it.supervisionRecord === 0 || it.supervisionRecord == null)
+      if (this.supervision_record === 1) {
+        this.tableData = this.tableData.filter(it => it.supervisionRecord > 0);
+      } else if (this.supervision_record === 0) {
+        this.tableData = this.tableData.filter(
+          it => it.supervisionRecord === 0 || it.supervisionRecord == null
+        );
       }
 
-      if (this.disability_check === 1){
-        this.tableData = this.tableData.filter(it => it.disabilityCheck > 0)
-      }
-      else if ( this.disability_check === 0){
-        this.tableData = this.tableData.filter(it => it.disabilityCheck === 0 || it.disabilityCheck == null)
+      if (this.disability_check === 1) {
+        this.tableData = this.tableData.filter(it => it.disabilityCheck > 0);
+      } else if (this.disability_check === 0) {
+        this.tableData = this.tableData.filter(
+          it => it.disabilityCheck === 0 || it.disabilityCheck == null
+        );
       }
     },
 
@@ -377,6 +380,8 @@ export default {
         .get("/api/company_production/getAllList", {
           agriculturalClassification: this.agriculturalClassification,
           companyType: this.companyType,
+          pageNo: this.page.pageIndex - 1,
+          pageSize: this.page.pageSize,
           townId: this.townId
         })
         .then(response => {
