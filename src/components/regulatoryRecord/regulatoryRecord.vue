@@ -9,17 +9,15 @@
       <div class="iptBox">
         <el-button
           size="small"
+          class="inline-block-IE"
           type="primary"
           plain
           v-if="!companyId && (loggedinUserType === 2 || loggedinUserType === 0)"
           v-on:click="$router.push(`/regulatoryRecord/create`)"
         >添加监管记录</el-button>
-        <div v-else-if="companyId" class="fixed-value margin-right-20">
-          <p
-            v-if="filterCompanyName(companyId)"
-            class="inline-block-IE"
-          >{{ filterCompanyName(companyId) }}</p>
-          <p v-else class="inline-block-IE">没有数据</p>
+        <div v-else-if="companyId" class="fixed-value margin-right-20 inline-block-IE">
+          <p v-if="filterCompanyName(companyId)">{{ filterCompanyName(companyId) }}</p>
+          <p v-else>没有数据</p>
         </div>
         <el-button size="small" type="primary" v-on:click="$router.push(`/commonWords`)" plain>常用语管理</el-button>
         <el-button size="small" type="primary" plain>扫码下载客户端</el-button>
