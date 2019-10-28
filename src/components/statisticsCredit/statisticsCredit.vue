@@ -243,7 +243,7 @@ export default {
     getLeftDownData() {
       this.listLoading = true;
       Request()
-        .get("/api/company_credit_grade/getCreditStatis")
+        .get("/api/company_credit_grade/getCreditStatis", {sortBy: "townId"})
         .then(response => {
           this.leftDownData = response.data;
           setTimeout(() => {
