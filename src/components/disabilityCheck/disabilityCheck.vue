@@ -78,7 +78,7 @@
               @change="getList"
             ></el-date-picker>
           </el-col>
-          <el-col :span="6" class="flex-center">
+          <el-col :span="3" class="flex-center">
             <el-button size="small" v-on:click="handleDownload" type="success" plain>导出表格</el-button>
             <el-button
               size="small"
@@ -100,7 +100,7 @@
               <b class="blue-colored">{{ total }}</b> 条检测
             </span>
           </el-col>
-          <el-col :span="8" class="flex-center justify-right" style="height:40px">
+          <el-col :span="11" class="flex-center justify-right" style="height:40px">
             <el-button
               size="small"
               type="success"
@@ -412,12 +412,7 @@ export default {
     },
     actionConfirm(action) {
       this.action = action;
-      if (!this.selectedRows.length) {
-        this.alert_dialogVisible = true;
-      } else {
-        this.confirm_dialogVisible = true;
-        this.btnColor = action > 0 ? "success" : "danger";
-      }
+      this.updateSelectedRows();
     },
     updateSelectedRows() {
       for (let index in this.selectedRows) {

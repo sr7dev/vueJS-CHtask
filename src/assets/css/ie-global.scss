@@ -86,6 +86,14 @@
           margin-left: 0px!important;
         }
       }
+      .item {
+        .item-label {
+          display: inline-block;
+        }
+        .item-value {
+          display: inline-block;
+        }
+      }
     }
   }
 }

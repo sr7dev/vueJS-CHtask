@@ -54,13 +54,8 @@
                 </el-row>
                 <el-row>
                   <el-col :span="22" class="text-right">
-                    <el-form-item class="flex-box w-100">
-                      <el-button
-                        size="small"
-                        @click="show_AddDialog = false"
-                        type="primary"
-                        plain
-                      >关闭</el-button>
+                    <el-form-item class="flex-box w-100 no-margin-IE">
+                      <el-button size="small" @click="closeAddDialog" type="primary" plain>关闭</el-button>
                       <el-button
                         size="small"
                         @click="onSubmitBase('ruleForm')"
@@ -112,6 +107,19 @@
             </div>
           </el-tab-pane>
           <el-tab-pane label="打印设置" name="printerSetting">
+            <el-dialog :visible.sync="confirm_storePrintSetting" width="30%" modal>
+              <span>
+                <i class="el-icon-circle-check">&nbsp;保存成功</i>
+              </span>
+              <span slot="footer" class="dialog-footer">
+                <el-button
+                  size="small"
+                  type="success"
+                  @click="confirm_storePrintSetting = false"
+                  plain
+                >关闭</el-button>
+              </span>
+            </el-dialog>
             <el-form label-width="200px" ref="ruleForm1" :model="ruleFormValue1">
               <el-row>
                 <el-col :span="6">
@@ -156,7 +164,7 @@
               <el-row>
                 <el-col :span="5">
                   <el-form-item class="flex-box w-100">
-                    <el-button size="small" type="success" plain>保存打印设置</el-button>
+                    <el-button size="small" type="success" plain @click="savePrinterSetting">保存打印设置</el-button>
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -428,6 +436,7 @@ export default {
       companyId: null,
       show_AddDialog: false,
       confirm_dialogVisible: false,
+      confirm_storePrintSetting: false,
       show_QRCode: false,
       selectedRowId: "",
       selectedRowData: null,
@@ -824,6 +833,14 @@ export default {
       } else {
         return "";
       }
+    },
+    closeAddDialog() {
+      this.show_AddDialog = false;
+      this.ruleFormValue.locationName = "";
+      this.ruleFormValue.locationAddress = "";
+    },
+    savePrinterSetting() {
+      this.confirm_storePrintSetting = true;
     }
   }
 };

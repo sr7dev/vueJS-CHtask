@@ -14,11 +14,11 @@
           </div>
         </div>
         <div class="item-row">
-          <div class="item">
+          <div class="item inline-block-IE">
             <div class="item-label">评级时间</div>
             <div class="item-value">{{ data.gradeTime }}</div>
           </div>
-          <div class="item">
+          <div class="item inline-block-IE">
             <div class="item-label">名称</div>
             <div class="item-value">{{ companyName }}</div>
           </div>
@@ -153,15 +153,20 @@ export default {
         .catch(error => {});
     },
 
-    saveChangeUpdateGrade(){ 
+    saveChangeUpdateGrade() {
       let data = [];
-      data.push({"approvalStatus":2, "creditCode":this.data.creditCode,"grade":this.data.nowGrade })     
+      data.push({
+        approvalStatus: 2,
+        creditCode: this.data.creditCode,
+        grade: this.data.nowGrade
+      });
       Request()
         .put(
-          "/api/company_production/updateGrade/" + 
-          this.data.creditCode + 
-          "?approvalStatus=2" + 
-          "&grade" + this.data.nowGrade          
+          "/api/company_production/updateGrade/" +
+            this.data.creditCode +
+            "?approvalStatus=2" +
+            "&grade" +
+            this.data.nowGrade
         )
         .then(response => {
           this.updateLoading = false;
