@@ -52,7 +52,7 @@
         <el-table-column prop="determine" label="判定">
           <template slot-scope="{ row }">
             {{
-            row.determine ? "合格" : "不合格"
+            row.determine==1 ? "合格" : "不合格"
             }}
           </template>
         </el-table-column>

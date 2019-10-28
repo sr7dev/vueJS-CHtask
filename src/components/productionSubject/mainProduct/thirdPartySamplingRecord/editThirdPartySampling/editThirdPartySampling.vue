@@ -4,7 +4,7 @@
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>监管对象</el-breadcrumb-item>
         <el-breadcrumb-item>主营产品</el-breadcrumb-item>
-        <el-breadcrumb-item class="actived">添加认证</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">修改认证</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
 
@@ -40,14 +40,28 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="检测结果">
-              <el-input v-model="data.checkResult"></el-input>
+              <el-select v-model="data.checkResult" placeholder>
+                <el-option
+                  v-for="item in [{value:'1', label:'阴性'}, {value: '2', label:'阳性'}]"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
             <el-form-item label="判定">
-              <el-input v-model="data.determine"></el-input>
+              <el-select v-model="data.determine" placeholder>
+                <el-option
+                  v-for="item in [{value:'0', label:'不合格'}, {value: '1', label:'合格'}]"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -76,9 +90,9 @@
 </template>
 
 <script>
-import Request from "../../../../../services/api/request.js";
-import { Urls } from "../../../../../services/constants";
-import Auth from "../../../../../services/authentication/auth";
+import Request from "@/services/api/request.js";
+import { Urls } from "@/services/constants";
+import Auth from "@/services/authentication/auth";
 
 export default {
   name: "detailThirdPartySampling",

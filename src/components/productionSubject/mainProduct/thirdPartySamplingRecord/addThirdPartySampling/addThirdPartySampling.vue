@@ -40,14 +40,34 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="检测结果" prop="checkResult">
-              <el-input v-model="ruleFormValue.checkResult"></el-input>
+              <el-select
+                v-model="ruleFormValue.checkResult"
+                placeholder
+              >
+                <el-option
+                  v-for="item in [{value:1, label:'阴性'}, {value: 2, label:'阳性'}]"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
             <el-form-item label="判定" prop="determine">
-              <el-input v-model="ruleFormValue.determine"></el-input>
+              <el-select
+                v-model="ruleFormValue.determine"
+                placeholder
+              >
+                <el-option
+                  v-for="item in [{value:0, label:'合格'}, {value: 1, label:'不合格'}]"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -76,9 +96,9 @@
 </template>
 
 <script>
-import Request from "../../../../../services/api/request.js";
-import { Urls } from "../../../../../services/constants";
-import Auth from "../../../../../services/authentication/auth";
+import Request from "@/services/api/request.js";
+import { Urls } from "@/services/constants";
+import Auth from "@/services/authentication/auth";
 
 export default {
   name: "addThirdPartySampling",
