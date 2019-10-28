@@ -169,7 +169,11 @@
           <el-table-column prop="sample" label="样品名称"></el-table-column>
           <el-table-column prop="source" label="来源"></el-table-column>
           <el-table-column prop="resultDl" label="定量结果"></el-table-column>
-          <el-table-column prop="resultDx" label="定性结果"></el-table-column>
+          <el-table-column prop="resultDx" label="定性结果">
+            <template slot-scope="{ row }">
+              {{ filterResultDx(row.resultDx) }}
+            </template>
+          </el-table-column>
           <el-table-column prop="detectTime" label="检测时间" width="120">
             <template slot-scope="{ row }">
               {{
@@ -269,8 +273,8 @@ export default {
       import("@/vendor/Export2Excel").then(excel => {
         const tHeader = [
           "编号",
-          "编号",
           "检测项目",
+          "样品名称",
           "来源",
           "定量结果",
           "定性结果",
@@ -288,7 +292,8 @@ export default {
           "resultDx",
           "detectTime",
           "detectUnit",
-          "particular"
+          "particular",
+          "specialFlag"
         ];
         const data = this.formatJson(filterVal, this.tableData);
         excel.export_json_to_excel({
@@ -303,6 +308,19 @@ export default {
     formatJson(filterVal, jsonData) {
       return jsonData.map(v =>
         filterVal.map(j => {
+          if (j === "resultDx") {
+            return this.filterResultDx(v[j]);
+          }
+          if (j === "detectTime") {
+            return v[j].substr(0, 10);
+          }
+          if (j === "specialFlag") {
+            if (v[j] === 1) {
+              return "是";
+            } else {
+              return "";
+            }
+          }
           return v[j];
         })
       );
@@ -359,13 +377,20 @@ export default {
     },
     getList() {
       this.listLoading = true;
+      let tempDateTime = "";
+      if (this.endDate) {
+        tempDateTime = this.endDate.getFullYear() + "-" +
+                           parseInt(this.endDate.getMonth() + 1) + "-" +
+                           this.endDate.getDate() + "T" +
+                           "23:59:59";
+      }
       Request()
         .get("/api/disability_check/all", {
           creditCode: this.$route.query.creditCode,
           detectUnit:
             this.detectionUnitValue == "全部" ? "" : this.detectionUnitValue,
-          fromDate: this.startDate,
-          toDate: this.endDate,
+          detectTimeFrom: this.startDate,
+          detectTimeTo: tempDateTime,
           sample: this.samplesValue == "全部" ? "" : this.samplesValue,
           item: this.itemValue == "全部" ? "" : this.itemValue,
           resultDx: this.result - 1,
@@ -443,6 +468,18 @@ export default {
       if (this.isShowCheckbox == 0) {
         this.selectedRows = [];
         this.checked = [];
+      }
+    },
+    filterResultDx(id){
+      switch (id) {
+        case 0:
+          return "不合格";
+        case 1:
+          return "合格";
+        case 2:
+          return "疑似";
+        default:
+          return "不合格";
       }
     }
   }
