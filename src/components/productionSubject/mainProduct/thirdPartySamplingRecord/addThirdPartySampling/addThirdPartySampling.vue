@@ -62,7 +62,7 @@
                 placeholder
               >
                 <el-option
-                  v-for="item in [{value:0, label:'合格'}, {value: 1, label:'不合格'}]"
+                  v-for="item in [{value:0, label:'不合格'}, {value: 1, label:'合格'}]"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
