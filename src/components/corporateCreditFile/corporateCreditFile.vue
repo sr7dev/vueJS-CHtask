@@ -178,7 +178,7 @@ export default {
     this.getCompanyProduction();
   },
   created() {
-    this.loggedinUserType = Auth().user().attrs.userType;
+    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     rowIndex({ row, rowIndex }) {

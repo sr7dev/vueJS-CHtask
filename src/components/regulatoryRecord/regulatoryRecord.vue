@@ -186,7 +186,7 @@ export default {
     this.getData();
     this.getTown();
     this.getCompanyProduct();
-    this.loggedinUserType = Auth().user().attrs.userType;
+    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     //分页数量改变

@@ -104,7 +104,7 @@ export default {
           formData.append("createTime", createTime);
           formData.append("companyId", Storage.get("selectedCompanyId"));
           formData.append("id", 0);
-          formData.append("createUserId", Auth().user().attrs.id);
+          formData.append("createUserId", Auth().user().id);
           formData.append("productId", this.productId);
           formData.append("property", "");
           formData.append("varietyGrade", this.ruleFormdata.varietyGrade);

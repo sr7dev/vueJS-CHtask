@@ -162,7 +162,7 @@ export default {
           formData.append("atunitprice", this.ruleFormValue.atunitprice);
           formData.append("companyId", this.companyId);
           formData.append("createTime", new Date());
-          formData.append("createUserId", Auth().user().attrs.id);
+          formData.append("createUserId", Auth().user().id);
           // formData.append("file", "");
           formData.append("grade", this.ruleFormValue.grade);
           formData.append("id", 0);
@@ -171,7 +171,7 @@ export default {
           formData.append("productProfile", this.ruleFormValue.productProfile);
           formData.append("specification", this.ruleFormValue.specification);
           formData.append("updateTime", new Date());
-          formData.append("updateUserId", Auth().user().attrs.id);
+          formData.append("updateUserId", Auth().user().id);
           formData.append("variety", this.ruleFormValue.variety);
 
           Request()

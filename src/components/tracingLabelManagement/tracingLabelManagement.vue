@@ -454,7 +454,7 @@ export default {
     };
   },
   created() {
-    this.companyId = Auth().user().attrs.companyId;
+    this.companyId = Auth().user().companyId;
     this.getBaseList();
     this.getVarietyData();
   },
@@ -588,7 +588,7 @@ export default {
             formData.append("id", 0);
             formData.append("companyId", this.companyId);
             formData.append("createTime", new Date());
-            formData.append("createUserId", Auth().user().attrs.id);
+            formData.append("createUserId", Auth().user().id);
             formData.append(
               "locationAddress",
               this.ruleFormValue.locationAddress
@@ -616,7 +616,7 @@ export default {
                 createUserId: this.selectedRowData.createUserId,
                 locationAddress: this.ruleFormValue.locationAddress,
                 locationName: this.ruleFormValue.locationName,
-                updateUserId: Auth().user().attrs.id
+                updateUserId: Auth().user().id
               })
               .then(response => {
                 this.ruleFormValue.locationName = "";
@@ -672,7 +672,7 @@ export default {
           productionTime: new Date(this.selectedTracingRow.productionTime),
           locationId: this.ruleFormValue2.locationId,
           charge: this.ruleFormValue2.charge,
-          updateUserId: Auth().user().attrs.id
+          updateUserId: Auth().user().id
         })
         .then(response => {
           this.ruleFormValue2.productId = null;

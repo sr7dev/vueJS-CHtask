@@ -134,7 +134,7 @@ export default {
               id: 0,
               productId: this.ruleFormValue.productId,
               updateTime: new Date().toJSON(),
-              updateUserId: Auth().user().attrs.id
+              updateUserId: Auth().user().id
             })
             .then(response => {
               setTimeout(() => { this.dataloading = false; }, 0.01 * 1000);

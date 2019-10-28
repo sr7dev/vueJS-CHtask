@@ -103,12 +103,12 @@ export default {
           Request()
             .post("/api/product_variety/create", {
               createTime: new Date().toJSON(),
-              createUserId: Auth().user().attrs.id,
+              createUserId: Auth().user().id,
               doShare: this.filter_Share,
               id: 0,
               productId: this.productId,
               updateTime: new Date().toJSON(),
-              updateUserId: Auth().user().attrs.id,
+              updateUserId: Auth().user().id,
               varietyName: this.ruleFormValue.varietyName,
               varietySort: this.ruleFormValue.varietySort
             })
