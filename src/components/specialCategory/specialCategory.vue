@@ -9,7 +9,7 @@
       <el-form v-loading="listLoading">
         <div class="row year-select-panel">
           <el-form-item label="年度">
-            <el-select 
+            <el-select
               v-model="year"
               v-on:change="getYear()"
               v-loading="listLoading"
@@ -25,7 +25,7 @@
           </el-form-item>
         </div>
         <div class="cate-content-panel">
-          <div class="cate-item-panel">
+          <div class="cate-item-panel inline-block-IE">
             <el-form-item label="巡查">({{tableData.length}})</el-form-item>
             <el-container>
               <el-table
@@ -56,7 +56,7 @@
               </el-table>
             </el-container>
           </div>
-          <div class="cate-item-panel">
+          <div class="cate-item-panel inline-block-IE">
             <el-form-item label="检测">({{detectTableData.length}})</el-form-item>
             <el-container>
               <el-table
@@ -81,12 +81,14 @@
               </el-table>
             </el-container>
           </div>
-          <div class="cate-item-panel">
+          <div class="cate-item-panel inline-block-IE">
             <div style="display: flex; justify-content: space-between;">
-              <el-form-item label="培训记录" ></el-form-item>
-              <div>
-                <el-button size="small"
+              <el-form-item label="培训记录" class="margin-bottom-reverse-40"></el-form-item>
+              <div class="inline-block-IE align-right-IE">
+                <el-button
+                  size="small"
                   type="danger"
+                  class="margin-bottom-22"
                   plain
                   v-if="loggedinUserType === 1 || loggedinUserType === 0"
                   @click="updateSelectedRows()"
@@ -100,8 +102,10 @@
                   v-if="trainTableData.length > 0"
                   style="margin-top: 10px; margin-left: 20px;"
                 />
-              </div>  
-              <el-button size="small"
+              </div>
+              <el-button
+                size="small"
+                class="inline-block-IE float-right-IE"
                 type="primary"
                 plain
                 v-if="loggedinUserType === 2 || loggedinUserType === 0"
@@ -119,7 +123,13 @@
               >
                 <el-table-column label width="35" v-if="isShowCheckbox != 0">
                   <template slot-scope="{ row }">
-                    <el-checkbox style="margin-left:auto" @change="changeCheckStatus(row.id)"></el-checkbox>
+                    <el-checkbox
+                      style="margin-left:auto"
+                      @change="changeCheckStatus(row.id)"
+                      true-label="1"
+                      false-label="0"
+                      v-model="checked[row.id]"
+                    ></el-checkbox>
                   </template>
                 </el-table-column>
                 <el-table-column label="日期">
@@ -127,14 +137,19 @@
                 </el-table-column>
                 <el-table-column label="乡镇">
                   <template slot-scope="{ row }">
-                    {{ 
-                      getTownName(row.companyId)
+                    {{
+                    getTownName(row.companyId)
                     }}
                   </template>
                 </el-table-column>
                 <el-table-column label="文件">
                   <template slot-scope="{ row }">
-                    <el-button size="small" type="success" plainv @click="downloadFile(row.trainingFundsProfiles)">下载附件</el-button>
+                    <el-button
+                      size="small"
+                      type="success"
+                      plainv
+                      @click="downloadFile(row.trainingFundsProfiles)"
+                    >下载附件</el-button>
                   </template>
                 </el-table-column>
               </el-table>
@@ -175,7 +190,7 @@ export default {
       createTimeFrom: "",
       createTimeTo: "",
       specialFlag: -1,
-      options:[
+      options: [
         { value: "2018" },
         { value: "2019" },
         { value: "2020" },
@@ -184,7 +199,8 @@ export default {
         { value: "2023" }
       ],
       isShowCheckbox: 0,
-      selectedRows: []
+      selectedRows: [],
+      checked: []
     };
   },
   created() {
@@ -259,12 +275,18 @@ export default {
         });
     },
     getYear() {
-      this.supervisionRecordTimeFrom = this.year+"-"+"01"+"-"+"01"+" "+"00:00:00";
-      this.supervisionRecordTimeTo = this.year+"-"+"12"+"-"+"31"+" "+"00:00:00";
-      this.detectTimeFrom = this.year+"-"+"01"+"-"+"01"+" "+"00:00:00";
-      this.detectTimeTo = this.year+"-"+"12"+"-"+"31"+" "+"00:00:00";
-      this.createTimeFrom = this.year+"-"+"01"+"-"+"01"+" "+"00:00:00";
-      this.createTimeTo = this.year+"-"+"12"+"-"+"31"+" "+"00:00:00";
+      this.supervisionRecordTimeFrom =
+        this.year + "-" + "01" + "-" + "01" + " " + "00:00:00";
+      this.supervisionRecordTimeTo =
+        this.year + "-" + "12" + "-" + "31" + " " + "00:00:00";
+      this.detectTimeFrom =
+        this.year + "-" + "01" + "-" + "01" + " " + "00:00:00";
+      this.detectTimeTo =
+        this.year + "-" + "12" + "-" + "31" + " " + "00:00:00";
+      this.createTimeFrom =
+        this.year + "-" + "01" + "-" + "01" + " " + "00:00:00";
+      this.createTimeTo =
+        this.year + "-" + "12" + "-" + "31" + " " + "00:00:00";
       this.tableData = [];
       this.detectTableData = [];
       this.total = [];
@@ -307,7 +329,6 @@ export default {
           console.log(error);
         });
       return this.townName;
-
     },
     filterTownship(townId) {
       let town = this.township.find(x => x.id === townId);
@@ -349,7 +370,7 @@ export default {
     changeCheckStatus(id) {
       let index = this.selectedRows.indexOf(id);
       if (index > -1) this.selectedRows.splice(index, 1);
-      if (event.target.checked) {
+      if (this.checked[id]) {
         this.selectedRows.push(id);
       }
     },
@@ -362,9 +383,13 @@ export default {
             Request()
               .put(
                 "/api/training_funds/update_special_flag/" +
-                  this.selectedRows[index] + "/" + specialFlag )
-              .then(response => {                
+                  this.selectedRows[index] +
+                  "/" +
+                  specialFlag
+              )
+              .then(response => {
                 this.selectedRows = [];
+                this.checked = [];
                 this.isShowCheckbox = 0;
                 this.getTrainList();
                 setTimeout(() => {
@@ -374,13 +399,14 @@ export default {
               .catch(error => {
                 console.log(error);
               });
-          }          
+          }
         }
       );
     },
     showCheckbox() {
-      if (!event.target.checked) {
+      if (this.isShowCheckbox == 1) {
         this.selectedRows = [];
+        this.checked = [];
       }
     }
   }
