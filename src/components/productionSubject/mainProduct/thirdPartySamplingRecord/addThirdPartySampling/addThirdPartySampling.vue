@@ -43,6 +43,7 @@
               <el-select
                 v-model="ruleFormValue.checkResult"
                 placeholder
+                class="w-100"
               >
                 <el-option
                   v-for="item in [{value:1, label:'阴性'}, {value: 2, label:'阳性'}]"
@@ -60,6 +61,7 @@
               <el-select
                 v-model="ruleFormValue.determine"
                 placeholder
+                class="w-100"
               >
                 <el-option
                   v-for="item in [{value:0, label:'不合格'}, {value: 1, label:'合格'}]"
