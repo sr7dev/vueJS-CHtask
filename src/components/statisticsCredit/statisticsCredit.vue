@@ -206,7 +206,7 @@ export default {
     getLeftTopData() {
       this.listLoading = true;
       Request()
-        .get("/api/company_production/getTownCreditStatis")
+        .get("/api/company_production/getTownCreditStatis", {sortBy: "townId"})
         .then(response => {
           this.leftTopData = response.data;
           setTimeout(() => {
@@ -241,7 +241,7 @@ export default {
     getLeftDownData() {
       this.listLoading = true;
       Request()
-        .get("/api/company_credit_grade/getCreditStatis")
+        .get("/api/company_credit_grade/getCreditStatis", {sortBy: "townId"})
         .then(response => {
           this.leftDownData = response.data;
           setTimeout(() => {
