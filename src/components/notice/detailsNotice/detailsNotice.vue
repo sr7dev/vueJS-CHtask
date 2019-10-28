@@ -27,12 +27,13 @@
             <p style="word-wrap: break-word;line-height: 1.5em;">{{ formData.content }}</p>
         </el-form-item>
         <el-form-item label="" prop="file">
-            <el-button size="small" plain @click="downloadFile()">附件下载</el-button>
-            <span class="item-value" v-if="!file_live_1">
+            <el-button size="small" v-if="file_live_1" plain @click="downloadFile()">附件下载</el-button>
+            <el-button size="small" v-else plain disabled>附件下载</el-button>
+            <!-- <span class="item-value" v-if="!file_live_1">
                 <el-link @click="downloadFile()">
                     {{ fileName }}
                 </el-link>
-            </span>
+            </span> -->
             <span class="item-value" v-if="file_live_1">
                 ({{ fileName }})
             </span>
@@ -79,8 +80,10 @@ export default {
             .get("/api/notice/get/" + id)
             .then(response => {
                 this.formData = response;
-                this.file_live_1 = response.noticeProfiles;
-                this.fileName = this.file_live_1.replace("/uploads/", "");
+                if (response.noticeProfiles) {
+                  this.file_live_1 = response.noticeProfiles;
+                  this.fileName = this.file_live_1.replace("/uploads/", "");
+                }
                 setTimeout(() => {
                     this.dataloading = false;
                 }, 0.01 * 1000);

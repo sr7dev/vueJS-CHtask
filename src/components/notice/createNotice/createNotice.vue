@@ -102,7 +102,7 @@
 <script>
 import Request from "../../../services/api/request.js";
 import { Urls } from "../../../services/constants";
-
+import Auth from "@/services/authentication/auth.js";
 export default {
   data() {
     return {
@@ -168,10 +168,11 @@ export default {
         fileName: '',
         file_live_1: null,
         dataloading: false,
-
+        loggedinUserType: null,
     };
   },
   mounted() {
+    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     onSubmit(formName) {
@@ -210,6 +211,8 @@ export default {
         mainFormData.append("content", this.addForm.content);
         mainFormData.append("id", 0);
         mainFormData.append("file", this.file_live_1);
+        mainFormData.append("createUserId", this.loggedinUserType);
+        mainFormData.append("updateUserId", this.loggedinUserType);
         return mainFormData;
     },
   }
