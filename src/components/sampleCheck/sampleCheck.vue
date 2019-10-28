@@ -8,8 +8,18 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <div class="tab-header" type @click="clickTabLeft" v-bind:class="{ active: mode }">抽样计划</div>
-        <div class="tab-header" type @click="clickTabRight" v-bind:class="{ active: !mode }">抽样结果</div>
+        <div
+          class="tab-header inline-block-IE"
+          type
+          @click="clickTabLeft"
+          v-bind:class="{ active: mode }"
+        >抽样计划</div>
+        <div
+          class="tab-header inline-block-IE"
+          type
+          @click="clickTabRight"
+          v-bind:class="{active: !mode}"
+        >抽样结果</div>
       </div>
       <div class="iptBox">
         <el-button size="small" type="primary" plain @click="addSample()">添加</el-button>
@@ -52,7 +62,12 @@
         <el-table-column prop="checkPerson" label="检测人员"></el-table-column>
         <el-table-column prop="operations" label="操作" class-name="text-center">
           <template slot-scope="{ row }">
-            <el-button size="small" v-on:click="showDetailsSampleCheckResult(row)" type="success" plain>查看</el-button>
+            <el-button
+              size="small"
+              v-on:click="showDetailsSampleCheckResult(row)"
+              type="success"
+              plain
+            >查看</el-button>
           </template>
         </el-table-column>
       </el-table>

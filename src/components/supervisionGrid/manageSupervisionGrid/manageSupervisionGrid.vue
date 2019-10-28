@@ -32,6 +32,8 @@
             <el-form-item class="margin-left-20">
               <el-checkbox
                 @change="changeCheckStatus(index)"
+                true-label="1"
+                false-label="0"
                 class="form-checkbox"
                 v-model="checked[index]"
               ></el-checkbox>
@@ -78,10 +80,11 @@
         <el-row>
           <el-col :span="15"></el-col>
         </el-row>
-        <el-form-item class="left-margin flex-box w-100">
+        <el-form-item class="left-margin flex-box w-100 no-margin-IE">
           <el-button size="small" @click="addFormRow()" type="primary" plain>添加</el-button>
           <el-button size="small" @click="deleteSelectedRows()" type="danger" plain>删除</el-button>
-          <el-button size="small"
+          <el-button
+            size="small"
             @click="onSubmit('dynamicValidateForm')"
             type="success"
             plain
@@ -105,13 +108,18 @@
         <el-col :span="6" v-for="i in 4" :key="i">
           <div class="container">
             <div class="iptBox margin-bottom-10">
-              <p>{{supervisorType[i-1]}}</p>
-              <el-button size="small"
-                type="success"
-                plain
-                style="margin-left:auto"
-                @click="showDialog(tableData['group'+i],i)"
-              >修改</el-button>
+              <div class="w-50 inline-block-IE">
+                <p>{{supervisorType[i-1]}}</p>
+              </div>
+              <div style="margin-left:auto" class="w-50 inline-block-IE text-right">
+                <el-button
+                  size="small"
+                  type="success"
+                  plain
+                  class="margin-left-60-IE"
+                  @click="showDialog(tableData['group'+i],i)"
+                >修改</el-button>
+              </div>
             </div>
             <el-container>
               <el-table
@@ -260,7 +268,7 @@ export default {
     changeCheckStatus(rowIndex) {
       let index = this.selectedRows.indexOf(rowIndex);
       if (index > -1) this.selectedRows.splice(index, 1);
-      if (event.target.checked) {
+      if (this.checked[rowIndex] == 1) {
         this.selectedRows.push(rowIndex);
       }
     },
@@ -303,7 +311,7 @@ export default {
               supervisorType: this.webMasterData.supervisorType,
               townId: this.webMasterData.townId,
               updateTime: updateTime,
-              updateUserId: Auth().user().attrs.id
+              updateUserId: Auth().user().id
             })
             .then(response => {
               setTimeout(() => {
@@ -326,11 +334,12 @@ export default {
               supervisorType: this.selectedSupervisupervisorType,
               townId: this.selectedTownId,
               createTime: createTime,
-              createUserId: Auth().user().attrs.id
+              createUserId: Auth().user().id
             })
             .then(response => {
               setTimeout(() => {
                 this.listLoading = false;
+                this.checked.fill["0"];
               }, 0.5 * 1000);
               this.getData();
             });
@@ -372,7 +381,7 @@ export default {
                     .supervisorType,
                   townId: this.dynamicValidateForm.rowDatas[i].townId,
                   updateTime: updateTime,
-                  updateUserId: Auth().user().attrs.id
+                  updateUserId: Auth().user().id
                 }
               )
               .then(response => {
@@ -397,7 +406,7 @@ export default {
                 supervisorType: this.selectedSupervisupervisorType,
                 townId: this.selectedTownId,
                 createTime: createTime,
-                createUserId: Auth().user().attrs.id
+                createUserId: Auth().user().id
               })
               .then(response => {
                 setTimeout(() => {

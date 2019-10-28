@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">生产主体</el-breadcrumb-item>
+        <el-breadcrumb-item>生产主体</el-breadcrumb-item>
         <el-breadcrumb-item>主营产品</el-breadcrumb-item>
         <el-breadcrumb-item>添加品种</el-breadcrumb-item>
       </el-breadcrumb>
@@ -103,12 +103,12 @@ export default {
           Request()
             .post("/api/product_variety/create", {
               createTime: new Date().toJSON(),
-              createUserId: Auth().user().attrs.id,
+              createUserId: Auth().user().id,
               doShare: this.filter_Share,
               id: 0,
               productId: this.productId,
               updateTime: new Date().toJSON(),
-              updateUserId: Auth().user().attrs.id,
+              updateUserId: Auth().user().id,
               varietyName: this.ruleFormValue.varietyName,
               varietySort: this.ruleFormValue.varietySort
             })

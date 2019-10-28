@@ -127,7 +127,7 @@ export default {
           formData.append("varietyGrade", this.ruleFormdata.varietyGrade);
           formData.append("varietyId", this.ruleFormdata.varietyId);
           formData.append("updateTime", createTime); // not sure
-          formData.append("updateUserId", Auth().user().attrs.id);
+          formData.append("updateUserId", Auth().user().id);
           if (this.rowData.reportTime) {
             const tmpDate = new Date(this.rowData.reportTime);
             formData.append("reportTime", tmpDate);

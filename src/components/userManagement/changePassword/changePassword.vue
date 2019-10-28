@@ -115,7 +115,7 @@ export default {
         });
     },
     onSubmit(formName) {
-      let userData = Auth().user().attrs;
+      let userData = Auth().user();
       if (userData) {
         this.$refs[formName].validate(valid => {
           if (valid) {

@@ -60,7 +60,7 @@ export default {
     if (Auth().user() == null) {
       Auth().logout();
     } else {
-      this.receiveUserId = Auth().user().attrs.id;
+      this.receiveUserId = Auth().user().id;
     }
   },
   methods: {

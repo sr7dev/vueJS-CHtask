@@ -90,7 +90,7 @@ export default {
     };
   },
   created() {
-    this.userId = Auth().user().attrs.id;
+    this.userId = Auth().user().id;
   },
   methods: {
     onSubmit(formName) {

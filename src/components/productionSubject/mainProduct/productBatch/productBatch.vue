@@ -112,7 +112,7 @@
           </el-row>
           <el-row>
             <el-col :span="20" class="text-right">
-              <el-form-item class="flex-box w-100">
+              <el-form-item class="flex-box w-100 no-margin-IE">
                 <el-button size="small" @click="show_TaskDialog = false" type="primary" plain>关闭</el-button>
                 <el-button
                   size="small"
@@ -201,7 +201,7 @@
           </el-row>
           <el-row>
             <el-col :span="20" class="text-right">
-              <el-form-item class="flex-box w-100">
+              <el-form-item class="flex-box w-100 no-margin-IE">
                 <el-button size="small" @click="show_ReportDialog = false" type="primary" plain>关闭</el-button>
                 <el-button size="small" @click="onSubmitReport('ruleForm2')" type="success" plain>保存</el-button>
               </el-form-item>
@@ -258,7 +258,7 @@
           </el-row>
           <el-row>
             <el-col :span="20" class="text-right">
-              <el-form-item class="flex-box w-100">
+              <el-form-item class="flex-box w-100 no-margin-IE">
                 <el-button size="small" @click="show_PropertyDialog = false" type="primary" plain>关闭</el-button>
                 <el-button
                   size="small"
@@ -354,7 +354,7 @@
           </el-row>
           <el-row>
             <el-col :span="20" class="text-right">
-              <el-form-item class="flex-box w-100">
+              <el-form-item class="flex-box w-100 no-margin-IE">
                 <el-button size="small" @click="show_SaleDialog = false" type="primary" plain>关闭</el-button>
                 <el-button
                   size="small"
@@ -568,7 +568,7 @@ export default {
     this.getTaskList();
     this.getProductProperty();
     this.getList();
-    this.loggedinUserType = Auth().user().attrs.userType;
+    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     async getList() {
@@ -697,8 +697,9 @@ export default {
     chooseFile_Sale() {
       document.getElementById("file3").click();
     },
-    handleFileUpload_Live(e) {
+    handleFileUpload_Live(event) {
       this.file_live_1 = this.$refs.file_live_1.files[0];
+
       this.image = null;
       let reader = new FileReader();
       let that = this;
@@ -808,7 +809,7 @@ export default {
             tracingFormData.append("tracingAmount", 0);
             tracingFormData.append("printStatus", 0);
             tracingFormData.append("createTime", new Date());
-            tracingFormData.append("createUserId", Auth().user().attrs.id);
+            tracingFormData.append("createUserId", Auth().user().id);
             tracingFormData.append("updateTime", new Date());
             tracingFormData.append("updateUserId", 0);
 
@@ -829,7 +830,7 @@ export default {
             formData.append("companyId", Storage.get("selectedCompanyId"));
             formData.append("file", this.file_live_1);
             formData.append("id", 0);
-            formData.append("createUserId", Auth().user().attrs.id);
+            formData.append("createUserId", Auth().user().id);
             formData.append("productId", this.productId);
             formData.append("productBatchId", this.selectedBatchId);
             formData.append("productTask", this.ruleFormValue1.productTask);
@@ -892,7 +893,7 @@ export default {
             formData.append("companyId", Storage.get("selectedCompanyId"));
             formData.append("file", this.file_live_3);
             formData.append("id", 0);
-            formData.append("createUserId", Auth().user().attrs.id);
+            formData.append("createUserId", Auth().user().id);
             formData.append("productId", this.productId);
             formData.append("productBatchId", this.selectedBatchId);
             formData.append(
@@ -970,7 +971,7 @@ export default {
           formData.append("varietyGrade", this.selectedBatchRow.varietyGrade);
           formData.append("varietyId", this.selectedBatchRow.varietyId);
           formData.append("updateTime", createTime);
-          formData.append("updateUserId", Auth().user().attrs.id);
+          formData.append("updateUserId", Auth().user().id);
           if (this.file_live_2) {
             formData.append("file", this.file_live_2);
           }
@@ -1044,7 +1045,7 @@ export default {
           formData.append("varietyGrade", this.selectedBatchRow.varietyGrade);
           formData.append("varietyId", this.selectedBatchRow.varietyId);
           formData.append("updateTime", createTime);
-          formData.append("updateUserId", Auth().user().attrs.id);
+          formData.append("updateUserId", Auth().user().id);
           if (this.selectedBatchRow.reportResult > -1)
             formData.append("reportResult", this.selectedBatchRow.reportResult);
           if (this.selectedBatchRow.reportTime) {
@@ -1194,7 +1195,7 @@ export default {
       formData.append("varietyGrade", this.selectedBatchRow.varietyGrade);
       formData.append("varietyId", this.selectedBatchRow.varietyId);
       formData.append("updateTime", createTime);
-      formData.append("updateUserId", Auth().user().attrs.id);
+      formData.append("updateUserId", Auth().user().id);
       if (this.selectedBatchRow.reportTime) {
         const tmpDate = new Date(this.selectedBatchRow.reportTime);
         formData.append("reportTime", tmpDate);

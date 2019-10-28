@@ -129,7 +129,7 @@ export default {
     this.getData(this.$route.params.id);
   },
   created() {
-    this.loggedinUserType = Auth().user().attrs.userType;
+    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     getCompanyProduct() {

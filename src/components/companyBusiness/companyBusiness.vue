@@ -32,9 +32,9 @@
         </div>
       </div>
       <el-container>
-        <el-table 
-          :data="tableData" 
-          style="width: 100%" 
+        <el-table
+          :data="tableData"
+          style="width: 100%"
           :row-class-name="rowIndex"
           v-loading="listLoading"
         >
@@ -49,14 +49,19 @@
           <el-table-column prop="legalPerson" label="法定代表人" width="150"></el-table-column>
           <el-table-column prop="companyAddress" label="企业地址" width="120"></el-table-column>
           <el-table-column prop="creditCode" label="社会信用统一代码" width="200"></el-table-column>
-          <el-table-column prop="contactWay" label="联系方式" width="120"></el-table-column>
-          <el-table-column prop="supervisionNature" label="监管对象性质" width="180">
+          <el-table-column prop="contactWay" label="联系方式"></el-table-column>
+          <el-table-column prop="supervisionNature" label="监管对象性质">
             <template slot-scope="{ row }">{{ supervisions[row.supervisionNature] }}</template>
           </el-table-column>
           <el-table-column prop="operations" label="操作" width="250" class-name="text-center">
             <template slot-scope="{ row }">
               <el-button size="small" v-on:click="gotoDetailPage(row)" plain type="primary">企业详情</el-button>
-              <el-button size="small" v-on:click="gotoProductBusinessPage(row)" plain type="success">经营产品</el-button>
+              <el-button
+                size="small"
+                v-on:click="gotoProductBusinessPage(row)"
+                plain
+                type="success"
+              >经营产品</el-button>
             </template>
           </el-table-column>
         </el-table>

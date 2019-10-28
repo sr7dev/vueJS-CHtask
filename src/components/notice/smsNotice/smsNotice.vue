@@ -74,7 +74,7 @@ export default {
   mounted() {
     this.getList();
     this.getTown();
-    this.loggedinUserName = Auth().user().attrs.contactName; 
+    this.loggedinUserName = Auth().user().contactName; 
     this.id = this.$route.params.id;
     this.getData(this.id)
   },

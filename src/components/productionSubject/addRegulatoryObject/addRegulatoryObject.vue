@@ -448,7 +448,7 @@ export default {
               approvalGrade: "B",
               approvalStatus: "1",
               createTime: current,              
-              createUserId: Auth().user().attrs.id,
+              createUserId: Auth().user().id,
               creditAvailableEnd: current,
               creditAvailableStart: current,
               creditCode: this.form.creditCode,              
@@ -460,7 +460,7 @@ export default {
               originalGrade: "B",
               townId:this.form.townId,
               updateTime: current,
-              updateUserId: Auth().user().attrs.id,
+              updateUserId: Auth().user().id,
               uploadFileName: "",
             })
             .then(res => {
