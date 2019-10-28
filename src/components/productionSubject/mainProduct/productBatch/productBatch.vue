@@ -112,7 +112,7 @@
           </el-row>
           <el-row>
             <el-col :span="20" class="text-right">
-              <el-form-item class="flex-box w-100">
+              <el-form-item class="flex-box w-100 no-margin-IE">
                 <el-button size="small" @click="show_TaskDialog = false" type="primary" plain>关闭</el-button>
                 <el-button
                   size="small"
@@ -201,7 +201,7 @@
           </el-row>
           <el-row>
             <el-col :span="20" class="text-right">
-              <el-form-item class="flex-box w-100">
+              <el-form-item class="flex-box w-100 no-margin-IE">
                 <el-button size="small" @click="show_ReportDialog = false" type="primary" plain>关闭</el-button>
                 <el-button size="small" @click="onSubmitReport('ruleForm2')" type="success" plain>保存</el-button>
               </el-form-item>
@@ -258,7 +258,7 @@
           </el-row>
           <el-row>
             <el-col :span="20" class="text-right">
-              <el-form-item class="flex-box w-100">
+              <el-form-item class="flex-box w-100 no-margin-IE">
                 <el-button size="small" @click="show_PropertyDialog = false" type="primary" plain>关闭</el-button>
                 <el-button
                   size="small"
@@ -354,7 +354,7 @@
           </el-row>
           <el-row>
             <el-col :span="20" class="text-right">
-              <el-form-item class="flex-box w-100">
+              <el-form-item class="flex-box w-100 no-margin-IE">
                 <el-button size="small" @click="show_SaleDialog = false" type="primary" plain>关闭</el-button>
                 <el-button
                   size="small"
