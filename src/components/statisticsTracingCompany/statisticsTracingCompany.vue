@@ -84,7 +84,8 @@ export default {
       Request()
         .get("/api/tracing/getCompanyStatis", {
           tracingTimeFrom: "",
-          tracingTimeTo: ""
+          tracingTimeTo: "",
+          sortBy:"town_id"
         })
         .then(res => {
           this.companyStatics = res.data;

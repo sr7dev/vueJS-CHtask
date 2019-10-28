@@ -223,7 +223,8 @@ export default {
       this.listLoading = true;
       Request()
         .get("/api/company_production/all", {
-          townId: this.ruleFormValue.townId
+          townId: this.ruleFormValue.townId,
+          sortBy:"companyId"
         })
         .then(response => {
           setTimeout(() => {

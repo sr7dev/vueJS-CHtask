@@ -171,7 +171,8 @@ export default {
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
           argriculturalClassification: this.filterStatus,
-          certificationType: this.certificationType
+          certificationType: this.certificationType,
+          sortBy: "id",
         })
         .then(response => {
           this.tableData = response.data;

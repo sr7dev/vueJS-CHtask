@@ -177,7 +177,8 @@ export default {
       this.listLoading = true;
       Request()
         .get("/api/warehose/all", {
-          company_id: this.ruleFormValue.companyId
+          company_id: this.ruleFormValue.companyId,
+          sortBy: "id"
         })
         .then(response => {
           for (var indexOption in response.data) {

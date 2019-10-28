@@ -174,7 +174,9 @@ export default {
     },
     getProductionDetail() {
       Request()
-        .get("/api/product_production/all")
+        .get("/api/product_production/all", {
+          sortBy:"productId"
+        })
         .then(response => {
           this.productNameList = response.data;
         })

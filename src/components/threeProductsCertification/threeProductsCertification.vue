@@ -149,7 +149,8 @@ export default {
           certificationType: this.authType,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
-          townId: this.currTown
+          townId: this.currTown,
+          sortBy: "id",
         })
         .then(response => {
           this.tableData = response.data;

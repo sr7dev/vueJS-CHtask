@@ -147,7 +147,8 @@ export default {
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
           townId: this.currTown,
-          nowGrade: this.nowGrade
+          nowGrade: this.nowGrade,
+          sortBy: "creditGradeId"
         })
         .then(response => {
           this.tableData = response.data;

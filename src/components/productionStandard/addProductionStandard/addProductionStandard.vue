@@ -166,7 +166,9 @@ export default {
     getProduction() {
       this.selloading = true;
       Request()
-        .get("/api/product_production/all")
+        .get("/api/product_production/all", {
+          sortBy:"productId"
+        })
         .then(response => {
           this.productionList = response.data;
           setTimeout(() => {

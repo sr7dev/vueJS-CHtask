@@ -94,7 +94,8 @@ export default {
             .get("/api/product_business/all", {
               company_id: this.data.id,
               pageNo: 0,
-              pageSize: 20
+              pageSize: 20,
+              sortBy: "id"
             })
             .then(res => {
               this.companyProducts = res;

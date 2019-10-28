@@ -113,7 +113,8 @@ export default {
         .get("/api/work_task_report/all", {
           workTaskId: this.selectedId,
           pageNo: this.page.pageIndex - 1,
-          pageSize: this.page.pageSize
+          pageSize: this.page.pageSize,
+          sortBy: "id"
         })
         .then(response => {
           this.tableData = response.data;

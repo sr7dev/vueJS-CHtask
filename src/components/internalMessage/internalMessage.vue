@@ -76,7 +76,8 @@ export default {
         .get("/api/internal_message/all", {
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
-          receiveUserId: this.receiveUserId
+          receiveUserId: this.receiveUserId,
+          sortBy: "id"
         })
         .then(response => {
           this.tableData = response.data;

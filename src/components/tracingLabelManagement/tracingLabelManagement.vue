@@ -508,7 +508,8 @@ export default {
         .get("/api/tracing_location/all", {
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
-          companyId: this.companyId
+          companyId: this.companyId,
+          sortBy: "id"
         })
         .then(response => {
           this.tableData = response.data;
@@ -527,7 +528,8 @@ export default {
         .get("/api/tracing/all", {
           pageNo: this.page1.pageIndex - 1,
           pageSize: this.page1.pageSize,
-          companyId: this.companyId
+          companyId: this.companyId,
+          sortBy: "id"
         })
         .then(response => {
           this.tableData1 = response.data;
@@ -544,7 +546,8 @@ export default {
       this.listLoading = true;
       Request()
         .get("/api/product_production/all", {
-          company_id: this.companyId
+          company_id: this.companyId,
+          sortBy:"productId"
         })
         .then(response => {
           this.productionList = response.data;
@@ -556,7 +559,9 @@ export default {
     getVarietyData() {
       this.listLoading = true;
       Request()
-        .get("/api/product_variety/all", { productId: this.productId })
+        .get("/api/product_variety/all", { 
+          productId: this.productId,
+          sortBy: "id" })
         .then(response => {
           this.varietyList = response.data;
         })
@@ -569,7 +574,8 @@ export default {
       Request()
         .get("/api/product_batch/all", {
           company_id: this.companyId,
-          productId: this.ruleFormValue2.productId
+          productId: this.ruleFormValue2.productId,
+          sortBy: "id"
         })
         .then(response => {
           this.batchList = response.data;

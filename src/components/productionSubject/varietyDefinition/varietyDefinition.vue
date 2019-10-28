@@ -96,7 +96,8 @@ export default {
         .get("/api/product_variety/all", {
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
-          productId: this.productId
+          productId: this.productId,
+          sortBy: "id"
         })
         .then(response => {
           var tempData = response.data;

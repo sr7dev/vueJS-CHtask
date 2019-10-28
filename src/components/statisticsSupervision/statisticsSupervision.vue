@@ -298,7 +298,8 @@ export default {
         .get("/api/supervision_record/statis", {
           createTimeFrom:
             this.createTimeFrom == null ? "" : this.createTimeFrom,
-          createTimeTo: this.createTimeTo == null ? "" : this.createTimeTo
+          createTimeTo: this.createTimeTo == null ? "" : this.createTimeTo,
+          sortBy:"cnt"
         })
         .then(res => {
           this.visionData = res.data;

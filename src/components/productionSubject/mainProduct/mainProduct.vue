@@ -189,7 +189,8 @@ export default {
         .get("/api/product_production/all", {
           company_id: this.id,
           pageNo: this.page.pageIndex - 1,
-          pageSize: this.page.pageSize
+          pageSize: this.page.pageSize,
+          sortBy:"productId"
         })
         .then(response => {
           this.tableData = response.data;

@@ -139,7 +139,8 @@ export default {
         .get("/api/product_property/all", {
           productId: id,
           pageNo: this.page.pageIndex - 1,
-          pageSize: this.page.pageSize
+          pageSize: this.page.pageSize,
+          sortBy: "id"
         })
         .then(res => {
           this.tableData = res.data;

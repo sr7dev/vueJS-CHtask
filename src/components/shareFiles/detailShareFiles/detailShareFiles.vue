@@ -177,7 +177,8 @@ export default {
           uploadCompany: this.uploadCompany,
           shareFilesId: this.shareFilesId,
           pageNo: this.page.pageIndex - 1,
-          pageSize: this.page.pageSize
+          pageSize: this.page.pageSize,
+          sortBy: "id"
         })
         .then(response => {
           this.tableData = response.data;

@@ -248,7 +248,8 @@ export default {
       this.listLoading = true;
       Request()
         .get("/api/product_production/all", {
-          company_id: companyId
+          company_id: companyId,
+          sortBy:"productId"
         })
         .then(response => {
           setTimeout(() => {

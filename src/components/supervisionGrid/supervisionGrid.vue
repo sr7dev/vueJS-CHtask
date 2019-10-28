@@ -124,7 +124,8 @@ export default {
       Request()
         .get("/api/supervision_grid/all", {
           pageNo: this.page.pageIndex - 1,
-          pageSize: this.page.pageSize
+          pageSize: this.page.pageSize,
+          sortBy: "id"
         })
         .then(response => {
           let rawData = response.data;
