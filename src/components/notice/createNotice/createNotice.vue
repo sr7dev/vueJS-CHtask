@@ -14,12 +14,13 @@
         :rules="rules" 
         label-width="100px"
         class="form-width" 
-        v-loading="listLoading"
+        v-loading="dataloading"
     >
         <el-form-item prop="timingRelease" label="定时发布" class="input-width label-align">
             <el-input 
                 v-model="addForm.timingRelease" 
                 auto-complete="off"
+                disabled
             >
             </el-input>
         </el-form-item>
@@ -138,12 +139,12 @@ export default {
                 message: "请选择",
                 trigger: "change"
             }],
-            timingRelease: [
-            {
-                required: true,
-                message: "请插入",
-                trigger: "change"
-            }],
+            // timingRelease: [
+            // {
+            //     required: true,
+            //     message: "请插入",
+            //     trigger: "change"
+            // }],
             emergencyDegree: [
             {
                 required: true,
@@ -165,7 +166,8 @@ export default {
         },
         images:[],
         fileName: '',
-        file_live_1: null
+        file_live_1: null,
+        dataloading: false,
 
     };
   },
