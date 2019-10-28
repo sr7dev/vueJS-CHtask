@@ -210,6 +210,15 @@ body {
   }
 }
 
+.el-icon-circle-check {
+  display: flex;
+  align-items: center;
+  &:before {
+    font-size: 24px;
+    color: #0F0;
+  }
+}
+
 .xyh_top {
   .el-menu--horizontal {
     width: 60%;
