@@ -55,6 +55,22 @@
       .float-right-IE {
         float: right;
       }
+      .inline-block-IE {
+        display: inline-block;
+      }
+      .margin-left-60-IE {
+        margin-left: 60%!important;
+      }
+      .button-img {
+        margin-bottom: -4px;
+        .el-image__inner--center {
+          transform: none;
+          left: 0;
+        }
+      }
+      .button-p {
+        display: inline-block;
+      }
       .iptBox {
         .filter-item {
           display: inline-block;

@@ -7,29 +7,35 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button size="small"
+        <el-button
+          size="small"
           type="primary"
           plain
           v-if="!companyId && (loggedinUserType === 2 || loggedinUserType === 0)"
           v-on:click="$router.push(`/regulatoryRecord/create`)"
         >添加监管记录</el-button>
         <div v-else-if="companyId" class="fixed-value margin-right-20">
-          <p v-if="filterCompanyName(companyId)">{{ filterCompanyName(companyId) }}</p>
-          <p v-else>没有数据</p>
+          <p
+            v-if="filterCompanyName(companyId)"
+            class="inline-block-IE"
+          >{{ filterCompanyName(companyId) }}</p>
+          <p v-else class="inline-block-IE">没有数据</p>
         </div>
         <el-button size="small" type="primary" v-on:click="$router.push(`/commonWords`)" plain>常用语管理</el-button>
         <el-button size="small" type="primary" plain>扫码下载客户端</el-button>
         <el-button size="small" type="primary" plain>说明书下载</el-button>
         <el-button size="small" type="primary" plain v-if="companyId" @click="$router.go(-1)">返回</el-button>
-        <div class="special-container" style="margin-left:auto">
-          <el-button size="small"
+        <div class="special-container inline-block-IE float-right-IE" style="margin-left:auto">
+          <el-button
+            size="small"
             type="success"
             icon="el-icon-plus"
             v-if="isShowCheckbox != 0"
             plain
             @click="actionConfirm(1)"
           >添加到专项</el-button>
-          <el-button size="small"
+          <el-button
+            size="small"
             type="danger"
             icon="el-icon-minus"
             v-if="isShowCheckbox != 0"
@@ -38,6 +44,7 @@
             style="margin-right:10px"
           >从专项1移除</el-button>
           <el-checkbox
+            class="margin-top-10"
             v-model="isShowCheckbox"
             true-label="1"
             false-label="0"
@@ -73,7 +80,13 @@
         >
           <el-table-column label width="35" v-if="isShowCheckbox != 0">
             <template slot-scope="{ row }">
-              <el-checkbox style="margin-left:auto" @change="changeCheckStatus(row.id)"></el-checkbox>
+              <el-checkbox
+                style="margin-left:auto"
+                @change="changeCheckStatus(row.id)"
+                true-label="1"
+                false-label="0"
+                v-model="checked[row.id]"
+              ></el-checkbox>
             </template>
           </el-table-column>
           <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
@@ -112,7 +125,8 @@
           </el-table-column>
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
-              <el-button size="small"
+              <el-button
+                size="small"
                 type="success"
                 plain
                 v-on:click="
@@ -125,7 +139,8 @@
                   })
                 "
               >查看</el-button>
-              <el-button size="small"
+              <el-button
+                size="small"
                 type="warning"
                 v-on:click="$router.push(`/regulatoryRecord/edit/${row.id}`)"
                 plain
@@ -178,7 +193,8 @@ export default {
       alert_dialogVisible: false,
       confirm_dialogVisible: false,
       btnColor: "",
-      action: ""
+      action: "",
+      checked: []
     };
   },
   created() {
@@ -262,7 +278,7 @@ export default {
     changeCheckStatus(id) {
       let index = this.selectedRows.indexOf(id);
       if (index > -1) this.selectedRows.splice(index, 1);
-      if (event.target.checked) {
+      if (this.checked[id] == 1) {
         this.selectedRows.push(id);
       }
     },
@@ -291,6 +307,7 @@ export default {
               this.listLoading = false;
             }, 0.5 * 1000);
             this.selectedRows = [];
+            this.checked = [];
             this.isShowCheckbox = 0;
             this.getData();
           })
@@ -300,8 +317,9 @@ export default {
       }
     },
     showCheckbox() {
-      if (!event.target.checked) {
+      if (this.isShowCheckbox == 1) {
         this.selectedRows = [];
+        this.checked = [];
       }
     }
   }
