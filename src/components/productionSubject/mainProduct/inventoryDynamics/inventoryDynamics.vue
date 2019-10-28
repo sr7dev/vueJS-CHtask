@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/productionSubject' }">监管对象</el-breadcrumb-item>
+        <el-breadcrumb-item>监管对象</el-breadcrumb-item>
         <el-breadcrumb-item>主营产品</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">库存动态</el-breadcrumb-item>
       </el-breadcrumb>
@@ -10,7 +10,8 @@
     <div class="box">
       <div class="iptBox">
         <div class="filter-item">
-          <el-button size="small"
+          <el-button
+            size="small"
             type="primary"
             plain
             @click="$router.push({
@@ -64,7 +65,8 @@
           class-name="text-center"
         >
           <template slot-scope="{ row }">
-            <el-button size="small"
+            <el-button
+              size="small"
               type="success"
               plain
               @click="$router.push({

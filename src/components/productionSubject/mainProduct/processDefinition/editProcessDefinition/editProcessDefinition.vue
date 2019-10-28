@@ -2,9 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/productionSubject' }"
-          >监管对象</el-breadcrumb-item
-        >
+        <el-breadcrumb-item>监管对象</el-breadcrumb-item>
         <el-breadcrumb-item>主营产品</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">添加作业</el-breadcrumb-item>
       </el-breadcrumb>
@@ -21,17 +19,14 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="作业名称" prop="taskName">
-              <el-input v-model="ruleFormValue.taskName" ></el-input>
+              <el-input v-model="ruleFormValue.taskName"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
             <el-form-item label="仓库地址" prop="taskType">
-              <el-select
-                v-model="ruleFormValue.taskType"
-                :disabled="!(options.length > 0)"
-              >
+              <el-select v-model="ruleFormValue.taskType" :disabled="!(options.length > 0)">
                 <el-option
                   v-for="item in options"
                   :key="item.value"
@@ -51,22 +46,21 @@
             accept="image/*"
             v-on:change="handleFileUpload()"
           />
-          <div 
-            style="border:solid 1px; width:100px; height:100px" 
-            @click="chooseFile()"
-          >
-            <img v-if="!imageSelectedUrl && ruleFormValue.taskImages" :src="imageUrl + ruleFormValue.taskImages" style="width: 7rem; height: 7rem;"/>
-            <img v-if="imageSelectedUrl" :src="imageSelectedUrl" style="width: 7rem; height: 7rem;"/>
+          <div style="border:solid 1px; width:100px; height:100px" @click="chooseFile()">
+            <img
+              v-if="!imageSelectedUrl && ruleFormValue.taskImages"
+              :src="imageUrl + ruleFormValue.taskImages"
+              style="width: 7rem; height: 7rem;"
+            />
+            <img v-if="imageSelectedUrl" :src="imageSelectedUrl" style="width: 7rem; height: 7rem;" />
           </div>
-          <div class="item-value" >
+          <div class="item-value">
             <div v-if="file">({{ fileName }})</div>
-            <div v-else style="">请选择需要上传的文件...</div>
+            <div v-else style>请选择需要上传的文件...</div>
           </div>
         </el-form-item>
         <el-form-item>
-          <el-button size="small" type="success" @click="onSubmit('ruleForm')" plain
-            >保存</el-button
-          >
+          <el-button size="small" type="success" @click="onSubmit('ruleForm')" plain>保存</el-button>
           <el-button size="small" type="danger" @click="goBack" plain>取消</el-button>
         </el-form-item>
       </el-form>
@@ -94,7 +88,7 @@ export default {
         file: null,
         productId: 0,
         id: 0,
-        taskImages: ""              
+        taskImages: ""
       },
       rules: {
         taskName: [
@@ -129,7 +123,7 @@ export default {
       this.listLoading = true;
       Request()
         .get("/api/product_task/get/" + this.ruleFormValue.id)
-        .then(response => {          
+        .then(response => {
           this.ruleFormValue.taskType = response.taskType;
           this.ruleFormValue.taskName = response.taskName;
           this.ruleFormValue.doShare = response.doShare;
@@ -142,7 +136,7 @@ export default {
             this.listLoading = false;
           }, 0.5 * 1000);
         })
-        .catch(error => {});        
+        .catch(error => {});
     },
     chooseFile() {
       this.$refs.file.click();
@@ -150,10 +144,10 @@ export default {
     handleFileUpload(e) {
       this.file = this.$refs.file.files[0];
       let reader = new FileReader();
-      this.imageSelectedUrl ="";
+      this.imageSelectedUrl = "";
       let that = this;
       reader.onload = function(e) {
-        that.imageSelectedUrl  = e.target.result;
+        that.imageSelectedUrl = e.target.result;
       };
       if (this.file) {
         reader.readAsDataURL(this.file);
@@ -163,7 +157,7 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          var formData = new FormData();          
+          var formData = new FormData();
           formData.append("doShare", this.ruleFormValue.doShare);
           formData.append("taskName", this.ruleFormValue.taskName);
           formData.append("taskType", this.ruleFormValue.taskType);

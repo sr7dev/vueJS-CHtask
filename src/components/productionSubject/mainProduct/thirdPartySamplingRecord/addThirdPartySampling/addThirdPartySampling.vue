@@ -2,16 +2,20 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/productionSubject' }"
-          >监管对象</el-breadcrumb-item
-        >
+        <el-breadcrumb-item>监管对象</el-breadcrumb-item>
         <el-breadcrumb-item>主营产品</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">添加认证</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
 
     <div class="box">
-      <el-form ref="ruleForm" :model="ruleFormValue" :rules="rules" label-width="100px" v-loading="listLoading">
+      <el-form
+        ref="ruleForm"
+        :model="ruleFormValue"
+        :rules="rules"
+        label-width="100px"
+        v-loading="listLoading"
+      >
         <el-row>
           <el-col :span="6">
             <el-form-item label="日期" prop="createTime">
@@ -78,18 +82,18 @@ import Auth from "../../../../../services/authentication/auth";
 
 export default {
   name: "addThirdPartySampling",
-  data() {    
-    return {      
+  data() {
+    return {
       productId: -1,
-      listLoading:true,
+      listLoading: true,
       ruleFormValue: {
-        createTime: new Date().toISOString().slice(0,10),
+        createTime: new Date().toISOString().slice(0, 10),
         specimen: "",
         checkItem: "",
         checkResult: "",
         determine: "",
         checkStandard: "",
-        checkOrganization: "",
+        checkOrganization: ""
       },
       rules: {
         createTime: [
@@ -140,39 +144,41 @@ export default {
             message: "请插入",
             trigger: "change"
           }
-        ],        
-      },     
+        ]
+      }
     };
   },
   created() {
     this.productId = this.$route.params.id;
     this.listLoading = false;
   },
-  methods: {     
+  methods: {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.listLoading = true;
           Request()
             .post("/api/product_check_record/create", {
-              "checkItem": this.ruleFormValue.checkItem,
-              "checkOrganization": this.ruleFormValue.checkOrganization,
-              "checkResult": this.ruleFormValue.checkResult,
-              "checkStandard":this.ruleFormValue.checkStandard,
-              "createTime": new Date().toJSON(),
-              "createUserId": Auth().user().id,
-              "determine": this.ruleFormValue.determine,
-              "id": 0,
-              "productCheckTime": new Date().toJSON(),
-              "productId": this.productId,
-              "specimen": this.ruleFormValue.specimen,
-              "updateTime": new Date().toJSON(),
-              "updateUserId": Auth().user().id,
+              checkItem: this.ruleFormValue.checkItem,
+              checkOrganization: this.ruleFormValue.checkOrganization,
+              checkResult: this.ruleFormValue.checkResult,
+              checkStandard: this.ruleFormValue.checkStandard,
+              createTime: new Date().toJSON(),
+              createUserId: Auth().user().id,
+              determine: this.ruleFormValue.determine,
+              id: 0,
+              productCheckTime: new Date().toJSON(),
+              productId: this.productId,
+              specimen: this.ruleFormValue.specimen,
+              updateTime: new Date().toJSON(),
+              updateUserId: Auth().user().id
             })
             .then(response => {
-              //this.$router.push({ path: "/threeProductsCertification" });              
+              //this.$router.push({ path: "/threeProductsCertification" });
               this.$router.go(-1);
-              setTimeout(() => { this.listLoading = false; }, 0.01 * 1000);
+              setTimeout(() => {
+                this.listLoading = false;
+              }, 0.01 * 1000);
             })
             .catch(error => {});
         } else {
@@ -181,11 +187,10 @@ export default {
         }
       });
     },
-    
+
     goBack() {
       this.$router.go(-1);
-    },
-    
+    }
   }
 };
 </script>

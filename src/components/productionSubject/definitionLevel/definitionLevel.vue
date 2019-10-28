@@ -2,14 +2,15 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">生产主体</el-breadcrumb-item>
+        <el-breadcrumb-item>生产主体</el-breadcrumb-item>
         <el-breadcrumb-item>主营产品</el-breadcrumb-item>
         <el-breadcrumb-item>定义等级</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button size="small"
+        <el-button
+          size="small"
           type="primary"
           @click="$router.push(`/productionGrade/create/${productId}`)"
           plain
@@ -30,7 +31,8 @@
           <el-table-column prop="yield" label="操作" class-name="text-center">
             <!-- <template slot-scope="scope"> -->
             <template slot-scope="{ row }">
-              <el-button size="small"
+              <el-button
+                size="small"
                 @click="$router.push({path:`/productionGrade/edit/${row.id}`})"
                 plain
                 type="success"

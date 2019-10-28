@@ -2,9 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/productionSubject' }"
-          >监管对象</el-breadcrumb-item
-        >
+        <el-breadcrumb-item>监管对象</el-breadcrumb-item>
         <el-breadcrumb-item>主营产品</el-breadcrumb-item>
         <el-breadcrumb-item>属性管理</el-breadcrumb-item>
         <el-breadcrumb-item>编辑选项</el-breadcrumb-item>
@@ -23,21 +21,19 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="选项名称" prop="name">
-              <el-input v-model="ruleFormValue.name" ></el-input>
+              <el-input v-model="ruleFormValue.name"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="6">
             <el-form-item label="选项排序" prop="sort">
-              <el-input v-model="ruleFormValue.sort" type="number" ></el-input>
+              <el-input v-model="ruleFormValue.sort" type="number"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-form-item>
-          <el-button size="small" type="success" @click="onSubmit('ruleForm')" plain
-            >保存</el-button
-          >
+          <el-button size="small" type="success" @click="onSubmit('ruleForm')" plain>保存</el-button>
           <el-button size="small" type="danger" @click="goBack" plain>取消</el-button>
         </el-form-item>
       </el-form>
@@ -79,11 +75,13 @@ export default {
       }
     };
   },
-  created() {    
+  created() {
     this.ruleFormValue.id = this.$route.query.id;
     this.ruleFormValue.optionData = this.$route.query.optionData;
     this.ruleFormValue.sort = this.$route.query.propertySort;
-    this.ruleFormValue.name = this.ruleFormValue.optionData[this.ruleFormValue.id].name;
+    this.ruleFormValue.name = this.ruleFormValue.optionData[
+      this.ruleFormValue.id
+    ].name;
     this.companyId = this.$route.query.companyId;
     this.rootId = this.$route.params.id;
     this.productId = this.$route.query.productId;
@@ -92,7 +90,9 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.ruleFormValue.optionData[this.ruleFormValue.id].name = this.ruleFormValue.name;
+          this.ruleFormValue.optionData[
+            this.ruleFormValue.id
+          ].name = this.ruleFormValue.name;
           this.$router.push({
             path: `/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/${this.rootId}`,
             query: {
