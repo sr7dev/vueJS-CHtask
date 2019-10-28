@@ -260,6 +260,7 @@ export default {
         mainFormData.append("noticeProfiles", this.file_live_1);
         mainFormData.append("id", this.id);
         mainFormData.append("createUserId", this.loggedinUserType);
+        mainFormData.append("file", this.file_live_1);
         return mainFormData;
     },
   }

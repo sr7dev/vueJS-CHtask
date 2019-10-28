@@ -212,6 +212,7 @@ export default {
         mainFormData.append("id", 0);
         mainFormData.append("file", this.file_live_1);
         mainFormData.append("createUserId", this.loggedinUserType);
+        mainFormData.append("updateUserId", this.loggedinUserType);
         return mainFormData;
     },
   }
