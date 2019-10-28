@@ -690,8 +690,9 @@ export default {
     chooseFile_Sale() {
       document.getElementById("file3").click();
     },
-    handleFileUpload_Live(e) {
+    handleFileUpload_Live(event) {
       this.file_live_1 = this.$refs.file_live_1.files[0];
+
       this.image = null;
       let reader = new FileReader();
       let that = this;

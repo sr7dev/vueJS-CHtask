@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">生产主体</el-breadcrumb-item>
+        <el-breadcrumb-item>生产主体</el-breadcrumb-item>
         <el-breadcrumb-item>主营产品/定义等级</el-breadcrumb-item>
         <el-breadcrumb-item>修改等级</el-breadcrumb-item>
       </el-breadcrumb>

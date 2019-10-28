@@ -14,7 +14,12 @@
                 <i class="el-icon-warning">&nbsp;继续？请再次检查</i>
               </span>
               <span slot="footer" class="dialog-footer">
-                <el-button size="small" @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
+                <el-button
+                  size="small"
+                  @click="confirm_dialogVisible = false"
+                  type="primary"
+                  plain
+                >取消</el-button>
                 <el-button size="small" type="success" @click="deleteSelectedRow()" plain>确认</el-button>
               </span>
             </el-dialog>
@@ -50,14 +55,25 @@
                 <el-row>
                   <el-col :span="22" class="text-right">
                     <el-form-item class="flex-box w-100">
-                      <el-button size="small" @click="show_AddDialog = false" type="primary" plain>关闭</el-button>
-                      <el-button size="small" @click="onSubmitBase('ruleForm')" type="success" plain>保存</el-button>
+                      <el-button
+                        size="small"
+                        @click="show_AddDialog = false"
+                        type="primary"
+                        plain
+                      >关闭</el-button>
+                      <el-button
+                        size="small"
+                        @click="onSubmitBase('ruleForm')"
+                        type="success"
+                        plain
+                      >保存</el-button>
                     </el-form-item>
                   </el-col>
                 </el-row>
               </el-form>
             </el-dialog>
-            <el-button size="small"
+            <el-button
+              size="small"
               type="primary"
               plain
               @click="show_AddDialog = true"
@@ -76,7 +92,12 @@
               <el-table-column prop="operations" label="操作" class-name="text-center">
                 <template slot-scope="{ row }">
                   <el-button size="small" v-on:click="editSelectedBase(row)" type="success" plain>修改</el-button>
-                  <el-button size="small" v-on:click="deleteSelectedBase(row.id)" type="danger" plain>删除</el-button>
+                  <el-button
+                    size="small"
+                    v-on:click="deleteSelectedBase(row.id)"
+                    type="danger"
+                    plain
+                  >删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -163,14 +184,16 @@
               <el-table-column prop="tracingNumber" label="溯源码"></el-table-column>
               <el-table-column prop="printStatus" label="标签生成" class-name="text-center">
                 <template slot-scope="{row}">
-                  <el-button size="small"
+                  <el-button
+                    size="small"
                     @click="goToTagGeneration(row)"
                     type="success"
                     class="margin-left-10"
                     plain
                     v-if="row.printStatus==0"
                   >待生成</el-button>
-                  <el-button size="small"
+                  <el-button
+                    size="small"
                     @click="goToTagGeneration(row)"
                     type="success"
                     class="margin-left-10"
@@ -374,7 +397,12 @@
               <el-row>
                 <el-col :span="5">
                   <el-form-item class="flex-box w-100">
-                    <el-button size="small" type="success" plain @click="createQRCode('ruleForm2')">打印二维码</el-button>
+                    <el-button
+                      size="small"
+                      type="success"
+                      plain
+                      @click="createQRCode('ruleForm2')"
+                    >打印二维码</el-button>
                   </el-form-item>
                 </el-col>
               </el-row>

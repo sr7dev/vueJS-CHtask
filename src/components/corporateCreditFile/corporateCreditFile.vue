@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">企业信用档案</el-breadcrumb-item>
+        <el-breadcrumb-item>企业信用档案</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
@@ -66,13 +66,15 @@
           <el-table-column prop="creditCode" label="信用代码" v-if="loggedinUserType !==2"></el-table-column>
           <el-table-column prop="plCount" label="行政许可信息" class-name="text-center">
             <template slot-scope="{row}">
-              <el-button size="small"
+              <el-button
+                size="small"
                 type="success"
                 plain
                 v-if="row.plCount > 0"
                 v-on:click="$router.push({path: `/corporateCreditFile/adminLicenseInfo`,query: {creditCode:row.creditCode}})"
               >行政许可信息</el-button>
-              <el-button size="small"
+              <el-button
+                size="small"
                 v-else
                 disabled
                 type="success"
@@ -82,13 +84,15 @@
           </el-table-column>
           <el-table-column prop="ppCount" label="行政处罚信息" class-name="text-center">
             <template slot-scope="{row}">
-              <el-button size="small"
+              <el-button
+                size="small"
                 type="success"
                 plain
                 v-if="row.ppCount > 0"
                 v-on:click="$router.push({path: `/corporateCreditFile/adminPenaltyInfo`,query: {creditCode:row.creditCode}})"
               >行政处罚信息</el-button>
-              <el-button size="small"
+              <el-button
+                size="small"
                 v-else
                 disabled
                 type="success"
@@ -115,7 +119,8 @@
           </el-table-column>
           <el-table-column label="三品一标认证" width="200" class-name="text-center">
             <template slot-scope="{row}">
-              <el-button size="small"
+              <el-button
+                size="small"
                 type="primary"
                 plain
                 v-on:click="$router.push({path: `/corporateCreditFile/threeProduction`,query: {creditCode:row.creditCode}})"

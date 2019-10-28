@@ -2,13 +2,12 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/productionSubject' }"
-          >监管对象</el-breadcrumb-item
-        >
+        <el-breadcrumb-item>监管对象</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">仓库详情</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="box">
+
+    <div class="box" v-loading="listLoading">
       <div class="item-row">
         <div class="item">
           <div class="item-label">检测名称:</div>
@@ -28,9 +27,7 @@
       <div class="item-row">
         <div class="item">
           <div class="item-label">检测结果:</div>
-          <div class="item-value">
-            {{ data.checkResult == 1 ? "合格" : "不合格" }}
-          </div>
+          <div class="item-value">{{ data.checkResult == 1 ? "合格" : "不合格" }}</div>
         </div>
       </div>
       <div class="item-row">
@@ -48,7 +45,7 @@
           <div class="item-value" v-if="!file">
             <el-link @click="downloadFile()">
               {{
-                fileName
+              fileName
               }}
             </el-link>
           </div>
@@ -56,14 +53,12 @@
         </div>
       </div>
       <div class="item-row">
-          <div class="item">
-            <div class="item-value">
-              <el-button size="small" plain @click="$router.go(-1)" type="primary"
-                >返回</el-button
-              >
-            </div>
+        <div class="item">
+          <div class="item-value">
+            <el-button size="small" plain @click="$router.go(-1)" type="primary">返回</el-button>
           </div>
         </div>
+      </div>
     </div>
   </div>
 </template>
@@ -79,22 +74,30 @@ export default {
       id: -1,
       data: [],
       file: null,
-      fileName: ""
+      fileName: "",
+      listLoading: false
     };
   },
-  created() {
+  mounted() {
     this.id = this.$route.params.id;
-    Request()
-      .get(`/api/sample_check_result/get/${this.id}`)
-      .then(response => {
-        this.data = response;
-        this.fileName = this.data.checkFiles.replace("/uploads/", "");
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    this.getData();
   },
   methods: {
+    getData() {
+      this.listLoading = true;
+      Request()
+        .get(`/api/sample_check_result/get/${this.id}`)
+        .then(response => {
+          this.data = response;
+          this.fileName = this.data.checkFiles.replace("/uploads/", "");
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     getDateString(dt) {
       const date = new Date(dt);
       return date.toLocaleDateString();
@@ -109,7 +112,7 @@ export default {
         const link = document.createElement("a");
         link.href = url;
         link.setAttribute(
-          "download", 
+          "download",
           this.data.checkFiles.replace("/uploads/", "")
         ); //or any other extension
         document.body.appendChild(link);

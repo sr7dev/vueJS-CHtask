@@ -2,9 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/productionSubject' }"
-          >监管对象</el-breadcrumb-item
-        >
+        <el-breadcrumb-item>监管对象</el-breadcrumb-item>
         <el-breadcrumb-item>主营产品</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">修改动态</el-breadcrumb-item>
       </el-breadcrumb>
@@ -59,10 +57,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="评级" prop="grade">
-              <el-select
-                v-model="ruleFormValue.grade"
-                :disabled="!(options.length > 0)"
-              >
+              <el-select v-model="ruleFormValue.grade" :disabled="!(options.length > 0)">
                 <el-option
                   v-for="item in options"
                   :key="item.value"
@@ -75,9 +70,7 @@
         </el-row>
 
         <el-form-item>
-          <el-button size="small" type="success" @click="onSubmit('ruleForm')" plain
-            >保存</el-button
-          >
+          <el-button size="small" type="success" @click="onSubmit('ruleForm')" plain>保存</el-button>
           <el-button size="small" type="danger" @click="goBack" plain>取消</el-button>
         </el-form-item>
       </el-form>
@@ -93,7 +86,7 @@ export default {
     return {
       listLoading: false,
       warehouseData: [],
-      warehouseOptions:[],
+      warehouseOptions: [],
       ruleFormValue: {
         createTime: "",
         updateTime: "",
@@ -146,7 +139,9 @@ export default {
   },
   created() {
     this.ruleFormValue.productId = this.$route.query.productId;
-    this.ruleFormValue.repertoryAmount = this.$route.query.repertoryAmount.toString().match(/(\d+)/)[0];
+    this.ruleFormValue.repertoryAmount = this.$route.query.repertoryAmount
+      .toString()
+      .match(/(\d+)/)[0];
     this.ruleFormValue.warehouseId = this.$route.query.warehouseId;
     this.ruleFormValue.grade = this.$route.query.grade;
     this.ruleFormValue.variety = this.$route.query.variety;
@@ -184,32 +179,38 @@ export default {
         .get("/api/warehose/all", {
           company_id: this.ruleFormValue.companyId
         })
-        .then(response =>{
+        .then(response => {
           for (var indexOption in response.data) {
-            this.warehouseOptions.push({value: response.data[indexOption].id, label: response.data[indexOption].warehouseName});
+            this.warehouseOptions.push({
+              value: response.data[indexOption].id,
+              label: response.data[indexOption].warehouseName
+            });
           }
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
         })
-        .catch(error => {});        
+        .catch(error => {});
     },
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           var formData = {
-            "createTime": this.ruleFormValue.createTime,
-            "updateTime": this.ruleFormValue.updateTime,
-            "grade": this.ruleFormValue.grade,
-            "id": this.ruleFormValue.id,
-            "productId": this.ruleFormValue.productId,
-            "repertoryAmount": this.ruleFormValue.repertoryAmount,
-            "variety": this.ruleFormValue.variety,
-            "warehouseId": this.ruleFormValue.warehouseId
-          }
+            createTime: this.ruleFormValue.createTime,
+            updateTime: this.ruleFormValue.updateTime,
+            grade: this.ruleFormValue.grade,
+            id: this.ruleFormValue.id,
+            productId: this.ruleFormValue.productId,
+            repertoryAmount: this.ruleFormValue.repertoryAmount,
+            variety: this.ruleFormValue.variety,
+            warehouseId: this.ruleFormValue.warehouseId
+          };
           this.listLoading = true;
           Request()
-            .put("/api/product_repetory/update/" + this.ruleFormValue.id, formData)
+            .put(
+              "/api/product_repetory/update/" + this.ruleFormValue.id,
+              formData
+            )
             .then(response => {
               setTimeout(() => {
                 this.listLoading = false;
