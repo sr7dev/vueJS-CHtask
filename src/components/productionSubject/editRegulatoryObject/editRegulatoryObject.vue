@@ -3,7 +3,7 @@
     <div class="title">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>监管对象</el-breadcrumb-item>
-        <el-breadcrumb-item class="actived">添加监管对象</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">修改监管对象</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
 
@@ -281,12 +281,12 @@
         <el-row>
           <el-col :span="10">
             <el-form-item label="企业荣誉">
-              <el-input type="textarea" :rows="5" v-model="form.companyHonor" style="width:80%"></el-input>
+              <el-input type="textarea" :rows="5" v-model="form.companyHonor" style="width:80%" class-name="el-textarea-font"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
             <el-form-item label="备注">
-              <el-input type="textarea" :rows="5" v-model="form.remarks" style="width:80%"></el-input>
+              <el-input type="textarea" :rows="5" v-model="form.remarks" style="width:80%" class-name="el-textarea-font"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
