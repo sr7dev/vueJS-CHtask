@@ -216,12 +216,7 @@ export default {
     },
     actionConfirm(action) {
       this.action = action;
-      if (!this.selectedRows.length) {
-        this.alert_dialogVisible = true;
-      } else {
-        this.confirm_dialogVisible = true;
-        this.btnColor = action > 0 ? "success" : "danger";
-      }
+      this.updateSelectedRows();
     },
     updateSelectedRows() {
       for (let index in this.selectedRows) {

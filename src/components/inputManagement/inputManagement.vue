@@ -7,29 +7,36 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <div class="tab-header" type @click="clickTabLeft" v-bind:class="{ active: mode }">使用信息</div>
-        <div class="tab-header" type @click="clickTabRight" v-bind:class="{ active: !mode }">采购信息</div>
+        <div
+          class="tab-header inline-block-IE"
+          type
+          @click="clickTabLeft"
+          v-bind:class="{ active: mode }"
+        >使用信息</div>
+        <div
+          class="tab-header inline-block-IE"
+          type
+          @click="clickTabRight"
+          v-bind:class="{ active: !mode }"
+        >采购信息</div>
       </div>
       <div class="iptBox">
-        <el-button size="small"
+        <el-button
+          size="small"
           type="primary"
           plain
           @click="$router.push({path: `/inputManagement/addPurchase`})"
           v-if="!mode"
         >添加</el-button>
-        <el-button size="small"
+        <el-button
+          size="small"
           type="primary"
           plain
           @click="$router.push({path: `/inputManagement/addUse`})"
           v-else
         >添加</el-button>
       </div>
-      <el-table 
-        v-show="mode" 
-        :data="tableData" 
-        :row-class-name="rowIndex"
-        v-loading="listLoading"
-      >
+      <el-table v-show="mode" :data="tableData" :row-class-name="rowIndex" v-loading="listLoading">
         <el-table-column :formatter="order" label="序号" width="100px"></el-table-column>
         <el-table-column prop="companyId" label="企业名称">
           <template slot-scope="{ row }">{{ filterCompnay(row.companyId) }}</template>
@@ -38,8 +45,9 @@
         <el-table-column prop="amount" label="使用数量(公斤)"></el-table-column>
         <el-table-column prop="operations" label="操作" class-name="text-center">
           <template slot-scope="{ row }">
-            <el-button size="small" 
-              type="success" 
+            <el-button
+              size="small"
+              type="success"
               plain
               v-on:click="$router.push({
                 path: `/inputManagement/view/${row.id}`,
@@ -48,10 +56,10 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-table 
-        v-show="!mode" 
-        :data="tableData" 
-        style="width: 100%" 
+      <el-table
+        v-show="!mode"
+        :data="tableData"
+        style="width: 100%"
         :row-class-name="rowIndex"
         v-loading="listLoading"
       >
@@ -63,7 +71,8 @@
         <el-table-column prop="amount" label="采购数量(公斤)"></el-table-column>
         <el-table-column label="操作" class-name="text-center">
           <template slot-scope="{ row }">
-            <el-button size="small"
+            <el-button
+              size="small"
               type="success"
               plain
               v-on:click="$router.push({
