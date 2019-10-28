@@ -20,6 +20,7 @@
             <el-input 
                 v-model="editForm.timingRelease" 
                 auto-complete="off"
+                disabled
             >
             </el-input>
         </el-form-item>
@@ -109,6 +110,7 @@
 import Request from "../../../services/api/request.js";
 import { Urls } from "../../../services/constants";
 import axios from "axios";
+import Auth from "@/services/authentication/auth.js";
 export default {
   data() {
     return {
@@ -145,12 +147,12 @@ export default {
                 message: "请选择",
                 trigger: "change"
             }],
-            timingRelease: [
-            {
-                required: true,
-                message: "请插入",
-                trigger: "change"
-            }],
+            // timingRelease: [
+            // {
+            //     required: true,
+            //     message: "请插入",
+            //     trigger: "change"
+            // }],
             emergencyDegree: [
             {
                 required: true,
@@ -174,12 +176,14 @@ export default {
         fileName: '',
         file_live_1: null,
         id: 0,
-        dataloading: true
+        dataloading: true,
+        loggedinUserType: null,
     };
   },
   beforeMount() {
     this.id = this.$route.params.id;
     this.getData(this.$route.params.id);
+    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     getData(id) {
@@ -188,8 +192,10 @@ export default {
             .get("/api/notice/get/" + id)
             .then(response => {
                 this.editForm = response;
-                this.file_live_1 = response.noticeProfiles;
-                this.fileName = this.file_live_1.replace("/uploads/", "");
+                if (response.noticeProfiles) {
+                    this.file_live_1 = response.noticeProfiles;
+                    this.fileName = this.file_live_1.replace("/uploads/", "");
+                }
                 setTimeout(() => {
                     this.dataloading = false;
                 }, 0.01 * 1000);
@@ -244,7 +250,7 @@ export default {
     },
     makeFormData() {
         var mainFormData = new FormData();
-        mainFormData.append("timingRelease", this.editForm.timingRelease);
+        mainFormData.append("timingRelease", "");// this.editForm.timingRelease);
         mainFormData.append("emergencyDegree", this.editForm.emergencyDegree);
         mainFormData.append("type", this.editForm.type);
         mainFormData.append("releaseTime", new Date(this.editForm.releaseTime));
@@ -253,6 +259,7 @@ export default {
         mainFormData.append("content", this.editForm.content);
         mainFormData.append("noticeProfiles", this.file_live_1);
         mainFormData.append("id", this.id);
+        mainFormData.append("createUserId", this.loggedinUserType);
         return mainFormData;
     },
   }
