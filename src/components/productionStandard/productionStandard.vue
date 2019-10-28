@@ -127,7 +127,7 @@ export default {
   },
   created() {
     this.getList();
-    this.loggedinUserType = Auth().user().attrs.userType;
+    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     getList() {

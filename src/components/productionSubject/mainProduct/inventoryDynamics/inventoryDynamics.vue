@@ -128,7 +128,7 @@ export default {
     this.getList();
     this.getProductionDetail();
     this.getWarehouseDetail();
-    this.loggedinUserType = Auth().user().attrs.userType;
+    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     handleDelete(id) {

@@ -179,7 +179,7 @@ export default {
                 : new Date(),
               createUserId: this.ruleFormValue.createUserId
                 ? this.ruleFormValue.createUserId
-                : Auth().user().attrs.id,
+                : Auth().user().id,
               doOrganic: this.ruleFormValue.doOrganic,
               grade: this.ruleFormValue.grade,
               productArea: this.ruleFormValue.productArea,
@@ -188,7 +188,7 @@ export default {
               updateTime: new Date(),
               productName: this.ruleFormValue.productName,
               productProfile: this.ruleFormValue.productProfile,
-              updateUserId: Auth().user().attrs.id,
+              updateUserId: Auth().user().id,
               variety: this.ruleFormValue.variety
             })
             .then(response => {

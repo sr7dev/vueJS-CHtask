@@ -303,7 +303,7 @@ export default {
               supervisorType: this.webMasterData.supervisorType,
               townId: this.webMasterData.townId,
               updateTime: updateTime,
-              updateUserId: Auth().user().attrs.id
+              updateUserId: Auth().user().id
             })
             .then(response => {
               setTimeout(() => {
@@ -326,7 +326,7 @@ export default {
               supervisorType: this.selectedSupervisupervisorType,
               townId: this.selectedTownId,
               createTime: createTime,
-              createUserId: Auth().user().attrs.id
+              createUserId: Auth().user().id
             })
             .then(response => {
               setTimeout(() => {
@@ -372,7 +372,7 @@ export default {
                     .supervisorType,
                   townId: this.dynamicValidateForm.rowDatas[i].townId,
                   updateTime: updateTime,
-                  updateUserId: Auth().user().attrs.id
+                  updateUserId: Auth().user().id
                 }
               )
               .then(response => {
@@ -397,7 +397,7 @@ export default {
                 supervisorType: this.selectedSupervisupervisorType,
                 townId: this.selectedTownId,
                 createTime: createTime,
-                createUserId: Auth().user().attrs.id
+                createUserId: Auth().user().id
               })
               .then(response => {
                 setTimeout(() => {

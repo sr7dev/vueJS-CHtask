@@ -253,7 +253,7 @@ export default {
     this.getList();
     this.getCompanyProduction();
     this.creditCode = this.$route.query.creditCode;
-    this.loggedinUserType = Auth().user().attrs.userType;
+    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     handleDownload() {

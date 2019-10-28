@@ -40,7 +40,8 @@ class Auth {
     if (this.loggedInUser) return this.loggedInUser;
 
     if (Storage.get("userData")) {
-      return User.create(JSON.parse(Storage.get("userData")));
+      //return User.create(JSON.parse(Storage.get("userData")));
+      return User.create(JSON.parse(Storage.get("userData")).tmp);
     }
 
     return null;
@@ -84,7 +85,8 @@ class Auth {
       companyId: data["companyId"]
     });
     // // save user locally
-    Storage.set("userData", JSON.stringify(this.loggedInUser.attrs));
+    //Storage.set("userData", JSON.stringify(this.loggedInUser.attrs));
+    Storage.set("userData", JSON.stringify(this.loggedInUser));
   }
 
   /**

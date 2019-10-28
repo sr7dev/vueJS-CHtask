@@ -156,7 +156,7 @@ export default {
   },
 
   created() {
-    this.loggedinUserType = Auth().user().attrs.userType;
+    this.loggedinUserType = Auth().user().userType;
     this.getData();
   },
   methods: {

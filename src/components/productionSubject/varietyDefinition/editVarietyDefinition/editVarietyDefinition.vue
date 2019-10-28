@@ -132,7 +132,7 @@ export default {
               id: 0,
               productId: this.ruleFormValue.productId,
               updateTime: new Date().toJSON(),
-              updateUserId: Auth().user().attrs.id,
+              updateUserId: Auth().user().id,
               varietyName: this.ruleFormValue.varietyName,
               varietySort: this.ruleFormValue.varietySort
             })

@@ -198,7 +198,7 @@ export default {
     this.getDetectList();
     this.getTrainList();
     this.getTown();
-    this.loggedinUserType = Auth().user().attrs.userType;
+    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     getList() {

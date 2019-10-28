@@ -135,7 +135,7 @@ export default {
     this.selectedId = this.$route.query.id;
     this.getData(this.$route.query.id);
     this.getTown();
-    this.ruleFormValue.townId = Auth().user().attrs.townId;
+    this.ruleFormValue.townId = Auth().user().townId;
   },
   methods: {
     getData(id) {

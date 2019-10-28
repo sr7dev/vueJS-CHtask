@@ -144,7 +144,7 @@ export default {
     this.getList();
   },
   created() {
-    this.loggedinUserType = Auth().user().attrs.userType;
+    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     order(row) {

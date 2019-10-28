@@ -104,14 +104,14 @@ export default {
           Request()
             .post("/api/product_grade/create", {
               createTime: new Date().toJSON(),
-              createUserId: Auth().user().attrs.id,
+              createUserId: Auth().user().id,
               doShare: this.filter_Share,
               gradeName: this.ruleFormValue.gradeName,
               gradeSort: this.ruleFormValue.gradeSort,
               id: 0,
               productId: this.productId,
               updateTime: new Date().toJSON(),
-              updateUserId: Auth().user().attrs.id
+              updateUserId: Auth().user().id
             })
             .then(response => {
               setTimeout(() => { this.dataloading = false; }, 0.01 * 1000);

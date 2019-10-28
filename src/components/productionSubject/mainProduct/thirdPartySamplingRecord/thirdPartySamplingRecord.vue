@@ -111,7 +111,7 @@ export default {
   created() {
     this.id = this.$route.params.id;
     this.getList(this.id);
-    this.loggedinUserType = Auth().user().attrs.userType;
+    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     getList(id) {

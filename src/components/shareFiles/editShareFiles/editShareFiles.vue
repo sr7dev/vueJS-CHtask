@@ -91,7 +91,7 @@ export default {
     };
   },
   created() {
-    this.userId = Auth().user().attrs.id;
+    this.userId = Auth().user().id;
     this.id = this.$route.params.id;
     this.getData();
   },

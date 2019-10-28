@@ -568,7 +568,7 @@ export default {
     this.getTaskList();
     this.getProductProperty();
     this.getList();
-    this.loggedinUserType = Auth().user().attrs.userType;
+    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     async getList() {
@@ -801,7 +801,7 @@ export default {
             tracingFormData.append("tracingAmount", 0);
             tracingFormData.append("printStatus", 0);
             tracingFormData.append("createTime", new Date());
-            tracingFormData.append("createUserId", Auth().user().attrs.id);
+            tracingFormData.append("createUserId", Auth().user().id);
             tracingFormData.append("updateTime", new Date());
             tracingFormData.append("updateUserId", 0);
 
@@ -822,7 +822,7 @@ export default {
             formData.append("companyId", Storage.get("selectedCompanyId"));
             formData.append("file", this.file_live_1);
             formData.append("id", 0);
-            formData.append("createUserId", Auth().user().attrs.id);
+            formData.append("createUserId", Auth().user().id);
             formData.append("productId", this.productId);
             formData.append("productBatchId", this.selectedBatchId);
             formData.append("productTask", this.ruleFormValue1.productTask);
@@ -885,7 +885,7 @@ export default {
             formData.append("companyId", Storage.get("selectedCompanyId"));
             formData.append("file", this.file_live_3);
             formData.append("id", 0);
-            formData.append("createUserId", Auth().user().attrs.id);
+            formData.append("createUserId", Auth().user().id);
             formData.append("productId", this.productId);
             formData.append("productBatchId", this.selectedBatchId);
             formData.append(
@@ -963,7 +963,7 @@ export default {
           formData.append("varietyGrade", this.selectedBatchRow.varietyGrade);
           formData.append("varietyId", this.selectedBatchRow.varietyId);
           formData.append("updateTime", createTime);
-          formData.append("updateUserId", Auth().user().attrs.id);
+          formData.append("updateUserId", Auth().user().id);
           if (this.file_live_2) {
             formData.append("file", this.file_live_2);
           }
@@ -1037,7 +1037,7 @@ export default {
           formData.append("varietyGrade", this.selectedBatchRow.varietyGrade);
           formData.append("varietyId", this.selectedBatchRow.varietyId);
           formData.append("updateTime", createTime);
-          formData.append("updateUserId", Auth().user().attrs.id);
+          formData.append("updateUserId", Auth().user().id);
           if (this.selectedBatchRow.reportResult > -1)
             formData.append("reportResult", this.selectedBatchRow.reportResult);
           if (this.selectedBatchRow.reportTime) {
@@ -1187,7 +1187,7 @@ export default {
       formData.append("varietyGrade", this.selectedBatchRow.varietyGrade);
       formData.append("varietyId", this.selectedBatchRow.varietyId);
       formData.append("updateTime", createTime);
-      formData.append("updateUserId", Auth().user().attrs.id);
+      formData.append("updateUserId", Auth().user().id);
       if (this.selectedBatchRow.reportTime) {
         const tmpDate = new Date(this.selectedBatchRow.reportTime);
         formData.append("reportTime", tmpDate);
