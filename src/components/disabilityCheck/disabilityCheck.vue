@@ -95,7 +95,7 @@
               v-on:click="$router.go(-1)"
               style="display: none;"
             >返回</el-button>
-            <span style="float: right" class="margin-left-20 margin-top-10-IE">
+            <span class="margin-left-20 margin-top-10-IE">
               总计
               <b class="blue-colored">{{ total }}</b> 条检测
             </span>
@@ -119,7 +119,7 @@
               style="margin-right:10px"
             >从专项1移除</el-button>
             <el-checkbox
-              class="margin-top-10-IE"
+              class="margin-top-10-IE float-right-IE"
               v-model="isShowCheckbox"
               true-label="1"
               false-label="0"
