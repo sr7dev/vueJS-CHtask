@@ -95,7 +95,7 @@
               v-on:click="$router.go(-1)"
               style="display: none;"
             >返回</el-button>
-            <span style="float: right" class="margin-left-20">
+            <span style="float: right" class="margin-left-20 margin-top-10-IE">
               总计
               <b class="blue-colored">{{ total }}</b> 条检测
             </span>
@@ -119,6 +119,7 @@
               style="margin-right:10px"
             >从专项1移除</el-button>
             <el-checkbox
+              class="margin-top-10-IE"
               v-model="isShowCheckbox"
               true-label="1"
               false-label="0"
@@ -153,7 +154,13 @@
         >
           <el-table-column label width="35" v-if="isShowCheckbox != 0">
             <template slot-scope="{ row }">
-              <el-checkbox style="margin-left:auto" @change="changeCheckStatus(row.id)"></el-checkbox>
+              <el-checkbox
+                style="margin-left:auto"
+                @change="changeCheckStatus(row.id)"
+                v-model="checked[row.id]"
+                true-label="1"
+                false-label="0"
+              ></el-checkbox>
             </template>
           </el-table-column>
           <el-table-column :formatter="order" label="序号" width="80"></el-table-column>
@@ -242,7 +249,8 @@ export default {
       btnColor: "",
       action: "",
       companyData: [],
-      filename: "农残检测"
+      filename: "农残检测",
+      checked: []
     };
   },
   created() {
@@ -398,7 +406,7 @@ export default {
     changeCheckStatus(id) {
       let index = this.selectedRows.indexOf(id);
       if (index > -1) this.selectedRows.splice(index, 1);
-      if (event.target.checked) {
+      if (this.checked[id] == 1) {
         this.selectedRows.push(id);
       }
     },
@@ -427,6 +435,7 @@ export default {
               this.listLoading = false;
             }, 0.5 * 1000);
             this.selectedRows = [];
+            this.checked = [];
             this.isShowCheckbox = 0;
             this.getList();
           })
@@ -436,8 +445,9 @@ export default {
       }
     },
     showCheckbox() {
-      if (!event.target.checked) {
+      if (this.isShowCheckbox == 0) {
         this.selectedRows = [];
+        this.checked = [];
       }
     }
   }
