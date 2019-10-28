@@ -128,16 +128,21 @@ export default {
       this.editForm = Object.assign({}, row);
     },
     handleDel: function(index, row) {
-      Request()
-        .delete("/api/common_word/delete/" + row.id)
-        .then(response => {
-          this.tableData = response;
-          this.total = this.tableData.length;
-          this.getList();
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      this.$confirm("确认删除该记录吗?", "提示", {
+        type: "warning"
+      }).then(() => {
+        this.listLoading = true;
+        Request()
+          .delete("/api/common_word/delete/" + row.id)
+          .then(response => {
+            // this.tableData = response.data;
+            // this.total = response.total;
+            this.getList();
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      });
     },
     handleAdd() {
       this.addFormVisible = true;
@@ -156,8 +161,8 @@ export default {
               word: this.editForm.word
             })
             .then(response => {
-              this.tableData = response;
-              this.total = this.tableData.length;
+              // this.tableData = response.data;
+              // this.total = response.total;
               this.editLoading = false;
               this.editFormVisible = false;
               this.getList();
@@ -178,8 +183,8 @@ export default {
               word: this.addForm.word
             })
             .then(response => {
-              this.tableData = response;
-              this.total = this.tableData.length;
+              // this.tableData = response;
+              // this.total = this.tableData.length;
               this.addLoading = false;
               this.addFormVisible = false;
               this.getList();
