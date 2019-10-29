@@ -9,14 +9,27 @@
     <div class="box padding-modified body" v-loading="listLoading">
       <el-row class="W-100">
         <el-col :span="12" class="position-relative">
-          <h1 style="font-size:20px" class="gradient-colored chart-title margin-left-10">乡镇溯源企业统计</h1>
+          <h1
+            style="font-size:20px"
+            v-if="!is_ie"
+            class="gradient-colored chart-title margin-left-10"
+          >乡镇溯源企业统计</h1>
+          <h1 style="font-size:20px" v-else class="margin-left-10 chart-title">
+            <span style="color:#255ee3;opacity:0.8">乡镇溯</span>
+            <span style="color:#20beff;opacity:0.7">源企业统计</span>
+          </h1>
           <div class="disability-chart chart-container" ref="chartpie1"></div>
         </el-col>
         <el-col :span="12" class="position-relative">
           <h1
             style="font-size:20px"
+            v-if="!is_ie"
             class="gradient-colored chart-title margin-left-10"
           >各乡镇监管记录上传数据的比例分布</h1>
+          <h1 style="font-size:20px" v-else class="margin-left-10 chart-title">
+            <span style="color:#255ee3;opacity:0.8">各乡镇监管</span>
+            <span style="color:#20beff;opacity:0.7">记录上传数据的比例分布</span>
+          </h1>
           <div class="disability-chart chart-container margin-left-10" ref="chartpie2"></div>
         </el-col>
       </el-row>
@@ -24,8 +37,13 @@
         <el-col>
           <h1
             style="font-size:20px"
+            v-if="!is_ie"
             class="gradient-colored chart-title margin-left-10"
           >各乡镇溯源记录上传数据统计</h1>
+          <h1 style="font-size:20px" v-else class="margin-left-10 chart-title">
+            <span style="color:#255ee3;opacity:0.8">各乡镇溯源</span>
+            <span style="color:#20beff;opacity:0.7">记录上传数据统计</span>
+          </h1>
           <div class="w-100 flex-box disability-chart chart-container" ref="chartstick"></div>
         </el-col>
       </el-row>
@@ -68,10 +86,12 @@ export default {
         "#ed6082",
         "#ee63ca",
         "#7366f4"
-      ]
+      ],
+      is_ie: null
     };
   },
   created() {
+    this.isIE();
     this.getData();
   },
   methods: {
@@ -85,7 +105,7 @@ export default {
         .get("/api/tracing/getCompanyStatis", {
           tracingTimeFrom: "",
           tracingTimeTo: "",
-          sortBy:"town_id"
+          sortBy: "town_id"
         })
         .then(res => {
           this.companyStatics = res.data;
@@ -308,9 +328,13 @@ export default {
       range.value = value;
       range.label.text = this.formatNumber(value);
     },
-
     formatNumber(value) {
       return value / 1000 + "K";
+    },
+    isIE() {
+      let ua = navigator.userAgent;
+      /* MSIE used to detect old browsers and Trident used to newer ones*/
+      this.is_ie = ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
     }
   }
 };

@@ -9,7 +9,15 @@
     <div class="box padding-modified body">
       <el-row class="w-100">
         <el-col :span="14">
-          <h1 style="font-size:20px" class="gradient-colored chart-title margin-left-10">诚信等级企业数量汇总</h1>
+          <h1
+            style="font-size:20px"
+            class="gradient-colored chart-title margin-left-10"
+            v-if="!is_ie"
+          >诚信等级企业数量汇总</h1>
+          <h1 style="font-size:20px" v-else class="gradient-colored chart-title margin-left-10">
+            <span style="color:#255ee3;opacity:0.8">诚信等级</span>
+            <span style="color:#20beff;opacity:0.7">企业数量汇总</span>
+          </h1>
           <div
             class="disability-chart chart-container maring-right-10"
             ref="chartdiv1"
@@ -42,7 +50,12 @@
           <h1
             style="font-size:20px"
             class="gradient-colored chart-title margin-left-10"
+            v-if="!is_ie"
           >各站点诚信等级上传数据的比例分布</h1>
+          <h1 style="font-size:20px" v-else class="gradient-colored chart-title margin-left-10">
+            <span style="color:#255ee3;opacity:0.8">农残监测统计</span>
+            <span style="color:#20beff;opacity:0.7">级上传数据的比例分布</span>
+          </h1>
           <div
             class="disability-chart chart-container margin-left-10"
             ref="chartdiv2"
@@ -53,7 +66,15 @@
       </el-row>
       <el-row class="w-100">
         <el-col :span="14">
-          <h1 style="font-size:20px" class="gradient-colored chart-title margin-left-10">各站点上传数据统计</h1>
+          <h1
+            style="font-size:20px"
+            class="gradient-colored chart-title margin-left-10"
+            v-if="!is_ie"
+          >各站点上传数据统计</h1>
+          <h1 style="font-size:20px" v-else class="gradient-colored chart-title margin-left-10">
+            <span style="color:#255ee3;opacity:0.8">各站点</span>
+            <span style="color:#20beff;opacity:0.7">上传数据统计</span>
+          </h1>
           <div
             class="disability-chart chart-container maring-right-10"
             ref="chartdiv3"
@@ -69,7 +90,11 @@
             <el-row
               style="display:relative;font-size: 20px; font-weight: bold; color: #000000; margin-bottom:15px; "
             >
-              <h1 style="font-size:20px" class="gradient-colored chart-title">红黑名单</h1>
+              <h1 style="font-size:20px" class="gradient-colored chart-title" v-if="!is_ie">红黑名单</h1>
+              <h1 style="font-size:20px" v-else class="gradient-colored chart-title margin-left-10">
+                <span style="color:#255ee3;opacity:0.8">红</span>
+                <span style="color:#20beff;opacity:0.7">黑名单</span>
+              </h1>
             </el-row>
             <el-row style="margin:50px 10px 30px 15px; border-bottom: solid 1px #3787ac; ">
               <div style="font-size:15px;font-weight: bold;" class="white-colored">红名单</div>
@@ -162,10 +187,12 @@ export default {
         "#ed6082",
         "#ee63ca",
         "#7366f4"
-      ]
+      ],
+      is_ie: null
     };
   },
   mounted() {
+    this.isIE();
     this.getTown();
     this.getCompanyProduction();
     // this.makeXYChart();
@@ -206,7 +233,7 @@ export default {
     getLeftTopData() {
       this.listLoading = true;
       Request()
-        .get("/api/company_production/getTownCreditStatis",{
+        .get("/api/company_production/getTownCreditStatis", {
           sortBy: "town_id"
         })
         .then(response => {
@@ -243,7 +270,7 @@ export default {
     getLeftDownData() {
       this.listLoading = true;
       Request()
-        .get("/api/company_credit_grade/getCreditStatis", {sortBy: "townId"})
+        .get("/api/company_credit_grade/getCreditStatis", { sortBy: "townId" })
         .then(response => {
           this.leftDownData = response.data;
           setTimeout(() => {
@@ -441,7 +468,8 @@ export default {
       legendTitle.fontSize = 15;
       legendTitle.marginRight = 10;
       legendTitle.marginLeft = 40;
-      legendTitle.paddingTop = 15;
+      if (this.is_ie) legendTitle.paddingTop = 10;
+      else legendTitle.paddingTop = 15;
       legendTitle.fill = "white";
 
       let columnTemplate = series.columns.template;
@@ -580,6 +608,11 @@ export default {
           parseInt((cnt1 / cnt2) * 100) < 100 ? "warning" : "success";
       }
       return parseInt((cnt1 / cnt2) * 100);
+    },
+    isIE() {
+      let ua = navigator.userAgent;
+      /* MSIE used to detect old browsers and Trident used to newer ones*/
+      this.is_ie = ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
     }
   }
 };
