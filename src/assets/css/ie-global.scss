@@ -1,4 +1,7 @@
 @media screen and (min-width: 0\0) {
+  body {
+    overflow: hidden;
+  }
   .title-container {
     text-align: center;
     h3 {
@@ -52,6 +55,9 @@
       .margin-top-10-IE {
         margin-top: 10px;
       }
+      .margin-top-reverse-5-IE {
+        margin-top: -5px;
+      }
       .float-right-IE {
         float: right;
       }
@@ -99,12 +105,35 @@
         .margin-bottom-reverse-40 {
           margin-bottom: -40px;
         }
+        .margrin-top-reverse-5 {
+          margin-bottom: -5px;
+        }
         .margin-bottom-22 {
           margin-bottom: 22px;
         }
         .align-right-IE {
           width: 40%;
           text-align: right;
+        }
+      }
+      .box {
+        &.body {
+          background: #002580;
+          overflow-y: auto;
+          overflow-x: hidden;
+          height: calc(100vh - 200px);
+          .chart-div-IE {
+            height: 450px;
+          }
+          .divider-IE {
+            margin-bottom: 55px;
+          }
+          .gradient-colored {
+            background: linear-gradient(to right, #255ee3 10%, #20beff 50%);
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+          }
         }
       }
     }

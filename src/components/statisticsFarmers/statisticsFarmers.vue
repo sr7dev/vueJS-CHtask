@@ -11,11 +11,15 @@
         <el-col :span="14">
           <div class="disability-chart chart-container padding-10 large">
             <el-row class="w-100 flex-center margin-bottom-10">
-              <el-col :span="4" class="margin-left-10">
-                <h1 style="font-size:20px" class="gradient-colored">农残监测统计</h1>
+              <el-col :span="12" class="margin-left-10 text-left">
+                <h1 style="font-size:20px" class="gradient-colored" v-if="!is_ie">农残监测统计</h1>
+                <h1 style="font-size:20px" v-else>
+                  <span style="color:#255ee3;opacity:0.8">农残</span>
+                  <span style="color:#20beff;opacity:0.7">监测统计</span>
+                </h1>
               </el-col>
               <el-col :span="4" class="margin-left-auto flex-center">
-                <div class="white-colored">按年</div>
+                <div class="white-colored inline-block-IE">按年</div>
                 <el-input
                   v-model="toYear"
                   class="w-50 margin-left-10 chart-input"
@@ -24,7 +28,7 @@
                 ></el-input>
               </el-col>
               <el-col :span="3" class="margin-left-20 flex-center">
-                <div class="white-colored">按月</div>
+                <div class="white-colored inline-block-IE">按月</div>
                 <el-input
                   v-model="toMonth"
                   class="w-50 margin-left-10 chart-input"
@@ -33,7 +37,12 @@
                 ></el-input>
               </el-col>
               <el-col :span="3" class="margin-left-20">
-                <el-button type="primary" plain @click="getData()" class="no-effect">开始统计</el-button>
+                <el-button
+                  type="primary"
+                  plain
+                  @click="getData()"
+                  class="no-effect margrin-top-reverse-5"
+                >开始统计</el-button>
               </el-col>
             </el-row>
             <el-container>
@@ -81,6 +90,7 @@
               </el-table>
             </el-container>
             <el-table
+              v-if="summaryData"
               :data="summaryData"
               :show-header="false"
               row-class-name="success-row"
@@ -141,7 +151,12 @@
           <h1
             style="font-size:20px"
             class="gradient-colored chart-title margin-left-10"
+            v-if="!is_ie"
           >各站点衣残捡测上传数据统计</h1>
+          <h1 style="font-size:20px" v-else class="margin-left-10 chart-title">
+            <span style="color:#255ee3;opacity:0.8">各站点衣残</span>
+            <span style="color:#20beff;opacity:0.7">捡测上传数据统计</span>
+          </h1>
           <div
             class="disability-chart chart-container margin-left-10 large"
             ref="chartdiv1"
@@ -152,10 +167,18 @@
       <el-row class="w-100">
         <el-col>
           <div class="w-100 flex-box disability-chart chart-container" v-loading="lineChartLoading">
-            <h1 style="font-size:20px" class="gradient-colored chart-title">各站点衣残捡测上传数据的比例分布</h1>
-            <div class="w-50" ref="chartdiv"></div>
-            <div class="divider"></div>
-            <div class="w-50" ref="chartdiv2"></div>
+            <h1
+              style="font-size:20px"
+              class="gradient-colored chart-title"
+              v-if="!is_ie"
+            >各站点衣残捡测上传数据的比例分布</h1>
+            <h1 style="font-size:20px" v-else class="margin-left-10 chart-title">
+              <span style="color:#255ee3;opacity:0.8">各站点衣残捡测</span>
+              <span style="color:#20beff;opacity:0.7">上传数据的比例分布</span>
+            </h1>
+            <div class="w-50 inline-block-IE chart-div-IE" ref="chartdiv"></div>
+            <div class="divider inline-block-IE divider-IE"></div>
+            <div class="w-50 inline-block-IE chart-div-IE" ref="chartdiv2"></div>
           </div>
         </el-col>
       </el-row>
@@ -209,10 +232,12 @@ export default {
         "#ed6082",
         "#ee63ca",
         "#7366f4"
-      ]
+      ],
+      is_ie: null
     };
   },
   created() {
+    this.isIE();
     this.getData();
     this.makeLineChart();
   },
@@ -251,14 +276,16 @@ export default {
             }
             this.tableData.push({
               detect_unit: tmpData[index][0],
-              cnt: tmpData[index][1],
-              cnt_ok: tmpData[index][2]
+              cnt: parseInt(tmpData[index][1]),
+              cnt_ok: parseInt(tmpData[index][2])
             });
             rowTotalSum = rowTotalSum + parseInt(tmpData[index][1]);
             rowOkSum = rowOkSum + parseInt(tmpData[index][2]);
           }
-          this.summaryData = [];
-          if (!this.summaryData) {
+          if (
+            this.summaryData.rowTotalSum !== rowTotalSum &&
+            this.summaryData.rowOkSum !== rowOkSum
+          ) {
             this.summaryData.push({
               name: "合计",
               rowTotalSum: rowTotalSum,
@@ -505,6 +532,11 @@ export default {
           parseInt((cnt1 / cnt2) * 100) < 100 ? "warning" : "success";
       }
       return parseInt((cnt1 / cnt2) * 100);
+    },
+    isIE() {
+      let ua = navigator.userAgent;
+      /* MSIE used to detect old browsers and Trident used to newer ones*/
+      this.is_ie = ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
     }
   }
 };

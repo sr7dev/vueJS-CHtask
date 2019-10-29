@@ -12,9 +12,13 @@
           <div class="disability-chart chart-container padding-10 large">
             <el-row class="w-100 flex-center margin-top-10 margin-bottom-10">
               <el-col :span="5" class="margin-left-10">
-                <h1 style="font-size:20px" class="gradient-colored">监管记录统计</h1>
+                <h1 style="font-size:20px" v-if="!is_ie" class="gradient-colored">监管记录统计</h1>
+                <h1 style="font-size:20px margin-top:5px" v-else>
+                  <span style="color:#255ee3;opacity:0.8">监管</span>
+                  <span style="color:#20beff;opacity:0.7">记录统计</span>
+                </h1>
               </el-col>
-              <el-col :span="7" class="margin-left-20 flex-center">
+              <el-col :span="7" class="margin-left-20 flex-center margin-top-reverse-5-IE">
                 <div class="select_label no-margin-left white-colored">开始日期</div>
                 <el-date-picker
                   type="date"
@@ -25,7 +29,7 @@
                   style="width: 300px;"
                 ></el-date-picker>
               </el-col>
-              <el-col :span="7" class="margin-left-20 flex-center">
+              <el-col :span="7" class="margin-left-20 flex-center margin-top-reverse-5-IE">
                 <div class="select_label no-margin-left white-colored">结束日期</div>
                 <el-date-picker
                   type="date"
@@ -36,7 +40,7 @@
                   style="width: 300px;"
                 ></el-date-picker>
               </el-col>
-              <el-col :span="5" class="margin-left-20">
+              <el-col :span="3" class="margin-left-20 margin-top-reverse-5-IE">
                 <el-button type="primary" plain @click="getData()" class="no-effect">开始统计</el-button>
               </el-col>
             </el-row>
@@ -106,25 +110,45 @@
         <el-col :span="10" class="position-relative">
           <h1
             style="font-size:20px"
+            v-if="!is_ie"
             class="gradient-colored chart-title margin-left-10"
           >各乡镇监管记录上传数据的比例分布</h1>
+          <h1 style="font-size:20px" v-else class="gradient-colored chart-title margin-left-10">
+            <span style="color:#255ee3;opacity:0.8">各乡镇监管</span>
+            <span style="color:#20beff;opacity:0.7">记录上传数据的比例分布</span>
+          </h1>
           <div class="disability-chart chart-container margin-left-10 large" ref="chartpie"></div>
         </el-col>
       </el-row>
       <el-row class="W-100">
         <el-col>
           <div class="w-100 flex-box disability-chart chart-container">
-            <h1 style="font-size:20px" class="gradient-colored chart-title margin-left-10">认证统计</h1>
-            <div class="w-50" ref="chartpie2"></div>
-            <div class="divider margin-right-20"></div>
-            <div class="w-50">
-              <el-row v-if="specialData1 !== null && specialData1.length > 0">
+            <h1
+              style="font-size:20px"
+              v-if="!is_ie"
+              class="gradient-colored chart-title margin-left-10"
+            >认证统计</h1>
+            <h1 style="font-size:20px" v-else class="gradient-colored chart-title margin-left-10">
+              <span style="color:#255ee3;opacity:0.8">认证</span>
+              <span style="color:#20beff;opacity:0.7">统计</span>
+            </h1>
+            <div class="w-50 inline-block-IE chart-div-IE" ref="chartpie2"></div>
+            <div class="divider no-margin-left inline-block-IE divider-IE"></div>
+            <div class="w-50 inline-block-IE chart-div-IE">
+              <el-row
+                class="w-90 margin-left-60"
+                v-if="specialData1 !== null && specialData1.length > 0"
+              >
                 <el-col class="margin-top-10 text-left" style="font-size: 20px;">
-                  <h1 style="font-size:20px" class="gradient-colored">绿色优质数量/占比</h1>
+                  <h1 style="font-size:20px" v-if="!is_ie" class="gradient-colored">绿色优质数量/占比</h1>
+                  <h1 style="font-size:20px" v-else>
+                    <span style="color:#255ee3;opacity:0.8">绿色优质</span>
+                    <span style="color:#20beff;opacity:0.7">数量/占比</span>
+                  </h1>
                 </el-col>
               </el-row>
-              <el-row>
-                <el-col :span="11">
+              <el-row class="w-90 margin-left-60">
+                <el-col :span="12">
                   <el-table
                     :data="specialData1"
                     style="width: 100%; height: 293px;"
@@ -156,7 +180,7 @@
                     <el-table-column prop="label" class-name="no-border-bottom blue-colored"></el-table-column>
                   </el-table>
                 </el-col>
-                <el-col :span="11">
+                <el-col :span="12">
                   <el-table
                     :data="specialData2"
                     style="width: 100%; height: 293px;"
@@ -189,8 +213,8 @@
                   </el-table>
                 </el-col>
               </el-row>
-              <el-row>
-                <el-col :span="22">
+              <el-row class="w-90 margin-left-60">
+                <el-col :span="24">
                   <el-table
                     :data="totalData"
                     style="width: 100%"
@@ -271,10 +295,12 @@ export default {
         "#ed6082",
         "#ee63ca",
         "#7366f4"
-      ]
+      ],
+      is_ie: null
     };
   },
   mounted() {
+    this.isIE();
     this.getData();
   },
   created() {},
@@ -299,7 +325,7 @@ export default {
           createTimeFrom:
             this.createTimeFrom == null ? "" : this.createTimeFrom,
           createTimeTo: this.createTimeTo == null ? "" : this.createTimeTo,
-          sortBy:"cnt"
+          sortBy: "cnt"
         })
         .then(res => {
           this.visionData = res.data;
@@ -593,6 +619,11 @@ export default {
           townCnt: this.tableData[i].townCnt
         });
       }
+    },
+    isIE() {
+      let ua = navigator.userAgent;
+      /* MSIE used to detect old browsers and Trident used to newer ones*/
+      this.is_ie = ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
     }
   }
 };
