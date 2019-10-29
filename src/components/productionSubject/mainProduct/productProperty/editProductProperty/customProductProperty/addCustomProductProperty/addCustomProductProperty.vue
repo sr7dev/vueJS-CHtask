@@ -49,14 +49,12 @@ export default {
       listLoading: false,
       rootId: null,
       companyId: null,
-      tempSortId: null,
       ruleFormValue: {
         id: 1,
         name: "",
         productId: null,
         sort: null,
-        optionData: null,
-        propertySort: null
+        optionData: null
       },
       rules: {
         name: [
@@ -80,10 +78,8 @@ export default {
     this.rootId = this.$route.params.id;
     this.ruleFormValue.id = this.$route.query.id;
     this.ruleFormValue.optionData = this.$route.query.optionData;
-    this.tempSortId = this.$route.query.propertySort;
     this.companyId = this.$route.query.companyId;
     this.ruleFormValue.productId = this.$route.query.productId;
-    console.log(this.$route.query);
   },
   methods: {
     onSubmit(formName) {
@@ -91,14 +87,14 @@ export default {
         if (valid) {
           this.ruleFormValue.optionData.push({
             id: this.ruleFormValue.optionData.length + 1,
-            name: this.ruleFormValue.name
+            name: this.ruleFormValue.name,
+            sortId: parseInt(this.ruleFormValue.sort)
           });
           this.$router.push({
             path: `/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/${this.rootId}`,
             query: {
               productId: this.ruleFormValue.productId,
               optionData: this.ruleFormValue.optionData,
-              propertySort: this.ruleFormValue.sort,
               companyId: this.companyId
             }
           });
@@ -114,7 +110,6 @@ export default {
         query: {
           productId: this.ruleFormValue.productId,
           optionData: this.ruleFormValue.optionData,
-          propertySort: this.tempSortId,
           companyId: this.companyId
         }
       });
