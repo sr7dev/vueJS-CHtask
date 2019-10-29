@@ -31,7 +31,14 @@
               :value="item.value"
             ></el-option>
           </el-select>
-          <el-button size="small" type="primary" plain @click="$router.go(-1)">返回</el-button>
+          <el-button
+            size="small" 
+            type="primary" 
+            plain 
+            @click="$router.push({
+              path: `/productionSubject/mainProduct/${companyId}`
+            })"
+          >返回</el-button>
         </div>
       </div>
       <el-table
@@ -45,7 +52,7 @@
           <template slot-scope="{ row }">{{ row.propertyName }}</template>
         </el-table-column>
         <el-table-column prop="propertyOptions" label="选项排序">
-          <template slot-scope="{ row }">{{ row.propertyOptions }}</template>
+          <template slot-scope="{ row }">{{ row.propertySort }}</template>
         </el-table-column>
         <el-table-column label="操作" class-name="text-center">
           <template slot-scope="{ row }">
