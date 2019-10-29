@@ -74,13 +74,13 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <!-- <el-row>
+        <el-row>
           <el-col :span="6">
             <el-form-item label="证书编号" prop="certificationNo">
               <el-input v-model="ruleFormValue.certificationNo"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>-->
+        </el-row>
         <el-form-item label="认证有效期" style="text-align: center" required>
           <el-col :span="4" class="text-left">
             <el-form-item prop="certificationStartTime">
@@ -143,6 +143,7 @@
 <script>
 import Request from "../../../services/api/request.js";
 import { Urls } from "../../../services/constants";
+import Auth from "@/services/authentication/auth.js";
 
 export default {
   name: "addThreeProducts",
@@ -192,6 +193,13 @@ export default {
           {
             required: true,
             message: "请选择",
+            trigger: "change"
+          }
+        ],
+        certificationNo: [
+          {
+            required: true,
+            message: "请插入",
             trigger: "change"
           }
         ],
@@ -249,7 +257,7 @@ export default {
       Request()
         .get("/api/product_production/all", {
           company_id: companyId,
-          sortBy:"productId"
+          sortBy: "productId"
         })
         .then(response => {
           setTimeout(() => {
@@ -282,6 +290,10 @@ export default {
             this.ruleFormValue.argriculturalClassification
           );
           formData.append(
+            "certificationNo",
+            this.ruleFormValue.certificationNo
+          );
+          formData.append(
             "certificationStartTime",
             this.ruleFormValue.certificationStartTime
           );
@@ -301,13 +313,15 @@ export default {
             "updateDate",
             this.ruleFormValue.certificationStartTime
           );
+          formData.append("output", this.ruleFormValue.output);
           // formData.append(
           //   "updateTime",
           //   this.ruleFormValue.certificationStartTime
           // );
           formData.append("updater", "string");
-          // formData.append("updateUserId", 0);
-          // formData.append("createUserId", 0);
+          formData.append("updateUserId", Auth().user().id);
+          formData.append("createUserId", Auth().user().id);
+          formData.append("creater", "string");
           formData.append("creater", "string");
           formData.append("id", 0);
           if (this.file) {

@@ -8,7 +8,7 @@
     </div>
 
     <div class="box">
-      <el-form label-width="100px" v-model="data">
+      <el-form label-width="100px" v-model="data" v-loading="listLoading">
         <el-row>
           <el-col :span="7">
             <el-form-item label="企业名称">
@@ -21,7 +21,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item label="认证类别">
+        <el-form-item label="认证类型">
           <el-radio-group v-model="data.argriculturalClassification" disabled>
             <el-radio label="1">无公害产品</el-radio>
             <el-radio label="2">绿色食品</el-radio>
@@ -97,16 +97,15 @@
                       v-on:change="handleFileUpload()"
                     />
                     <el-button size="small" type="warning" plain @click="downloadFile()">下载附件</el-button>
-                    <span class="item-value" v-if="!files">
-                      <el-link @click="downloadFile()">
+                    <span class="item-value" v-if="files">
+                      <el-link @click="downloadFile()" class="margin-left-10">
                         {{
-                          fileName
+                        files.replace("/uploads/","")
                         }}
                       </el-link>
                     </span>
-                    <span class="item-value" v-if="files">({{ fileName }})</span>
+                    <span class="item-value" v-if="!files">({{ fileName }})</span>
                   </div>
-                  
                 </div>
               </div>
             </el-form-item>
@@ -135,7 +134,7 @@ export default {
       fileName: "",
       companyName: "",
       productName: "",
-      dataloading: false,
+      listLoading: false,
       argriculturalClassification: 0,
       options: [
         { value: "2", label: "养殖业" },
@@ -152,17 +151,18 @@ export default {
   },
   methods: {
     getData(id) {
-      this.dataloading = true;
+      this.listLoading = true;
       Request()
         .get("/api/quality_standard/get/" + id)
         .then(response => {
           this.data = response;
-          this.data.argriculturalClassification = parseInt(response.argriculturalClassification);
+          this.data.argriculturalClassification = parseInt(
+            response.argriculturalClassification
+          );
           this.files = response.files;
-          if (!response.files)
-            this.fileName = "";
+          if (!response.files) this.fileName = "";
           setTimeout(() => {
-            this.dataloading = false;
+            this.listLoading = false;
           }, 0.01 * 1000);
         })
         .catch(error => {
@@ -178,7 +178,6 @@ export default {
 
     handleFileUpload() {
       this.files = this.$refs.files.files[0];
-
     },
     downloadFile() {
       axios({
@@ -189,10 +188,7 @@ export default {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute(
-          "download", 
-          this.files.replace("/uploads/", "")
-        ); //or any other extension
+        link.setAttribute("download", this.files.replace("/uploads/", "")); //or any other extension
         document.body.appendChild(link);
         link.click();
         link.remove();

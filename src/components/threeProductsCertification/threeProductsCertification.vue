@@ -7,7 +7,8 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button size="small"
+        <el-button
+          size="small"
           type="primary"
           v-on:click="$router.push(`/threeProductsCertification/create`)"
           plain
@@ -75,7 +76,8 @@
           <el-table-column prop="certificationNo" label="证书编号"></el-table-column>
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
-              <el-button size="small"
+              <el-button
+                size="small"
                 type="success"
                 plain
                 v-on:click="
@@ -150,7 +152,7 @@ export default {
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
           townId: this.currTown,
-          sortBy: "id",
+          sortBy: "id"
         })
         .then(response => {
           this.tableData = response.data;
@@ -184,10 +186,11 @@ export default {
         });
     },
     handleDelete() {
+      this.dialogVisible = false;
+      this.listLoading = true;
       Request()
         .delete("/api/quality_standard/delete/" + this.selectedId)
         .then(response => {
-          this.dialogVisible = false;
           this.getList();
         })
         .catch(error => {
