@@ -473,8 +473,7 @@ export default {
       legendTitle.fill = "white";
 
       let columnTemplate = series.columns.template;
-      columnTemplate.strokeWidth = 2;
-      columnTemplate.strokeOpacity = 1;
+      columnTemplate.strokeOpacity = 0;
       // this.createGrid1(0, valueAxis);
       // this.createGrid1(200, valueAxis);
       // this.createGrid1(400, valueAxis);
@@ -590,12 +589,8 @@ export default {
       valueLabel.label.dy = -10;
       // Add cursor
       chart.cursor = new am4charts.XYCursor();
-      // chart.legend = new am4charts.Legend();
-
-      // valueLabel.label.dy = -10;
       let columnTemplate = series.columns.template;
-      columnTemplate.strokeWidth = 2;
-      columnTemplate.strokeOpacity = 1;
+      columnTemplate.strokeOpacity = 0;
       // this.createGrid(0, valueAxis);
       // this.createGrid(5000, valueAxis);
       // this.createGrid(10000, valueAxis);

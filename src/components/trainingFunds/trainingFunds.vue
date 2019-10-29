@@ -83,7 +83,9 @@
           <el-table-column :formatter="order" label="序号"></el-table-column>
           <el-table-column prop="projectName" label="项目名称"></el-table-column>
           <el-table-column prop="appliedAmount" label="申请金额">
-            <template slot-scope="{ row }">{{ row.appliedAmount }}元</template>
+            <template
+              slot-scope="{ row }"
+            >{{ isInt(row.appliedAmount) ? row.appliedAmount : Number(row.appliedAmount).toFixed(2) }}元</template>
           </el-table-column>
           <el-table-column prop="proposer" label="申请人"></el-table-column>
           <el-table-column prop="companyId" label="所在单位">
@@ -101,7 +103,7 @@
               >查看</el-button>
             </template>
           </el-table-column>
-          <el-table-column prop="yield" label="专利1" align="center" width="100">
+          <el-table-column prop="yield" label="专项1" align="center" width="100">
             <template slot-scope="{ row }">
               <i class="el-icon-check" v-if="row.specialFlag"></i>
             </template>
@@ -248,6 +250,9 @@ export default {
         this.selectedRows = [];
         this.checked = [];
       }
+    },
+    isInt(n) {
+      return Number(n) === n && n % 1 === 0;
     }
   }
 };

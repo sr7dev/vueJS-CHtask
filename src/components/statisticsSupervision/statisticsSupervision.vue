@@ -2,7 +2,7 @@
   <div class="container customized">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item>监管记录看板</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">监管记录看板</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box padding-modified header statisticsSupervision"></div>
