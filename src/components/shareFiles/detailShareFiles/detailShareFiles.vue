@@ -209,7 +209,7 @@ export default {
           formdata.append("id", 0);
           formdata.append("shareFilesId", this.shareFilesId);
           formdata.append("updateTime", createDate);
-          formdata.append("updateUserId", 0);
+          formdata.append("updateUserId", this.userId);
           formdata.append("uploadCompany", this.ruleFormValue.uploadCompany);
           formdata.append("uploadPerson", this.ruleFormValue.uploadPerson);
           formdata.append("uploadProfile", "");

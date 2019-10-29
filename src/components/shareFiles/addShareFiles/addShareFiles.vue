@@ -107,7 +107,7 @@ export default {
               id: 0,
               isVisible: this.ruleFormValue.isVisible,
               updateTime: createDate,
-              updateUserId: 0
+              updateUserId: this.userId
             })
             .then(response => {
               setTimeout(() => {

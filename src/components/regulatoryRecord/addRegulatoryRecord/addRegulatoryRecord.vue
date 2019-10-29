@@ -464,7 +464,7 @@ export default {
       mainFormData.append("sign", "");
       mainFormData.append("supervisionRecordTime", this.ruleFormValue.date);
       mainFormData.append("updateTime", this.ruleFormValue.date);
-      mainFormData.append("updateUserId", "");
+      mainFormData.append("updateUserId", Auth().user().id);
       mainFormData.append(
         "usefulExpressions",
         this.selectWords(this.wordValue)
