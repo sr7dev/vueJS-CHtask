@@ -421,6 +421,7 @@
 import moment from "moment";
 import Request from "../../../services/api/request.js";
 import { Urls } from "../../../services/constants";
+import Auth from "@/services/authentication/auth.js";
 import axios from "axios";
 export default {
   data() {
@@ -521,7 +522,8 @@ export default {
       this.listLoading = true;
       Request()
         .get(
-          "/api/rectification_record/all?supervisionRecordId=" + this.superId, {
+          "/api/rectification_record/all?supervisionRecordId=" + this.superId,
+          {
             sortBy: "id"
           }
         )
@@ -572,7 +574,8 @@ export default {
         formData.append("inspector", this.ruleFormValue.inspector);
         formData.append("companyId", this.ruleFormValue.companyId);
         formData.append("updateTime", this.ruleFormValue.createTime);
-        formData.append("updateUserId", "");
+        formData.append("updateUserId", Auth().user().id);
+        formData.append("createUserId", Auth().user().id);
         formData.append("createTime", this.ruleFormValue.createTime);
         formData.append(
           "rectificationRecordTime",
@@ -581,13 +584,13 @@ export default {
         formData.append("conclusionFalseInfo", newConclusionData);
         this.$refs[formName].validate(valid => {
           if (valid) {
-            this.pageLoading = true;
+            this.listLoading = true;
             Request()
               .post("/api/rectification_record/create", formData)
               .then(response => {
                 setTimeout(() => {
-                  this.pageLoading = false;
-                }, 0.5 * 1000);
+                  this.listLoading = false;
+                }, 1000);
                 this.$router.push({ path: "/regulatoryRecord" });
               })
               .catch(error => {
@@ -604,7 +607,6 @@ export default {
           others: this.conclusionData.others ? this.conclusionData.others : " "
         };
         newConclusionData = JSON.stringify(newConclusionData);
-
         formData.append("townId", this.data.townId);
         formData.append("id", this.data.id); //required
         formData.append("inspector", this.data.inspector);
@@ -617,12 +619,15 @@ export default {
           "rectificationRecordTime",
           this.data.rectificationRecordTime
         );
+        formData.append("updateUserId", Auth().user().id);
         formData.append("conclusionFalseInfo", newConclusionData);
         this.pageLoading = true;
         Request()
           .put("/api/rectification_record/update/" + this.data.id, formData)
           .then(response => {
-            this.pageLoading = false;
+            setTimeout(() => {
+              this.pageLoading = false;
+            }, 0.5 * 1000);
             this.$router.push({ path: "/regulatoryRecord" });
           })
           .catch(error => {});

@@ -13,7 +13,7 @@
             <el-row class="w-100 flex-center margin-bottom-10">
               <el-col :span="12" class="margin-left-10 text-left">
                 <h1 style="font-size:20px" class="gradient-colored" v-if="!is_ie">农残监测统计</h1>
-                <h1 style="font-size:20px" v-else>
+                <h1 style="font-size:20px;margin-top:5px" v-else>
                   <span style="color:#255ee3;opacity:0.8">农残</span>
                   <span style="color:#20beff;opacity:0.7">监测统计</span>
                 </h1>
@@ -41,7 +41,7 @@
                   type="primary"
                   plain
                   @click="getData()"
-                  class="no-effect margrin-top-reverse-5"
+                  class="no-effect margin-top-reverse-5-IE"
                 >开始统计</el-button>
               </el-col>
             </el-row>
