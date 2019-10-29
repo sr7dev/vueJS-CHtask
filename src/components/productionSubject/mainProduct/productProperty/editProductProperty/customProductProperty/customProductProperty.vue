@@ -21,7 +21,6 @@
               query: {
                 productId: productId,
                 optionData: tableData,
-                propertySort: propertySort,
                 companyId: companyId
               }
             })"
@@ -30,12 +29,13 @@
         </div>
       </div>
       <el-table :data="tableData" style="width: 100%" :row-class-name="rowIndex">
-        <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
+        <el-table-column :formatter="order" label="序号" width="70">
+        </el-table-column>
         <el-table-column label="选项名称">
           <template slot-scope="{ row }">{{ row.name }}</template>
         </el-table-column>
         <el-table-column label="选项排序">
-          <template>{{ propertySort }}</template>
+          <template slot-scope="{ row }">{{ row.sortId == null ? row.sortId = row.rowIndex + 1 : row.sortId }}</template>
         </el-table-column>
         <el-table-column label="操作" class-name="text-center">
           <template slot-scope="{ row }">
@@ -48,7 +48,6 @@
                 query: {
                   productId: productId,
                   optionData: tableData,
-                  propertySort: propertySort,
                   companyId: companyId,
                   id: row.rowIndex
                 }
@@ -77,23 +76,31 @@ export default {
         pageSize: 20
       },
       tableData: null,
-      propertySort: null,
       listLoading: true,
       total: 0,
       radio: "1",
       name: "",
-      sort: "",
+      sortId: null,
       customValue: 1
     };
   },
   created() {
     this.id = this.$route.params.id;
-    this.productId = this.$route.query.productId;
+    this.productId = this.$route.query.productId;    
     this.tableData = this.$route.query.optionData;
-    this.propertySort = this.$route.query.propertySort;
+    if (this.tableData[0].name == "" && this.tableData.length == 1) this.tableData.splice(0, 1);
     this.companyId = this.$route.query.companyId;
+    this.tableData.sort(this.arraySort);
   },
   methods: {
+    arraySort(firstItem, secondItem) {
+      if (firstItem.sortId === secondItem.sortId) {
+        return 0;
+      }
+      else {
+        return (firstItem.sortId < secondItem.sortId) ? -1 : 1;
+      }
+    },
     handleDelete(id) {
       this.$confirm("确认删除该记录吗?", "提示", { type: "warning" }).then(
         () => {
@@ -113,7 +120,6 @@ export default {
         query: {
           productId: this.productId,
           optionData: this.tableData,
-          propertySort: this.propertySort,
           companyId: this.companyId,
           customValue: 1
         }

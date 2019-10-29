@@ -26,7 +26,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="属性可选项" prop="propertyOptions">
-              <el-input v-model="ruleFormValue.propertyOptions" disabled="true"></el-input>
+              <el-input v-model="ruleFormValue.propertyOptions" disabled></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -47,8 +47,8 @@
             query: {
               productId: ruleFormValue.productId,
               optionData: optionList,
-              propertySort: ruleFormValue.propertySort,
-              companyId: companyId
+              companyId: companyId,
+              sortFlag: sortFlag
             }
           })"
           >编辑选项</el-button>
@@ -69,6 +69,7 @@ export default {
       listLoading: false,
       companyId: -1,
       optionList: [],
+      sortFlag: 1,
       ruleFormValue: {
         propertyName: "",
         propertyOptions: "",
@@ -109,33 +110,39 @@ export default {
     }
   },
   methods: {
-    getCustomValue() {
-      this.ruleFormValue.propertySort = this.$route.query.propertySort;
+    getCustomValue() {      
       this.ruleFormValue.optionData = this.$route.query.optionData;
-      this.ruleFormValue.propertyOptions = this.ruleFormValue.optionData[0].name;
-      for (
-        var index = 1;
-        index < this.ruleFormValue.optionData.length;
-        index++
-      ) {
-        this.ruleFormValue.propertyOptions =
-          this.ruleFormValue.propertyOptions +
-          "," +
-          this.ruleFormValue.optionData[index].name;
+      if (this.ruleFormValue.optionData == null ) {
+         this.getProductPropertyInfo();
       }
-      this.splitStatus(this.ruleFormValue.propertyOptions);
-      this.listLoading = true;
-      Request()
-        .get("/api/product_property/get/" + this.$route.params.id)
-        .then(response => {
-          setTimeout(() => {
-            this.listLoading = false;
-          }, 0.5 * 100);
-          this.ruleFormValue.propertyName = response.propertyName;
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      else
+      {
+        this.ruleFormValue.propertyOptions = this.ruleFormValue.optionData[0].name;
+        for (
+          var index = 1;
+          index < this.ruleFormValue.optionData.length;
+          index++
+        ) {
+          this.ruleFormValue.propertyOptions =
+            this.ruleFormValue.propertyOptions +
+            "," +
+            this.ruleFormValue.optionData[index].name;
+        }
+        this.splitStatus(this.ruleFormValue.propertyOptions);
+        this.listLoading = true;
+        Request()
+          .get("/api/product_property/get/" + this.$route.params.id)
+          .then(response => {
+            setTimeout(() => {
+              this.listLoading = false;
+            }, 0.5 * 100);
+            this.ruleFormValue.propertyName = response.propertyName;
+            this.ruleFormValue.propertySort = parseInt(response.propertySort);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
     },
     getProductPropertyInfo() {
       this.listLoading = true;

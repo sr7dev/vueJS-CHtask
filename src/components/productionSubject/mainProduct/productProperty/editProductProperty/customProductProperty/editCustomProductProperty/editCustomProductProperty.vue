@@ -28,7 +28,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="选项排序" prop="sort">
-              <el-input v-model="ruleFormValue.sort" type="number"></el-input>
+              <el-input v-model="ruleFormValue.sortId" type="number"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -53,9 +53,8 @@ export default {
       ruleFormValue: {
         id: 1,
         name: "",
-        sort: "",
-        optionData: null,
-        propertySort: null
+        sortId: "",
+        optionData: null
       },
       rules: {
         name: [
@@ -65,7 +64,7 @@ export default {
             trigger: "change"
           }
         ],
-        sort: [
+        sortId: [
           {
             required: true,
             message: "请插入",
@@ -78,10 +77,12 @@ export default {
   created() {
     this.ruleFormValue.id = this.$route.query.id;
     this.ruleFormValue.optionData = this.$route.query.optionData;
-    this.ruleFormValue.sort = this.$route.query.propertySort;
     this.ruleFormValue.name = this.ruleFormValue.optionData[
       this.ruleFormValue.id
     ].name;
+    this.ruleFormValue.sortId = this.ruleFormValue.optionData[
+      this.ruleFormValue.id
+    ].sortId;
     this.companyId = this.$route.query.companyId;
     this.rootId = this.$route.params.id;
     this.productId = this.$route.query.productId;
@@ -93,13 +94,15 @@ export default {
           this.ruleFormValue.optionData[
             this.ruleFormValue.id
           ].name = this.ruleFormValue.name;
+          this.ruleFormValue.optionData[
+            this.ruleFormValue.id
+          ].sortId = this.ruleFormValue.sortId;
           this.$router.push({
             path: `/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/${this.rootId}`,
             query: {
               id: this.ruleFormValue.id,
               productId: this.productId,
               optionData: this.ruleFormValue.optionData,
-              propertySort: this.ruleFormValue.sort,
               companyId: this.companyId
             }
           });
@@ -113,7 +116,6 @@ export default {
           id: this.ruleFormValue.id,
           productId: this.productId,
           optionData: this.ruleFormValue.optionData,
-          propertySort: this.ruleFormValue.sort,
           companyId: this.companyId
         }
       });

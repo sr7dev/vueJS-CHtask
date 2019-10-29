@@ -316,7 +316,7 @@ export default {
       valueLabel.label.dy = -10;
       let columnTemplate = series.columns.template;
       columnTemplate.strokeWidth = 2;
-      columnTemplate.strokeOpacity = 1;
+      columnTemplate.strokeOpacity = 0;
       // this.createGrid(0, valueAxis);
       // this.createGrid(5000, valueAxis);
       // this.createGrid(10000, valueAxis);
