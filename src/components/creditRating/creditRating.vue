@@ -85,15 +85,14 @@
             </template>
           </el-table-column>
           <el-table-column label="操作" v-if="loggedinUserType !== 3" class-name="text-center">
-            <template slot-scope="{ row }" v-if="loggedinUserType === 1 || loggedinUserType === 0">
+            <template slot-scope="{ row }">
               <el-button
                 size="small"
                 v-on:click="$router.push(`/creditRating/${row.creditGradeId}`)"
                 plain
                 type="success"
+                v-if="loggedinUserType === 1 || loggedinUserType === 0"
               >查看</el-button>
-            </template>
-            <template slot-scope="{ row }">
               <el-button
                 size="small"
                 plain
