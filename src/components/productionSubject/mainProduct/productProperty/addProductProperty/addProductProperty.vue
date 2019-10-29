@@ -26,7 +26,7 @@
         <el-row>
           <el-col :span="6">
             <el-form-item label="属性可选项" prop="propertyOptions">
-              <el-input v-model="ruleFormValue.propertyOptions" disabled="true"></el-input>
+              <el-input v-model="ruleFormValue.propertyOptions" disabled></el-input>
             </el-form-item>
           </el-col>
         </el-row>
