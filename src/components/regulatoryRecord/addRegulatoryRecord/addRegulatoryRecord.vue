@@ -294,6 +294,7 @@
 <script>
 import Request from "../../../services/api/request.js";
 import { Urls } from "../../../services/constants";
+import Auth from "@/services/authentication/auth.js";
 
 export default {
   data() {
@@ -457,7 +458,7 @@ export default {
       );
       mainFormData.append("supervisionInfo", supervisionInfo);
       mainFormData.append("townId", this.ruleFormValue.townShip);
-      mainFormData.append("createUserId", "");
+      mainFormData.append("createUserId", Auth().user().id);
       mainFormData.append("id", 0);
       mainFormData.append("scenePhotos", "");
       mainFormData.append("sign", "");
