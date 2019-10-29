@@ -132,7 +132,7 @@ export default {
             .post("/api/sample_check_result/create", formData)
             .then(response => {
               this.creatingSample = false;
-              this.$router.push(`/sampleCheck`);
+              this.$router.push(`/sampleCheckMain/1`);
             })
             .catch(error => {
               console.error(error);

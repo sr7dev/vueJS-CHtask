@@ -160,8 +160,8 @@ export default new Router({
         }
       },
       children: [{
-          path: "/sampleCheck",
-          name: "sampleCheck",
+          path: "/sampleCheckMain/:mode",
+          name: "sampleCheckMain",
           component: sampleCheck
         },
         {

@@ -7,13 +7,13 @@
       </el-breadcrumb>
     </div>
 
-    <div class="box">
+    <div class="box" v-loading="processing">
       <el-form ref="form" :model="form" label-width="150px" :rules="rules" class="data-form">
         <el-row>
           <el-col :span="12">
             <el-form-item>
-              <el-radio v-model="form.companyType" label="1" checked>企业</el-radio>
-              <el-radio v-model="form.companyType" label="2">农户</el-radio>
+              <el-radio v-model="form.companyType" label="1" checked v-on:change="changeCompany">企业</el-radio>
+              <el-radio v-model="form.companyType" label="2" v-on:change="changeCompany">农户</el-radio>
             </el-form-item>
           </el-col>
         </el-row>
@@ -147,7 +147,7 @@
           <el-row>
             <el-col :span="8">
               <el-form-item label="三品认证" prop="qualityStandardId">
-                <el-input v-model="form.qualityStandardId" style="width:100%"></el-input>
+                <el-input v-model.number="form.qualityStandardId" style="width:100%"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -182,13 +182,13 @@
           </el-row>
           <el-row>
             <el-col :span="8">
-              <el-form-item label="种养殖面积">
-                <el-input v-model="form.companyName" style="width:100%"></el-input>
+              <el-form-item label="种养殖面积" prop="plantArea">
+                <el-input v-model.number="form.plantArea" style="width:100%"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="土地来源">
-                <el-input v-model="form.chargePerson" style="width:100%"></el-input>
+              <el-form-item label="土地来源" prop="landSource">
+                <el-input v-model="form.landSource" style="width:100%"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -321,7 +321,7 @@ import Auth from "@/services/authentication/auth";
 export default {
   name: "editRegulatoryObject",
   data() {
-    const defaultRule = [
+    let defaultRule = [
       {
         required: true,
         message: "必填",
@@ -330,7 +330,8 @@ export default {
     ];
     return {
       townList: [],
-      form: {
+      processing: false,
+      form: {        
         agriculturalClassification: 1,
         chargePerson: "",
         companyAddress: "",
@@ -368,19 +369,37 @@ export default {
         }
       },
       rules: {
-        chargePerson: defaultRule,
-        companyAddress: defaultRule,
-        companyHonor: defaultRule,
-        companyName: defaultRule,
-        companyType: defaultRule,
-        contactMobile: defaultRule,
-        contactPerson: defaultRule,
-        creditCode: defaultRule,
-        doSupervision: defaultRule,
-        landSource: defaultRule,
-        plantArea: defaultRule,
-        qualityStandardId: defaultRule,
-        remarks: defaultRule
+        chargePerson: JSON.parse(JSON.stringify(defaultRule)),
+        companyAddress: JSON.parse(JSON.stringify(defaultRule)),
+        companyHonor: JSON.parse(JSON.stringify(defaultRule)),
+        companyName: JSON.parse(JSON.stringify(defaultRule)),
+        companyType: JSON.parse(JSON.stringify(defaultRule)),
+        contactMobile: JSON.parse(JSON.stringify(defaultRule)),
+        contactPerson: JSON.parse(JSON.stringify(defaultRule)),
+        creditCode: JSON.parse(JSON.stringify(defaultRule)),
+        doSupervision: JSON.parse(JSON.stringify(defaultRule)),
+        landSource: JSON.parse(JSON.stringify(defaultRule)),
+        plantArea: [
+          {
+            required: true,
+            message: "请插入"
+          },
+          {
+            type: "number",
+            message: "插入号码"
+          }
+        ],
+        qualityStandardId: [
+          {
+            required: true,
+            message: "请插入"
+          },
+          {
+            type: "number",
+            message: "插入号码"
+          }
+        ],
+        remarks: JSON.parse(JSON.stringify(defaultRule))
       },
       id: 0
     };
@@ -388,7 +407,7 @@ export default {
   created() {
     this.id = this.$route.params.id;
 
-    console.log(this.id);
+    this.processing = true;
     this.getCompanyInfo(this.id);
     this.getTownList();
   },
@@ -399,8 +418,7 @@ export default {
         .then(response => {
           this.form = response;
           this.form.productInfo = JSON.parse(response.productInfo);
-
-          console.log(this.form);
+          this.changeCompany();
         })
         .catch(error => {
           console.log(error);
@@ -411,10 +429,25 @@ export default {
         .get("/api/town/all", {})
         .then(response => {
           this.townList = response;
+          this.processing = false;
         })
         .catch(err => {
           console.error(err);
         });
+    },
+    changeCompany(){
+      if (this.form.companyType == 1) {
+        this.rules.landSource[0].required = false;
+        this.rules.plantArea[0].required = false;
+        this.rules.contactPerson[0].required = true;
+        this.rules.contactMobile[0].required = true;
+
+      } else if (this.form.companyType == 2) {
+        this.rules.landSource[0].required = true;
+        this.rules.plantArea[0].required = true;
+        this.rules.contactPerson[0].required = false;
+        this.rules.contactMobile[0].required = false;
+      }
     },
     onSubmit() {
       const user = Auth().user();
@@ -425,6 +458,7 @@ export default {
 
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.processing = true;
           Request()
             .put("/api/company_production/update/" + this.id, {
               agriculturalClassification: this.form.agriculturalClassification,
@@ -452,6 +486,7 @@ export default {
               updateUserId: user.attrs.id
             })
             .then(res => {
+              this.processing = false;
               this.$router.push({ path: "/productionSubject" });
             });
           } 
