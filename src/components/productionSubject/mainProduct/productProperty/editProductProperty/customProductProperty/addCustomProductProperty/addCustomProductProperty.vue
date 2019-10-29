@@ -49,6 +49,7 @@ export default {
       listLoading: false,
       rootId: null,
       companyId: null,
+      tempSortId: null,
       ruleFormValue: {
         id: 1,
         name: "",
@@ -79,8 +80,10 @@ export default {
     this.rootId = this.$route.params.id;
     this.ruleFormValue.id = this.$route.query.id;
     this.ruleFormValue.optionData = this.$route.query.optionData;
+    this.tempSortId = this.$route.query.propertySort;
     this.companyId = this.$route.query.companyId;
     this.ruleFormValue.productId = this.$route.query.productId;
+    console.log(this.$route.query);
   },
   methods: {
     onSubmit(formName) {
@@ -111,7 +114,7 @@ export default {
         query: {
           productId: this.ruleFormValue.productId,
           optionData: this.ruleFormValue.optionData,
-          propertySort: this.ruleFormValue.sort,
+          propertySort: this.tempSortId,
           companyId: this.companyId
         }
       });
