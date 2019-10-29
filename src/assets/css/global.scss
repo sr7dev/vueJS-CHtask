@@ -7,6 +7,10 @@ body {
   background-color: rgba(121, 121, 121, 1);
 }
 
+.italic-font {
+  font-style: italic;
+}
+
 .large-font {
   font-size: 28px!important;
 }
@@ -21,8 +25,19 @@ body {
   font-size: 1.2rem;
 }
 
+.red-colored {
+  color: #e72060;
+  font-size: 1.2rem;
+}
+
+.yellow-colored {
+  color: #e5c743;
+  font-size: 1.2rem;
+}
+
 .white-colored {
   color: #ffffff;
+  font-size: 1.2rem;
 }
 
 .gradient-colored {
@@ -119,6 +134,10 @@ body {
 
 .margin-top-20 {
   margin-top: 20px!important;
+}
+
+.margin-top-30 {
+  margin-top: 30px!important;
 }
 
 .margin-bottom-10 {
@@ -473,6 +492,56 @@ input[type=number]::-webkit-inner-spin-button {
     }
     font-size: 12px;
   }
+  &.progress-customized {
+    .no-progress-outer {
+      .el-progress {
+        margin-top: 3px;
+        .el-progress-bar__outer {
+          background-color: transparent;
+        }
+      }
+      &.yellow-colored {
+        .el-progress {
+          .el-progress-bar__outer {
+            .el-progress-bar__inner {
+              background-color: #E6A23C;
+              &::after {
+                border-left: 8px solid #E6A23C;
+              }
+            }
+          }
+        }
+      }
+      &.red-colored {
+        .el-progress {
+          .el-progress-bar__outer {
+            .el-progress-bar__inner {
+              background-color: #e72060;
+              &::after {
+                border-left: 8px solid #e72060;
+              }
+            }
+          }
+        }
+      }
+    }
+    .el-progress-bar__outer {
+      border-radius: 0;
+      background-color: #1a5bab;
+      .el-progress-bar__inner {
+        border-radius: 0;
+        &::after {
+          width: 0;
+          height: 0;
+          border: 0 solid transparent;
+          border-bottom-width: 13px;
+          border-top-width: 0px;
+          border-left: 8px solid #409EFF;
+          position: absolute;
+        }
+      }
+    }
+  }
   .divider {
     border: 1px solid #d9d9d9;
     height: 80%;
@@ -480,6 +549,13 @@ input[type=number]::-webkit-inner-spin-button {
     opacity: 0.1;
     margin-left: 15px;
     margin-right: -20px;
+  }
+  .hidden-progress-inner {
+    .el-progress-bar__outer {
+      .el-progress-bar__inner {
+        display: none;
+      }
+    }
   }
 }
 
