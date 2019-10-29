@@ -507,6 +507,9 @@ input[type=number]::-webkit-inner-spin-button {
     &.statisticsCredit {
       background-image: url("../../assets/images/statisticsCredit.png");
     }
+    &.statisticTracingRecord {
+      background-image: url("../../assets/images/statisticsTracingRecord.png");
+    }
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

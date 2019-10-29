@@ -480,7 +480,14 @@ export default {
       document.getElementById("file1").click();
     },
     handleFileUpload_Live(e) {
-      this.file_live_1 = this.$refs.file_live_1.files[0];
+      setTimeout(function() {
+        this.file_live_1 = document.getElementById("file").files;
+        console.log("sdfsdfsdf");
+      }, 0);
+
+      // console.log(this.$refs.file_live_1.files[0]);
+      // this.file_live_1 = this.$refs.file_live_1.files[0];
+
       this.images = [];
       let reader = new FileReader();
       let that = this;
