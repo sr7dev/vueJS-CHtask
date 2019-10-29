@@ -11,10 +11,10 @@
         <el-button size="small" type="primary" plain v-on:click="$router.go(-1)">返回</el-button>
       </div>
     </div>
-    <el-dialog :visible.sync="openDialog" width="60%">
-      <el-row>
+    <el-dialog :visible.sync="openDialog" width="60%" :before-close="handleClose" :title="header">
+      <!-- <el-row>
         <el-col :span="3" class="margin-bottom-30 margin-left-30">{{header}}</el-col>
-      </el-row>
+      </el-row>-->
       <el-form ref="dynamicValidateForm" :model="dynamicValidateForm" label-width="100px">
         <el-row v-if="showWebMaster">
           <el-col :span="5">
@@ -417,6 +417,15 @@ export default {
           }
         }
       }
+    },
+    handleClose(done) {
+      this.$confirm("您确定要关闭此对话框吗？")
+        .then(_ => {
+          this.getData();
+          this.deletedRows = [];
+          done();
+        })
+        .catch(_ => {});
     }
   }
 };
