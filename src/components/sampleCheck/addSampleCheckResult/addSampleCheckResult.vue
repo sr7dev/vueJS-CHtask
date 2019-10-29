@@ -6,7 +6,7 @@
         <el-breadcrumb-item class="actived">添加结果</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="box">
+    <div class="box" v-loading="creatingSample">
       <el-form v-if="data" :rules="dataRulse" ref="data" :model="data" label-width="100px">
         <el-form-item label="检测名称:" prop="sampleName">
           <el-input v-model="data.sampleName" style="width: 300px;" placeholder></el-input>
@@ -57,11 +57,13 @@
 
 <script>
 import Request from "@/services/api/request";
+import Auth from "@/services/authentication/auth.js"
 export default {
   name: "addSampleCheckResult",
   data() {
     return {
       id: -1,
+      creatingSample: false,
       file: null,
       data: {
         checkFiles: "",
@@ -107,14 +109,15 @@ export default {
       this.data.checkFiles = this.file.name;
     },
     onSubmit() {
+      
       let formData = new FormData();
       formData.append("checkFiles", this.data.checkFiles);
       formData.append("checkPerson", this.data.checkPerson);
-      formData.append("createUserId", this.data.createUserId);
+      formData.append("createUserId", Auth().user().id);
       formData.append("id", this.data.id);
       formData.append("sampleId", this.data.sampleId);
       formData.append("sampleName", this.data.sampleName);
-      formData.append("updateUserId", this.data.updateUserId);
+      formData.append("updateUserId", Auth().user().id);
       formData.append("file", this.file);
       formData.append("sampleTime", this.data.sampleTime);
       formData.append("checkResult", this.data.checkResult);
@@ -124,9 +127,11 @@ export default {
 
       this.$refs.data.validate(valid => {
         if (valid) {
+          this.creatingSample = true;
           Request()
             .post("/api/sample_check_result/create", formData)
             .then(response => {
+              this.creatingSample = false;
               this.$router.push(`/sampleCheck`);
             })
             .catch(error => {
