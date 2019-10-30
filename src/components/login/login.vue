@@ -202,7 +202,6 @@ export default {
             .login(this.loginForm)
             .then(
               success => {
-                console.log(success);
                 Toast.success("欢迎来到智能农业！");
                 this.$router.push({
                   path: this.redirect || "/",

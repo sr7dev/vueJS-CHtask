@@ -39,9 +39,11 @@ class Auth {
   user() {
     if (this.loggedInUser) return this.loggedInUser;
 
-    if (Storage.get("userData")) {
+    if (Storage.get("userData").tmp) {
       //return User.create(JSON.parse(Storage.get("userData")));
       return User.create(JSON.parse(Storage.get("userData")).tmp);
+    } else if (!Storage.get("userData").tmp) {
+      TokenManager().removeAccessToken();
     }
 
     return null;
@@ -157,7 +159,6 @@ class Auth {
       )
       .then(
         success => {
-          console.log(success, "loginCheck")
           this.createUserFrom(success);
           return Promise.resolve(success);
         },
