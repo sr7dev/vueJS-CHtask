@@ -44,7 +44,6 @@ class Request {
 
     if (method.toLowerCase() == "post") {
       options = data;
-
       if (this.authToken) {
         options = Object.assign(options, this.authToken);
       }
