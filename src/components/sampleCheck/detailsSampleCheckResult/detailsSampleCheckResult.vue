@@ -2,8 +2,8 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item>监管对象</el-breadcrumb-item>
-        <el-breadcrumb-item class="actived">仓库详情</el-breadcrumb-item>
+        <el-breadcrumb-item>例行抽样</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">抽样结果</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
 

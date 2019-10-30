@@ -34,7 +34,7 @@
         </el-form-item>
         <el-form-item label>
           <el-button size="small" type="success" plain @click="onSubmit()">保存</el-button>
-          <el-button size="small" type="danger" plain @click="$router.go(-1)">取消</el-button>
+          <el-button size="small" type="danger" plain @click="$router.push(`/sampleCheckMain/0`)">取消</el-button>
         </el-form-item>
       </el-form>
       <template v-if="!data">No matching data!</template>
