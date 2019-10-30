@@ -157,6 +157,7 @@ class Auth {
       )
       .then(
         success => {
+          console.log(success, "loginCheck")
           this.createUserFrom(success);
           return Promise.resolve(success);
         },

@@ -59,7 +59,7 @@
                       <h3 class="blue-colored">{{row.cnt}}</h3>
                     </div>
                     <el-progress
-                      :percentage="getPercent(row.cnt, maxCnt,1)"
+                      :percentage="getPercent(row.cnt,maxCnt,1)"
                       :stroke-width="10"
                       :show-text="false"
                     ></el-progress>
@@ -77,12 +77,12 @@
                 <el-table-column prop="cnt" label="合格率" class-name="padding-right-20">
                   <template slot-scope="{ row }">
                     <div class="sub-title">
-                      <h3 class="blue-colored">{{getPercent(row.cnt_ok, row.cnt,2)}}%</h3>
+                      <h3 class="blue-colored">{{parseInt(row.cnt_ok/row.cnt*100)}}%</h3>
                     </div>
                     <el-progress
-                      :percentage="getPercent(row.cnt_ok, row.cnt,2)"
+                      :percentage="parseInt(row.cnt_ok/row.cnt*100)"
                       :stroke-width="10"
-                      :status="progressColor"
+                      :status="getColor(parseInt(row.cnt_ok/row.cnt*100))"
                       :show-text="false"
                     ></el-progress>
                   </template>
@@ -107,7 +107,7 @@
                 class-name="blue-colored text-center"
               >
                 <template slot-scope="{row}">
-                  <h1 class="large-font">{{row.rowTotalSum}}</h1>
+                  <h1 class="large-font italic-font">{{row.rowTotalSum}}</h1>
                 </template>
               </el-table-column>
               <el-table-column
@@ -116,21 +116,21 @@
                 class-name="padding-left-20 blue-colored text-center"
               >
                 <template slot-scope="{row}">
-                  <h1 class="large-font">{{row.rowOkSum}}</h1>
+                  <h1 class="large-font italic-font">{{row.rowOkSum}}</h1>
                 </template>
               </el-table-column>
               <el-table-column label="不合格" prop="rowOkSum" class-name="blue-colored text-center">
                 <template slot-scope="{row}">
-                  <h1 class="large-font">{{row.rowTotalSum-row.rowOkSum}}</h1>
+                  <h1 class="large-font italic-font">{{row.rowTotalSum-row.rowOkSum}}</h1>
                 </template>
               </el-table-column>
               <el-table-column prop="rowTotalSum" label="不合">
                 <template slot-scope="{ row }">
                   <el-progress
                     v-if="row.rowTotalSum"
-                    :percentage="getPercent(row.rowOkSum, row.rowTotalSum,2)"
+                    :percentage="getPercent(row.rowOkSum, row.rowTotalSum,1)"
                     :stroke-width="10"
-                    :status="progressColor"
+                    :status="getColor(parseInt(row.rowOkSum/row.rowTotalSum*100))"
                     :show-text="false"
                   ></el-progress>
                 </template>
@@ -139,7 +139,7 @@
                 <template slot-scope="{ row }">
                   <div class="sub-title">
                     <h3
-                      class="large-font blue-colored"
+                      class="large-font blue-colored italic-font"
                     >{{getPercent(row.rowOkSum, row.rowTotalSum,2)}}%</h3>
                   </div>
                 </template>
@@ -430,7 +430,7 @@ export default {
       pieSeries.labels.template.maxWidth = 180;
       pieSeries.labels.template.fill = "white";
       pieSeries.labels.template.text =
-        "{value.percent.formatNumber('#.0')}% {category}";
+        "[bold '#20beff']{value.percent.formatNumber('#.0')}%[/] {category}";
 
       pieSeries.ticks.template.strokeWidth = 1;
       pieSeries.ticks.template.strokeOpacity = 0.7;
@@ -531,6 +531,10 @@ export default {
           parseInt((cnt1 / cnt2) * 100) < 100 ? "warning" : "success";
       }
       return parseInt((cnt1 / cnt2) * 100);
+    },
+    getColor(percent) {
+      if (percent === 100) return "success";
+      return "warning";
     },
     isIE() {
       let ua = navigator.userAgent;
