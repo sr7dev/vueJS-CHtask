@@ -105,7 +105,7 @@ export default {
         .get("/api/tracing/getCompanyStatis", {
           tracingTimeFrom: "",
           tracingTimeTo: "",
-          sortBy: "town_id"
+          sortBy: "cnt_company"
         })
         .then(res => {
           this.companyStatics = res.data;
@@ -144,16 +144,16 @@ export default {
           companyCnt: res[0],
           pie1Label: townname,
           pie2Label: townname
-        });
+        });        
       });
 
       this.makePieChat1();
       this.makePieChat2();
-      this.makeStickChat();
+      
     },
     getTableData1() {
       this.companyStatics1.forEach(res => {
-        let town_id = res[1],
+        let town_id = res[4],
           townname = "";
         for (let i = 0; i < this.townList.length; i++) {
           if (this.townList[i].id === town_id) {
@@ -169,21 +169,23 @@ export default {
           pie2Label: townname
         });
       });
+      
       this.listLoading = false;
     },
 
     makePieChat1() {
       let chart = am4core.create(this.$refs.chartpie1, am4charts.PieChart);
       Request()
-        .get("/api/tracing/getCompanyStatis", {
-          tracingTimeFrom: "",
-          tracingTimeTo: "",
-          sortBy: "cnt_company"
+        .get("/api/company_production/getTownCreditStatis", {
+          createTimeFrom: "",
+          createTimeTo: "",
+          sortBy: "town_id"
         })
         .then(res => {
           this.companyStatics1 = res.data;
           this.getTableData1();
           chart.data = this.tableDataByCnt;
+          this.makeStickChat();
         })
         .catch(err => {
           console.error(err);
@@ -263,7 +265,8 @@ export default {
 
     makeStickChat() {
       let chart = am4core.create(this.$refs.chartstick, am4charts.XYChart);
-      chart.data = this.tableData;
+      chart.data = this.tableDataByCnt;
+      
       let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
       let title = chart.titles.create();
       title.text = "各乡镇溯源记录上传数据统计";
