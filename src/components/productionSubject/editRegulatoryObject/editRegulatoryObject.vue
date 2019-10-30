@@ -165,13 +165,13 @@
         <div v-show="form.companyType == '2'">
           <el-row>
             <el-col :span="8">
-              <el-form-item label="姓名" prop="companyName">
-                <el-input v-model="form.companyName" style="width:100%"></el-input>
+              <el-form-item label="姓名" prop="contactPerson">
+                <el-input v-model="form.contactPerson" style="width:100%"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="联系方式" prop="chargePerson">
-                <el-input v-model="form.chargePerson" style="width:100%"></el-input>
+              <el-form-item label="联系方式" prop="contactWay">
+                <el-input v-model="form.contactWay" style="width:100%"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -439,14 +439,10 @@ export default {
       if (this.form.companyType == 1) {
         this.rules.landSource[0].required = false;
         this.rules.plantArea[0].required = false;
-        this.rules.contactPerson[0].required = true;
-        this.rules.contactMobile[0].required = true;
-
       } else if (this.form.companyType == 2) {
         this.rules.landSource[0].required = true;
         this.rules.plantArea[0].required = true;
-        this.rules.contactPerson[0].required = false;
-        this.rules.contactMobile[0].required = false;
+       
       }
     },
     onSubmit() {
@@ -454,6 +450,12 @@ export default {
       if (!user) {
         Auth().logout();
         return;
+      }
+
+      if (this.form.companyType == "2"){
+        this.form.companyName = this.form.contactPerson;
+        this.form.chargePerson = this.form.contactPerson;
+        this.form.contactMobile = this.form.contactWay;
       }
 
       this.$refs["form"].validate(valid => {
