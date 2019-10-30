@@ -73,8 +73,8 @@
         >
           <router-link slot="title" to="/tracingLabelManagement">溯源标签管理</router-link>
         </el-menu-item>
-        <el-menu-item index="/sampleCheck">
-          <router-link slot="title" to="/sampleCheck">例行抽样管理</router-link>
+        <el-menu-item index="/sampleCheckMain">
+          <router-link slot="title" to="/sampleCheckMain/0">例行抽样管理</router-link>
         </el-menu-item>
         <el-menu-item
           index="/inputManagement"

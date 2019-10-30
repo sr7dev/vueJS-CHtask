@@ -3,7 +3,7 @@
     <div class="title">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>例行抽样</el-breadcrumb-item>
-        <el-breadcrumb-item class="actived">抽样计划</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">{{tagName}}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
@@ -100,11 +100,17 @@ export default {
       total: 0,
       tableData: [],
       listLoading: false,
-      status: 1
+      status: 1,
+      tagName: "抽样计划",
     };
   },
   created() {
-    this.getList();
+    if (this.$route.params.mode == 1)
+      this.mode = false; 
+    else
+      this.mode = true;
+
+    this.getList();    
   },
   methods: {
     showDetailsSampleCheck(row) {
@@ -135,6 +141,7 @@ export default {
             sortBy: "id"
           })
           .then(response => {
+            this.tagName = "抽样计划";
             this.tableData = response.data;
             this.total = response.total;
             setTimeout(() => {
@@ -152,6 +159,7 @@ export default {
             sortBy: "id"
           })
           .then(response => {
+            this.tagName = "抽样结果";
             this.tableData = response.data;
             this.total = response.total;
             setTimeout(() => {
@@ -171,10 +179,12 @@ export default {
     },
     clickTabLeft() {
       this.mode = true;
+      
       this.getList();
     },
     clickTabRight() {
       this.mode = false;
+      
       this.getList();
     }
   }
