@@ -86,13 +86,25 @@
                       <b>{{row.townName}}</b>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="townCnt" class-name="blue-colored"></el-table-column>
-                  <el-table-column prop="townCnt2" class-name="blue-colored"></el-table-column>
-                  <el-table-column prop="rate" class-name="blue-colored"></el-table-column>
+                  <el-table-column prop="townCnt" class-name="blue-colored italic-font large-font">
+                    <template slot-scope="{row}">
+                      <b>{{row.townCnt}}</b>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="townCnt2" class-name="blue-colored italic-font large-font">
+                    <template slot-scope="{row}">
+                      <b>{{row.townCnt2}}</b>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="rate" class-name="blue-colored italic-font large-font">
+                    <template slot-scope="{row}">
+                      <b>{{row.rate}}</b>
+                    </template>
+                  </el-table-column>
                   <el-table-column prop="progress">
                     <template slot-scope="{ row }">
                       <div class="sub-title">
-                        <h3 class="blue-colored">{{row.progress}}</h3>
+                        <h3 class="blue-colored italic-font">{{row.progress}}</h3>
                       </div>
                       <el-progress
                         :percentage="row.progress * 100"
@@ -527,6 +539,8 @@ export default {
       pieSeries.slices.template.strokeOpacity = 1;
       pieSeries.ticks.template.strokeWidth = 1;
       pieSeries.ticks.template.strokeOpacity = 0.7;
+      pieSeries.labels.template.text =
+        "[bold '#20beff']{value.percent.formatNumber('#.0')}%[/] {category}";
       pieSeries.ticks.template.fill = am4core.color("#012f8a");
       pieSeries.ticks.template.fillOpacity = 1;
 
@@ -588,7 +602,7 @@ export default {
           pieSeries.labels.template.maxWidth = 180;
           pieSeries.labels.template.fill = "white";
           pieSeries.labels.template.text =
-            "{value.value} / {value.percent.formatNumber('#.0')}% {category}";
+            "[bold '#20beff']{value.percent.formatNumber('#.0')}%[/] {category}";
           chart.innerRadius = am4core.percent(40);
           pieSeries.slices.template.fillOpacity = 1;
           let colorSet = new am4core.ColorSet();

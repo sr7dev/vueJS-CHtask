@@ -75,7 +75,9 @@
               class="border-hide chart-table"
             >
               <el-table-column prop="name" label="站点" width="130" class-name="white-colored">
-                <template>合计</template>
+                <template>
+                  <b>合计</b>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="rowTotalSum"
@@ -95,7 +97,7 @@
               <el-table-column prop="name" label="合格率" width="150">
                 <template>
                   <div class="sub-title">
-                    <h3 class="large-font blue-colored">22922</h3>
+                    <h3 class="large-font blue-colored italic-font">22922</h3>
                   </div>
                 </template>
               </el-table-column>
@@ -106,7 +108,7 @@
                 class-name="blue-colored"
               >
                 <template>
-                  <h1 class="large-font">10045</h1>
+                  <h1 class="large-font italic-font">10045</h1>
                 </template>
               </el-table-column>
             </el-table>
@@ -220,7 +222,9 @@
                 <el-progress :percentage="76" :stroke-width="13" :show-text="false"></el-progress>
               </el-col>
               <el-col :span="3">
-                <p class="blue-colored">2800</p>
+                <p class="blue-colored italic-font">
+                  <b>2800</b>
+                </p>
               </el-col>
             </el-row>
             <el-row class="margin-left-10 margin-top-30">

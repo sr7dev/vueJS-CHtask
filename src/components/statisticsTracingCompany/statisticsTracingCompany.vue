@@ -208,7 +208,7 @@ export default {
       pieSeries.labels.template.maxWidth = 150;
       pieSeries.labels.template.fontSize = 15;
       pieSeries.labels.template.text =
-        "{value.value} / {value.percent.formatNumber('#.0')}% {category}";
+        "[bold '#20beff']{value.percent.formatNumber('#.0')}%[/] {category}";
       chart.innerRadius = am4core.percent(40);
       pieSeries.slices.template.fillOpacity = 1;
       pieSeries.ticks.template.fill = am4core.color("#FFF");
@@ -246,7 +246,7 @@ export default {
       pieSeries.labels.template.fontSize = 15;
       pieSeries.labels.template.maxWidth = 180;
       pieSeries.labels.template.text =
-        "{value.percent.formatNumber('#.0')}% {category}";
+        "[bold '#20beff']{value.percent.formatNumber('#.0')}%[/] {category}";
       pieSeries.slices.template.strokeOpacity = 1;
       pieSeries.ticks.template.fill = am4core.color("#FFF");
       pieSeries.ticks.template.strokeWidth = 1;

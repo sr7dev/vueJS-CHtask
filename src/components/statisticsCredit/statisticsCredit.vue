@@ -481,6 +481,7 @@ export default {
     },
     makeChartRightTop() {
       let chart = am4core.create(this.$refs.chartdiv2, am4charts.PieChart);
+
       let data = [];
       this.leftTopData.map(item => {
         data.push({
@@ -490,9 +491,11 @@ export default {
       });
       chart.data = data;
       chart.responsive.enabled = true;
+      chart.addClassName = true;
       chart.width = am4core.percent(55);
       chart.height = am4core.percent(100);
       chart.align = "center";
+
       // Add and configure Series
       let pieSeries = chart.series.push(new am4charts.PieSeries());
       let title = chart.titles.create();
@@ -503,14 +506,17 @@ export default {
       title.fill = am4core.color("#012f8a");
       // pieSeries.radius = 100;
       pieSeries.dataFields.value = "cnt";
+
       pieSeries.dataFields.category = "townId";
+      console.log(data);
       pieSeries.dataFields.radiusValue = "cnt";
+
       pieSeries.labels.template.truncate = true;
       pieSeries.labels.template.fontSize = 15;
       pieSeries.labels.template.maxWidth = 180;
       pieSeries.labels.template.fill = "white";
       pieSeries.labels.template.text =
-        "{value.percent.formatNumber('#.0')}% {category}";
+        "[bold '#20beff']{value.percent.formatNumber('#.0')}%[/] {category}";
       pieSeries.ticks.template.strokeWidth = 1;
       pieSeries.ticks.template.strokeOpacity = 0.7;
       pieSeries.ticks.template.fill = am4core.color("#012f8a");

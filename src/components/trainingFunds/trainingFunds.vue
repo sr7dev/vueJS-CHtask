@@ -83,9 +83,7 @@
           <el-table-column :formatter="order" label="序号"></el-table-column>
           <el-table-column prop="projectName" label="项目名称"></el-table-column>
           <el-table-column prop="appliedAmount" label="申请金额">
-            <template
-              slot-scope="{ row }"
-            >{{ isInt(row.appliedAmount) ? row.appliedAmount : Number(row.appliedAmount).toFixed(2) }}元</template>
+            <template slot-scope="{ row }">{{ Number(row.appliedAmount).toFixed(2) }}元</template>
           </el-table-column>
           <el-table-column prop="proposer" label="申请人"></el-table-column>
           <el-table-column prop="companyId" label="所在单位">

@@ -533,6 +533,7 @@ input[type=number]::-webkit-inner-spin-button {
         &::after {
           width: 0;
           height: 0;
+          left: 100%;
           border: 0 solid transparent;
           border-bottom-width: 13px;
           border-top-width: 0px;
