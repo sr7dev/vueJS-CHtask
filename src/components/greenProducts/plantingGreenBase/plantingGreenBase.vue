@@ -112,7 +112,7 @@
               <el-button size="small" @click="deleteSelectedRows()" type="danger" plain>删除</el-button>
             </el-col>
             <el-col :span="8">
-              <span>结束日期: </span>
+              <span>插入时间: </span>
               <el-date-picker type="date" v-model="registerTime"></el-date-picker>
               <el-button
                 size="small"
