@@ -107,13 +107,15 @@
             </el-col>
           </el-row>
           <el-row class="margin-left-40 margin-top-20">
-            <el-col :span="15">
+            <el-col :span="17">
               <el-button size="small" @click="addFormRow()" type="primary" plain>添加</el-button>
               <el-button size="small" @click="deleteSelectedRows()" type="danger" plain>删除</el-button>
             </el-col>
-            <el-col :span="8">
-              <span>插入时间: </span>
+            <el-col :span="4" v-show="dynamicValidateForm.data.length > 0">
+              <span>插入时间:&nbsp;</span>
               <el-date-picker type="date" v-model="registerTime"></el-date-picker>
+            </el-col>
+            <el-col :span="2" v-show="dynamicValidateForm.data.length > 0">
               <el-button
                 size="small"
                 @click="onSubmit('dynamicValidateForm')"
@@ -140,19 +142,22 @@
       <div class="iptBox">
         <el-row>
           <el-col :span="2">
-            <el-button size="small" type="primary" plain v-on:click="showAddDialog()">添加</el-button>
+            <el-button size="small" type="success" plain v-on:click="showAddDialog()">添加</el-button>
           </el-col>
           <el-col :span="6">
-            <span>开始日期:</span>
-            <el-date-picker type="date" v-model="registerTimeFrom" @change="changeRegisterTimeFrom"></el-date-picker>
+            <span>开始日期:&nbsp;</span>
+            <el-date-picker type="date" v-model="registerTimeFrom"></el-date-picker>
           </el-col>
           <el-col :span="6">
-            <span>结束日期:</span>
-            <el-date-picker type="date" v-model="registerTimeTo" @change="changeRegisterTimeTo"></el-date-picker>
+            <span>结束日期:&nbsp;</span>
+            <el-date-picker type="date" v-model="registerTimeTo"></el-date-picker>
           </el-col>
-          <el-col :span="8">
-            <span>创建单位:</span>
+          <el-col :span="9">
+            <span>创建单位:&nbsp;</span>
             <el-input v-model="companyName" class="w-80"></el-input>
+          </el-col>
+          <el-col :span="1">
+            <el-button size="small" type="primary" plain v-on:click="changeFilter()" class="margin-left-10">搜索</el-button>
           </el-col>          
         </el-row>
 
@@ -250,6 +255,7 @@ export default {
       this.selectedRows = [];
       this.checked = [];
       this.openDialog = true;
+      this.addFormRow();
 
     },
 
@@ -344,16 +350,12 @@ export default {
       });
     },
 
-    changeRegisterTimeFrom() {
-      this.getData();
-    },
-
-    changeRegisterTimeTo() {
+    changeFilter() {
       this.getData();
     },
 
     getData() {
-      this.listLoading = false;      
+      this.listLoading = true;      
       Request()
         .get("/api/green/green_quality_base/all", {
           companyName: this.companyName,
@@ -362,11 +364,11 @@ export default {
           sortBy: "id"
         })
         .then(res => {
-          console.log(res.data);
           this.tableData = res.data;
           this.total = this.tableData.length;
           this.calculateTotal();
           this.Total();
+          this.listLoading = false;
         });
     },
 
