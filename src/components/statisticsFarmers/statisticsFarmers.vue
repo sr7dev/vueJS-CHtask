@@ -236,7 +236,7 @@ export default {
       is_ie: null
     };
   },
-  created() {
+  mounted() {
     this.isIE();
     this.getData();
     this.makeLineChart();

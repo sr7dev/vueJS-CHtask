@@ -39,10 +39,10 @@ class Auth {
   user() {
     if (this.loggedInUser) return this.loggedInUser;
 
-    if (Storage.get("userData").tmp) {
+    if (JSON.parse(Storage.get("userData")).tmp) {
       //return User.create(JSON.parse(Storage.get("userData")));
       return User.create(JSON.parse(Storage.get("userData")).tmp);
-    } else if (!Storage.get("userData").tmp) {
+    } else if (!JSON.parse(Storage.get("userData")).tmp) {
       TokenManager().removeAccessToken();
     }
 
