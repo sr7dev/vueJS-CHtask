@@ -8,14 +8,15 @@
     <div class="box">
       <div class="iptBox">
         <el-row class="w-100">
-          <!-- <el-col :span="3">
-            <el-button size="small"
+          <el-col :span="3">
+            <el-button
+              size="small"
               type="primary"
               v-on:click="$router.push(`/productionStandard/create`)"
               plain
               v-if="loggedinUserType === 1 || loggedinUserType === 0"
             >添加生产标准</el-button>
-          </el-col>-->
+          </el-col>
           <el-col :span="7">
             <div class="select_label no-margin-left">标准名称</div>
             <el-input v-model="productName" class="w-80"></el-input>
@@ -67,7 +68,8 @@
                 v-if="row.productionStandardProfiles !== '' && row.productionStandardProfiles !== undefined"
                 v-on:click="downloadStandardProfiles(row.productionStandardProfiles)"
               >下载</el-button>
-              <!-- <el-button size="small"
+              <el-button
+                size="small"
                 type="warning"
                 plain
                 v-if="loggedinUserType === 1 || loggedinUserType === 0"
@@ -76,7 +78,7 @@
                     path: `/productionStandard/edit/`+ row.id
                   })
                 "
-              >修改</el-button>-->
+              >修改</el-button>
             </template>
           </el-table-column>
         </el-table>

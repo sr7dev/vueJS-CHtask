@@ -631,9 +631,10 @@ export default {
     },
     getVarietyData() {
       Request()
-        .get("/api/product_variety/all", { 
+        .get("/api/product_variety/all", {
           productId: this.productId,
-          sortBy: "id" })
+          sortBy: "id"
+        })
         .then(response => {
           this.varietyList = response.data;
         })
@@ -1079,17 +1080,18 @@ export default {
         return "";
       }
     },
-    downloadFile(url) {
+    downloadFile(fileUrl) {
       axios({
-        url: Urls.DOWNLOAD_URL() + url,
+        url: Urls.DOWNLOAD_URL() + fileUrl,
         method: "GET",
         responseType: "blob" // important
       }).then(response => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", url.replace("/uploads/", "")); //or any other extension
+        link.setAttribute("download", fileUrl.replace("/uploads/", "")); //or any other extension
         document.body.appendChild(link);
+
         link.click();
         link.remove();
       });
