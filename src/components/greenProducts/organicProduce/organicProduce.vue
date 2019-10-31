@@ -155,21 +155,21 @@
       </el-col>
 
       <el-col :span="4">
-        <div class="select_label margin-left-20">板块 :</div>
+        <div class="select_label margin-left-10">所在镇(区) :</div>
         <el-input v-model="searchTown" align="right" class="w-50"></el-input>
       </el-col>
-      <el-col :span="5">
-        <div class="select_label no-margin-left">生产单位 :</div>
+      <el-col :span="4">
+        <div class="select_label no-margin-left">申报单位名称 :</div>
         <el-input v-model="searchCompanyName" align="right" class="w-50"></el-input>
       </el-col>
       <el-col :span="4">
-        <div class="select_label no-margin-left">已获证书 :</div>
+        <div class="select_label margin-left-10">已获证书 :</div>
         <el-select v-model="isCredit" align="right" type="date" class="w-50">
           <el-option v-for="item in option" :key="item.val" :label="item.label" :value="item.val"></el-option>
         </el-select>
       </el-col>
       <el-col :span="2">
-        <el-button plain type="primary" size="small" @click="getData()">搜索</el-button>
+        <el-button plain type="primary" size="small" @click="getData()" class="margin-left-10">搜索</el-button>
       </el-col>
     </el-row>
     <el-container>
