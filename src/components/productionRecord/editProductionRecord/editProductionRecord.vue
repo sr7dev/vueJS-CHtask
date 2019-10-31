@@ -71,7 +71,7 @@
                       padding-bottom: 20px;"
               >
                 <span v-if="file">({{ file.name }})</span>
-                <div class="item-value" v-else>
+                <div class="item-value" v-else-if="data.productionProfiles">
                   <el-link @click="downloadFile()">
                     {{
                     data.productionProfiles.replace("/uploads/", "")
@@ -175,7 +175,7 @@ export default {
     getProductionDetail() {
       Request()
         .get("/api/product_production/all", {
-          sortBy:"productId"
+          sortBy: "productId"
         })
         .then(response => {
           this.productNameList = response.data;
