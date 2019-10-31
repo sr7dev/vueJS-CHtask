@@ -26,12 +26,24 @@
         @tab-click="getList"
         v-loading="listLoading"
       >
-        <el-tab-pane label="绿色食品" name="greeFood"><greenFood :year ="year" /></el-tab-pane>
-        <el-tab-pane label="有机农产品" name="organicProduce"><organicProduce :year ="year" /></el-tab-pane>
-        <el-tab-pane label="种植业绿色优质基地" name="plantingGreenBase"><plantingGreenBase :year = "year" /></el-tab-pane>
-        <el-tab-pane label="种植业乡镇统计" name="plantingTownshipStatistics"><plantingTownshipStatistics :year = "year" /></el-tab-pane>
-        <el-tab-pane label="畜牧业绿色优质基地" name="animalHusbandryBase"><animalHusbandryBase :year = "year" /></el-tab-pane>
-        <el-tab-pane label="绿色优质农产品占比" name="greenAgriculturalProducts"><greenAgriculturalProducts  :year = "year" /></el-tab-pane>
+        <el-tab-pane label="绿色食品" name="greeFood">
+          <greenFood :year="year" />
+        </el-tab-pane>
+        <el-tab-pane label="有机农产品" name="organicProduce">
+          <organicProduce :year="year" />
+        </el-tab-pane>
+        <el-tab-pane label="种植业绿色优质基地" name="plantingGreenBase">
+          <plantingGreenBase :year="year" />
+        </el-tab-pane>
+        <el-tab-pane label="种植业乡镇统计" name="plantingTownshipStatistics">
+          <plantingTownshipStatistics :year="year" />
+        </el-tab-pane>
+        <el-tab-pane label="畜牧业绿色优质基地" name="animalHusbandryBase">
+          <animalHusbandryBase :year="year" />
+        </el-tab-pane>
+        <el-tab-pane label="绿色优质农产品占比" name="greenAgriculturalProducts">
+          <greenAgriculturalProducts :year="year" />
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -68,7 +80,7 @@ export default {
       },
       total: 0,
       listLoading: false,
-      year: 2019,      
+      year: 2019,
       options: [
         { value: 2018 },
         { value: 2019 },
@@ -81,7 +93,7 @@ export default {
   },
   created() {},
   methods: {
-    getList() {        
+    getList() {
       this.listLoading = false;
     },
     getYear() {},
