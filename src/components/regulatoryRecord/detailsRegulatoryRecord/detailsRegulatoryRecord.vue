@@ -303,28 +303,37 @@ export default {
         });
     },
     downloadFile_Live() {
-      axios
-        .get(this.downloadUrl + this.data.scenePhotos, {
-          responseType: "blob"
-        })
-        .then(({ data }) => {
-          const blob = new Blob([data], {});
-          let link = document.createElement("a");
-          link.href = window.URL.createObjectURL(blob);
-          link.click().catch(error => console.error(error));
-        });
+      axios({
+        url: this.downloadUrl + this.data.scenePhotos,
+        method: "GET",
+        responseType: "blob" // important
+      }).then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute(
+          "download",
+          this.data.scenePhotos.replace("/uploads/", "")
+        ); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      });
     },
     downloadFile_Sign() {
-      axios
-        .get(this.downloadUrl + this.data.sign, {
-          responseType: "blob"
-        })
-        .then(({ data }) => {
-          const blob = new Blob([data], {});
-          let link = document.createElement("a");
-          link.href = window.URL.createObjectURL(blob);
-          link.click().catch(error => console.error(error));
-        });
+      axios({
+        url: this.downloadUrl + this.data.sign,
+        method: "GET",
+        responseType: "blob" // important
+      }).then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", this.data.sign.replace("/uploads/", "")); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      });
     }
   }
 };

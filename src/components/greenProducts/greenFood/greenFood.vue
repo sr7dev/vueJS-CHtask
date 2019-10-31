@@ -2,7 +2,7 @@
   <div class="box">
     <el-dialog
       :visible.sync="show_addDialog"
-      width="90%"
+      width="80%"
       :before-close="handleClose"
       title="添加绿色食品"
     >
@@ -19,7 +19,7 @@
               ></el-checkbox>
             </el-form-item>
           </el-col>
-          <el-col :span="2" class="margin-left-10">
+          <el-col :span="3" class="margin-left-10">
             <el-form-item
               label="板块："
               :prop="'rowDatas.'+index+'.town'"
@@ -35,13 +35,13 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="3" class="margin-left-10">
+          <el-col :span="4" class="margin-left-10">
             <el-form-item
               label="生产单位:"
               :prop="'rowDatas.'+index+'.companyId'"
               :rules="{ required: true, message: '请选择', trigger: 'blur' }"
             >
-              <el-select v-model="rowData.companyId">
+              <el-select v-model="rowData.companyId" class="w-100">
                 <el-option
                   v-for="company in companyProduction"
                   :key="company.companyId"
@@ -51,7 +51,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="3" class="margin-left-10">
+          <el-col :span="4" class="margin-left-10">
             <el-form-item
               label="产品名称:"
               :prop="'rowDatas.'+index+'.productName'"
@@ -94,36 +94,30 @@
               <el-input v-model="rowData.location"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="3" class="margin-left-10">
-            <el-form-item
-              label="插入时间:"
-              :prop="'rowDatas.'+index+'.registerTime'"
-              :rules="{ required: true, message: '请插入', trigger: 'blur' }"
-            >
-              <el-date-picker
-                class="w-100"
-                v-model="rowData.registerTime"
-                align="right"
-                type="datetime"
-              ></el-date-picker>
-            </el-form-item>
-          </el-col>
         </el-row>
         <el-row>
           <el-col :span="15"></el-col>
         </el-row>
-        <el-form-item class="left-margin flex-box w-100 no-margin-IE">
-          <el-button size="small" @click="addFormRow()" type="primary" plain>添加</el-button>
-          <el-button size="small" @click="deleteSelectedRows()" type="danger" plain>删除</el-button>
-          <el-button
-            size="small"
-            @click="onSubmit('dynamicValidateForm')"
-            type="success"
-            plain
-            style="float:right"
-            class="margin-right-40"
-          >保存</el-button>
-        </el-form-item>
+        <el-row class="left-margin flex-box w-100 no-margin-IE">
+          <el-col :span="4">
+            <el-button size="small" @click="addFormRow()" type="primary" plain>添加</el-button>
+            <el-button size="small" @click="deleteSelectedRows()" type="danger" plain>删除</el-button>
+          </el-col>
+          <el-col :span="16" class="margin-top-10 text-right">插入时间：</el-col>
+          <el-col :span="3">
+            <el-date-picker v-model="registerTime" align="right" class="w-80" type="date"></el-date-picker>
+          </el-col>
+          <el-col :span="1">
+            <el-button
+              size="small"
+              @click="onSubmit('dynamicValidateForm')"
+              type="success"
+              plain
+              style="float:right"
+              class="margin-right-40"
+            >保存</el-button>
+          </el-col>
+        </el-row>
       </el-form>
     </el-dialog>
     <el-dialog :visible.sync="confirm_dialogVisible" width="30%" modal>
@@ -142,24 +136,24 @@
       <!-- </el-row>
       <el-row class="margin-bottom-10">-->
       <el-col :span="4">
-        <div class="select_label margin-left-10">开始日期 :</div>
+        <div class="select_label margin-left-20 margin-right-5">开始日期 :</div>
         <el-date-picker v-model="registerTimeFrom" align="right" type="date" placeholder="插入时间 "></el-date-picker>
       </el-col>
       <el-col :span="4">
-        <div class="select_label margin-left-10">结束日期 :</div>
+        <div class="select_label margin-left-20 margin-right-5">结束日期 :</div>
         <el-date-picker v-model="registerTimeTo" align="right" type="date" placeholder="插入时间 "></el-date-picker>
       </el-col>
 
       <el-col :span="4">
-        <div class="select_label margin-left-20">板块 :</div>
-        <el-input v-model="searchTown" align="right" class="w-50"></el-input>
-      </el-col>
-      <el-col :span="5">
-        <div class="select_label no-margin-left">生产单位 :</div>
-        <el-input v-model="searchCompanyName" align="right" class="w-50"></el-input>
+        <div class="select_label margin-left-20 margin-right-5">板块 :</div>
+        <el-input v-model="searchTown" align="right" class="w-60"></el-input>
       </el-col>
       <el-col :span="4">
-        <div class="select_label no-margin-left">已获证书 :</div>
+        <div class="select_label no-margin-left margin-right-5">生产单位 :</div>
+        <el-input v-model="searchCompanyName" align="right" class="w-60"></el-input>
+      </el-col>
+      <el-col :span="4">
+        <div class="select_label no-margin-left margin-right-5">已获证书 :</div>
         <el-select v-model="isCredit" align="right" type="date" class="w-50">
           <el-option v-for="item in option" :key="item.val" :label="item.label" :value="item.val"></el-option>
         </el-select>
@@ -262,12 +256,11 @@ export default {
             productCreditCode: "",
             area: null,
             amount: null,
-            location: "",
-            registerTime: new Date()
+            location: ""
           }
         ]
       },
-
+      registerTime: new Date(),
       loggedinUserType: null,
       page: {
         pageIndex: 1,
@@ -705,10 +698,7 @@ export default {
             "productName",
             this.dynamicValidateForm.rowDatas[i].productName
           );
-          formdata.append(
-            "registerTime",
-            this.dynamicValidateForm.rowDatas[i].registerTime
-          );
+          formdata.append("registerTime", this.registerTime);
           formdata.append(
             "town",
             this.filterTownship(this.dynamicValidateForm.rowDatas[i].town)
