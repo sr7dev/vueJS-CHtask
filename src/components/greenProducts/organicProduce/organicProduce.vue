@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box padding-top-10">
     <el-dialog
       :visible.sync="show_addDialog"
       width="85%"
@@ -133,41 +133,39 @@
         <el-button size="small" type="success" @click="updateSelectedRows()" plain>确认</el-button>
       </span>
     </el-dialog>
-    <el-row class="margin-bottom-10">
-      <el-col :span="1">
-        <el-button plain type="success" size="small" @click="showAddDialog()">添加</el-button>
-      </el-col>
-      <!-- </el-row>
-      <el-row class="margin-bottom-10">-->
-      <el-col :span="4">
-        <div class="select_label margin-left-20 margin-right-5">开始日期 :</div>
-        <el-date-picker v-model="registerTimeFrom" align="right" type="date" placeholder="插入时间 "></el-date-picker>
-      </el-col>
-      <el-col :span="4">
-        <div class="select_label margin-left-20 margin-right-5">结束日期 :</div>
-        <el-date-picker v-model="registerTimeTo" align="right" type="date" placeholder="插入时间 "></el-date-picker>
-      </el-col>
-
-      <el-col :span="4">
-        <div class="select_label margin-left-20 margin-right-5">所在镇(区) :</div>
-        <el-input v-model="searchTown" align="right" class="w-50"></el-input>
-      </el-col>
-      <el-col :span="4">
-        <div class="select_label no-margin-left margin-right-5">申报单位名称 :</div>
-        <el-input v-model="searchCompanyName" align="right" class="w-50"></el-input>
-      </el-col>
-      <el-col :span="4">
-        <div class="select_label margin-left-20 margin-right-5">已获证书 :</div>
-        <el-select v-model="isCredit" align="right" type="date" class="w-50">
-          <el-option v-for="item in option" :key="item.val" :label="item.label" :value="item.val"></el-option>
-        </el-select>
-      </el-col>
-      <el-col :span="2">
-        <el-button plain type="primary" size="small" @click="getData()" class="margin-left-10">搜索</el-button>
-      </el-col>
-    </el-row>
     <el-container>
-      <el-header>有机农产品清单</el-header>
+      <el-header class="margin-bottom-10">有机农产品清单</el-header>
+      <el-row class="margin-bottom-20">
+        <el-col :span="1">
+          <el-button plain type="success" size="small" @click="showAddDialog()">添加</el-button>
+        </el-col>
+        <el-col :span="4">
+          <div class="select_label margin-left-20 margin-right-5">开始日期 :</div>
+          <el-date-picker v-model="registerTimeFrom" align="right" type="date" placeholder="插入时间 "></el-date-picker>
+        </el-col>
+        <el-col :span="4">
+          <div class="select_label margin-left-20 margin-right-5">结束日期 :</div>
+          <el-date-picker v-model="registerTimeTo" align="right" type="date" placeholder="插入时间 "></el-date-picker>
+        </el-col>
+
+        <el-col :span="4">
+          <div class="select_label margin-left-20 margin-right-5">所在镇(区) :</div>
+          <el-input v-model="searchTown" align="right" class="w-50"></el-input>
+        </el-col>
+        <el-col :span="4">
+          <div class="select_label no-margin-left margin-right-5">申报单位名称 :</div>
+          <el-input v-model="searchCompanyName" align="right" class="w-50"></el-input>
+        </el-col>
+        <el-col :span="4">
+          <div class="select_label margin-left-20 margin-right-5">已获证书 :</div>
+          <el-select v-model="isCredit" align="right" type="date" class="w-50">
+            <el-option v-for="item in option" :key="item.val" :label="item.label" :value="item.val"></el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="2">
+          <el-button plain type="primary" size="small" @click="getData()" class="margin-left-10">搜索</el-button>
+        </el-col>
+      </el-row>
       <el-table
         :data="tableData"
         style="width: 100%"
@@ -231,8 +229,8 @@ export default {
       isCredit: 0,
       searchTown: "",
       searchCompanyName: "",
-      registerTimeTo: "",
-      registerTimeFrom: "",
+      registerTimeTo: new Date(),
+      registerTimeFrom: new Date(new Date().getFullYear(), 0, 1),
       show_addDialog: false,
       confirm_dialogVisible: false,
       selectedTown: null,
