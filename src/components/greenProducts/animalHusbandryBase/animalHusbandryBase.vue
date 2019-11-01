@@ -108,9 +108,9 @@
             <span>结束日期:&nbsp;</span>
             <el-date-picker type="date" v-model="registerTimeTo"></el-date-picker>
           </el-col>
-          <el-col :span="9">
+          <el-col :span="4">
             <span>年度:&nbsp;</span>
-            <el-input v-model="searchYear" class="w-80"></el-input>
+            <el-input v-model="searchYear" class="w-60"></el-input>
           </el-col>
           <el-col :span="1">
             <el-button size="small" type="primary" plain v-on:click="changeFilter()" class="margin-left-10">搜索</el-button>
