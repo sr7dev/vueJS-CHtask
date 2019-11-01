@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box padding-top-10">
     <el-dialog
       :visible.sync="show_addDialog"
       width="80%"
@@ -129,41 +129,40 @@
         <el-button size="small" type="success" @click="updateSelectedRows()" plain>确认</el-button>
       </span>
     </el-dialog>
-    <el-row class="margin-bottom-10">
-      <el-col :span="1">
-        <el-button plain type="success" size="small" @click="showAddDialog()">添加</el-button>
-      </el-col>
-      <!-- </el-row>
-      <el-row class="margin-bottom-10">-->
-      <el-col :span="4">
-        <div class="select_label margin-left-20 margin-right-5">开始日期 :</div>
-        <el-date-picker v-model="registerTimeFrom" align="right" type="date" placeholder="插入时间 "></el-date-picker>
-      </el-col>
-      <el-col :span="4">
-        <div class="select_label margin-left-20 margin-right-5">结束日期 :</div>
-        <el-date-picker v-model="registerTimeTo" align="right" type="date" placeholder="插入时间 "></el-date-picker>
-      </el-col>
 
-      <el-col :span="4">
-        <div class="select_label margin-left-20 margin-right-5">板块 :</div>
-        <el-input v-model="searchTown" align="right" class="w-60"></el-input>
-      </el-col>
-      <el-col :span="4">
-        <div class="select_label no-margin-left margin-right-5">生产单位 :</div>
-        <el-input v-model="searchCompanyName" align="right" class="w-60"></el-input>
-      </el-col>
-      <el-col :span="4">
-        <div class="select_label no-margin-left margin-right-5">已获证书 :</div>
-        <el-select v-model="isCredit" align="right" type="date" class="w-50">
-          <el-option v-for="item in option" :key="item.val" :label="item.label" :value="item.val"></el-option>
-        </el-select>
-      </el-col>
-      <el-col :span="2">
-        <el-button plain type="primary" size="small" @click="getData()">搜索</el-button>
-      </el-col>
-    </el-row>
     <el-container>
-      <el-header>常熟市2019年上半年度种植业绿色食品统计汇总</el-header>
+      <el-header class="margin-bottom-10">常熟市{{curYear}}年上半年度种植业绿色食品统计汇总</el-header>
+      <el-row class="margin-bottom-20">
+        <el-col :span="1">
+          <el-button plain type="success" size="small" @click="showAddDialog()">添加</el-button>
+        </el-col>
+        <el-col :span="4">
+          <div class="select_label margin-left-20 margin-right-5">开始日期 :</div>
+          <el-date-picker v-model="registerTimeFrom" align="right" type="date" placeholder="插入时间 "></el-date-picker>
+        </el-col>
+        <el-col :span="4">
+          <div class="select_label margin-left-20 margin-right-5">结束日期 :</div>
+          <el-date-picker v-model="registerTimeTo" align="right" type="date" placeholder="插入时间 "></el-date-picker>
+        </el-col>
+
+        <el-col :span="4">
+          <div class="select_label margin-left-20 margin-right-5">板块 :</div>
+          <el-input v-model="searchTown" align="right" class="w-60"></el-input>
+        </el-col>
+        <el-col :span="4">
+          <div class="select_label no-margin-left margin-right-5">生产单位 :</div>
+          <el-input v-model="searchCompanyName" align="right" class="w-60"></el-input>
+        </el-col>
+        <el-col :span="4">
+          <div class="select_label no-margin-left margin-right-5">已获证书 :</div>
+          <el-select v-model="isCredit" align="right" type="date" class="w-50">
+            <el-option v-for="item in option" :key="item.val" :label="item.label" :value="item.val"></el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="2">
+          <el-button plain type="primary" size="small" @click="getData()">搜索</el-button>
+        </el-col>
+      </el-row>
       <el-table
         :data="tableData"
         style="width: 100%"
@@ -221,6 +220,7 @@ export default {
 
   data() {
     return {
+      curYear: new Date().getFullYear(),
       option: [
         { val: 0, label: "全部" },
         { val: 1, label: "是" },
@@ -239,8 +239,8 @@ export default {
       isCredit: 0,
       searchTown: "",
       searchCompanyName: "",
-      registerTimeTo: "",
-      registerTimeFrom: "",
+      registerTimeTo: new Date(),
+      registerTimeFrom: new Date(new Date().getFullYear(), 0, 1),
       show_addDialog: false,
       confirm_dialogVisible: false,
       selectedTown: null,
