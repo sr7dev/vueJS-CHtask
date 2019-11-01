@@ -258,7 +258,8 @@ export default {
       this.dynamicValidateForm.data = [];
       this.selectedRows = [];
       this.checked = [];
-      this.openDialog = true;
+      this.addFormRow();
+      this.openDialog = true;      
     },
 
     handleClose(done) {
