@@ -335,7 +335,6 @@ export default {
     },
 
     handleChange() {
-      console.log("handle");
       if (this.searchYear > 1990 ) {
         this.registerTimeFrom = new Date(this.searchYear, 0, 1);
       }
