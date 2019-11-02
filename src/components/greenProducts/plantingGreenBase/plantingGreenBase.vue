@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="box">
     <el-dialog :visible.sync="openDialog" width="90%" :before-close="handleClose">
       <el-form ref="dynamicValidateForm" :model="dynamicValidateForm">
         <el-form-item class="left-margin flex-box w-100 no-margin-IE">
@@ -77,7 +77,11 @@
             </el-col>
 
             <el-col :span="3" class="margin-left-10">
-              <el-form-item label="重合企业/部基地：" :prop="'data.' + index+'.coincidenceBase'" class="margin-left-10">
+              <el-form-item
+                label="重合企业/部基地："
+                :prop="'data.' + index+'.coincidenceBase'"
+                class="margin-left-10"
+              >
                 <el-input v-model="rowData.coincidenceBase" :disabled="rowData.isCoincidence == 0"></el-input>
               </el-form-item>
             </el-col>
@@ -86,8 +90,8 @@
               <el-form-item
                 label="重合面积："
                 :prop="'data.' + index+'.coincidneceArea'"
-                :rules="[{ type: 'number',message: '插入号码'} ]"    
-                class="margin-left-10"             
+                :rules="[{ type: 'number',message: '插入号码'} ]"
+                class="margin-left-10"
               >
                 <el-input
                   v-model.number="rowData.coincidneceArea"
@@ -97,11 +101,7 @@
             </el-col>
 
             <el-col :span="2">
-              <el-form-item
-                label="备注："
-                :prop="'data.' + index+'.other'"
-                class="margin-left-10"
-              >
+              <el-form-item label="备注：" :prop="'data.' + index+'.other'" class="margin-left-10">
                 <el-input v-model="rowData.other"></el-input>
               </el-form-item>
             </el-col>
@@ -138,32 +138,36 @@
       </span>
     </el-dialog>
 
-    <div class="box">
-      <div class="iptBox">
-        <el-row>
-          <el-col :span="2">
-            <el-button size="small" type="success" plain v-on:click="showAddDialog()">添加</el-button>
-          </el-col>
-          <el-col :span="6">
-            <span>开始日期:&nbsp;</span>
-            <el-date-picker type="date" v-model="registerTimeFrom"></el-date-picker>
-          </el-col>
-          <el-col :span="6">
-            <span>结束日期:&nbsp;</span>
-            <el-date-picker type="date" v-model="registerTimeTo"></el-date-picker>
-          </el-col>
-          <el-col :span="9">
-            <span>创建单位:&nbsp;</span>
-            <el-input v-model="companyName" class="w-80"></el-input>
-          </el-col>
-          <el-col :span="1">
-            <el-button size="small" type="primary" plain v-on:click="changeFilter()" class="margin-left-10">搜索</el-button>
-          </el-col>          
-        </el-row>
-
-      </div>
       <el-container>
-        <el-header>建设中待验收种植业绿色优质基地</el-header>
+        <el-header >建设中待验收种植业绿色优质基地</el-header>
+        <div class="iptBox">
+          <el-row>
+            <el-col :span="2">
+              <el-button size="small" type="success" plain v-on:click="showAddDialog()">添加</el-button>
+            </el-col>
+            <el-col :span="6">
+              <span>开始日期:&nbsp;</span>
+              <el-date-picker type="date" v-model="registerTimeFrom"></el-date-picker>
+            </el-col>
+            <el-col :span="6">
+              <span>结束日期:&nbsp;</span>
+              <el-date-picker type="date" v-model="registerTimeTo"></el-date-picker>
+            </el-col>
+            <el-col :span="9">
+              <span>创建单位:&nbsp;</span>
+              <el-input v-model="companyName" class="w-80"></el-input>
+            </el-col>
+            <el-col :span="1">
+              <el-button
+                size="small"
+                type="primary"
+                plain
+                v-on:click="changeFilter()"
+                class="margin-left-10"
+              >搜索</el-button>
+            </el-col>
+          </el-row>
+        </div>
         <el-table
           :data="tableData"
           style="width: 100%"
@@ -196,7 +200,6 @@
         </el-table>
       </el-container>
     </div>
-  </div>
 </template>
 
 <script>
@@ -220,8 +223,8 @@ export default {
       confirm_dialogVisible: false,
       checked: [],
       registerTime: new Date().toString("YYYY-MM-DD"),
-      registerTimeFrom: "",
-      registerTimeTo: "",
+      registerTimeFrom: new Date(new Date().getFullYear(), 0, 1),
+      registerTimeTo: new Date(),
       companyName: "",
       sendcount: 0,
 
@@ -250,13 +253,11 @@ export default {
 
   methods: {
     showAddDialog() {
-      
       this.dynamicValidateForm.data = [];
       this.selectedRows = [];
       this.checked = [];
       this.openDialog = true;
       this.addFormRow();
-
     },
 
     handleClose(done) {
@@ -323,8 +324,14 @@ export default {
       this.dynamicValidateForm.data.forEach(item => {
         let formdata = new FormData();
         formdata.append("area", item.area);
-        formdata.append("coincidenceBase", item.isCoincidence==0? "": item.coincidenceBase);
-        formdata.append("coincidneceArea", item.isCoincidence==0? 0: item.coincidneceArea);
+        formdata.append(
+          "coincidenceBase",
+          item.isCoincidence == 0 ? "" : item.coincidenceBase
+        );
+        formdata.append(
+          "coincidneceArea",
+          item.isCoincidence == 0 ? 0 : item.coincidneceArea
+        );
         formdata.append("companyName", item.companyName);
         formdata.append("createTime", createTime.toDateString("YYYY-MM-DD"));
         formdata.append("createUserId", Auth().user().id);
@@ -333,10 +340,12 @@ export default {
         formdata.append("location", item.location);
         formdata.append("other", item.other);
         formdata.append("productType", item.productType);
-        formdata.append("registerTime", this.registerTime.toString("YYYY-MM-DD"));
+        formdata.append(
+          "registerTime",
+          this.registerTime.toString("YYYY-MM-DD")
+        );
         formdata.append("updateTime", updateTime.toDateString("YYYY-MM-DD"));
         formdata.append("updateUserId", Auth().user().id);
-
 
         Request()
           .post("/api/green/green_quality_base/create", formdata)
@@ -355,12 +364,18 @@ export default {
     },
 
     getData() {
-      this.listLoading = true;      
+      this.listLoading = true;
       Request()
         .get("/api/green/green_quality_base/all", {
           companyName: this.companyName,
-          registerTimeFrom: (this.registerTimeFrom == "" || this.registerTimeFrom == null )  ? "": this.registerTimeFrom.toString("YYYY-MM-DD"),
-          registerTimeTo: (this.registerTimeTo == "" || this.registerTimeTo == null) ? "": this.registerTimeTo.toString("YYYY-MM-DD"),
+          registerTimeFrom:
+            this.registerTimeFrom == "" || this.registerTimeFrom == null
+              ? ""
+              : this.registerTimeFrom,
+          registerTimeTo:
+            this.registerTimeTo == "" || this.registerTimeTo == null
+              ? ""
+              : this.registerTimeTo,
           sortBy: "id"
         })
         .then(res => {
@@ -466,7 +481,7 @@ export default {
       row.rowIndex = rowIndex;
     },
     order(row) {
-      return  row.rowIndex + 1;
+      return row.rowIndex + 1;
     }
   }
 };

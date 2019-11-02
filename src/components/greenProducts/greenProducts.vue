@@ -6,7 +6,7 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <el-form>
+      <!-- <el-form>
         <div class="row year-select-panel">
           <el-form-item label="年度">
             <el-select v-model="year" v-on:change="getList()" :disabled="!(options.length > 0)">
@@ -19,7 +19,7 @@
             </el-select>
           </el-form-item>
         </div>
-      </el-form>
+      </el-form> -->
       <el-tabs
         v-model="activeTabName"
         type="border-card"

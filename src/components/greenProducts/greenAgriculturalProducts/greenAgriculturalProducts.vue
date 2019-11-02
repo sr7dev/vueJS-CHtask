@@ -1,20 +1,18 @@
 <template>
-  <div class="container">
+  <div class="box">
     <el-dialog :visible.sync="openDialog" width="90%" :before-close="handleClose">
       <el-form ref="dynamicValidateForm" :model="dynamicValidateForm">
-        <el-form-item
-          label="年度："          
-          class="margin-left-10"
-        >
-        <el-row>
-          <el-col :span="2">
-            <el-input v-model="inYear" 
-          :rules="[{required: true, message: '请插入', trigger: 'blur'},
+        <el-form-item label="年度：" class="margin-left-10">
+          <el-row>
+            <el-col :span="2">
+              <el-input
+                v-model="inYear"
+                :rules="[{required: true, message: '请插入', trigger: 'blur'},
           {type:'number',message: '插入号码', trigger: 'blur'}]"
-          :span="3"
-          ></el-input>
-          </el-col>
-        </el-row>          
+                :span="3"
+              ></el-input>
+            </el-col>
+          </el-row>
         </el-form-item>
         <el-form-item class="left-margin flex-box w-100 no-margin-IE">
           <el-row v-for="(rowData, index) in dynamicValidateForm.data" :key="index">
@@ -74,7 +72,7 @@
               </el-form-item>
             </el-col>
 
-             <el-col :span="4">
+            <el-col :span="4">
               <el-form-item
                 label="下半年种植业预计占比:"
                 :prop="'data.' + index+'.plantingHalfPlan'"
@@ -86,7 +84,7 @@
               </el-form-item>
             </el-col>
 
-              <el-col :span="4">
+            <el-col :span="4">
               <el-form-item
                 label="下半年畜牧业预计占比:"
                 :prop="'data.' + index+'.livestockHalfPlan'"
@@ -143,9 +141,9 @@
       </span>
     </el-dialog>
 
-    <div class="box">
-      <el-container>
-        <div class="iptBox">
+    <el-container>
+      <el-header>绿色优质农产品统计汇总</el-header>
+      <div class="iptBox">
         <el-row>
           <el-col :span="2">
             <el-button size="small" type="success" plain v-on:click="showAddDialog()">添加</el-button>
@@ -160,35 +158,38 @@
           </el-col>
           <el-col :span="4">
             <span>年度:&nbsp;</span>
-            <el-input v-model="searchYear" class="w-60"></el-input>
+            <el-input v-model="searchYear" class="w-60" @keyup.native="handleChange"></el-input>
           </el-col>
           <el-col :span="1">
-            <el-button size="small" type="primary" plain v-on:click="changeFilter()" class="margin-left-10">搜索</el-button>
-          </el-col>          
+            <el-button
+              size="small"
+              type="primary"
+              plain
+              v-on:click="changeFilter()"
+              class="margin-left-10"
+            >搜索</el-button>
+          </el-col>
         </el-row>
       </div>
-
-        <el-header>绿色优质农产品统计汇总</el-header>
-        <el-table
-          :data="tableData"
-          style="width: 100%"
-          :row-class-name="rowIndex"
-          v-loading="listLoading"
-          highlight-current-row
-          border
-          :span-method="spanMethod"
-        >
-          <el-table-column :formatter="order" label="序号"></el-table-column>
-          <el-table-column prop="town" label="板块"></el-table-column>
-          <el-table-column prop="planting" label="种植业占比"></el-table-column>
-          <el-table-column prop="livestock" label="畜牧业占比"></el-table-column>
-          <el-table-column prop="highQuality" label="绿色优质农产品占比"></el-table-column>
-          <el-table-column prop="plantingHalfPlan" label="下半年种植业预计占比"></el-table-column>
-          <el-table-column prop="livestockHalfPlan" label="下半年畜牧业预计占比"></el-table-column>
-          <el-table-column prop="highQualityPlan" label="绿色优质农产品预计占比"></el-table-column>
-        </el-table>
-      </el-container>
-    </div>
+      <el-table
+        :data="tableData"
+        style="width: 100%"
+        :row-class-name="rowIndex"
+        v-loading="listLoading"
+        highlight-current-row
+        border
+        :span-method="spanMethod"
+      >
+        <el-table-column :formatter="order" label="序号"></el-table-column>
+        <el-table-column prop="town" label="板块"></el-table-column>
+        <el-table-column prop="planting" label="种植业占比"></el-table-column>
+        <el-table-column prop="livestock" label="畜牧业占比"></el-table-column>
+        <el-table-column prop="highQuality" label="绿色优质农产品占比"></el-table-column>
+        <el-table-column prop="plantingHalfPlan" label="下半年种植业预计占比"></el-table-column>
+        <el-table-column prop="livestockHalfPlan" label="下半年畜牧业预计占比"></el-table-column>
+        <el-table-column prop="highQualityPlan" label="绿色优质农产品预计占比"></el-table-column>
+      </el-table>
+    </el-container>
   </div>
 </template>
 
@@ -215,13 +216,13 @@ export default {
       confirm_dialogVisible: false,
       checked: [],
       registerTime: new Date().toString("YYYY-MM-DD"),
-      registerTimeFrom: "",
-      registerTimeTo: "",
+      registerTimeFrom: new Date(new Date().getFullYear(), 0, 1),
+      registerTimeTo: new Date(),
       sendcount: 0,
 
       alert_dialogVisible: false,
       loggedinUserType: null,
-      
+
       total: 0,
       tableData: [],
       listLoading: true
@@ -238,7 +239,7 @@ export default {
       this.checked = [];
       this.inYear = Number(new Date().getFullYear());
       this.addFormRow();
-      this.openDialog = true;      
+      this.openDialog = true;
     },
 
     handleClose(done) {
@@ -254,7 +255,7 @@ export default {
       this.dynamicValidateForm.data.push({
         town: "",
         fullYear: 0,
-        halfYear: 0,
+        halfYear: 0
       });
     },
 
@@ -301,15 +302,18 @@ export default {
         let formdata = new FormData();
         formdata.append("createTime", createTime.toDateString("YYYY-MM-DD"));
         formdata.append("createUserId", Auth().user().id);
-        formdata.append("highQuality", item.highQuality);       
-        formdata.append("highQualityPlan", item.highQualityPlan);        
+        formdata.append("highQuality", item.highQuality);
+        formdata.append("highQualityPlan", item.highQualityPlan);
         formdata.append("id", 0);
         formdata.append("livestock", item.livestock);
         formdata.append("livestockHalfPlan", item.livestockHalfPlan);
         formdata.append("planting", item.planting);
         formdata.append("plantingHalfPlan", item.plantingHalfPlan);
-        formdata.append("registerTime", this.registerTime.toString("YYYY-MM-DD"));
-        formdata.append("town", item.town);        
+        formdata.append(
+          "registerTime",
+          this.registerTime.toString("YYYY-MM-DD")
+        );
+        formdata.append("town", item.town);
         formdata.append("updateTime", updateTime.toDateString("YYYY-MM-DD"));
         formdata.append("updateUserId", Auth().user().id);
         formdata.append("year", this.inYear);
@@ -330,21 +334,33 @@ export default {
       this.getData();
     },
 
+    handleChange() {
+      if (this.searchYear > 1990 ) {
+        this.registerTimeFrom = new Date(this.searchYear, 0, 1);
+      }
+    },
+
     getData() {
       this.listLoading = true;
       Request()
-      .get("/api/green/product_ratio/all", {
-        registerTimeFrom: (this.registerTimeFrom == "" || this.registerTimeFrom == null )  ? "": this.registerTimeFrom.toString("YYYY-MM-DD"),
-          registerTimeTo: (this.registerTimeTo == "" || this.registerTimeTo == null) ? "": this.registerTimeTo.toString("YYYY-MM-DD"),
+        .get("/api/green/product_ratio/all", {
+          registerTimeFrom:
+            this.registerTimeFrom == "" || this.registerTimeFrom == null
+              ? ""
+              : this.registerTimeFrom,
+          registerTimeTo:
+            this.registerTimeTo == "" || this.registerTimeTo == null
+              ? ""
+              : this.registerTimeTo,
           sortBy: "id",
           year: this.searchYear
-      })
-      .then(res =>{
-        this.tableData = res.data;       
-        this.total = this.tableData.length;
-        this.calcualteTotal();
-        this.listLoading = false;
-      })
+        })
+        .then(res => {
+          this.tableData = res.data;
+          this.total = this.tableData.length;
+          this.calcualteTotal();
+          this.listLoading = false;
+        });
     },
 
     calcualteTotal() {
@@ -395,7 +411,7 @@ export default {
       row.rowIndex = rowIndex;
     },
     order(row) {
-      return  row.rowIndex + 1;
+      return row.rowIndex + 1;
     }
   }
 };
