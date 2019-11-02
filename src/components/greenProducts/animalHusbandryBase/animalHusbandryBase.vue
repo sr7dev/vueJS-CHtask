@@ -1,23 +1,25 @@
 <template>
-  <div class="container">
+  <div class="box">
     <el-dialog :visible.sync="openDialog" width="60%" :before-close="handleClose">
       <el-form ref="dynamicValidateForm" :model="dynamicValidateForm">
-        <el-form-item
-          label="年度："          
-          class="margin-left-10"
-        >
-        <el-row>
-          <el-col :span="4">
-            <el-input v-model="inYear" 
-          :rules="[{required: true, message: '请插入', trigger: 'blur'},
+        <el-form-item label="年度：" class="margin-left-10">
+          <el-row>
+            <el-col :span="4">
+              <el-input
+                v-model="inYear"
+                :rules="[{required: true, message: '请插入', trigger: 'blur'},
           {type:'number',message: '插入号码', trigger: 'blur'}]"
-          :span="3"
-          ></el-input>
-          </el-col>
-        </el-row>          
+                :span="3"
+              ></el-input>
+            </el-col>
+          </el-row>
         </el-form-item>
         <el-form-item class="left-margin flex-box w-100 no-margin-IE">
-          <el-row v-for="(rowData, index) in dynamicValidateForm.data" :key="index" class="margin-top-10">
+          <el-row
+            v-for="(rowData, index) in dynamicValidateForm.data"
+            :key="index"
+            class="margin-top-10"
+          >
             <el-col :span="1">
               <el-form-item class="margin-left-20">
                 <el-checkbox
@@ -60,7 +62,7 @@
               >
                 <el-input v-model.number="rowData.fullYear" class="w-60"></el-input>
               </el-form-item>
-            </el-col>            
+            </el-col>
           </el-row>
           <el-row class="margin-left-40 margin-top-20">
             <el-col :span="14">
@@ -94,7 +96,8 @@
       </span>
     </el-dialog>
 
-    <div class="box">
+    <el-container>
+      <el-header>镇（街道）、开发区推进高质量发展考核指标数据填报表</el-header>
       <div class="iptBox">
         <el-row>
           <el-col :span="2">
@@ -110,38 +113,40 @@
           </el-col>
           <el-col :span="4">
             <span>年度:&nbsp;</span>
-            <el-input v-model="searchYear" class="w-60"></el-input>
+            <el-input v-model="searchYear" class="w-60" @keyup.native="handleChange"></el-input>
           </el-col>
           <el-col :span="1">
-            <el-button size="small" type="primary" plain v-on:click="changeFilter()" class="margin-left-10">搜索</el-button>
-          </el-col>          
+            <el-button
+              size="small"
+              type="primary"
+              plain
+              v-on:click="changeFilter()"
+              class="margin-left-10"
+            >搜索</el-button>
+          </el-col>
         </el-row>
       </div>
-      <el-container>
-        <el-header>镇（街道）、开发区推进高质量发展考核指标数据填报表</el-header>
-        <el-table
-          :data="tableData"
-          style="width: 100%"
-          :row-class-name="rowIndex"
-          v-loading="listLoading"
-          highlight-current-row
-          :span-method="spanMethod"
-        >
-          <el-table-column :formatter="order" label="序号" width="100"></el-table-column>
-          <el-table-column prop="town" label="板块"></el-table-column>
-          <el-table-column label="绿色优质农产品比重(畜牧)" align="center">
-            <el-table-column
-              :prop="col.prop"
-              :label="col.label"
-              v-for="col in columns"
-              :key="col.prop"
-              align="center"
-            ></el-table-column>
-          </el-table-column>
-        </el-table>
-      </el-container>
-      
-    </div>
+      <el-table
+        :data="tableData"
+        style="width: 100%"
+        :row-class-name="rowIndex"
+        v-loading="listLoading"
+        highlight-current-row
+        :span-method="spanMethod"
+      >
+        <el-table-column :formatter="order" label="序号" width="100"></el-table-column>
+        <el-table-column prop="town" label="板块"></el-table-column>
+        <el-table-column label="绿色优质农产品比重(畜牧)" align="center">
+          <el-table-column
+            :prop="col.prop"
+            :label="col.label"
+            v-for="col in columns"
+            :key="col.prop"
+            align="center"
+          ></el-table-column>
+        </el-table-column>
+      </el-table>
+    </el-container>
   </div>
 </template>
 
@@ -160,8 +165,8 @@ export default {
     return {
       inYear: 0,
       searchYear: "",
-       openDialog: false,
-       columns: [
+      openDialog: false,
+      columns: [
         {
           prop: "halfYear",
           label: "1-6月实绩"
@@ -178,13 +183,13 @@ export default {
       confirm_dialogVisible: false,
       checked: [],
       registerTime: new Date().toString("YYYY-MM-DD"),
-      registerTimeFrom: "",
-      registerTimeTo: "",
+      registerTimeFrom: new Date(new Date().getFullYear(), 0, 1),
+      registerTimeTo: new Date(),
       sendcount: 0,
-      
+
       alert_dialogVisible: false,
       loggedinUserType: null,
-      
+
       total: 0,
       tableData: [],
       listLoading: true
@@ -201,7 +206,7 @@ export default {
       this.checked = [];
       this.inYear = Number(new Date().getFullYear());
       this.addFormRow();
-      this.openDialog = true;      
+      this.openDialog = true;
     },
 
     handleClose(done) {
@@ -217,7 +222,7 @@ export default {
       this.dynamicValidateForm.data.push({
         town: "",
         fullYear: 0,
-        halfYear: 0,
+        halfYear: 0
       });
     },
 
@@ -264,10 +269,13 @@ export default {
         let formdata = new FormData();
         formdata.append("createTime", createTime.toDateString("YYYY-MM-DD"));
         formdata.append("createUserId", Auth().user().id);
-        formdata.append("fullYear", item.fullYear);       
-        formdata.append("halfYear", item.halfYear);        
+        formdata.append("fullYear", item.fullYear);
+        formdata.append("halfYear", item.halfYear);
         formdata.append("id", 0);
-        formdata.append("registerTime", this.registerTime.toString("YYYY-MM-DD"));
+        formdata.append(
+          "registerTime",
+          this.registerTime.toString("YYYY-MM-DD")
+        );
         formdata.append("town", item.town);
         formdata.append("year", this.inYear);
         formdata.append("updateTime", updateTime.toDateString("YYYY-MM-DD"));
@@ -289,21 +297,33 @@ export default {
       this.getData();
     },
 
+    handleChange() {
+      if (this.searchYear > 1990) {
+        this.registerTimeFrom = new Date(this.searchYear, 0, 1);
+      }
+    },
+
     getData() {
       this.listLoading = true;
       Request()
-      .get("/api/green/livestock/all", {
-        registerTimeFrom: (this.registerTimeFrom == "" || this.registerTimeFrom == null )  ? "": this.registerTimeFrom.toString("YYYY-MM-DD"),
-          registerTimeTo: (this.registerTimeTo == "" || this.registerTimeTo == null) ? "": this.registerTimeTo.toString("YYYY-MM-DD"),
+        .get("/api/green/livestock/all", {
+          registerTimeFrom:
+            this.registerTimeFrom == "" || this.registerTimeFrom == null
+              ? ""
+              : this.registerTimeFrom,
+          registerTimeTo:
+            this.registerTimeTo == "" || this.registerTimeTo == null
+              ? ""
+              : this.registerTimeTo,
           sortBy: "id",
           year: this.searchYear
-      })
-      .then(res =>{
-        this.tableData = res.data;
-        this.total = this.tableData.length;
-        this.calculateTotal();
-        this.listLoading = false;
-      })
+        })
+        .then(res => {
+          this.tableData = res.data;
+          this.total = this.tableData.length;
+          this.calculateTotal();
+          this.listLoading = false;
+        });
     },
 
     calculateTotal() {
@@ -315,7 +335,7 @@ export default {
       });
 
       this.tableData.push({
-        town: "合计",       
+        town: "合计",
         halfYear: fnum,
         fullYear: snum
       });
@@ -341,7 +361,7 @@ export default {
       row.rowIndex = rowIndex;
     },
     order(row) {
-      return  row.rowIndex + 1;
+      return row.rowIndex + 1;
     }
   }
 };

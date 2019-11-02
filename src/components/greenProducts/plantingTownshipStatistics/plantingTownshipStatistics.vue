@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="box">
     <el-dialog :visible.sync="openDialog" width="90%" :before-close="handleClose">
       <el-form ref="dynamicValidateForm" :model="dynamicValidateForm">
         <el-form-item class="left-margin flex-box w-100 no-margin-IE">
@@ -162,7 +162,8 @@
       </span>
     </el-dialog>
 
-    <div class="box">
+    <el-container>
+      <el-header>种植业绿色优质农产品统计汇总</el-header>
       <div class="iptBox">
         <el-row>
           <el-col :span="2">
@@ -181,38 +182,40 @@
             <el-input v-model="town" class="w-80"></el-input>
           </el-col>
           <el-col :span="1">
-            <el-button size="small" type="primary" plain v-on:click="changeFilter()" class="margin-left-10">搜索</el-button>
-          </el-col>          
+            <el-button
+              size="small"
+              type="primary"
+              plain
+              v-on:click="changeFilter()"
+              class="margin-left-10"
+            >搜索</el-button>
+          </el-col>
         </el-row>
-
       </div>
-      <el-container>
-        <el-header>种植业绿色优质农产品统计汇总</el-header>
-        <el-table
-          :data="tableData"
-          style="width: 100%"
-          :row-class-name="rowIndex"
-          v-loading="listLoading"
-          highlight-current-row
-          border
-          :span-method="objectSpanMethod"
-        >
-          <el-table-column :formatter="order" label="序号"></el-table-column>
-          <el-table-column prop="town" label="板块"></el-table-column>
-          <el-table-column prop="productName" label="绿色食品面积"></el-table-column>
-          <el-table-column prop="organicArea" label="有机面积"></el-table-column>
-          <el-table-column prop="highQualityArea" label="绿色优质基地面积"></el-table-column>
-          <el-table-column prop="repeatArea" label="重复面积"></el-table-column>
-          <el-table-column prop="sum" label="合计"></el-table-column>
-          <el-table-column prop="cultivatedArea" label="耕地面积"></el-table-column>
-          <el-table-column prop="proportion" label="占比"></el-table-column>
-          <el-table-column prop="greenOrganic" label="绿色,有机"></el-table-column>
-          <el-table-column prop="target" label="地标"></el-table-column>
-          <el-table-column prop="predictArea" label="预计面积"></el-table-column>
-          <el-table-column prop="expectedRatio" label="预计占比"></el-table-column>
-        </el-table>
-      </el-container>
-    </div>
+      <el-table
+        :data="tableData"
+        style="width: 100%"
+        :row-class-name="rowIndex"
+        v-loading="listLoading"
+        highlight-current-row
+        border
+        :span-method="objectSpanMethod"
+      >
+        <el-table-column :formatter="order" label="序号"></el-table-column>
+        <el-table-column prop="town" label="板块"></el-table-column>
+        <el-table-column prop="productName" label="绿色食品面积"></el-table-column>
+        <el-table-column prop="organicArea" label="有机面积"></el-table-column>
+        <el-table-column prop="highQualityArea" label="绿色优质基地面积"></el-table-column>
+        <el-table-column prop="repeatArea" label="重复面积"></el-table-column>
+        <el-table-column prop="sum" label="合计"></el-table-column>
+        <el-table-column prop="cultivatedArea" label="耕地面积"></el-table-column>
+        <el-table-column prop="proportion" label="占比"></el-table-column>
+        <el-table-column prop="greenOrganic" label="绿色,有机"></el-table-column>
+        <el-table-column prop="target" label="地标"></el-table-column>
+        <el-table-column prop="predictArea" label="预计面积"></el-table-column>
+        <el-table-column prop="expectedRatio" label="预计占比"></el-table-column>
+      </el-table>
+    </el-container>
   </div>
 </template>
 
@@ -237,8 +240,8 @@ export default {
       confirm_dialogVisible: false,
       checked: [],
       registerTime: new Date().toString("YYYY-MM-DD"),
-      registerTimeFrom: "",
-      registerTimeTo: "",
+      registerTimeFrom: new Date(new Date().getFullYear(), 0, 1),
+      registerTimeTo: new Date(),
       town: "",
       sendcount: 0,
 
@@ -259,7 +262,7 @@ export default {
       this.selectedRows = [];
       this.checked = [];
       this.addFormRow();
-      this.openDialog = true;      
+      this.openDialog = true;
     },
 
     handleClose(done) {
@@ -329,15 +332,18 @@ export default {
         let formdata = new FormData();
         formdata.append("createTime", createTime.toDateString("YYYY-MM-DD"));
         formdata.append("createUserId", Auth().user().id);
-        formdata.append("cultivatedArea", item.cultivatedArea);       
+        formdata.append("cultivatedArea", item.cultivatedArea);
         formdata.append("greenOrganic", item.greenOrganic);
-        
+
         formdata.append("highQualityArea", item.highQualityArea);
         formdata.append("id", 0);
         formdata.append("organicArea", item.organicArea);
         formdata.append("predictArea", item.predictArea);
         formdata.append("productName", item.productName);
-        formdata.append("registerTime", this.registerTime.toString("YYYY-MM-DD"));
+        formdata.append(
+          "registerTime",
+          this.registerTime.toString("YYYY-MM-DD")
+        );
         formdata.append("repeatArea", item.repeatArea);
         formdata.append("sum", item.sum);
         formdata.append("target", item.target);
@@ -366,8 +372,14 @@ export default {
       Request()
         .get("/api/green/plants_statistics/all", {
           town: this.town,
-          registerTimeFrom: (this.registerTimeFrom == "" || this.registerTimeFrom == null )  ? "": this.registerTimeFrom.toString("YYYY-MM-DD"),
-          registerTimeTo: (this.registerTimeTo == "" || this.registerTimeTo == null) ? "": this.registerTimeTo.toString("YYYY-MM-DD"),
+          registerTimeFrom:
+            this.registerTimeFrom == "" || this.registerTimeFrom == null
+              ? ""
+              : this.registerTimeFrom,
+          registerTimeTo:
+            this.registerTimeTo == "" || this.registerTimeTo == null
+              ? ""
+              : this.registerTimeTo,
           sortBy: "id"
         })
         .then(res => {
@@ -379,9 +391,11 @@ export default {
     },
 
     getTotal() {
-      this.tableData.forEach( item => {
+      this.tableData.forEach(item => {
         item.proportion = (item.sum / item.cultivatedArea).toFixed(2);
-        item.expectedRatio = (item.predictArea/ item.cultivatedArea).toFixed(2);
+        item.expectedRatio = (item.predictArea / item.cultivatedArea).toFixed(
+          2
+        );
       });
 
       this.tableData.push({
@@ -396,10 +410,16 @@ export default {
         greenOrganic: this.greenOrganicQuality(),
         target: this.landmarkQuality(),
         predictArea: this.estimateQuality(),
-        expectedRatio: 0, //this.expectedQuality()
+        expectedRatio: 0 //this.expectedQuality()
       });
-      this.tableData[this.tableData.length - 1].proportion = (this.tableData[this.tableData.length - 1].sum / this.tableData[this.tableData.length - 1].cultivatedArea).toFixed(2);
-      this.tableData[this.tableData.length - 1].expectedRatio = (this.tableData[this.tableData.length - 1].predictArea/ this.tableData[this.tableData.length - 1].cultivatedArea).toFixed(2);
+      this.tableData[this.tableData.length - 1].proportion = (
+        this.tableData[this.tableData.length - 1].sum /
+        this.tableData[this.tableData.length - 1].cultivatedArea
+      ).toFixed(2);
+      this.tableData[this.tableData.length - 1].expectedRatio = (
+        this.tableData[this.tableData.length - 1].predictArea /
+        this.tableData[this.tableData.length - 1].cultivatedArea
+      ).toFixed(2);
     },
 
     greenFoodQuality() {
@@ -467,19 +487,18 @@ export default {
     },
 
     landmarkQuality() {
-      let total1 = 0, total2 = 0;
+      let total1 = 0,
+        total2 = 0;
       this.tableData.forEach(data => {
-        if (data.target.includes("%")){
-          let res =data.target.split("%");
+        if (data.target.includes("%")) {
+          let res = data.target.split("%");
           total1 += Number(res[0]);
-          total2 += Number(res[1].substring(1, res[1].length-1));
+          total2 += Number(res[1].substring(1, res[1].length - 1));
         } else {
-          if (!isNaN(data.target))
-            total2 += Number(data.target);
+          if (!isNaN(data.target)) total2 += Number(data.target);
         }
       });
-      if (total1 > 0)
-        return total1+ "%(" + total2 + ")" ;
+      if (total1 > 0) return total1 + "%(" + total2 + ")";
 
       return total2;
     },
