@@ -310,7 +310,6 @@ export default {
     this.isIE();
     this.getData();
   },
-  created() {},
   methods: {
     async getData() {
       this.listLoading = true;

@@ -467,7 +467,6 @@ export default {
       pieSeries.dataFields.value = "cnt";
 
       pieSeries.dataFields.category = "townId";
-      console.log(data);
       pieSeries.dataFields.radiusValue = "cnt";
 
       pieSeries.labels.template.truncate = true;
