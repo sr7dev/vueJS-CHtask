@@ -316,34 +316,40 @@ export default {
     async getLineChartData() {
       this.lineChartData = [];
       this.lineChartLoading = true;
-      for (let i = 11; i >= 0; i--) {
-        let tmpDate = new Date();
-        tmpDate.setMonth(tmpDate.getMonth() - i);
-        let yearNo = tmpDate.getFullYear();
-        let monthNo = tmpDate.getMonth();
-        let fromDate = new Date(yearNo, monthNo, 1);
-        let toDate = new Date(yearNo, monthNo + 1, 0);
-        await Request()
-          .get("/api/disability_check/statis", {
-            detectTimeFrom: fromDate,
-            detectTimeTo: toDate
-          })
-          .then(response => {
-            let tmpData = response.data;
-            let rowTotalSum = 0;
-            for (let index in tmpData) {
-              rowTotalSum = rowTotalSum + parseInt(tmpData[index][1]);
-            }
-            monthNo = monthNo + 1;
-            this.lineChartData.push({
-              month: yearNo + "-" + monthNo,
-              totalCnt: rowTotalSum
-            });
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      }
+      let tmpDate = new Date();
+      tmpDate.setMonth(tmpDate.getMonth() - 11);
+      let yearNo = tmpDate.getFullYear();
+      let monthNo = tmpDate.getMonth();
+      let fromDate = new Date(yearNo, monthNo, 1);
+      tmpDate = new Date();
+      let toDate = new Date(tmpDate.getFullYear(), tmpDate.getMonth() + 1, 0);
+      await Request()
+        .get("/api/disability_check/statis/monthlysum", {
+          detectTimeFrom: fromDate,
+          detectTimeTo: toDate
+        })
+        .then(response => {
+          let tmpData = response.data;
+          for (let i = 11; i >= 0; i--) {
+            tmpDate = new Date();
+            tmpDate.setMonth(tmpDate.getMonth() - i);
+            let tmpMonth =
+              tmpDate.getFullYear() + "-" + (tmpDate.getMonth() + 1);
+            let findData = tmpData.find(x => x[2] === tmpMonth);
+            findData
+              ? this.lineChartData.push({
+                  month: tmpMonth,
+                  totalCnt: findData[0]
+                })
+              : this.lineChartData.push({
+                  month: tmpMonth,
+                  totalCnt: 0
+                });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     makeXYChart() {
       let chart = am4core.create(this.$refs.chartdiv, am4charts.XYChart);
