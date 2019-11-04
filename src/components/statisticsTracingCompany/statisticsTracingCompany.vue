@@ -1,12 +1,7 @@
 <template>
-  <div class="container customized">
-    <div class="title">
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item class="actived">溯源企业看板</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
-    <div class="box padding-modified header statisticsTracingCompany"></div>
-    <div class="box padding-modified body" v-loading="listLoading">
+  <div class="container customized" v-loading="listLoading">
+    <div class="box padding-modified header statisticsTracingCompany" v-if="!listLoading"></div>
+    <div class="box padding-modified body">
       <el-row class="W-100">
         <el-col :span="12" class="position-relative">
           <h1
@@ -144,12 +139,11 @@ export default {
           companyCnt: res[0],
           pie1Label: townname,
           pie2Label: townname
-        });        
+        });
       });
 
       this.makePieChat1();
       this.makePieChat2();
-      
     },
     getTableData1() {
       this.companyStatics1.forEach(res => {
@@ -169,7 +163,7 @@ export default {
           pie2Label: townname
         });
       });
-      
+
       this.listLoading = false;
     },
 
@@ -266,7 +260,7 @@ export default {
     makeStickChat() {
       let chart = am4core.create(this.$refs.chartstick, am4charts.XYChart);
       chart.data = this.tableDataByCnt;
-      
+
       let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
       let title = chart.titles.create();
       title.text = "各乡镇溯源记录上传数据统计";
