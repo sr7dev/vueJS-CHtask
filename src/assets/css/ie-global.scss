@@ -50,7 +50,7 @@
     .el-main {
       height: calc(100vh - 90px);
       vertical-align: top;
-      width: calc(100vw - 220px);
+      width: calc(100vw - 200px);
       float: right;
       .margin-top-10-IE {
         margin-top: 10px;
@@ -121,7 +121,7 @@
           background: #002580;
           overflow-y: auto;
           overflow-x: hidden;
-          height: calc(100vh - 200px);
+          height: calc(100vh - 90px);
           .chart-div-IE {
             height: 450px;
           }
