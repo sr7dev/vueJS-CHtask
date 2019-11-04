@@ -1,11 +1,6 @@
 <template>
-  <div class="container customized">
-    <div class="title">
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item class="actived">溯源记录看板</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
-    <div class="box padding-modified header statisticTracingRecord"></div>
+  <div class="container customized" v-loading="lineChartLoading">
+    <div class="box padding-modified header statisticTracingRecord" v-if="!lineChartLoading"></div>
     <div class="box padding-modified body">
       <el-row class="w-100">
         <el-col :span="13">

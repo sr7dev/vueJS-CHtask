@@ -1,11 +1,6 @@
 <template>
-  <div class="container customized">
-    <div class="title">
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item class="actived">农残检测看板</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
-    <div class="box padding-modified header statisticFarmerHeader"></div>
+  <div class="container customized" v-loading="lineChartLoading">
+    <div class="box padding-modified header statisticFarmerHeader" v-if="!lineChartLoading"></div>
     <div class="box padding-modified body">
       <el-row class="w-100">
         <el-col :span="14">
@@ -40,18 +35,13 @@
                 <el-button
                   type="primary"
                   plain
-                  @click="getData()"
+                  @click="refreshScreen()"
                   class="no-effect margin-top-reverse-5-IE"
                 >开始统计</el-button>
               </el-col>
             </el-row>
             <el-container>
-              <el-table
-                :data="tableData"
-                style="width: 100%"
-                class="fixed-height chart-table"
-                v-loading="listLoading"
-              >
+              <el-table :data="tableData" style="width: 100%" class="fixed-height chart-table">
                 <el-table-column prop="detect_unit" label="站点" class-name="white-colored"></el-table-column>
                 <el-table-column prop="cnt" label="检测数量">
                   <template slot-scope="{ row }">
@@ -157,16 +147,12 @@
             <span style="color:#255ee3;opacity:0.8">各站点衣残</span>
             <span style="color:#20beff;opacity:0.7">捡测上传数据统计</span>
           </h1>
-          <div
-            class="disability-chart chart-container margin-left-10 large"
-            ref="chartdiv1"
-            v-loading="listLoading"
-          ></div>
+          <div class="disability-chart chart-container margin-left-10 large" ref="chartdiv1"></div>
         </el-col>
       </el-row>
       <el-row class="w-100">
         <el-col>
-          <div class="w-100 flex-box disability-chart chart-container" v-loading="lineChartLoading">
+          <div class="w-100 flex-box disability-chart chart-container">
             <h1
               style="font-size:20px"
               class="gradient-colored chart-title"
@@ -242,6 +228,11 @@ export default {
     this.makeLineChart();
   },
   methods: {
+    async refreshScreen() {
+      this.lineChartLoading = true;
+      await this.getData();
+      this.lineChartLoading = false;
+    },
     createGrid(value, valueAxis) {
       var range = valueAxis.axisRanges.create();
       range.value = value;
@@ -250,7 +241,7 @@ export default {
     formatNumber(value) {
       return value / 1000 + "K";
     },
-    getData() {
+    async getData() {
       this.listLoading = true;
       let detectTimeTo;
       if (this.toYear && this.toMonth) {
@@ -258,7 +249,7 @@ export default {
       } else {
         detectTimeTo = new Date();
       }
-      Request()
+      await Request()
         .get("/api/disability_check/statis", {
           detectTimeTo: detectTimeTo,
           sortBy: "detect_unit"
@@ -279,9 +270,12 @@ export default {
               cnt: parseInt(tmpData[index][1]),
               cnt_ok: parseInt(tmpData[index][2])
             });
+
             rowTotalSum = rowTotalSum + parseInt(tmpData[index][1]);
             rowOkSum = rowOkSum + parseInt(tmpData[index][2]);
           }
+
+          this.summaryData = [];
           if (
             this.summaryData.rowTotalSum !== rowTotalSum &&
             this.summaryData.rowOkSum !== rowOkSum
@@ -297,7 +291,7 @@ export default {
         .catch(error => {
           console.log(error);
         });
-      Request()
+      await Request()
         .get("/api/disability_check/statis", {
           detectTimeTo: detectTimeTo,
           sortBy: "cnt"
@@ -305,7 +299,6 @@ export default {
         .then(response => {
           this.listLoading = false;
           this.tableDataByCnt = [];
-          this.maxCnt = null;
           let tmpData = response.data;
           for (let index in tmpData) {
             this.tableDataByCnt.push({

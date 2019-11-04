@@ -1,12 +1,7 @@
 <template>
-  <div class="container customized">
-    <div class="title">
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item class="actived">监管记录看板</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
-    <div class="box padding-modified header statisticsSupervision"></div>
-    <div class="box padding-modified body" v-loading="listLoading">
+  <div class="container customized" v-loading="listLoading">
+    <div class="box padding-modified header statisticsSupervision" v-if="!listLoading"></div>
+    <div class="box padding-modified body">
       <el-row class="W-100">
         <el-col :span="14">
           <div class="disability-chart chart-container padding-10 large">

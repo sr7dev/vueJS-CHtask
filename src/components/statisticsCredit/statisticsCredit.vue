@@ -1,11 +1,6 @@
 <template>
-  <div class="container customized">
-    <div class="title">
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item class="actived">诚信系统看板</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
-    <div class="box padding-modified header statisticsCredit"></div>
+  <div class="container customized" v-loading="listLoading">
+    <div class="box padding-modified header statisticsCredit" v-if="!listLoading"></div>
     <div class="box padding-modified body">
       <el-row class="w-100">
         <el-col :span="14">
@@ -18,16 +13,8 @@
             <span style="color:#255ee3;opacity:0.8">诚信等级</span>
             <span style="color:#20beff;opacity:0.7">企业数量汇总</span>
           </h1>
-          <div
-            class="disability-chart chart-container maring-right-10"
-            ref="chartdiv1"
-            v-loading="listLoading"
-          ></div>
-          <div
-            style="position: absolute;top: 45px;left: 38%;"
-            v-loading="totalLoading"
-            class="white-colored"
-          >
+          <div class="disability-chart chart-container maring-right-10" ref="chartdiv1"></div>
+          <div style="position: absolute;top: 45px;left: 38%;" class="white-colored">
             合计:
             <span style="margin-left:20px;" class="blue-colored">A级&nbsp;</span>
             <span
@@ -59,7 +46,6 @@
           <div
             class="disability-chart chart-container margin-left-10"
             ref="chartdiv2"
-            v-loading="listLoading"
             style="padding-left:15px"
           ></div>
         </el-col>
@@ -75,18 +61,10 @@
             <span style="color:#255ee3;opacity:0.8">各站点</span>
             <span style="color:#20beff;opacity:0.7">上传数据统计</span>
           </h1>
-          <div
-            class="disability-chart chart-container maring-right-10"
-            ref="chartdiv3"
-            v-loading="listLoading"
-          ></div>
+          <div class="disability-chart chart-container maring-right-10" ref="chartdiv3"></div>
         </el-col>
         <el-col :span="10">
-          <div
-            class="disability-chart chart-container margin-left-10"
-            ref="chartdiv4"
-            v-loading="listLoading"
-          >
+          <div class="disability-chart chart-container margin-left-10" ref="chartdiv4">
             <el-row
               style="display:relative;font-size: 20px; font-weight: bold; color: #000000; margin-bottom:15px; "
             >
@@ -191,9 +169,9 @@ export default {
       is_ie: null
     };
   },
-  mounted() {
+  async mounted() {
     this.isIE();
-    this.getTown();
+    await this.getTown();
     this.getCompanyProduction();
     // this.makeXYChart();
     // this.makePieChart();
@@ -202,13 +180,10 @@ export default {
   methods: {
     async getTown() {
       this.listLoading = true;
-      Request()
+      await Request()
         .get("/api/town/all")
         .then(response => {
           this.township = this.township.concat(response);
-          setTimeout(() => {
-            this.listLoading = false;
-          }, 0.5 * 1000);
           this.getLeftTopData();
           this.getRightTopData();
           this.getLeftDownData();
@@ -231,16 +206,13 @@ export default {
       return value / 1000 + "K";
     },
     getLeftTopData() {
-      this.listLoading = true;
       Request()
         .get("/api/company_production/getTownCreditStatis", {
           sortBy: "town_id"
         })
         .then(response => {
           this.leftTopData = response.data;
-          setTimeout(() => {
-            this.listLoading = false;
-          }, 0.5 * 1000);
+          setTimeout(() => {}, 0.5 * 1000);
           this.makeChartLeftTop();
           setTimeout(() => {
             this.totalLoading = false;
@@ -251,16 +223,13 @@ export default {
         });
     },
     getRightTopData() {
-      this.listLoading = true;
       Request()
         .get("/api/company_credit_grade/getCreditStatis", {
           sortBy: "cnt"
         })
         .then(response => {
           this.leftTopData = response.data;
-          setTimeout(() => {
-            this.listLoading = false;
-          }, 0.5 * 1000);
+          setTimeout(() => {}, 0.5 * 1000);
           this.makeChartRightTop();
         })
         .catch(error => {
@@ -268,14 +237,11 @@ export default {
         });
     },
     getLeftDownData() {
-      this.listLoading = true;
       Request()
         .get("/api/company_credit_grade/getCreditStatis", { sortBy: "townId" })
         .then(response => {
           this.leftDownData = response.data;
-          setTimeout(() => {
-            this.listLoading = false;
-          }, 0.5 * 1000);
+          setTimeout(() => {}, 0.5 * 1000);
           this.makeChartLeftDown();
         })
         .catch(error => {
@@ -283,7 +249,6 @@ export default {
         });
     },
     getRedData() {
-      this.listLoading = true;
       Request()
         .get("/api/company_credit_grade/all", {
           approvalStatus: 2,
@@ -293,9 +258,7 @@ export default {
         .then(response => {
           // this.redData = response.data;
           // this.total = response.total;
-          setTimeout(() => {
-            this.listLoading = false;
-          }, 0.5 * 1000);
+          setTimeout(() => {}, 0.5 * 1000);
           let index = 0;
           this.redData = response.data.map(item => {
             return this.filterCompnay(item.creditCode);
@@ -306,7 +269,6 @@ export default {
         });
     },
     getBlackData() {
-      this.listLoading = true;
       Request()
         .get("/api/company_credit_grade/all", {
           approvalStatus: 2,
@@ -316,9 +278,7 @@ export default {
         .then(response => {
           // this.blackData = response.data;
           // this.total = response.total;
-          setTimeout(() => {
-            this.listLoading = false;
-          }, 0.5 * 1000);
+          setTimeout(() => {}, 0.5 * 1000);
           let index = 0;
           this.blackData = response.data.map(item => {
             return this.filterCompnay(item.creditCode);
@@ -328,21 +288,20 @@ export default {
           console.log(error);
         });
     },
-    getCompanyProduction() {
-      this.listLoading = true;
-      Request()
+    async getCompanyProduction() {
+      await Request()
         .get("/api/company_production/name")
         .then(response => {
           this.companyProduction = response;
-          setTimeout(() => {
-            this.listLoading = false;
-          }, 0.5 * 1000);
           this.getRedData();
           this.getBlackData();
         })
         .catch(error => {
           console.log(error);
         });
+      setTimeout(() => {
+        this.listLoading = false;
+      }, 0.5 * 1000);
     },
     filterCompnay(credit) {
       let company = this.companyProduction.find(x => x.creditCode === credit);
