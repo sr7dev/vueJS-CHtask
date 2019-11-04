@@ -1,8 +1,8 @@
 <template>
   <div class="xyh_top flex-box justify-right">
-    <div class="changshu_left">
+    <!-- <div class="changshu_left">
       <img src="../../assets/images/logo.png" alt />
-    </div>
+    </div>-->
     <el-menu
       outer
       :default-active="$route.fullPath"
@@ -133,8 +133,11 @@ export default {
   font-size: 16px;
   text-align: center;
 }
+.quit span:nth-child(2) {
+  margin-right: 40px;
+}
 .quit span {
-  padding: 0 60px 0 20px;
+  padding: 0 20px;
   margin-left: 20px;
   line-height: 80px;
   display: inline-block;
