@@ -1,4 +1,16 @@
 @media screen and (min-width: 0\0) {
+  .button-img {
+    .el-image__inner--center {
+      transform: none;
+      left: 0;
+    }
+  }
+  .button-p {
+    display: inline-block;
+  }
+}
+
+@media screen and (min-width: 0\0) and (min-resolution: .001dpcm) {
   body {
     overflow: hidden;
   }
@@ -20,12 +32,12 @@
         }
       }
     }
-    .changshu_left img {
-      height: 104px;
-    }
     .quit {
       vertical-align: top;
       display: inline-block;
+    }
+    .changshu_left img {
+      height: 80px;
     }
   }
   .el-container {
@@ -67,20 +79,13 @@
       .margin-left-60-IE {
         margin-left: 60%!important;
       }
-      .button-img {
-        margin-bottom: -4px;
-        .el-image__inner--center {
-          transform: none;
-          left: 0;
-        }
-      }
-      .button-p {
-        display: inline-block;
-      }
       .iptBox {
         .filter-item {
           display: inline-block;
         }
+      }
+      .button-img {
+        margin-bottom: -4px;
       }
       .el-icon-arrow-up {
         &::before {

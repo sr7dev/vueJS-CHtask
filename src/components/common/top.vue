@@ -1,8 +1,8 @@
 <template>
   <div class="xyh_top flex-box justify-right">
-    <!-- <div class="changshu_left">
+    <div class="changshu_left">
       <img src="../../assets/images/logo.png" alt />
-    </div>-->
+    </div>
     <el-menu
       outer
       :default-active="$route.fullPath"
