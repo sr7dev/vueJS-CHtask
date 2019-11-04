@@ -1,5 +1,5 @@
 <template>
-  <el-row class="tac" style="margin-top: 50px">
+  <el-row class="tac">
     <el-col :span="24">
       <el-menu
         outer
