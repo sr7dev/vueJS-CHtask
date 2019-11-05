@@ -136,6 +136,10 @@ export default {
   methods: {
     getList() {
       this.listLoading = true;
+      if (this.releaseTimeTo) {
+        this.releaseTimeTo = new Date(this.releaseTimeTo);
+        this.releaseTimeTo.setDate(this.releaseTimeTo.getDate() + 1);
+      }
       Request()
         .get("/api/work_task/all", {
           fromDate: this.releaseTimeFrom,
