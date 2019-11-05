@@ -170,9 +170,7 @@
           <el-table-column prop="source" label="来源"></el-table-column>
           <el-table-column prop="resultDl" label="定量结果"></el-table-column>
           <el-table-column prop="resultDx" label="定性结果">
-            <template slot-scope="{ row }">
-              {{ filterResultDx(row.resultDx) }}
-            </template>
+            <template slot-scope="{ row }">{{ filterResultDx(row.resultDx) }}</template>
           </el-table-column>
           <el-table-column prop="detectTime" label="检测时间" width="120">
             <template slot-scope="{ row }">
@@ -292,7 +290,7 @@ export default {
           "resultDx",
           "detectTime",
           "detectUnit",
-          "particular",
+          "operator",
           "specialFlag"
         ];
         const data = this.formatJson(filterVal, this.tableData);
@@ -379,10 +377,14 @@ export default {
       this.listLoading = true;
       let tempDateTime = "";
       if (this.endDate) {
-        tempDateTime = this.endDate.getFullYear() + "-" +
-                           parseInt(this.endDate.getMonth() + 1) + "-" +
-                           this.endDate.getDate() + "T" +
-                           "23:59:59";
+        tempDateTime =
+          this.endDate.getFullYear() +
+          "-" +
+          parseInt(this.endDate.getMonth() + 1) +
+          "-" +
+          this.endDate.getDate() +
+          "T" +
+          "23:59:59";
       }
       Request()
         .get("/api/disability_check/all", {
@@ -471,7 +473,7 @@ export default {
         this.checked = [];
       }
     },
-    filterResultDx(id){
+    filterResultDx(id) {
       switch (id) {
         case 0:
           return "不合格";

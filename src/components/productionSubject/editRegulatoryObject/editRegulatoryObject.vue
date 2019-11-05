@@ -82,7 +82,11 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="种植面积">
-                  <el-input v-model="form.productInfo.data_0_1" style="width:100%"></el-input>
+                  <el-input-number
+                    :controls="false"
+                    v-model="form.productInfo.data_0_1"
+                    style="width:100%"
+                  ></el-input-number>
                 </el-form-item>
               </el-col>
               <el-col :span="2">
@@ -100,7 +104,11 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="种植面积">
-                  <el-input v-model="form.productInfo.data_1_1" style="width:100%"></el-input>
+                  <el-input-number
+                    v-model="form.productInfo.data_1_1"
+                    :controls="false"
+                    style="width:100%"
+                  ></el-input-number>
                 </el-form-item>
               </el-col>
               <el-col :span="2">
@@ -118,7 +126,11 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="种植面积">
-                  <el-input v-model="form.productInfo.data_2_1" style="width:100%"></el-input>
+                  <el-input-number
+                    :controls="false"
+                    v-model="form.productInfo.data_2_1"
+                    style="width:100%"
+                  ></el-input-number>
                 </el-form-item>
               </el-col>
               <el-col :span="2">
@@ -136,7 +148,11 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="种植面积">
-                  <el-input v-model="form.productInfo.data_3_1" style="width:100%"></el-input>
+                  <el-input-number
+                    :controls="false"
+                    v-model="form.productInfo.data_3_1"
+                    style="width:100%"
+                  ></el-input-number>
                 </el-form-item>
               </el-col>
               <el-col :span="2">
@@ -281,12 +297,24 @@
         <el-row>
           <el-col :span="10">
             <el-form-item label="企业荣誉">
-              <el-input type="textarea" :rows="5" v-model="form.companyHonor" style="width:80%" class-name="el-textarea-font"></el-input>
+              <el-input
+                type="textarea"
+                :rows="5"
+                v-model="form.companyHonor"
+                style="width:80%"
+                class-name="el-textarea-font"
+              ></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
             <el-form-item label="备注">
-              <el-input type="textarea" :rows="5" v-model="form.remarks" style="width:80%" class-name="el-textarea-font"></el-input>
+              <el-input
+                type="textarea"
+                :rows="5"
+                v-model="form.remarks"
+                style="width:80%"
+                class-name="el-textarea-font"
+              ></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -331,7 +359,7 @@ export default {
     return {
       townList: [],
       processing: false,
-      form: {        
+      form: {
         agriculturalClassification: 1,
         chargePerson: "",
         companyAddress: "",
@@ -435,14 +463,13 @@ export default {
           console.error(err);
         });
     },
-    changeCompany(){
+    changeCompany() {
       if (this.form.companyType == 1) {
         this.rules.landSource[0].required = false;
         this.rules.plantArea[0].required = false;
       } else if (this.form.companyType == 2) {
         this.rules.landSource[0].required = true;
         this.rules.plantArea[0].required = true;
-       
       }
     },
     onSubmit() {
@@ -452,7 +479,7 @@ export default {
         return;
       }
 
-      if (this.form.companyType == "2"){
+      if (this.form.companyType == "2") {
         this.form.companyName = this.form.contactPerson;
         this.form.chargePerson = this.form.contactPerson;
         this.form.contactMobile = this.form.contactWay;
@@ -491,7 +518,7 @@ export default {
               this.processing = false;
               this.$router.push({ path: "/productionSubject" });
             });
-          } 
+        }
       });
     }
   }
