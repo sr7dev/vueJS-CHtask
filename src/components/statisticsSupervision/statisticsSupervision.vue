@@ -98,15 +98,19 @@
                   </el-table-column>
                   <el-table-column prop="progress">
                     <template slot-scope="{ row }">
-                      <div class="sub-title">
-                        <h3 class="blue-colored italic-font">{{row.progress}}</h3>
-                      </div>
                       <el-progress
-                        :percentage="row.progress * 100"
+                        :percentage="row.progress"
                         :stroke-width="10"
-                        :status="getColor(row.progress * 100)"
+                        :status="getColor(row.progress)"
                         :show-text="false"
                       ></el-progress>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="name" label="合格率" width="100">
+                    <template slot-scope="{ row }">
+                      <div class="sub-title">
+                        <h3 class="large-font blue-colored italic-font">{{row.progress}}%</h3>
+                      </div>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -438,7 +442,7 @@ export default {
               townCnt: tCnt,
               townCnt2: tCnt2,
               rate: tRate,
-              progress: tRate / tCnt,
+              progress: parseInt((tRate / tCnt) * 100),
               specialLabel:
                 tSpecial + "/" + parseInt((tSpecial * 100) / tCnt) + "%",
               specialProgress: parseInt((tSpecial * 100) / tCnt)
