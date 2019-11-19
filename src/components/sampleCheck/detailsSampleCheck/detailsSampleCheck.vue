@@ -48,7 +48,12 @@
       <div class="item-row">
         <div class="item">
           <div class="item-value">
-            <el-button size="small" plain @click="$router.push(`/sampleCheckMain/0`)" type="primary">返回</el-button>
+            <el-button
+              size="small"
+              plain
+              @click="$router.push(`/sampleCheckMain/0`)"
+              type="primary"
+            >返回</el-button>
           </div>
         </div>
       </div>
