@@ -82,7 +82,11 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="种植面积">
-                  <el-input v-model="form.productInfo.data_0_1" style="width:100%"></el-input>
+                   <el-input-number
+                    :controls="false"
+                    v-model="form.productInfo.data_0_1"
+                    style="width:100%"
+                  ></el-input-number>
                 </el-form-item>
               </el-col>
               <el-col :span="2">
@@ -100,7 +104,11 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="种植面积">
-                  <el-input v-model="form.productInfo.data_1_1" style="width:100%"></el-input>
+                  <el-input-number
+                    v-model="form.productInfo.data_1_1"
+                    :controls="false"
+                    style="width:100%"
+                  ></el-input-number>
                 </el-form-item>
               </el-col>
               <el-col :span="2">
@@ -118,7 +126,11 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="种植面积">
-                  <el-input v-model="form.productInfo.data_2_1" style="width:100%"></el-input>
+                  <el-input-number
+                    :controls="false"
+                    v-model="form.productInfo.data_2_1"
+                    style="width:100%"
+                  ></el-input-number>
                 </el-form-item>
               </el-col>
               <el-col :span="2">
@@ -136,7 +148,11 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="种植面积">
-                  <el-input v-model="form.productInfo.data_3_1" style="width:100%"></el-input>
+                  <el-input-number
+                    :controls="false"
+                    v-model="form.productInfo.data_3_1"
+                    style="width:100%"
+                  ></el-input-number>
                 </el-form-item>
               </el-col>
               <el-col :span="2">

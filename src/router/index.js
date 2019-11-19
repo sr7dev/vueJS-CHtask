@@ -52,8 +52,8 @@ import productionSubject from "@/components/productionSubject/productionSubject"
 import addRegulatoryObject from "@/components/productionSubject/addRegulatoryObject/addRegulatoryObject";
 import editRegulatoryObject from "@/components/productionSubject/editRegulatoryObject/editRegulatoryObject";
 import detailsRegulatoryObject from "@/components/productionSubject/detailsRegulatoryObject/detailsRegulatoryObject";
-import supervisionGrid from "@/components/supervisionGrid/supervisionGrid"
-import manageSupervisionGrid from "@/components/supervisionGrid/manageSupervisionGrid/manageSupervisionGrid"
+import supervisionGrid from "@/components/supervisionGrid/supervisionGrid";
+import manageSupervisionGrid from "@/components/supervisionGrid/manageSupervisionGrid/manageSupervisionGrid";
 import warehouseEnv from "@/components/productionSubject/warehouseEnv/warehouseEnv";
 import detailsWarehouse from "@/components/productionSubject/warehouseEnv/detailsWarehouse/detailsWarehouse";
 import viewWarehouse from "@/components/productionSubject/warehouseEnv/viewWarehouse/viewWarehouse";
@@ -87,7 +87,6 @@ import addCustomProductProperty from "@/components/productionSubject/mainProduct
 import editCustomProductProperty from "@/components/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/editCustomProductProperty/editCustomProductProperty";
 import threeProduct from "@/components/productionSubject/threeProduct_ps/threeProduct";
 import addThreeProduct from "@/components/productionSubject/threeProduct_ps/addThreeProduct/addThreeProduct";
-
 
 import companyBusiness from "@/components/companyBusiness/companyBusiness";
 import productBusiness from "@/components/companyBusiness/productBusiness/productBusiness";
