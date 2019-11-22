@@ -14,13 +14,17 @@
             size="small"
             type="primary"
             @click="
-                    $router.push({
-                      path:`/productionSubject/mainProduct/thirdPartySampling/create/${id}`
-                    })"
-            v-if="loggedinUserType === 3 || loggedinUserType === 0"
+              $router.push({
+                path: `/productionSubject/mainProduct/thirdPartySampling/create/${id}`
+              })
+            "
+            v-if="isShowAddButton"
             plain
-          >添加</el-button>
-          <el-button size="small" type="primary" plain @click="$router.go(-1)">返回</el-button>
+            >添加</el-button
+          >
+          <el-button size="small" type="primary" plain @click="$router.go(-1)"
+            >返回</el-button
+          >
         </div>
       </div>
       <div class="iptBox">
@@ -32,35 +36,47 @@
         :row-class-name="rowIndex"
         v-loading="listLoading"
       >
-        <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
+        <el-table-column
+          :formatter="order"
+          label="序号"
+          width="70"
+        ></el-table-column>
         <el-table-column prop="productCheckTime" label="日期" width="150">
           <template slot-scope="{ row }">
-            {{
-            row.productCheckTime | formatDate
-            }}
+            {{ row.productCheckTime | formatDate }}
           </template>
         </el-table-column>
-        <el-table-column prop="specimen" label="样品" width="150"></el-table-column>
-        <el-table-column prop="checkItem" label="检测项目" width="150"></el-table-column>
+        <el-table-column
+          prop="specimen"
+          label="样品"
+          width="150"
+        ></el-table-column>
+        <el-table-column
+          prop="checkItem"
+          label="检测项目"
+          width="150"
+        ></el-table-column>
         <el-table-column prop="checkResult" label="检测结果">
           <template slot-scope="{ row }">
-            {{
-            row.checkResult == 1 ? "阴性" : "阳性"
-            }}
+            {{ row.checkResult == 1 ? "阴性" : "阳性" }}
           </template>
         </el-table-column>
         <el-table-column prop="determine" label="判定">
           <template slot-scope="{ row }">
-            {{
-            row.determine==1 ? "合格" : "不合格"
-            }}
+            {{ row.determine == 1 ? "合格" : "不合格" }}
           </template>
         </el-table-column>
-        <el-table-column prop="checkStandard" label="检测标准"></el-table-column>
-        <el-table-column prop="checkOrganization" label="检测机构"></el-table-column>
+        <el-table-column
+          prop="checkStandard"
+          label="检测标准"
+        ></el-table-column>
+        <el-table-column
+          prop="checkOrganization"
+          label="检测机构"
+        ></el-table-column>
         <el-table-column
           label="操作"
-          v-if="loggedinUserType === 3 || loggedinUserType === 0"
+          v-if="isShowAddButton"
           class-name="text-center"
         >
           <template slot-scope="{ row }">
@@ -69,15 +85,22 @@
               type="success"
               plain
               v-on:click="
-                  $router.push({
-                    path: `/productionSubject/mainProduct/thirdPartySampling/edit/${row.id}`,
-                    query: {                      
-                      checkId: row.id
-                    }
-                  })
-                "
-            >修改</el-button>
-            <el-button size="small" type="danger" v-on:click="handleDelete(`${row.id}`)" plain>删除</el-button>
+                $router.push({
+                  path: `/productionSubject/mainProduct/thirdPartySampling/edit/${row.id}`,
+                  query: {
+                    checkId: row.id
+                  }
+                })
+              "
+              >修改</el-button
+            >
+            <el-button
+              size="small"
+              type="danger"
+              v-on:click="handleDelete(`${row.id}`)"
+              plain
+              >删除</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -95,6 +118,7 @@
 </template>
 
 <script>
+import Storage from "store";
 import Pagination from "@/components/common/pagination";
 import Request from "@/services/api/request";
 import Auth from "@/services/authentication/auth.js";
@@ -103,7 +127,6 @@ export default {
   components: { Pagination },
   data() {
     return {
-      loggedinUserType: null,
       id: -1,
       page: {
         pageIndex: 1,
@@ -112,13 +135,18 @@ export default {
       total: 100,
       radio: "1",
       tableData: [],
-      listLoading: false
+      listLoading: false,
+      isShowAddButton: null
     };
   },
   created() {
     this.id = this.$route.params.id;
+    this.isShowAddButton = Storage.get("authList").find(
+      x => x.privilegeCode == "addThirdPartySampling"
+    )
+      ? true
+      : false;
     this.getList(this.id);
-    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     getList(id) {

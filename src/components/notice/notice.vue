@@ -8,8 +8,20 @@
     <div class="box">
       <div class="iptBox">通知公告</div>
       <div class="iptBox">
-        <el-button size="small" type="primary" v-on:click="$router.push({path: `/notice/create`})" plain>发布公告</el-button>
-        <el-button size="small" type="primary" v-on:click="$router.push({path: `/notice/detailSms`})" plain>短信记录</el-button>
+        <el-button
+          size="small"
+          type="primary"
+          v-on:click="$router.push({ path: `/notice/create` })"
+          plain
+          >发布公告</el-button
+        >
+        <el-button
+          size="small"
+          type="primary"
+          v-on:click="$router.push({ path: `/notice/detailSms` })"
+          plain
+          >短信记录</el-button
+        >
       </div>
 
       <el-container>
@@ -20,34 +32,50 @@
           :row-class-name="rowIndex"
           highlight-current-row
         >
-          <el-table-column prop="type" label="类型" width="180"></el-table-column>
+          <el-table-column
+            prop="type"
+            label="类型"
+            width="180"
+          ></el-table-column>
           <el-table-column prop="title" label="标题"></el-table-column>
           <el-table-column prop="releaseTime" label="日期">
-            <template slot-scope="{ row }">{{ row.releaseTime | formatDate }}</template>
+            <template slot-scope="{ row }">{{
+              row.releaseTime | formatDate
+            }}</template>
           </el-table-column>
           <el-table-column prop="releasePerson" label="作者"></el-table-column>
           <el-table-column prop="emergencyDegree" label="紧急程度">
-            <template slot-scope="{ row }">{{ getEmergencyDegree(row.emergencyDegree) }}</template>
+            <template slot-scope="{ row }">{{
+              getEmergencyDegree(row.emergencyDegree)
+            }}</template>
           </el-table-column>
           <el-table-column label="操作" class-name="text-center" width="300">
             <template slot-scope="{ row }">
-              <el-button size="small"
+              <el-button
+                size="small"
                 type="success"
                 plain
-                v-on:click="$router.push({path: `/notice/view/${row.id}`})"
-              >查看</el-button>
-              <el-button size="small"
-                type="warning"
-                v-on:click="$router.push({path: `/notice/edit/${row.id}`})"
-                plain
-              >修改</el-button>
-              <el-button 
+                v-on:click="$router.push({ path: `/notice/view/${row.id}` })"
+                >查看</el-button
+              >
+              <el-button
                 size="small"
-                type="primary" 
-                plain 
-                v-if="loggedinUserType===0 || loggedinUserType===1"
-                v-on:click="$router.push({path: `/notice/smsNotice/${row.id}`})"
-              >短信通知</el-button>
+                type="warning"
+                v-on:click="$router.push({ path: `/notice/edit/${row.id}` })"
+                plain
+                v-if="isShowEditButton"
+                >修改</el-button
+              >
+              <el-button
+                size="small"
+                type="primary"
+                plain
+                v-if="isShowAddButton"
+                v-on:click="
+                  $router.push({ path: `/notice/smsNotice/${row.id}` })
+                "
+                >短信通知</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -65,6 +93,7 @@
   </div>
 </template>
 <script>
+import Storage from "store";
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
 import Auth from "@/services/authentication/auth.js";
@@ -73,7 +102,6 @@ export default {
   components: { Pagination },
   data() {
     return {
-      loggedinUserType: null,
       releasePerson: "",
       emergencyDegree: 0,
       releaseTime: "",
@@ -83,6 +111,8 @@ export default {
         pageIndex: 1,
         pageSize: 20
       },
+      isShowAddButton: null,
+      isShowEditButton: null,
       listLoading: true,
       total: 0,
       tableData: [],
@@ -95,7 +125,18 @@ export default {
   },
   mounted() {
     this.getList();
-    this.loggedinUserType = Auth().user().userType;
+  },
+  created() {
+    this.isShowAddButton = Storage.get("authList").find(
+      x => x.privilegeCode == "smsNotice"
+    )
+      ? true
+      : false;
+    this.isShowEditButton = Storage.get("authList").find(
+      x => x.privilegeCode == "editNotice"
+    )
+      ? true
+      : false;
   },
   methods: {
     order(row) {

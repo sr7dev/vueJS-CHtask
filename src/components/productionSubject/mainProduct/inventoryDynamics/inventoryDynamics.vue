@@ -14,15 +14,20 @@
             size="small"
             type="primary"
             plain
-            @click="$router.push({
-              path: `/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/${companyId}`,
-              query: {
-                productId: productId
-              }
-            })"
-            v-if="loggedinUserType === 3 || loggedinUserType === 0"
-          >添加</el-button>
-          <el-button size="small" type="primary" plain @click="$router.go(-1)">返回</el-button>
+            @click="
+              $router.push({
+                path: `/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/${companyId}`,
+                query: {
+                  productId: productId
+                }
+              })
+            "
+            v-if="isShowAddButton"
+            >添加</el-button
+          >
+          <el-button size="small" type="primary" plain @click="$router.go(-1)"
+            >返回</el-button
+          >
         </div>
       </div>
       <el-table
@@ -31,19 +36,19 @@
         :row-class-name="rowIndex"
         v-loading="listLoading"
       >
-        <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
+        <el-table-column
+          :formatter="order"
+          label="序号"
+          width="70"
+        ></el-table-column>
         <el-table-column prop="productName" label="产品名称">
           <template slot-scope="{ row }">
-            {{
-            filterProduct(row.productId)
-            }}
+            {{ filterProduct(row.productId) }}
           </template>
         </el-table-column>
         <el-table-column prop="warehouse" label="所在仓库">
           <template slot-scope="{ row }">
-            {{
-            filterWarehouse(row.warehouseId)
-            }}
+            {{ filterWarehouse(row.warehouseId) }}
           </template>
         </el-table-column>
         <el-table-column prop="repertoryAmount" label="储存数量">
@@ -53,14 +58,12 @@
           <template slot-scope="{ row }">{{ row.variety }}</template>
         </el-table-column>
         <el-table-column prop="grade" label="评级">
-          <template slot-scope="{row}">
-            {{
-            getGradeName(row.grade)
-            }}
+          <template slot-scope="{ row }">
+            {{ getGradeName(row.grade) }}
           </template>
         </el-table-column>
         <el-table-column
-          v-if="loggedinUserType === 3 || loggedinUserType === 0"
+          v-if="isShowAddButton"
           label="操作"
           class-name="text-center"
         >
@@ -69,20 +72,28 @@
               size="small"
               type="success"
               plain
-              @click="$router.push({
-                path: `/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/${row.id}`,
-                query: {
-                  productId: row.productId,
-                  repertoryAmount: row.repertoryAmount,
-                  warehouseId: row.warehouseId,
-                  grade: row.grade,
-                  variety: row.variety,
-                  companyId: companyId
-                }
-              })
+              @click="
+                $router.push({
+                  path: `/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/${row.id}`,
+                  query: {
+                    productId: row.productId,
+                    repertoryAmount: row.repertoryAmount,
+                    warehouseId: row.warehouseId,
+                    grade: row.grade,
+                    variety: row.variety,
+                    companyId: companyId
+                  }
+                })
               "
-            >修改</el-button>
-            <el-button size="small" type="danger" v-on:click="handleDelete(`${row.id}`)" plain>删除</el-button>
+              >修改</el-button
+            >
+            <el-button
+              size="small"
+              type="danger"
+              v-on:click="handleDelete(`${row.id}`)"
+              plain
+              >删除</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -100,6 +111,7 @@
 </template>
 
 <script>
+import Storage from "store";
 import Pagination from "@/components/common/pagination";
 import Request from "@/services/api/request";
 import Auth from "@/services/authentication/auth.js";
@@ -108,7 +120,6 @@ export default {
   components: { Pagination },
   data() {
     return {
-      loggedinUserType: null,
       companyId: -1,
       page: {
         pageIndex: 1,
@@ -121,16 +132,21 @@ export default {
       productName: "",
       warehouses: [],
       productId: -1,
-      productDetail: []
+      productDetail: [],
+      isShowAddButton: null
     };
   },
   created() {
     this.companyId = this.$route.params.id;
     this.productId = this.$route.query.productId;
+    this.isShowAddButton = Storage.get("authList").find(
+      x => x.privilegeCode == "addInventoryDynamics"
+    )
+      ? true
+      : false;
     this.getList();
     this.getProductionDetail();
     this.getWarehouseDetail();
-    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     handleDelete(id) {

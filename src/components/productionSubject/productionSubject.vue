@@ -6,22 +6,36 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <div class="iptBox">
-        <div class="filter-item margin-bottom-20" v-if="loggedinUserType !== 3">
+      <div class="iptBox" v-if="isShowSearchOption">
+        <div class="filter-item margin-bottom-20">
           <div class="select_label no-margin-left">乡镇</div>
-          <el-select v-model="townId" placeholder="请选择" style="width:150px;" @change="getList">
+          <el-select
+            v-model="townId"
+            placeholder="请选择"
+            style="width:150px;"
+            @change="getList"
+          >
             <el-option label="全部" :value="0"></el-option>
-            <el-option v-for="item in townList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+            <el-option
+              v-for="item in townList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            ></el-option>
           </el-select>
         </div>
-        <div class="filter-item" v-if="loggedinUserType !== 3">
+        <div class="filter-item">
           <div class="select_label">类型</div>
           <template>
-            <el-radio v-model="companyType" label="1" @change="getList">企业</el-radio>
-            <el-radio v-model="companyType" label="2" @change="getList">农户</el-radio>
+            <el-radio v-model="companyType" label="1" @change="getList"
+              >企业</el-radio
+            >
+            <el-radio v-model="companyType" label="2" @change="getList"
+              >农户</el-radio
+            >
           </template>
         </div>
-        <div class="filter-item" v-if="loggedinUserType !== 3">
+        <div class="filter-item">
           <div class="select_label">行业</div>
           <el-select
             v-model="agriculturalClassification"
@@ -42,7 +56,7 @@
             ></el-option>
           </el-select>
         </div>
-        <div class="filter-item" v-if="loggedinUserType !== 3">
+        <div class="filter-item">
           <div class="select_label">三品认证</div>
           <el-select
             v-model="quality_standard"
@@ -62,7 +76,7 @@
             ></el-option>
           </el-select>
         </div>
-        <div class="filter-item" v-if="loggedinUserType !== 3">
+        <div class="filter-item">
           <div class="select_label">监管记录</div>
           <el-select
             v-model="supervision_record"
@@ -82,7 +96,7 @@
             ></el-option>
           </el-select>
         </div>
-        <div class="filter-item" v-if="loggedinUserType !== 3">
+        <div class="filter-item">
           <div class="select_label">农业监测</div>
           <el-select
             v-model="disability_check"
@@ -102,16 +116,17 @@
             ></el-option>
           </el-select>
         </div>
-        <div class="filter-item" v-if="loggedinUserType === 2 || loggedinUserType === 0">
+        <div class="filter-item" v-if="isShowAddButton">
           <el-button
             size="small"
             type="primary"
             plain
             @click="gotoAddRegulatoryObject()"
             class="margin-left-20"
-          >添加监管对象</el-button>
+            >添加监管对象</el-button
+          >
         </div>
-        <div class="allCompany" v-if="loggedinUserType !== 3">
+        <div class="allCompany">
           共计
           <b class="blue-colored">{{ total }}</b> 家企业
         </div>
@@ -122,33 +137,62 @@
         :row-class-name="rowIndex"
         v-loading="listLoading"
       >
-        <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
-        <el-table-column prop="companyName" label="企业名称" width="150"></el-table-column>
-        <el-table-column prop="chargePerson" label="法人代表" width="150"></el-table-column>
-        <el-table-column prop="companyAddress" label="企业地址"></el-table-column>
+        <el-table-column
+          :formatter="order"
+          label="序号"
+          width="70"
+        ></el-table-column>
+        <el-table-column
+          prop="companyName"
+          label="企业名称"
+          width="150"
+        ></el-table-column>
+        <el-table-column
+          prop="chargePerson"
+          label="法人代表"
+          width="150"
+        ></el-table-column>
+        <el-table-column
+          prop="companyAddress"
+          label="企业地址"
+        ></el-table-column>
         <el-table-column
           prop="qualityStandardId"
           label="三品认证"
           class-name="text-center normal-line-height"
           width="120"
-          v-if="loggedinUserType !== 3"
+          v-if="isShowSearchOption"
         >
           <template slot-scope="{ row }">
             <el-image
               class="button-img small-size"
               :src="Button2"
-              @click="$router.push({path: `/productionSubject/threeProduct`,query: {creditCode:row.creditCode}})"
+              @click="
+                $router.push({
+                  path: `/productionSubject/threeProduct`,
+                  query: { creditCode: row.creditCode }
+                })
+              "
               v-if="row.qualityStandard !== 0 && row.qualityStandard != null"
             ></el-image>
             <p
               class="padding-left-10 button-p"
-              @click="$router.push({path: `/productionSubject/threeProduct`,query: {creditCode:row.creditCode}})"
+              @click="
+                $router.push({
+                  path: `/productionSubject/threeProduct`,
+                  query: { creditCode: row.creditCode }
+                })
+              "
               v-if="row.qualityStandard !== 0 && row.qualityStandard != null"
-            >认证信息</p>
+            >
+              认证信息
+            </p>
             <p
               class="padding-left-10"
               v-if="row.qualityStandard === 0 || row.qualityStandard == null"
-            >无</p>
+            >
+              无
+            </p>
           </template>
         </el-table-column>
         <el-table-column
@@ -156,7 +200,7 @@
           label="监管记录"
           class-name="text-center normal-line-height"
           width="90"
-          v-if="loggedinUserType !== 3"
+          v-if="isShowSearchOption"
         >
           <template slot-scope="{ row }">
             <el-image
@@ -166,13 +210,20 @@
                 $router.push({
                   path: `/regulatoryRecord/`,
                   query: { companyId: row.companyId }
-                })"
-              v-if="row.supervisionRecord !== 0 && row.supervisionRecord != null"
+                })
+              "
+              v-if="
+                row.supervisionRecord !== 0 && row.supervisionRecord != null
+              "
             ></el-image>
             <p
               class="padding-left-10"
-              v-if="row.supervisionRecord === 0 || row.supervisionRecord == null"
-            >无</p>
+              v-if="
+                row.supervisionRecord === 0 || row.supervisionRecord == null
+              "
+            >
+              无
+            </p>
           </template>
         </el-table-column>
         <el-table-column
@@ -181,28 +232,41 @@
           size="mini"
           class-name="text-center normal-line-height"
           width="90"
-          v-if="loggedinUserType !== 3"
+          v-if="isShowSearchOption"
         >
           <template slot-scope="{ row }">
             <el-image
               class="button-img"
               :src="Button1"
-              v-on:click="$router.push({path: `/disabilityCheck/`,query: { creditCode: row.creditCode }})"
+              v-on:click="
+                $router.push({
+                  path: `/disabilityCheck/`,
+                  query: { creditCode: row.creditCode }
+                })
+              "
               v-if="row.disabilityCheck !== 0 && row.disabilityCheck != null"
             ></el-image>
             <p
               class="padding-left-10"
               v-if="row.disabilityCheck === 0 || row.disabilityCheck == null"
-            >无</p>
+            >
+              无
+            </p>
           </template>
         </el-table-column>
-        <el-table-column prop="contactPerson" label="联系人" width="90"></el-table-column>
-        <el-table-column prop="contactMobile" label="联系方式" width="120"></el-table-column>
+        <el-table-column
+          prop="contactPerson"
+          label="联系人"
+          width="90"
+        ></el-table-column>
+        <el-table-column
+          prop="contactMobile"
+          label="联系方式"
+          width="120"
+        ></el-table-column>
         <el-table-column prop="address" label="所在乡镇" width="90">
           <template slot-scope="{ row }">
-            {{
-            getTownship(row.townId)
-            }}
+            {{ getTownship(row.townId) }}
           </template>
         </el-table-column>
         <el-table-column prop="nowGrade" label="企业诚信" width="150">
@@ -219,26 +283,39 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="operations" label="操作" width="300" class-name="text-center">
+        <el-table-column
+          prop="operations"
+          label="操作"
+          width="300"
+          class-name="text-center"
+        >
           <template slot-scope="{ row }">
             <el-button
               size="small"
               v-on:click="gotoEditProductPage(row)"
               type="warning"
-              v-if="loggedinUserType !== 1"
-            >修改</el-button>
-            <el-button size="small" v-on:click="gotoProductPage(row)" type="primary">产品</el-button>
+              v-if="isShowEditButton"
+              >修改</el-button
+            >
+            <el-button
+              size="small"
+              v-on:click="gotoProductPage(row)"
+              type="primary"
+              >产品</el-button
+            >
             <el-button
               size="small"
               v-on:click="gotoWarehousingEnvironmentPage(row)"
               type="success"
-            >仓储环境</el-button>
+              >仓储环境</el-button
+            >
             <el-button
               size="small"
               v-on:click="gotoDetailsProductPage(row)"
               type="info"
-              v-if="loggedinUserType !== 3"
-            >详情</el-button>
+              v-if="isShowDetail"
+              >详情</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -256,6 +333,7 @@
 </template>
 
 <script>
+import Storage from "store";
 import Pagination from "@/components/common/pagination";
 import Request from "@/services/api/request";
 import Auth from "@/services/authentication/auth.js";
@@ -268,7 +346,6 @@ export default {
     return {
       Button1: Button1,
       Button2: Button2,
-      loggedinUserType: null,
       townId: 0,
       companyType: 0,
       agriculturalClassification: 0,
@@ -286,13 +363,36 @@ export default {
       tableData: [],
       srcData: [],
       colors: { 1: "#f00", 2: "#F7BA2A", 3: "#0f0" },
-      value2: 2
+      value2: 2,
+      isShowAddButton: null,
+      isShowEditButton: null,
+      isShowDetail: null,
+      isShowSearchOption: null
     };
   },
   created() {
     this.getList();
     this.getTownList();
-    this.loggedinUserType = Auth().user().userType;
+    this.isShowAddButton = Storage.get("authList").find(
+      x => x.privilegeCode == "addRegulatoryObject"
+    )
+      ? true
+      : false;
+    this.isShowEditButton = Storage.get("authList").find(
+      x => x.privilegeCode == "editRegulatoryObject"
+    )
+      ? true
+      : false;
+    this.isShowDetail = Storage.get("authList").find(
+      x => x.privilegeCode == "detailsRegulatoryObject"
+    )
+      ? true
+      : false;
+    this.isShowSearchOption = Storage.get("authList").find(
+      x => x.privilegeCode == "searchRegulatoryObject"
+    )
+      ? true
+      : false;
   },
   methods: {
     getTownship(townId) {

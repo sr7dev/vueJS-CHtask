@@ -9,13 +9,26 @@
       <div class="iptBox">
         <div class="select_label">乡镇</div>
         <el-select v-model="currTown" placeholder="请选择" @change="getList()">
-          <el-option v-for="item in township" :key="item.id" :label="item.name" :value="item.id"></el-option>
+          <el-option
+            v-for="item in township"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
         </el-select>
         <div class="select_label">类型</div>
-        <el-radio v-model="bTypes" label="1" v-on:change="getList(true)">企业</el-radio>
-        <el-radio v-model="bTypes" label="2" v-on:change="getList(true)">农户</el-radio>
+        <el-radio v-model="bTypes" label="1" v-on:change="getList(true)"
+          >企业</el-radio
+        >
+        <el-radio v-model="bTypes" label="2" v-on:change="getList(true)"
+          >农户</el-radio
+        >
         <div class="select_label">行政许可</div>
-        <el-select v-model="plCount" placeholder="请选择" @change="onSelectFilterPub">
+        <el-select
+          v-model="plCount"
+          placeholder="请选择"
+          @change="onSelectFilterPub"
+        >
           <el-option
             v-for="item in publicOptions"
             :key="item.id"
@@ -24,7 +37,11 @@
           ></el-option>
         </el-select>
         <div class="select_label">行政处罚</div>
-        <el-select v-model="ppCount" placeholder="请选择" @change="onSelectFilterPub">
+        <el-select
+          v-model="ppCount"
+          placeholder="请选择"
+          @change="onSelectFilterPub"
+        >
           <el-option
             v-for="item in publicOptions"
             :key="item.id"
@@ -32,8 +49,15 @@
             :value="item.id"
           ></el-option>
         </el-select>
-        <div class="select_label" v-if="loggedinUserType !== 3">
-          <el-button size="small" type="primary" v-on:click="getList()" disabled plain>导入</el-button>
+        <div class="select_label" v-if="isShowAddButton">
+          <el-button
+            size="small"
+            type="primary"
+            v-on:click="getList()"
+            disabled
+            plain
+            >导入</el-button
+          >
         </div>
       </div>
 
@@ -46,65 +70,95 @@
           :row-class-name="rowIndex"
           highlight-current-row
         >
-          <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
+          <el-table-column
+            :formatter="order"
+            label="序号"
+            width="70"
+          ></el-table-column>
           <el-table-column
             label="企业名称"
             width="150"
-            v-if="loggedinUserType ===2 || loggedinUserType === 0"
+            v-if="isShowEditButton"
             prop="companyName"
           >
             <!-- <template slot-scope="{row}">{{filterCompnay(row.creditCode)}}</template> -->
           </el-table-column>
-          <el-table-column label="名称" width="150" prop="companyName" v-if="loggedinUserType !==2">
+          <el-table-column
+            label="名称"
+            width="150"
+            prop="companyName"
+            v-if="isShowDetail"
+          >
             <!-- <template slot-scope="{row}">{{filterCompnay(row.creditCode)}}</template> -->
           </el-table-column>
           <el-table-column
             prop="creditCode"
             label="统一社会信用代码"
-            v-if="loggedinUserType ===2 || loggedinUserType === 0"
+            v-if="isShowEditButton"
           ></el-table-column>
-          <el-table-column prop="creditCode" label="信用代码" v-if="loggedinUserType !==2"></el-table-column>
-          <el-table-column prop="plCount" label="行政许可信息" class-name="text-center">
-            <template slot-scope="{row}">
+          <el-table-column
+            prop="creditCode"
+            label="信用代码"
+            v-if="isShowDetail"
+          ></el-table-column>
+          <el-table-column
+            prop="plCount"
+            label="行政许可信息"
+            class-name="text-center"
+          >
+            <template slot-scope="{ row }">
               <el-button
                 size="small"
                 type="success"
                 plain
                 v-if="row.plCount > 0"
-                v-on:click="$router.push({path: `/corporateCreditFile/adminLicenseInfo`,query: {creditCode:row.creditCode}})"
-              >行政许可信息</el-button>
-              <el-button
-                size="small"
-                v-else
-                disabled
-                type="success"
-                plain
-              >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
+                v-on:click="
+                  $router.push({
+                    path: `/corporateCreditFile/adminLicenseInfo`,
+                    query: { creditCode: row.creditCode }
+                  })
+                "
+                >行政许可信息</el-button
+              >
+              <el-button size="small" v-else disabled type="success" plain
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-button
+              >
             </template>
           </el-table-column>
-          <el-table-column prop="ppCount" label="行政处罚信息" class-name="text-center">
-            <template slot-scope="{row}">
+          <el-table-column
+            prop="ppCount"
+            label="行政处罚信息"
+            class-name="text-center"
+          >
+            <template slot-scope="{ row }">
               <el-button
                 size="small"
                 type="success"
                 plain
                 v-if="row.ppCount > 0"
-                v-on:click="$router.push({path: `/corporateCreditFile/adminPenaltyInfo`,query: {creditCode:row.creditCode}})"
-              >行政处罚信息</el-button>
-              <el-button
-                size="small"
-                v-else
-                disabled
-                type="success"
-                plain
-              >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
+                v-on:click="
+                  $router.push({
+                    path: `/corporateCreditFile/adminPenaltyInfo`,
+                    query: { creditCode: row.creditCode }
+                  })
+                "
+                >行政处罚信息</el-button
+              >
+              <el-button size="small" v-else disabled type="success" plain
+                >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</el-button
+              >
             </template>
           </el-table-column>
           <el-table-column label="评级信息">
-            <template slot-scope="{row}">
+            <template slot-scope="{ row }">
               <span
                 class="rating-action"
-                v-on:click="$router.push({path: `/corporateCreditFile/ratingInfo`,query: {creditCode:row.creditCode}})"
+                v-on:click="
+                  $router.push({
+                    path: `/corporateCreditFile/ratingInfo`,
+                    query: { creditCode: row.creditCode }
+                  })
+                "
               >
                 <el-rate
                   :value="getGradeString(row.grade)"
@@ -117,14 +171,24 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column label="三品一标认证" width="200" class-name="text-center">
-            <template slot-scope="{row}">
+          <el-table-column
+            label="三品一标认证"
+            width="200"
+            class-name="text-center"
+          >
+            <template slot-scope="{ row }">
               <el-button
                 size="small"
                 type="primary"
                 plain
-                v-on:click="$router.push({path: `/corporateCreditFile/threeProduction`,query: {creditCode:row.creditCode}})"
-              >三品一标</el-button>
+                v-on:click="
+                  $router.push({
+                    path: `/corporateCreditFile/threeProduction`,
+                    query: { creditCode: row.creditCode }
+                  })
+                "
+                >三品一标</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -143,6 +207,7 @@
 </template>
 
 <script>
+import Storage from "store";
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
 import Auth from "@/services/authentication/auth.js";
@@ -159,6 +224,9 @@ export default {
         { id: 2, name: "无" }
       ],
       currTown: 0,
+      isShowAddButton: null,
+      isShowEditButton: null,
+      isShowDetail: null,
       plCount: 0,
       ppCount: 0,
       page: {
@@ -183,7 +251,21 @@ export default {
     this.getCompanyProduction();
   },
   created() {
-    this.loggedinUserType = Auth().user().userType;
+    this.isShowAddButton = Storage.get("authList").find(
+      x => x.privilegeCode == "searchcorporateCreditFile"
+    )
+      ? true
+      : false;
+    this.isShowEditButton = Storage.get("authList").find(
+      x => x.privilegeCode == "editRegulatoryObject"
+    )
+      ? true
+      : false;
+    this.isShowDetail = Storage.get("authList").find(
+      x => x.privilegeCode == "detailCreditRating"
+    )
+      ? true
+      : false;
   },
   methods: {
     rowIndex({ row, rowIndex }) {

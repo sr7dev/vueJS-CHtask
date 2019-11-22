@@ -9,24 +9,33 @@
     <div class="box">
       <div class="iptBox">
         <div class="filter-item">
-          <el-button size="small"
+          <el-button
+            size="small"
             type="primary"
-            v-if="loggedinUserType === 3 || loggedinUserType === 0"
-            @click="$router.push(`/companyBusiness/productBusiness/create/${id}`)"
+            v-if="isShowAddButton"
+            @click="
+              $router.push(`/companyBusiness/productBusiness/create/${id}`)
+            "
             plain
-          >添加</el-button>
-          <el-button size="small" plain @click="$router.go(-1)" type="success">返回</el-button>
+            >添加</el-button
+          >
+          <el-button size="small" plain @click="$router.go(-1)" type="success"
+            >返回</el-button
+          >
         </div>
       </div>
       <el-container>
-        <el-table 
-          :data="tableData" 
-          style="width: 100%" 
+        <el-table
+          :data="tableData"
+          style="width: 100%"
           :row-class-name="rowIndex"
           v-loading="listLoading"
         >
           <el-table-column :formatter="order" label="序号"></el-table-column>
-          <el-table-column prop="productName" label="产品名称"></el-table-column>
+          <el-table-column
+            prop="productName"
+            label="产品名称"
+          ></el-table-column>
           <el-table-column prop="atunitprice" label="单价"></el-table-column>
           <el-table-column prop="productArea" label="产地"></el-table-column>
           <el-table-column prop="variety" label="品种"></el-table-column>
@@ -35,7 +44,13 @@
           <el-table-column prop="yield" label="操作" class-name="text-center">
             <!-- <template slot-scope="scope"> -->
             <template slot-scope="{ row }">
-              <el-button size="small" @click="handleDelete(`${row.id}`)" plain type="danger">删除</el-button>
+              <el-button
+                size="small"
+                @click="handleDelete(`${row.id}`)"
+                plain
+                type="danger"
+                >删除</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -54,6 +69,7 @@
 </template>
 
 <script>
+import Storage from "store";
 import Pagination from "@/components/common/pagination";
 import Request from "@/services/api/request";
 import Auth from "@/services/authentication/auth.js";
@@ -79,13 +95,17 @@ export default {
       ],
       tableData: [],
       listLoading: false,
-      loggedinUserType: null
+      isShowAddButton: null
     };
   },
   created() {
     this.id = this.$route.params.id;
+    this.isShowAddButton = Storage.get("authList").find(
+      x => x.privilegeCode == "addProductBusiness"
+    )
+      ? true
+      : false;
     this.getList();
-    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     getList() {
