@@ -14,14 +14,17 @@
               type="primary"
               v-on:click="$router.push(`/productionStandard/create`)"
               plain
-              v-if="loggedinUserType === 1 || loggedinUserType === 0"
-            >添加生产标准</el-button>
+              v-if="isShowAddButton"
+              >添加生产标准</el-button
+            >
           </el-col>
           <el-col :span="7">
             <div class="select_label no-margin-left">标准名称</div>
             <el-input v-model="productName" class="w-80"></el-input>
           </el-col>
-          <el-button size="small" type="primary" @click="getList()" plain>搜索</el-button>
+          <el-button size="small" type="primary" @click="getList()" plain
+            >搜索</el-button
+          >
           <!-- <el-col :span="12">
             <div class="select_label">类别</div>
             <el-select v-model="category" @change="getList()">
@@ -39,46 +42,67 @@
           :row-class-name="rowIndex"
           highlight-current-row
         >
-          <el-table-column :formatter="order" label="序号" width="100"></el-table-column>
+          <el-table-column
+            :formatter="order"
+            label="序号"
+            width="100"
+          ></el-table-column>
           <el-table-column prop="productName" label="标准"></el-table-column>
           <!-- <el-table-column prop="category" label="类别">
             <template slot-scope="{ row }">{{ filterCategory(row.category) }}</template>
           </el-table-column>-->
-          <el-table-column prop="releaseTime" label="发布时间" class-name="text-center">
-            <template slot-scope="{ row }">{{ row.releaseTime | formatDate }}</template>
+          <el-table-column
+            prop="releaseTime"
+            label="发布时间"
+            class-name="text-center"
+          >
+            <template slot-scope="{ row }">{{
+              row.releaseTime | formatDate
+            }}</template>
           </el-table-column>
-          <el-table-column prop="releasePerson" label="发布者"></el-table-column>
+          <el-table-column
+            prop="releasePerson"
+            label="发布者"
+          ></el-table-column>
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
               <el-button
                 size="small"
                 type="primary"
                 plain
-                v-if="loggedinUserType !== 1"
+                v-if="isShowEditButton"
                 v-on:click="
                   $router.push({
-                    path: `/productionStandard/detail/`+ row.id
+                    path: `/productionStandard/detail/` + row.id
                   })
                 "
-              >查看</el-button>
+                >查看</el-button
+              >
               <el-button
                 size="small"
                 type="success"
                 plain
-                v-if="row.productionStandardProfiles !== '' && row.productionStandardProfiles !== undefined"
-                v-on:click="downloadStandardProfiles(row.productionStandardProfiles)"
-              >下载</el-button>
+                v-if="
+                  row.productionStandardProfiles !== '' &&
+                    row.productionStandardProfiles !== undefined
+                "
+                v-on:click="
+                  downloadStandardProfiles(row.productionStandardProfiles)
+                "
+                >下载</el-button
+              >
               <el-button
                 size="small"
                 type="warning"
                 plain
-                v-if="loggedinUserType === 1 || loggedinUserType === 0"
+                v-if="isShowAddButton"
                 v-on:click="
                   $router.push({
-                    path: `/productionStandard/edit/`+ row.id
+                    path: `/productionStandard/edit/` + row.id
                   })
                 "
-              >修改</el-button>
+                >修改</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -96,6 +120,7 @@
   </div>
 </template>
 <script>
+import Storage from "store";
 import Pagination from "@/components/common/pagination";
 import Request from "@/services/api/request.js";
 import { Urls } from "@/services/constants";
@@ -118,7 +143,8 @@ export default {
       tableData: [],
       productName: "",
       category: 0,
-      loggedinUserType: null,
+      isShowAddButton: null,
+      isShowEditButton: null,
       options: [
         { id: 0, name: "全部" },
         { id: 1, name: "畜牧业" },
@@ -129,7 +155,16 @@ export default {
   },
   created() {
     this.getList();
-    this.loggedinUserType = Auth().user().userType;
+    this.isShowAddButton = Storage.get("authList").find(
+      x => x.privilegeCode == "addProductionStandard"
+    )
+      ? true
+      : false;
+    this.isShowEditButton = Storage.get("authList").find(
+      x => x.privilegeCode == "editRegulatoryObject"
+    )
+      ? true
+      : false;
   },
   methods: {
     getList() {
@@ -188,5 +223,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

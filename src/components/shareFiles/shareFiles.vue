@@ -6,10 +6,16 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <div class="iptBox" v-if="loggedinUserType===1 || loggedinUserType===0">
+      <div class="iptBox" v-if="isShowAddButton">
         <el-row class="w-100">
           <el-col :span="3">
-            <el-button size="small" type="primary" v-on:click="$router.push(`/shareFiles/create`)" plain>新建文件夹</el-button>
+            <el-button
+              size="small"
+              type="primary"
+              v-on:click="$router.push(`/shareFiles/create`)"
+              plain
+              >新建文件夹</el-button
+            >
           </el-col>
         </el-row>
       </div>
@@ -20,8 +26,16 @@
             <i class="el-icon-warning">&nbsp;你确定你要删除?</i>
           </span>
           <span slot="footer" class="dialog-footer">
-            <el-button size="small" @click="dialogVisible = false" type="primary" plain>取消</el-button>
-            <el-button size="small" @click="handleDelete" type="success" plain>确认</el-button>
+            <el-button
+              size="small"
+              @click="dialogVisible = false"
+              type="primary"
+              plain
+              >取消</el-button
+            >
+            <el-button size="small" @click="handleDelete" type="success" plain
+              >确认</el-button
+            >
           </span>
         </el-dialog>
         <el-table
@@ -31,42 +45,58 @@
           :row-class-name="rowIndex"
           highlight-current-row
         >
-          <el-table-column :formatter="order" label="序号" width="100"></el-table-column>
-          <el-table-column prop="fileName" label="文件名" class-name="text-center"></el-table-column>
+          <el-table-column
+            :formatter="order"
+            label="序号"
+            width="100"
+          ></el-table-column>
+          <el-table-column
+            prop="fileName"
+            label="文件名"
+            class-name="text-center"
+          ></el-table-column>
           <el-table-column prop="title" label="修改时间">
-            <template slot-scope="{ row }">{{ row.createTime | formatDate }}</template>
+            <template slot-scope="{ row }">{{
+              row.createTime | formatDate
+            }}</template>
           </el-table-column>
           <el-table-column prop="creater" label="创建者"></el-table-column>
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
-              <el-button size="small"
+              <el-button
+                size="small"
                 type="success"
                 plain
                 v-on:click="
                   $router.push({
-                    path: `/shareFiles/detail/`+row.id,
+                    path: `/shareFiles/detail/` + row.id
                   })
                 "
-              >查看</el-button>
-              <el-button size="small"
+                >查看</el-button
+              >
+              <el-button
+                size="small"
                 type="primary"
                 plain
-                v-if="loggedinUserType===1 || loggedinUserType===0"
+                v-if="isShowAddButton"
                 v-on:click="
                   $router.push({
-                    path: `/shareFiles/edit/`+row.id,
+                    path: `/shareFiles/edit/` + row.id,
                     query: {
                       id: row.id
                     }
                   })
                 "
-              >修改</el-button>
-              <el-button size="small"
+                >修改</el-button
+              >
+              <el-button
+                size="small"
                 type="danger"
                 plain
-                v-if="loggedinUserType===1 || loggedinUserType===0"
+                v-if="isShowAddButton"
                 @click="confirmDelete(row.id)"
-              >删除</el-button>
+                >删除</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -84,6 +114,7 @@
   </div>
 </template>
 <script>
+import Storage from "store";
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
 import Auth from "@/services/authentication/auth.js";
@@ -102,14 +133,18 @@ export default {
       listLoading: true,
       total: 0,
       tableData: [],
-      loggedinUserType: null,
+      isShowAddButton: null,
       dialogVisible: false,
       selectedId: null
     };
   },
   created() {
     this.getList();
-    this.loggedinUserType = Auth().user().userType;
+    this.isShowAddButton = Storage.get("authList").find(
+      x => x.privilegeCode == "addShareFiles"
+    )
+      ? true
+      : false;
   },
   methods: {
     getList() {
@@ -158,5 +193,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

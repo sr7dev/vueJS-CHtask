@@ -6,17 +6,29 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <div class="iptBox" v-if="loggedinUserType !== 3">
+      <div class="iptBox" v-if="isShowAddButton">
         <div class="select_label no-margin-left">乡镇</div>
         <el-select placeholder v-model="currTown" @change="getList">
-          <el-option v-for="town in township" :key="town.id" :label="town.name" :value="town.id"></el-option>
+          <el-option
+            v-for="town in township"
+            :key="town.id"
+            :label="town.name"
+            :value="town.id"
+          ></el-option>
         </el-select>
         <div class="select_label">状态</div>
         <el-select v-model="status" placeholder="请选择" @change="getList">
-          <el-option v-for="(item, index) in appStatus" :key="item" :label="item" :value="index"></el-option>
+          <el-option
+            v-for="(item, index) in appStatus"
+            :key="item"
+            :label="item"
+            :value="index"
+          ></el-option>
         </el-select>
-        <div class="select_label">
-          <el-button size="small" disabled type="primary" plain>同步数据</el-button>
+        <div class="select_label" v-if="isShowAddButton">
+          <el-button size="small" disabled type="primary" plain
+            >同步数据</el-button
+          >
         </div>
       </div>
 
@@ -29,12 +41,14 @@
           :row-class-name="rowIndex"
           highlight-current-row
         >
-          <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
+          <el-table-column
+            :formatter="order"
+            label="序号"
+            width="70"
+          ></el-table-column>
           <el-table-column label="名称" width="150">
             <template slot-scope="{ row }">
-              {{
-              filterCompnay(row.creditCode)
-              }}
+              {{ filterCompnay(row.creditCode) }}
             </template>
           </el-table-column>
           <el-table-column label="原信用评级">
@@ -63,15 +77,13 @@
           </el-table-column>
           <el-table-column prop="gradeTime" label="评级时间">
             <template slot-scope="{ row }">
-              {{
-              row.gradeTime | formatDate
-              }}
+              {{ row.gradeTime | formatDate }}
             </template>
           </el-table-column>
           <el-table-column prop="creditAvailableStart" label="评级有效期">
             <template slot-scope="{ row }">
               {{ row.creditAvailableStart | formatDate }}至{{
-              row.creditAvailableEnd | formatDate
+                row.creditAvailableEnd | formatDate
               }}
             </template>
           </el-table-column>
@@ -79,31 +91,36 @@
           <!-- <el-table-column prop="approvalStatus" label="状态" width="100"></el-table-column> -->
           <el-table-column label="状态" width="100">
             <template slot-scope="{ row }">
-              {{
-              getStatus(row.approvalStatus)
-              }}
+              {{ getStatus(row.approvalStatus) }}
             </template>
           </el-table-column>
-          <el-table-column label="操作" v-if="loggedinUserType !== 3" class-name="text-center">
+          <el-table-column
+            label="操作"
+            v-if="isShowAddButton"
+            class-name="text-center"
+          >
             <template slot-scope="{ row }">
               <el-button
                 size="small"
                 v-on:click="$router.push(`/creditRating/${row.creditGradeId}`)"
                 plain
                 type="success"
-                v-if="loggedinUserType === 1 || loggedinUserType === 0"
-              >查看</el-button>
+                v-if="isShowDetail"
+                >查看</el-button
+              >
               <el-button
                 size="small"
                 plain
                 type="success"
-                v-if="loggedinUserType === 2 || loggedinUserType === 0"
+                v-if="isShowEditButton"
                 v-on:click="
                   $router.push({
                     path: `/creditRating/edit/${row.creditGradeId}`,
                     query: { company: filterCompnay(row.creditCode) }
-                  })"
-              >修改评级</el-button>
+                  })
+                "
+                >修改评级</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -122,6 +139,7 @@
 </template>
 
 <script>
+import Storage from "store";
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
 import Auth from "@/services/authentication/auth.js";
@@ -143,15 +161,31 @@ export default {
       listLoading: true,
       total: 100,
       tableData: [],
-      loggedinUserType: null,
+      isShowAddButton: null,
+      isShowEditButton: null,
+      isShowDetail: null,
       colors: { 1: "#f00", 2: "#F7BA2A", 3: "#0f0" }
     };
   },
   created() {
+    this.isShowAddButton = Storage.get("authList").find(
+      x => x.privilegeCode == "synccreditRating"
+    )
+      ? true
+      : false;
+    this.isShowEditButton = Storage.get("authList").find(
+      x => x.privilegeCode == "editCreditRating"
+    )
+      ? true
+      : false;
+    this.isShowDetail = Storage.get("authList").find(
+      x => x.privilegeCode == "detailCreditRating"
+    )
+      ? true
+      : false;
     this.getTown();
     this.getList();
     this.getCompanyProduction();
-    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     rowIndex({ row, rowIndex }) {

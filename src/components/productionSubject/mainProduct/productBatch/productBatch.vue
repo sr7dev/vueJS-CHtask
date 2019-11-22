@@ -13,7 +13,7 @@
           <el-button
             size="small"
             type="primary"
-            v-if="loggedinUserType === 3 || loggedinUserType === 0"
+            v-if="isShowAddButton"
             plain
             v-on:click="$router.push({path: `/productionSubject/mainProduct/productBatch/${productId}/create`})"
           >添加</el-button>
@@ -427,7 +427,7 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          v-if="loggedinUserType === 3 || loggedinUserType === 0"
+          v-if="isShowAddButton"
           class-name="text-center"
           width="160"
         >
@@ -483,12 +483,12 @@
 </template>
 
 <script>
+import Storage from "store";
 import Pagination from "@/components/common/pagination";
 import Auth from "@/services/authentication/auth.js";
 import Request from "@/services/api/request.js";
 import { Urls } from "@/services/constants.js";
 import axios from "axios";
-import Storage from "store";
 export default {
   name: "productBatch",
   components: { Pagination },
@@ -501,7 +501,6 @@ export default {
       file_live_2: null,
       fileName3: "",
       file_live_3: null,
-      loggedinUserType: null,
       productId: -1,
       itemId: null,
       page: {
@@ -510,6 +509,7 @@ export default {
       },
       total: 0,
       radio: "1",
+      isShowAddButton: null,
       tableData: null,
       confirm_dialogVisible: false,
       listLoading: false,
@@ -559,6 +559,11 @@ export default {
   },
   async created() {
     this.productId = this.$route.params.id;
+    this.isShowAddButton = Storage.get("authList").find(
+      x => x.privilegeCode == "addProductBatch"
+    )
+      ? true
+      : false;
     this.downloadUrl = Urls.DOWNLOAD_URL();
     this.companyId = this.$route.query.companyId;
     if (this.companyId) {
@@ -568,7 +573,6 @@ export default {
     this.getTaskList();
     this.getProductProperty();
     this.getList();
-    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     async getList() {

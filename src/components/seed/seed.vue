@@ -7,12 +7,14 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button size="small"
+        <el-button
+          size="small"
           type="primary"
           plain
           v-on:click="$router.push(`/seed/upload`)"
-          v-if="loggedinUserType === 2 || loggedinUserType === 0"
-        >上传种子</el-button>
+          v-if="isShowAddButton"
+          >上传种子</el-button
+        >
       </div>
       <el-container>
         <el-table
@@ -24,23 +26,28 @@
         >
           <el-table-column :formatter="order" label="序号"></el-table-column>
           <el-table-column prop="companyId" label="企业名称">
-            <template slot-scope="{ row }">{{filterCompany( row.companyId )}}</template>
+            <template slot-scope="{ row }">{{
+              filterCompany(row.companyId)
+            }}</template>
           </el-table-column>
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
-              <el-button size="small"
+              <el-button
+                size="small"
                 type="success"
                 plain
                 v-on:click="
                   $router.push({
-                    path: `/seed/detail/${row.id}`, query:{
-                      cityId:row.cityId,
+                    path: `/seed/detail/${row.id}`,
+                    query: {
+                      cityId: row.cityId,
                       townId: row.townId,
-                      villageId:row.villageId
+                      villageId: row.villageId
                     }
                   })
                 "
-              >种子</el-button>
+                >种子</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -60,6 +67,7 @@
 </template>
 
 <script>
+import Storage from "store";
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
 import Auth from "@/services/authentication/auth.js";
@@ -68,7 +76,6 @@ export default {
   components: { Pagination },
   data() {
     return {
-      loggedinUserType: null,
       page: {
         pageIndex: 1,
         pageSize: 20
@@ -76,13 +83,18 @@ export default {
       total: 0,
       tableData: [],
       listLoading: false,
+      isShowAddButton: null,
       companyProduction: null
     };
   },
   created() {
+    this.isShowAddButton = Storage.get("authList").find(
+      x => x.privilegeCode == "uploadSeed"
+    )
+      ? true
+      : false;
     this.getData();
     this.getCompanyProduction();
-    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     getData() {
@@ -132,5 +144,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

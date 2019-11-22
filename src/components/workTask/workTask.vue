@@ -34,8 +34,9 @@
               type="primary"
               v-on:click="$router.push(`/workTask/create`)"
               plain
-              v-if="loggedinUserType === 1 || loggedinUserType === 0"
-            >添加工作任务</el-button>
+              v-if="isShowAddButton"
+              >添加工作任务</el-button
+            >
           </el-col>
         </el-row>
       </div>
@@ -48,30 +49,44 @@
           :row-class-name="rowIndex"
           highlight-current-row
         >
-          <el-table-column :formatter="order" label="序号" width="100"></el-table-column>
-          <el-table-column prop="releaseTime" label="发布时间" class-name="text-center">
-            <template slot-scope="{ row }">{{ row.releaseTime | formatDate }}</template>
+          <el-table-column
+            :formatter="order"
+            label="序号"
+            width="100"
+          ></el-table-column>
+          <el-table-column
+            prop="releaseTime"
+            label="发布时间"
+            class-name="text-center"
+          >
+            <template slot-scope="{ row }">{{
+              row.releaseTime | formatDate
+            }}</template>
           </el-table-column>
           <el-table-column prop="title" label="标题"></el-table-column>
-          <el-table-column prop="releasePerson" label="发布者"></el-table-column>
+          <el-table-column
+            prop="releasePerson"
+            label="发布者"
+          ></el-table-column>
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
               <el-button
                 size="small"
                 type="warning"
                 plain
-                v-if="loggedinUserType === 1 || loggedinUserType === 0"
+                v-if="isShowAddButton"
                 v-on:click="
                   $router.push({
                     path: `/workTask/edit/${row.id}`
                   })
                 "
-              >修改</el-button>
+                >修改</el-button
+              >
               <el-button
                 size="small"
                 type="success"
                 plain
-                v-if="loggedinUserType === 2 || loggedinUserType === 0"
+                v-if="isShowEditButton"
                 v-on:click="
                   $router.push({
                     path: `/workTask/report/create`,
@@ -80,18 +95,20 @@
                     }
                   })
                 "
-              >查看任务</el-button>
+                >查看任务</el-button
+              >
               <el-button
                 size="small"
                 type="primary"
                 plain
-                v-if="loggedinUserType === 1 || loggedinUserType === 0"
+                v-if="isShowAddButton"
                 v-on:click="
                   $router.push({
-                    path: `/workTask/report/detail/`+ row.id
+                    path: `/workTask/report/detail/` + row.id
                   })
                 "
-              >查看任务进度</el-button>
+                >查看任务进度</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -109,6 +126,7 @@
   </div>
 </template>
 <script>
+import Storage from "store";
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
 import Auth from "@/services/authentication/auth.js";
@@ -125,13 +143,23 @@ export default {
       },
       listLoading: true,
       total: 0,
-      tableData: [],
-      loggedinUserType: null
+      isShowAddButton: null,
+      isShowEditButton: null,
+      tableData: []
     };
   },
   created() {
+    this.isShowAddButton = Storage.get("authList").find(
+      x => x.privilegeCode == "addWorkTask"
+    )
+      ? true
+      : false;
+    this.isShowEditButton = Storage.get("authList").find(
+      x => x.privilegeCode == "addWorkTaskReport"
+    )
+      ? true
+      : false;
     this.getList();
-    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     getList() {
@@ -168,5 +196,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

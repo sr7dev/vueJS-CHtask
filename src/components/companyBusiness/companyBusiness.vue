@@ -6,10 +6,14 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <div class="iptBox">
+      <div class="iptBox" v-if="isShowSearchButton">
         <div class="filter-item">
           <div class="select_label no-margin-left">行业</div>
-          <el-select v-model="productType" placeholder="请选择" @change="getList()">
+          <el-select
+            v-model="productType"
+            placeholder="请选择"
+            @change="getList()"
+          >
             <el-option
               v-for="item in productTypes"
               :key="item.value"
@@ -21,7 +25,11 @@
 
         <div class="filter-item">
           <div class="select_label">行业</div>
-          <el-select v-model="companyScale" placeholder="请选择" @change="getList()">
+          <el-select
+            v-model="companyScale"
+            placeholder="请选择"
+            @change="getList()"
+          >
             <el-option
               v-for="item in companyScales"
               :key="item.value"
@@ -38,30 +46,69 @@
           :row-class-name="rowIndex"
           v-loading="listLoading"
         >
-          <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
-          <el-table-column prop="companyName" label="企业名称" width="120"></el-table-column>
+          <el-table-column
+            :formatter="order"
+            label="序号"
+            width="70"
+          ></el-table-column>
+          <el-table-column
+            prop="companyName"
+            label="企业名称"
+            width="120"
+          ></el-table-column>
           <el-table-column prop="companyScale" label="企业规模" width="120">
-            <template slot-scope="{ row }">{{ companyScales[row.companyScale].label }}</template>
+            <template slot-scope="{ row }">{{
+              companyScales[row.companyScale].label
+            }}</template>
           </el-table-column>
           <el-table-column prop="productType" label="产品类型" width="120">
-            <template slot-scope="{ row }">{{ productTypes[row.productType].label }}</template>
+            <template slot-scope="{ row }">{{
+              productTypes[row.productType].label
+            }}</template>
           </el-table-column>
-          <el-table-column prop="legalPerson" label="法定代表人" width="150"></el-table-column>
-          <el-table-column prop="companyAddress" label="企业地址" width="120"></el-table-column>
-          <el-table-column prop="creditCode" label="社会信用统一代码" width="200"></el-table-column>
+          <el-table-column
+            prop="legalPerson"
+            label="法定代表人"
+            width="150"
+          ></el-table-column>
+          <el-table-column
+            prop="companyAddress"
+            label="企业地址"
+            width="120"
+          ></el-table-column>
+          <el-table-column
+            prop="creditCode"
+            label="社会信用统一代码"
+            width="200"
+          ></el-table-column>
           <el-table-column prop="contactWay" label="联系方式"></el-table-column>
           <el-table-column prop="supervisionNature" label="监管对象性质">
-            <template slot-scope="{ row }">{{ supervisions[row.supervisionNature] }}</template>
+            <template slot-scope="{ row }">{{
+              supervisions[row.supervisionNature]
+            }}</template>
           </el-table-column>
-          <el-table-column prop="operations" label="操作" width="250" class-name="text-center">
+          <el-table-column
+            prop="operations"
+            label="操作"
+            width="250"
+            class-name="text-center"
+          >
             <template slot-scope="{ row }">
-              <el-button size="small" v-on:click="gotoDetailPage(row)" plain type="primary">企业详情</el-button>
+              <el-button
+                size="small"
+                v-on:click="gotoDetailPage(row)"
+                plain
+                type="primary"
+                v-if="isShowSearchButton"
+                >企业详情</el-button
+              >
               <el-button
                 size="small"
                 v-on:click="gotoProductBusinessPage(row)"
                 plain
                 type="success"
-              >经营产品</el-button>
+                >经营产品</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -80,6 +127,7 @@
 </template>
 
 <script>
+import Storage from "store";
 import Pagination from "@/components/common/pagination";
 import Request from "@/services/api/request";
 export default {
@@ -116,10 +164,16 @@ export default {
         }
       ],
       tableData: [],
-      listLoading: false
+      listLoading: false,
+      isShowSearchButton: null
     };
   },
   created() {
+    this.isShowSearchButton = Storage.get("authList").find(
+      x => x.privilegeCode == "searchcompanyBusiness"
+    )
+      ? true
+      : false;
     this.getList();
   },
   methods: {

@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item v-if="loggedinUserType === 3">生产主体</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="isShowAddButton">生产主体</el-breadcrumb-item>
         <el-breadcrumb-item v-else>监管对象</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">主营产品</el-breadcrumb-item>
       </el-breadcrumb>
@@ -10,13 +10,17 @@
     <div class="box">
       <div class="iptBox">
         <div class="filter-item">
-          <el-button size="small"
+          <el-button
+            size="small"
             type="primary"
-            v-if="loggedinUserType === 3 || loggedinUserType === 0"
+            v-if="isShowAddButton"
             @click="$router.push(`/productionSubject/mainProduct/create/${id}`)"
             plain
-          >添加</el-button>
-          <el-button size="small" type="primary" plain @click="$router.go(-1)">返回</el-button>
+            >添加</el-button
+          >
+          <el-button size="small" type="primary" plain @click="$router.go(-1)"
+            >返回</el-button
+          >
         </div>
       </div>
       <el-table
@@ -25,76 +29,103 @@
         :row-class-name="rowIndex"
         v-loading="listLoading"
       >
-        <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
+        <el-table-column
+          :formatter="order"
+          label="序号"
+          width="70"
+        ></el-table-column>
         <el-table-column prop="productName" label="产品名称"></el-table-column>
         <el-table-column prop="doOrganic" label="是否为有机产品">
-          <template slot-scope="{ row }">{{ row.doOrganic ? "是" : "否" }}</template>
+          <template slot-scope="{ row }">{{
+            row.doOrganic ? "是" : "否"
+          }}</template>
         </el-table-column>
         <el-table-column prop="atunitprice" label="单价"></el-table-column>
         <el-table-column prop="productArea" label="产地"></el-table-column>
         <el-table-column prop="variety" label="品种"></el-table-column>
         <el-table-column prop="specification" label="规格"></el-table-column>
         <el-table-column prop="grade" label="评级"></el-table-column>
-        <el-table-column prop="operations" label="操作" width="270" class-name="text-right">
+        <el-table-column
+          prop="operations"
+          label="操作"
+          width="270"
+          class-name="text-right"
+        >
           <template slot-scope="{ row }">
-            <el-button size="small"
+            <el-button
+              size="small"
               v-on:click="showSamplingRecord(row)"
               type="success"
               plain
               style="margin-bottom: 5px;"
-            >第三方抽检记录</el-button>
-            <el-button size="small"
+              >第三方抽检记录</el-button
+            >
+            <el-button
+              size="small"
               v-on:click="showProductBatch(row)"
               type="success"
               plain
               style="margin-bottom: 5px;"
-            >产品批次</el-button>
-            <el-button size="small"
+              >产品批次</el-button
+            >
+            <el-button
+              size="small"
               v-on:click="showProductVariety(row)"
               type="success"
               plain
               style="margin-bottom: 5px;"
-              v-if="loggedinUserType === 3 || loggedinUserType === 0"
-            >品种定义</el-button>
-            <el-button size="small"
+              v-if="isShowAddButton"
+              >品种定义</el-button
+            >
+            <el-button
+              size="small"
               v-on:click="showProductGrade(row)"
               type="success"
               plain
               style="margin-bottom: 5px;"
-              v-if="loggedinUserType === 3 || loggedinUserType === 0"
-            >定义等级</el-button>
+              v-if="isShowAddButton"
+              >定义等级</el-button
+            >
           </template>
         </el-table-column>
         <el-table-column prop="operations" label width="230" class="text-left">
           <template slot-scope="{ row }">
-            <el-button size="small"
+            <el-button
+              size="small"
               v-on:click="showInventoryDynamics(row)"
               type="success"
               plain
               style="margin-bottom: 5px;"
-            >库存动态</el-button>
-            <el-button size="small"
+              >库存动态</el-button
+            >
+            <el-button
+              size="small"
               v-on:click="goToEditMainProduct(row)"
               type="success"
               plain
               style="margin-bottom: 5px;"
-              v-if="loggedinUserType === 3 || loggedinUserType === 0"
-            >修改</el-button>
-            <el-button size="small"
+              v-if="isShowAddButton"
+              >修改</el-button
+            >
+            <el-button
+              size="small"
               v-on:click="showProductProperty(row)"
               type="success"
               plain
               style="margin-bottom: 5px;"
               class="no-margin-left"
-              v-if="loggedinUserType === 3 || loggedinUserType === 0"
-            >属性管理</el-button>
-            <el-button size="small"
+              v-if="isShowAddButton"
+              >属性管理</el-button
+            >
+            <el-button
+              size="small"
               v-on:click="showProcessDefinition(row)"
               type="success"
               plain
               style="margin-bottom: 5px;"
-              v-if="loggedinUserType === 3 || loggedinUserType === 0"
-            >作业定义</el-button>
+              v-if="isShowAddButton"
+              >作业定义</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -112,6 +143,7 @@
 </template>
 
 <script>
+import Storage from "store";
 import sampleData from "./_data";
 import Pagination from "@/components/common/pagination";
 import Request from "@/services/api/request";
@@ -121,7 +153,6 @@ export default {
   components: { Pagination },
   data() {
     return {
-      loggedinUserType: null,
       id: -1,
       page: {
         pageIndex: 1,
@@ -130,13 +161,18 @@ export default {
       total: 0,
       radio: "1",
       tableData: [],
-      listLoading: true
+      listLoading: true,
+      isShowAddButton: null
     };
   },
   created() {
     this.id = this.$route.params.id;
+    this.isShowAddButton = Storage.get("authList").find(
+      x => x.privilegeCode == "addMainProduct"
+    )
+      ? true
+      : false;
     this.getList();
-    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     showSamplingRecord(row) {
@@ -190,7 +226,7 @@ export default {
           company_id: this.id,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
-          sortBy:"productId"
+          sortBy: "productId"
         })
         .then(response => {
           this.tableData = response.data;

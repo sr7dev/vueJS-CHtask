@@ -9,15 +9,21 @@
     <div class="box">
       <div class="iptBox">
         <div class="filter-item">
-          <el-button size="small"
+          <el-button
+            size="small"
             type="primary"
             plain
-            @click="$router.push({
-              path: `/productionSubject/warehouseEnv/addWarehouse/${id}`              
-            })"
-            v-if="loggedinUserType === 3 || loggedinUserType === 0"
-          >添加</el-button>
-          <el-button size="small" type="primary" plain @click="$router.go(-1)">返回</el-button>
+            @click="
+              $router.push({
+                path: `/productionSubject/warehouseEnv/addWarehouse/${id}`
+              })
+            "
+            v-if="isShowAddButton"
+            >添加</el-button
+          >
+          <el-button size="small" type="primary" plain @click="$router.go(-1)"
+            >返回</el-button
+          >
         </div>
       </div>
       <el-table
@@ -26,39 +32,49 @@
         :row-class-name="rowIndex"
         v-loading="listLoading"
       >
-        <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
+        <el-table-column
+          :formatter="order"
+          label="序号"
+          width="70"
+        ></el-table-column>
         <el-table-column prop="warehouseName" label="仓库名称">
-          <template slot-scope="{ row }">{{row.warehouseName}}</template>
+          <template slot-scope="{ row }">{{ row.warehouseName }}</template>
         </el-table-column>
         <el-table-column prop="warehouseAddress" label="仓库地址">
-          <template slot-scope="{ row }">{{row.warehouseAddress}}</template>
+          <template slot-scope="{ row }">{{ row.warehouseAddress }}</template>
         </el-table-column>
         <el-table-column prop="warehouseArea" label="仓库面积">
-          <template slot-scope="{ row }">{{row.warehouseArea}}</template>
+          <template slot-scope="{ row }">{{ row.warehouseArea }}</template>
         </el-table-column>
         <el-table-column prop="warehouseScope" label="仓库规模">
-          <template slot-scope="{ row }">{{row.warehouseScope}}</template>
+          <template slot-scope="{ row }">{{ row.warehouseScope }}</template>
         </el-table-column>
         <el-table-column label="操作" class-name="text-center">
           <template slot-scope="{ row }">
-            <el-button size="small"
+            <el-button
+              size="small"
               type="success"
               v-on:click="showDetailWarehouse(row)"
               plain
-              v-if="loggedinUserType === 3 || loggedinUserType === 0"
-            >修改</el-button>
-            <el-button size="small"
+              v-if="isShowAddButton"
+              >修改</el-button
+            >
+            <el-button
+              size="small"
               type="danger"
               v-on:click="handleDelete(`${row.id}`)"
               plain
-              v-if="loggedinUserType === 3 || loggedinUserType === 0"
-            >删除</el-button>
-            <el-button size="small"
+              v-if="isShowAddButton"
+              >删除</el-button
+            >
+            <el-button
+              size="small"
               type="primary"
               plain
               v-on:click="showViewWarehouse(row)"
-              v-if="loggedinUserType !== 3"
-            >查看</el-button>
+              v-if="isShowViewButton"
+              >查看</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -76,6 +92,7 @@
 </template>
 
 <script>
+import Storage from "store";
 import Request from "@/services/api/request";
 import Pagination from "@/components/common/pagination";
 import Auth from "@/services/authentication/auth.js";
@@ -84,7 +101,6 @@ export default {
   components: { Pagination },
   data() {
     return {
-      loggedinUserType: null,
       id: -1,
       page: {
         pageIndex: 1,
@@ -93,13 +109,24 @@ export default {
       listLoading: true,
       total: 0,
       radio: "1",
-      tableData: []
+      tableData: [],
+      isShowAddButton: null,
+      isShowViewButton: null
     };
   },
   created() {
     this.id = this.$route.params.id;
+    this.isShowAddButton = Storage.get("authList").find(
+      x => x.privilegeCode == "addWarehouse"
+    )
+      ? true
+      : false;
+    this.isShowViewButton = Storage.get("authList").find(
+      x => x.privilegeCode == "viewWarehouse"
+    )
+      ? true
+      : false;
     this.getList(this.id);
-    this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     showDetailWarehouse(row) {

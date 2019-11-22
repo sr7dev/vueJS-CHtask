@@ -6,7 +6,7 @@
       </el-breadcrumb>
     </div>
     <div class="box">
-      <div class="iptBox" v-if="loggedinUserType === 2 || loggedinUserType === 0">
+      <div class="iptBox" v-if="isShowAddButton">
         <div class="iptBox w-100">
           <div class="filter-item">
             <el-button
@@ -14,9 +14,13 @@
               type="primary"
               v-on:click="$router.push(`/trainingFunds/add`)"
               plain
-            >添加</el-button>
+              >添加</el-button
+            >
           </div>
-          <div class="special-container inline-block-IE float-right-IE" style="margin-left:auto">
+          <div
+            class="special-container inline-block-IE float-right-IE"
+            style="margin-left:auto"
+          >
             <el-button
               size="small"
               type="success"
@@ -24,7 +28,8 @@
               v-if="isShowCheckbox != 0"
               plain
               @click="actionConfirm(1)"
-            >添加到专项</el-button>
+              >添加到专项</el-button
+            >
             <el-button
               size="small"
               type="danger"
@@ -33,14 +38,16 @@
               plain
               @click="actionConfirm(0)"
               style="margin-right:10px"
-            >从专项1移除</el-button>
+              >从专项1移除</el-button
+            >
             <el-checkbox
               v-model="isShowCheckbox"
               true-label="1"
               false-label="0"
               @change="showCheckbox"
               class="margin-top-10"
-            >专项1:绿色优质农产品生产基地</el-checkbox>
+              >专项1:绿色优质农产品生产基地</el-checkbox
+            >
           </div>
         </div>
       </div>
@@ -49,7 +56,13 @@
           <i class="el-icon-warning">&nbsp;请选择 !!!</i>
         </span>
         <span slot="footer" class="dialog-footer">
-          <el-button size="small" @click="alert_dialogVisible = false" type="primary" plain>取消</el-button>
+          <el-button
+            size="small"
+            @click="alert_dialogVisible = false"
+            type="primary"
+            plain
+            >取消</el-button
+          >
         </span>
       </el-dialog>
       <el-dialog :visible.sync="confirm_dialogVisible" width="30%" modal>
@@ -57,8 +70,20 @@
           <i class="el-icon-warning">&nbsp;继续？请再次检查</i>
         </span>
         <span slot="footer" class="dialog-footer">
-          <el-button size="small" @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
-          <el-button size="small" :type="btnColor" @click="updateSelectedRows()" plain>确认</el-button>
+          <el-button
+            size="small"
+            @click="confirm_dialogVisible = false"
+            type="primary"
+            plain
+            >取消</el-button
+          >
+          <el-button
+            size="small"
+            :type="btnColor"
+            @click="updateSelectedRows()"
+            plain
+            >确认</el-button
+          >
         </span>
       </el-dialog>
       <el-container>
@@ -81,13 +106,20 @@
             </template>
           </el-table-column>
           <el-table-column :formatter="order" label="序号"></el-table-column>
-          <el-table-column prop="projectName" label="项目名称"></el-table-column>
+          <el-table-column
+            prop="projectName"
+            label="项目名称"
+          ></el-table-column>
           <el-table-column prop="appliedAmount" label="申请金额">
-            <template slot-scope="{ row }">{{ Number(row.appliedAmount).toFixed(2) }}元</template>
+            <template slot-scope="{ row }"
+              >{{ Number(row.appliedAmount).toFixed(2) }}元</template
+            >
           </el-table-column>
           <el-table-column prop="proposer" label="申请人"></el-table-column>
           <el-table-column prop="companyId" label="所在单位">
-            <template slot-scope="{ row }">{{ filterCompnay(row.companyId) }}</template>
+            <template slot-scope="{ row }">{{
+              filterCompnay(row.companyId)
+            }}</template>
           </el-table-column>
           <!-- <el-table-column prop="status" label="状态">
           </el-table-column>-->
@@ -97,11 +129,19 @@
                 size="small"
                 type="success"
                 plain
-                v-on:click="$router.push({path: `/trainingFunds/view/${row.id}`})"
-              >查看</el-button>
+                v-on:click="
+                  $router.push({ path: `/trainingFunds/view/${row.id}` })
+                "
+                >查看</el-button
+              >
             </template>
           </el-table-column>
-          <el-table-column prop="yield" label="专项1" align="center" width="100">
+          <el-table-column
+            prop="yield"
+            label="专项1"
+            align="center"
+            width="100"
+          >
             <template slot-scope="{ row }">
               <i class="el-icon-check" v-if="row.specialFlag"></i>
             </template>
@@ -121,6 +161,7 @@
   </div>
 </template>
 <script>
+import Storage from "store";
 import Pagination from "@/components/common/pagination";
 import Request from "../../services/api/request.js";
 import Auth from "@/services/authentication/auth.js";
@@ -143,10 +184,10 @@ export default {
       listLoading: false,
       total: 0,
       tableData: [],
-      loggedinUserType: null,
       companyProduction: [],
       appStatus: ["全部", "待审批", "已同意", "已拒绝"],
       isShowCheckbox: 0,
+      isShowAddButton: null,
       selectedRows: [],
       alert_dialogVisible: false,
       confirm_dialogVisible: false,
@@ -160,7 +201,11 @@ export default {
     this.getList();
   },
   created() {
-    this.loggedinUserType = Auth().user().userType;
+    this.isShowAddButton = Storage.get("authList").find(
+      x => x.privilegeCode == "addTrainingFunds"
+    )
+      ? true
+      : false;
   },
   methods: {
     order(row) {
