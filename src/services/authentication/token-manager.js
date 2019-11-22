@@ -22,6 +22,18 @@ class TokenManager {
     Storage.remove(StorageKeys.ACCESS_TOKEN_KEY);
   }
 
+  get authToken() {
+    return Storage.get(StorageKeys.AUTH_TOKEN_KEY);
+  }
+
+  set authToken(token) {
+    Storage.set(StorageKeys.AUTH_TOKEN_KEY, token);
+  }
+
+  removeAuthToken() {
+    Storage.remove(StorageKeys.AUTH_TOKEN_KEY);
+  }
+
   get refreshToken() {
     return Storage.get(StorageKeys.REFRESH_TOKEN_KEY);
   }

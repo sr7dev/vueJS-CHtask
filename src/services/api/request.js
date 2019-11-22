@@ -20,7 +20,14 @@ class Request {
    * @return {String}     Final url
    */
   baseUrl(url) {
-    return Urls.API_BASE_URL() + url;
+    if (
+      url.indexOf("/agriculture") == -1 &&
+      url.indexOf("/userAuthList") == -1
+    ) {
+      return Urls.API_BASE_URL() + url;
+    } else {
+      return Urls.API_AUTH_URL() + url;
+    }
   }
 
   /**
@@ -73,6 +80,9 @@ class Request {
       http.defaults.headers.common[
         "Authorization"
       ] = TokenManager().accessToken;
+    }
+    if (url.indexOf("/userAuthList") != -1) {
+      http.defaults.headers.common["accessToken"] = TokenManager().authToken;
     }
     return http[method](this.baseUrl(url), options).then(
       success => {

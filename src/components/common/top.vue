@@ -10,12 +10,13 @@
       mode="horizontal"
       background-color="#253032"
       text-color="#ffffff"
-      v-if="loggedinUserType!==3"
+      v-if="menuShowArr['statisticsSupervision']"
     >
       <el-menu-item index="/statisticsCredit">
         <router-link slot="title" to="/statisticsCredit">
           <span>
-            <i class="el-icon-data-analysis vertical-text-bottom"></i>诚信系统看板
+            <i class="el-icon-data-analysis vertical-text-bottom"></i
+            >诚信系统看板
           </span>
         </router-link>
       </el-menu-item>
@@ -51,7 +52,7 @@
     <div class="quit">
       <span style="padding-right: 20px">
         <img src="../../assets/images/head.png" alt />
-        {{userName}}
+        {{ userName }}
       </span>
       <span @click="quit()">
         <img src="../../assets/images/quit.png" alt />
@@ -64,6 +65,7 @@
 <script type="text/ecmascript-6">
 import Toast from "@/utils/toast";
 import EventBus from "@/utils/event";
+import Storage from "store";
 import Auth from "@/services/authentication/auth";
 export default {
   name: "",
@@ -71,11 +73,16 @@ export default {
     return {
       title: "平台",
       userName: "",
-      loggedinUserType: null
+      menuList: null,
+      menuShowArr: new Array()
     };
   },
   created() {
-    this.loggedinUserType = Auth().user().userType;
+     this.menuList = Storage.get("authList").filter(el => el.type == 1);
+    for (let i = 0; i < this.menuList.length; i++) {
+      let index = this.menuList[i].privilegeCode;
+      this.menuShowArr[index] = 1;
+    }
     this.userName = Auth().user().contactName;
   },
   methods: {
