@@ -26,11 +26,51 @@ class Auth {
   }
 
   /**
+   * get parameter from URL
+   */
+
+  getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+      results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return "";
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+  }
+
+  /**
    * Whether a user has logged in
    * @return {Boolean}
    */
+
   check() {
-    return this.user() != null && Boolean(TokenManager().accessToken);
+    // return this.user() != null && Boolean(TokenManager().accessToken);
+    if (!this.getParameterByName("timestamp") ||
+      !this.getParameterByName("alitoken") ||
+      !this.getParameterByName("sign")
+    )
+      return false;
+    return Request()
+      .post("/api/user/getAuthByAliToken", {
+        aliToken: this.getParameterByName("alitoken").replace("%20", " ")
+      })
+      .then(
+        success => {
+          Storage.set(
+            "authList",
+            JSON.parse(success.authListInfo).result[0].privilegeList
+          );
+          Storage.set("userData", JSON.parse(success.userInfo).result);
+          TokenManager().accessToken = success.token;
+          window.history.replaceState({}, document.title, "/");
+          return Promise.resolve(success);
+        },
+        error => {
+          this.clearSavedData();
+          window.history.replaceState({}, document.title, "/");
+          return Promise.reject(error);
+        }
+      );
   }
 
   /**
@@ -69,22 +109,6 @@ class Auth {
     }
     // save user's tokens
     TokenManager().accessToken = data["token"];
-    switch (data["userId"]) {
-      case "13333333336":
-        TokenManager().authToken =
-          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMzMzMzMzMzMzNiIsImF1dGhvcml0aWVzIjoiW10iLCJleHAiOjE1NzQ0NzI2OTZ9.qghFb0qPhs3iFELVvlX9KtR5mT_lx09JAoF31M4s-rvEbnkhYJXmx4YfUjtDPuyhscCyM-3P8DZs4j4LwXQPtw";
-        break;
-      case "13333333337":
-        TokenManager().authToken =
-          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMzMzMzMzMzMzNyIsImF1dGhvcml0aWVzIjoiW10iLCJleHAiOjE1NzQ0NzI3Mjh9.kpfD63_N0JtfBE_p-dZI05ZQutva1Ok219nvR6Gm3T2AVuXgOiL-YNQiBQSu-YmAwM_F_9wlE4hWatuhtb7VWA";
-        break;
-      case "13333333338":
-        TokenManager().authToken =
-          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMzMzMzMzMzMzOCIsImF1dGhvcml0aWVzIjoiW10iLCJleHAiOjE1NzQ0NzI3NDl9.IA19MbaRXvQ73AD-weWWTyu1Z9ouuJPeQmqUfHzfAWZamQOeRFhXrW2BL2mH4ymVuNeI-LsikcsuMt04Ne-8vg";
-        break;
-      default:
-        return null;
-    }
     // // bind token to api request
     this.setToken();
 
@@ -178,25 +202,6 @@ class Auth {
       .then(
         success => {
           this.createUserFrom(success);
-          switch (formData.username) {
-            case "13333333336":
-              Storage.set("authList", privilegeList1);
-              break;
-            case "13333333337":
-              Storage.set("authList", privilegeList2);
-              break;
-            case "13333333338":
-              Storage.set("authList", privilegeList3);
-              break;
-            default:
-              return null;
-          }
-          // Request()
-          //   .get("/api/userAuthList")
-          //   .then(
-          //     success => {},
-          //     error => {}
-          //   );
           return Promise.resolve(success);
         },
         error => {

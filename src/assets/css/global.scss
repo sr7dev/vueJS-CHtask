@@ -12,7 +12,7 @@ body {
 }
 
 .large-font {
-  font-size: 28px!important;
+  font-size: 28px !important;
 }
 
 .middle-font {
@@ -109,19 +109,19 @@ body {
 }
 
 .vertical-text-bottom {
-  vertical-align: text-bottom!important;
+  vertical-align: text-bottom !important;
 }
 
 .no-border-right {
-  border-right: none!important;
+  border-right: none !important;
 }
 
 .no-border-left {
-  border-left: none!important;
+  border-left: none !important;
 }
 
 .no-border-bottom {
-  border-bottom: none!important;
+  border-bottom: none !important;
 }
 
 .no-margin-left {
@@ -133,15 +133,15 @@ body {
 }
 
 .margin-top-10 {
-  margin-top: 10px!important;
+  margin-top: 10px !important;
 }
 
 .margin-top-20 {
-  margin-top: 20px!important;
+  margin-top: 20px !important;
 }
 
 .margin-top-30 {
-  margin-top: 30px!important;
+  margin-top: 30px !important;
 }
 
 .margin-bottom-10 {
@@ -167,7 +167,7 @@ body {
 .margin-left-20 {
   margin-left: 20px !important;
   .el-form-item__content {
-    margin-left: 20px!important;
+    margin-left: 20px !important;
   }
 }
 
@@ -253,7 +253,7 @@ body {
   align-items: center;
   &:before {
     font-size: 24px;
-    color: #E6A23C;
+    color: #e6a23c;
   }
 }
 
@@ -262,13 +262,13 @@ body {
   align-items: center;
   &:before {
     font-size: 24px;
-    color: #0F0;
+    color: #0f0;
   }
 }
 
 .xyh_top {
   .el-menu--horizontal {
-    width: 60%;
+    width: 65%;
     li {
       height: 80px;
       font-size: 16px;
@@ -377,7 +377,7 @@ body {
 
 .chart-input {
   input {
-    background: #036ebe!important;
+    background: #036ebe !important;
     color: #ffffff;
     border: none;
   }
@@ -392,7 +392,7 @@ body {
 .el-table {
   &.border-hide {
     &::before {
-      background: none!important;
+      background: none !important;
     }
   }
   &.fixed-height {
@@ -468,7 +468,7 @@ body {
   border-right: none;
 }
 
-input[type=number]::-webkit-inner-spin-button {
+input[type="number"]::-webkit-inner-spin-button {
   margin-right: -15px;
 }
 
@@ -524,9 +524,9 @@ input[type=number]::-webkit-inner-spin-button {
         .el-progress {
           .el-progress-bar__outer {
             .el-progress-bar__inner {
-              background-color: #E6A23C;
+              background-color: #e6a23c;
               &::after {
-                border-left: 8px solid #E6A23C;
+                border-left: 8px solid #e6a23c;
               }
             }
           }
@@ -550,7 +550,7 @@ input[type=number]::-webkit-inner-spin-button {
     .el-progress-bar__outer {
       .el-progress-bar__inner {
         &::after {
-          border-left: 8px solid #E6A23C;
+          border-left: 8px solid #e6a23c;
         }
       }
     }
@@ -567,7 +567,7 @@ input[type=number]::-webkit-inner-spin-button {
         border: 0 solid transparent;
         border-bottom-width: 13px;
         border-top-width: 0px;
-        border-left: 8px solid #409EFF;
+        border-left: 8px solid #409eff;
         position: absolute;
       }
     }
@@ -592,7 +592,7 @@ input[type=number]::-webkit-inner-spin-button {
 .container {
   &.customized {
     position: relative;
-    padding: 0!important;
+    padding: 0 !important;
     margin-top: -20px;
   }
 }
@@ -631,8 +631,8 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 .ajs-message {
-  color: #000000!important;
-  text-shadow: none!important;
+  color: #000000 !important;
+  text-shadow: none !important;
   font-weight: bold;
 }
 
