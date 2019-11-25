@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 
+import Toast from "@/utils/toast";
 import login from "@/components/login/login";
 import home from "@/components/common/home";
 import threeProductsCertification from "@/components/threeProductsCertification/threeProductsCertification";
@@ -149,14 +150,27 @@ export default new Router({
       component: home,
       redirect: "productionSubject",
       beforeEnter(to, from, next) {
-        if (!Auth().check()) {
-          next({
-            path: "/login",
-            query: { redirect: to.fullPath }
-          });
-        } else {
-          next();
-        }
+        // if (!Auth().check()) {
+        //   next({
+        //     path: "/login",
+        //     query: { redirect: to.fullPath }
+        //   });
+        // } else {
+        //   next();
+        // }
+        if (!Auth().check()) Toast.error("确认 alitoken, sign, timestamp!!!");
+        else
+          Auth()
+          .check()
+          .then(
+            success => {
+              next();
+            },
+            error => {
+              console.log(error);
+              Toast.error("Token 错误");
+            }
+          );
       },
       children: [{
           path: "/sampleCheckMain/:mode",

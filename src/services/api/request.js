@@ -76,7 +76,8 @@ class Request {
   }
 
   makeRequest(method, url, options, refreshed = false, norefresh = false) {
-    if (url.indexOf("/api/user/login") == -1) {
+    // if (url.indexOf("/api/user/login") == -1) {
+    if (url.indexOf("/api/user/getAuthByAliToken") == -1) {
       http.defaults.headers.common[
         "Authorization"
       ] = TokenManager().accessToken;
