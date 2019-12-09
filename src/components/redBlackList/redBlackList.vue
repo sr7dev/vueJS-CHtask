@@ -13,7 +13,12 @@
         <div style="margin-bottom:20px">
           <label style="margin-right: 30px">乡镇</label>
           <el-select v-model="currTown" placeholder="Select" @change="getList">
-            <el-option v-for="item in township" :key="item.id" :label="item.name" :value="item.id"></el-option>
+            <el-option
+              v-for="item in township"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            ></el-option>
           </el-select>
         </div>
         <el-container>
@@ -23,19 +28,19 @@
             :row-class-name="rowIndex"
             v-loading="listLoading"
           >
-            <el-table-column :formatter="order" label="序号" width="180"></el-table-column>
-            <el-table-column label="企业名称" v-if="loggedinUserType===2">
+            <el-table-column
+              :formatter="order"
+              label="序号"
+              width="180"
+            ></el-table-column>
+            <el-table-column label="企业名称" v-if="isShowAddButton">
               <template slot-scope="{ row }">
-                {{
-                filterCompnay(row.creditCode)
-                }}
+                {{ filterCompnay(row.creditCode) }}
               </template>
             </el-table-column>
             <el-table-column label="名称">
-              <template slot-scope="{ row }" v-if="loggedinUserType!==2">
-                {{
-                filterCompnay(row.creditCode)
-                }}
+              <template slot-scope="{ row }" v-if="!isShowAddButton">
+                {{ filterCompnay(row.creditCode) }}
               </template>
             </el-table-column>
             <el-table-column label="现信用评级">
@@ -52,12 +57,13 @@
             </el-table-column>
             <el-table-column prop="gradeTime" label="评级时间">
               <template slot-scope="{ row }">
-                {{
-                row.gradeTime | formatDate
-                }}
+                {{ row.gradeTime | formatDate }}
               </template>
             </el-table-column>
-            <el-table-column prop="gradeUnit" label="评级单位"></el-table-column>
+            <el-table-column
+              prop="gradeUnit"
+              label="评级单位"
+            ></el-table-column>
           </el-table>
         </el-container>
         <div class="pageBox">
@@ -76,6 +82,7 @@
 
 <script>
 import Pagination from "@/components/common/pagination";
+import Storage from "store";
 import Request from "../../services/api/request.js";
 import Auth from "@/services/authentication/auth.js";
 export default {
@@ -102,7 +109,7 @@ export default {
       nowGrade: "A",
       tableData: [],
       companyProduction: [],
-      loggedinUserType: null,
+      isShowAddButton: null,
       colors: { 1: "#f00", 2: "#F7BA2A", 3: "#0f0" }
     };
   },
@@ -110,7 +117,11 @@ export default {
     this.getTown();
     this.getList();
     this.getCompanyProduction();
-    this.loggedinUserType = Auth().user().userType;
+    this.isShowAddButton = Storage.get("authList").find(
+      x => x.privilegeCode == "addTrainingFunds"
+    )
+      ? true
+      : false;
   },
   methods: {
     getCompanyProduction() {
@@ -199,5 +210,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

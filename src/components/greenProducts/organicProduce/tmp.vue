@@ -13,15 +13,38 @@
           fit
           highlight-current-row
         >
-          <el-table-column :formatter="order" label="序号" width="100"></el-table-column>
-          <el-table-column prop="townDistrict.value" label="所在镇(区)"></el-table-column>
-          <el-table-column prop="declarationUnitName.value" label="申报单位名称"></el-table-column>
-          <el-table-column prop="numbering.value" label="编号"></el-table-column>
+          <el-table-column
+            :formatter="order"
+            label="序号"
+            width="100"
+          ></el-table-column>
+          <el-table-column
+            prop="townDistrict.value"
+            label="所在镇(区)"
+          ></el-table-column>
+          <el-table-column
+            prop="declarationUnitName.value"
+            label="申报单位名称"
+          ></el-table-column>
+          <el-table-column
+            prop="numbering.value"
+            label="编号"
+          ></el-table-column>
           <el-table-column prop="kind.value" width="50"></el-table-column>
-          <el-table-column prop="productName.value" label="产品名称" align="center"></el-table-column>
+          <el-table-column
+            prop="productName.value"
+            label="产品名称"
+            align="center"
+          ></el-table-column>
           <el-table-column prop="area.value" label="面积(亩)"></el-table-column>
-          <el-table-column prop="production.value" label="产量(吨)"></el-table-column>
-          <el-table-column prop="address.value" label="详细地址"></el-table-column>
+          <el-table-column
+            prop="production.value"
+            label="产量(吨)"
+          ></el-table-column>
+          <el-table-column
+            prop="address.value"
+            label="详细地址"
+          ></el-table-column>
         </el-table>
       </el-container>
 
@@ -56,7 +79,7 @@ export default {
       alert_dialogVisible: false,
       confirm_dialogVisible: false,
 
-      loggedinUserType: null,
+      // loggedinUserType: null,
       page: {
         pageIndex: 1,
         pageSize: 20
@@ -165,7 +188,7 @@ export default {
     };
   },
   created() {
-    this.loggedinUserType = Auth().user().userType;
+    // this.loggedinUserType = Auth().user().userType;
     this.getData();
   },
   methods: {
@@ -365,8 +388,8 @@ export default {
             colspan: 0
           };
         }
-      }    
-      },
+      }
+    },
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
     },

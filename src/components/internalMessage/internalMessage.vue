@@ -16,7 +16,9 @@
         >
           <el-table-column :formatter="order" label="序号"></el-table-column>
           <el-table-column prop="createTime" label="时间">
-            <template slot-scope="{ row }">{{ row.createTime | formatDate }}</template>
+            <template slot-scope="{ row }">{{
+              row.createTime | formatDate
+            }}</template>
           </el-table-column>
           <el-table-column prop="contents" label="内容"></el-table-column>
         </el-table>
@@ -94,5 +96,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

@@ -41,7 +41,10 @@
         <el-tab-pane label="畜牧业绿色优质基地" name="animalHusbandryBase">
           <animalHusbandryBase :year="year" />
         </el-tab-pane>
-        <el-tab-pane label="绿色优质农产品占比" name="greenAgriculturalProducts">
+        <el-tab-pane
+          label="绿色优质农产品占比"
+          name="greenAgriculturalProducts"
+        >
           <greenAgriculturalProducts :year="year" />
         </el-tab-pane>
       </el-tabs>
@@ -106,7 +109,7 @@ export default {
     }
   }
 };
-</Script>
+</script>
 
 <style lang="scss">
 .year-select-panel {

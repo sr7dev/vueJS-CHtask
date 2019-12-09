@@ -158,7 +158,12 @@ export default new Router({
         // } else {
         //   next();
         // }
-        if (!Auth().check()) Toast.error("确认 alitoken, sign, timestamp!!!");
+        if (!Auth().check())
+          Toast.error("确认 accessToken, sign, timestamp!!!");
+        // if (Auth().check() === -1)
+        //   Toast.error("确认 accessToken, sign, timestamp!!!");
+        // else if (Auth().check() === -2)
+        //   Toast.error("验证失败. 确认 accessToken!!!");
         else
           Auth()
           .check()

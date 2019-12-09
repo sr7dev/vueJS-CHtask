@@ -1,14 +1,20 @@
 <template>
   <div class="box">
-    <el-dialog :visible.sync="openDialog" width="60%" :before-close="handleClose">
+    <el-dialog
+      :visible.sync="openDialog"
+      width="60%"
+      :before-close="handleClose"
+    >
       <el-form ref="dynamicValidateForm" :model="dynamicValidateForm">
         <el-form-item label="年度：" class="margin-left-10">
           <el-row>
             <el-col :span="4">
               <el-input
                 v-model="inYear"
-                :rules="[{required: true, message: '请插入', trigger: 'blur'},
-          {type:'number',message: '插入号码', trigger: 'blur'}]"
+                :rules="[
+                  { required: true, message: '请插入', trigger: 'blur' },
+                  { type: 'number', message: '插入号码', trigger: 'blur' }
+                ]"
                 :span="3"
               ></el-input>
             </el-col>
@@ -34,7 +40,7 @@
             <el-col :span="8">
               <el-form-item
                 label="板块："
-                :prop="'data.' + index+'.town'"
+                :prop="'data.' + index + '.town'"
                 :rules="{ required: true, message: '请插入', trigger: 'blur' }"
                 class="margin-left-10"
               >
@@ -44,34 +50,55 @@
             <el-col :span="5">
               <el-form-item
                 label="1-6月实绩:"
-                :prop="'data.' + index+'.halfYear'"
-                :rules="[{required: true, message: '请插入', trigger: 'blur'},
-                { type: 'number',message: '插入号码', trigger: 'blur'}]"
+                :prop="'data.' + index + '.halfYear'"
+                :rules="[
+                  { required: true, message: '请插入', trigger: 'blur' },
+                  { type: 'number', message: '插入号码', trigger: 'blur' }
+                ]"
                 class="margin-left-20"
               >
-                <el-input v-model.number="rowData.halfYear" class="w-60"></el-input>
+                <el-input
+                  v-model.number="rowData.halfYear"
+                  class="w-60"
+                ></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="5">
               <el-form-item
                 label="全年实绩:"
-                :prop="'data.' + index+'.fullYear'"
-                :rules="[{required: true, message: '请插入', trigger: 'blur'},
-                { type: 'number',message: '插入号码', trigger: 'blur'}]"
+                :prop="'data.' + index + '.fullYear'"
+                :rules="[
+                  { required: true, message: '请插入', trigger: 'blur' },
+                  { type: 'number', message: '插入号码', trigger: 'blur' }
+                ]"
                 class="margin-left-20"
               >
-                <el-input v-model.number="rowData.fullYear" class="w-60"></el-input>
+                <el-input
+                  v-model.number="rowData.fullYear"
+                  class="w-60"
+                ></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row class="margin-left-40 margin-top-20">
             <el-col :span="14">
-              <el-button size="small" @click="addFormRow()" type="primary" plain>添加</el-button>
-              <el-button size="small" @click="deleteSelectedRows()" type="danger" plain>删除</el-button>
+              <el-button size="small" @click="addFormRow()" type="primary" plain
+                >添加</el-button
+              >
+              <el-button
+                size="small"
+                @click="deleteSelectedRows()"
+                type="danger"
+                plain
+                >删除</el-button
+              >
             </el-col>
             <el-col :span="7" v-show="dynamicValidateForm.data.length > 0">
               <span>插入时间:&nbsp;</span>
-              <el-date-picker type="date" v-model="registerTime"></el-date-picker>
+              <el-date-picker
+                type="date"
+                v-model="registerTime"
+              ></el-date-picker>
             </el-col>
             <el-col :span="2" v-show="dynamicValidateForm.data.length > 0">
               <el-button
@@ -79,7 +106,8 @@
                 @click="onSubmit('dynamicValidateForm')"
                 type="success"
                 plain
-              >保存</el-button>
+                >保存</el-button
+              >
             </el-col>
           </el-row>
         </el-form-item>
@@ -91,8 +119,20 @@
         <i class="el-icon-warning">&nbsp;继续？请再次检查</i>
       </span>
       <span slot="footer" class="dialog-footer">
-        <el-button size="small" @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
-        <el-button size="small" type="success" @click="updateSelectedRows()" plain>确认</el-button>
+        <el-button
+          size="small"
+          @click="confirm_dialogVisible = false"
+          type="primary"
+          plain
+          >取消</el-button
+        >
+        <el-button
+          size="small"
+          type="success"
+          @click="updateSelectedRows()"
+          plain
+          >确认</el-button
+        >
       </span>
     </el-dialog>
 
@@ -101,19 +141,35 @@
       <div class="iptBox">
         <el-row>
           <el-col :span="2">
-            <el-button size="small" type="success" plain v-on:click="showAddDialog()">添加</el-button>
+            <el-button
+              size="small"
+              type="success"
+              plain
+              v-on:click="showAddDialog()"
+              >添加</el-button
+            >
           </el-col>
           <el-col :span="6">
             <span>开始日期:&nbsp;</span>
-            <el-date-picker type="date" v-model="registerTimeFrom"></el-date-picker>
+            <el-date-picker
+              type="date"
+              v-model="registerTimeFrom"
+            ></el-date-picker>
           </el-col>
           <el-col :span="6">
             <span>结束日期:&nbsp;</span>
-            <el-date-picker type="date" v-model="registerTimeTo"></el-date-picker>
+            <el-date-picker
+              type="date"
+              v-model="registerTimeTo"
+            ></el-date-picker>
           </el-col>
           <el-col :span="4">
             <span>年度:&nbsp;</span>
-            <el-input v-model="searchYear" class="w-60" @keyup.native="handleChange"></el-input>
+            <el-input
+              v-model="searchYear"
+              class="w-60"
+              @keyup.native="handleChange"
+            ></el-input>
           </el-col>
           <el-col :span="1">
             <el-button
@@ -122,7 +178,8 @@
               plain
               v-on:click="changeFilter()"
               class="margin-left-10"
-            >搜索</el-button>
+              >搜索</el-button
+            >
           </el-col>
         </el-row>
       </div>
@@ -134,7 +191,11 @@
         highlight-current-row
         :span-method="spanMethod"
       >
-        <el-table-column :formatter="order" label="序号" width="100"></el-table-column>
+        <el-table-column
+          :formatter="order"
+          label="序号"
+          width="100"
+        ></el-table-column>
         <el-table-column prop="town" label="板块"></el-table-column>
         <el-table-column label="绿色优质农产品比重(畜牧)" align="center">
           <el-table-column
@@ -196,7 +257,6 @@ export default {
     };
   },
   created() {
-    this.loggedinUserType = Auth().user().userType;
     this.getData();
   },
   methods: {

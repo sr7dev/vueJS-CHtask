@@ -1,9 +1,16 @@
 <template>
   <div class="box">
-    <el-dialog :visible.sync="openDialog" width="90%" :before-close="handleClose">
+    <el-dialog
+      :visible.sync="openDialog"
+      width="90%"
+      :before-close="handleClose"
+    >
       <el-form ref="dynamicValidateForm" :model="dynamicValidateForm">
         <el-form-item class="left-margin flex-box w-100 no-margin-IE">
-          <el-row v-for="(rowData, index) in dynamicValidateForm.data" :key="index">
+          <el-row
+            v-for="(rowData, index) in dynamicValidateForm.data"
+            :key="index"
+          >
             <el-col :span="1">
               <el-form-item class="margin-left-20">
                 <el-checkbox
@@ -18,7 +25,7 @@
             <el-col :span="2">
               <el-form-item
                 label="板块："
-                :prop="'data.' + index+'.town'"
+                :prop="'data.' + index + '.town'"
                 :rules="{ required: true, message: '请插入', trigger: 'blur' }"
                 class="margin-left-10"
               >
@@ -28,7 +35,7 @@
             <el-col :span="2">
               <el-form-item
                 label="绿色食品面积:"
-                :prop="'data.' + index+'.productName'"
+                :prop="'data.' + index + '.productName'"
                 :rules="{ required: true, message: '请插入', trigger: 'blur' }"
                 class="margin-left-10"
               >
@@ -38,9 +45,11 @@
             <el-col :span="2">
               <el-form-item
                 label="有机面积:"
-                :prop="'data.' + index+'.organicArea'"
-                :rules="[{required: true, message: '请插入', trigger: 'blur'},
-                { type: 'number',message: '插入号码', trigger: 'blur'}]"
+                :prop="'data.' + index + '.organicArea'"
+                :rules="[
+                  { required: true, message: '请插入', trigger: 'blur' },
+                  { type: 'number', message: '插入号码', trigger: 'blur' }
+                ]"
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.organicArea"></el-input>
@@ -50,9 +59,11 @@
             <el-col :span="3">
               <el-form-item
                 label="绿色优质基地面积:"
-                :prop="'data.' + index+'.highQualityArea'"
-                :rules="[{required: true, message: '请插入', trigger: 'blur'},
-                { type: 'number',message: '插入号码', trigger: 'blur'}]"
+                :prop="'data.' + index + '.highQualityArea'"
+                :rules="[
+                  { required: true, message: '请插入', trigger: 'blur' },
+                  { type: 'number', message: '插入号码', trigger: 'blur' }
+                ]"
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.highQualityArea"></el-input>
@@ -62,9 +73,11 @@
             <el-col :span="2">
               <el-form-item
                 label="重复面积:"
-                :prop="'data.' + index+'.repeatArea'"
-                :rules="[{required: true, message: '请插入', trigger: 'blur'},
-                { type: 'number',message: '插入号码', trigger: 'blur'}]"
+                :prop="'data.' + index + '.repeatArea'"
+                :rules="[
+                  { required: true, message: '请插入', trigger: 'blur' },
+                  { type: 'number', message: '插入号码', trigger: 'blur' }
+                ]"
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.repeatArea"></el-input>
@@ -74,9 +87,11 @@
             <el-col :span="2">
               <el-form-item
                 label="合计:"
-                :prop="'data.' + index+'.sum'"
-                :rules="[{required: true, message: '请插入', trigger: 'blur'},
-                { type: 'number',message: '插入号码', trigger: 'blur'}]"
+                :prop="'data.' + index + '.sum'"
+                :rules="[
+                  { required: true, message: '请插入', trigger: 'blur' },
+                  { type: 'number', message: '插入号码', trigger: 'blur' }
+                ]"
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.sum"></el-input>
@@ -86,9 +101,11 @@
             <el-col :span="2">
               <el-form-item
                 label="耕地面积:"
-                :prop="'data.' + index+'.cultivatedArea'"
-                :rules="[{required: true, message: '请插入', trigger: 'blur'},
-                { type: 'number',message: '插入号码', trigger: 'blur'}]"
+                :prop="'data.' + index + '.cultivatedArea'"
+                :rules="[
+                  { required: true, message: '请插入', trigger: 'blur' },
+                  { type: 'number', message: '插入号码', trigger: 'blur' }
+                ]"
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.cultivatedArea"></el-input>
@@ -98,9 +115,11 @@
             <el-col :span="2">
               <el-form-item
                 label="绿色,有机:"
-                :prop="'data.' + index+'.greenOrganic'"
-                :rules="[{required: true, message: '请插入', trigger: 'blur'},
-                { type: 'number',message: '插入号码', trigger: 'blur'}]"
+                :prop="'data.' + index + '.greenOrganic'"
+                :rules="[
+                  { required: true, message: '请插入', trigger: 'blur' },
+                  { type: 'number', message: '插入号码', trigger: 'blur' }
+                ]"
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.greenOrganic"></el-input>
@@ -110,8 +129,8 @@
             <el-col :span="2">
               <el-form-item
                 label="地标:"
-                :prop="'data.' + index+'.target'"
-                :rules="{required: true, message: '请插入', trigger: 'blur'}"
+                :prop="'data.' + index + '.target'"
+                :rules="{ required: true, message: '请插入', trigger: 'blur' }"
                 class="margin-left-10"
               >
                 <el-input v-model="rowData.target"></el-input>
@@ -121,9 +140,11 @@
             <el-col :span="2">
               <el-form-item
                 label="预计面积:"
-                :prop="'data.' + index+'.predictArea'"
-                :rules="[{required: true, message: '请插入', trigger: 'blur'},
-                { type: 'number',message: '插入号码', trigger: 'blur'}]"
+                :prop="'data.' + index + '.predictArea'"
+                :rules="[
+                  { required: true, message: '请插入', trigger: 'blur' },
+                  { type: 'number', message: '插入号码', trigger: 'blur' }
+                ]"
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.predictArea"></el-input>
@@ -132,12 +153,23 @@
           </el-row>
           <el-row class="margin-left-40 margin-top-20">
             <el-col :span="17">
-              <el-button size="small" @click="addFormRow()" type="primary" plain>添加</el-button>
-              <el-button size="small" @click="deleteSelectedRows()" type="danger" plain>删除</el-button>
+              <el-button size="small" @click="addFormRow()" type="primary" plain
+                >添加</el-button
+              >
+              <el-button
+                size="small"
+                @click="deleteSelectedRows()"
+                type="danger"
+                plain
+                >删除</el-button
+              >
             </el-col>
             <el-col :span="4" v-show="dynamicValidateForm.data.length > 0">
               <span>插入时间:&nbsp;</span>
-              <el-date-picker type="date" v-model="registerTime"></el-date-picker>
+              <el-date-picker
+                type="date"
+                v-model="registerTime"
+              ></el-date-picker>
             </el-col>
             <el-col :span="2" v-show="dynamicValidateForm.data.length > 0">
               <el-button
@@ -145,7 +177,8 @@
                 @click="onSubmit('dynamicValidateForm')"
                 type="success"
                 plain
-              >保存</el-button>
+                >保存</el-button
+              >
             </el-col>
           </el-row>
         </el-form-item>
@@ -157,8 +190,20 @@
         <i class="el-icon-warning">&nbsp;继续？请再次检查</i>
       </span>
       <span slot="footer" class="dialog-footer">
-        <el-button size="small" @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
-        <el-button size="small" type="success" @click="updateSelectedRows()" plain>确认</el-button>
+        <el-button
+          size="small"
+          @click="confirm_dialogVisible = false"
+          type="primary"
+          plain
+          >取消</el-button
+        >
+        <el-button
+          size="small"
+          type="success"
+          @click="updateSelectedRows()"
+          plain
+          >确认</el-button
+        >
       </span>
     </el-dialog>
 
@@ -167,15 +212,27 @@
       <div class="iptBox">
         <el-row>
           <el-col :span="2">
-            <el-button size="small" type="success" plain v-on:click="showAddDialog()">添加</el-button>
+            <el-button
+              size="small"
+              type="success"
+              plain
+              v-on:click="showAddDialog()"
+              >添加</el-button
+            >
           </el-col>
           <el-col :span="6">
             <span>开始日期:&nbsp;</span>
-            <el-date-picker type="date" v-model="registerTimeFrom"></el-date-picker>
+            <el-date-picker
+              type="date"
+              v-model="registerTimeFrom"
+            ></el-date-picker>
           </el-col>
           <el-col :span="6">
             <span>结束日期:&nbsp;</span>
-            <el-date-picker type="date" v-model="registerTimeTo"></el-date-picker>
+            <el-date-picker
+              type="date"
+              v-model="registerTimeTo"
+            ></el-date-picker>
           </el-col>
           <el-col :span="9">
             <span>创建单位:&nbsp;</span>
@@ -188,7 +245,8 @@
               plain
               v-on:click="changeFilter()"
               class="margin-left-10"
-            >搜索</el-button>
+              >搜索</el-button
+            >
           </el-col>
         </el-row>
       </div>
@@ -203,17 +261,32 @@
       >
         <el-table-column :formatter="order" label="序号"></el-table-column>
         <el-table-column prop="town" label="板块"></el-table-column>
-        <el-table-column prop="productName" label="绿色食品面积"></el-table-column>
+        <el-table-column
+          prop="productName"
+          label="绿色食品面积"
+        ></el-table-column>
         <el-table-column prop="organicArea" label="有机面积"></el-table-column>
-        <el-table-column prop="highQualityArea" label="绿色优质基地面积"></el-table-column>
+        <el-table-column
+          prop="highQualityArea"
+          label="绿色优质基地面积"
+        ></el-table-column>
         <el-table-column prop="repeatArea" label="重复面积"></el-table-column>
         <el-table-column prop="sum" label="合计"></el-table-column>
-        <el-table-column prop="cultivatedArea" label="耕地面积"></el-table-column>
+        <el-table-column
+          prop="cultivatedArea"
+          label="耕地面积"
+        ></el-table-column>
         <el-table-column prop="proportion" label="占比"></el-table-column>
-        <el-table-column prop="greenOrganic" label="绿色,有机"></el-table-column>
+        <el-table-column
+          prop="greenOrganic"
+          label="绿色,有机"
+        ></el-table-column>
         <el-table-column prop="target" label="地标"></el-table-column>
         <el-table-column prop="predictArea" label="预计面积"></el-table-column>
-        <el-table-column prop="expectedRatio" label="预计占比"></el-table-column>
+        <el-table-column
+          prop="expectedRatio"
+          label="预计占比"
+        ></el-table-column>
       </el-table>
     </el-container>
   </div>
@@ -246,14 +319,14 @@ export default {
       sendcount: 0,
 
       alert_dialogVisible: false,
-      loggedinUserType: null,
+      // loggedinUserType: null,
 
       tableData: [],
       listLoading: true
     };
   },
   created() {
-    this.loggedinUserType = Auth().user().userType;
+    // this.loggedinUserType = Auth().user().userType;
     this.getData();
   },
   methods: {

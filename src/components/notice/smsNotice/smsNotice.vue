@@ -10,42 +10,46 @@
     <div class="box" v-loading="listLoading">
       <div class="iptBox">
         <el-row style="width: 1280px">
-					<el-col style="width:100px;text-align:center">短信内容</el-col>
-					<el-col style="width:1080px">
-						<el-input 
-							type="textarea" 
-							v-model="content" 
+          <el-col style="width:100px;text-align:center">短信内容</el-col>
+          <el-col style="width:1080px">
+            <el-input
+              type="textarea"
+              v-model="content"
               auto-complete="off"
               :rows="10"
-						></el-input>
-					</el-col>
+            ></el-input>
+          </el-col>
         </el-row>
       </div>
-			<div class="iptBox" style="margin-left:100px;width:800px">
-				<!-- <el-checkbox @change="selsChange">全选</el-checkbox> -->
-				<span style="margin:0 auto; margin-right: 0;">
-					共选择了{{selectCount}}位联系人
-					<el-button type="primary" @click="postData">发送</el-button>
-				</span>
-				<div style="width: 800px; margin:5px 0 5% 0">
-					<el-table
-						:data="tableData"
-						style="width: 100%"
-						:row-class-name="rowIndex"
-						highlight-current-row
+      <div class="iptBox" style="margin-left:100px;width:800px">
+        <!-- <el-checkbox @change="selsChange">全选</el-checkbox> -->
+        <span style="margin:0 auto; margin-right: 0;">
+          共选择了{{ selectCount }}位联系人
+          <el-button type="primary" @click="postData">发送</el-button>
+        </span>
+        <div style="width: 800px; margin:5px 0 5% 0">
+          <el-table
+            :data="tableData"
+            style="width: 100%"
+            :row-class-name="rowIndex"
+            highlight-current-row
             @selection-change="selsChange"
-					>
+          >
             <el-table-column type="selection" width="35"></el-table-column>
-						<el-table-column prop="townId" label="单位" width="280">
-              <template slot-scope="{row}">{{getTownName(row.townId)}}</template>
+            <el-table-column prop="townId" label="单位" width="280">
+              <template slot-scope="{ row }">{{
+                getTownName(row.townId)
+              }}</template>
             </el-table-column>
-						<el-table-column prop="contactPerson" label="联系人"></el-table-column>
-						<el-table-column prop="contactWay" label="手机">
-						</el-table-column>
-					</el-table>
-				</div>
-				<el-button plain @click="$router.go(-1)" type="success">返回</el-button>
-			</div>
+            <el-table-column
+              prop="contactPerson"
+              label="联系人"
+            ></el-table-column>
+            <el-table-column prop="contactWay" label="手机"> </el-table-column>
+          </el-table>
+        </div>
+        <el-button plain @click="$router.go(-1)" type="success">返回</el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -59,39 +63,39 @@ export default {
       loggedinUserName: "",
       listLoading: true,
       total: 0,
-			tableData: [],
+      tableData: [],
       selectCount: 0,
-      township:[],
+      township: [],
       content: "",
       checkedAll: false,
       isIndeterminate: true,
       checkedItem: false,
       sels: [],
-      id: ''
-
+      id: ""
     };
   },
   mounted() {
     this.getList();
     this.getTown();
-    this.loggedinUserName = Auth().user().contactName; 
+    // this.loggedinUserName = Auth().user().contactName;
+    this.loggedinUserName = Auth().user().username;
     this.id = this.$route.params.id;
-    this.getData(this.id)
+    this.getData(this.id);
   },
   methods: {
     getData(id) {
-        this.listLoading = true;
-        Request()
-            .get("/api/notice/get/" + id)
-            .then(response => {
-                this.content = response.content;
-                setTimeout(() => {
-                    this.dataloading = false;
-                }, 0.01 * 1000);
-            })
-            .catch(error => {
-                console.log(error);
-            });
+      this.listLoading = true;
+      Request()
+        .get("/api/notice/get/" + id)
+        .then(response => {
+          this.content = response.content;
+          setTimeout(() => {
+            this.dataloading = false;
+          }, 0.01 * 1000);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     getTown() {
       this.listLoading = true;
@@ -125,7 +129,7 @@ export default {
       this.listLoading = true;
       Request()
         .get("/api/user/all", {
-          userType : 2,
+          userType: 2,
           sortBy: "id"
         })
         .then(response => {
@@ -143,13 +147,15 @@ export default {
       this.listLoading = true;
       let dataInfo = [];
       dataInfo = this.sels.map(item => {
-        return {office: this.getTownName(item.townId),
-                person : item.contactPerson,
-                phone: item.contactWay};
+        return {
+          office: this.getTownName(item.townId),
+          person: item.contactPerson,
+          phone: item.contactWay
+        };
       });
       Request()
         .post("/api/notice_record/create", {
-          noticeContents : this.content,
+          noticeContents: this.content,
           noticeId: this.id,
           sendTime: new Date().toJSON(),
           sender: this.loggedinUserName,
@@ -170,13 +176,12 @@ export default {
           console.log(error);
         });
     },
-    selsChange: function (sels) {
+    selsChange: function(sels) {
       this.sels = sels;
       this.selectCount = this.sels.length;
-    },
+    }
   }
 };
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

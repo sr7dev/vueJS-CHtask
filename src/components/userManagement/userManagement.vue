@@ -7,20 +7,30 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button size="small"
+        <el-button
+          size="small"
           type="primary"
           plain
           v-on:click="$router.push(`/userManagement/create`)"
           class="no-margin-left"
-        >添加用户</el-button>
+          >添加用户</el-button
+        >
       </div>
       <el-dialog :visible.sync="dialogVisible" width="30%" modal>
         <span>
           <i class="el-icon-warning">&nbsp;你确定你要删除?</i>
         </span>
         <span slot="footer" class="dialog-footer">
-          <el-button size="small" @click="dialogVisible = false" type="primary" plain>取消</el-button>
-          <el-button size="small" @click="handleDelete" type="success" plain>确认</el-button>
+          <el-button
+            size="small"
+            @click="dialogVisible = false"
+            type="primary"
+            plain
+            >取消</el-button
+          >
+          <el-button size="small" @click="handleDelete" type="success" plain
+            >确认</el-button
+          >
         </span>
       </el-dialog>
       <el-container>
@@ -33,12 +43,20 @@
         >
           <el-table-column :formatter="order" label="序号"></el-table-column>
           <el-table-column prop="contactName" label="名称"></el-table-column>
-          <el-table-column prop="contactPerson" label="联系人"></el-table-column>
+          <el-table-column
+            prop="contactPerson"
+            label="联系人"
+          ></el-table-column>
           <el-table-column prop="userId" label="登录名"></el-table-column>
           <el-table-column prop="userType" label="角色">
-            <template slot-scope="{ row }">{{ userTypeLsit[row.userType] }}</template>
+            <template slot-scope="{ row }">{{
+              userTypeLsit[row.userType]
+            }}</template>
           </el-table-column>
-          <el-table-column prop="creditCode" label="统一社会信用代码"></el-table-column>
+          <el-table-column
+            prop="creditCode"
+            label="统一社会信用代码"
+          ></el-table-column>
           <el-table-column
             label="操作"
             class-name="text-center"
@@ -46,7 +64,8 @@
             width="300"
           >
             <template slot-scope="{ row }">
-              <el-button size="small"
+              <el-button
+                size="small"
                 type="primary"
                 v-if="row.userType === 3"
                 plain
@@ -56,8 +75,10 @@
                     path: `/userManagement/edit/${row.id}`
                   })
                 "
-              >管理</el-button>
-              <el-button size="small"
+                >管理</el-button
+              >
+              <el-button
+                size="small"
                 type="success"
                 plain
                 v-if="row.userType === 3"
@@ -66,13 +87,16 @@
                     path: `/userManagement/changePwd/${row.id}`
                   })
                 "
-              >修改密码</el-button>
-              <el-button size="small"
+                >修改密码</el-button
+              >
+              <el-button
+                size="small"
                 v-if="row.userType === 3"
                 type="danger"
                 v-on:click="confirmDelete(`${row.id}`)"
                 plain
-              >删除</el-button>
+                >删除</el-button
+              >
             </template>
           </el-table-column>
           <el-table-column
@@ -82,7 +106,8 @@
             v-if="loggedinUserType === 1 || loggedinUserType === 0"
           >
             <template slot-scope="{ row }">
-              <el-button size="small"
+              <el-button
+                size="small"
                 type="primary"
                 plain
                 v-on:click="
@@ -90,8 +115,10 @@
                     path: `/userManagement/edit/${row.id}`
                   })
                 "
-              >管理</el-button>
-              <el-button size="small"
+                >管理</el-button
+              >
+              <el-button
+                size="small"
                 type="success"
                 plain
                 v-on:click="
@@ -99,8 +126,15 @@
                     path: `/userManagement/changePwd/${row.id}`
                   })
                 "
-              >修改密码</el-button>
-              <el-button size="small" type="danger" v-on:click="confirmDelete(`${row.id}`)" plain>删除</el-button>
+                >修改密码</el-button
+              >
+              <el-button
+                size="small"
+                type="danger"
+                v-on:click="confirmDelete(`${row.id}`)"
+                plain
+                >删除</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -143,7 +177,7 @@ export default {
   },
   created() {
     this.getData();
-    this.loggedinUserType = Auth().user().userType;
+    // this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     getData() {
@@ -202,5 +236,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

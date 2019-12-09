@@ -8,18 +8,34 @@
     </div>
 
     <div class="box">
-      <el-form 
-        ref="formData" 
-        :model="formData" 
-        label-width="100px" 
+      <el-form
+        ref="formData"
+        :model="formData"
+        label-width="100px"
         class="form-width"
         v-loading="dataLoading"
       >
-        <el-form-item prop="projectName" label="项目名称:" class="input-width label-align">
-          <el-input v-model="formData.projectName" auto-complete="off" disabled></el-input>
+        <el-form-item
+          prop="projectName"
+          label="项目名称:"
+          class="input-width label-align"
+        >
+          <el-input
+            v-model="formData.projectName"
+            auto-complete="off"
+            disabled
+          ></el-input>
         </el-form-item>
-        <el-form-item label="申请金额:" prop="appliedAmount" class="input-width label-align">
-          <el-input v-model="formData.appliedAmount" auto-complete="off" disabled></el-input>
+        <el-form-item
+          label="申请金额:"
+          prop="appliedAmount"
+          class="input-width label-align"
+        >
+          <el-input
+            v-model="formData.appliedAmount"
+            auto-complete="off"
+            disabled
+          ></el-input>
         </el-form-item>
         <el-form-item
           label="申请人："
@@ -27,9 +43,17 @@
           class="input-width label-align"
           style="margin-right:30px"
         >
-          <el-input v-model="formData.proposer" auto-complete="off" disabled></el-input>
+          <el-input
+            v-model="formData.proposer"
+            auto-complete="off"
+            disabled
+          ></el-input>
         </el-form-item>
-        <el-form-item label="所在单位：" prop="companyId" class="input-width label-align2">
+        <el-form-item
+          label="所在单位："
+          prop="companyId"
+          class="input-width label-align2"
+        >
           <el-select v-model="formData.companyId" disabled>
             <el-option
               v-for="item in companyProduction"
@@ -56,42 +80,50 @@
               ref="file"
               v-on:change="handleFileUpload()"
             />
-            <el-button size="small" type="warning" plain @click="downloadFile()">下载附件</el-button>
+            <el-button size="small" type="warning" plain @click="downloadFile()"
+              >下载附件</el-button
+            >
           </span>
           <span v-if="!file">
             <el-link @click="downloadFile()">
-              {{
-              fileName
-              }}
+              {{ fileName }}
             </el-link>
           </span>
           <span v-if="file">({{ fileName }})</span>
         </el-form-item>
         <el-form-item>
-          <el-button size="small"
+          <el-button
+            size="small"
             plain
             v-on:click="$router.go(-1)"
             type="success"
-            v-if="loggedinUserType === 1 || loggedinUserType === 0"
-          >通过</el-button>
-          <el-button size="small"
+            v-if="!isShowAddButton"
+            >通过</el-button
+          >
+          <el-button
+            size="small"
             plain
             v-on:click="$router.go(-1)"
             type="warning"
-            v-if="loggedinUserType === 1 || loggedinUserType === 0"
-          >拒绝</el-button>
-          <el-button size="small"
+            v-if="!isShowAddButton"
+            >拒绝</el-button
+          >
+          <el-button
+            size="small"
             plain
             v-on:click="$router.go(-1)"
             type="primary"
-            v-if="loggedinUserType === 1 || loggedinUserType === 0"
-          >取消</el-button>
-          <el-button size="small"
+            v-if="!isShowAddButton"
+            >取消</el-button
+          >
+          <el-button
+            size="small"
             plain
             v-on:click="$router.go(-1)"
             type="success"
-            v-if="loggedinUserType === 2 || loggedinUserType === 0"
-          >返回</el-button>
+            v-if="isShowAddButton"
+            >返回</el-button
+          >
         </el-form-item>
       </el-form>
     </div>
@@ -102,6 +134,7 @@
 import Request from "../../../services/api/request.js";
 import { Urls } from "../../../services/constants";
 import Auth from "@/services/authentication/auth.js";
+import Storage from "store";
 import axios from "axios";
 
 export default {
@@ -120,6 +153,7 @@ export default {
       file: null,
       dataLoading: false,
       id: 0,
+      isShowAddButton: null,
       appStatus: ["全部", "待审批", "已同意", "已拒绝"]
     };
   },
@@ -129,7 +163,12 @@ export default {
     this.getData(this.$route.params.id);
   },
   created() {
-    this.loggedinUserType = Auth().user().userType;
+    // this.loggedinUserType = Auth().user().userType;
+    this.isShowAddButton = Storage.get("authList").find(
+      x => x.privilegeCode == "addTrainingFunds"
+    )
+      ? true
+      : false;
   },
   methods: {
     getCompanyProduct() {
@@ -149,7 +188,7 @@ export default {
         .then(response => {
           this.formData = response;
           this.file = response.trainingFundsProfiles;
-          this.fileName = this.file.replace("/uploads/", "");
+          if (this.file) this.fileName = this.file.replace("/uploads/", "");
           setTimeout(() => {
             this.dataLoading = false;
           }, 0.01 * 1000);
@@ -179,5 +218,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

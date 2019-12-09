@@ -616,7 +616,7 @@ export default {
               contactMobile: this.form.contactMobile,
               contactPerson: this.form.contactPerson,
               contactWay: this.form.contactWay,
-              createUserId: user.attrs.id,
+              createUserId: Auth().user().id,
               creditCode: this.form.creditCode,
               doSupervision: this.form.doSupervision,
               landSource: this.form.landSource,
@@ -628,7 +628,7 @@ export default {
               quality_standard: this.form.quality_standard,
               remarks: this.form.remarks,
               townId: this.form.townId,
-              updateUserId: user.attrs.id
+              updateUserId: Auth().user().id
             })
             .then(res => {
               this.processing = false;
