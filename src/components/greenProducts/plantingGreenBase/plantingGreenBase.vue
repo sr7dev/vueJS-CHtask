@@ -1,9 +1,16 @@
 <template>
   <div class="box">
-    <el-dialog :visible.sync="openDialog" width="90%" :before-close="handleClose">
+    <el-dialog
+      :visible.sync="openDialog"
+      width="90%"
+      :before-close="handleClose"
+    >
       <el-form ref="dynamicValidateForm" :model="dynamicValidateForm">
         <el-form-item class="left-margin flex-box w-100 no-margin-IE">
-          <el-row v-for="(rowData, index) in dynamicValidateForm.data" :key="index">
+          <el-row
+            v-for="(rowData, index) in dynamicValidateForm.data"
+            :key="index"
+          >
             <el-col :span="1">
               <el-form-item class="margin-left-20">
                 <el-checkbox
@@ -18,7 +25,7 @@
             <el-col :span="2">
               <el-form-item
                 label="创建单位："
-                :prop="'data.' + index+'.companyName'"
+                :prop="'data.' + index + '.companyName'"
                 :rules="{ required: true, message: '请插入', trigger: 'blur' }"
                 class="margin-left-10"
               >
@@ -28,7 +35,7 @@
             <el-col :span="2">
               <el-form-item
                 label="产品类型:"
-                :prop="'data.' + index+'.productType'"
+                :prop="'data.' + index + '.productType'"
                 :rules="{ required: true, message: '请插入', trigger: 'blur' }"
                 class="margin-left-10"
               >
@@ -38,9 +45,11 @@
             <el-col :span="2">
               <el-form-item
                 label="基地面积:"
-                :prop="'data.' + index+'.area'"
-                :rules="[{required: true, message: '请插入', trigger: 'blur'},
-                { type: 'number',message: '插入号码', trigger: 'blur'}]"
+                :prop="'data.' + index + '.area'"
+                :rules="[
+                  { required: true, message: '请插入', trigger: 'blur' },
+                  { type: 'number', message: '插入号码', trigger: 'blur' }
+                ]"
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.area"></el-input>
@@ -50,7 +59,7 @@
             <el-col :span="6">
               <el-form-item
                 label="基地地址(到村)："
-                :prop="'data.' + index+'.location'"
+                :prop="'data.' + index + '.location'"
                 :rules="{ required: true, message: '请插入', trigger: 'blur' }"
                 class="margin-left-10"
               >
@@ -61,13 +70,16 @@
             <el-col :span="3">
               <el-form-item
                 label="与部基地,产品基地重合："
-                :prop="'data.' + index+'.isCoincidence'"
+                :prop="'data.' + index + '.isCoincidence'"
                 :rules="{ required: true, message: '请插入', trigger: 'blur' }"
                 class="margin-left-10"
               >
                 <el-select v-model="rowData.isCoincidence" placeholder="请选择">
                   <el-option
-                    v-for="item in [{value: 0, label:'否'}, {value: 1, label:'是'}]"
+                    v-for="item in [
+                      { value: 0, label: '否' },
+                      { value: 1, label: '是' }
+                    ]"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value"
@@ -79,18 +91,21 @@
             <el-col :span="3" class="margin-left-10">
               <el-form-item
                 label="重合企业/部基地："
-                :prop="'data.' + index+'.coincidenceBase'"
+                :prop="'data.' + index + '.coincidenceBase'"
                 class="margin-left-10"
               >
-                <el-input v-model="rowData.coincidenceBase" :disabled="rowData.isCoincidence == 0"></el-input>
+                <el-input
+                  v-model="rowData.coincidenceBase"
+                  :disabled="rowData.isCoincidence == 0"
+                ></el-input>
               </el-form-item>
             </el-col>
 
             <el-col :span="2" class="margin-left-10">
               <el-form-item
                 label="重合面积："
-                :prop="'data.' + index+'.coincidneceArea'"
-                :rules="[{ type: 'number',message: '插入号码'} ]"
+                :prop="'data.' + index + '.coincidneceArea'"
+                :rules="[{ type: 'number', message: '插入号码' }]"
                 class="margin-left-10"
               >
                 <el-input
@@ -101,19 +116,34 @@
             </el-col>
 
             <el-col :span="2">
-              <el-form-item label="备注：" :prop="'data.' + index+'.other'" class="margin-left-10">
+              <el-form-item
+                label="备注："
+                :prop="'data.' + index + '.other'"
+                class="margin-left-10"
+              >
                 <el-input v-model="rowData.other"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row class="margin-left-40 margin-top-20">
             <el-col :span="17">
-              <el-button size="small" @click="addFormRow()" type="primary" plain>添加</el-button>
-              <el-button size="small" @click="deleteSelectedRows()" type="danger" plain>删除</el-button>
+              <el-button size="small" @click="addFormRow()" type="primary" plain
+                >添加</el-button
+              >
+              <el-button
+                size="small"
+                @click="deleteSelectedRows()"
+                type="danger"
+                plain
+                >删除</el-button
+              >
             </el-col>
             <el-col :span="4" v-show="dynamicValidateForm.data.length > 0">
               <span>插入时间:&nbsp;</span>
-              <el-date-picker type="date" v-model="registerTime"></el-date-picker>
+              <el-date-picker
+                type="date"
+                v-model="registerTime"
+              ></el-date-picker>
             </el-col>
             <el-col :span="2" v-show="dynamicValidateForm.data.length > 0">
               <el-button
@@ -121,7 +151,8 @@
                 @click="onSubmit('dynamicValidateForm')"
                 type="success"
                 plain
-              >保存</el-button>
+                >保存</el-button
+              >
             </el-col>
           </el-row>
         </el-form-item>
@@ -133,73 +164,113 @@
         <i class="el-icon-warning">&nbsp;继续？请再次检查</i>
       </span>
       <span slot="footer" class="dialog-footer">
-        <el-button size="small" @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
-        <el-button size="small" type="success" @click="updateSelectedRows()" plain>确认</el-button>
+        <el-button
+          size="small"
+          @click="confirm_dialogVisible = false"
+          type="primary"
+          plain
+          >取消</el-button
+        >
+        <el-button
+          size="small"
+          type="success"
+          @click="updateSelectedRows()"
+          plain
+          >确认</el-button
+        >
       </span>
     </el-dialog>
 
-      <el-container>
-        <el-header >建设中待验收种植业绿色优质基地</el-header>
-        <div class="iptBox">
-          <el-row>
-            <el-col :span="2">
-              <el-button size="small" type="success" plain v-on:click="showAddDialog()">添加</el-button>
-            </el-col>
-            <el-col :span="6">
-              <span>开始日期:&nbsp;</span>
-              <el-date-picker type="date" v-model="registerTimeFrom"></el-date-picker>
-            </el-col>
-            <el-col :span="6">
-              <span>结束日期:&nbsp;</span>
-              <el-date-picker type="date" v-model="registerTimeTo"></el-date-picker>
-            </el-col>
-            <el-col :span="9">
-              <span>创建单位:&nbsp;</span>
-              <el-input v-model="companyName" class="w-80"></el-input>
-            </el-col>
-            <el-col :span="1">
-              <el-button
-                size="small"
-                type="primary"
-                plain
-                v-on:click="changeFilter()"
-                class="margin-left-10"
-              >搜索</el-button>
-            </el-col>
-          </el-row>
-        </div>
-        <el-table
-          :data="tableData"
-          style="width: 100%"
-          :row-class-name="rowIndex"
-          :span-method="objectSpanMethod"
-          v-loading="listLoading"
-          highlight-current-row
-        >
-          <el-table-column :formatter="order" label="序号" width="100"></el-table-column>
-          <el-table-column prop="companyName" label="创建单位"></el-table-column>
-          <el-table-column prop="productType" label="产品类型"></el-table-column>
-          <el-table-column prop="area" label="基地面积"></el-table-column>
-          <el-table-column prop="location" label="基地地址(到村)"></el-table-column>
-          <el-table-column label="与部基地,产品基地重合">
-            <el-table-column prop="isCoincidence" label="(是/否)" align="center">
-              <template
-                slot-scope="{row}"
-              >{{ row.isCoincidence == "0" ? "否" : (row.isCoincidence == "1" ? "是" : row.isCoincidence ) }}</template>
-            </el-table-column>
+    <el-container>
+      <el-header>建设中待验收种植业绿色优质基地</el-header>
+      <div class="iptBox">
+        <el-row>
+          <el-col :span="2">
+            <el-button
+              size="small"
+              type="success"
+              plain
+              v-on:click="showAddDialog()"
+              >添加</el-button
+            >
+          </el-col>
+          <el-col :span="6">
+            <span>开始日期:&nbsp;</span>
+            <el-date-picker
+              type="date"
+              v-model="registerTimeFrom"
+            ></el-date-picker>
+          </el-col>
+          <el-col :span="6">
+            <span>结束日期:&nbsp;</span>
+            <el-date-picker
+              type="date"
+              v-model="registerTimeTo"
+            ></el-date-picker>
+          </el-col>
+          <el-col :span="9">
+            <span>创建单位:&nbsp;</span>
+            <el-input v-model="companyName" class="w-80"></el-input>
+          </el-col>
+          <el-col :span="1">
+            <el-button
+              size="small"
+              type="primary"
+              plain
+              v-on:click="changeFilter()"
+              class="margin-left-10"
+              >搜索</el-button
+            >
+          </el-col>
+        </el-row>
+      </div>
+      <el-table
+        :data="tableData"
+        style="width: 100%"
+        :row-class-name="rowIndex"
+        :span-method="objectSpanMethod"
+        v-loading="listLoading"
+        highlight-current-row
+      >
+        <el-table-column
+          :formatter="order"
+          label="序号"
+          width="100"
+        ></el-table-column>
+        <el-table-column prop="companyName" label="创建单位"></el-table-column>
+        <el-table-column prop="productType" label="产品类型"></el-table-column>
+        <el-table-column prop="area" label="基地面积"></el-table-column>
+        <el-table-column
+          prop="location"
+          label="基地地址(到村)"
+        ></el-table-column>
+        <el-table-column label="与部基地,产品基地重合">
+          <el-table-column prop="isCoincidence" label="(是/否)" align="center">
+            <template slot-scope="{ row }">{{
+              row.isCoincidence == "0"
+                ? "否"
+                : row.isCoincidence == "1"
+                ? "是"
+                : row.isCoincidence
+            }}</template>
           </el-table-column>
-          <el-table-column label="应扣除的重合部分" align="center">
-            <el-table-column
-              :prop="col.prop"
-              :label="col.label"
-              v-for="col in columns"
-              :key="col.prop"
-            ></el-table-column>
-          </el-table-column>
-          <el-table-column prop="other" label="备注" align="center"></el-table-column>
-        </el-table>
-      </el-container>
-    </div>
+        </el-table-column>
+        <el-table-column label="应扣除的重合部分" align="center">
+          <el-table-column
+            :prop="col.prop"
+            :label="col.label"
+            v-for="col in columns"
+            :key="col.prop"
+          ></el-table-column>
+        </el-table-column>
+        <el-table-column
+          prop="other"
+          label="备注"
+          align="center"
+        ></el-table-column>
+      </el-table>
+    </el-container>
+  </div>
 </template>
 
 <script>
@@ -239,7 +310,7 @@ export default {
         }
       ],
       alert_dialogVisible: false,
-      loggedinUserType: null,
+      // loggedinUserType: null,
 
       total: 0,
       tableData: [],
@@ -247,7 +318,7 @@ export default {
     };
   },
   created() {
-    this.loggedinUserType = Auth().user().userType;
+    // this.loggedinUserType = Auth().user().userType;
     this.getData();
   },
 

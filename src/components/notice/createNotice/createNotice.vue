@@ -16,10 +16,22 @@
         class="form-width"
         v-loading="dataloading"
       >
-        <el-form-item prop="timingRelease" label="定时发布" class="input-width label-align">
-          <el-date-picker v-model="addForm.timingRelease" auto-complete="off" type="datetime"></el-date-picker>
+        <el-form-item
+          prop="timingRelease"
+          label="定时发布"
+          class="input-width label-align"
+        >
+          <el-date-picker
+            v-model="addForm.timingRelease"
+            auto-complete="off"
+            type="datetime"
+          ></el-date-picker>
         </el-form-item>
-        <el-form-item label="紧急程度" prop="emergencyDegree" class="input-width label-align">
+        <el-form-item
+          label="紧急程度"
+          prop="emergencyDegree"
+          class="input-width label-align"
+        >
           <el-select v-model="addForm.emergencyDegree" placeholder="请选择">
             <el-option
               v-for="item in emergencyDegrees"
@@ -32,17 +44,36 @@
         <el-form-item label="类型" prop="type" class="input-width label-align">
           <el-input v-model="addForm.type" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="日期" prop="releaseTime" class="input-width label-align">
-          <el-date-picker type="date" v-model="addForm.releaseTime"></el-date-picker>
+        <el-form-item
+          label="日期"
+          prop="releaseTime"
+          class="input-width label-align"
+        >
+          <el-date-picker
+            type="date"
+            v-model="addForm.releaseTime"
+          ></el-date-picker>
         </el-form-item>
-        <el-form-item label="发布人" prop="releasePerson" class="input-width label-align">
-          <el-input v-model="addForm.releasePerson" auto-complete="off"></el-input>
+        <el-form-item
+          label="发布人"
+          prop="releasePerson"
+          class="input-width label-align"
+        >
+          <el-input
+            v-model="addForm.releasePerson"
+            auto-complete="off"
+          ></el-input>
         </el-form-item>
         <el-form-item prop="title" label="标题" class="label-align">
           <el-input v-model="addForm.title" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item prop="content" label="内容" class="label-align">
-          <el-input v-model="addForm.content" auto-complete="off" type="textarea" :rows="10"></el-input>
+          <el-input
+            v-model="addForm.content"
+            auto-complete="off"
+            type="textarea"
+            :rows="10"
+          ></el-input>
         </el-form-item>
         <el-form-item label prop="file">
           <input
@@ -52,12 +83,28 @@
             ref="file_live_1"
             v-on:change="handleFileUpload()"
           />
-          <el-button size="small" plain @click="chooseFile()">添加附件</el-button>
-          <span style="width: 300px;" class="margin-left-10">{{ fileName }}</span>
+          <el-button size="small" plain @click="chooseFile()"
+            >添加附件</el-button
+          >
+          <span style="width: 300px;" class="margin-left-10">{{
+            fileName
+          }}</span>
         </el-form-item>
         <el-form-item>
-          <el-button size="small" type="success" plain @click="onSubmit('addForm')">保存</el-button>
-          <el-button size="small" type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
+          <el-button
+            size="small"
+            type="success"
+            plain
+            @click="onSubmit('addForm')"
+            >保存</el-button
+          >
+          <el-button
+            size="small"
+            type="danger"
+            plain
+            v-on:click="$router.go(-1)"
+            >取消</el-button
+          >
         </el-form-item>
       </el-form>
     </div>
@@ -139,12 +186,12 @@ export default {
       images: [],
       fileName: "",
       file_live_1: null,
-      dataloading: false,
-      loggedinUserType: null
+      dataloading: false
+      // loggedinUserType: null
     };
   },
   mounted() {
-    this.loggedinUserType = Auth().user().userType;
+    // this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     onSubmit(formName) {
@@ -183,13 +230,12 @@ export default {
       mainFormData.append("content", this.addForm.content);
       mainFormData.append("id", 0);
       mainFormData.append("file", this.file_live_1);
-      mainFormData.append("createUserId", this.loggedinUserType);
-      mainFormData.append("updateUserId", this.loggedinUserType);
+      mainFormData.append("createUserId", Auth().user().id);
+      mainFormData.append("updateUserId", Auth().user().id);
       return mainFormData;
     }
   }
 };
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

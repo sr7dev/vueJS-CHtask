@@ -1,21 +1,30 @@
 <template>
   <div class="box">
-    <el-dialog :visible.sync="openDialog" width="90%" :before-close="handleClose">
+    <el-dialog
+      :visible.sync="openDialog"
+      width="90%"
+      :before-close="handleClose"
+    >
       <el-form ref="dynamicValidateForm" :model="dynamicValidateForm">
         <el-form-item label="年度：" class="margin-left-10">
           <el-row>
             <el-col :span="2">
               <el-input
                 v-model="inYear"
-                :rules="[{required: true, message: '请插入', trigger: 'blur'},
-          {type:'number',message: '插入号码', trigger: 'blur'}]"
+                :rules="[
+                  { required: true, message: '请插入', trigger: 'blur' },
+                  { type: 'number', message: '插入号码', trigger: 'blur' }
+                ]"
                 :span="3"
               ></el-input>
             </el-col>
           </el-row>
         </el-form-item>
         <el-form-item class="left-margin flex-box w-100 no-margin-IE">
-          <el-row v-for="(rowData, index) in dynamicValidateForm.data" :key="index">
+          <el-row
+            v-for="(rowData, index) in dynamicValidateForm.data"
+            :key="index"
+          >
             <el-col :span="1">
               <el-form-item class="margin-left-20">
                 <el-checkbox
@@ -30,7 +39,7 @@
             <el-col :span="2">
               <el-form-item
                 label="板块："
-                :prop="'data.' + index+'.town'"
+                :prop="'data.' + index + '.town'"
                 :rules="{ required: true, message: '请插入', trigger: 'blur' }"
                 class="margin-left-10"
               >
@@ -40,9 +49,11 @@
             <el-col :span="2">
               <el-form-item
                 label="种植业占比:"
-                :prop="'data.' + index+'.planting'"
-                :rules="[{required: true, message: '请插入', trigger: 'blur'},
-                { type: 'number',message: '插入号码', trigger: 'blur'}]"
+                :prop="'data.' + index + '.planting'"
+                :rules="[
+                  { required: true, message: '请插入', trigger: 'blur' },
+                  { type: 'number', message: '插入号码', trigger: 'blur' }
+                ]"
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.planting"></el-input>
@@ -51,9 +62,11 @@
             <el-col :span="2">
               <el-form-item
                 label="畜牧业占比:"
-                :prop="'data.' + index+'.livestock'"
-                :rules="[{required: true, message: '请插入', trigger: 'blur'},
-                { type: 'number',message: '插入号码', trigger: 'blur'}]"
+                :prop="'data.' + index + '.livestock'"
+                :rules="[
+                  { required: true, message: '请插入', trigger: 'blur' },
+                  { type: 'number', message: '插入号码', trigger: 'blur' }
+                ]"
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.livestock"></el-input>
@@ -63,9 +76,11 @@
             <el-col :span="4">
               <el-form-item
                 label="绿色优质农产品占比:"
-                :prop="'data.' + index+'.highQuality'"
-                :rules="[{required: true, message: '请插入', trigger: 'blur'},
-                { type: 'number',message: '插入号码', trigger: 'blur'}]"
+                :prop="'data.' + index + '.highQuality'"
+                :rules="[
+                  { required: true, message: '请插入', trigger: 'blur' },
+                  { type: 'number', message: '插入号码', trigger: 'blur' }
+                ]"
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.highQuality"></el-input>
@@ -75,9 +90,11 @@
             <el-col :span="4">
               <el-form-item
                 label="下半年种植业预计占比:"
-                :prop="'data.' + index+'.plantingHalfPlan'"
-                :rules="[{required: true, message: '请插入', trigger: 'blur'},
-                { type: 'number',message: '插入号码', trigger: 'blur'}]"
+                :prop="'data.' + index + '.plantingHalfPlan'"
+                :rules="[
+                  { required: true, message: '请插入', trigger: 'blur' },
+                  { type: 'number', message: '插入号码', trigger: 'blur' }
+                ]"
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.plantingHalfPlan"></el-input>
@@ -87,9 +104,11 @@
             <el-col :span="4">
               <el-form-item
                 label="下半年畜牧业预计占比:"
-                :prop="'data.' + index+'.livestockHalfPlan'"
-                :rules="[{required: true, message: '请插入', trigger: 'blur'},
-                { type: 'number',message: '插入号码', trigger: 'blur'}]"
+                :prop="'data.' + index + '.livestockHalfPlan'"
+                :rules="[
+                  { required: true, message: '请插入', trigger: 'blur' },
+                  { type: 'number', message: '插入号码', trigger: 'blur' }
+                ]"
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.livestockHalfPlan"></el-input>
@@ -99,9 +118,11 @@
             <el-col :span="4">
               <el-form-item
                 label="绿色优质农产品预计占比:"
-                :prop="'data.' + index+'.highQualityPlan'"
-                :rules="[{required: true, message: '请插入', trigger: 'blur'},
-                { type: 'number',message: '插入号码', trigger: 'blur'}]"
+                :prop="'data.' + index + '.highQualityPlan'"
+                :rules="[
+                  { required: true, message: '请插入', trigger: 'blur' },
+                  { type: 'number', message: '插入号码', trigger: 'blur' }
+                ]"
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.highQualityPlan"></el-input>
@@ -111,12 +132,23 @@
 
           <el-row class="margin-left-40 margin-top-20">
             <el-col :span="17">
-              <el-button size="small" @click="addFormRow()" type="primary" plain>添加</el-button>
-              <el-button size="small" @click="deleteSelectedRows()" type="danger" plain>删除</el-button>
+              <el-button size="small" @click="addFormRow()" type="primary" plain
+                >添加</el-button
+              >
+              <el-button
+                size="small"
+                @click="deleteSelectedRows()"
+                type="danger"
+                plain
+                >删除</el-button
+              >
             </el-col>
             <el-col :span="4" v-show="dynamicValidateForm.data.length > 0">
               <span>插入时间:&nbsp;</span>
-              <el-date-picker type="date" v-model="registerTime"></el-date-picker>
+              <el-date-picker
+                type="date"
+                v-model="registerTime"
+              ></el-date-picker>
             </el-col>
             <el-col :span="2" v-show="dynamicValidateForm.data.length > 0">
               <el-button
@@ -124,7 +156,8 @@
                 @click="onSubmit('dynamicValidateForm')"
                 type="success"
                 plain
-              >保存</el-button>
+                >保存</el-button
+              >
             </el-col>
           </el-row>
         </el-form-item>
@@ -136,8 +169,20 @@
         <i class="el-icon-warning">&nbsp;继续？请再次检查</i>
       </span>
       <span slot="footer" class="dialog-footer">
-        <el-button size="small" @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
-        <el-button size="small" type="success" @click="updateSelectedRows()" plain>确认</el-button>
+        <el-button
+          size="small"
+          @click="confirm_dialogVisible = false"
+          type="primary"
+          plain
+          >取消</el-button
+        >
+        <el-button
+          size="small"
+          type="success"
+          @click="updateSelectedRows()"
+          plain
+          >确认</el-button
+        >
       </span>
     </el-dialog>
 
@@ -146,19 +191,35 @@
       <div class="iptBox">
         <el-row>
           <el-col :span="2">
-            <el-button size="small" type="success" plain v-on:click="showAddDialog()">添加</el-button>
+            <el-button
+              size="small"
+              type="success"
+              plain
+              v-on:click="showAddDialog()"
+              >添加</el-button
+            >
           </el-col>
           <el-col :span="6">
             <span>开始日期:&nbsp;</span>
-            <el-date-picker type="date" v-model="registerTimeFrom"></el-date-picker>
+            <el-date-picker
+              type="date"
+              v-model="registerTimeFrom"
+            ></el-date-picker>
           </el-col>
           <el-col :span="6">
             <span>结束日期:&nbsp;</span>
-            <el-date-picker type="date" v-model="registerTimeTo"></el-date-picker>
+            <el-date-picker
+              type="date"
+              v-model="registerTimeTo"
+            ></el-date-picker>
           </el-col>
           <el-col :span="4">
             <span>年度:&nbsp;</span>
-            <el-input v-model="searchYear" class="w-60" @keyup.native="handleChange"></el-input>
+            <el-input
+              v-model="searchYear"
+              class="w-60"
+              @keyup.native="handleChange"
+            ></el-input>
           </el-col>
           <el-col :span="1">
             <el-button
@@ -167,7 +228,8 @@
               plain
               v-on:click="changeFilter()"
               class="margin-left-10"
-            >搜索</el-button>
+              >搜索</el-button
+            >
           </el-col>
         </el-row>
       </div>
@@ -184,10 +246,22 @@
         <el-table-column prop="town" label="板块"></el-table-column>
         <el-table-column prop="planting" label="种植业占比"></el-table-column>
         <el-table-column prop="livestock" label="畜牧业占比"></el-table-column>
-        <el-table-column prop="highQuality" label="绿色优质农产品占比"></el-table-column>
-        <el-table-column prop="plantingHalfPlan" label="下半年种植业预计占比"></el-table-column>
-        <el-table-column prop="livestockHalfPlan" label="下半年畜牧业预计占比"></el-table-column>
-        <el-table-column prop="highQualityPlan" label="绿色优质农产品预计占比"></el-table-column>
+        <el-table-column
+          prop="highQuality"
+          label="绿色优质农产品占比"
+        ></el-table-column>
+        <el-table-column
+          prop="plantingHalfPlan"
+          label="下半年种植业预计占比"
+        ></el-table-column>
+        <el-table-column
+          prop="livestockHalfPlan"
+          label="下半年畜牧业预计占比"
+        ></el-table-column>
+        <el-table-column
+          prop="highQualityPlan"
+          label="绿色优质农产品预计占比"
+        ></el-table-column>
       </el-table>
     </el-container>
   </div>
@@ -221,7 +295,7 @@ export default {
       sendcount: 0,
 
       alert_dialogVisible: false,
-      loggedinUserType: null,
+      // loggedinUserType: null,
 
       total: 0,
       tableData: [],
@@ -229,7 +303,7 @@ export default {
     };
   },
   created() {
-    this.loggedinUserType = Auth().user().userType;
+    // this.loggedinUserType = Auth().user().userType;
     this.getData();
   },
   methods: {
@@ -335,7 +409,7 @@ export default {
     },
 
     handleChange() {
-      if (this.searchYear > 1990 ) {
+      if (this.searchYear > 1990) {
         this.registerTimeFrom = new Date(this.searchYear, 0, 1);
       }
     },
@@ -416,7 +490,6 @@ export default {
   }
 };
 </script>
-
 
 <style>
 .el-header {

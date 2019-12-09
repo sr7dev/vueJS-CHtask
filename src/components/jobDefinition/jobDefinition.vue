@@ -7,7 +7,13 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <el-button size="small" type="primary" v-on:click="$router.push(`/jobDefinition/create`)" plain>添加</el-button>
+        <el-button
+          size="small"
+          type="primary"
+          v-on:click="$router.push(`/jobDefinition/create`)"
+          plain
+          >添加</el-button
+        >
       </div>
 
       <el-container>
@@ -18,26 +24,41 @@
           :row-class-name="rowIndex"
           highlight-current-row
         >
-          <el-table-column :formatter="order" label="序号" width="180"></el-table-column>
+          <el-table-column
+            :formatter="order"
+            label="序号"
+            width="180"
+          ></el-table-column>
           <el-table-column prop="jobName" label="作业名称"></el-table-column>
           <el-table-column prop="jobType" label="作业类型">
-            <template slot-scope="{ row }">{{ getJobType(row.jobType) }}</template>
+            <template slot-scope="{ row }">{{
+              getJobType(row.jobType)
+            }}</template>
           </el-table-column>
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
-              <el-button size="small"
+              <el-button
+                size="small"
                 type="success"
                 plain
                 v-on:click="
-                                    $router.push({
-                                        path: `/jobDefinition/${row.id}`,
-                                        query: {
-                                            jobName: row.jobName,
-                                            jobType: getJobType(row.jobType)
-                                        }
-                                    })"
-              >修改</el-button>
-              <el-button size="small" type="danger" v-on:click="handleDelete(`${row.id}`)" plain>删除</el-button>
+                  $router.push({
+                    path: `/jobDefinition/${row.id}`,
+                    query: {
+                      jobName: row.jobName,
+                      jobType: getJobType(row.jobType)
+                    }
+                  })
+                "
+                >修改</el-button
+              >
+              <el-button
+                size="small"
+                type="danger"
+                v-on:click="handleDelete(`${row.id}`)"
+                plain
+                >删除</el-button
+              >
             </template>
           </el-table-column>
         </el-table>

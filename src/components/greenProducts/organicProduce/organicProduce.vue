@@ -7,7 +7,10 @@
       title="添加有机农产品"
     >
       <el-form ref="dynamicValidateForm" :model="dynamicValidateForm">
-        <el-row v-for="(rowData, index) in dynamicValidateForm.rowDatas" :key="index">
+        <el-row
+          v-for="(rowData, index) in dynamicValidateForm.rowDatas"
+          :key="index"
+        >
           <el-col :span="1">
             <el-form-item class="margin-left-20">
               <el-checkbox
@@ -22,7 +25,7 @@
           <el-col :span="3" class="margin-left-10">
             <el-form-item
               label="所在镇(区)："
-              :prop="'rowDatas.'+index+'.town'"
+              :prop="'rowDatas.' + index + '.town'"
               :rules="{ required: true, message: '请插入', trigger: 'blur' }"
             >
               <el-input v-model="rowData.town" class="w-100"></el-input>
@@ -31,7 +34,7 @@
           <el-col :span="4" class="margin-left-10">
             <el-form-item
               label="申报单位名称:"
-              :prop="'rowDatas.'+index+'.companyId'"
+              :prop="'rowDatas.' + index + '.companyId'"
               :rules="{ required: true, message: '请选择', trigger: 'blur' }"
             >
               <el-select v-model="rowData.companyId" class="w-100">
@@ -47,8 +50,8 @@
           <el-col :span="3" class="margin-left-10">
             <el-form-item
               label="编号:"
-              :prop="'rowDatas.'+index+'.productCreditCode'"
-              :rules="{required: true, message: '请插入',trigger: 'blur'}"
+              :prop="'rowDatas.' + index + '.productCreditCode'"
+              :rules="{ required: true, message: '请插入', trigger: 'blur' }"
             >
               <el-input v-model="rowData.productCreditCode"></el-input>
             </el-form-item>
@@ -56,7 +59,7 @@
           <el-col :span="2" class="margin-left-10">
             <el-form-item
               label="产品种类:"
-              :prop="'rowDatas.'+index+'.productType'"
+              :prop="'rowDatas.' + index + '.productType'"
               :rules="{ required: true, message: '请插入', trigger: 'blur' }"
             >
               <el-input v-model="rowData.productType"></el-input>
@@ -65,7 +68,7 @@
           <el-col :span="2" class="margin-left-10">
             <el-form-item
               label="产品名称:"
-              :prop="'rowDatas.'+index+'.productName'"
+              :prop="'rowDatas.' + index + '.productName'"
               :rules="{ required: true, message: '请插入', trigger: 'blur' }"
             >
               <el-input v-model="rowData.productName"></el-input>
@@ -74,25 +77,33 @@
           <el-col :span="2" class="margin-left-10">
             <el-form-item
               label="面积(亩):"
-              :prop="'rowDatas.'+index+'.area'"
+              :prop="'rowDatas.' + index + '.area'"
               :rules="{ required: true, message: '请插入', trigger: 'blur' }"
             >
-              <el-input-number v-model="rowData.area" :controls="false" class="w-90"></el-input-number>
+              <el-input-number
+                v-model="rowData.area"
+                :controls="false"
+                class="w-90"
+              ></el-input-number>
             </el-form-item>
           </el-col>
           <el-col :span="2">
             <el-form-item
               label="产量(吨):"
-              :prop="'rowDatas.'+index+'.amount'"
+              :prop="'rowDatas.' + index + '.amount'"
               :rules="{ required: true, message: '请插入', trigger: 'blur' }"
             >
-              <el-input-number v-model="rowData.amount" :controls="false" class="w-90"></el-input-number>
+              <el-input-number
+                v-model="rowData.amount"
+                :controls="false"
+                class="w-90"
+              ></el-input-number>
             </el-form-item>
           </el-col>
           <el-col :span="3">
             <el-form-item
               label="详细地址:"
-              :prop="'rowDatas.'+index+'.location'"
+              :prop="'rowDatas.' + index + '.location'"
               :rules="{ required: true, message: '请插入', trigger: 'blur' }"
             >
               <el-input v-model="rowData.location"></el-input>
@@ -104,12 +115,27 @@
         </el-row>
         <el-row class="left-margin flex-box w-100 no-margin-IE">
           <el-col :span="4">
-            <el-button size="small" @click="addFormRow()" type="primary" plain>添加</el-button>
-            <el-button size="small" @click="deleteSelectedRows()" type="danger" plain>删除</el-button>
+            <el-button size="small" @click="addFormRow()" type="primary" plain
+              >添加</el-button
+            >
+            <el-button
+              size="small"
+              @click="deleteSelectedRows()"
+              type="danger"
+              plain
+              >删除</el-button
+            >
           </el-col>
-          <el-col :span="16" class="margin-top-10 text-right">插入时间：</el-col>
+          <el-col :span="16" class="margin-top-10 text-right"
+            >插入时间：</el-col
+          >
           <el-col :span="3">
-            <el-date-picker v-model="registerTime" align="right" class="w-80" type="date"></el-date-picker>
+            <el-date-picker
+              v-model="registerTime"
+              align="right"
+              class="w-80"
+              type="date"
+            ></el-date-picker>
           </el-col>
           <el-col :span="1">
             <el-button
@@ -119,7 +145,8 @@
               plain
               style="float:right"
               class="margin-right-40"
-            >保存</el-button>
+              >保存</el-button
+            >
           </el-col>
         </el-row>
       </el-form>
@@ -129,41 +156,91 @@
         <i class="el-icon-warning">&nbsp;继续？请再次检查</i>
       </span>
       <span slot="footer" class="dialog-footer">
-        <el-button size="small" @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
-        <el-button size="small" type="success" @click="updateSelectedRows()" plain>确认</el-button>
+        <el-button
+          size="small"
+          @click="confirm_dialogVisible = false"
+          type="primary"
+          plain
+          >取消</el-button
+        >
+        <el-button
+          size="small"
+          type="success"
+          @click="updateSelectedRows()"
+          plain
+          >确认</el-button
+        >
       </span>
     </el-dialog>
     <el-container>
       <el-header class="margin-bottom-10">有机农产品清单</el-header>
       <el-row class="margin-bottom-20">
         <el-col :span="1">
-          <el-button plain type="success" size="small" @click="showAddDialog()">添加</el-button>
+          <el-button plain type="success" size="small" @click="showAddDialog()"
+            >添加</el-button
+          >
         </el-col>
         <el-col :span="4">
-          <div class="select_label margin-left-20 margin-right-5">开始日期 :</div>
-          <el-date-picker v-model="registerTimeFrom" align="right" type="date" placeholder="插入时间 "></el-date-picker>
+          <div class="select_label margin-left-20 margin-right-5">
+            开始日期 :
+          </div>
+          <el-date-picker
+            v-model="registerTimeFrom"
+            align="right"
+            type="date"
+            placeholder="插入时间 "
+          ></el-date-picker>
         </el-col>
         <el-col :span="4">
-          <div class="select_label margin-left-20 margin-right-5">结束日期 :</div>
-          <el-date-picker v-model="registerTimeTo" align="right" type="date" placeholder="插入时间 "></el-date-picker>
+          <div class="select_label margin-left-20 margin-right-5">
+            结束日期 :
+          </div>
+          <el-date-picker
+            v-model="registerTimeTo"
+            align="right"
+            type="date"
+            placeholder="插入时间 "
+          ></el-date-picker>
         </el-col>
 
         <el-col :span="4">
-          <div class="select_label margin-left-20 margin-right-5">所在镇(区) :</div>
+          <div class="select_label margin-left-20 margin-right-5">
+            所在镇(区) :
+          </div>
           <el-input v-model="searchTown" align="right" class="w-50"></el-input>
         </el-col>
         <el-col :span="4">
-          <div class="select_label no-margin-left margin-right-5">申报单位名称 :</div>
-          <el-input v-model="searchCompanyName" align="right" class="w-50"></el-input>
+          <div class="select_label no-margin-left margin-right-5">
+            申报单位名称 :
+          </div>
+          <el-input
+            v-model="searchCompanyName"
+            align="right"
+            class="w-50"
+          ></el-input>
         </el-col>
         <el-col :span="4">
-          <div class="select_label margin-left-20 margin-right-5">已获证书 :</div>
+          <div class="select_label margin-left-20 margin-right-5">
+            已获证书 :
+          </div>
           <el-select v-model="isCredit" align="right" type="date" class="w-50">
-            <el-option v-for="item in option" :key="item.val" :label="item.label" :value="item.val"></el-option>
+            <el-option
+              v-for="item in option"
+              :key="item.val"
+              :label="item.label"
+              :value="item.val"
+            ></el-option>
           </el-select>
         </el-col>
         <el-col :span="2">
-          <el-button plain type="primary" size="small" @click="getData()" class="margin-left-10">搜索</el-button>
+          <el-button
+            plain
+            type="primary"
+            size="small"
+            @click="getData()"
+            class="margin-left-10"
+            >搜索</el-button
+          >
         </el-col>
       </el-row>
       <el-table
@@ -176,19 +253,40 @@
         fit
         highlight-current-row
       >
-        <el-table-column :formatter="order" label="序号" width="100"></el-table-column>
-        <el-table-column prop="townDistrict.value" label="所在镇(区)"></el-table-column>
-        <el-table-column prop="declarationUnitName.value" label="申报单位名称"></el-table-column>
+        <el-table-column
+          :formatter="order"
+          label="序号"
+          width="100"
+        ></el-table-column>
+        <el-table-column
+          prop="townDistrict.value"
+          label="所在镇(区)"
+        ></el-table-column>
+        <el-table-column
+          prop="declarationUnitName.value"
+          label="申报单位名称"
+        ></el-table-column>
         <el-table-column prop="numbering.value" label="编号"></el-table-column>
         <el-table-column prop="kind.value" width="150"></el-table-column>
-        <el-table-column prop="productName.value" label="产品名称" align="center"></el-table-column>
+        <el-table-column
+          prop="productName.value"
+          label="产品名称"
+          align="center"
+        ></el-table-column>
         <el-table-column prop="area.value" label="面积(亩)">
-          <template slot-scope="{row}">{{parseFloat(row.area.value).toFixed(2)}}</template>
+          <template slot-scope="{ row }">{{
+            parseFloat(row.area.value).toFixed(2)
+          }}</template>
         </el-table-column>
         <el-table-column prop="production.value" label="产量(吨)">
-          <template slot-scope="{row}">{{parseFloat(row.production.value).toFixed(2)}}</template>
+          <template slot-scope="{ row }">{{
+            parseFloat(row.production.value).toFixed(2)
+          }}</template>
         </el-table-column>
-        <el-table-column prop="address.value" label="详细地址"></el-table-column>
+        <el-table-column
+          prop="address.value"
+          label="详细地址"
+        ></el-table-column>
       </el-table>
     </el-container>
 
@@ -252,7 +350,7 @@ export default {
         ]
       },
       registerTime: new Date(),
-      loggedinUserType: null,
+      // loggedinUserType: null,
       page: {
         pageIndex: 1,
         pageSize: 20
@@ -267,7 +365,7 @@ export default {
 
   created() {
     this.getCompanyProduction();
-    this.loggedinUserType = Auth().user().userType;
+    // this.loggedinUserType = Auth().user().userType;
     this.getData();
   },
   methods: {

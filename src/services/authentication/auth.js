@@ -46,13 +46,27 @@ class Auth {
   check() {
     // return this.user() != null && Boolean(TokenManager().accessToken);
     if (!this.getParameterByName("timestamp") ||
-      !this.getParameterByName("alitoken") ||
+      !this.getParameterByName("accessToken") ||
       !this.getParameterByName("sign")
     )
+    // return -1;
       return false;
+
+    //getting md5 hash value
+    let md5 = require("blueimp-md5");
+    let hash = md5(
+      this.getParameterByName("timestamp") +
+      this.getParameterByName("accessToken") +
+      "zhsnqualitysupervision"
+    );
+    const accessToken = this.getParameterByName("accessToken").replace(
+      "%20",
+      " "
+    );
+    // if (hash.localeCompare(this.getParameterByName("sign") !== 0)) return -2;
     return Request()
       .post("/api/user/getAuthByAliToken", {
-        aliToken: this.getParameterByName("alitoken").replace("%20", " ")
+        aliToken: accessToken
       })
       .then(
         success => {
@@ -61,12 +75,14 @@ class Auth {
             JSON.parse(success.authListInfo).result[0].privilegeList
           );
           Storage.set("userData", JSON.parse(success.userInfo).result);
-          TokenManager().accessToken = success.token;
+          // TokenManager().accessToken = success.token;
+          if (accessToken) TokenManager().accessToken = accessToken;
           window.history.replaceState({}, document.title, "/");
           return Promise.resolve(success);
         },
         error => {
           this.clearSavedData();
+          console.log(error);
           window.history.replaceState({}, document.title, "/");
           return Promise.reject(error);
         }
@@ -78,14 +94,15 @@ class Auth {
    * @return {Object} user data
    */
   user() {
-    if (this.loggedInUser) return this.loggedInUser;
+    // if (this.loggedInUser) return this.loggedInUser;
     if (Storage.get("userData")) {
-      if (JSON.parse(Storage.get("userData")).tmp) {
-        //return User.create(JSON.parse(Storage.get("userData")));
-        return User.create(JSON.parse(Storage.get("userData")).tmp);
-      } else {
-        return User.create(JSON.parse(Storage.get("userData")));
-      }
+      // if (JSON.parse(Storage.get("userData")).tmp) {
+      //   //return User.create(JSON.parse(Storage.get("userData")));
+      //   return User.create(JSON.parse(Storage.get("userData")).tmp);
+      // } else {
+      // return User.create(JSON.parse(Storage.get("userData")));
+      return Storage.get("userData");
+      // }
     }
 
     return null;

@@ -26,7 +26,7 @@
         </div>
         <div class="cate-content-panel">
           <div class="cate-item-panel inline-block-IE">
-            <el-form-item label="巡查">({{tableData.length}})</el-form-item>
+            <el-form-item label="巡查">({{ tableData.length }})</el-form-item>
             <el-container>
               <el-table
                 style="width: 100%"
@@ -36,28 +36,31 @@
                 highlight-current-row
               >
                 <el-table-column prop="createTime" label="日期">
-                  <template slot-scope="{ row }">{{ row.createTime | formatDate }}</template>
+                  <template slot-scope="{ row }">{{
+                    row.createTime | formatDate
+                  }}</template>
                 </el-table-column>
                 <el-table-column prop="township" label="乡镇">
                   <template slot-scope="{ row }">
-                    {{
-                    filterTownship(row.townId)
-                    }}
+                    {{ filterTownship(row.townId) }}
                   </template>
                 </el-table-column>
-                <el-table-column prop="inspector" label="检查人"></el-table-column>
+                <el-table-column
+                  prop="inspector"
+                  label="检查人"
+                ></el-table-column>
                 <el-table-column prop="unitinspec" label="检查单位">
                   <template slot-scope="{ row }">
-                    {{
-                    getCompanyName(row.companyId)
-                    }}
+                    {{ getCompanyName(row.companyId) }}
                   </template>
                 </el-table-column>
               </el-table>
             </el-container>
           </div>
           <div class="cate-item-panel inline-block-IE">
-            <el-form-item label="检测">({{detectTableData.length}})</el-form-item>
+            <el-form-item label="检测"
+              >({{ detectTableData.length }})</el-form-item
+            >
             <el-container>
               <el-table
                 style="width: 100%"
@@ -67,7 +70,9 @@
                 highlight-current-row
               >
                 <el-table-column label="日期">
-                  <template slot-scope="{ row }">{{ row.detectTime | formatDate }}</template>
+                  <template slot-scope="{ row }">{{
+                    row.detectTime | formatDate
+                  }}</template>
                 </el-table-column>
                 <el-table-column label="项目">
                   <template slot-scope="{ row }">{{ row.item }}</template>
@@ -76,24 +81,30 @@
                   <template slot-scope="{ row }">{{ row.sample }}</template>
                 </el-table-column>
                 <el-table-column label="结果">
-                  <template slot-scope="{ row }">{{ row.resultDxDesc }}</template>
+                  <template slot-scope="{ row }">{{
+                    row.resultDxDesc
+                  }}</template>
                 </el-table-column>
               </el-table>
             </el-container>
           </div>
           <div class="cate-item-panel inline-block-IE">
             <div style="display: flex; justify-content: space-between;">
-              <el-form-item label="培训记录" class="margin-bottom-reverse-40"></el-form-item>
+              <el-form-item
+                label="培训记录"
+                class="margin-bottom-reverse-40"
+              ></el-form-item>
               <div class="inline-block-IE align-right-IE">
                 <el-button
                   size="small"
                   type="danger"
                   class="margin-bottom-22"
                   plain
-                  v-if="loggedinUserType === 1 || loggedinUserType === 0"
+                  v-if="!isShowAddButton"
                   @click="updateSelectedRows()"
                   :disabled="!(trainTableData.length > 0)"
-                >删除</el-button>
+                  >删除</el-button
+                >
                 <el-checkbox
                   v-model="isShowCheckbox"
                   true-label="1"
@@ -108,11 +119,14 @@
                 class="inline-block-IE float-right-IE"
                 type="primary"
                 plain
-                v-if="loggedinUserType === 2 || loggedinUserType === 0"
-                @click="$router.push({
-                  path: `/trainingFunds`
-                })"
-              >添加附件</el-button>
+                v-if="isShowAddButton"
+                @click="
+                  $router.push({
+                    path: `/trainingFunds`
+                  })
+                "
+                >添加附件</el-button
+              >
             </div>
             <el-container>
               <el-table
@@ -133,13 +147,13 @@
                   </template>
                 </el-table-column>
                 <el-table-column label="日期">
-                  <template slot-scope="{ row }">{{ row.createTime | formatDate }}</template>
+                  <template slot-scope="{ row }">{{
+                    row.createTime | formatDate
+                  }}</template>
                 </el-table-column>
                 <el-table-column label="乡镇">
                   <template slot-scope="{ row }">
-                    {{
-                    getTownName(row.companyId)
-                    }}
+                    {{ getTownName(row.companyId) }}
                   </template>
                 </el-table-column>
                 <el-table-column label="文件">
@@ -149,7 +163,8 @@
                       type="success"
                       plainv
                       @click="downloadFile(row.trainingFundsProfiles)"
-                    >下载附件</el-button>
+                      >下载附件</el-button
+                    >
                   </template>
                 </el-table-column>
               </el-table>
@@ -164,6 +179,7 @@
 import Request from "../../services/api/request.js";
 import { Urls } from "../../services/constants";
 import axios from "axios";
+import Storage from "store";
 import Auth from "@/services/authentication/auth.js";
 export default {
   name: "specialCategory",
@@ -200,7 +216,8 @@ export default {
       ],
       isShowCheckbox: 0,
       selectedRows: [],
-      checked: []
+      checked: [],
+      isShowAddButton: null
     };
   },
   created() {
@@ -214,7 +231,11 @@ export default {
     this.getDetectList();
     this.getTrainList();
     this.getTown();
-    this.loggedinUserType = Auth().user().userType;
+    this.isShowAddButton = Storage.get("authList").find(
+      x => x.privilegeCode == "addTrainingFunds"
+    )
+      ? true
+      : false;
   },
   methods: {
     getList() {
