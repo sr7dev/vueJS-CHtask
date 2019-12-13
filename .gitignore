@@ -1,6 +1,9 @@
 # Default ignored files
 /frontend/node_modules
+/mobile/node_modules
 /frontend/package-lock.json
+/mobile/package-lock.json
+/mobile/.gitignore
 /frontend/.idea
 .git
 node_modules
