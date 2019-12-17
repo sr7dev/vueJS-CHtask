@@ -74,16 +74,19 @@ class Auth {
             "authList",
             JSON.parse(success.authListInfo).result[0].privilegeList
           );
+          window.history.replaceState({}, document.title, "/");
+
           Storage.set("userData", JSON.parse(success.userInfo).result);
           // TokenManager().accessToken = success.token;
           if (accessToken) TokenManager().accessToken = accessToken;
-          window.history.replaceState({}, document.title, "/");
+
           return Promise.resolve(success);
         },
         error => {
           this.clearSavedData();
           console.log(error);
           window.history.replaceState({}, document.title, "/");
+
           return Promise.reject(error);
         }
       );
