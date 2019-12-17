@@ -15,16 +15,13 @@
               v-on:click="$router.push(`/productionStandard/create`)"
               plain
               v-if="isShowAddButton"
-              >添加生产标准</el-button
-            >
+            >添加生产标准</el-button>
           </el-col>
           <el-col :span="7">
             <div class="select_label no-margin-left">标准名称</div>
             <el-input v-model="productName" class="w-80"></el-input>
           </el-col>
-          <el-button size="small" type="primary" @click="getList()" plain
-            >搜索</el-button
-          >
+          <el-button size="small" type="primary" @click="getList()" plain>搜索</el-button>
           <!-- <el-col :span="12">
             <div class="select_label">类别</div>
             <el-select v-model="category" @change="getList()">
@@ -42,28 +39,19 @@
           :row-class-name="rowIndex"
           highlight-current-row
         >
-          <el-table-column
-            :formatter="order"
-            label="序号"
-            width="100"
-          ></el-table-column>
+          <el-table-column :formatter="order" label="序号" width="100"></el-table-column>
           <el-table-column prop="productName" label="标准"></el-table-column>
           <!-- <el-table-column prop="category" label="类别">
             <template slot-scope="{ row }">{{ filterCategory(row.category) }}</template>
           </el-table-column>-->
-          <el-table-column
-            prop="releaseTime"
-            label="发布时间"
-            class-name="text-center"
-          >
-            <template slot-scope="{ row }">{{
+          <el-table-column prop="releaseTime" label="发布时间" class-name="text-center">
+            <template slot-scope="{ row }">
+              {{
               row.releaseTime | formatDate
-            }}</template>
+              }}
+            </template>
           </el-table-column>
-          <el-table-column
-            prop="releasePerson"
-            label="发布者"
-          ></el-table-column>
+          <el-table-column prop="releasePerson" label="发布者"></el-table-column>
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
               <el-button
@@ -76,8 +64,7 @@
                     path: `/productionStandard/detail/` + row.id
                   })
                 "
-                >查看</el-button
-              >
+              >查看</el-button>
               <el-button
                 size="small"
                 type="success"
@@ -89,8 +76,11 @@
                 v-on:click="
                   downloadStandardProfiles(row.productionStandardProfiles)
                 "
-                >下载</el-button
-              >
+              >下载</el-button>
+              <!-- <a
+                :href="'http://localhost/standard'+row.productionStandardProfiles"
+                download
+              >{{row.productionStandardProfiles}}</a>-->
               <el-button
                 size="small"
                 type="warning"
@@ -101,8 +91,7 @@
                     path: `/productionStandard/edit/` + row.id
                   })
                 "
-                >修改</el-button
-              >
+              >修改</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -190,19 +179,30 @@ export default {
     },
 
     downloadStandardProfiles(profile) {
-      axios({
-        url: Urls.DOWNLOAD_URL() + profile,
-        method: "GET",
-        responseType: "blob" // important
-      }).then(response => {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", profile.replace("/uploads/", "")); //or any other extension
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-      });
+      // axios({
+      //   url: Urls.DOWNLOAD_URL() + profile,
+      //   method: "GET",
+      //   responseType: "blob" // important
+      // }).then(response => {
+      //   console.log(response.data);
+      // const url = window.URL.createObjectURL(new Blob([response.data]));
+      // const url = "http://213.252.247.150/standard" + profile;
+      window.open(
+        "http://localhost/download.php?file=" + encodeURIComponent(profile),
+        "_blank"
+      );
+      // const link = document.createElement("a");
+      // link.href = url;
+      // link.target = "_blank";
+      // profile.indexOf("jiangsu") > 0
+      //   ? link.setAttribute("download", profile.replace("/jiangsu/", ""))
+      //   : link.setAttribute("download", profile.replace("/suzhou/", "")); //or any other extension
+      // console.log(link);
+      // document.body.appendChild(link);
+      // link.click();
+
+      // link.remove();
+      // });
     },
 
     rowIndex({ row, rowIndex }) {

@@ -12,12 +12,7 @@
         <el-row style="width: 1280px">
           <el-col style="width:100px;text-align:center">短信内容</el-col>
           <el-col style="width:1080px">
-            <el-input
-              type="textarea"
-              v-model="content"
-              auto-complete="off"
-              :rows="10"
-            ></el-input>
+            <el-input type="textarea" v-model="content" auto-complete="off" :rows="10"></el-input>
           </el-col>
         </el-row>
       </div>
@@ -37,15 +32,14 @@
           >
             <el-table-column type="selection" width="35"></el-table-column>
             <el-table-column prop="townId" label="单位" width="280">
-              <template slot-scope="{ row }">{{
+              <template slot-scope="{ row }">
+                {{
                 getTownName(row.townId)
-              }}</template>
+                }}
+              </template>
             </el-table-column>
-            <el-table-column
-              prop="contactPerson"
-              label="联系人"
-            ></el-table-column>
-            <el-table-column prop="contactWay" label="手机"> </el-table-column>
+            <el-table-column prop="contactPerson" label="联系人"></el-table-column>
+            <el-table-column prop="contactWay" label="手机"></el-table-column>
           </el-table>
         </div>
         <el-button plain @click="$router.go(-1)" type="success">返回</el-button>
@@ -56,6 +50,8 @@
 <script>
 import Request from "../../../services/api/request.js";
 import Auth from "@/services/authentication/auth.js";
+import { Urls } from "@/services/constants.js";
+import Storage from "store";
 export default {
   name: "smsNotice",
   data() {
@@ -66,7 +62,9 @@ export default {
       tableData: [],
       selectCount: 0,
       township: [],
+      receiver: [],
       content: "",
+      title: "",
       checkedAll: false,
       isIndeterminate: true,
       checkedItem: false,
@@ -89,6 +87,7 @@ export default {
         .get("/api/notice/get/" + id)
         .then(response => {
           this.content = response.content;
+          this.title = response.title;
           setTimeout(() => {
             this.dataloading = false;
           }, 0.01 * 1000);
@@ -146,27 +145,28 @@ export default {
     postData() {
       this.listLoading = true;
       let dataInfo = [];
-      dataInfo = this.sels.map(item => {
-        return {
-          office: this.getTownName(item.townId),
-          person: item.contactPerson,
-          phone: item.contactWay
-        };
-      });
+      // Request()
+      //   .post("/api/notice_record/create", {
+      //     noticeContents: this.content,
+      //     noticeId: this.id,
+      //     sendTime: new Date().toJSON(),
+      //     sender: this.loggedinUserName,
+      //     sendStatus: 1,
+      //     sendCount: 0,
+      //     receiverInfo: JSON.stringify(dataInfo),
+      //     id: 0
+      //   })
       Request()
-        .post("/api/notice_record/create", {
-          noticeContents: this.content,
-          noticeId: this.id,
-          sendTime: new Date().toJSON(),
-          sender: this.loggedinUserName,
-          sendStatus: 1,
-          sendCount: 0,
-          receiverInfo: JSON.stringify(dataInfo),
-          id: 0
+        .post("/api/sendMsg", {
+          content: this.content,
+          sender: Storage.get("userData").mobile,
+          mobile: this.receiver,
+          msgType: 2,
+          title: this.title
         })
         .then(response => {
-          this.tableData = response.data;
-          this.total = response.total;
+          // this.tableData = response.data;
+          // this.total = response.total;
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
@@ -174,10 +174,19 @@ export default {
         })
         .catch(error => {
           console.log(error);
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
         });
     },
     selsChange: function(sels) {
       this.sels = sels;
+      for (let i = 0; i < this.sels.length; i++) {
+        if (this.sels[i].contactWay)
+          this.receiver.push(this.sels[i].contactWay);
+      }
+      this.receiver.push("sdfsdfsf");
+      // console.log(Storage.get("userData").mobile);
       this.selectCount = this.sels.length;
     }
   }
