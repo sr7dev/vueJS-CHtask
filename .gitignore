@@ -10,7 +10,6 @@ node_modules
 package-lock.json
 .vscode
 
-/dist
 /coverage
 
 /frontend/selenium-debug.log
@@ -34,7 +33,6 @@ package-lock.json
 /frontend/*.sw*
 
 
-/dist
 /coverage
 
 selenium-debug.log
