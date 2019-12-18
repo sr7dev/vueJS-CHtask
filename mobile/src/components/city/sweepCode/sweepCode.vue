@@ -131,6 +131,42 @@ export default {
         .catch(error => {
           console.log(error);
         });
+        Request()
+        .put("/api/tracing/update/" + this.tracingData.id, {
+          id: this.tracingData.id,
+          productId: this.tracingData.productId,
+          companyId: this.tracingData.companyId,
+          productionTime: this.tracingData.productionTime,
+          locationId: this.tracingData.locationId,
+          charge: this.tracingData.charge,
+          reportTime: this.tracingData.reportTime,
+          batchNumber: this.tracingData.batchNumber,
+          batchName: this.tracingData.batchName,
+          tracingNumber: this.tracingData.tracingNumber,
+          tracingTime: this.tracingData.tracingTime,
+          tracingTimeType: this.tracingData.tracingTimeType,
+          webTime: this.tracingData.webTime,
+          webTimeType: this.tracingData.webTimeType,
+          tracingAmount: this.tracingData.tracingAmount,
+          validTime: this.tracingData.validTime,
+          printStatus: this.tracingData.printStatus,
+          createTime: this.tracingData.createTime,
+          createUserId: this.tracingData.createUserId,
+          updateTime: this.tracingData.updateTime,
+          updateUserId: this.tracingData.updateUserId,
+          cntCompany: this.tracingData.cntCompany,
+          visitCount: this.tracingData.visitCount+1,
+          cntTracingCompany: this.tracingData.cntTracingCompany,
+          cntTracingTown: this.tracingData.cntTracingTown,
+          avgTracingTown: this.tracingData.avgTracingTown,
+        })
+        .then(response => {
+      
+        })
+        .catch(error => {
+          console.log(error);
+        });
+        console.log(this.tracingData);
     },
     /* getting company information using companyid of tracingdata */
     getCompanyData() {
@@ -192,7 +228,8 @@ export default {
   },
   async created() {
     let loader = this.$loading.show();
-    this.productBatchNumber = this.$route.params.batchNumber; //getting batchnumber from path
+    // this.productBatchNumber = this.$route.params.batchNumber; //getting batchnumber from path
+    this.productBatchNumber = "FDBC201910211002000902";
     // this.getData();
     await this.getTracingData();
     await this.getBatchTaskInfo();

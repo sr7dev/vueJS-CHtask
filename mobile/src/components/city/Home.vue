@@ -120,7 +120,8 @@ export default {
       this.$router.push("/sincerity");
     },
     recognizeQRCode() {
-      this.$router.push("/recognizeQR");
+      // this.$router.push("/recognizeQR");
+      this.$router.push("/sweepCode/" + "test");
     },
     //生产记录
     productionRecord() {

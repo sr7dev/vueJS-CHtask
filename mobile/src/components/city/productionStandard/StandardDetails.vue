@@ -49,10 +49,33 @@
         .get("/api/production_standard/get/" + id)
         .then(response => { 
           this.data = response;
-          console.log(response);
+          
           if(response.releaseTime){
             this.data.releaseTime = response.releaseTime.substring(0, response.releaseTime.lastIndexOf('T'));
           }
+          var formData = new FormData();
+          
+          formData.append("visitCount", response.visitCount+1);
+          formData.append("id", response.id);
+          formData.append("productName", response.productName);
+          formData.append("category", response.category);
+          if(response.releaseTime) formData.append("releaseTime", new Date(response.releaseTime));
+          formData.append("releasePerson", response.releasePerson);
+          formData.append("productStandard", response.productStandard);
+          formData.append("productionStandardProfiles", response.productionStandardProfiles);
+          formData.append("productId", response.productId);
+          if(response.createUserId) formData.append("createUserId", response.createUserId);
+          if(response.updateTime) formData.append("updateTime", response.updateTime);
+          if(response.updateUserId) formData.append("updateUserId", response.updateUserId);
+
+          Request()
+          .put("/api/production_standard/update/" + id, formData)
+          .then(response => {
+          
+          })
+          .catch(error => {
+            console.log(error);
+          });
           setTimeout(() => {
             loader.hide();
           }, 0.5 * 1000);

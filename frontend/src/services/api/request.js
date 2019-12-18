@@ -94,8 +94,7 @@ class Request {
       },
 
       error => {
-        console.log("asdasdasd");
-        Toast.error("Token 已过期!!! 重新登入.");
+        // Toast.error("Token 已过期!!! 重新登入.");
         return Promise.reject({
           status: "error",
           message: "错误的用户名或密码!",

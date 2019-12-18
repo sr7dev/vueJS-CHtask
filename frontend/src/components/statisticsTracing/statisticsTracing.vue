@@ -1,6 +1,6 @@
 <template>
-  <div class="container customized" v-loading="lineChartLoading">
-    <div class="box padding-modified header statisticTracingRecord" v-if="!lineChartLoading"></div>
+  <div class="container customized" v-loading="listLoading">
+    <div class="box padding-modified header statisticTracingRecord" v-if="!listLoading"></div>
     <div class="box padding-modified body">
       <el-row class="w-100">
         <el-col :span="13">
@@ -40,20 +40,19 @@
                 :data="tableData"
                 style="width: 100%"
                 class="fixed-height chart-table"
-                v-loading="listLoading"
               >
                 <el-table-column prop="name" width="150" label="乡镇名称" class-name="white-colored"></el-table-column>
                 <el-table-column prop="cnt" label="溯源扫码数量/占比" width="400">
                   <template slot-scope="{ row }">
                     <el-progress
-                      :percentage="getPercent(row.cnt, 5000,1)"
+                      :percentage="getPercent(row.cnt, maxCnt,1)"
                       :stroke-width="10"
                       :show-text="false"
                     ></el-progress>
                   </template>
                 </el-table-column>
                 <el-table-column class-name="blue-colored">
-                  <template slot-scope="{row}">{{row.cnt}}/10%</template>
+                  <template slot-scope="{row}">{{row.cnt}}/{{ Math.floor(row.cnt/maxCnt)}}%</template>
                 </el-table-column>
                 <el-table-column
                   prop="cnt1"
@@ -75,35 +74,34 @@
                 </template>
               </el-table-column>
               <el-table-column
-                prop="rowTotalSum"
+                prop="maxCnt"
                 label="不合"
                 width="400"
-                class-name="hidden-progress-inner"
+              
               >
-                <template>
-                  <el-progress
-                    :percentage="0"
-                    :stroke-width="10"
-                    :status="progressColor"
-                    :show-text="false"
-                  ></el-progress>
+                <template slot-scope="{ row }">
+                   <el-progress
+                      :percentage="getPercent(row.maxCnt, row.maxCnt,1)"
+                      :stroke-width="10"
+                      :show-text="false"
+                    ></el-progress>
                 </template>
               </el-table-column>
-              <el-table-column prop="name" label="合格率" width="150">
-                <template>
+              <el-table-column prop="maxCnt" label="合格率" width="150">
+                <template slot-scope="{ row }">
                   <div class="sub-title">
-                    <h3 class="large-font blue-colored italic-font">22922</h3>
+                    <h3 class="large-font blue-colored italic-font">{{row.maxCnt}}</h3>
                   </div>
                 </template>
               </el-table-column>
               <el-table-column
                 label="检测数量"
-                prop="rowTotalSum"
+                prop="avg_maxCnt"
                 width="150"
                 class-name="blue-colored"
               >
-                <template>
-                  <h1 class="large-font italic-font">10045</h1>
+                <template slot-scope="{ row }">
+                  <h1 class="large-font italic-font">{{row.avg_maxCnt}}</h1>
                 </template>
               </el-table-column>
             </el-table>
@@ -122,145 +120,144 @@
           <div
             class="disability-chart chart-container margin-left-10 large progress-customized"
             ref="chartdiv1"
-            v-loading="listLoading"
           >
-            <el-row style="margin-top:60px" class="margin-left-10">
+            <el-row style="margin-top:60px" class="margin-left-10" v-if="tableData1[0]">
               <el-col :span="2" class="red-colored padding-left-10">1</el-col>
               <el-col :span="4" class="white-colored">
-                <b>福鼎白茶</b>
+                <b>{{getCompanyName(tableData1[0][1])}}</b>
               </el-col>
               <el-col :span="15" class="no-progress-outer red-colored">
                 <el-progress :percentage="95" :stroke-width="13" :show-text="false"></el-progress>
               </el-col>
               <el-col :span="3">
                 <p class="blue-colored italic-font">
-                  <b>6000</b>
+                  <b>{{tableData1[0][0]}}</b>
                 </p>
               </el-col>
             </el-row>
-            <el-row class="margin-left-10 margin-top-30">
+            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[1]">
               <el-col :span="2" class="yellow-colored padding-left-10">2</el-col>
               <el-col :span="4" class="white-colored">
-                <b>阳山水蜜桃</b>
+                <b>{{getCompanyName(tableData1[1][1])}}</b>
               </el-col>
               <el-col :span="15" class="no-progress-outer yellow-colored">
                 <el-progress :percentage="90" :stroke-width="13" :show-text="false"></el-progress>
               </el-col>
               <el-col :span="3">
                 <p class="blue-colored italic-font">
-                  <b>5000</b>
+                  <b>{{tableData1[1][0]}}</b>
                 </p>
               </el-col>
             </el-row>
-            <el-row class="margin-left-10 margin-top-30">
+            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[2]">
               <el-col :span="2" class="yellow-colored padding-left-10">3</el-col>
               <el-col :span="4" class="white-colored">
-                <b>福鼎白茶</b>
+                <b>{{getCompanyName(tableData1[2][1])}}</b>
               </el-col>
               <el-col :span="15" class="no-progress-outer yellow-colored">
                 <el-progress :percentage="86" :stroke-width="13" :show-text="false"></el-progress>
               </el-col>
               <el-col :span="3">
                 <p class="blue-colored italic-font">
-                  <b>4000</b>
+                  <b>{{tableData1[2][0]}}</b>
                 </p>
               </el-col>
             </el-row>
-            <el-row class="margin-left-10 margin-top-30">
+            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[3]">
               <el-col :span="2" class="blue-colored padding-left-10">4</el-col>
               <el-col :span="4" class="white-colored">
-                <b>阳山水蜜桃</b>
+                <b>{{getCompanyName(tableData1[3][1])}}</b>
               </el-col>
               <el-col :span="15" class="no-progress-outer">
                 <el-progress :percentage="83" :stroke-width="13" :show-text="false"></el-progress>
               </el-col>
               <el-col :span="3">
                 <p class="blue-colored italic-font">
-                  <b>3500</b>
+                  <b>{{tableData1[3][0]}}</b>
                 </p>
               </el-col>
             </el-row>
-            <el-row class="margin-left-10 margin-top-30">
+            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[4]">
               <el-col :span="2" class="blue-colored padding-left-10">5</el-col>
               <el-col :span="4" class="white-colored">
-                <b>福鼎白茶</b>
+                <b>{{getCompanyName(tableData1[4][1])}}</b>
               </el-col>
               <el-col :span="15" class="no-progress-outer">
                 <el-progress :percentage="80" :stroke-width="13" :show-text="false"></el-progress>
               </el-col>
               <el-col :span="3">
                 <p class="blue-colored italic-font">
-                  <b>3200</b>
+                  <b>{{tableData1[4][0]}}</b>
                 </p>
               </el-col>
             </el-row>
-            <el-row class="margin-left-10 margin-top-30">
+            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[5]">
               <el-col :span="2" class="blue-colored padding-left-10">6</el-col>
               <el-col :span="4" class="white-colored">
-                <b>阳山水蜜桃</b>
+                <b>{{getCompanyName(tableData1[5][1])}}</b>
               </el-col>
               <el-col :span="15" class="no-progress-outer">
                 <el-progress :percentage="78" :stroke-width="13" :show-text="false"></el-progress>
               </el-col>
               <el-col :span="3">
                 <p class="blue-colored italic-font">
-                  <b>3000</b>
+                  <b>{{tableData1[5][0]}}</b>
                 </p>
               </el-col>
             </el-row>
-            <el-row class="margin-left-10 margin-top-30">
+            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[6]">
               <el-col :span="2" class="blue-colored padding-left-10">7</el-col>
               <el-col :span="4" class="white-colored">
-                <b>福鼎白茶</b>
+                <b>{{getCompanyName(tableData1[6][1])}}</b>
               </el-col>
               <el-col :span="15" class="no-progress-outer">
                 <el-progress :percentage="76" :stroke-width="13" :show-text="false"></el-progress>
               </el-col>
               <el-col :span="3">
                 <p class="blue-colored italic-font">
-                  <b>2800</b>
+                  <b>{{tableData1[6][0]}}</b>
                 </p>
               </el-col>
             </el-row>
-            <el-row class="margin-left-10 margin-top-30">
+            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[7]">
               <el-col :span="2" class="blue-colored padding-left-10">8</el-col>
               <el-col :span="4" class="white-colored">
-                <b>阳山水蜜桃</b>
+                <b>{{getCompanyName(tableData1[7][1])}}</b>
               </el-col>
               <el-col :span="15" class="no-progress-outer">
                 <el-progress :percentage="74" :stroke-width="13" :show-text="false"></el-progress>
               </el-col>
               <el-col :span="3">
                 <p class="blue-colored italic-font">
-                  <b>2600</b>
+                  <b>{{tableData1[7][0]}}</b>
                 </p>
               </el-col>
             </el-row>
-            <el-row class="margin-left-10 margin-top-30">
+            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[8]">
               <el-col :span="2" class="blue-colored padding-left-10">9</el-col>
               <el-col :span="4" class="white-colored">
-                <b>福鼎白茶</b>
+                <b>{{getCompanyName(tableData1[8][1])}}</b>
               </el-col>
               <el-col :span="15" class="no-progress-outer">
                 <el-progress :percentage="72" :stroke-width="13" :show-text="false"></el-progress>
               </el-col>
               <el-col :span="3">
                 <p class="blue-colored italic-font">
-                  <b>2000</b>
+                  <b>{{tableData1[8][0]}}</b>
                 </p>
               </el-col>
             </el-row>
-            <el-row class="margin-left-10 margin-top-30">
+            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[9]">
               <el-col :span="2" class="blue-colored padding-left-10">10</el-col>
               <el-col :span="4" class="white-colored">
-                <b>阳山水蜜桃</b>
+                <b>{{getCompanyName(tableData1[9][1])}}</b>
               </el-col>
               <el-col :span="15" class="no-progress-outer">
                 <el-progress :percentage="70" :stroke-width="13" :show-text="false"></el-progress>
               </el-col>
               <el-col :span="3">
                 <p class="blue-colored italic-font">
-                  <b>6000</b>
+                  <b>{{tableData1[8][0]}}</b>
                 </p>
               </el-col>
             </el-row>
@@ -269,7 +266,7 @@
       </el-row>
       <el-row class="w-100">
         <el-col>
-          <div class="w-100 flex-box disability-chart chart-container" v-loading="lineChartLoading">
+          <div class="w-100 flex-box disability-chart chart-container">
             <h1
               style="font-size:20px"
               class="gradient-colored chart-title"
@@ -309,98 +306,28 @@ export default {
         pageIndex: 1,
         pageSize: 50
       },
-      tableData: data,
-      tableDataByCnt: [],
-      summaryData: [
-        {
-          region: "South",
-          state: "福鼎白茶",
-          sales: 6000
-        }
-      ],
+      tableData: [],
+      tableData1:[],
+      summaryData: [],
       listLoading: false,
-      lineChartLoading: false,
-      lineChartData: [],
-      toYear: null,
-      toMonth: null,
-      maxCnt: null,
+      maxCnt: 0,
+      avg_maxCnt:0,
+      toMonth:null,
+      toYear:null,
+      companyList:null,
+      townList:null,
       progressColor: "warning",
-      colorList: [
-        "#229efe",
-        "#20beff",
-        "#21e3ff",
-        "#21ffda",
-        "#1fffa6",
-        "#61f779",
-        "#96f65f",
-        "#c9fb64",
-        "#c9fb64",
-        "#fbd661",
-        "#f1be51",
-        "#f68a63",
-        "#f17263",
-        "#ed6082",
-        "#ee63ca",
-        "#7366f4"
-      ],
-      chartData: [
-        {
-          region: "South",
-          state: "福鼎白茶",
-          sales: 6000
-        },
-        {
-          region: "South",
-          state: "福鼎白茶1",
-          sales: 5000
-        },
-        {
-          region: "South",
-          state: "福鼎白茶2",
-          sales: 4000
-        },
-        {
-          region: "South",
-          state: "福鼎白茶3",
-          sales: 3500
-        },
-        {
-          region: "South",
-          state: "福鼎白茶4",
-          sales: 3200
-        },
-        {
-          region: "South",
-          state: "福鼎白茶5",
-          sales: 3000
-        },
-        {
-          region: "South",
-          state: "福鼎白茶6",
-          sales: 2800
-        },
-        {
-          region: "South",
-          state: "福鼎白茶7",
-          sales: 2600
-        },
-        {
-          region: "South",
-          state: "福鼎白茶8",
-          sales: 2000
-        },
-        {
-          region: "South",
-          state: "福鼎白茶9",
-          sales: 1500
-        }
-      ],
       is_ie: null
     };
   },
+async created() {
+    this.listLoading = true;
+    await this.getCompanyList();
+    await this.getTownList();
+    this.getData();
+  },
   mounted() {
     this.isIE();
-    this.makeXYChart();
   },
   methods: {
     createGrid(value, valueAxis) {
@@ -411,71 +338,71 @@ export default {
     formatNumber(value) {
       return value / 1000 + "K";
     },
-    getData() {
-      this.listLoading = true;
-      let detectTimeTo;
-      if (this.toYear && this.toMonth) {
-        detectTimeTo = new Date(this.toYear, this.toMonth, 0);
-      } else {
-        detectTimeTo = new Date();
-      }
-      Request()
-        .get("/api/disability_check/statis", {
-          detectTimeTo: detectTimeTo,
-          sortBy: "detect_unit"
+    getCompanyList() {
+      return Request()
+        .get("/api/company_production/name")
+        .then(response => {
+          this.companyList = response;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    getTownList() {
+      return Request()
+        .get("/api/town/all")
+        .then(response => {
+          this.townList = response;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    async getData() {
+      let tracingTimeTo;
+      tracingTimeTo = this.toMonth && this.toYear ?
+        new Date(this.toYear, this.toMonth, 0):
+        new Date(); 
+      await Request()
+        .get("/api/tracing/getTracingTownStatis", {
+          tracingTimeTo :  tracingTimeTo
         })
         .then(response => {
-          this.listLoading = false;
-          this.tableData = [];
-          this.maxCnt = null;
-          let tmpData = response.data;
-          let rowTotalSum = 0;
-          let rowOkSum = 0;
-          for (let index in tmpData) {
-            if (tmpData[index][1] > this.maxCnt) {
-              this.maxCnt = tmpData[index][1];
-            }
-            this.tableData.push({
-              detect_unit: tmpData[index][0],
-              cnt: parseInt(tmpData[index][1]),
-              cnt_ok: parseInt(tmpData[index][2])
-            });
-            rowTotalSum = rowTotalSum + parseInt(tmpData[index][1]);
-            rowOkSum = rowOkSum + parseInt(tmpData[index][2]);
-          }
-          if (
-            this.summaryData.rowTotalSum !== rowTotalSum &&
-            this.summaryData.rowOkSum !== rowOkSum
-          ) {
-            this.summaryData.push({
-              name: "合计",
-              rowTotalSum: rowTotalSum,
-              rowOkSum: rowOkSum
-            });
-          }
-          this.makeBarChart();
+           let tmpData = response.data;
+           let tmpMaxCnt = 0;
+           let tmpMaxCnt1 = 0;
+         for(let i in tmpData) {
+           let tmpTown = this.townList.find(x=>x.id == tmpData[i][2]);
+           tmpMaxCnt += tmpData[i][0];
+           tmpMaxCnt1 += tmpData[i][1];
+           this.tableData.push({
+            "name": tmpTown.name,
+            "cnt": tmpData[i][0],
+            "cnt1": tmpData[i][1]
+          });
+         }
+         this.maxCnt = tmpMaxCnt;
+         this.summaryData.push({
+           maxCnt:tmpMaxCnt,
+           avg_maxCnt:tmpMaxCnt1
+         })
+         
+         this.makeXYChart();
         })
         .catch(error => {
           console.log(error);
         });
       Request()
-        .get("/api/disability_check/statis", {
-          detectTimeTo: detectTimeTo,
-          sortBy: "cnt"
+        .get("/api/tracing/getTracingCompanyStatis", {
+          tracingTimeTo :  tracingTimeTo
         })
         .then(response => {
-          this.listLoading = false;
-          this.tableDataByCnt = [];
-          this.maxCnt = null;
-          let tmpData = response.data;
-          for (let index in tmpData) {
-            this.tableDataByCnt.push({
-              detect_unit: tmpData[index][0],
-              cnt: tmpData[index][1],
-              cnt_ok: tmpData[index][2]
-            });
-          }
-          this.makeXYChart();
+         this.tableData1 = response.data;
+         if(this.tableData1.length>0)
+         this.tableData1 = this.tableData1.slice(0,10);
+         setTimeout(()=>{
+           this.listLoading =false;
+         },500)
         })
         .catch(error => {
           console.log(error);
@@ -534,48 +461,14 @@ export default {
       let columnTemplate = series.columns.template;
       columnTemplate.strokeOpacity = 0;
     },
-    makeBarChart() {
-      let chart = am4core.create(this.$refs.chartdiv1, am4charts.XYChart);
-
-      // Add data
-      chart.data = this.chartData;
-      // Create axes
-      let yAxis = chart.yAxes.push(new am4charts.CategoryAxis());
-      let title = chart.titles.create();
-      title.text = "各站点上传数据统计";
-      title.fontSize = 5;
-      title.marginBottom = 30;
-      title.fill = am4core.color("#012f8a");
-      yAxis.dataFields.category = "state";
-      yAxis.renderer.grid.template.location = 0;
-      yAxis.renderer.labels.template.fontSize = 16;
-      yAxis.renderer.minGridDistance = 3;
-      yAxis.renderer.labels.template.fill = "white";
-      let xAxis = chart.xAxes.push(new am4charts.ValueAxis());
-
-      // Create series
-      let series = chart.series.push(new am4charts.ColumnSeries());
-      series.dataFields.valueX = "sales";
-      series.dataFields.categoryY = "state";
-      series.columns.template.tooltipText = "{categoryY}: [bold]{valueX}[/]";
-      series.columns.template.strokeWidth = 0;
-      series.columns.template.adapter.add("fill", function(fill, target) {
-        if (target.dataItem) {
-          if (target.dataItem.dataContext.region == "Central") {
-            return chart.colors.getIndex(0);
-          } else {
-            return chart.colors.getIndex(2);
-          }
-        }
-        return fill;
-      });
-      series.height = 10;
-      chart.cursor = new am4charts.XYCursor();
-    },
     beforeDestroy() {
       if (this.chart) {
         this.chart.dispose();
       }
+    },
+    getCompanyName(companyid) {
+      let tmpcompany = this.tableData1.find(x=>x.companyId == companyid);
+      if(tmpcompany) return tmpcompany.companyName;
     },
     getPercent(cnt1, cnt2, type) {
       if (!cnt1 || !cnt2) return 0;
