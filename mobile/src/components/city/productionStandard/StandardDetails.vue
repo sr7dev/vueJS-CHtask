@@ -7,7 +7,7 @@
       </mt-header>
       <div class="header" v-if="data">
         <ul>
-          <li>标准名称 <span>{{data.productName}}</span></li>
+          <li>标准名称 <span>{{data.productStandard.indexOf("png") > -1 ? data.productStandard.replace(".png","") : data.productStandard}}</span></li>
           <li>发布日期<span>{{data.releaseTime}}</span></li>
           <li>发布者 <span>{{data.releasePerson}}</span></li>
         </ul>

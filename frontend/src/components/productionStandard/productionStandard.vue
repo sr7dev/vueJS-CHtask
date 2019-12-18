@@ -40,10 +40,15 @@
           highlight-current-row
         >
           <el-table-column :formatter="order" label="序号" width="100"></el-table-column>
-          <el-table-column prop="productName" label="标准"></el-table-column>
+          <el-table-column prop="productStandard" label="标准">
+             <template slot-scope="{ row }">
+              {{row.productStandard.indexOf("png") > -1 ? row.productStandard.replace(".png","") : row.productStandard}}
+            </template>
+          </el-table-column>
           <!-- <el-table-column prop="category" label="类别">
             <template slot-scope="{ row }">{{ filterCategory(row.category) }}</template>
           </el-table-column>-->
+
           <el-table-column prop="releaseTime" label="发布时间" class-name="text-center">
             <template slot-scope="{ row }">
               {{
