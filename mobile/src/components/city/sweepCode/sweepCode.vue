@@ -155,7 +155,7 @@ export default {
           updateTime: this.tracingData.updateTime,
           updateUserId: this.tracingData.updateUserId,
           cntCompany: this.tracingData.cntCompany,
-          visitCount: this.tracingData.visitCount+1,
+          scanCount: this.tracingData.scanCount+1,
           cntTracingCompany: this.tracingData.cntTracingCompany,
           cntTracingTown: this.tracingData.cntTracingTown,
           avgTracingTown: this.tracingData.avgTracingTown,
@@ -228,8 +228,8 @@ export default {
   },
   async created() {
     let loader = this.$loading.show();
-    // this.productBatchNumber = this.$route.params.batchNumber; //getting batchnumber from path
-    this.productBatchNumber = "FDBC201910211002000902";
+    this.productBatchNumber = this.$route.params.batchNumber; //getting batchnumber from path
+    // this.productBatchNumber = "FDBC201910211002000902";
     // this.getData();
     await this.getTracingData();
     await this.getBatchTaskInfo();
