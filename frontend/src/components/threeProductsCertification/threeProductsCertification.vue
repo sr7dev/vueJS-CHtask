@@ -63,10 +63,10 @@
               }}
             </template>
           </el-table-column>
-          <el-table-column label="产品分类">
+          <el-table-column label="企业分类">
             <template slot-scope="{ row }">
               {{
-              appStatus1[row.argriculturalClassification]
+              options[row.argriculturalClassification-1]
               }}
             </template>
           </el-table-column>
@@ -129,6 +129,7 @@ export default {
       tableData: [],
       companyProduction: [],
       productDetail: [],
+      options: ["养殖业", "畜牧业", "种植业"],
       appStatus1: ["全部", "养殖业", "已同意", "畜牧业", "种植业"],
       appStatus2: ["全部", "无公害产品", "绿色食品", "有机食品", "地理标志"]
     };
