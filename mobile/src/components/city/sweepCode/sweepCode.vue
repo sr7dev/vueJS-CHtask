@@ -166,7 +166,6 @@ export default {
         .catch(error => {
           console.log(error);
         });
-        console.log(this.tracingData);
     },
     /* getting company information using companyid of tracingdata */
     getCompanyData() {

@@ -146,6 +146,6 @@ export default {
 }
 .wrapper {
   height: 50%;
-  z-index: 1;
+  z-index: 1!important;
 }
 </style>
