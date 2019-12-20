@@ -56,12 +56,12 @@
               }}
             </template>
           </el-table-column>
-          <el-table-column prop="productname" label="产品名称">
-            <template slot-scope="{ row }">
+          <el-table-column prop="productName" label="产品名称">
+            <!-- <template slot-scope="{ row }">
               {{
               filterProduct(row.productId)
-              }}
-            </template>
+            }}-->
+            <!-- </template> -->
           </el-table-column>
           <el-table-column label="企业分类">
             <template slot-scope="{ row }">
