@@ -650,8 +650,8 @@ export default {
   created() {
     console.log(this.$route);
     this.superId = this.$route.query.id;
-    this.downloadURL =
-      "http://intelligent-agriculture-agile-badger-pe.cfapps.io";
+    this.downloadURL = Urls.DOWNLOAD_URL();
+      
     this.getTown();
     this.getCompanyProduct();
     this.getData();

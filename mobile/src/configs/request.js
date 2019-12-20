@@ -19,52 +19,52 @@ class Request {
    * @return {String}     Final url
    */
   baseUrl(url) {
-    return Urls.API_BASE_URL() + url;
-  }
-  /**
-   * Initiate a HTTP request
-   * @param  {String} method Http verb
-   * @param  {String} url    Partial url of api url
-   * @param  {Object} params Query strings
-   * @param  {Object} data   Post body
-   * @return {Promise}       Response
-   */
+      return Urls.API_BASE_URL() + url;
+    }
+    /**
+     * Initiate a HTTP request
+     * @param  {String} method Http verb
+     * @param  {String} url    Partial url of api url
+     * @param  {Object} params Query strings
+     * @param  {Object} data   Post body
+     * @return {Promise}       Response
+     */
   request(method, url, params = {}, data = {}, norefresh = false) {
-    let options = {};
+      let options = {};
 
-    if (method.toLowerCase() == "get") {
-      options["params"] = params;
+      if (method.toLowerCase() == "get") {
+        options["params"] = params;
 
-      if (this.authToken) {
-        options["params"] = Object.assign(options["params"], this.authToken);
+        if (this.authToken) {
+          options["params"] = Object.assign(options["params"], this.authToken);
+        }
       }
-    }
 
-    if (method.toLowerCase() == "post") {
-      options = data;
-      if (this.authToken) {
-        options = Object.assign(options, this.authToken);
+      if (method.toLowerCase() == "post") {
+        options = data;
+        if (this.authToken) {
+          options = Object.assign(options, this.authToken);
+        }
       }
-    }
 
-    if (method.toLowerCase() == "put") {
-      options = data;
+      if (method.toLowerCase() == "put") {
+        options = data;
 
-      if (this.authToken) {
-        options = Object.assign(options, this.authToken);
+        if (this.authToken) {
+          options = Object.assign(options, this.authToken);
+        }
       }
-    }
 
-    if (method.toLowerCase() == "delete") {
-      options["params"] = params;
+      if (method.toLowerCase() == "delete") {
+        options["params"] = params;
 
-      if (this.authToken) {
-        options["params"] = Object.assign(options["params"], this.authToken);
+        if (this.authToken) {
+          options["params"] = Object.assign(options["params"], this.authToken);
+        }
       }
+      return this.makeRequest(method, url, options, false, norefresh);
     }
-    return this.makeRequest(method, url, options, false, norefresh);
-  }
-  //
+    //
 
   makeRequest(method, url, options, refreshed = false, norefresh = false) {
     // if (url.indexOf("/api/user/login") == -1) {
