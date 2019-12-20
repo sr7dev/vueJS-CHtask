@@ -210,7 +210,7 @@ export default {
       this.check() !== "exist" &&
         this.check().then(
           success => {
-            if (!success) MessageBox.alert("Token 错误", "提示");
+            if (!success) MessageBox.alert("无法获取用户信息", "提示");
           },
           error => {
             MessageBox.alert("Token 错误", "提示");
