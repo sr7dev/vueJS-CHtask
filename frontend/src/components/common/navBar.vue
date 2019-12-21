@@ -8,7 +8,7 @@
         background-color="#fff"
         text-color="#333"
       >
-        <el-submenu index="/">
+        <el-submenu index="/" v-if="creditMode<0">
           <template slot="title">
             <span>监管对象</span>
           </template>
@@ -31,19 +31,19 @@
         </el-submenu>
         <el-menu-item
           index="/disabilityCheck"
-          v-if="menuShowArr['disabilityCheck']"
+          v-if="menuShowArr['disabilityCheck'] && creditMode<0"
         >
           <router-link slot="title" to="/disabilityCheck">农残检测</router-link>
         </el-menu-item>
         <el-menu-item
           index="/jobDefinition"
-          v-if="menuShowArr['jobDefinition']"
+          v-if="menuShowArr['jobDefinition'] && creditMode<0"
         >
           <router-link slot="title" to="/jobDefinition">作业定义</router-link>
         </el-menu-item>
         <el-menu-item
           index="/productionRecord"
-          v-if="menuShowArr['productionRecord']"
+          v-if="menuShowArr['productionRecord'] && creditMode<0"
         >
           <router-link slot="title" to="/productionRecord"
             >生产记录</router-link
@@ -51,47 +51,47 @@
         </el-menu-item>
         <el-menu-item
           index="/supervisionGrid"
-          v-if="menuShowArr['supervisionGrid']"
+          v-if="menuShowArr['supervisionGrid'] && creditMode<0"
         >
           <router-link slot="title" to="/supervisionGrid">监管网格</router-link>
         </el-menu-item>
         <el-menu-item
           index="/regulatoryRecord"
-          v-if="menuShowArr['regulatoryRecord']"
+          v-if="menuShowArr['regulatoryRecord'] && creditMode<0"
         >
           <router-link slot="title" to="/regulatoryRecord"
             >监管记录</router-link
           >
         </el-menu-item>
-        <el-menu-item index="/workTask" v-if="menuShowArr['workTask']">
+        <el-menu-item index="/workTask" v-if="menuShowArr['workTask'] && creditMode<0">
           <router-link slot="title" to="/workTask">工作任务</router-link>
         </el-menu-item>
-        <el-menu-item index="/notice" v-if="menuShowArr['notice']">
+        <el-menu-item index="/notice" v-if="menuShowArr['notice'] && creditMode<0">
           <router-link slot="title" to="/notice">通知管理</router-link>
         </el-menu-item>
-        <el-menu-item index="/aquatic" v-if="menuShowArr['aquatic']">
+        <el-menu-item index="/aquatic" v-if="menuShowArr['aquatic'] && creditMode<0">
           <router-link slot="title" to="/aquatic">水产站</router-link>
         </el-menu-item>
         <el-menu-item
           index="/trainingFunds"
-          v-if="menuShowArr['trainingFunds']"
+          v-if="menuShowArr['trainingFunds'] && creditMode<0"
         >
           <router-link slot="title" to="/trainingFunds"
             >培训经费管理</router-link
           >
         </el-menu-item>
-        <el-menu-item index="/seed" v-if="menuShowArr['seed']">
+        <el-menu-item index="/seed" v-if="menuShowArr['seed'] && creditMode<0">
           <router-link slot="title" to="/seed">种子管理</router-link>
         </el-menu-item>
         <el-menu-item
           index="/userManagement"
-          v-if="menuShowArr['userManagement']"
+          v-if="menuShowArr['userManagement'] && creditMode<0"
         >
           <router-link slot="title" to="/userManagement">用户管理</router-link>
         </el-menu-item>
         <el-menu-item
           index="/threeProductsCertification"
-          v-if="menuShowArr['threeProductsCertification']"
+          v-if="menuShowArr['threeProductsCertification'] && creditMode<0"
         >
           <router-link slot="title" to="/threeProductsCertification"
             >三品一标管理</router-link
@@ -99,45 +99,45 @@
         </el-menu-item>
         <el-menu-item
           index="/tracingLabelManagement"
-          v-if="menuShowArr['tracingLabelManagement']"
+          v-if="menuShowArr['tracingLabelManagement'] && creditMode<0"
         >
           <router-link slot="title" to="/tracingLabelManagement"
             >溯源标签管理</router-link
           >
         </el-menu-item>
-        <el-menu-item index="/sampleCheckMain">
+        <el-menu-item index="/sampleCheckMain" v-if="creditMode<0">
           <router-link slot="title" to="/sampleCheckMain/0"
             >例行抽样管理</router-link
           >
         </el-menu-item>
         <el-menu-item
           index="/inputManagement"
-          v-if="menuShowArr['inputManagement']"
+          v-if="menuShowArr['inputManagement'] && creditMode<0"
         >
           <router-link slot="title" to="/inputManagement"
             >投入品管理</router-link
           >
         </el-menu-item>
-        <el-menu-item index="/">
+        <el-menu-item index="/" v-if="creditMode>-1">
           <router-link slot="title" to="/corporateCreditFile"
             >企业信用档案</router-link
           >
         </el-menu-item>
-        <el-menu-item index="/creditRating">
+        <el-menu-item index="/creditRating" v-if="creditMode>-1">
           <router-link slot="title" to="/creditRating">信用评级</router-link>
         </el-menu-item>
-        <el-menu-item index="/redBlackList">
+        <el-menu-item index="/redBlackList" v-if="creditMode>-1">
           <router-link slot="title" to="/redBlackList">红黑名单</router-link>
         </el-menu-item>
         <el-menu-item
           index="/specialCategory"
-          v-if="menuShowArr['specialCategory']"
+          v-if="menuShowArr['specialCategory'] && creditMode<0"
         >
           <router-link slot="title" to="/specialCategory">专项</router-link>
         </el-menu-item>
         <el-menu-item
           index="/greenProducts"
-          v-if="menuShowArr['greenProducts']"
+          v-if="menuShowArr['greenProducts'] && creditMode<0"
         >
           <router-link slot="title" to="/greenProducts"
             >绿色优质产品</router-link
@@ -145,18 +145,18 @@
         </el-menu-item>
         <el-menu-item
           index="/productionStandard"
-          v-if="menuShowArr['productionStandard']"
+          v-if="menuShowArr['productionStandard'] && creditMode<0"
         >
           <router-link slot="title" to="/productionStandard"
             >生产标准</router-link
           >
         </el-menu-item>
-        <el-menu-item index="/shareFiles" v-if="menuShowArr['shareFiles']">
+        <el-menu-item index="/shareFiles" v-if="menuShowArr['shareFiles'] && creditMode<0">
           <router-link slot="title" to="/shareFiles">共享文件</router-link>
         </el-menu-item>
         <el-menu-item
           index="/internalMessage"
-          v-if="menuShowArr['internalMessage']"
+          v-if="menuShowArr['internalMessage'] && creditMode<0"
         >
           <router-link slot="title" to="/internalMessage">站内消息</router-link>
         </el-menu-item>
@@ -181,10 +181,12 @@ export default {
       openeds: [1],
       activeMenu: "",
       menuList: null,
-      menuShowArr: new Array()
+      menuShowArr: new Array(),
+      creditMode:""
     };
   },
   created() {
+    this.creditMode = Storage.get("creditMode");
     this.menuList = Storage.get("authList").filter(el => el.type == 1);
     for (let i = 0; i < this.menuList.length; i++) {
       let index = this.menuList[i].privilegeCode;

@@ -49,7 +49,6 @@ class Auth {
       !this.getParameterByName("accessToken") ||
       !this.getParameterByName("sign")
     )
-    // return -1;
       return false;
 
     //getting md5 hash value
@@ -63,6 +62,10 @@ class Auth {
       "%20",
       " "
     );
+    // const accessToken = this.getParameterByName("accessToken").replace(
+    //   "%20",
+    //   " "
+    // );
     // if (hash.localeCompare(this.getParameterByName("sign") !== 0)) return -2;
     return Request()
       .post("/api/user/getAuthByAliToken", {
@@ -75,18 +78,16 @@ class Auth {
             JSON.parse(success.authListInfo).result[0].privilegeList
           );
           window.history.replaceState({}, document.title, "/");
-
           Storage.set("userData", JSON.parse(success.userInfo).result);
           // TokenManager().accessToken = success.token;
           if (accessToken) TokenManager().accessToken = accessToken;
-
           return Promise.resolve(success);
         },
         error => {
           this.clearSavedData();
           console.log(error);
           window.history.replaceState({}, document.title, "/");
-
+          if (accessToken) TokenManager().accessToken = "";
           return Promise.reject(error);
         }
       );

@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import Storage from "store";
 export default {
   name: "App",
   data() {

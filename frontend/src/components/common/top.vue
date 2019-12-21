@@ -10,7 +10,7 @@
       mode="horizontal"
       background-color="#253032"
       text-color="#ffffff"
-      v-if="menuShowArr['statisticsSupervision']"
+      v-if="menuShowArr['statisticsSupervision'] && creditMode<0"
     >
       <el-menu-item index="/statisticsCredit">
         <router-link slot="title" to="/statisticsCredit">
@@ -74,10 +74,12 @@ export default {
       title: "平台",
       userName: "",
       menuList: null,
-      menuShowArr: new Array()
+      menuShowArr: new Array(),
+      creditMode: "",
     };
   },
   created() {
+    this.creditMode = Storage.get("creditMode");
      this.menuList = Storage.get("authList").filter(el => el.type == 1);
     for (let i = 0; i < this.menuList.length; i++) {
       let index = this.menuList[i].privilegeCode;

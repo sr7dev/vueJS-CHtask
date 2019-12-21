@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
+import Storage from "store";
 
 import Toast from "@/utils/toast";
 import login from "@/components/login/login";
@@ -140,651 +141,696 @@ import statisticsTracing from "@/components/statisticsTracing/statisticsTracing"
 import statisticsTracingCompany from "@/components/statisticsTracingCompany/statisticsTracingCompany";
 
 import Auth from "@/services/authentication/auth";
-
+Storage.set("creditMode", window.location.href.indexOf("creditMode"));
 Vue.use(Router);
+const router = window.location.href.indexOf("creditMode") < 0 ?
+  new Router({
+    routes: [{
+        path: "/",
+        name: "home",
+        component: home,
+        redirect: "productionSubject",
+        beforeEnter(to, from, next) {
+          // if (!Auth().check()) {
+          //   next({
+          //     path: "/login",
+          //     query: { redirect: to.fullPath }
+          //   });
+          // } else {
+          //   next();
+          // }
+          if (!Auth().check())
+            Toast.error("确认 accessToken, sign, timestamp!!!");
+          // if (Auth().check() === -1)
+          //   Toast.error("确认 accessToken, sign, timestamp!!!");
+          // else if (Auth().check() === -2)
+          //   Toast.error("验证失败. 确认 accessToken!!!");
+          else
+            Auth()
+            .check()
+            .then(
+              success => {
+                next();
+              },
+              error => {
+                console.log(error);
+                Toast.error("Token 错误");
+              }
+            );
+        },
+        children: [{
+            path: "/sampleCheckMain/:mode",
+            name: "sampleCheckMain",
+            component: sampleCheck
+          },
+          {
+            path: "/sampleCheck/addSampleCheck",
+            name: "addSampleCheck",
+            component: addSampleCheck
+          },
+          {
+            path: "/sampleCheck/addSampleCheckResult",
+            name: "addSampleCheckResult",
+            component: addSampleCheckResult
+          },
+          {
+            path: "/sampleCheck/detailsSampleCheck/:id",
+            name: "detailsSampleCheck",
+            component: detailsSampleCheck
+          },
+          {
+            path: "/sampleCheck/detailsSampleCheckResult/:id",
+            name: "detailsSampleCheckResult",
+            component: detailsSampleCheckResult
+          },
+          {
+            path: "/tracingLabelManagement",
+            name: "tracingLabelManagement",
+            component: tracingLabelManagement
+          },
+          {
+            path: "/companyBusiness",
+            name: "companyBusiness",
+            component: companyBusiness
+          },
+          {
+            path: "/companyBusiness/productBusiness/:id",
+            name: "productBusiness",
+            component: productBusiness
+          },
+          {
+            path: "/companyBusiness/productBusiness/create/:id",
+            name: "addProductBusiness",
+            component: addProductBusiness
+          },
+          {
+            path: "/companyBusiness/detailsCompanyBusiness/:id",
+            name: "detailsCompanyBusiness",
+            component: detailsCompanyBusiness
+          },
+          {
+            path: "/productionSubject",
+            name: "productionSubject",
+            component: productionSubject
+          },
+          {
+            path: "/productionSubject/addRegulatoryObject",
+            name: "addRegulatoryObject",
+            component: addRegulatoryObject
+          },
+          {
+            path: "/productionSubject/editRegulatoryObject/:id",
+            name: "editRegulatoryObject",
+            component: editRegulatoryObject
+          },
+          {
+            path: "/productionSubject/detailsRegulatoryObject/:id",
+            name: "detailsRegulatoryObject",
+            component: detailsRegulatoryObject
+          },
 
-export default new Router({
-  routes: [{
-      path: "/",
-      name: "home",
-      component: home,
-      redirect: "productionSubject",
-      beforeEnter(to, from, next) {
-        // if (!Auth().check()) {
-        //   next({
-        //     path: "/login",
-        //     query: { redirect: to.fullPath }
-        //   });
-        // } else {
-        //   next();
-        // }
-        if (!Auth().check())
-          Toast.error("确认 accessToken, sign, timestamp!!!");
-        // if (Auth().check() === -1)
-        //   Toast.error("确认 accessToken, sign, timestamp!!!");
-        // else if (Auth().check() === -2)
-        //   Toast.error("验证失败. 确认 accessToken!!!");
-        else
-          Auth()
-          .check()
-          .then(
-            success => {
-              next();
-            },
-            error => {
-              console.log(error);
-              Toast.error("Token 错误");
-            }
-          );
+          {
+            path: "/productionSubject/warehouseEnv/:id",
+            name: "warehouseEnv",
+            component: warehouseEnv
+          },
+          {
+            path: "/productionSubject/warehouseEnv/detailsWarehouse/:id",
+            name: "detailsWarehouse",
+            component: detailsWarehouse
+          },
+          {
+            path: "/productionSubject/warehouseEnv/viewWarehouse/:id",
+            name: "viewWarehouse",
+            component: viewWarehouse
+          },
+          {
+            path: "/productionSubject/warehouseEnv/addWarehouse/:id",
+            name: "addWarehouse",
+            component: addWarehouse
+          },
+          {
+            path: "/productionSubject/mainProduct/:id",
+            name: "mainProduct",
+            component: mainProduct
+          },
+          {
+            path: "/productionSubject/mainProduct/create/:id",
+            name: "addMainProduct",
+            component: addMainProduct
+          },
+          {
+            path: "/productionSubject/mainProduct/edit/:id",
+            name: "editMainProduct",
+            component: editMainProduct
+          },
+          {
+            path: "/productionSubject/mainProduct/thirdPartySamplingRecord/:id",
+            name: "thirdPartySamplingRecord",
+            component: thirdPartySamplingRecord
+          },
+          {
+            path: "/productionSubject/mainProduct/thirdPartySampling/create/:id",
+            name: "addThirdPartySampling",
+            component: addThirdPartySampling
+          },
+          {
+            path: "/productionSubject/mainProduct/thirdPartySampling/edit/:id",
+            name: "editThirdPartySampling",
+            component: editThirdPartySampling
+          },
+          {
+            path: "/productionSubject/mainProduct/productBatch/:id",
+            name: "productBatch",
+            component: productBatch
+          },
+          {
+            path: "/productionSubject/mainProduct/productBatch/:id/create",
+            name: "addProductBatch",
+            component: addProductBatch
+          },
+          {
+            path: "/productionSubject/mainProduct/productBatch/:id/edit/:id1",
+            name: "editProductBatch",
+            component: editProductBatch
+          },
+          {
+            path: "/productionSubject/mainProduct/inventoryDynamics/:id",
+            name: "inventoryDynamics",
+            component: inventoryDynamics
+          },
+          {
+            path: "/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/:id",
+            name: "addInventoryDynamics",
+            component: addInventoryDynamics
+          },
+          {
+            path: "/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/:id",
+            name: "editInventoryDynamics",
+            component: editInventoryDynamics
+          },
+          {
+            path: "/productionSubject/mainProduct/processDefinition/:id",
+            name: "processDefinition",
+            component: processDefinition
+          },
+          {
+            path: "/productionSubject/mainProduct/processDefinition/addProcessDefinition/:id",
+            name: "addProcessDefinition",
+            component: addProcessDefinition
+          },
+          {
+            path: "/productionSubject/mainProduct/processDefinition/editProcessDefinition/:id",
+            name: "editProcessDefinition",
+            component: editProcessDefinition
+          },
+          {
+            path: "/productionSubject/mainProduct/productProperty/:id",
+            name: "productProperty",
+            component: productProperty
+          },
+          {
+            path: "/productionSubject/mainProduct/productProperty/addProductProperty/:id",
+            name: "addProductProperty",
+            component: addProductProperty
+          },
+          {
+            path: "/productionSubject/mainProduct/productProperty/editProductProperty/:id",
+            name: "editProductProperty",
+            component: editProductProperty
+          },
+          {
+            path: "/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/:id",
+            name: "customProductProperty",
+            component: customProductProperty
+          },
+          {
+            path: "/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/addCustomProductProperty/:id",
+            name: "addCustomProductProperty",
+            component: addCustomProductProperty
+          },
+          {
+            path: "/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/editCustomProductProperty/:id",
+            name: "editCustomProductProperty",
+            component: editCustomProductProperty
+          },
+          {
+            path: "/productionSubject/threeProduct",
+            name: "threeProduct",
+            component: threeProduct
+          },
+          {
+            path: "/productionSubject/threeProduct/addThreeProduct",
+            name: "addThreeProduct",
+            component: addThreeProduct
+          },
+          {
+            path: "/threeProductsCertification",
+            name: "threeProductsCertification",
+            component: threeProductsCertification
+          },
+          {
+            path: "/threeProductsCertification/create",
+            name: "addThreeProducts",
+            component: addThreeProducts
+          },
+          {
+            path: "/threeProductsCertification/:id",
+            name: "detailsThreeProducts",
+            component: detailsThreeProducts
+          },
+          {
+            path: "/regulatoryRecord",
+            name: "regulatoryRecord",
+            component: regulatoryRecord
+          },
+          {
+            path: "/regulatoryRecord/create",
+            name: "addRegulatoryRecord",
+            component: addRegulatoryRecord
+          },
+          {
+            path: "/regulatoryRecord/edit/:id",
+            name: "rectificationRecord",
+            component: rectificationRecord
+          },
+          {
+            path: "/regulatoryRecord/:id",
+            name: "detailsRegulatoryRecord",
+            component: detailsRegulatoryRecord
+          },
+          {
+            path: "/commonWords",
+            name: "commonWords",
+            component: commonWords
+          },
+          {
+            path: "/management",
+            name: "management",
+            component: management
+          },
+          {
+            path: "/businessProducts",
+            name: "businessProducts",
+            component: businessProducts
+          },
+          {
+            path: "/companyDetails",
+            name: "companyDetails",
+            component: companyDetails
+          },
+          {
+            path: "/disabilityCheck",
+            name: "disabilityCheck", // 农残检测
+            component: disabilityCheck
+          },
+          {
+            path: "/productionRecord",
+            name: "productionRecord", // 生产记录
+            component: productionRecord
+          },
+          {
+            path: "/productionRecord/create",
+            name: "addProductionRecord", // 生产记录
+            component: addProductionRecord
+          },
+          {
+            path: "/productionRecord/editProductionRecord/:id",
+            name: "editProductionRecord", // 生产记录
+            component: editProductionRecord
+          },
+          {
+            path: "/notice",
+            name: "notice", // 通知管理
+            component: notice
+          },
+          {
+            path: "/notice/view/:id",
+            name: "detailsNotice", // 通知管理
+            component: detailsNotice
+          },
+          {
+            path: "/notice/create",
+            name: "createNotice", // 通知管理
+            component: createNotice
+          },
+          {
+            path: "/notice/smsNotice/:id",
+            name: "smsNotice", // 短信通知
+            component: smsNotice
+          },
+          {
+            path: "/notice/detailSms",
+            name: "detailSms", // 短信记录
+            component: detailSms
+          },
+          {
+            path: "/aquatic",
+            name: "aquaticStatistics", // 通知管理
+            component: aquaticStatistics
+          },
+          {
+            path: "/notice/edit/:id",
+            name: "editNotice", // 通知管理
+            component: editNotice
+          },
+          {
+            path: "/jobDefinition",
+            name: "jobDefinition", // 作业定义
+            component: jobDefinition
+          },
+          {
+            path: "/jobDefinition/create",
+            name: "addJobDefinition", // 作业定义
+            component: addJobDefinition
+          },
+          {
+            path: "/jobDefinition/:id",
+            name: "editJobDefinition", // 作业定义
+            component: editJobDefinition
+          },
+          {
+            path: "/productVariety/:id",
+            name: "productVariety", // 作业定义
+            component: varietyDefinition
+          },
+          {
+            path: "/productVariety/create/:id",
+            name: "addProductVariety", // 作业定义
+            component: addVarietyDefinition
+          },
+          {
+            path: "/productVariety/edit/:id",
+            name: "editProductVariety", // 作业定义
+            component: editVarietyDefinition
+          },
+          {
+            path: "/statisticsFarmers",
+            name: "statisticsFarmers", // 统计（农残）
+            component: statisticsFarmers
+          },
+          {
+            path: "/greenProducts",
+            name: "greenProducts", // 绿色优质产品
+            component: greenProducts
+          },
+          {
+            path: "/internalMessage",
+            name: "internalMessage", // 站内消息
+            component: internalMessage
+          },
+          {
+            path: "/internalMessage/add",
+            name: "addInternalMessage", // 站内消息
+            component: addInternalMessage
+          },
+          {
+            path: "/inputManagement",
+            name: "inputManagement", // 投入品管理
+            component: inputManagement
+          },
+          {
+            path: "/inputManagement/addPurchase",
+            name: "addInputPurchase", // 投入品管理
+            component: addInputPurchase
+          },
+          {
+            path: "/inputManagement/addUse",
+            name: "addInputUse", // 投入品管理
+            component: addInputUse
+          },
+          {
+            path: "/inputManagement/view/:id",
+            name: "viewInputManagement", // 投入品管理
+            component: viewInputManagement
+          },
+          {
+            path: "/workTask",
+            name: "workTask", // 工作任务
+            component: workTask
+          },
+          {
+            path: "/workTask/create",
+            name: "addWorkTask", // 工作任务
+            component: addWorkTask
+          },
+          {
+            path: "/workTask/edit/:id",
+            name: "editWorkTask", // 工作任务
+            component: editWorkTask
+          },
+          {
+            path: "/workTask/report/create",
+            name: "addWorkTaskReport", // 工作任务
+            component: addWorkTaskReport
+          },
+          {
+            path: "/workTask/report/detail/:id",
+            name: "detailWorkTaskReport", // 工作任务
+            component: detailWorkTaskReport
+          },
+          {
+            path: "/trainingFunds",
+            name: "trainingFunds", // 培训经费管理
+            component: trainingFunds
+          },
+          {
+            path: "/trainingFunds/add",
+            name: "addTrainingFunds", // 培训经费管理
+            component: addTrainingFunds
+          },
+          {
+            path: "/trainingFunds/view/:id",
+            name: "viewTrainingFunds", // 培训经费管理
+            component: viewTrainingFunds
+          },
+          {
+            path: "/seed",
+            name: "seed", // 种子管理
+            component: seed
+          },
+          {
+            path: "/seed/upload",
+            name: "uploadSeed", // 种子管理
+            component: uploadSeed
+          },
+          {
+            path: "/seed/detail/:id",
+            name: "detailSeed", // 种子管理
+            component: detailSeed
+          },
+          {
+            path: "/userManagement",
+            name: "userManagement", // 用户管理
+            component: userManagement
+          },
+          {
+            path: "/userManagement/create",
+            name: "registerUser", // 用户管理
+            component: registerUser
+          },
+          {
+            path: "/userManagement/edit/:id",
+            name: "editUser", // 用户管理
+            component: editUser
+          },
+          {
+            path: "/userManagement/changePwd/:id",
+            name: "changePassword", // 用户管理
+            component: changePassword
+          },
+          {
+            path: "/productionStandard",
+            name: "productionStandard", // 生产标准
+            component: productionStandard
+          },
+          {
+            path: "/productionStandard/create",
+            name: "addProductionStandard", // 生产标准
+            component: addProductionStandard
+          },
+          {
+            path: "/productionStandard/detail/:id",
+            name: "detailProductionStandard", // 生产标准
+            component: detailProductionStandard
+          },
+          {
+            path: "/productionStandard/edit/:id",
+            name: "editProductionStandard", // 生产标准
+            component: editProductionStandard
+          },
+          {
+            path: "/productionGrade/:id",
+            name: "definitionLevel",
+            component: definitionLevel
+          },
+          {
+            path: "/productionGrade/create/:id",
+            name: "addDefinitionLevel",
+            component: addDefinitionLevel
+          },
+          {
+            path: "/productionGrade/edit/:id",
+            name: "editDefinitionLevel",
+            component: editDefinitionLevel
+          },
+          {
+            path: "/shareFiles",
+            name: "shareFiles", // 共享文件editShareFiles
+            component: shareFiles
+          },
+          {
+            path: "/shareFiles/create",
+            name: "addShareFiles", // 共享文件
+            component: addShareFiles
+          },
+          {
+            path: "/shareFiles/edit/:id",
+            name: "editShareFiles", // 共享文件
+            component: editShareFiles
+          },
+          {
+            path: "/shareFiles/detail/:id",
+            name: "detailShareFiles", // 共享文件
+            component: detailShareFiles
+          },
+          {
+            path: "/specialCategory",
+            name: "specialCategory",
+            component: specialCategory
+          },
+          {
+            path: "/supervisionGrid",
+            name: "supervisionGrid", // 监管网格
+            component: supervisionGrid
+          },
+          {
+            path: "/supervisionGrid/manage/:id",
+            name: "manageSupervisionGrid", // 监管网格
+            component: manageSupervisionGrid
+          },
+          {
+            path: "/uploadSituation",
+            name: "uploadSituation", // 上传情况
+            component: uploadSituation
+          },
+          {
+            path: "/statisticsCredit",
+            name: "statisticsCredit", // 上传情况
+            component: statisticsCredit
+          },
+          {
+            path: "/statisticsSupervision",
+            name: "statisticsSupervision", // 上传情况
+            component: statisticsSupervision
+          },
+          {
+            path: "/statisticsTracing",
+            name: "statisticsTracing", // 上传情况
+            component: statisticsTracing
+          },
+          {
+            path: "/statisticsTracingCompany",
+            name: "statisticsTracingCompany", // 上传情况
+            component: statisticsTracingCompany
+          }
+        ]
       },
-      children: [{
-          path: "/sampleCheckMain/:mode",
-          name: "sampleCheckMain",
-          component: sampleCheck
-        },
-        {
-          path: "/sampleCheck/addSampleCheck",
-          name: "addSampleCheck",
-          component: addSampleCheck
-        },
-        {
-          path: "/sampleCheck/addSampleCheckResult",
-          name: "addSampleCheckResult",
-          component: addSampleCheckResult
-        },
-        {
-          path: "/sampleCheck/detailsSampleCheck/:id",
-          name: "detailsSampleCheck",
-          component: detailsSampleCheck
-        },
-        {
-          path: "/sampleCheck/detailsSampleCheckResult/:id",
-          name: "detailsSampleCheckResult",
-          component: detailsSampleCheckResult
-        },
-        {
-          path: "/tracingLabelManagement",
-          name: "tracingLabelManagement",
-          component: tracingLabelManagement
-        },
-        {
-          path: "/companyBusiness",
-          name: "companyBusiness",
-          component: companyBusiness
-        },
-        {
-          path: "/companyBusiness/productBusiness/:id",
-          name: "productBusiness",
-          component: productBusiness
-        },
-        {
-          path: "/companyBusiness/productBusiness/create/:id",
-          name: "addProductBusiness",
-          component: addProductBusiness
-        },
-        {
-          path: "/companyBusiness/detailsCompanyBusiness/:id",
-          name: "detailsCompanyBusiness",
-          component: detailsCompanyBusiness
-        },
-        {
-          path: "/creditRating",
-          name: "creditRating",
-          component: creditRating
-        },
-        {
-          path: "/creditRating/:id",
-          name: "detailsRating",
-          component: detailsRating
-        },
-        {
-          path: "/creditRating/edit/:id",
-          name: "editRating",
-          component: editRating
-        },
-        {
-          path: "/productionSubject",
-          name: "productionSubject",
-          component: productionSubject
-        },
-        {
-          path: "/productionSubject/addRegulatoryObject",
-          name: "addRegulatoryObject",
-          component: addRegulatoryObject
-        },
-        {
-          path: "/productionSubject/editRegulatoryObject/:id",
-          name: "editRegulatoryObject",
-          component: editRegulatoryObject
-        },
-        {
-          path: "/productionSubject/detailsRegulatoryObject/:id",
-          name: "detailsRegulatoryObject",
-          component: detailsRegulatoryObject
-        },
-
-        {
-          path: "/productionSubject/warehouseEnv/:id",
-          name: "warehouseEnv",
-          component: warehouseEnv
-        },
-        {
-          path: "/productionSubject/warehouseEnv/detailsWarehouse/:id",
-          name: "detailsWarehouse",
-          component: detailsWarehouse
-        },
-        {
-          path: "/productionSubject/warehouseEnv/viewWarehouse/:id",
-          name: "viewWarehouse",
-          component: viewWarehouse
-        },
-        {
-          path: "/productionSubject/warehouseEnv/addWarehouse/:id",
-          name: "addWarehouse",
-          component: addWarehouse
-        },
-        {
-          path: "/productionSubject/mainProduct/:id",
-          name: "mainProduct",
-          component: mainProduct
-        },
-        {
-          path: "/productionSubject/mainProduct/create/:id",
-          name: "addMainProduct",
-          component: addMainProduct
-        },
-        {
-          path: "/productionSubject/mainProduct/edit/:id",
-          name: "editMainProduct",
-          component: editMainProduct
-        },
-        {
-          path: "/productionSubject/mainProduct/thirdPartySamplingRecord/:id",
-          name: "thirdPartySamplingRecord",
-          component: thirdPartySamplingRecord
-        },
-        {
-          path: "/productionSubject/mainProduct/thirdPartySampling/create/:id",
-          name: "addThirdPartySampling",
-          component: addThirdPartySampling
-        },
-        {
-          path: "/productionSubject/mainProduct/thirdPartySampling/edit/:id",
-          name: "editThirdPartySampling",
-          component: editThirdPartySampling
-        },
-        {
-          path: "/productionSubject/mainProduct/productBatch/:id",
-          name: "productBatch",
-          component: productBatch
-        },
-        {
-          path: "/productionSubject/mainProduct/productBatch/:id/create",
-          name: "addProductBatch",
-          component: addProductBatch
-        },
-        {
-          path: "/productionSubject/mainProduct/productBatch/:id/edit/:id1",
-          name: "editProductBatch",
-          component: editProductBatch
-        },
-        {
-          path: "/productionSubject/mainProduct/inventoryDynamics/:id",
-          name: "inventoryDynamics",
-          component: inventoryDynamics
-        },
-        {
-          path: "/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/:id",
-          name: "addInventoryDynamics",
-          component: addInventoryDynamics
-        },
-        {
-          path: "/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/:id",
-          name: "editInventoryDynamics",
-          component: editInventoryDynamics
-        },
-        {
-          path: "/productionSubject/mainProduct/processDefinition/:id",
-          name: "processDefinition",
-          component: processDefinition
-        },
-        {
-          path: "/productionSubject/mainProduct/processDefinition/addProcessDefinition/:id",
-          name: "addProcessDefinition",
-          component: addProcessDefinition
-        },
-        {
-          path: "/productionSubject/mainProduct/processDefinition/editProcessDefinition/:id",
-          name: "editProcessDefinition",
-          component: editProcessDefinition
-        },
-        {
-          path: "/productionSubject/mainProduct/productProperty/:id",
-          name: "productProperty",
-          component: productProperty
-        },
-        {
-          path: "/productionSubject/mainProduct/productProperty/addProductProperty/:id",
-          name: "addProductProperty",
-          component: addProductProperty
-        },
-        {
-          path: "/productionSubject/mainProduct/productProperty/editProductProperty/:id",
-          name: "editProductProperty",
-          component: editProductProperty
-        },
-        {
-          path: "/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/:id",
-          name: "customProductProperty",
-          component: customProductProperty
-        },
-        {
-          path: "/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/addCustomProductProperty/:id",
-          name: "addCustomProductProperty",
-          component: addCustomProductProperty
-        },
-        {
-          path: "/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/editCustomProductProperty/:id",
-          name: "editCustomProductProperty",
-          component: editCustomProductProperty
-        },
-        {
-          path: "/productionSubject/threeProduct",
-          name: "threeProduct",
-          component: threeProduct
-        },
-        {
-          path: "/productionSubject/threeProduct/addThreeProduct",
-          name: "addThreeProduct",
-          component: addThreeProduct
-        },
-        {
-          path: "/threeProductsCertification",
-          name: "threeProductsCertification",
-          component: threeProductsCertification
-        },
-        {
-          path: "/threeProductsCertification/create",
-          name: "addThreeProducts",
-          component: addThreeProducts
-        },
-        {
-          path: "/threeProductsCertification/:id",
-          name: "detailsThreeProducts",
-          component: detailsThreeProducts
-        },
-        {
-          path: "/corporateCreditFile",
-          name: "corporateCreditFile",
-          component: corporateCreditFile
-        },
-        {
-          path: "/corporateCreditFile/adminLicenseInfo/",
-          name: "adminLicenseInfo",
-          component: adminLicenseInfo
-        },
-        {
-          path: "/corporateCreditFile/adminPenaltyInfo/",
-          name: "adminPenaltyInfo",
-          component: adminPenaltyInfo
-        },
-        {
-          path: "/corporateCreditFile/ratingInfo",
-          name: "ratingInfo",
-          component: ratingInfo
-        },
-        {
-          path: "/corporateCreditFile/threeProduction/",
-          name: "threeProduction",
-          component: threeProduction
-        },
-        {
-          path: "/regulatoryRecord",
-          name: "regulatoryRecord",
-          component: regulatoryRecord
-        },
-        {
-          path: "/regulatoryRecord/create",
-          name: "addRegulatoryRecord",
-          component: addRegulatoryRecord
-        },
-        {
-          path: "/regulatoryRecord/edit/:id",
-          name: "rectificationRecord",
-          component: rectificationRecord
-        },
-        {
-          path: "/regulatoryRecord/:id",
-          name: "detailsRegulatoryRecord",
-          component: detailsRegulatoryRecord
-        },
-        {
-          path: "/commonWords",
-          name: "commonWords",
-          component: commonWords
-        },
-        {
-          path: "/management",
-          name: "management",
-          component: management
-        },
-        {
-          path: "/businessProducts",
-          name: "businessProducts",
-          component: businessProducts
-        },
-        {
-          path: "/companyDetails",
-          name: "companyDetails",
-          component: companyDetails
-        },
-        {
-          path: "/disabilityCheck",
-          name: "disabilityCheck", // 农残检测
-          component: disabilityCheck
-        },
-        {
-          path: "/productionRecord",
-          name: "productionRecord", // 生产记录
-          component: productionRecord
-        },
-        {
-          path: "/productionRecord/create",
-          name: "addProductionRecord", // 生产记录
-          component: addProductionRecord
-        },
-        {
-          path: "/productionRecord/editProductionRecord/:id",
-          name: "editProductionRecord", // 生产记录
-          component: editProductionRecord
-        },
-        {
-          path: "/redBlackList",
-          name: "redBlackList", // 红黑名单
-          component: redBlackList
-        },
-        {
-          path: "/notice",
-          name: "notice", // 通知管理
-          component: notice
-        },
-        {
-          path: "/notice/view/:id",
-          name: "detailsNotice", // 通知管理
-          component: detailsNotice
-        },
-        {
-          path: "/notice/create",
-          name: "createNotice", // 通知管理
-          component: createNotice
-        },
-        {
-          path: "/notice/smsNotice/:id",
-          name: "smsNotice", // 短信通知
-          component: smsNotice
-        },
-        {
-          path: "/notice/detailSms",
-          name: "detailSms", // 短信记录
-          component: detailSms
-        },
-        {
-          path: "/aquatic",
-          name: "aquaticStatistics", // 通知管理
-          component: aquaticStatistics
-        },
-        {
-          path: "/notice/edit/:id",
-          name: "editNotice", // 通知管理
-          component: editNotice
-        },
-        {
-          path: "/jobDefinition",
-          name: "jobDefinition", // 作业定义
-          component: jobDefinition
-        },
-        {
-          path: "/jobDefinition/create",
-          name: "addJobDefinition", // 作业定义
-          component: addJobDefinition
-        },
-        {
-          path: "/jobDefinition/:id",
-          name: "editJobDefinition", // 作业定义
-          component: editJobDefinition
-        },
-        {
-          path: "/productVariety/:id",
-          name: "productVariety", // 作业定义
-          component: varietyDefinition
-        },
-        {
-          path: "/productVariety/create/:id",
-          name: "addProductVariety", // 作业定义
-          component: addVarietyDefinition
-        },
-        {
-          path: "/productVariety/edit/:id",
-          name: "editProductVariety", // 作业定义
-          component: editVarietyDefinition
-        },
-        {
-          path: "/statisticsFarmers",
-          name: "statisticsFarmers", // 统计（农残）
-          component: statisticsFarmers
-        },
-        {
-          path: "/greenProducts",
-          name: "greenProducts", // 绿色优质产品
-          component: greenProducts
-        },
-        {
-          path: "/internalMessage",
-          name: "internalMessage", // 站内消息
-          component: internalMessage
-        },
-        {
-          path: "/internalMessage/add",
-          name: "addInternalMessage", // 站内消息
-          component: addInternalMessage
-        },
-        {
-          path: "/inputManagement",
-          name: "inputManagement", // 投入品管理
-          component: inputManagement
-        },
-        {
-          path: "/inputManagement/addPurchase",
-          name: "addInputPurchase", // 投入品管理
-          component: addInputPurchase
-        },
-        {
-          path: "/inputManagement/addUse",
-          name: "addInputUse", // 投入品管理
-          component: addInputUse
-        },
-        {
-          path: "/inputManagement/view/:id",
-          name: "viewInputManagement", // 投入品管理
-          component: viewInputManagement
-        },
-        {
-          path: "/workTask",
-          name: "workTask", // 工作任务
-          component: workTask
-        },
-        {
-          path: "/workTask/create",
-          name: "addWorkTask", // 工作任务
-          component: addWorkTask
-        },
-        {
-          path: "/workTask/edit/:id",
-          name: "editWorkTask", // 工作任务
-          component: editWorkTask
-        },
-        {
-          path: "/workTask/report/create",
-          name: "addWorkTaskReport", // 工作任务
-          component: addWorkTaskReport
-        },
-        {
-          path: "/workTask/report/detail/:id",
-          name: "detailWorkTaskReport", // 工作任务
-          component: detailWorkTaskReport
-        },
-        {
-          path: "/trainingFunds",
-          name: "trainingFunds", // 培训经费管理
-          component: trainingFunds
-        },
-        {
-          path: "/trainingFunds/add",
-          name: "addTrainingFunds", // 培训经费管理
-          component: addTrainingFunds
-        },
-        {
-          path: "/trainingFunds/view/:id",
-          name: "viewTrainingFunds", // 培训经费管理
-          component: viewTrainingFunds
-        },
-        {
-          path: "/seed",
-          name: "seed", // 种子管理
-          component: seed
-        },
-        {
-          path: "/seed/upload",
-          name: "uploadSeed", // 种子管理
-          component: uploadSeed
-        },
-        {
-          path: "/seed/detail/:id",
-          name: "detailSeed", // 种子管理
-          component: detailSeed
-        },
-        {
-          path: "/userManagement",
-          name: "userManagement", // 用户管理
-          component: userManagement
-        },
-        {
-          path: "/userManagement/create",
-          name: "registerUser", // 用户管理
-          component: registerUser
-        },
-        {
-          path: "/userManagement/edit/:id",
-          name: "editUser", // 用户管理
-          component: editUser
-        },
-        {
-          path: "/userManagement/changePwd/:id",
-          name: "changePassword", // 用户管理
-          component: changePassword
-        },
-        {
-          path: "/productionStandard",
-          name: "productionStandard", // 生产标准
-          component: productionStandard
-        },
-        {
-          path: "/productionStandard/create",
-          name: "addProductionStandard", // 生产标准
-          component: addProductionStandard
-        },
-        {
-          path: "/productionStandard/detail/:id",
-          name: "detailProductionStandard", // 生产标准
-          component: detailProductionStandard
-        },
-        {
-          path: "/productionStandard/edit/:id",
-          name: "editProductionStandard", // 生产标准
-          component: editProductionStandard
-        },
-        {
-          path: "/productionGrade/:id",
-          name: "definitionLevel",
-          component: definitionLevel
-        },
-        {
-          path: "/productionGrade/create/:id",
-          name: "addDefinitionLevel",
-          component: addDefinitionLevel
-        },
-        {
-          path: "/productionGrade/edit/:id",
-          name: "editDefinitionLevel",
-          component: editDefinitionLevel
-        },
-        {
-          path: "/shareFiles",
-          name: "shareFiles", // 共享文件editShareFiles
-          component: shareFiles
-        },
-        {
-          path: "/shareFiles/create",
-          name: "addShareFiles", // 共享文件
-          component: addShareFiles
-        },
-        {
-          path: "/shareFiles/edit/:id",
-          name: "editShareFiles", // 共享文件
-          component: editShareFiles
-        },
-        {
-          path: "/shareFiles/detail/:id",
-          name: "detailShareFiles", // 共享文件
-          component: detailShareFiles
-        },
-        {
-          path: "/specialCategory",
-          name: "specialCategory",
-          component: specialCategory
-        },
-        {
-          path: "/supervisionGrid",
-          name: "supervisionGrid", // 监管网格
-          component: supervisionGrid
-        },
-        {
-          path: "/supervisionGrid/manage/:id",
-          name: "manageSupervisionGrid", // 监管网格
-          component: manageSupervisionGrid
-        },
-        {
-          path: "/uploadSituation",
-          name: "uploadSituation", // 上传情况
-          component: uploadSituation
-        },
-        {
-          path: "/statisticsCredit",
-          name: "statisticsCredit", // 上传情况
-          component: statisticsCredit
-        },
-        {
-          path: "/statisticsSupervision",
-          name: "statisticsSupervision", // 上传情况
-          component: statisticsSupervision
-        },
-        {
-          path: "/statisticsTracing",
-          name: "statisticsTracing", // 上传情况
-          component: statisticsTracing
-        },
-        {
-          path: "/statisticsTracingCompany",
-          name: "statisticsTracingCompany", // 上传情况
-          component: statisticsTracingCompany
-        }
-      ]
-    },
-    {
-      path: "/login",
-      name: "login",
-      component: login
-    },
-    { path: "*", redirect: "/", hidden: true }
-  ]
-});
+      {
+        path: "/login",
+        name: "login",
+        component: login
+      },
+      { path: "*", redirect: "/", hidden: true }
+    ]
+  }) :
+  new Router({
+    routes: [{
+        path: "/",
+        name: "home",
+        component: home,
+        redirect: "corporateCreditFile",
+        beforeEnter(to, from, next) {
+          // if (!Auth().check()) {
+          //   next({
+          //     path: "/login",
+          //     query: { redirect: to.fullPath }
+          //   });
+          // } else {
+          //   next();
+          // }
+          if (!Auth().check())
+            Toast.error("确认 accessToken, sign, timestamp!!!");
+          // if (Auth().check() === -1)
+          //   Toast.error("确认 accessToken, sign, timestamp!!!");
+          // else if (Auth().check() === -2)
+          //   Toast.error("验证失败. 确认 accessToken!!!");
+          else
+            Auth()
+            .check()
+            .then(
+              success => {
+                next();
+              },
+              error => {
+                console.log(error);
+                Toast.error("Token 错误");
+              }
+            );
+        },
+        children: [{
+            path: "/creditRating",
+            name: "creditRating",
+            component: creditRating
+          },
+          {
+            path: "/creditRating/:id",
+            name: "detailsRating",
+            component: detailsRating
+          },
+          {
+            path: "/creditRating/edit/:id",
+            name: "editRating",
+            component: editRating
+          },
+          {
+            path: "/corporateCreditFile",
+            name: "corporateCreditFile",
+            component: corporateCreditFile
+          },
+          {
+            path: "/corporateCreditFile/adminLicenseInfo/",
+            name: "adminLicenseInfo",
+            component: adminLicenseInfo
+          },
+          {
+            path: "/corporateCreditFile/adminPenaltyInfo/",
+            name: "adminPenaltyInfo",
+            component: adminPenaltyInfo
+          },
+          {
+            path: "/corporateCreditFile/ratingInfo",
+            name: "ratingInfo",
+            component: ratingInfo
+          },
+          {
+            path: "/corporateCreditFile/threeProduction/",
+            name: "threeProduction",
+            component: threeProduction
+          },
+          {
+            path: "/redBlackList",
+            name: "redBlackList", // 红黑名单
+            component: redBlackList
+          }
+        ]
+      },
+      {
+        path: "/login",
+        name: "login",
+        component: login
+      },
+      { path: "*", redirect: "/", hidden: true }
+    ]
+  });
+export default router;
