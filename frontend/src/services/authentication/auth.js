@@ -74,6 +74,10 @@ class Auth {
       .then(
         success => {
           Storage.set(
+            "authData",
+            JSON.parse(success.authListInfo).result[0].roleCode
+          );
+          Storage.set(
             "authList",
             JSON.parse(success.authListInfo).result[0].privilegeList
           );
