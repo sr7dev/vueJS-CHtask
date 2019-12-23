@@ -184,30 +184,31 @@ export default {
     },
 
     downloadStandardProfiles(profile) {
-      // axios({
-      //   url: Urls.DOWNLOAD_URL() + profile,
-      //   method: "GET",
-      //   responseType: "blob" // important
-      // }).then(response => {
-      //   console.log(response.data);
-      // const url = window.URL.createObjectURL(new Blob([response.data]));
+      axios({
+        url: Urls.DOWNLOAD_URL() + profile,
+        method: "GET",
+        responseType: "blob" // important
+      }).then(response => {
+        console.log(response.data);
+      const url = window.URL.createObjectURL(new Blob([response.data]));
       // const url = "http://213.252.247.150/standard" + profile;
-      window.open(
-        "http://localhost/download.php?file=" + encodeURIComponent(profile),
-        "_blank"
-      );
-      // const link = document.createElement("a");
-      // link.href = url;
-      // link.target = "_blank";
+      // window.open(
+      //   "http://localhost/download.php?file=" + encodeURIComponent(profile),
+      //   "_blank"
+      // );
+      const link = document.createElement("a");
+      link.href = url;
+      link.target = "_blank";
       // profile.indexOf("jiangsu") > 0
       //   ? link.setAttribute("download", profile.replace("/jiangsu/", ""))
-      //   : link.setAttribute("download", profile.replace("/suzhou/", "")); //or any other extension
-      // console.log(link);
-      // document.body.appendChild(link);
-      // link.click();
-
-      // link.remove();
-      // });
+       link.setAttribute(
+          "download",
+          this.data.profile.replace("/uploads/", "")
+        ); //or any other extension
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      });
     },
 
     rowIndex({ row, rowIndex }) {
