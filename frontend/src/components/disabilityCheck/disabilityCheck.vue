@@ -7,15 +7,8 @@
     </div>
     <div class="box">
       <div class="iptBox">
-        <div
-          v-if="typeof this.creditCode == 'undefined'"
-          class="select_label no-margin-left"
-        >
-          乡镇
-        </div>
-        <div v-else class="select_label no-margin-left" style="display: none">
-          乡镇
-        </div>
+        <div v-if="typeof this.creditCode == 'undefined'" class="select_label no-margin-left">乡镇</div>
+        <div v-else class="select_label no-margin-left" style="display: none">乡镇</div>
         <el-select
           v-if="typeof this.creditCode == 'undefined'"
           v-model="currTown"
@@ -33,12 +26,7 @@
         <div v-else class="select_label">{{ getCompanyName() }}</div>
         <div class="select_label">项目</div>
         <el-select v-model="itemValue" placeholder="全部" @change="getList">
-          <el-option
-            v-for="item in items"
-            :key="item.id"
-            :label="item.item"
-            :value="item.item"
-          ></el-option>
+          <el-option v-for="item in items" :key="item.id" :label="item.item" :value="item.item"></el-option>
         </el-select>
         <div class="select_label">样品</div>
         <el-select v-model="samplesValue" placeholder="全部" @change="getList">
@@ -51,12 +39,7 @@
         </el-select>
         <div class="select_label">定性</div>
         <el-select v-model="result" placeholder="全部" @change="getList">
-          <el-option
-            v-for="item in results"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          ></el-option>
+          <el-option v-for="item in results" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
         <div class="select_label" v-if="isShowSearchOption">检测单位</div>
         <el-select
@@ -95,22 +78,15 @@
               @change="getList"
             ></el-date-picker>
           </el-col>
-          <el-col :span="3" class="flex-center">
-            <el-button
-              size="small"
-              v-on:click="handleDownload"
-              type="success"
-              plain
-              >导出表格</el-button
-            >
+          <el-col :span="5" class="flex-center">
+            <el-button size="small" v-on:click="handleDownload" type="success" plain>导出表格</el-button>
             <el-button
               size="small"
               v-if="typeof this.creditCode != 'undefined'"
               type="primary"
               plain
               v-on:click="$router.go(-1)"
-              >返回</el-button
-            >
+            >返回</el-button>
             <el-button
               size="small"
               v-else
@@ -118,18 +94,13 @@
               type="primary"
               v-on:click="$router.go(-1)"
               style="display: none;"
-              >返回</el-button
-            >
+            >返回</el-button>
             <span class="margin-left-20 margin-top-10-IE">
               总计
               <b class="blue-colored">{{ total }}</b> 条检测
             </span>
           </el-col>
-          <el-col
-            :span="11"
-            class="flex-center justify-right"
-            style="height:40px"
-          >
+          <el-col :span="9" class="flex-center justify-right" style="height:40px">
             <el-button
               size="small"
               type="success"
@@ -137,8 +108,7 @@
               v-if="isShowCheckbox != 0"
               plain
               @click="actionConfirm(1)"
-              >添加到专项1</el-button
-            >
+            >添加到专项1</el-button>
             <el-button
               size="small"
               type="danger"
@@ -147,16 +117,14 @@
               plain
               @click="actionConfirm(0)"
               style="margin-right:10px"
-              >从专项1移除</el-button
-            >
+            >从专项1移除</el-button>
             <el-checkbox
               class="margin-top-10-IE float-right-IE"
               v-model="isShowCheckbox"
               true-label="1"
               false-label="0"
               @change="showCheckbox"
-              >专项1:绿色优质农产品生产基地</el-checkbox
-            >
+            >专项1:绿色优质农产品生产基地</el-checkbox>
           </el-col>
         </el-row>
         <el-dialog :visible.sync="alert_dialogVisible" width="30%" modal>
@@ -164,13 +132,7 @@
             <i class="el-icon-warning">&nbsp;请选择 !!!</i>
           </span>
           <span slot="footer" class="dialog-footer">
-            <el-button
-              size="small"
-              @click="alert_dialogVisible = false"
-              type="primary"
-              plain
-              >取消</el-button
-            >
+            <el-button size="small" @click="alert_dialogVisible = false" type="primary" plain>取消</el-button>
           </span>
         </el-dialog>
         <el-dialog :visible.sync="confirm_dialogVisible" width="30%" modal>
@@ -178,20 +140,8 @@
             <i class="el-icon-warning">&nbsp;继续？请再次检查</i>
           </span>
           <span slot="footer" class="dialog-footer">
-            <el-button
-              size="small"
-              @click="confirm_dialogVisible = false"
-              type="primary"
-              plain
-              >取消</el-button
-            >
-            <el-button
-              size="small"
-              :type="btnColor"
-              @click="updateSelectedRows()"
-              plain
-              >确认</el-button
-            >
+            <el-button size="small" @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
+            <el-button size="small" :type="btnColor" @click="updateSelectedRows()" plain>确认</el-button>
           </span>
         </el-dialog>
       </div>
@@ -213,31 +163,23 @@
               ></el-checkbox>
             </template>
           </el-table-column>
-          <el-table-column
-            :formatter="order"
-            label="序号"
-            width="80"
-          ></el-table-column>
+          <el-table-column :formatter="order" label="序号" width="80"></el-table-column>
           <el-table-column prop="no" label="编号"></el-table-column>
           <el-table-column prop="item" label="检测项目"></el-table-column>
           <el-table-column prop="sample" label="样品名称"></el-table-column>
           <el-table-column prop="source" label="来源"></el-table-column>
           <el-table-column prop="resultDl" label="定量结果"></el-table-column>
           <el-table-column prop="resultDx" label="定性结果">
-            <template slot-scope="{ row }">{{
-              filterResultDx(row.resultDx)
-            }}</template>
-          </el-table-column>
-          <el-table-column prop="detectTime" label="检测时间" width="120">
             <template slot-scope="{ row }">
-              {{ row.detectTime | formatDate }}
+              {{
+              filterResultDx(row.resultDx)
+              }}
             </template>
           </el-table-column>
-          <el-table-column
-            prop="detectUnit"
-            label="检测单位"
-            width="150"
-          ></el-table-column>
+          <el-table-column prop="detectTime" label="检测时间" width="120">
+            <template slot-scope="{ row }">{{ row.detectTime | formatDate }}</template>
+          </el-table-column>
+          <el-table-column prop="detectUnit" label="检测单位" width="150"></el-table-column>
           <el-table-column prop="operator" label="检验员"></el-table-column>
           <el-table-column label="专项1">
             <template slot-scope="{ row }">
