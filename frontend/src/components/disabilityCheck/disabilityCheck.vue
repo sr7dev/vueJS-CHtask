@@ -79,7 +79,13 @@
             ></el-date-picker>
           </el-col>
           <el-col :span="5" class="flex-center">
-            <el-button size="small" v-on:click="handleDownload" type="success" plain>导出表格</el-button>
+            <el-button
+              size="small"
+              v-on:click="handleDownload"
+              type="success"
+              plain
+              disabled="totalNo<1"
+            >导出表格</el-button>
             <el-button
               size="small"
               v-if="typeof this.creditCode != 'undefined'"
@@ -97,7 +103,7 @@
             >返回</el-button>
             <span class="margin-left-20 margin-top-10-IE">
               总计
-              <b class="blue-colored">{{ total }}</b> 条检测
+              <b class="blue-colored">{{ totalNo }}</b> 条检测
             </span>
           </el-col>
           <el-col :span="9" class="flex-center justify-right" style="height:40px">
@@ -124,6 +130,7 @@
               true-label="1"
               false-label="0"
               @change="showCheckbox"
+              disabled="totalNo<1"
             >专项1:绿色优质农产品生产基地</el-checkbox>
           </el-col>
         </el-row>
@@ -219,6 +226,7 @@ export default {
         pageSize: 20
       },
       total: 0,
+      totalNo: 0,
       options: [
         {
           value: "全部",
@@ -410,6 +418,7 @@ export default {
         .then(response => {
           this.tableData = response.data;
           this.total = response.total;
+          this.totalNo = response.total * this.page.pageSize;
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
