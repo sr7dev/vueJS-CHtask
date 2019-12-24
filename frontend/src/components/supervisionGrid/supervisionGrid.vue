@@ -60,13 +60,15 @@
           </el-table-column>
           <el-table-column label="操作" class-name="text-center" width="100">
             <template slot-scope="{ row }">
-              <el-button size="small"
+              <el-button
+                size="small"
                 type="warning"
                 plain
                 class="no-margin-left margin-bottom-10 w-100"
                 disabled
               >网格图</el-button>
-              <el-button size="small"
+              <el-button
+                size="small"
                 type="primary"
                 plain
                 class="no-margin-left w-100"
@@ -114,8 +116,8 @@ export default {
       townList: null
     };
   },
-  created() {
-    this.getTown();
+  async created() {
+    await this.getTown();
     this.getData();
   },
   methods: {
@@ -144,7 +146,8 @@ export default {
             tmpData.id = this.townList[town].id;
             this.tableData.push(tmpData);
           }
-          this.total = response.total;
+          console.log(this.tableData);
+          this.total = this.tableData.length;
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
@@ -155,7 +158,7 @@ export default {
     },
     getTown() {
       this.listLoading = true;
-      Request()
+      return Request()
         .get("/api/town/all")
         .then(response => {
           setTimeout(() => {}, 0.5 * 100);
