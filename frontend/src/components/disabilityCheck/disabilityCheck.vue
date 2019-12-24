@@ -2,7 +2,8 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item class="actived">农残检测</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived" v-if="isEnterprise>-1">农残自检</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived" v-else>农残检测</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
@@ -179,7 +180,7 @@
           <el-table-column prop="resultDx" label="定性结果">
             <template slot-scope="{ row }">
               {{
-              filterResultDx(row.resultDx)
+              detect(row.resultDx)
               }}
             </template>
           </el-table-column>
@@ -219,6 +220,7 @@ export default {
   components: { Pagination },
   data() {
     return {
+      isEnterprise: "",
       listLoading: false,
       creditCode: "",
       page: {
@@ -265,6 +267,7 @@ export default {
     };
   },
   created() {
+    this.isEnterprise = Storage.get("authData").indexOf("ent");
     this.isShowSearchOption = Storage.get("authList").find(
       x => x.privilegeCode == "searchdisabilityCheck"
     )
@@ -436,6 +439,11 @@ export default {
       } else {
         return "";
       }
+    },
+    detect(no) {
+      if (no == "" || no == "0") return "不合格";
+      if (no == "1") return "合格";
+      else return "疑似";
     },
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;

@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item class="actived">工作任务</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">任务发布</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
@@ -35,8 +35,7 @@
               v-on:click="$router.push(`/workTask/create`)"
               plain
               v-if="isShowAddButton"
-              >添加工作任务</el-button
-            >
+            >添加工作任务</el-button>
           </el-col>
         </el-row>
       </div>
@@ -49,25 +48,16 @@
           :row-class-name="rowIndex"
           highlight-current-row
         >
-          <el-table-column
-            :formatter="order"
-            label="序号"
-            width="100"
-          ></el-table-column>
-          <el-table-column
-            prop="releaseTime"
-            label="发布时间"
-            class-name="text-center"
-          >
-            <template slot-scope="{ row }">{{
+          <el-table-column :formatter="order" label="序号" width="100"></el-table-column>
+          <el-table-column prop="releaseTime" label="发布时间" class-name="text-center">
+            <template slot-scope="{ row }">
+              {{
               row.releaseTime | formatDate
-            }}</template>
+              }}
+            </template>
           </el-table-column>
           <el-table-column prop="title" label="标题"></el-table-column>
-          <el-table-column
-            prop="releasePerson"
-            label="发布者"
-          ></el-table-column>
+          <el-table-column prop="releasePerson" label="发布者"></el-table-column>
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">
               <el-button
@@ -80,8 +70,7 @@
                     path: `/workTask/edit/${row.id}`
                   })
                 "
-                >修改</el-button
-              >
+              >修改</el-button>
               <el-button
                 size="small"
                 type="success"
@@ -95,8 +84,7 @@
                     }
                   })
                 "
-                >查看任务</el-button
-              >
+              >查看任务</el-button>
               <el-button
                 size="small"
                 type="primary"
@@ -107,8 +95,7 @@
                     path: `/workTask/report/detail/` + row.id
                   })
                 "
-                >查看任务进度</el-button
-              >
+              >查看任务进度</el-button>
             </template>
           </el-table-column>
         </el-table>

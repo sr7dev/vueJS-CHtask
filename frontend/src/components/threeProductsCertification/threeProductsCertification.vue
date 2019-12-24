@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item class="actived">三品一标管理</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">认证工作</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
@@ -117,7 +117,7 @@ export default {
     return {
       creditCode: "",
       productCategory: 0,
-      authType: 0,
+      authType: 4,
       dialogVisible: false,
       selectedId: null,
       page: {

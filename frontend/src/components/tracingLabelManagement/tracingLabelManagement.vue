@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item class="actived">溯源标签管理</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">溯源标签</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
@@ -547,7 +547,7 @@ export default {
       Request()
         .get("/api/product_production/all", {
           company_id: this.companyId,
-          sortBy:"productId"
+          sortBy: "productId"
         })
         .then(response => {
           this.productionList = response.data;
@@ -559,9 +559,10 @@ export default {
     getVarietyData() {
       this.listLoading = true;
       Request()
-        .get("/api/product_variety/all", { 
+        .get("/api/product_variety/all", {
           productId: this.productId,
-          sortBy: "id" })
+          sortBy: "id"
+        })
         .then(response => {
           this.varietyList = response.data;
         })

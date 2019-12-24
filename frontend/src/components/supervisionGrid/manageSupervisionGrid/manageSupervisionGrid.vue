@@ -42,10 +42,10 @@
           <el-col :span="7">
             <el-form-item
               label="职能："
-              :prop="'rowDatas.'+index+'.function'"
+              :prop="'rowDatas.'+index+'.title'"
               :rules="{ required: true, message: '请插入', trigger: 'blur' }"
             >
-              <el-input v-model="rowData.function"></el-input>
+              <el-input v-model="rowData.title"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
@@ -129,7 +129,7 @@
                 highlight-current-row
                 v-if="i!==2"
               >
-                <el-table-column prop="function" :label="functionName[i-1]"></el-table-column>
+                <el-table-column prop="title" :label="functionName[i-1]"></el-table-column>
                 <el-table-column prop="name" :label="headerName[i-1]"></el-table-column>
               </el-table>
               <el-table
@@ -139,8 +139,8 @@
                 highlight-current-row
                 v-else-if="i===2"
               >
-                <el-table-column prop="function" :label="'站长：'+ dynamicValidateForm.webMaster">
-                  <el-table-column prop="function" :label="functionName[i-1]"></el-table-column>
+                <el-table-column prop="title" :label="'站长：'+ dynamicValidateForm.webMaster">
+                  <el-table-column prop="title" :label="functionName[i-1]"></el-table-column>
                   <el-table-column prop="name" :label="headerName[i-1]"></el-table-column>
                 </el-table-column>
               </el-table>
@@ -179,7 +179,7 @@ export default {
         rowDatas: [
           {
             id: null,
-            function: "",
+            title: "",
             name: "",
             age: null,
             phoneNumber: ""
@@ -213,33 +213,57 @@ export default {
     getData() {
       this.listLoading = true;
       Request()
-        .get("/api/supervision_grid/get/{townId}", {
-          pageNo: this.page.pageIndex - 1,
-          pageSize: this.page.pageSize,
-          townId: this.selectedTownId
-        })
+        .get("/api/town/get/" + this.selectedTownId)
         .then(response => {
-          let rawData = response.data;
-          for (let i = 1; i < 5; i++) {
-            let row = rawData.filter(el => el.supervisorType === i);
-            if (row) {
-              if (i === 2) {
-                // let tmp = row.find(x => x.function === "站长");
-                let tmp = row.find(x => x.function === "站长");
-                if (tmp) {
-                  this.webMasterData = tmp;
-                  this.dynamicValidateForm.webMaster = tmp.name;
-                } else {
-                  this.webMasterData = "";
-                  this.dynamicValidateForm.webMaster = "";
-                }
-                let index = row.indexOf(tmp);
-                if (index > -1) row.splice(index, 1);
-              }
-              this.tableData["group" + i] = row;
-            } else this.tableData["group" + i] = [];
+          let rawData = response;
+          // for (let i = 1; i < 5; i++) {
+          //   let row = rawData.filter(el => el.supervisorType === i);
+          //   if (row) {
+          //     if (i === 2) {
+          //       // let tmp = row.find(x => x.function === "站长");
+          //       let tmp = row.find(x => x.function === "站长");
+          //       if (tmp) {
+          //         this.webMasterData = tmp;
+          //         this.dynamicValidateForm.webMaster = tmp.name;
+          //       } else {
+          //         this.webMasterData = "";
+          //         this.dynamicValidateForm.webMaster = "";
+          //       }
+          //       let index = row.indexOf(tmp);
+          //       if (index > -1) row.splice(index, 1);
+          //     }
+          //     this.tableData["group" + i] = row;
+          //   } else this.tableData["group" + i] = [];
+          // }
+          var regex = new RegExp(/(?<="level1":)(.*)(?=,"level2leader")/g),
+            results = regex.exec(rawData.superviseSystem);
+          const group1 = results ? results[1] : "[]";
+          var regex1 = new RegExp(/(?<="level2leader":)(.*)(?=,"level2")/g),
+            results1 = regex1.exec(rawData.superviseSystem);
+          const tmplevel2leader = results1 ? results1[1] : {};
+          var regex2 = new RegExp(/(?<="level2":)(.*)(?=,"level3")/g),
+            results2 = regex2.exec(rawData.superviseSystem);
+          const group2 = results2 ? results2[1] : "[]";
+          var regex3 = new RegExp(/(?<="level3":)(.*)(?=,"level4")/g),
+            results3 = regex3.exec(rawData.superviseSystem);
+          const group3 = results3 ? results3[1] : "[]";
+          var regex4 = new RegExp(/(?<="level4":)(.*)(?=}")/g),
+            results4 = regex4.exec(rawData.superviseSystem);
+          const group4 = results4 ? results4[1] : "[]";
+          rawData["level2leader"] = JSON.parse(tmplevel2leader);
+          if (rawData["level2leader"]["name"]) {
+            this.webMasterData = rawData["level2leader"];
+            this.dynamicValidateForm.webMaster =
+              rawData["level2leader"]["name"];
+          } else {
+            this.webMasterData = "";
+            this.dynamicValidateForm.webMaster = "";
           }
-          this.total = response.total;
+          rawData["group1"] = JSON.parse(group1);
+          rawData["group2"] = JSON.parse(group2);
+          rawData["group3"] = JSON.parse(group3);
+          rawData["group4"] = JSON.parse(group4);
+          this.tableData = rawData;
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
@@ -251,10 +275,11 @@ export default {
     addFormRow() {
       this.dynamicValidateForm.rowDatas.push({
         id: null,
-        function: "",
+        title: "",
         name: "",
         age: null,
-        phoneNumber: ""
+        phoneNumber: "",
+        $$hashKey: ""
       });
     },
     showDialog(data, supervisorType) {
@@ -287,6 +312,7 @@ export default {
       }
     },
     onSubmit(formName) {
+      console.log(this.dynamicValidateForm.rowDatas);
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.confirm_dialogVisible = true;
@@ -296,126 +322,38 @@ export default {
     updateSelectedRows() {
       this.confirm_dialogVisible = false;
       this.openDialog = false;
-      const updateTime = new Date();
-      const createTime = new Date();
-      if (this.selectedSupervisupervisorType === 2) {
-        if (this.webMasterData) {
-          this.listLoading = true;
-          Request()
-            .put("/api/supervision_grid/update/" + this.webMasterData.id, {
-              age: 0,
-              function: "站长",
-              id: this.webMasterData.id,
-              name: this.dynamicValidateForm.webMaster,
-              phoneNumber: "",
-              supervisorType: this.webMasterData.supervisorType,
-              townId: this.webMasterData.townId,
-              updateTime: updateTime,
-              updateUserId: Auth().user().id
-            })
-            .then(response => {
-              setTimeout(() => {
-                this.listLoading = false;
-              }, 0.5 * 1000);
-              this.getData();
-            })
-            .catch(error => {
-              console.log(error);
-            });
-        } else {
-          this.listLoading = true;
-          Request()
-            .post("/api/supervision_grid/create", {
-              age: 0,
-              function: "站长",
-              id: 0,
-              name: this.dynamicValidateForm.webMaster,
-              phoneNumber: "",
-              supervisorType: this.selectedSupervisupervisorType,
-              townId: this.selectedTownId,
-              createTime: createTime,
-              createUserId: Auth().user().id
-            })
-            .then(response => {
-              setTimeout(() => {
-                this.listLoading = false;
-                this.checked.fill["0"];
-              }, 0.5 * 1000);
-              this.getData();
-            });
-        }
-      }
-      if (this.deletedRows.length) {
-        for (let index in this.deletedRows) {
-          this.listLoading = true;
-          Request()
-            .delete("/api/supervision_grid/delete/" + this.deletedRows[index])
-            .then(response => {
-              setTimeout(() => {
-                this.listLoading = false;
-              }, 0.5 * 1000);
-              this.getData();
-            })
-            .catch(error => {
-              console.log(error);
-            });
-        }
-        this.deletedRows = [];
-      }
+
       if (this.dynamicValidateForm.rowDatas.length) {
-        for (let i = 0; i < this.dynamicValidateForm.rowDatas.length; i++) {
-          if (this.dynamicValidateForm.rowDatas[i].id) {
-            //update
-            this.listLoading = true;
-            Request()
-              .put(
-                "/api/supervision_grid/update/" +
-                  this.dynamicValidateForm.rowDatas[i].id,
-                {
-                  age: this.dynamicValidateForm.rowDatas[i].age,
-                  function: this.dynamicValidateForm.rowDatas[i].function,
-                  id: this.dynamicValidateForm.rowDatas[i].id,
-                  name: this.dynamicValidateForm.rowDatas[i].name,
-                  phoneNumber: this.dynamicValidateForm.rowDatas[i].phoneNumber,
-                  supervisorType: this.dynamicValidateForm.rowDatas[i]
-                    .supervisorType,
-                  townId: this.dynamicValidateForm.rowDatas[i].townId,
-                  updateTime: updateTime,
-                  updateUserId: Auth().user().id
-                }
-              )
-              .then(response => {
-                setTimeout(() => {
-                  this.listLoading = false;
-                }, 0.5 * 1000);
-                this.getData();
-              })
-              .catch(error => {
-                console.log(error);
-              });
-          } else {
-            //create
-            this.listLoading = true;
-            Request()
-              .post("/api/supervision_grid/create", {
-                age: this.dynamicValidateForm.rowDatas[i].age,
-                function: this.dynamicValidateForm.rowDatas[i].function,
-                id: 0,
-                name: this.dynamicValidateForm.rowDatas[i].name,
-                phoneNumber: this.dynamicValidateForm.rowDatas[i].phoneNumber,
-                supervisorType: this.selectedSupervisupervisorType,
-                townId: this.selectedTownId,
-                createTime: createTime,
-                createUserId: Auth().user().id
-              })
-              .then(response => {
-                setTimeout(() => {
-                  this.listLoading = false;
-                }, 0.5 * 1000);
-                this.getData();
-              });
-          }
+        this.listLoading = true;
+        let updateSuperData = {};
+        for (let i = 1; i < 5; i++) {
+          if (this.selectedSupervisupervisorType == i)
+            updateSuperData["level" + i] = this.dynamicValidateForm.rowDatas;
+          else updateSuperData["level" + i] = this.tableData["group" + i];
+          if (i == 1)
+            updateSuperData["level2leader"] = {
+              name: this.dynamicValidateForm.webMaster
+            };
         }
+        // updateSuperData["level1"] = this.dynamicValidateForm.rowDatas;
+        // updateSuperData["level2leader"] = this.dynamicValidateForm.webMaster;
+        // updateSuperData["level2"] = this.tableData.group2;
+        // updateSuperData["level3"] = this.tableData.group3;
+        // updateSuperData["level4"] = this.tableData.group4;
+
+        Request()
+          .put("/api/town/update/" + this.selectedTownId, {
+            divisionCode: this.tableData.divisionCode,
+            id: this.selectedTownId,
+            name: this.tableData.name,
+            superviseSystem: JSON.stringify(updateSuperData)
+          })
+          .then(response => {
+            setTimeout(() => {
+              this.listLoading = false;
+            }, 0.5 * 1000);
+            this.getData();
+          });
       }
     },
     handleClose(done) {

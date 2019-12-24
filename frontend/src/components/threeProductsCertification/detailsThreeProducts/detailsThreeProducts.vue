@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item>三品认证</el-breadcrumb-item>
+        <el-breadcrumb-item>认证工作</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">认证详情</el-breadcrumb-item>
       </el-breadcrumb>
     </div>

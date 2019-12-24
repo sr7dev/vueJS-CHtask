@@ -182,14 +182,14 @@ export default {
             var regex4 = new RegExp(/(?<="level4":)(.*)(?=}")/g),
               results4 = regex4.exec(this.townList[i].superviseSystem);
             const group4 = results4 ? results4[1] : "[]";
-
+            console.log(tmplevel2leader);
             this.townList[i]["level2header"] = JSON.parse(tmplevel2leader);
             this.townList[i]["group1"] = JSON.parse(group1);
             this.townList[i]["group2"] = JSON.parse(group2);
             this.townList[i]["group3"] = JSON.parse(group3);
             this.townList[i]["group4"] = JSON.parse(group4);
           }
-          console.log(this.townList);
+
           this.tableData = this.townList;
           setTimeout(() => {
             this.listLoading = false;

@@ -2,7 +2,8 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item>共享文件</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="isEnterprise>-1">内部资料</el-breadcrumb-item>
+        <el-breadcrumb-item v-else>共享文件</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">新建文件夹</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -53,11 +54,13 @@
 import Request from "../../../services/api/request.js";
 import { Urls } from "../../../services/constants";
 import Auth from "@/services/authentication/auth.js";
+import Storage from "store";
 
 export default {
   name: "addSharedFiles",
   data() {
     return {
+      isEnterprise: "",
       listLoading: false,
       userId: null,
       options: [{ id: 0, name: "不可见" }, { id: 2, name: "可见" }],
@@ -90,6 +93,7 @@ export default {
     };
   },
   created() {
+    this.isEnterprise = Storage.get("authData").indexOf("ent");
     this.userId = Auth().user().id;
   },
   methods: {

@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item>三品认证</el-breadcrumb-item>
+        <el-breadcrumb-item>认证工作</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">添加认证</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -155,7 +155,7 @@ export default {
         productId: "",
         certificationType: "",
         certificationCategory: "",
-        argriculturalClassification: "",
+        argriculturalClassification: "3",
         certificationStartTime: "",
         certificationEndTime: "",
         output: ""
@@ -230,9 +230,9 @@ export default {
       companyNameList: [],
       productNameList: [],
       options: [
-        { value: "1", label: "养殖业" },
-        { value: "2", label: "畜牧业" },
-        { value: "3", label: "种植业" }
+        { value: "1", label: "畜牧业" },
+        { value: "2", label: "种植业" },
+        { value: "3", label: "养殖业" }
       ]
     };
   },

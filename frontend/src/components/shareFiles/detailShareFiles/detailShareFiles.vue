@@ -2,7 +2,8 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item>共享文件</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="isEnterprise>-1">内部资料</el-breadcrumb-item>
+        <el-breadcrumb-item v-else>共享文件</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">会议文件</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -123,6 +124,7 @@
 </template>
 <script>
 import axios from "axios";
+import Storage from "store";
 import Pagination from "@/components/common/pagination";
 import Request from "../../../services/api/request.js";
 import Auth from "@/services/authentication/auth.js";
@@ -133,6 +135,7 @@ export default {
   components: { Pagination },
   data() {
     return {
+      isEnterprise: "",
       openDialog: false,
       dialogVisible: false,
       uploadCompany: "",
@@ -170,6 +173,7 @@ export default {
     };
   },
   created() {
+    this.isEnterprise = Storage.get("authData").indexOf("ent");
     this.shareFilesId = this.$route.params.id;
     this.getList();
     this.userId = Auth().user().id;

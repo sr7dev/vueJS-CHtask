@@ -2,7 +2,8 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item class="actived">共享文件</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived" v-if="isEnterprise>-1">内部资料</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived" v-else>共享文件</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
@@ -14,8 +15,7 @@
               type="primary"
               v-on:click="$router.push(`/shareFiles/create`)"
               plain
-              >新建文件夹</el-button
-            >
+            >新建文件夹</el-button>
           </el-col>
         </el-row>
       </div>
@@ -26,16 +26,8 @@
             <i class="el-icon-warning">&nbsp;你确定你要删除?</i>
           </span>
           <span slot="footer" class="dialog-footer">
-            <el-button
-              size="small"
-              @click="dialogVisible = false"
-              type="primary"
-              plain
-              >取消</el-button
-            >
-            <el-button size="small" @click="handleDelete" type="success" plain
-              >确认</el-button
-            >
+            <el-button size="small" @click="dialogVisible = false" type="primary" plain>取消</el-button>
+            <el-button size="small" @click="handleDelete" type="success" plain>确认</el-button>
           </span>
         </el-dialog>
         <el-table
@@ -45,20 +37,14 @@
           :row-class-name="rowIndex"
           highlight-current-row
         >
-          <el-table-column
-            :formatter="order"
-            label="序号"
-            width="100"
-          ></el-table-column>
-          <el-table-column
-            prop="fileName"
-            label="文件名"
-            class-name="text-center"
-          ></el-table-column>
+          <el-table-column :formatter="order" label="序号" width="100"></el-table-column>
+          <el-table-column prop="fileName" label="文件名" class-name="text-center"></el-table-column>
           <el-table-column prop="title" label="修改时间">
-            <template slot-scope="{ row }">{{
+            <template slot-scope="{ row }">
+              {{
               row.createTime | formatDate
-            }}</template>
+              }}
+            </template>
           </el-table-column>
           <el-table-column prop="creater" label="创建者"></el-table-column>
           <el-table-column label="操作" class-name="text-center">
@@ -72,8 +58,7 @@
                     path: `/shareFiles/detail/` + row.id
                   })
                 "
-                >查看</el-button
-              >
+              >查看</el-button>
               <el-button
                 size="small"
                 type="primary"
@@ -87,16 +72,14 @@
                     }
                   })
                 "
-                >修改</el-button
-              >
+              >修改</el-button>
               <el-button
                 size="small"
                 type="danger"
                 plain
                 v-if="isShowAddButton"
                 @click="confirmDelete(row.id)"
-                >删除</el-button
-              >
+              >删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -135,11 +118,13 @@ export default {
       tableData: [],
       isShowAddButton: null,
       dialogVisible: false,
-      selectedId: null
+      selectedId: null,
+      isEnterprise: ""
     };
   },
   created() {
     this.getList();
+    this.isEnterprise = Storage.get("authData").indexOf("ent");
     this.isShowAddButton = Storage.get("authList").find(
       x => x.privilegeCode == "addShareFiles"
     )
