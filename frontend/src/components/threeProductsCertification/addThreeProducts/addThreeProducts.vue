@@ -52,7 +52,7 @@
             <el-radio label="1">无公害产品</el-radio>
             <el-radio label="2">绿色食品</el-radio>
             <el-radio label="3">有机食品</el-radio>
-            <el-radio label="4">地理标志</el-radio>
+            <el-radio label="4">绿色优质基地</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-row>

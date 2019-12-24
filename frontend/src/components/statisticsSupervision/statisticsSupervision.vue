@@ -287,8 +287,8 @@ export default {
       tableData1: null,
       townlist: null,
       totalData: null,
-      specialData1: null,
-      specialData2: null,
+      specialData1: [],
+      specialData2: [],
       colorList: [
         "#229efe",
         "#20beff",
@@ -519,6 +519,9 @@ export default {
     },
 
     makePieChat1() {
+      this.tableData1.sort(function(a, b) {
+        return b.townCnt - a.townCnt;
+      });
       let chart = am4core.create(this.$refs.chartpie, am4charts.PieChart);
       chart.data = this.tableData1;
       chart.responsive.enabled = true;
@@ -526,10 +529,9 @@ export default {
       chart.height = am4core.percent(100);
       chart.align = "center";
       let pieSeries = chart.series.push(new am4charts.PieSeries());
-
       pieSeries.dataFields.value = "townCnt";
       pieSeries.dataFields.category = "chatName";
-      pieSeries.dataFields.radiusValue = "townCnt";
+      // pieSeries.dataFields.radiusValue = "townCnt";
       pieSeries.labels.template.truncate = true;
       pieSeries.labels.template.fontSize = 15;
       pieSeries.labels.template.maxWidth = 180;
@@ -539,7 +541,7 @@ export default {
       pieSeries.ticks.template.strokeOpacity = 0.7;
       pieSeries.labels.template.text =
         "[bold '#20beff']{value.percent.formatNumber('#.0')}%[/] {category}";
-      pieSeries.ticks.template.fill = am4core.color("#012f8a");
+      pieSeries.ticks.template.fill = am4core.color("#fff");
       pieSeries.ticks.template.fillOpacity = 1;
 
       // This creates initial animation
@@ -623,13 +625,13 @@ export default {
           label: this.tableData[i].specialLabel,
           townCnt: this.tableData[i].townCnt
         });
-        i++;
-        this.specialData2.push({
-          townName: this.tableData[i].townName,
-          progress: this.tableData[i].specialProgress,
-          label: this.tableData[i].specialLabel,
-          townCnt: this.tableData[i].townCnt
-        });
+        if (i !== this.tableData.length - 1)
+          this.specialData2.push({
+            townName: this.tableData[i + 1].townName,
+            progress: this.tableData[i + 1].specialProgress,
+            label: this.tableData[i + 1].specialLabel,
+            townCnt: this.tableData[i + 1].townCnt
+          });
       }
     },
     isIE() {
