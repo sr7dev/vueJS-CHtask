@@ -418,6 +418,7 @@ export default {
       chart.width = am4core.percent(55);
       chart.height = am4core.percent(100);
       chart.align = "center";
+
       // Add and configure Series
       let pieSeries = chart.series.push(new am4charts.PieSeries());
 
@@ -426,13 +427,14 @@ export default {
       pieSeries.dataFields.radiusValue = "cnt";
       pieSeries.labels.template.truncate = true;
       pieSeries.labels.template.fontSize = 15;
-      pieSeries.labels.template.maxWidth = 180;
+      pieSeries.labels.template.maxWidth = 200;
       pieSeries.labels.template.fill = "white";
       pieSeries.labels.template.text =
         "[bold '#20beff']{value.percent.formatNumber('#.0')}%[/] {category}";
 
       pieSeries.ticks.template.strokeWidth = 1;
-      pieSeries.ticks.template.strokeOpacity = 0.7;
+      // pieSeries.ticks.template.;
+      pieSeries.ticks.template.strokeOpacity = 1;
       pieSeries.ticks.template.fill = am4core.color("#012f8a");
       pieSeries.ticks.template.fillOpacity = 1;
 

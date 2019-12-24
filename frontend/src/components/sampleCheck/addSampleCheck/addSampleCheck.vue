@@ -34,7 +34,7 @@
         </el-form-item>
         <el-form-item label>
           <el-button size="small" type="success" plain @click="onSubmit()">保存</el-button>
-          <el-button size="small" type="danger" plain @click="$router.push(`/sampleCheckMain/0`)">取消</el-button>
+          <el-button size="small" type="danger" plain @click="$router.push(`/sampleCheckMain`)">取消</el-button>
         </el-form-item>
       </el-form>
       <template v-if="!data">No matching data!</template>
@@ -44,7 +44,7 @@
 
 <script>
 import Request from "@/services/api/request";
-import Auth from "@/services/authentication/auth.js"
+import Auth from "@/services/authentication/auth.js";
 export default {
   name: "addSampleCheck",
   data() {
@@ -87,7 +87,6 @@ export default {
       this.data.checkFiles = this.file.name;
     },
     onSubmit() {
-      
       let formData = new FormData();
       formData.append("checkFiles", this.data.checkFiles);
       formData.append("checkPerson", this.data.checkPerson);

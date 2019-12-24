@@ -179,7 +179,7 @@ const router = window.location.href.indexOf("creditMode") < 0 ?
             );
         },
         children: [{
-            path: "/sampleCheckMain/:mode",
+            path: "/sampleCheckMain",
             name: "sampleCheckMain",
             component: sampleCheck
           },

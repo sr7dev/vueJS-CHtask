@@ -51,7 +51,7 @@
             <el-button
               size="small"
               plain
-              @click="$router.push(`/sampleCheckMain/0`)"
+              @click="$router.push(`/sampleCheckMain`)"
               type="primary"
             >返回</el-button>
           </div>

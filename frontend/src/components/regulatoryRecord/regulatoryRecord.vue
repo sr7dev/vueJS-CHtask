@@ -14,38 +14,16 @@
           plain
           v-if="!companyId && isShowAddButton"
           v-on:click="$router.push(`/regulatoryRecord/create`)"
-          >添加监管记录</el-button
-        >
-        <div
-          v-else-if="companyId"
-          class="fixed-value margin-right-20 inline-block-IE"
-        >
-          <p v-if="filterCompanyName(companyId)">
-            {{ filterCompanyName(companyId) }}
-          </p>
+        >添加监管记录</el-button>
+        <div v-else-if="companyId" class="fixed-value margin-right-20 inline-block-IE">
+          <p v-if="filterCompanyName(companyId)">{{ filterCompanyName(companyId) }}</p>
           <p v-else>没有数据</p>
         </div>
-        <el-button
-          size="small"
-          type="primary"
-          v-on:click="$router.push(`/commonWords`)"
-          plain
-          >常用语管理</el-button
-        >
+        <el-button size="small" type="primary" v-on:click="$router.push(`/commonWords`)" plain>常用语管理</el-button>
         <el-button size="small" type="primary" plain>扫码下载客户端</el-button>
         <el-button size="small" type="primary" plain>说明书下载</el-button>
-        <el-button
-          size="small"
-          type="primary"
-          plain
-          v-if="companyId"
-          @click="$router.go(-1)"
-          >返回</el-button
-        >
-        <div
-          class="special-container inline-block-IE float-right-IE"
-          style="margin-left:auto"
-        >
+        <el-button size="small" type="primary" plain v-if="companyId" @click="$router.go(-1)">返回</el-button>
+        <div class="special-container inline-block-IE float-right-IE" style="margin-left:auto">
           <el-button
             size="small"
             type="success"
@@ -53,8 +31,7 @@
             v-if="isShowCheckbox != 0"
             plain
             @click="actionConfirm(1)"
-            >添加到专项</el-button
-          >
+          >添加到专项</el-button>
           <el-button
             size="small"
             type="danger"
@@ -63,16 +40,14 @@
             plain
             @click="actionConfirm(0)"
             style="margin-right:10px"
-            >从专项1移除</el-button
-          >
+          >从专项1移除</el-button>
           <el-checkbox
             class="margin-top-10"
             v-model="isShowCheckbox"
             true-label="1"
             false-label="0"
             @change="showCheckbox"
-            >专项1:绿色优质农产品生产基地</el-checkbox
-          >
+          >专项1:绿色优质农产品生产基地</el-checkbox>
         </div>
       </div>
       <el-dialog :visible.sync="alert_dialogVisible" width="30%" modal>
@@ -80,13 +55,7 @@
           <i class="el-icon-warning">&nbsp;请选择 !!!</i>
         </span>
         <span slot="footer" class="dialog-footer">
-          <el-button
-            size="small"
-            @click="alert_dialogVisible = false"
-            type="primary"
-            plain
-            >取消</el-button
-          >
+          <el-button size="small" @click="alert_dialogVisible = false" type="primary" plain>取消</el-button>
         </span>
       </el-dialog>
       <el-dialog :visible.sync="confirm_dialogVisible" width="30%" modal>
@@ -94,20 +63,8 @@
           <i class="el-icon-warning">&nbsp;继续？请再次检查</i>
         </span>
         <span slot="footer" class="dialog-footer">
-          <el-button
-            size="small"
-            @click="confirm_dialogVisible = false"
-            type="primary"
-            plain
-            >取消</el-button
-          >
-          <el-button
-            size="small"
-            :type="btnColor"
-            @click="updateSelectedRows()"
-            plain
-            >确认</el-button
-          >
+          <el-button size="small" @click="confirm_dialogVisible = false" type="primary" plain>取消</el-button>
+          <el-button size="small" :type="btnColor" @click="updateSelectedRows()" plain>确认</el-button>
         </span>
       </el-dialog>
 
@@ -130,57 +87,33 @@
               ></el-checkbox>
             </template>
           </el-table-column>
-          <el-table-column
-            :formatter="order"
-            label="序号"
-            width="70"
-          ></el-table-column>
+          <el-table-column :formatter="order" label="序号" width="70"></el-table-column>
           <el-table-column prop="createTime" label="日期" width="100">
-            <template slot-scope="{ row }">
-              {{ row.createTime | formatDate }}
-            </template>
+            <template slot-scope="{ row }">{{ row.createTime | formatDate }}</template>
           </el-table-column>
-          <el-table-column prop="township" label="乡镇" width="70">
-            <template slot-scope="{ row }">
-              {{ filterTownship(row.townId) }}
-            </template>
+          <el-table-column prop="township" label="乡镇" width="120">
+            <template slot-scope="{ row }">{{ filterTownship(row.townId) }}</template>
           </el-table-column>
-          <el-table-column
-            prop="unitinspec"
-            label="受检单位"
-            class-name="padding-left-20"
-          >
-            <template slot-scope="{ row }">
-              {{ filterCompanyName(row.companyId) }}
-            </template>
+          <el-table-column prop="unitinspec" label="受检单位" class-name="padding-left-20">
+            <template slot-scope="{ row }">{{ filterCompanyName(row.companyId) }}</template>
           </el-table-column>
           <el-table-column prop="inspector" label="检查人"></el-table-column>
           <el-table-column prop="conclusion" label="结论" width="70">
-            <template slot-scope="{ row }">{{
+            <template slot-scope="{ row }">
+              {{
               row.conclusion == 1 ? "合格" : "不合格"
-            }}</template>
+              }}
+            </template>
           </el-table-column>
-          <el-table-column
-            prop="otherProblems"
-            label="其他"
-            width="80"
-          ></el-table-column>
-          <el-table-column
-            prop="scenePhotos"
-            label="照片"
-            width="70"
-            class-name="text-center"
-          >
-            <template slot-scope="{ row }">{{
+          <el-table-column prop="otherProblems" label="其他" width="80"></el-table-column>
+          <el-table-column prop="scenePhotos" label="照片" width="70" class-name="text-center">
+            <template slot-scope="{ row }">
+              {{
               getCountElement(row.scenePhotos, row.sign)
-            }}</template>
+              }}
+            </template>
           </el-table-column>
-          <el-table-column
-            prop="sign"
-            label="确认"
-            width="70"
-            class-name="text-center"
-          >
+          <el-table-column prop="sign" label="确认" width="70" class-name="text-center">
             <template slot-scope="{ row }">{{ checkSign(row.sign) }}</template>
             <!-- <template slot-scope="{ row }">{{ getCountElement(row.sign) }}</template> -->
           </el-table-column>
@@ -199,23 +132,16 @@
                     }
                   })
                 "
-                >查看</el-button
-              >
+              >查看</el-button>
               <el-button
                 size="small"
                 type="warning"
                 v-on:click="$router.push(`/regulatoryRecord/edit/${row.id}`)"
                 plain
-                >整改记录</el-button
-              >
+              >整改记录</el-button>
             </template>
           </el-table-column>
-          <el-table-column
-            prop="yield"
-            label="专利1"
-            align="center"
-            width="100"
-          >
+          <el-table-column prop="yield" label="专利1" align="center" width="100">
             <template slot-scope="{ row }">
               <i class="el-icon-check" v-if="row.specialFlag"></i>
             </template>

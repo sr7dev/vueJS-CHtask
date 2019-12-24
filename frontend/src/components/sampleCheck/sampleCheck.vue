@@ -101,16 +101,13 @@ export default {
       tableData: [],
       listLoading: false,
       status: 1,
-      tagName: "抽样计划",
+      tagName: "抽样计划"
     };
   },
   created() {
-    if (this.$route.params.mode == 1)
-      this.mode = false; 
-    else
-      this.mode = true;
-
-    this.getList();    
+    if (this.$route.query.mode == 1) this.mode = false;
+    else this.mode = true;
+    this.getList();
   },
   methods: {
     showDetailsSampleCheck(row) {
@@ -179,12 +176,10 @@ export default {
     },
     clickTabLeft() {
       this.mode = true;
-      
       this.getList();
     },
     clickTabRight() {
       this.mode = false;
-      
       this.getList();
     }
   }

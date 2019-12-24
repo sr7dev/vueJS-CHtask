@@ -45,7 +45,7 @@
           </template>
           <el-menu-item-group>
             <el-menu-item index="/sampleCheckMain">
-              <router-link slot="title" to="/sampleCheckMain/0">例行抽样</router-link>
+              <router-link slot="title" to="/sampleCheckMain">例行抽样</router-link>
             </el-menu-item>
             <el-menu-item index="/aquatic">
               <router-link slot="title" to="/aquatic">水产专项</router-link>
