@@ -400,7 +400,8 @@ export default {
           detectTimeTo: tempDateTime,
           sample: this.samplesValue == "全部" ? "" : this.samplesValue,
           item: this.itemValue == "全部" ? "" : this.itemValue,
-          resultDx: this.result - 1,
+          // resultDx: this.result - 1,
+          resultDx: this.result,
           townDivisionCode: this.currTown == 0 ? "" : this.currTown,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
@@ -408,7 +409,7 @@ export default {
         })
         .then(response => {
           this.tableData = response.data;
-          this.total = response.total;
+          this.total = response.total * this.page.pageSize;
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
