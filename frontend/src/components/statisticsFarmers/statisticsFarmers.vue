@@ -371,7 +371,7 @@ export default {
       categoryAxis.renderer.labels.template.rotation = -45;
       categoryAxis.renderer.labels.template.truncate = true;
       categoryAxis.renderer.labels.template.maxWidth = 150;
-      categoryAxis.renderer.labels.template.fontSize = 15;
+      categoryAxis.renderer.labels.template.fontSize = 12;
       categoryAxis.renderer.labels.template.horizontalCenter = "right";
       categoryAxis.renderer.line.strokeOpacity = 1;
       categoryAxis.renderer.line.strokeWidth = 2;
@@ -412,7 +412,11 @@ export default {
       // this.createGrid(15000, valueAxis);
     },
     makePieChart() {
+      this.tableData.sort(function(a, b) {
+        return b.cnt - a.cnt;
+      });
       let chart = am4core.create(this.$refs.chartdiv1, am4charts.PieChart);
+      console.log(this.tableData);
       chart.data = this.tableData;
       chart.responsive.enabled = true;
       chart.width = am4core.percent(55);
@@ -424,10 +428,13 @@ export default {
 
       pieSeries.dataFields.value = "cnt";
       pieSeries.dataFields.category = "detect_unit";
-      pieSeries.dataFields.radiusValue = "cnt";
+
+      // pieSeries.dataFields.radiusValue = "cnt";
       pieSeries.labels.template.truncate = true;
+      // pieSeries.labels.template.truncate = false;
+      pieSeries.labels.template.wrap = true;
       pieSeries.labels.template.fontSize = 15;
-      pieSeries.labels.template.maxWidth = 200;
+      pieSeries.labels.template.maxWidth = 180;
       pieSeries.labels.template.fill = "white";
       pieSeries.labels.template.text =
         "[bold '#20beff']{value.percent.formatNumber('#.0')}%[/] {category}";
@@ -435,7 +442,7 @@ export default {
       pieSeries.ticks.template.strokeWidth = 1;
       // pieSeries.ticks.template.;
       pieSeries.ticks.template.strokeOpacity = 1;
-      pieSeries.ticks.template.fill = am4core.color("#012f8a");
+      pieSeries.ticks.template.fill = am4core.color("#fff");
       pieSeries.ticks.template.fillOpacity = 1;
 
       // This creates initial animation
