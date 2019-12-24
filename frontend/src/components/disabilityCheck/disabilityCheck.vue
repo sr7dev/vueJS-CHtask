@@ -84,7 +84,7 @@
               v-on:click="handleDownload"
               type="success"
               plain
-              disabled="totalNo<1"
+              :disabled="totalNo<1"
             >导出表格</el-button>
             <el-button
               size="small"
@@ -130,7 +130,7 @@
               true-label="1"
               false-label="0"
               @change="showCheckbox"
-              disabled="totalNo<1"
+              :disabled="totalNo<1"
             >专项1:绿色优质农产品生产基地</el-checkbox>
           </el-col>
         </el-row>
