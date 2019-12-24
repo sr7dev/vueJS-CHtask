@@ -15,15 +15,15 @@
           highlight-current-row
         >
           <el-table-column :formatter="order" label="序号" width="50"></el-table-column>
-          <el-table-column prop="id" label="名称" width="120">
-            <template slot-scope="{row}">{{filterTown(row.id)}}</template>
+          <el-table-column prop="name" label="名称" width="120">
+            <!-- <template slot-scope="{row}">{{filterTown(row.id)}}</template> -->
           </el-table-column>
           <el-table-column prop="group1" label="分管副镇长">
             <template slot-scope="{row}">
               <div class="w-100">
                 <p class="p-item" v-for="item in row.group1" :key="item.id">
                   <i class="el-icon-user-solid"></i>
-                  {{item.function}}:{{item.name}}
+                  {{item.title}}:{{item.name}}
                 </p>
               </div>
             </template>
@@ -31,9 +31,13 @@
           <el-table-column prop="group2" label="农服办">
             <template slot-scope="{row}">
               <div class="w-100">
+                <p class="p-item">
+                  <i class="el-icon-user-solid"></i>
+                  站长:{{row.level2header.name}}
+                </p>
                 <p class="p-item" v-for="item in row.group2" :key="item.id">
                   <i class="el-icon-user-solid"></i>
-                  {{item.function}}:{{item.name}}
+                  {{item.title}}:{{item.name}}
                 </p>
               </div>
             </template>
@@ -43,7 +47,7 @@
               <div class="w-100">
                 <p class="p-item" v-for="item in row.group3" :key="item.id">
                   <i class="el-icon-user-solid"></i>
-                  {{item.function}}:{{item.name}}
+                  {{item.title}}:{{item.name}}
                 </p>
               </div>
             </template>
@@ -53,7 +57,7 @@
               <div class="w-100">
                 <p class="p-item" v-for="item in row.group4" :key="item.id">
                   <i class="el-icon-user-solid"></i>
-                  {{item.function}}:{{item.name}}
+                  {{item.title}}:{{item.name}}
                 </p>
               </div>
             </template>
@@ -116,9 +120,9 @@ export default {
       townList: null
     };
   },
-  async created() {
-    await this.getTown();
-    this.getData();
+  created() {
+    this.getTown();
+    // this.getData();
   },
   methods: {
     getData() {
@@ -161,8 +165,35 @@ export default {
       return Request()
         .get("/api/town/all")
         .then(response => {
-          setTimeout(() => {}, 0.5 * 100);
           this.townList = response;
+          for (let i in this.townList) {
+            var regex = new RegExp(/(?<="level1":)(.*)(?=,"level2leader")/g),
+              results = regex.exec(this.townList[i].superviseSystem);
+            const group1 = results ? results[1] : "[]";
+            var regex1 = new RegExp(/(?<="level2leader":)(.*)(?=,"level2")/g),
+              results1 = regex1.exec(this.townList[i].superviseSystem);
+            const tmplevel2leader = results1 ? results1[1] : {};
+            var regex2 = new RegExp(/(?<="level2":)(.*)(?=,"level3")/g),
+              results2 = regex2.exec(this.townList[i].superviseSystem);
+            const group2 = results2 ? results2[1] : "[]";
+            var regex3 = new RegExp(/(?<="level3":)(.*)(?=,"level4")/g),
+              results3 = regex3.exec(this.townList[i].superviseSystem);
+            const group3 = results3 ? results3[1] : "[]";
+            var regex4 = new RegExp(/(?<="level4":)(.*)(?=}")/g),
+              results4 = regex4.exec(this.townList[i].superviseSystem);
+            const group4 = results4 ? results4[1] : "[]";
+
+            this.townList[i]["level2header"] = JSON.parse(tmplevel2leader);
+            this.townList[i]["group1"] = JSON.parse(group1);
+            this.townList[i]["group2"] = JSON.parse(group2);
+            this.townList[i]["group3"] = JSON.parse(group3);
+            this.townList[i]["group4"] = JSON.parse(group4);
+          }
+          console.log(this.townList);
+          this.tableData = this.townList;
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 100);
         })
         .catch(error => {
           console.log(error);
