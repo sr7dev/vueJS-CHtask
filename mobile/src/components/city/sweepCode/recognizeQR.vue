@@ -7,31 +7,37 @@
     </mt-header>
     <div class="header qrboard">
       <div class="qrboard-container">
-        <!-- <qrcode-stream
+       <qrcode-stream
           @decode="onDecode"
-          @init="onInit"
-          :track="paintGreenText"
-        ></qrcode-stream> -->
-      <!-- <vue-qr-reader v-on:code-scanned="codeArrived"></vue-qr-reader> -->
+          :camera="camera"
+          :paused="paused"
+          @init="onCameraChange"
+        ></qrcode-stream>
       </div>
-      <p v-if="!error">将相机设置在QR Code上</p>
+      <p>将相机设置在QR Code上</p>
     </div>
   </div>
 </template>
 
 <script>
-// import 'webrtc-adapter';
-// import { QrcodeStream, QrcodeDropZone, QrcodeCapture } from "vue-qrcode-reader";
 import { MessageBox } from "mint-ui";
+import { QrcodeReader } from 'vue-qrcode-reader';
 import TokenManager from "@/configs/token-manager";
 export default {
   name: "recognizeQR",
-  // components: { QrcodeStream, QrcodeDropZone, QrcodeCapture, MessageBox },
+  components: { QrcodeReader },
   data() {
     return {
-      result: "",
-      error: ""
-    };
+      cameraSettings: {
+        audio: false,
+        video: {
+          facingMode: { ideal: 'environment' }
+        }
+      },
+      camera: 'auto',
+      paused: false,
+      content:""
+    }
   },
   created() {
     if (!TokenManager().accessToken) {
@@ -41,82 +47,55 @@ export default {
     }
   },
   methods: {
-    /* When recognize QRcode  */
-    onDecode(decodedString) {
-      if (decodedString.indexOf("{") > -1) {
-        this.result = JSON.parse(decodedString).batchNumber;
-        //getting batchnumber from QRcode information
-        setTimeout(() => {
-          this.$router.push("/sweepCode/" + this.result); //go to SweepCode page
-        }, 1000);
-      } else {
-        MessageBox.alert("不正确的 QR Code", "提示").then(action => {
-          this.$router.push("/");
-        });
-      }
-    },
-    /* Detect Camera Status */
-    async onInit(promise) {
+    async onDecode (content) {
       try {
-        await promise;
+        this.content = content;
+        this.pauseCamera(); // 暫停鏡頭準備調用
+  
+        // 調用 redeem 進行兌換
+        let message = await this.redeem(content);
+        // 兌換成功後彈出訊息並重新啟用鏡頭
+        Swal('Good job!',
+              message,
+              'success').then(() => {
+                this.unPauseCamera()
+        });
       } catch (error) {
-        if (error.name === "NotAllowedError") {
-          this.error = "错误：您需要授予摄像头访问权限";
-        } else if (error.name === "NotFoundError") {
-          this.error = "错误：此设备上没有相机";
-        } else if (error.name === "NotSupportedError") {
-          this.error = "错误：需要安全上下文（HTTPS，localhost）";
-        } else if (error.name === "NotReadableError") {
-          this.error = "错误：相机已在使用中吗？";
-        } else if (error.name === "OverconstrainedError") {
-          this.error = "错误：安装的相机不合适";
-        } else if (error.name === "StreamApiNotSupportedError") {
-          this.error = "错误：此浏览器不支持 Stream API";
-        }else {
-          this.error = error.name;
-        }
-        setTimeout(() => {
-          MessageBox.alert(this.error, "提示").then(action => {
-            this.$router.push("/");
+          Swal('Whoops!',
+                error.message,
+                'error').then(() => {
+                this.unPauseCamera()
           });
-        }, 1000);
       }
     },
-    codeArrived (event) {
-      console.log(event.detail[0]);
-      MessageBox.alert(event.detail[0], "提示").then(action => {
-        this.$router.push("/");
+    pauseCamera () {
+      this.paused = true
+    },
+    unPauseCamera () {
+      this.paused = false
+    },
+    redeem (content) {
+     return new Promise((resolve, reject) => {
+          // 兌換票券請求
+        if (content) { 
+          resolve('Success'); 
+        } else { 
+          reject('failed'); 
+        }
       });
     },
-    /* customized QrcodeStream track */
-    paintGreenText(location, ctx) {
-      const {
-        topLeftCorner,
-        topRightCorner,
-        bottomLeftCorner,
-        bottomRightCorner
-      } = location;
+    onCameraChange (promise) {
+      promise.catch(error => {
+        const cameraMissingError = error.name === 'OverconstrainedError'
+        const triedFrontCamera = this.camera === 'front'
 
-      const pointArray = [
-        topLeftCorner,
-        topRightCorner,
-        bottomLeftCorner,
-        bottomRightCorner
-      ];
-
-      const centerX = pointArray.reduce((sum, { x }) => x + sum, 0) / 4;
-      const centerY = pointArray.reduce((sum, { y }) => y + sum, 0) / 4;
-
-      ctx.font = "bold 20px sans-serif";
-      ctx.textAlign = "center";
-
-      ctx.lineWidth = 3;
-      ctx.strokeStyle = "#35495e";
-      ctx.strokeText(this.result, centerX, centerY);
-
-      ctx.fillStyle = "#5cb984";
-      ctx.fillText(this.result, centerX, centerY);
-    }
+        if (triedFrontCamera && cameraMissingError) {
+           MessageBox.alert("Token 错误", "提示").then(action => {
+            this.$router.push("/");
+          });
+        }
+      })
+   }
   }
 };
 </script>
