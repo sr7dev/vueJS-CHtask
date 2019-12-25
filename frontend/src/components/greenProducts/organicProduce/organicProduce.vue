@@ -51,7 +51,7 @@
             <el-form-item
               label="编号:"
               :prop="'rowDatas.' + index + '.productCreditCode'"
-              :rules="{ required: true, message: '请插入', trigger: 'blur' }"
+              :rules="{ required: true, message: '请选择', trigger: 'blur' }"
             >
               <el-input v-model="rowData.productCreditCode"></el-input>
             </el-form-item>
@@ -60,7 +60,6 @@
             <el-form-item
               label="产品种类:"
               :prop="'rowDatas.' + index + '.productType'"
-              :rules="{ required: true, message: '请插入', trigger: 'blur' }"
             >
               <el-input v-model="rowData.productType"></el-input>
             </el-form-item>
@@ -69,7 +68,6 @@
             <el-form-item
               label="产品名称:"
               :prop="'rowDatas.' + index + '.productName'"
-              :rules="{ required: true, message: '请插入', trigger: 'blur' }"
             >
               <el-input v-model="rowData.productName"></el-input>
             </el-form-item>
@@ -78,7 +76,9 @@
             <el-form-item
               label="面积(亩):"
               :prop="'rowDatas.' + index + '.area'"
-              :rules="{ required: true, message: '请插入', trigger: 'blur' }"
+              :rules="[                
+                { type: 'number', message: '插入号码', trigger:'blur' }
+              ]"
             >
               <el-input-number
                 v-model="rowData.area"
@@ -91,7 +91,9 @@
             <el-form-item
               label="产量(吨):"
               :prop="'rowDatas.' + index + '.amount'"
-              :rules="{ required: true, message: '请插入', trigger: 'blur' }"
+              :rules="[                
+                { type: 'number', message: '插入号码', trigger:'blur' }
+              ]"
             >
               <el-input-number
                 v-model="rowData.amount"
@@ -104,7 +106,6 @@
             <el-form-item
               label="详细地址:"
               :prop="'rowDatas.' + index + '.location'"
-              :rules="{ required: true, message: '请插入', trigger: 'blur' }"
             >
               <el-input v-model="rowData.location"></el-input>
             </el-form-item>
@@ -273,15 +274,9 @@
           label="产品名称"
           align="center"
         ></el-table-column>
-        <el-table-column prop="area.value" label="面积(亩)">
-          <template slot-scope="{ row }">{{
-            parseFloat(row.area.value).toFixed(2)
-          }}</template>
+        <el-table-column prop="area.value" label="面积(亩)">          
         </el-table-column>
-        <el-table-column prop="production.value" label="产量(吨)">
-          <template slot-scope="{ row }">{{
-            parseFloat(row.production.value).toFixed(2)
-          }}</template>
+        <el-table-column prop="production.value" label="产量(吨)">          
         </el-table-column>
         <el-table-column
           prop="address.value"
@@ -434,10 +429,10 @@ export default {
       let total = 0;
       this.objData.forEach(obj => {
         obj.declarationUnit.forEach(dec => {
-          total += dec.area;
+          total += parseFloat(dec.area == "/"? 0.00: dec.area);
         });
       });
-      return total;
+      return parseFloat(total).toFixed(2);
     },
 
     productionQuality() {
@@ -446,7 +441,7 @@ export default {
         obj.declarationUnit.forEach(dec => {
           dec.declaration.forEach(pro => {
             pro.product.forEach(p => {
-              total += p.production;
+              total += parseFloat(p.production == "/"? 0.00: p.production);
             });
           });
         });
@@ -598,7 +593,7 @@ export default {
                 tmpDeclarationUnit = [];
                 tmpProduct.push({
                   productName: tmpData[i].productName,
-                  production: tmpData[i].amount
+                  production: tmpData[i].amount == -1? "/": parseFloat(tmpData[i].amount).toFixed(2)
                 });
                 tmpDeclaration.push({
                   numbering: tmpData[i].productCreditCode,
@@ -609,7 +604,7 @@ export default {
                 tmpDeclarationUnit.push({
                   declarationUnitName: tmpData[i].companyName,
                   declaration: tmpDeclaration,
-                  area: tmpData[i].area
+                  area: tmpData[i].area == -1? "/": parseFloat(tmpData[i].area).toFixed(2)
                 });
               } else {
                 if (tmpData[i - 1].companyName === tmpData[i].companyName) {
@@ -619,13 +614,13 @@ export default {
                   ) {
                     tmpProduct.push({
                       productName: tmpData[i].productName,
-                      production: tmpData[i].amount
+                      production: tmpData[i].amount == -1? "/": parseFloat(tmpData[i].amount).toFixed(2)
                     });
                   } else {
                     tmpProduct = [];
                     tmpProduct.push({
                       productName: tmpData[i].productName,
-                      production: tmpData[i].amount
+                      production: tmpData[i].amount == -1? "/": parseFloat(tmpData[i].amount).toFixed(2)
                     });
                     tmpDeclaration.push({
                       numbering: tmpData[i].productCreditCode,
@@ -638,7 +633,7 @@ export default {
                   tmpProduct = [];
                   tmpProduct.push({
                     productName: tmpData[i].productName,
-                    production: tmpData[i].amount
+                    production: tmpData[i].amount == -1? "/": parseFloat(tmpData[i].amount).toFixed(2)
                   });
                   tmpDeclaration = [];
                   tmpDeclaration.push({
@@ -650,7 +645,7 @@ export default {
                   tmpDeclarationUnit.push({
                     declarationUnitName: tmpData[i].companyName,
                     declaration: tmpDeclaration,
-                    area: tmpData[i].area
+                    area: tmpData[i].area == -1? "/": parseFloat(tmpData[i].area).toFixed(2)
                   });
                 }
               }
@@ -776,15 +771,25 @@ export default {
 
           this.listLoading = true;
           let formdata = new FormData();
+          
           formdata.append(
             "amount",
+            this.dynamicValidateForm.rowDatas[i].amount == null ||  
+            this.dynamicValidateForm.rowDatas[i].amount == 'undefined'? 
+            -1:
             this.dynamicValidateForm.rowDatas[i].amount
           );
-          formdata.append("area", this.dynamicValidateForm.rowDatas[i].area);
+
+          formdata.append("area", 
+          this.dynamicValidateForm.rowDatas[i].area == null ||  
+          this.dynamicValidateForm.rowDatas[i].area == 'undefined'? 
+          -1:
+          this.dynamicValidateForm.rowDatas[i].area);
+
           formdata.append("id", 0);
           formdata.append(
             "productType",
-            this.dynamicValidateForm.rowDatas[i].productType
+            this.dynamicValidateForm.rowDatas[i].productType == ""? " ": this.dynamicValidateForm.rowDatas[i].productType
           );
           formdata.append(
             "companyName",
@@ -808,6 +813,7 @@ export default {
           formdata.append("town", this.dynamicValidateForm.rowDatas[i].town);
           formdata.append("updateTime", updateTime);
           formdata.append("updateUserId", Auth().user().id);
+          
           Request()
             .post("/api/green/organic_product/create", formdata)
             .then(response => {

@@ -36,7 +36,6 @@
               <el-form-item
                 label="绿色食品面积:"
                 :prop="'data.' + index + '.productName'"
-                :rules="{ required: true, message: '请插入', trigger: 'blur' }"
                 class="margin-left-10"
               >
                 <el-input v-model="rowData.productName"></el-input>
@@ -45,11 +44,7 @@
             <el-col :span="2">
               <el-form-item
                 label="有机面积:"
-                :prop="'data.' + index + '.organicArea'"
-                :rules="[
-                  { required: true, message: '请插入', trigger: 'blur' },
-                  { type: 'number', message: '插入号码', trigger: 'blur' }
-                ]"
+                :prop="'data.' + index + '.organicArea'"                
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.organicArea"></el-input>
@@ -59,11 +54,7 @@
             <el-col :span="3">
               <el-form-item
                 label="绿色优质基地面积:"
-                :prop="'data.' + index + '.highQualityArea'"
-                :rules="[
-                  { required: true, message: '请插入', trigger: 'blur' },
-                  { type: 'number', message: '插入号码', trigger: 'blur' }
-                ]"
+                :prop="'data.' + index + '.highQualityArea'"                
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.highQualityArea"></el-input>
@@ -73,11 +64,7 @@
             <el-col :span="2">
               <el-form-item
                 label="重复面积:"
-                :prop="'data.' + index + '.repeatArea'"
-                :rules="[
-                  { required: true, message: '请插入', trigger: 'blur' },
-                  { type: 'number', message: '插入号码', trigger: 'blur' }
-                ]"
+                :prop="'data.' + index + '.repeatArea'"                
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.repeatArea"></el-input>
@@ -88,10 +75,6 @@
               <el-form-item
                 label="合计:"
                 :prop="'data.' + index + '.sum'"
-                :rules="[
-                  { required: true, message: '请插入', trigger: 'blur' },
-                  { type: 'number', message: '插入号码', trigger: 'blur' }
-                ]"
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.sum"></el-input>
@@ -102,10 +85,6 @@
               <el-form-item
                 label="耕地面积:"
                 :prop="'data.' + index + '.cultivatedArea'"
-                :rules="[
-                  { required: true, message: '请插入', trigger: 'blur' },
-                  { type: 'number', message: '插入号码', trigger: 'blur' }
-                ]"
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.cultivatedArea"></el-input>
@@ -116,10 +95,6 @@
               <el-form-item
                 label="绿色,有机:"
                 :prop="'data.' + index + '.greenOrganic'"
-                :rules="[
-                  { required: true, message: '请插入', trigger: 'blur' },
-                  { type: 'number', message: '插入号码', trigger: 'blur' }
-                ]"
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.greenOrganic"></el-input>
@@ -130,7 +105,6 @@
               <el-form-item
                 label="地标:"
                 :prop="'data.' + index + '.target'"
-                :rules="{ required: true, message: '请插入', trigger: 'blur' }"
                 class="margin-left-10"
               >
                 <el-input v-model="rowData.target"></el-input>
@@ -141,10 +115,6 @@
               <el-form-item
                 label="预计面积:"
                 :prop="'data.' + index + '.predictArea'"
-                :rules="[
-                  { required: true, message: '请插入', trigger: 'blur' },
-                  { type: 'number', message: '插入号码', trigger: 'blur' }
-                ]"
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.predictArea"></el-input>
@@ -259,30 +229,71 @@
         border
         :span-method="objectSpanMethod"
       >
-        <el-table-column :formatter="order" label="序号"></el-table-column>
+        <el-table-column :formatter="order" label="序号">         
+        </el-table-column>
         <el-table-column prop="town" label="板块"></el-table-column>
         <el-table-column
           prop="productName"
           label="绿色食品面积"
-        ></el-table-column>
-        <el-table-column prop="organicArea" label="有机面积"></el-table-column>
+        >        
+        <template slot-scope="{ row }">
+          {{row.productName = (row.productName==-1)?"/" : row.productName}}
+        </template>
+        </el-table-column>
+        <el-table-column prop="organicArea" label="有机面积">
+          <template slot-scope="{ row }">
+          {{row.organicArea = (row.organicArea==-1)?"/" : row.organicArea}}
+        </template>
+        </el-table-column>
         <el-table-column
           prop="highQualityArea"
           label="绿色优质基地面积"
-        ></el-table-column>
-        <el-table-column prop="repeatArea" label="重复面积"></el-table-column>
-        <el-table-column prop="sum" label="合计"></el-table-column>
+        >
+        <template slot-scope="{ row }">
+          {{row.highQualityArea = (row.highQualityArea==-1)?"/" : row.highQualityArea}}
+        </template>
+        </el-table-column>
+        <el-table-column prop="repeatArea" label="重复面积">
+          <template slot-scope="{ row }">
+          {{row.repeatArea = (row.repeatArea==-1)?"/" : row.repeatArea}}
+        </template>
+        </el-table-column>
+        <el-table-column prop="sum" label="合计">
+           <template slot-scope="{ row }">
+          {{row.sum = (row.sum==-1)?"/" : row.sum}}
+        </template>
+        </el-table-column>
         <el-table-column
           prop="cultivatedArea"
           label="耕地面积"
-        ></el-table-column>
-        <el-table-column prop="proportion" label="占比"></el-table-column>
+        >
+        <template slot-scope="{ row }">
+          {{row.cultivatedArea = (row.cultivatedArea==-1)?"/" : row.cultivatedArea}}
+        </template>
+        </el-table-column>
+        <el-table-column prop="proportion" label="占比">
+          <template slot-scope="{ row }">
+          {{row.proportion = (row.proportion==-1)?"/" : row.proportion}}
+        </template>
+        </el-table-column>
         <el-table-column
           prop="greenOrganic"
           label="绿色,有机"
-        ></el-table-column>
-        <el-table-column prop="target" label="地标"></el-table-column>
-        <el-table-column prop="predictArea" label="预计面积"></el-table-column>
+        >
+         <template slot-scope="{ row }">
+          {{row.greenOrganic = (row.greenOrganic==-1)?"/" : row.greenOrganic}}
+        </template>
+        </el-table-column>
+        <el-table-column prop="target" label="地标">
+           <template slot-scope="{ row }">
+          {{row.target = (row.target==-1)?"/" : row.target}}
+        </template>
+        </el-table-column>
+        <el-table-column prop="predictArea" label="预计面积">
+          <template slot-scope="{ row }">
+          {{row.predictArea = (row.predictArea==-1)?"/" : row.predictArea}}
+        </template>
+        </el-table-column>
         <el-table-column
           prop="expectedRatio"
           label="预计占比"
@@ -379,8 +390,7 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          if (this.selectedRows.length > 0) this.confirm_dialogVisible = true;
-          else this.openDialog = false;
+          this.confirm_dialogVisible = true;
         }
       });
     },
@@ -405,20 +415,21 @@ export default {
         let formdata = new FormData();
         formdata.append("createTime", createTime.toDateString("YYYY-MM-DD"));
         formdata.append("createUserId", Auth().user().id);
-        formdata.append("cultivatedArea", item.cultivatedArea);
-        formdata.append("greenOrganic", item.greenOrganic);
+        
+        formdata.append("cultivatedArea", (item.cultivatedArea == "" || item.cultivatedArea == undefined? -1:item.cultivatedArea) );
+        formdata.append("greenOrganic", (item.greenOrganic == "" || item.greenOrganic == undefined? -1:item.greenOrganic));
 
-        formdata.append("highQualityArea", item.highQualityArea);
+        formdata.append("highQualityArea", (item.highQualityArea == "" || item.highQualityArea == undefined? -1:item.highQualityArea));
         formdata.append("id", 0);
-        formdata.append("organicArea", item.organicArea);
-        formdata.append("predictArea", item.predictArea);
+        formdata.append("organicArea", (item.organicArea == "" || item.organicArea == undefined? -1:item.organicArea));
+        formdata.append("predictArea", (item.predictArea == "" || item.predictArea == undefined? -1:item.predictArea));
         formdata.append("productName", item.productName);
         formdata.append(
           "registerTime",
           this.registerTime.toString("YYYY-MM-DD")
         );
-        formdata.append("repeatArea", item.repeatArea);
-        formdata.append("sum", item.sum);
+        formdata.append("repeatArea", (item.repeatArea == "" || item.repeatArea == undefined? -1:item.repeatArea));
+        formdata.append("sum", (item.sum == "" || item.sum == undefined? -1:item.sum));
         formdata.append("target", item.target);
         formdata.append("town", item.town);
         formdata.append("updateTime", updateTime.toDateString("YYYY-MM-DD"));
@@ -459,16 +470,68 @@ export default {
           this.tableData = res.data;
           this.total = this.tableData.length;
           this.getTotal();
+
+          this.tableData.forEach(item =>{
+            if (item.organicArea !== -1)
+                item.organicArea = parseFloat(item.organicArea).toFixed(2);
+            else
+                item.organicArea = "/";
+            
+            if (item.highQualityArea !== -1)
+              item.highQualityArea = parseFloat(item.highQualityArea).toFixed(2);
+            else
+              item.highQualityArea = "/";
+
+            if (item.repeatArea !== -1)
+              item.repeatArea = parseFloat(item.repeatArea).toFixed(2);
+            else
+              item.repeatArea = "/";
+
+            if (item.sum !== -1)
+              item.sum = parseFloat(item.sum).toFixed(2);
+            else
+              item.sum = "/";
+            
+            if (item.cultivatedArea !== -1)
+              item.cultivatedArea = parseFloat(item.cultivatedArea).toFixed(2);
+            else
+              item.cultivatedArea = "/";
+
+            if (item.greenOrganic !== -1)
+              item.greenOrganic = parseFloat(item.greenOrganic).toFixed(2);
+            else 
+              item.greenOrganic = "/";
+
+            if (item.predictArea !== -1)
+              item.predictArea = parseFloat(item.predictArea).toFixed(2);
+            else
+              item.predictArea = "/";
+
+            if (item.expectedRatio !== -1)
+              item.expectedRatio = parseFloat(item.expectedRatio).toFixed(2);
+            else
+              item.expectedRatio = "/";
+
+            if (item.proportion !== -1)
+              item.proportion = parseFloat(item.proportion).toFixed(2);
+            else
+              item.proportion = "/";
+          })
           this.listLoading = false;
         });
     },
 
     getTotal() {
       this.tableData.forEach(item => {
-        item.proportion = (item.sum / item.cultivatedArea).toFixed(2);
-        item.expectedRatio = (item.predictArea / item.cultivatedArea).toFixed(
-          2
-        );
+        if (item.sum !== -1 && item.cultivatedArea !== -1 )
+           item.proportion = item.sum * 100 / item.cultivatedArea;
+        else
+           item.proportion = -1;
+
+        if (item.predictArea !== -1 && item.cultivatedArea !== -1)
+           item.expectedRatio = item.predictArea * 100 / item.cultivatedArea;
+        else
+            item.expectedRatio = -1;
       });
 
       this.tableData.push({
@@ -485,20 +548,14 @@ export default {
         predictArea: this.estimateQuality(),
         expectedRatio: 0 //this.expectedQuality()
       });
-      this.tableData[this.tableData.length - 1].proportion = (
-        this.tableData[this.tableData.length - 1].sum /
-        this.tableData[this.tableData.length - 1].cultivatedArea
-      ).toFixed(2);
-      this.tableData[this.tableData.length - 1].expectedRatio = (
-        this.tableData[this.tableData.length - 1].predictArea /
-        this.tableData[this.tableData.length - 1].cultivatedArea
-      ).toFixed(2);
+      this.tableData[this.tableData.length - 1].proportion = this.tableData[this.tableData.length - 1].sum / this.tableData[this.tableData.length - 1].cultivatedArea;
+      this.tableData[this.tableData.length - 1].expectedRatio = this.tableData[this.tableData.length - 1].predictArea /this.tableData[this.tableData.length - 1].cultivatedArea;
     },
 
     greenFoodQuality() {
       let total = 0;
-      this.tableData.forEach(data => {
-        total += data.productName;
+      this.tableData.forEach(data => {        
+        total += (data.productName == -1? 0: data.productName);
       });
       return total;
     },
@@ -506,7 +563,7 @@ export default {
     organicAreaQuality() {
       let total = 0;
       this.tableData.forEach(data => {
-        total += data.organicArea;
+        total += (data.organicArea == -1? 0:data.organicArea);
       });
       return total;
     },
@@ -514,7 +571,7 @@ export default {
     greenHighQuality() {
       let total = 0;
       this.tableData.forEach(data => {
-        total += data.highQualityArea;
+        total += (data.highQualityArea == -1? 0: data.highQualityArea);
       });
       return total;
     },
@@ -522,7 +579,7 @@ export default {
     repeatAreaQuality() {
       let total = 0;
       this.tableData.forEach(data => {
-        total += data.repeatArea;
+        total += (data.repeatArea == -1? 0:data.repeatArea);
       });
       return total;
     },
@@ -530,7 +587,7 @@ export default {
     totalQuality() {
       let total = 0;
       this.tableData.forEach(data => {
-        total += data.sum;
+        total += (data.sum  == -1? 0:data.sum);
       });
       return total;
     },
@@ -538,7 +595,7 @@ export default {
     cultivateQuality() {
       let total = 0;
       this.tableData.forEach(data => {
-        total += data.cultivatedArea;
+        total += (data.cultivatedArea == -1? 0:data.cultivatedArea);
       });
       return total;
     },
@@ -546,7 +603,7 @@ export default {
     proportionQuality() {
       let total = 0;
       this.tableData.forEach(data => {
-        total += data.proportion;
+        total += (data.proportion == -1? 0:data.proportion);
       });
       return total;
     },
@@ -554,7 +611,7 @@ export default {
     greenOrganicQuality() {
       let total = 0;
       this.tableData.forEach(data => {
-        total += data.greenOrganic;
+        total += (data.greenOrganic == -1? 0:data.greenOrganic);
       });
       return total;
     },
@@ -563,15 +620,18 @@ export default {
       let total1 = 0,
         total2 = 0;
       this.tableData.forEach(data => {
-        if (data.target.includes("%")) {
+        if (data.target != -1)
+        {
+          if (data.target.includes("%")) {
           let res = data.target.split("%");
           total1 += Number(res[0]);
           total2 += Number(res[1].substring(1, res[1].length - 1));
         } else {
           if (!isNaN(data.target)) total2 += Number(data.target);
         }
+        }
       });
-      if (total1 > 0) return total1 + "%(" + total2 + ")";
+      if (total1 > 0) return parseFloat(total1).toFixed(2) + "%(" + total2 + ")";
 
       return total2;
     },
@@ -579,7 +639,7 @@ export default {
     estimateQuality() {
       let total = 0;
       this.tableData.forEach(data => {
-        total += data.predictArea;
+        total += (data.predictArea == -1? 0:data.predictArea);
       });
       return total;
     },
@@ -604,7 +664,7 @@ export default {
     expectedQuality() {
       let total = 0;
       this.tableData.forEach(data => {
-        total += data.expectedRatio;
+        total += (data.expectedRatio == -1? 0:data.expectedRatio);
       });
       return total;
     },

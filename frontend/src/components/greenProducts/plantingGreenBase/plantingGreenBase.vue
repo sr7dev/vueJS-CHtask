@@ -36,7 +36,6 @@
               <el-form-item
                 label="产品类型:"
                 :prop="'data.' + index + '.productType'"
-                :rules="{ required: true, message: '请插入', trigger: 'blur' }"
                 class="margin-left-10"
               >
                 <el-input v-model="rowData.productType"></el-input>
@@ -47,7 +46,6 @@
                 label="基地面积:"
                 :prop="'data.' + index + '.area'"
                 :rules="[
-                  { required: true, message: '请插入', trigger: 'blur' },
                   { type: 'number', message: '插入号码', trigger: 'blur' }
                 ]"
                 class="margin-left-10"
@@ -60,7 +58,6 @@
               <el-form-item
                 label="基地地址(到村)："
                 :prop="'data.' + index + '.location'"
-                :rules="{ required: true, message: '请插入', trigger: 'blur' }"
                 class="margin-left-10"
               >
                 <el-input v-model="rowData.location"></el-input>
@@ -71,7 +68,6 @@
               <el-form-item
                 label="与部基地,产品基地重合："
                 :prop="'data.' + index + '.isCoincidence'"
-                :rules="{ required: true, message: '请插入', trigger: 'blur' }"
                 class="margin-left-10"
               >
                 <el-select v-model="rowData.isCoincidence" placeholder="请选择">
@@ -370,8 +366,7 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          if (this.selectedRows.length > 0) this.confirm_dialogVisible = true;
-          else this.openDialog = false;
+          this.confirm_dialogVisible = true;
         }
       });
     },
@@ -394,14 +389,14 @@ export default {
 
       this.dynamicValidateForm.data.forEach(item => {
         let formdata = new FormData();
-        formdata.append("area", item.area);
+        formdata.append("area", (item.area == null || item.area == undefined? -1:item.area));
         formdata.append(
           "coincidenceBase",
           item.isCoincidence == 0 ? "" : item.coincidenceBase
         );
         formdata.append(
           "coincidneceArea",
-          item.isCoincidence == 0 ? 0 : item.coincidneceArea
+          item.isCoincidence == 0 ? -1 : (item.coincidneceArea==null || item.coincidneceArea==undefined? -1:item.coincidneceArea)
         );
         formdata.append("companyName", item.companyName);
         formdata.append("createTime", createTime.toDateString("YYYY-MM-DD"));
@@ -459,6 +454,10 @@ export default {
     },
 
     calculateTotal() {
+      this.tableData.forEach(element => {
+        element.area = (element.area == -1? "/": parseFloat(element.area).toFixed(2));
+        element.coincidneceArea = (element.coincidneceArea ==-1 ? "/":parseFloat(element.coincidneceArea).toFixed(2));
+      });
       this.tableData.push({
         companyName: "合计",
         productType: "",
@@ -473,16 +472,18 @@ export default {
     baseQuality() {
       let total = 0;
       this.tableData.forEach(data => {
-        total += data.area;
+        if (data.area !== "/")
+           total += parseFloat(data.area);
       });
-      return total;
+      return parseFloat(total).toFixed(2);
     },
     coincidentQuality() {
       let total = 0;
       this.tableData.forEach(data => {
-        total += data.coincidneceArea;
+        if (data.coincidneceArea !== "/")
+          total += parseFloat(data.coincidneceArea);
       });
-      return total;
+      return parseFloat(total).toFixed(2);
     },
     Total() {
       this.tableData.push({
@@ -500,12 +501,14 @@ export default {
       let total = 0;
       let index = 0;
       this.tableData.forEach(data => {
-        if (index === this.tableData.length - 1) return total;
-
-        total += data.area - data.coincidneceArea;
+        if (index === this.tableData.length - 1) return parseFloat(total).toFixed(2);
+        if (data.area !== "/" && data.coincidneceArea !== "/")
+        {
+          total += parseFloat(data.area) - parseFloat(data.coincidneceArea);          
+        }           
         index++;
       });
-      return total;
+      return parseFloat(total).toFixed(2);
     },
     objectSpanMethod({ row, column, rowIndex, columnIndex }) {
       if (rowIndex == this.tableData.length - 2) {
