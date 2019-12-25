@@ -1,145 +1,58 @@
 <template>
   <div>
-    <mt-header fixed title="溯源详情">
-      <router-link to="/" slot="left">
-        <mt-button icon="back">返回</mt-button>
-      </router-link>
-    </mt-header>
-    <div class="header qrboard">
-      <div class="qrboard-container">
-       <!-- <qrcode-stream
-          @decode="onDecode"
-          :camera="camera"
-          :paused="paused"
-          @init="onCameraChange"
-        ></qrcode-stream> -->
-        <qrcode-stream
-          @init="onCameraChange"
-        ></qrcode-stream>
-      </div>
-      <p>将相机设置在QR Code上</p>
-    </div>
+    <p class="error">{{ error }}</p>
+
+    <p class="decode-result">Last result: <b>{{ result }}</b></p>
+
+    <qrcode-stream @decode="onDecode" @init="onInit" />
   </div>
 </template>
 
 <script>
-import { MessageBox } from "mint-ui";
-import { QrcodeReader,Qrcodestream } from 'vue-qrcode-reader';
-import TokenManager from "@/configs/token-manager";
+import { QrcodeStream } from 'vue-qrcode-reader';
+
 export default {
-  name: "recognizeQR",
-  components: { QrcodeReader, Qrcodestream },
-  data() {
+
+  components: { QrcodeStream },
+
+  data () {
     return {
-      cameraSettings: {
-        audio: false,
-        video: {
-          facingMode: { ideal: 'environment' }
-        }
-      },
-      camera: 'auto',
-      paused: false,
-      content:""
+      result: '',
+      error: ''
     }
   },
-  created() {
-    if (!TokenManager().accessToken) {
-      MessageBox.alert("Token 错误", "提示").then(action => {
-        this.$router.push("/");
-      });
-    }
-  },
+
   methods: {
-    // async onDecode (content) {
-    //   try {
-    //     this.content = content;
-    //     this.pauseCamera(); // 暫停鏡頭準備調用
-  
-    //     // 調用 redeem 進行兌換
-    //     let message = await this.redeem(content);
-    //     // 兌換成功後彈出訊息並重新啟用鏡頭
-    //     Swal('Good job!',
-    //           message,
-    //           'success').then(() => {
-    //             this.unPauseCamera()
-    //     });
-    //   } catch (error) {
-    //       Swal('Whoops!',
-    //             error.message,
-    //             'error').then(() => {
-    //             this.unPauseCamera()
-    //       });
-    //   }
-    // },
-    // pauseCamera () {
-    //   this.paused = true
-    // },
-    // unPauseCamera () {
-    //   this.paused = false
-    // },
-    // redeem (content) {
-    //  return new Promise((resolve, reject) => {
-    //       // 兌換票券請求
-    //     if (content) { 
-    //       resolve('Success'); 
-    //     } else { 
-    //       reject('failed'); 
-    //     }
-    //   });
-    // },
-    onCameraChange (promise) {
-        const getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-       alert(getUserMedia);
-      promise.catch(error => {
-        const cameraMissingError = error.name === 'OverconstrainedError'
-        const triedFrontCamera = this.camera === 'front'
-        
-        if (triedFrontCamera && cameraMissingError) {
-           MessageBox.alert("没有 Camera", "提示").then(action => {
-            this.$router.push("/");
-          });
+    onDecode (result) {
+      this.result = result
+    },
+
+    async onInit (promise) {
+      try {
+        await promise
+      } catch (error) {
+        if (error.name === 'NotAllowedError') {
+          this.error = "ERROR: you need to grant camera access permisson"
+        } else if (error.name === 'NotFoundError') {
+          this.error = "ERROR: no camera on this device"
+        } else if (error.name === 'NotSupportedError') {
+          this.error = "ERROR: secure context required (HTTPS, localhost)"
+        } else if (error.name === 'NotReadableError') {
+          this.error = "ERROR: is the camera already in use?"
+        } else if (error.name === 'OverconstrainedError') {
+          this.error = "ERROR: installed cameras are not suitable"
+        } else if (error.name === 'StreamApiNotSupportedError') {
+          this.error = "ERROR: Stream API is not supported in this browser"
         }
-      })
-   }
+      }
+    }
   }
-};
+}
 </script>
+
 <style scoped>
-.qrboard {
-  background: black;
-  padding: 25% 10px;
-  height: calc(100vh - 50px);
-}
-.qrboard-container {
-  border: 0.25em solid #4679eb;
-  position: relative;
-}
-.qrboard-container::before,
-.qrboard-container::after {
-  content: "";
-  display: block;
-  position: absolute;
-  background: #000;
-}
-
-.qrboard-container::before {
-  top: -0.3em;
-  bottom: -0.3em;
-  left: 1em;
-  right: 1em;
-}
-
-.qrboard-container::after {
-  left: -0.3em;
-  right: -0.3em;
-  top: 1em;
-  bottom: 1em;
-}
-.qrboard p {
-  text-align: center;
-}
-.wrapper {
-  height: 280px;
-  z-index: 1!important;
+.error {
+  font-weight: bold;
+  color: red;
 }
 </style>
