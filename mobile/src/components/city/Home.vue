@@ -231,7 +231,7 @@ export default {
 
 <style scoped>
 .header {
-  margin-top: 3rem;
+  margin-top: 2.5rem;
   height: 12rem;
 }
 .mui-grid-view.mui-grid-9 {
@@ -240,6 +240,9 @@ export default {
 }
 .mui-grid-view.mui-grid-9 .mui-table-view-cell {
   border: none;
+}
+.mint-tabbar{
+  position: relative!important;
 }
 /*ul{*/
 /*display: flex;*/

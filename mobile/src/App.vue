@@ -20,7 +20,7 @@ export default {
 /*头部样式*/
 .mint-header{
   height: 3rem;
-  background-color:#151820 ;
+  background-color:#26a2ff ;
 }
 /*按钮样式*/
 .mint-button--primary{
@@ -30,7 +30,7 @@ export default {
   border-radius:25px;
 }
   .header{
-    margin-top: 3rem;
+    margin-top: 2.5rem;
   }
   ul li{
     list-style-type:none;
