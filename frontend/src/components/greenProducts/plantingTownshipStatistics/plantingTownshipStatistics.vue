@@ -453,6 +453,12 @@ export default {
 
     getData() {
       this.listLoading = true;
+      let toDate = new Date(this.registerTimeTo.getFullYear(),
+                this.registerTimeTo.getMonth(),
+                this.registerTimeTo.getDate(),
+                23, 59, 59
+              );
+
       Request()
         .get("/api/green/plants_statistics/all", {
           town: this.town,
@@ -463,7 +469,7 @@ export default {
           registerTimeTo:
             this.registerTimeTo == "" || this.registerTimeTo == null
               ? ""
-              : this.registerTimeTo.setDate(this.registerTimeTo.getDate() + 1),
+              : toDate,
           sortBy: "id"
         })
         .then(res => {
