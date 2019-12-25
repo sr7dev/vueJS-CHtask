@@ -47,7 +47,16 @@
             class="disability-chart chart-container margin-left-10"
             ref="chartdiv2"
             style="padding-left:15px"
-          ></div>
+          >
+            <figure>
+              <chart
+                :options="pie"
+                :init-options="initOptions"
+                ref="pie"
+                autoresize
+              />
+            </figure>
+          </div>
         </el-col>
       </el-row>
       <el-row class="w-100">
@@ -120,11 +129,16 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 // import chartData from "./chartData1";
 // import chartData1 from "./chartData2";
 import axios from "axios";
+import ECharts from 'vue-echarts';
+import 'echarts/lib/chart/pie';
+import 'echarts/lib/component/tooltip';
 am4core.useTheme(am4themes_animated);
 
 export default {
   name: "statisticsCredit",
-  // components: { Pagination },
+  components: {
+    chart: ECharts
+  },
   data() {
     return {
       page: {
@@ -166,7 +180,11 @@ export default {
         "#ee63ca",
         "#7366f4"
       ],
-      is_ie: null
+      is_ie: null,
+      pie:{},
+      initOptions: {
+        renderer: 'canvas'
+      }
     };
   },
   async mounted() {
@@ -439,59 +457,121 @@ export default {
       // this.createGrid1(600, valueAxis);
     },
     makeChartRightTop() {
-      let chart = am4core.create(this.$refs.chartdiv2, am4charts.PieChart);
+      // let chart = am4core.create(this.$refs.chartdiv2, am4charts.PieChart);
 
-      let data = [];
-      this.leftTopData.map(item => {
-        data.push({
-          cnt: item[0],
-          townId: this.filterTownName(item[1])
+      // let data = [];
+      // this.leftTopData.map(item => {
+      //   data.push({
+      //     cnt: item[0],
+      //     townId: this.filterTownName(item[1])
+      //   });
+      // });
+      
+      this.leftTopData.sort(function(a, b) {
+        return b.cnt - a.cnt;
+      });
+      let chartData=[];
+      this.leftTopData.map(item=>{
+        chartData.push({
+          value:item[0],
+          name: this.filterTownName(item[1])
         });
       });
-      chart.data = data;
-      chart.responsive.enabled = true;
-      chart.addClassName = true;
-      chart.width = am4core.percent(55);
-      chart.height = am4core.percent(100);
-      chart.align = "center";
+      this.pie={
+        tooltip: {
+          trigger: 'item',
+          formatter: '{a} <br/>{b} : {c} ({d}%)'
+        },
+        series: [{
+          name:'各站点衣残捡测上传数据统计',
+          type: 'pie',
+          radius: '40%',
+          center: ['54%', '50%'],
+          data: chartData,
+          itemStyle: {
+            emphasis: {
+              shadowBlur: 10,
+              shadowOffsetX: 2,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          },
+          label: {
+            normal:{
+              fontSize:16,
+              color:"#FFF",
+              formatter:'{d}%: {b}'
+            }
+          }
+        }],
+        color : this.colorList
+      };
+      let dataIndex = -1;
+      let pie = this.$refs.pie;
+      let dataLen = this.pie.series[0].data.length;
 
-      // Add and configure Series
-      let pieSeries = chart.series.push(new am4charts.PieSeries());
-      let title = chart.titles.create();
-      title.text = "各站点诚信等级上传数据的比例分布";
-      title.fontSize = 5;
-      title.marginBottom = 20;
-      title.marginTop = 10;
-      title.fill = am4core.color("#012f8a");
-      // pieSeries.radius = 100;
-      pieSeries.dataFields.value = "cnt";
+      setInterval(() => {
+        pie.dispatchAction({
+          type: 'downplay',
+          seriesIndex: 0,
+          dataIndex
+        })
+        dataIndex = (dataIndex + 1) % dataLen
+        pie.dispatchAction({
+          type: 'highlight',
+          seriesIndex: 0,
+          dataIndex
+        })
+        // 显示 tooltip
+        pie.dispatchAction({
+          type: 'showTip',
+          seriesIndex: 0,
+          dataIndex
+        })
+      }, 1000)  
+      // chart.data = data;
+      // chart.responsive.enabled = true;
+      // chart.addClassName = true;
+      // chart.width = am4core.percent(55);
+      // chart.height = am4core.percent(100);
+      // chart.align = "center";
 
-      pieSeries.dataFields.category = "townId";
-      pieSeries.dataFields.radiusValue = "cnt";
+      // // Add and configure Series
+      // let pieSeries = chart.series.push(new am4charts.PieSeries());
+      // let title = chart.titles.create();
+      // title.text = "各站点诚信等级上传数据的比例分布";
+      // title.fontSize = 5;
+      // title.marginBottom = 20;
+      // title.marginTop = 10;
+      // title.fill = am4core.color("#012f8a");
+      // // pieSeries.radius = 100;
+      // pieSeries.dataFields.value = "cnt";
 
-      pieSeries.labels.template.truncate = true;
-      pieSeries.labels.template.fontSize = 15;
-      pieSeries.labels.template.maxWidth = 180;
-      pieSeries.labels.template.fill = "white";
-      pieSeries.labels.template.text =
-        "[bold '#20beff']{value.percent.formatNumber('#.0')}%[/] {category}";
-      pieSeries.ticks.template.strokeWidth = 1;
-      pieSeries.ticks.template.strokeOpacity = 0.7;
-      pieSeries.ticks.template.fill = am4core.color("#012f8a");
-      pieSeries.ticks.template.fillOpacity = 1;
-      // Add cursor
-      chart.cursor = new am4charts.XYCursor();
-      // chart.legend = new am4charts.Legend()
+      // pieSeries.dataFields.category = "townId";
+      // pieSeries.dataFields.radiusValue = "cnt";
 
-      // This creates initial animation
-      pieSeries.hiddenState.properties.opacity = 1;
-      pieSeries.hiddenState.properties.endAngle = -90;
-      pieSeries.hiddenState.properties.startAngle = -90;
-      let colorSet = new am4core.ColorSet();
-      colorSet.list = this.colorList.map(color => {
-        return new am4core.color(color);
-      });
-      pieSeries.colors = colorSet;
+      // pieSeries.labels.template.truncate = true;
+      // pieSeries.labels.template.fontSize = 15;
+      // pieSeries.labels.template.maxWidth = 180;
+      // pieSeries.labels.template.fill = "white";
+      // pieSeries.labels.template.text =
+      //   "[bold '#20beff']{value.percent.formatNumber('#.0')}%[/] {category}";
+      // pieSeries.ticks.template.strokeWidth = 1;
+      // pieSeries.ticks.template.strokeOpacity = 0.7;
+      // pieSeries.ticks.template.fill = am4core.color("#012f8a");
+      // pieSeries.ticks.template.fillOpacity = 1;
+      // // Add cursor
+      // chart.cursor = new am4charts.XYCursor();
+      // // chart.legend = new am4charts.Legend()
+
+      // // This creates initial animation
+      // pieSeries.hiddenState.properties.opacity = 1;
+      // pieSeries.hiddenState.properties.endAngle = -90;
+      // pieSeries.hiddenState.properties.startAngle = -90;
+      // let colorSet = new am4core.ColorSet();
+      // colorSet.list = this.colorList.map(color => {
+      //   return new am4core.color(color);
+      // });
+      // pieSeries.colors = colorSet;
     },
     makeChartLeftDown() {
       let chart = am4core.create(this.$refs.chartdiv3, am4charts.XYChart);
@@ -576,3 +656,9 @@ export default {
   }
 };
 </script>
+<style scoped>
+.echarts {
+  width: 650px!important;
+  height: 680px!important;
+}
+</style>
