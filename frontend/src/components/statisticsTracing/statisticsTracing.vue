@@ -122,8 +122,8 @@
             ref="chartdiv1"
           >
             <el-row style="margin-top:60px" class="margin-left-10" v-if="tableData1[0]">
-              <el-col :span="2" class="red-colored padding-left-10">1</el-col>
-              <el-col :span="4" class="white-colored">
+              <el-col :span="1" class="red-colored padding-left-10">1</el-col>
+              <el-col :span="5" class="white-colored">
                 <b>{{getCompanyName(tableData1[0][1])}}</b>
               </el-col>
               <el-col :span="15" class="no-progress-outer red-colored">
@@ -136,8 +136,8 @@
               </el-col>
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[1]">
-              <el-col :span="2" class="yellow-colored padding-left-10">2</el-col>
-              <el-col :span="4" class="white-colored">
+              <el-col :span="1" class="yellow-colored padding-left-10">2</el-col>
+              <el-col :span="5" class="white-colored">
                 <b>{{getCompanyName(tableData1[1][1])}}</b>
               </el-col>
               <el-col :span="15" class="no-progress-outer yellow-colored">
@@ -150,8 +150,8 @@
               </el-col>
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[2]">
-              <el-col :span="2" class="yellow-colored padding-left-10">3</el-col>
-              <el-col :span="4" class="white-colored">
+              <el-col :span="1" class="yellow-colored padding-left-10">3</el-col>
+              <el-col :span="5" class="white-colored">
                 <b>{{getCompanyName(tableData1[2][1])}}</b>
               </el-col>
               <el-col :span="15" class="no-progress-outer yellow-colored">
@@ -164,8 +164,8 @@
               </el-col>
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[3]">
-              <el-col :span="2" class="blue-colored padding-left-10">4</el-col>
-              <el-col :span="4" class="white-colored">
+              <el-col :span="1" class="blue-colored padding-left-10">4</el-col>
+              <el-col :span="5" class="white-colored">
                 <b>{{getCompanyName(tableData1[3][1])}}</b>
               </el-col>
               <el-col :span="15" class="no-progress-outer">
@@ -178,8 +178,8 @@
               </el-col>
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[4]">
-              <el-col :span="2" class="blue-colored padding-left-10">5</el-col>
-              <el-col :span="4" class="white-colored">
+              <el-col :span="1" class="blue-colored padding-left-10">5</el-col>
+              <el-col :span="5" class="white-colored">
                 <b>{{getCompanyName(tableData1[4][1])}}</b>
               </el-col>
               <el-col :span="15" class="no-progress-outer">
@@ -192,8 +192,8 @@
               </el-col>
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[5]">
-              <el-col :span="2" class="blue-colored padding-left-10">6</el-col>
-              <el-col :span="4" class="white-colored">
+              <el-col :span="1" class="blue-colored padding-left-10">6</el-col>
+              <el-col :span="5" class="white-colored">
                 <b>{{getCompanyName(tableData1[5][1])}}</b>
               </el-col>
               <el-col :span="15" class="no-progress-outer">
@@ -206,8 +206,8 @@
               </el-col>
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[6]">
-              <el-col :span="2" class="blue-colored padding-left-10">7</el-col>
-              <el-col :span="4" class="white-colored">
+              <el-col :span="1" class="blue-colored padding-left-10">7</el-col>
+              <el-col :span="5" class="white-colored">
                 <b>{{getCompanyName(tableData1[6][1])}}</b>
               </el-col>
               <el-col :span="15" class="no-progress-outer">
@@ -220,8 +220,8 @@
               </el-col>
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[7]">
-              <el-col :span="2" class="blue-colored padding-left-10">8</el-col>
-              <el-col :span="4" class="white-colored">
+              <el-col :span="1" class="blue-colored padding-left-10">8</el-col>
+              <el-col :span="5" class="white-colored">
                 <b>{{getCompanyName(tableData1[7][1])}}</b>
               </el-col>
               <el-col :span="15" class="no-progress-outer">
@@ -234,8 +234,8 @@
               </el-col>
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[8]">
-              <el-col :span="2" class="blue-colored padding-left-10">9</el-col>
-              <el-col :span="4" class="white-colored">
+              <el-col :span="1" class="blue-colored padding-left-10">9</el-col>
+              <el-col :span="5" class="white-colored">
                 <b>{{getCompanyName(tableData1[8][1])}}</b>
               </el-col>
               <el-col :span="15" class="no-progress-outer">
@@ -248,8 +248,8 @@
               </el-col>
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[9]">
-              <el-col :span="2" class="blue-colored padding-left-10">10</el-col>
-              <el-col :span="4" class="white-colored">
+              <el-col :span="1" class="blue-colored padding-left-10">10</el-col>
+              <el-col :span="5" class="white-colored">
                 <b>{{getCompanyName(tableData1[9][1])}}</b>
               </el-col>
               <el-col :span="15" class="no-progress-outer">
@@ -358,6 +358,14 @@ async created() {
           console.log(error);
         });
     },
+    getCompanyName(companyid) {
+      let company = this.companyList.find(x => x.companyId === companyid);
+      if (company) {
+        return company.companyName;
+      } else {
+        return "";
+      }
+    },
     async getData() {
       let tracingTimeTo;
       tracingTimeTo = this.toMonth && this.toYear ?
@@ -465,10 +473,6 @@ async created() {
       if (this.chart) {
         this.chart.dispose();
       }
-    },
-    getCompanyName(companyid) {
-      let tmpcompany = this.tableData1.find(x=>x.companyId == companyid);
-      if(tmpcompany) return tmpcompany.companyName;
     },
     getPercent(cnt1, cnt2, type) {
       if (!cnt1 || !cnt2) return 0;
