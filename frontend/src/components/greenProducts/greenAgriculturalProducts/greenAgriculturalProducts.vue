@@ -424,7 +424,7 @@ export default {
           registerTimeTo:
             this.registerTimeTo == "" || this.registerTimeTo == null
               ? ""
-              : this.registerTimeTo,
+              : this.registerTimeTo.setDate(this.registerTimeTo.getDate() + 1),
           sortBy: "id",
           year: this.searchYear
         })
