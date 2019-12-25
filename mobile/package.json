@@ -19,6 +19,7 @@
     "vue": "^2.5.2",
     "vue-axios": "^2.1.5",
     "vue-loading-overlay": "^3.2.0",
+    "vue-qr-reader": "^1.6.2",
     "vue-qrcode-reader": "^2.1.1",
     "vue-router": "^3.0.1",
     "vue-select": "^3.2.0",
