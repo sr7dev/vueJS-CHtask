@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import 'webrtc-adapter';
 import { QrcodeStream, QrcodeDropZone, QrcodeCapture } from "vue-qrcode-reader";
 import { MessageBox } from "mint-ui";
 import TokenManager from "@/configs/token-manager";
