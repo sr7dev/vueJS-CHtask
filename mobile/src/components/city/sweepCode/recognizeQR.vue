@@ -70,6 +70,8 @@ export default {
           this.error = "错误：安装的相机不合适";
         } else if (error.name === "StreamApiNotSupportedError") {
           this.error = "错误：此浏览器不支持 Stream API";
+        }else {
+          this.error = error.name;
         }
         setTimeout(() => {
           MessageBox.alert(this.error, "提示").then(action => {
