@@ -38,7 +38,7 @@ export default {
         this.$router.push("/");
       });
     }else{
-      const checkCamera = hasGetUserMedia();
+      const checkCamera = this.hasGetUserMedia();
       checkCamera ? MessageBox.alert(checkCamera, "提示").then(action => {
         // this.$router.push("/");
       }):MessageBox.alert("camera not recognized", "提示").then(action => {
