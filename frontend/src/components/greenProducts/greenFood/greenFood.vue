@@ -563,7 +563,7 @@ export default {
       this.tableData = [];
       Request()
         .get("/api/green/green_food/all", {
-          registerTimeTo:  this.registerTimeTo,
+          registerTimeTo: this.registerTimeTo.setDate(this.registerTimeTo.getDate() + 1),
           registerTimeFrom: this.registerTimeFrom,
           companyName: this.searchCompanyName,
           town: this.searchTown,
