@@ -12,9 +12,10 @@ import 'mint-ui/lib/style.css'
 import './lib/mui/css/mui.min.css'
 import "./lib/mui/js/mui.js"
 import util from './api/util.js';
-// import 'webrtc-adapter';
+import VueQrcodeReader from 'vue-qrcode-reader';
 
 Vue.use(VueAxios, Api);
+Vue.use(VueQrcodeReader);
 Vue.use(MintUI);
 Vue.use(Loading);
 

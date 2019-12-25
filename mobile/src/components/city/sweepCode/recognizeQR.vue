@@ -7,11 +7,12 @@
     </mt-header>
     <div class="header qrboard">
       <div class="qrboard-container">
-        <qrcode-stream
+        <!-- <qrcode-stream
           @decode="onDecode"
           @init="onInit"
           :track="paintGreenText"
-        ></qrcode-stream>
+        ></qrcode-stream> -->
+      <!-- <vue-qr-reader v-on:code-scanned="codeArrived"></vue-qr-reader> -->
       </div>
       <p v-if="!error">将相机设置在QR Code上</p>
     </div>
@@ -20,12 +21,12 @@
 
 <script>
 // import 'webrtc-adapter';
-import { QrcodeStream, QrcodeDropZone, QrcodeCapture } from "vue-qrcode-reader";
+// import { QrcodeStream, QrcodeDropZone, QrcodeCapture } from "vue-qrcode-reader";
 import { MessageBox } from "mint-ui";
 import TokenManager from "@/configs/token-manager";
 export default {
   name: "recognizeQR",
-  components: { QrcodeStream, QrcodeDropZone, QrcodeCapture, MessageBox },
+  // components: { QrcodeStream, QrcodeDropZone, QrcodeCapture, MessageBox },
   data() {
     return {
       result: "",
@@ -80,6 +81,12 @@ export default {
           });
         }, 1000);
       }
+    },
+    codeArrived (event) {
+      console.log(event.detail[0]);
+      MessageBox.alert(event.detail[0], "提示").then(action => {
+        this.$router.push("/");
+      });
     },
     /* customized QrcodeStream track */
     paintGreenText(location, ctx) {
