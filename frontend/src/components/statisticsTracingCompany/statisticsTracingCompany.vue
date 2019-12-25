@@ -416,9 +416,3 @@ export default {
   }
 };
 </script>
-<style scoped>
-.echarts {
-  width: 650px!important;
-  height: 680px!important;
-}
-</style>
