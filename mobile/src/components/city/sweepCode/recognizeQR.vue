@@ -7,10 +7,13 @@
     </mt-header>
     <div class="header qrboard">
       <div class="qrboard-container">
-       <qrcode-stream
+       <!-- <qrcode-stream
           @decode="onDecode"
           :camera="camera"
           :paused="paused"
+          @init="onCameraChange"
+        ></qrcode-stream> -->
+        <qrcode-stream
           @init="onCameraChange"
         ></qrcode-stream>
       </div>
@@ -21,11 +24,11 @@
 
 <script>
 import { MessageBox } from "mint-ui";
-import { QrcodeReader } from 'vue-qrcode-reader';
+import { QrcodeReader,Qrcodestream } from 'vue-qrcode-reader';
 import TokenManager from "@/configs/token-manager";
 export default {
   name: "recognizeQR",
-  components: { QrcodeReader },
+  components: { QrcodeReader, Qrcodestream },
   data() {
     return {
       cameraSettings: {
@@ -47,50 +50,52 @@ export default {
     }
   },
   methods: {
-    async onDecode (content) {
-      try {
-        this.content = content;
-        this.pauseCamera(); // 暫停鏡頭準備調用
+    // async onDecode (content) {
+    //   try {
+    //     this.content = content;
+    //     this.pauseCamera(); // 暫停鏡頭準備調用
   
-        // 調用 redeem 進行兌換
-        let message = await this.redeem(content);
-        // 兌換成功後彈出訊息並重新啟用鏡頭
-        Swal('Good job!',
-              message,
-              'success').then(() => {
-                this.unPauseCamera()
-        });
-      } catch (error) {
-          Swal('Whoops!',
-                error.message,
-                'error').then(() => {
-                this.unPauseCamera()
-          });
-      }
-    },
-    pauseCamera () {
-      this.paused = true
-    },
-    unPauseCamera () {
-      this.paused = false
-    },
-    redeem (content) {
-     return new Promise((resolve, reject) => {
-          // 兌換票券請求
-        if (content) { 
-          resolve('Success'); 
-        } else { 
-          reject('failed'); 
-        }
-      });
-    },
+    //     // 調用 redeem 進行兌換
+    //     let message = await this.redeem(content);
+    //     // 兌換成功後彈出訊息並重新啟用鏡頭
+    //     Swal('Good job!',
+    //           message,
+    //           'success').then(() => {
+    //             this.unPauseCamera()
+    //     });
+    //   } catch (error) {
+    //       Swal('Whoops!',
+    //             error.message,
+    //             'error').then(() => {
+    //             this.unPauseCamera()
+    //       });
+    //   }
+    // },
+    // pauseCamera () {
+    //   this.paused = true
+    // },
+    // unPauseCamera () {
+    //   this.paused = false
+    // },
+    // redeem (content) {
+    //  return new Promise((resolve, reject) => {
+    //       // 兌換票券請求
+    //     if (content) { 
+    //       resolve('Success'); 
+    //     } else { 
+    //       reject('failed'); 
+    //     }
+    //   });
+    // },
     onCameraChange (promise) {
+        const getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+       alert(getUserMedia);
       promise.catch(error => {
         const cameraMissingError = error.name === 'OverconstrainedError'
         const triedFrontCamera = this.camera === 'front'
-
+        
         if (triedFrontCamera && cameraMissingError) {
-           MessageBox.alert("Token 错误", "提示").then(action => {
+           MessageBox.alert("没有 Camera", "提示").then(action => {
             this.$router.push("/");
           });
         }
@@ -134,7 +139,7 @@ export default {
   text-align: center;
 }
 .wrapper {
-  height: 50%;
+  height: 280px;
   z-index: 1!important;
 }
 </style>

@@ -30,7 +30,7 @@ export default {
   border-radius:25px;
 }
   .header{
-    margin-top: 2.5rem;
+    margin-top: 3rem;
   }
   ul li{
     list-style-type:none;
