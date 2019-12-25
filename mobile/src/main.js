@@ -12,7 +12,7 @@ import 'mint-ui/lib/style.css'
 import './lib/mui/css/mui.min.css'
 import "./lib/mui/js/mui.js"
 import util from './api/util.js';
-import 'webrtc-adapter';
+// import 'webrtc-adapter';
 
 Vue.use(VueAxios, Api);
 Vue.use(MintUI);
