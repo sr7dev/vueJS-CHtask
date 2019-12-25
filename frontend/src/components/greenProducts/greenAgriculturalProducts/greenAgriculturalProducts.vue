@@ -415,6 +415,12 @@ export default {
 
     getData() {
       this.listLoading = true;
+      let toDate = new Date(this.registerTimeTo.getFullYear(),
+                this.registerTimeTo.getMonth(),
+                this.registerTimeTo.getDate(),
+                23, 59, 59
+              );
+
       Request()
         .get("/api/green/product_ratio/all", {
           registerTimeFrom:
@@ -424,7 +430,7 @@ export default {
           registerTimeTo:
             this.registerTimeTo == "" || this.registerTimeTo == null
               ? ""
-              : this.registerTimeTo.setDate(this.registerTimeTo.getDate() + 1),
+              : toDate,
           sortBy: "id",
           year: this.searchYear
         })

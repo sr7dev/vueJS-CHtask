@@ -562,9 +562,15 @@ export default {
       this.listLoading = true;
       this.objData = [];
       this.tableData = [];
+      let toDate = new Date(this.registerTimeTo.getFullYear(),
+                this.registerTimeTo.getMonth(),
+                this.registerTimeTo.getDate(),
+                23, 59, 59
+              );
+
       Request()
         .get("/api/green/organic_product/all", {
-          registerTimeTo: this.registerTimeTo.setDate(this.registerTimeTo.getDate() + 1),
+          registerTimeTo: toDate,
           registerTimeFrom: this.registerTimeFrom,
           companyName: this.searchCompanyName,
           town: this.searchTown,
