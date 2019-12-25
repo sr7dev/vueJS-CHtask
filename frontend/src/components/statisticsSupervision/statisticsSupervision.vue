@@ -187,7 +187,7 @@
                     >
                       <template slot-scope="{ row }">
                         <div>
-                          <h3>{{row.townCnt}}</h3>
+                          <h3>{{row.cntSpecial}}</h3>
                         </div>
                         <el-progress
                           :percentage="row.progress"
@@ -219,7 +219,7 @@
                     >
                       <template slot-scope="{ row }">
                         <div>
-                          <h3>{{row.townCnt}}</h3>
+                          <h3>{{row.cntSpecial}}</h3>
                         </div>
                         <el-progress
                           :percentage="row.progress"
@@ -251,7 +251,7 @@
                     <el-table-column prop="specialProgress" class-name="blue-colored">
                       <template slot-scope="{ row }">
                         <div>
-                          <h3>{{row.townCnt}}</h3>
+                          <h3>{{row.cntSpecial}}</h3>
                         </div>
                         <el-progress
                           :percentage="row.specialProgress"
@@ -416,6 +416,7 @@ export default {
             tRate = 0,
             tCnt2 = 0,
             tSpecial = 0;
+            
           this.visionData.forEach(item => {
             let cnt = item[0],
               cnt_ok = item[1],
@@ -446,6 +447,7 @@ export default {
               townName: townname,
               townCnt: cnt,
               townCnt2: cnt2,
+              cntSpecial: item[2],
               rate: cnt - cnt_ok,
               progress: parseInt(((cnt - cnt_ok) * 100) / cnt),
               chatName: townname,
@@ -464,7 +466,8 @@ export default {
               progress: parseInt((tRate / tCnt) * 100),
               specialLabel:
                 tSpecial + "/" + parseInt((tSpecial * 100) / tCnt) + "%",
-              specialProgress: parseInt((tSpecial * 100) / tCnt)
+              specialProgress: parseInt((tSpecial * 100) / tCnt),
+              cntSpecial: tSpecial
             });
 
             this.makeQualityData();
@@ -668,14 +671,16 @@ export default {
           townName: this.tableData[i].townName,
           progress: this.tableData[i].specialProgress,
           label: this.tableData[i].specialLabel,
-          townCnt: this.tableData[i].townCnt
+          townCnt: this.tableData[i].townCnt,
+          cntSpecial: this.tableData[i].cntSpecial,
         });
         if (i !== this.tableData.length - 1)
           this.specialData2.push({
             townName: this.tableData[i + 1].townName,
             progress: this.tableData[i + 1].specialProgress,
             label: this.tableData[i + 1].specialLabel,
-            townCnt: this.tableData[i + 1].townCnt
+            townCnt: this.tableData[i + 1].townCnt,
+            cntSpecial: this.tableData[i + 1].cntSpecial,
           });
       }
     },
