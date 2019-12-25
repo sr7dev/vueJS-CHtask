@@ -57,8 +57,7 @@
           <el-col :span="4" class="margin-left-10">
             <el-form-item
               label="产品名称:"
-              :prop="'rowDatas.' + index + '.productName'"
-              :rules="{ required: true, message: '请插入', trigger: 'blur' }"
+              :prop="'rowDatas.' + index + '.productName'"             
             >
               <el-input v-model="rowData.productName"></el-input>
             </el-form-item>
@@ -75,8 +74,7 @@
             <el-form-item
               label="基地面积(亩):"
               :prop="'rowDatas.' + index + '.area'"
-              :rules="[
-                { required: true, message: '请插入', trigger: 'blur' },
+              :rules="[                
                 { type: 'number', message: '插入号码' }
               ]"
             >
@@ -87,8 +85,7 @@
             <el-form-item
               label="产量(吨):"
               :prop="'rowDatas.' + index + '.amount'"
-              :rules="[
-                { required: true, message: '请插入', trigger: 'blur' },
+              :rules="[                
                 { type: 'number', message: '插入号码' }
               ]"
             >
@@ -265,7 +262,8 @@
         <el-table-column
           prop="baseArea.value"
           label="基地面积(亩)"
-        ></el-table-column>
+        >
+        </el-table-column>
         <el-table-column
           prop="production.value"
           label="产量(吨)"
@@ -427,11 +425,11 @@ export default {
     },
 
     baseQuality() {
-      let total = 0;
+      let total = 0.00;
       this.objectData.forEach(obj => {
         obj.productionInfo.forEach(pro => {
-          pro.productUnitInfo.forEach(product => {
-            total += product.baseArea;
+          pro.productUnitInfo.forEach(product => {            
+            total += (product.baseArea == "/"? 0.00: parseFloat(product.baseArea) );
           });
         });
       });
@@ -440,11 +438,11 @@ export default {
     },
 
     productionQuality() {
-      let total = 0;
+      let total = 0.00;
       this.objectData.forEach(obj => {
         obj.productionInfo.forEach(pro => {
           pro.productUnitInfo.forEach(product => {
-            total += product.production;
+            total += (product.production == "/"? 0.00: parseFloat(product.production));
           });
         });
       });
@@ -565,7 +563,7 @@ export default {
       this.tableData = [];
       Request()
         .get("/api/green/green_food/all", {
-          registerTimeTo: this.registerTimeTo,
+          registerTimeTo:  this.registerTimeTo,
           registerTimeFrom: this.registerTimeFrom,
           companyName: this.searchCompanyName,
           town: this.searchTown,
@@ -593,10 +591,10 @@ export default {
                 }
                 tmpPlate = tmpData[i].town;
                 if (tmpData[i].productCreditCode) {
-                  tmpCertified = parseInt(tmpData[i].area);
+                  tmpCertified = (tmpData[i].area== -1? 0: tmpData[i].area);
                   tmpDeclared = 0;
                 } else {
-                  tmpDeclared = parseInt(tmpData[i].area);
+                  tmpDeclared = (tmpData[i].area== -1? 0:tmpData[i].area);
                   tmpCertified = 0;
                 }
                 tmpProductUnitInfo = [];
@@ -604,8 +602,8 @@ export default {
                 tmpProductUnitInfo.push({
                   productName: tmpData[i].productName,
                   productCertificateNum: tmpData[i].productCreditCode,
-                  baseArea: tmpData[i].area,
-                  production: tmpData[i].amount
+                  baseArea: (tmpData[i].area == -1? "/":parseFloat(tmpData[i].area).toFixed(2)),
+                  production: (tmpData[i].amount == -1? "/":parseFloat(tmpData[i].amount).toFixed(2))
                 });
                 tmpProductionInfo.push({
                   productionUnit: tmpData[i].companyName,
@@ -614,15 +612,15 @@ export default {
                 });
               } else {
                 if (tmpData[i].productCreditCode)
-                  tmpCertified = tmpCertified + parseInt(tmpData[i].area);
+                  tmpCertified = tmpCertified + parseFloat(tmpData[i].area == -1?0:tmpData[i].area);
                 else if (!tmpData[i].productCreditCode)
-                  tmpDeclared = tmpDeclared + parseInt(tmpData[i].area);
+                  tmpDeclared = tmpDeclared + parseFloat(tmpData[i].area == -1?0:tmpData[i].area);
                 if (tmpData[i - 1].companyName === tmpData[i].companyName) {
                   tmpProductUnitInfo.push({
                     productName: tmpData[i].productName,
                     productCertificateNum: tmpData[i].productCreditCode,
-                    baseArea: tmpData[i].area,
-                    production: tmpData[i].amount
+                    baseArea: tmpData[i].area == -1?0: parseFloat(tmpData[i].area).toFixed(2),
+                    production: (tmpData[i].amount == -1? "/":parseFloat(tmpData[i].amount).toFixed(2))
                   });
                 } else if (
                   tmpData[i - 1].companyName !== tmpData[i].companyName
@@ -631,8 +629,8 @@ export default {
                   tmpProductUnitInfo.push({
                     productName: tmpData[i].productName,
                     productCertificateNum: tmpData[i].productCreditCode,
-                    baseArea: tmpData[i].area,
-                    production: tmpData[i].amount
+                    baseArea: tmpData[i].area == -1?0:parseFloat(tmpData[i].area).toFixed(2),
+                    production: (tmpData[i].amount == -1? "/":parseFloat(tmpData[i].amount).toFixed(2))
                   });
                   tmpProductionInfo.push({
                     productionUnit: tmpData[i].companyName,
@@ -766,9 +764,9 @@ export default {
           let formdata = new FormData();
           formdata.append(
             "amount",
-            this.dynamicValidateForm.rowDatas[i].amount
+            this.dynamicValidateForm.rowDatas[i].amount == null? -1: this.dynamicValidateForm.rowDatas[i].amount
           );
-          formdata.append("area", this.dynamicValidateForm.rowDatas[i].area);
+          formdata.append("area", this.dynamicValidateForm.rowDatas[i].area == null? -1:this.dynamicValidateForm.rowDatas[i].area);
           formdata.append("id", 0);
           formdata.append(
             "companyId",

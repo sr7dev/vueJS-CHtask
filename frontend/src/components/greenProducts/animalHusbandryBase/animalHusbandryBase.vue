@@ -50,11 +50,7 @@
             <el-col :span="5">
               <el-form-item
                 label="1-6月实绩:"
-                :prop="'data.' + index + '.halfYear'"
-                :rules="[
-                  { required: true, message: '请插入', trigger: 'blur' },
-                  { type: 'number', message: '插入号码', trigger: 'blur' }
-                ]"
+                :prop="'data.' + index + '.halfYear'"                
                 class="margin-left-20"
               >
                 <el-input
@@ -66,11 +62,7 @@
             <el-col :span="5">
               <el-form-item
                 label="全年实绩:"
-                :prop="'data.' + index + '.fullYear'"
-                :rules="[
-                  { required: true, message: '请插入', trigger: 'blur' },
-                  { type: 'number', message: '插入号码', trigger: 'blur' }
-                ]"
+                :prop="'data.' + index + '.fullYear'"                
                 class="margin-left-20"
               >
                 <el-input
@@ -225,7 +217,7 @@ export default {
   data() {
     return {
       inYear: 0,
-      searchYear: "",
+      searchYear: new Date().getFullYear().toString(),
       openDialog: false,
       columns: [
         {
@@ -303,8 +295,7 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          if (this.selectedRows.length > 0) this.confirm_dialogVisible = true;
-          else this.openDialog = false;
+          this.confirm_dialogVisible = true;
         }
       });
     },
@@ -329,8 +320,8 @@ export default {
         let formdata = new FormData();
         formdata.append("createTime", createTime.toDateString("YYYY-MM-DD"));
         formdata.append("createUserId", Auth().user().id);
-        formdata.append("fullYear", item.fullYear);
-        formdata.append("halfYear", item.halfYear);
+        formdata.append("fullYear", (item.fullYear == undefined || item.fullYear == ""? -1: item.fullYear));
+        formdata.append("halfYear", (item.halfYear == undefined || item.halfYear == ""? -1: item.halfYear));
         formdata.append("id", 0);
         formdata.append(
           "registerTime",
@@ -383,15 +374,19 @@ export default {
           this.total = this.tableData.length;
           this.calculateTotal();
           this.listLoading = false;
+          this.tableData.forEach(item =>{
+            item.halfYear = (item.halfYear == -1? "/": parseFloat(item.halfYear).toFixed(2) );
+            item.fullYear = (item.fullYear == -1? "/": parseFloat(item.fullYear).toFixed(2));
+          })
         });
     },
 
     calculateTotal() {
       let fnum = 0;
       let snum = 0;
-      this.tableData.forEach(data => {
-        fnum += data.halfYear;
-        snum += data.fullYear;
+      this.tableData.forEach(data => {        
+        fnum += (data.halfYear == -1? 0:data.halfYear);
+        snum += (data.fullYear == -1? 0:data.fullYear);
       });
 
       this.tableData.push({

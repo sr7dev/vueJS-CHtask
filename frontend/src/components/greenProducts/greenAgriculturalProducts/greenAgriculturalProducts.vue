@@ -49,11 +49,7 @@
             <el-col :span="2">
               <el-form-item
                 label="种植业占比:"
-                :prop="'data.' + index + '.planting'"
-                :rules="[
-                  { required: true, message: '请插入', trigger: 'blur' },
-                  { type: 'number', message: '插入号码', trigger: 'blur' }
-                ]"
+                :prop="'data.' + index + '.planting'"                
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.planting"></el-input>
@@ -62,11 +58,7 @@
             <el-col :span="2">
               <el-form-item
                 label="畜牧业占比:"
-                :prop="'data.' + index + '.livestock'"
-                :rules="[
-                  { required: true, message: '请插入', trigger: 'blur' },
-                  { type: 'number', message: '插入号码', trigger: 'blur' }
-                ]"
+                :prop="'data.' + index + '.livestock'"                
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.livestock"></el-input>
@@ -76,11 +68,7 @@
             <el-col :span="4">
               <el-form-item
                 label="绿色优质农产品占比:"
-                :prop="'data.' + index + '.highQuality'"
-                :rules="[
-                  { required: true, message: '请插入', trigger: 'blur' },
-                  { type: 'number', message: '插入号码', trigger: 'blur' }
-                ]"
+                :prop="'data.' + index + '.highQuality'"                
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.highQuality"></el-input>
@@ -90,11 +78,7 @@
             <el-col :span="4">
               <el-form-item
                 label="下半年种植业预计占比:"
-                :prop="'data.' + index + '.plantingHalfPlan'"
-                :rules="[
-                  { required: true, message: '请插入', trigger: 'blur' },
-                  { type: 'number', message: '插入号码', trigger: 'blur' }
-                ]"
+                :prop="'data.' + index + '.plantingHalfPlan'"                
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.plantingHalfPlan"></el-input>
@@ -104,11 +88,7 @@
             <el-col :span="4">
               <el-form-item
                 label="下半年畜牧业预计占比:"
-                :prop="'data.' + index + '.livestockHalfPlan'"
-                :rules="[
-                  { required: true, message: '请插入', trigger: 'blur' },
-                  { type: 'number', message: '插入号码', trigger: 'blur' }
-                ]"
+                :prop="'data.' + index + '.livestockHalfPlan'"                
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.livestockHalfPlan"></el-input>
@@ -118,11 +98,7 @@
             <el-col :span="4">
               <el-form-item
                 label="绿色优质农产品预计占比:"
-                :prop="'data.' + index + '.highQualityPlan'"
-                :rules="[
-                  { required: true, message: '请插入', trigger: 'blur' },
-                  { type: 'number', message: '插入号码', trigger: 'blur' }
-                ]"
+                :prop="'data.' + index + '.highQualityPlan'"                
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.highQualityPlan"></el-input>
@@ -244,24 +220,48 @@
       >
         <el-table-column :formatter="order" label="序号"></el-table-column>
         <el-table-column prop="town" label="板块"></el-table-column>
-        <el-table-column prop="planting" label="种植业占比"></el-table-column>
-        <el-table-column prop="livestock" label="畜牧业占比"></el-table-column>
+        <el-table-column prop="planting" label="种植业占比">
+          <template slot-scope="{row}">
+            {{row.planting = (row.planting == -1? 0:row.planting) }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="livestock" label="畜牧业占比">
+          <template slot-scope="{row}">
+            {{row.livestock = (row.livestock == -1? 0:row.livestock) }}
+          </template>
+        </el-table-column>
         <el-table-column
           prop="highQuality"
           label="绿色优质农产品占比"
-        ></el-table-column>
+        >
+        <template slot-scope="{row}">
+            {{row.highQuality = (row.highQuality == -1? "/":row.highQuality) }}
+          </template>
+        </el-table-column>
         <el-table-column
           prop="plantingHalfPlan"
           label="下半年种植业预计占比"
-        ></el-table-column>
+        >
+          <template slot-scope="{row}">
+            {{row.plantingHalfPlan = (row.plantingHalfPlan == -1? "/":row.plantingHalfPlan) }}
+          </template>
+        </el-table-column>
         <el-table-column
           prop="livestockHalfPlan"
           label="下半年畜牧业预计占比"
-        ></el-table-column>
+        >
+        <template slot-scope="{row}">
+            {{row.livestockHalfPlan = (row.livestockHalfPlan == -1? "/":row.livestockHalfPlan) }}
+          </template>
+        </el-table-column>
         <el-table-column
           prop="highQualityPlan"
           label="绿色优质农产品预计占比"
-        ></el-table-column>
+        >
+        <template slot-scope="{row}">
+            {{row.highQualityPlan = (row.highQualityPlan == -1? "/":row.highQualityPlan) }}
+          </template>
+        </el-table-column>
       </el-table>
     </el-container>
   </div>
@@ -281,7 +281,7 @@ export default {
   data() {
     return {
       inYear: 0,
-      searchYear: "",
+      searchYear: new Date().getFullYear().toString(),
       openDialog: false,
       dynamicValidateForm: {
         data: []
@@ -350,8 +350,7 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          if (this.selectedRows.length > 0) this.confirm_dialogVisible = true;
-          else this.openDialog = false;
+          this.confirm_dialogVisible = true;
         }
       });
     },
@@ -376,13 +375,13 @@ export default {
         let formdata = new FormData();
         formdata.append("createTime", createTime.toDateString("YYYY-MM-DD"));
         formdata.append("createUserId", Auth().user().id);
-        formdata.append("highQuality", item.highQuality);
-        formdata.append("highQualityPlan", item.highQualityPlan);
+        formdata.append("highQuality", (item.highQuality==undefined || item.highQuality==""? -1: item.highQuality));
+        formdata.append("highQualityPlan", (item.highQualityPlan==undefined || item.highQualityPlan==""? -1: item.highQualityPlan));
         formdata.append("id", 0);
-        formdata.append("livestock", item.livestock);
-        formdata.append("livestockHalfPlan", item.livestockHalfPlan);
-        formdata.append("planting", item.planting);
-        formdata.append("plantingHalfPlan", item.plantingHalfPlan);
+        formdata.append("livestock", (item.livestock==undefined || item.livestock==""? -1: item.livestock));
+        formdata.append("livestockHalfPlan", (item.livestockHalfPlan==undefined || item.livestockHalfPlan==""? -1: item.livestockHalfPlan));
+        formdata.append("planting", (item.planting==undefined || item.planting==""? -1: item.planting));
+        formdata.append("plantingHalfPlan", (item.plantingHalfPlan==undefined || item.plantingHalfPlan==""? -1: item.plantingHalfPlan));
         formdata.append(
           "registerTime",
           this.registerTime.toString("YYYY-MM-DD")
@@ -433,6 +432,16 @@ export default {
           this.tableData = res.data;
           this.total = this.tableData.length;
           this.calcualteTotal();
+          this.tableData.forEach(element => {
+            
+            element.planting = (element.planting == -1? "/":parseFloat(element.planting).toFixed(2) );
+            element.livestock = (element.livestock == -1? "/":parseFloat(element.livestock).toFixed(2));
+            element.highQuality = (element.highQuality == -1? "/":parseFloat(element.highQuality).toFixed(2));
+            element.plantingHalfPlan = (element.plantingHalfPlan == -1? "/":parseFloat(element.plantingHalfPlan).toFixed(2));
+            element.livestockHalfPlan = (element.livestockHalfPlan == -1? "/":parseFloat(element.livestockHalfPlan).toFixed(2));
+            element.highQualityPlan = (element.highQualityPlan == -1? "/":parseFloat(element.highQualityPlan).toFixed(2));
+            
+          });
           this.listLoading = false;
         });
     },
@@ -446,12 +455,12 @@ export default {
         greenHighTotal = 0;
 
       this.tableData.forEach(data => {
-        plantTotal += data.planting;
-        liveTotal += data.livestock;
-        greenTotal += data.highQuality;
-        expectedTotal += data.plantingHalfPlan;
-        estimateTotal += data.livestockHalfPlan;
-        greenHighTotal += data.highQualityPlan;
+        plantTotal += (data.planting == -1? 0:data.planting);
+        liveTotal += (data.livestock == -1? 0:data.livestock);
+        greenTotal += (data.highQuality == -1? 0:data.highQuality);
+        expectedTotal += (data.plantingHalfPlan == -1? 0:data.plantingHalfPlan);
+        estimateTotal += (data.livestockHalfPlan == -1? 0:data.livestockHalfPlan);
+        greenHighTotal += (data.highQualityPlan == -1? 0:data.highQualityPlan);
       });
 
       this.tableData.push({
