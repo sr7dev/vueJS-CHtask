@@ -147,7 +147,16 @@
             <span style="color:#255ee3;opacity:0.8">各站点衣残</span>
             <span style="color:#20beff;opacity:0.7">捡测上传数据统计</span>
           </h1>
-          <div class="disability-chart chart-container margin-left-10 large" ref="chartdiv1"></div>
+          <div class="disability-chart chart-container margin-left-10 large" ref="chartdiv1">
+            <figure>
+              <chart
+                :options="pie"
+                :init-options="initOptions"
+                ref="pie"
+                autoresize
+              />
+            </figure>
+          </div>
         </el-col>
       </el-row>
       <el-row class="w-100">
@@ -179,12 +188,18 @@ import Auth from "@/services/authentication/auth.js";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import ECharts from 'vue-echarts';
+import 'echarts/lib/chart/pie';
+import 'echarts/lib/component/tooltip';
 
 am4core.useTheme(am4themes_animated);
 
 export default {
   name: "statisticsFarmers",
   // components: { Pagination },
+  components: {
+    chart: ECharts
+  },
   data() {
     return {
       page: {
@@ -192,6 +207,7 @@ export default {
         pageSize: 50
       },
       tableData: [],
+      pie:{},
       tableDataByCnt: [],
       summaryData: [],
       listLoading: false,
@@ -200,6 +216,9 @@ export default {
       toYear: null,
       toMonth: null,
       maxCnt: null,
+      initOptions: {
+        renderer: 'canvas'
+      },
       progressColor: "warning",
       colorList: [
         "#229efe",
@@ -415,48 +434,66 @@ export default {
       this.tableData.sort(function(a, b) {
         return b.cnt - a.cnt;
       });
-      let chart = am4core.create(this.$refs.chartdiv1, am4charts.PieChart);
-      console.log(this.tableData);
-      chart.data = this.tableData;
-      chart.responsive.enabled = true;
-      chart.width = am4core.percent(55);
-      chart.height = am4core.percent(100);
-      chart.align = "center";
-
-      // Add and configure Series
-      let pieSeries = chart.series.push(new am4charts.PieSeries());
-
-      pieSeries.dataFields.value = "cnt";
-      pieSeries.dataFields.category = "detect_unit";
-
-      // pieSeries.dataFields.radiusValue = "cnt";
-      pieSeries.labels.template.truncate = true;
-      // pieSeries.labels.template.truncate = false;
-      pieSeries.labels.template.wrap = true;
-      pieSeries.labels.template.fontSize = 15;
-      pieSeries.labels.template.maxWidth = 180;
-      pieSeries.labels.template.fill = "white";
-      pieSeries.labels.template.text =
-        "[bold '#20beff']{value.percent.formatNumber('#.0')}%[/] {category}";
-
-      pieSeries.ticks.template.strokeWidth = 1;
-      // pieSeries.ticks.template.;
-      pieSeries.ticks.template.strokeOpacity = 1;
-      pieSeries.ticks.template.fill = am4core.color("#fff");
-      pieSeries.ticks.template.fillOpacity = 1;
-
-      // This creates initial animation
-      pieSeries.hiddenState.properties.opacity = 1;
-      pieSeries.hiddenState.properties.endAngle = -90;
-      pieSeries.hiddenState.properties.startAngle = -90;
-
-      let colorSet = new am4core.ColorSet();
-      colorSet.list = this.colorList.map(color => {
-        return new am4core.color(color);
+      let chartData=[];
+      this.tableData.map(item=>{
+        chartData.push({
+          value:item.cnt,
+          name: item.detect_unit.length>10 ? item.detect_unit.substring(0,7)+"...":item.detect_unit
+        });
       });
-      pieSeries.colors = colorSet;
+      this.pie={
+        tooltip: {
+          trigger: 'item',
+          formatter: '{a} <br/>{b} : {c} ({d}%)'
+        },
+        series: [{
+          name:'各站点衣残捡测上传数据统计',
+          type: 'pie',
+          radius: '40%',
+          center: ['54%', '50%'],
+          data: chartData,
+          itemStyle: {
+            emphasis: {
+              shadowBlur: 10,
+              shadowOffsetX: 2,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          },
+          label: {
+            normal:{
+              fontSize:16,
+              color:"#FFF",
+              formatter:'{d}%: {b}'
+            }
+          }
+        }],
+        color : this.colorList
+      };
+      let dataIndex = -1;
+      let pie = this.$refs.pie;
+      let dataLen = this.pie.series[0].data.length;
+
+      setInterval(() => {
+        pie.dispatchAction({
+          type: 'downplay',
+          seriesIndex: 0,
+          dataIndex
+        })
+        dataIndex = (dataIndex + 1) % dataLen
+        pie.dispatchAction({
+          type: 'highlight',
+          seriesIndex: 0,
+          dataIndex
+        })
+        // 显示 tooltip
+        pie.dispatchAction({
+          type: 'showTip',
+          seriesIndex: 0,
+          dataIndex
+        })
+      }, 1000)   
     },
-    async makeLineChart() {
+     async makeLineChart() {
       await this.getLineChartData();
       let chart = am4core.create(this.$refs.chartdiv2, am4charts.XYChart);
       chart.data = this.lineChartData;
@@ -521,7 +558,6 @@ export default {
       // chart.cursor.behavior = "panX";
       // chart.cursor.lineX.opacity = 0;
       // chart.cursor.lineY.opacity = 0;
-
       chart.scrollbarX = new am4core.Scrollbar();
       chart.scrollbarX.parent = chart.bottomAxesContainer;
       this.chart = chart;
@@ -552,3 +588,9 @@ export default {
   }
 };
 </script>
+<style scoped>
+.echarts {
+  width: 650px!important;
+  height: 680px!important;
+}
+</style>
