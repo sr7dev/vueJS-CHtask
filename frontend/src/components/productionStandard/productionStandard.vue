@@ -184,12 +184,13 @@ export default {
     },
 
     downloadStandardProfiles(profile) {
+    
       axios({
         url: Urls.DOWNLOAD_URL() + profile,
         method: "GET",
         responseType: "blob" // important
       }).then(response => {
-        console.log(response.data);
+       
       const url = window.URL.createObjectURL(new Blob([response.data]));
       // const url = "http://213.252.247.150/standard" + profile;
       // window.open(
@@ -203,7 +204,7 @@ export default {
       //   ? link.setAttribute("download", profile.replace("/jiangsu/", ""))
        link.setAttribute(
           "download",
-          this.data.profile.replace("/uploads/", "")
+          profile.replace("/uploads/", "")
         ); //or any other extension
       document.body.appendChild(link);
       link.click();

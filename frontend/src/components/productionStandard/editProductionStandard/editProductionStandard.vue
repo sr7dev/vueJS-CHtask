@@ -81,7 +81,7 @@
                 class="margin-left-20"
                 v-if="dataForm.productionStandardProfiles"
                 @click="downloadFile()"
-              >{{dataForm.productionStandardProfiles.indexOf('jiangsu') > -1 ? dataForm.productionStandardProfiles.replace("/jiangsu/", "") : dataForm.productionStandardProfiles.replace("/suzhou/", "")}}</el-link>
+              >{{ dataForm.productionStandardProfiles.replace("/uploads/", "")}}</el-link>
               <span class="margin-left-20" v-else>没有数据</span>
             </div>
           </el-col>
