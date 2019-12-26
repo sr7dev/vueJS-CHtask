@@ -65,7 +65,6 @@
               type="date"
               placeholder="选择日期"
               v-model="startDate"
-              style="width: 300px;"
               @change="getList"
             ></el-date-picker>
           </el-col>
@@ -75,7 +74,6 @@
               type="date"
               placeholder="选择日期"
               v-model="endDate"
-              style="width: 300px;"
               @change="getList"
             ></el-date-picker>
           </el-col>
