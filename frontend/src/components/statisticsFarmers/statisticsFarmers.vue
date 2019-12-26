@@ -426,6 +426,7 @@ export default {
       // this.createGrid(15000, valueAxis);
     },
     makePieChart() {
+      console.log(this.tableData);
       this.tableData.sort(function(a, b) {
         return b.cnt - a.cnt;
       });
