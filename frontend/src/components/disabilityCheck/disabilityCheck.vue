@@ -235,7 +235,7 @@ export default {
           label: ""
         }
       ],
-      township: [{ id: 0, name: "全部", divisionCode: 0 }],
+      township: [{ id: -1, name: "全部", divisionCode: -1 }],
       currTown: "",
       status: 1,
       tableData: [],
@@ -413,7 +413,7 @@ export default {
           item: this.itemValue == "全部" ? "" : this.itemValue,
           // resultDx: this.result - 1,
           resultDx: this.result,
-          townDivisionCode: this.currTown == 0 ? "" : this.currTown,
+          townDivisionCode: this.currTown == -1 ? "" : this.currTown,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
           sortBy: "id"

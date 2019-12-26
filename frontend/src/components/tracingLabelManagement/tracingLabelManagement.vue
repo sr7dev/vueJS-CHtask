@@ -433,7 +433,7 @@ export default {
   components: { Pagination, QrcodeVue },
   data() {
     return {
-      companyId: null,
+      companyId: -1,
       show_AddDialog: false,
       confirm_dialogVisible: false,
       confirm_storePrintSetting: false,

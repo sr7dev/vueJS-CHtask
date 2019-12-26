@@ -117,7 +117,7 @@ export default {
       total: 0,
       tableData: [],
       listLoading: false,
-      townList: null
+      townList: [{ id: -1, name: "全部" }]
     };
   },
   created() {

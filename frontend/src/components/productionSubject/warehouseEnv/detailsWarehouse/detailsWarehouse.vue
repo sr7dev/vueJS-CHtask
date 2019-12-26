@@ -61,7 +61,7 @@ export default {
   data() {
     return {
       id: -1,
-      companyId: 0,
+      companyId: -1,
       pageName: this.$route.name,
       listLoading: true,
       ruleFormValue: {

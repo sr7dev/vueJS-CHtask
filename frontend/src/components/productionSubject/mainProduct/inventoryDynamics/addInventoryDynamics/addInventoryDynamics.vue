@@ -92,7 +92,7 @@ export default {
         updateTime: "",
         grade: "",
         productId: 0,
-        companyId: 0,
+        companyId: -1,
         repertoryAmount: "",
         variety: "",
         warehouseId: null,

@@ -61,7 +61,7 @@ export default {
       total: 0,
       tableData: [],
       selectCount: 0,
-      township: [],
+      township: [{ id: -1, name: "全部" }],
       receiver: [],
       content: "",
       title: "",

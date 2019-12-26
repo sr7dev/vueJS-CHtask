@@ -74,11 +74,11 @@ export default {
   data() {
     return {
         addForm: {
-            companyId: "",
+            companyId: "-1",
             amount: "",
             sampleName: "",
         },
-        companyProduction: [],
+        companyProduction: [{ id: -1, name: "全部" }],
         rules: {
             amount: [
             {

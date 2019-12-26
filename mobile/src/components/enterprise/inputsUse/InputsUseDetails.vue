@@ -30,14 +30,14 @@
     data() {
       return {
         formData: {
-          companyId: "",
+          companyId: "-1",
           amount: "",
           sampleName: "",
         },
         fileName: '',
         file: null,
         title: "",
-        companyProduction: [],
+        companyProduction: [{ id: -1, name: "全部" }],
       }
     },
     methods: {

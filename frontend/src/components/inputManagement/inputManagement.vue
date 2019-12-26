@@ -109,7 +109,7 @@ export default {
       },
       total: 0,
       tableData: [],
-      companyProduction: [],
+      companyProduction: [{ id: -1, name: "全部" }],
       mode: true,
       listLoading: true
     };

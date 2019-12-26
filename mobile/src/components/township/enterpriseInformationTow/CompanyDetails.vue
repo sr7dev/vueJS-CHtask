@@ -34,13 +34,13 @@
         name: "CompanyDetails",
       data(){
         return{
-          township:[],
+          township:[{ id: -1, name: "全部" }],
           form: {
             agriculturalClassification: 1,
             chargePerson: "",
             companyAddress: "",
             companyHonor: "",
-            companyId: 0,
+            companyId: -1,
             companyName: "",
             companyType: "1",
             contactMobile: "",
@@ -56,7 +56,7 @@
             qualityStandardId: 0,
             quality_standard: 0,
             remarks: "",
-            townId: 1,
+            townId: -1,
             updateUserId: 0,
             productInfo: {
               data_0_0: "",

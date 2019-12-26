@@ -328,13 +328,13 @@ export default {
       confirm_dialogVisible: false,
       selectedTown: null,
       selectedRows: [],
-      township: [],
-      companyProduction: [],
+      township: [{ id: -1, name: "全部" }],
+      companyProduction: [{ id: -1, name: "全部" }],
       dynamicValidateForm: {
         rowDatas: [
           {
             town: null,
-            companyId: null,
+            companyId: -1,
             productName: "",
             productType: "",
             productCreditCode: "",

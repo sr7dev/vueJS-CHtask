@@ -88,11 +88,11 @@ export default {
   data() {
     return {
         formData: {
-            companyId: "",
+            companyId: "-1",
             amount: "",
             sampleName: "",
         },
-        companyProduction: [],
+        companyProduction: [{ id: -1, name: "全部" }],
         fileName: '',
         file: null,
         dataloading: false,
