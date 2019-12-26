@@ -416,7 +416,7 @@ export default {
           townDivisionCode: this.currTown == 0 ? "" : this.currTown,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
-          sortBy: "id"
+          sortBy: "detect_time"
         })
         .then(response => {
           this.tableData = response.data;
