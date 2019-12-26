@@ -421,7 +421,7 @@ export default {
         .then(response => {
           this.tableData = response.data;
           this.total = response.total;
-          this.totalNo = response.total * this.page.pageSize;
+          this.totalNo = response.total;
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
