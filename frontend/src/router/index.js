@@ -3,142 +3,264 @@ import Router from "vue-router";
 import Storage from "store";
 
 import Toast from "@/utils/toast";
-import login from "@/components/login/login";
-import home from "@/components/common/home";
-import threeProductsCertification from "@/components/threeProductsCertification/threeProductsCertification";
-import addThreeProducts from "@/components/threeProductsCertification/addThreeProducts/addThreeProducts";
-import detailsThreeProducts from "@/components/threeProductsCertification/detailsThreeProducts/detailsThreeProducts";
-import regulatoryRecord from "@/components/regulatoryRecord/regulatoryRecord";
-import addRegulatoryRecord from "@/components/regulatoryRecord/addRegulatoryRecord/addRegulatoryRecord";
-import rectificationRecord from "@/components/regulatoryRecord/rectificationRecord/rectificationRecord";
-import detailsRegulatoryRecord from "@/components/regulatoryRecord/detailsRegulatoryRecord/detailsRegulatoryRecord";
-import commonWords from "@/components/regulatoryRecord/commonWords/commonWords";
-import management from "@/components/management/management";
-import businessProducts from "@/components/management/businessProducts";
-import companyDetails from "@/components/management/companyDetails";
-import redBlackList from "@/components/redBlackList/redBlackList";
-import disabilityCheck from "@/components/disabilityCheck/disabilityCheck";
-import workTask from "@/components/workTask/workTask";
-import addWorkTask from "@/components/workTask/addWorkTask/addWorkTask";
-import editWorkTask from "@/components/workTask/editWorkTask/editWorkTask";
-import addWorkTaskReport from "@/components/workTask/addWorkTaskReport/addWorkTaskReport";
-import detailWorkTaskReport from "@/components/workTask/detailWorkTaskReport/detailWorkTaskReport";
-import seed from "@/components/seed/seed";
-import uploadSeed from "@/components/seed/uploadSeed/uploadSeed";
-import detailSeed from "@/components/seed/detailSeed/detailSeed";
-import userManagement from "@/components/userManagement/userManagement";
-import registerUser from "@/components/userManagement/registerUser/registerUser";
-import editUser from "@/components/userManagement/editUser/editUser";
-import changePassword from "@/components/userManagement/changePassword/changePassword";
-import productionStandard from "@/components/productionStandard/productionStandard";
-import addProductionStandard from "@/components/productionStandard/addProductionStandard/addProductionStandard";
-import detailProductionStandard from "@/components/productionStandard/detailProductionStandard/detailProductionStandard";
-import editProductionStandard from "@/components/productionStandard/editProductionStandard/editProductionStandard";
-import shareFiles from "@/components/shareFiles/shareFiles";
-import addShareFiles from "@/components/shareFiles/addShareFiles/addShareFiles";
-import editShareFiles from "@/components/shareFiles/editShareFiles/editShareFiles";
-import detailShareFiles from "@/components/shareFiles/detailShareFiles/detailShareFiles";
-import specialCategory from "@/components/specialCategory/specialCategory";
+// const login = () =>
+//   import ("@/components/login/login");
+const home = () =>
+  import ("@/components/common/home");
+const threeProductsCertification = () =>
+  import ("@/components/threeProductsCertification/threeProductsCertification");
+const addThreeProducts = () =>
+  import ("@/components/threeProductsCertification/addThreeProducts/addThreeProducts");
+const detailsThreeProducts = () =>
+  import ("@/components/threeProductsCertification/detailsThreeProducts/detailsThreeProducts");
+const regulatoryRecord = () =>
+  import ("@/components/regulatoryRecord/regulatoryRecord");
+const addRegulatoryRecord = () =>
+  import ("@/components/regulatoryRecord/addRegulatoryRecord/addRegulatoryRecord");
+const rectificationRecord = () =>
+  import ("@/components/regulatoryRecord/rectificationRecord/rectificationRecord");
+const detailsRegulatoryRecord = () =>
+  import ("@/components/regulatoryRecord/detailsRegulatoryRecord/detailsRegulatoryRecord");
+const commonWords = () =>
+  import ("@/components/regulatoryRecord/commonWords/commonWords");
+const management = () =>
+  import ("@/components/management/management");
+const businessProducts = () =>
+  import ("@/components/management/businessProducts");
+const companyDetails = () =>
+  import ("@/components/management/companyDetails");
+const redBlackList = () =>
+  import ("@/components/redBlackList/redBlackList");
+const disabilityCheck = () =>
+  import ("@/components/disabilityCheck/disabilityCheck");
+const workTask = () =>
+  import ("@/components/workTask/workTask");
+const addWorkTask = () =>
+  import ("@/components/workTask/addWorkTask/addWorkTask");
+const editWorkTask = () =>
+  import ("@/components/workTask/editWorkTask/editWorkTask");
+const addWorkTaskReport = () =>
+  import ("@/components/workTask/addWorkTaskReport/addWorkTaskReport");
+const detailWorkTaskReport = () =>
+  import ("@/components/workTask/detailWorkTaskReport/detailWorkTaskReport");
+const seed = () =>
+  import ("@/components/seed/seed");
+const uploadSeed = () =>
+  import ("@/components/seed/uploadSeed/uploadSeed");
+const detailSeed = () =>
+  import ("@/components/seed/detailSeed/detailSeed");
+const userManagement = () =>
+  import ("@/components/userManagement/userManagement");
+const registerUser = () =>
+  import ("@/components/userManagement/registerUser/registerUser");
+const editUser = () =>
+  import ("@/components/userManagement/editUser/editUser");
+const changePassword = () =>
+  import ("@/components/userManagement/changePassword/changePassword");
+const productionStandard = () =>
+  import ("@/components/productionStandard/productionStandard");
+const addProductionStandard = () =>
+  import ("@/components/productionStandard/addProductionStandard/addProductionStandard");
+const detailProductionStandard = () =>
+  import ("@/components/productionStandard/detailProductionStandard/detailProductionStandard");
+const editProductionStandard = () =>
+  import ("@/components/productionStandard/editProductionStandard/editProductionStandard");
+const shareFiles = () =>
+  import ("@/components/shareFiles/shareFiles");
+const addShareFiles = () =>
+  import ("@/components/shareFiles/addShareFiles/addShareFiles");
+const editShareFiles = () =>
+  import ("@/components/shareFiles/editShareFiles/editShareFiles");
+const detailShareFiles = () =>
+  import ("@/components/shareFiles/detailShareFiles/detailShareFiles");
+const specialCategory = () =>
+  import ("@/components/specialCategory/specialCategory");
 
-import creditRating from "@/components/creditRating/creditRating";
-import editRating from "@/components/creditRating/editRating/editRating";
-import detailsRating from "@/components/creditRating/detailsRating/detailsRating";
+const creditRating = () =>
+  import ("@/components/creditRating/creditRating");
+const editRating = () =>
+  import ("@/components/creditRating/editRating/editRating");
+const detailsRating = () =>
+  import ("@/components/creditRating/detailsRating/detailsRating");
 
-import corporateCreditFile from "@/components/corporateCreditFile/corporateCreditFile";
-import adminPenaltyInfo from "@/components/corporateCreditFile/adminPenaltyInfo/adminPenaltyInfo";
-import adminLicenseInfo from "@/components/corporateCreditFile/adminLicenseInfo/adminLicenseInfo";
-import threeProduction from "@/components/corporateCreditFile/threeProduction/threeProduction";
-import ratingInfo from "@/components/corporateCreditFile/ratingInfo/ratingInfo";
+const corporateCreditFile = () =>
+  import ("@/components/corporateCreditFile/corporateCreditFile");
+const adminPenaltyInfo = () =>
+  import ("@/components/corporateCreditFile/adminPenaltyInfo/adminPenaltyInfo");
+const adminLicenseInfo = () =>
+  import ("@/components/corporateCreditFile/adminLicenseInfo/adminLicenseInfo");
+const threeProduction = () =>
+  import ("@/components/corporateCreditFile/threeProduction/threeProduction");
+const ratingInfo = () =>
+  import ("@/components/corporateCreditFile/ratingInfo/ratingInfo");
 
-import productionSubject from "@/components/productionSubject/productionSubject";
-import addRegulatoryObject from "@/components/productionSubject/addRegulatoryObject/addRegulatoryObject";
-import editRegulatoryObject from "@/components/productionSubject/editRegulatoryObject/editRegulatoryObject";
-import detailsRegulatoryObject from "@/components/productionSubject/detailsRegulatoryObject/detailsRegulatoryObject";
-import supervisionGrid from "@/components/supervisionGrid/supervisionGrid";
-import manageSupervisionGrid from "@/components/supervisionGrid/manageSupervisionGrid/manageSupervisionGrid";
-import warehouseEnv from "@/components/productionSubject/warehouseEnv/warehouseEnv";
-import detailsWarehouse from "@/components/productionSubject/warehouseEnv/detailsWarehouse/detailsWarehouse";
-import viewWarehouse from "@/components/productionSubject/warehouseEnv/viewWarehouse/viewWarehouse";
-import addWarehouse from "@/components/productionSubject/warehouseEnv/addWarehouse/addWarehouse";
-import mainProduct from "@/components/productionSubject/mainProduct/mainProduct";
-import addMainProduct from "@/components/productionSubject/mainProduct/addMainProduct/addMainProduct";
-import editMainProduct from "@/components/productionSubject/mainProduct/editMainProduct/editMainProduct";
-import thirdPartySamplingRecord from "@/components/productionSubject/mainProduct/thirdPartySamplingRecord/thirdPartySamplingRecord";
-import addThirdPartySampling from "@/components/productionSubject/mainProduct/thirdPartySamplingRecord/addThirdPartySampling/addThirdPartySampling";
-import editThirdPartySampling from "@/components/productionSubject/mainProduct/thirdPartySamplingRecord/editThirdPartySampling/editThirdPartySampling";
-import productBatch from "@/components/productionSubject/mainProduct/productBatch/productBatch";
-import addProductBatch from "@/components/productionSubject/mainProduct/productBatch/addProductBatch/addProductBatch";
-import editProductBatch from "@/components/productionSubject/mainProduct/productBatch/editProductBatch/editProductBatch";
-import inventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/inventoryDynamics";
-import varietyDefinition from "@/components/productionSubject/varietyDefinition/varietyDefinition";
-import addVarietyDefinition from "@/components/productionSubject/varietyDefinition/addVarietyDefinition/addVarietyDefinition";
-import editVarietyDefinition from "@/components/productionSubject/varietyDefinition/editVarietyDefinition/editVarietyDefinition";
-import addInventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/addInventoryDynamics";
-import editInventoryDynamics from "@/components/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/editInventoryDynamics";
-import definitionLevel from "@/components/productionSubject/definitionLevel/definitionLevel";
-import addDefinitionLevel from "@/components/productionSubject/definitionLevel/addDefinitionLevel/addDefinitionLevel";
-import editDefinitionLevel from "@/components/productionSubject/definitionLevel/editDefinitionLevel/editDefinitionLevel";
-import processDefinition from "@/components/productionSubject/mainProduct/processDefinition/processDefinition";
-import addProcessDefinition from "@/components/productionSubject/mainProduct/processDefinition/addProcessDefinition/addProcessDefinition";
-import editProcessDefinition from "@/components/productionSubject/mainProduct/processDefinition/editProcessDefinition/editProcessDefinition";
-import productProperty from "@/components/productionSubject/mainProduct/productProperty/productProperty";
-import addProductProperty from "@/components/productionSubject/mainProduct/productProperty/addProductProperty/addProductProperty";
-import editProductProperty from "@/components/productionSubject/mainProduct/productProperty/editProductProperty/editProductProperty";
-import customProductProperty from "@/components/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/customProductProperty";
-import addCustomProductProperty from "@/components/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/addCustomProductProperty/addCustomProductProperty";
-import editCustomProductProperty from "@/components/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/editCustomProductProperty/editCustomProductProperty";
-import threeProduct from "@/components/productionSubject/threeProduct_ps/threeProduct";
-import addThreeProduct from "@/components/productionSubject/threeProduct_ps/addThreeProduct/addThreeProduct";
+const productionSubject = () =>
+  import ("@/components/productionSubject/productionSubject");
+const addRegulatoryObject = () =>
+  import ("@/components/productionSubject/addRegulatoryObject/addRegulatoryObject");
+const editRegulatoryObject = () =>
+  import ("@/components/productionSubject/editRegulatoryObject/editRegulatoryObject");
+const detailsRegulatoryObject = () =>
+  import ("@/components/productionSubject/detailsRegulatoryObject/detailsRegulatoryObject");
+const supervisionGrid = () =>
+  import ("@/components/supervisionGrid/supervisionGrid");
+const manageSupervisionGrid = () =>
+  import ("@/components/supervisionGrid/manageSupervisionGrid/manageSupervisionGrid");
+const warehouseEnv = () =>
+  import ("@/components/productionSubject/warehouseEnv/warehouseEnv");
+const detailsWarehouse = () =>
+  import ("@/components/productionSubject/warehouseEnv/detailsWarehouse/detailsWarehouse");
+const viewWarehouse = () =>
+  import ("@/components/productionSubject/warehouseEnv/viewWarehouse/viewWarehouse");
+const addWarehouse = () =>
+  import ("@/components/productionSubject/warehouseEnv/addWarehouse/addWarehouse");
+const mainProduct = () =>
+  import ("@/components/productionSubject/mainProduct/mainProduct");
+const addMainProduct = () =>
+  import ("@/components/productionSubject/mainProduct/addMainProduct/addMainProduct");
+const editMainProduct = () =>
+  import ("@/components/productionSubject/mainProduct/editMainProduct/editMainProduct");
+const thirdPartySamplingRecord = () =>
+  import ("@/components/productionSubject/mainProduct/thirdPartySamplingRecord/thirdPartySamplingRecord");
+const addThirdPartySampling = () =>
+  import ("@/components/productionSubject/mainProduct/thirdPartySamplingRecord/addThirdPartySampling/addThirdPartySampling");
+const editThirdPartySampling = () =>
+  import ("@/components/productionSubject/mainProduct/thirdPartySamplingRecord/editThirdPartySampling/editThirdPartySampling");
+const productBatch = () =>
+  import ("@/components/productionSubject/mainProduct/productBatch/productBatch");
+const addProductBatch = () =>
+  import ("@/components/productionSubject/mainProduct/productBatch/addProductBatch/addProductBatch");
+const editProductBatch = () =>
+  import ("@/components/productionSubject/mainProduct/productBatch/editProductBatch/editProductBatch");
+const inventoryDynamics = () =>
+  import ("@/components/productionSubject/mainProduct/inventoryDynamics/inventoryDynamics");
+const varietyDefinition = () =>
+  import ("@/components/productionSubject/varietyDefinition/varietyDefinition");
+const addVarietyDefinition = () =>
+  import ("@/components/productionSubject/varietyDefinition/addVarietyDefinition/addVarietyDefinition");
+const editVarietyDefinition = () =>
+  import ("@/components/productionSubject/varietyDefinition/editVarietyDefinition/editVarietyDefinition");
+const addInventoryDynamics = () =>
+  import ("@/components/productionSubject/mainProduct/inventoryDynamics/addInventoryDynamics/addInventoryDynamics");
+const editInventoryDynamics = () =>
+  import ("@/components/productionSubject/mainProduct/inventoryDynamics/editInventoryDynamics/editInventoryDynamics");
+const definitionLevel = () =>
+  import ("@/components/productionSubject/definitionLevel/definitionLevel");
+const addDefinitionLevel = () =>
+  import ("@/components/productionSubject/definitionLevel/addDefinitionLevel/addDefinitionLevel");
+const editDefinitionLevel = () =>
+  import ("@/components/productionSubject/definitionLevel/editDefinitionLevel/editDefinitionLevel");
+const processDefinition = () =>
+  import ("@/components/productionSubject/mainProduct/processDefinition/processDefinition");
+const addProcessDefinition = () =>
+  import ("@/components/productionSubject/mainProduct/processDefinition/addProcessDefinition/addProcessDefinition");
+const editProcessDefinition = () =>
+  import ("@/components/productionSubject/mainProduct/processDefinition/editProcessDefinition/editProcessDefinition");
+const productProperty = () =>
+  import ("@/components/productionSubject/mainProduct/productProperty/productProperty");
+const addProductProperty = () =>
+  import ("@/components/productionSubject/mainProduct/productProperty/addProductProperty/addProductProperty");
+const editProductProperty = () =>
+  import ("@/components/productionSubject/mainProduct/productProperty/editProductProperty/editProductProperty");
+const customProductProperty = () =>
+  import ("@/components/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/customProductProperty");
+const addCustomProductProperty = () =>
+  import ("@/components/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/addCustomProductProperty/addCustomProductProperty");
+const editCustomProductProperty = () =>
+  import ("@/components/productionSubject/mainProduct/productProperty/editProductProperty/customProductProperty/editCustomProductProperty/editCustomProductProperty");
+const threeProduct = () =>
+  import ("@/components/productionSubject/threeProduct_ps/threeProduct");
+const addThreeProduct = () =>
+  import ("@/components/productionSubject/threeProduct_ps/addThreeProduct/addThreeProduct");
 
-import companyBusiness from "@/components/companyBusiness/companyBusiness";
-import productBusiness from "@/components/companyBusiness/productBusiness/productBusiness";
-import addProductBusiness from "@/components/companyBusiness/productBusiness/addProductBusiness/addProductBusiness";
-import detailsCompanyBusiness from "@/components/companyBusiness/detailsCompanyBusiness/detailsCompanyBusiness";
+const companyBusiness = () =>
+  import ("@/components/companyBusiness/companyBusiness");
+const productBusiness = () =>
+  import ("@/components/companyBusiness/productBusiness/productBusiness");
+const addProductBusiness = () =>
+  import ("@/components/companyBusiness/productBusiness/addProductBusiness/addProductBusiness");
+const detailsCompanyBusiness = () =>
+  import ("@/components/companyBusiness/detailsCompanyBusiness/detailsCompanyBusiness");
 
-import sampleCheck from "@/components/sampleCheck/sampleCheck";
-import addSampleCheck from "@/components/sampleCheck/addSampleCheck/addSampleCheck";
-import addSampleCheckResult from "@/components/sampleCheck/addSampleCheckResult/addSampleCheckResult";
-import detailsSampleCheck from "@/components/sampleCheck/detailsSampleCheck/detailsSampleCheck";
-import detailsSampleCheckResult from "@/components/sampleCheck/detailsSampleCheckResult/detailsSampleCheckResult";
+const sampleCheck = () =>
+  import ("@/components/sampleCheck/sampleCheck");
+const addSampleCheck = () =>
+  import ("@/components/sampleCheck/addSampleCheck/addSampleCheck");
+const addSampleCheckResult = () =>
+  import ("@/components/sampleCheck/addSampleCheckResult/addSampleCheckResult");
+const detailsSampleCheck = () =>
+  import ("@/components/sampleCheck/detailsSampleCheck/detailsSampleCheck");
+const detailsSampleCheckResult = () =>
+  import ("@/components/sampleCheck/detailsSampleCheckResult/detailsSampleCheckResult");
 
-import tracingLabelManagement from "@/components/tracingLabelManagement/tracingLabelManagement";
+const tracingLabelManagement = () =>
+  import ("@/components/tracingLabelManagement/tracingLabelManagement");
 
-import jobDefinition from "@/components/jobDefinition/jobDefinition";
-import addJobDefinition from "@/components/jobDefinition/addJobDefinition/addJobDefinition";
-import editJobDefinition from "@/components/jobDefinition/editJobDefinition/editJobDefinition";
-import productionRecord from "@/components/productionRecord/productionRecord";
-import addProductionRecord from "@/components/productionRecord/addProductionRecord/addProductionRecord";
-import editProductionRecord from "@/components/productionRecord/editProductionRecord/editProductionRecord";
+const jobDefinition = () =>
+  import ("@/components/jobDefinition/jobDefinition");
+const addJobDefinition = () =>
+  import ("@/components/jobDefinition/addJobDefinition/addJobDefinition");
+const editJobDefinition = () =>
+  import ("@/components/jobDefinition/editJobDefinition/editJobDefinition");
+const productionRecord = () =>
+  import ("@/components/productionRecord/productionRecord");
+const addProductionRecord = () =>
+  import ("@/components/productionRecord/addProductionRecord/addProductionRecord");
+const editProductionRecord = () =>
+  import ("@/components/productionRecord/editProductionRecord/editProductionRecord");
 
-import notice from "@/components/notice/notice";
-import detailsNotice from "@/components/notice/detailsNotice/detailsNotice";
-import createNotice from "@/components/notice/createNotice/createNotice";
-import editNotice from "@/components/notice/editNotice/editNotice";
-import smsNotice from "@/components/notice/smsNotice/smsNotice";
-import detailSms from "@/components/notice/detailSms/detailSms";
+const notice = () =>
+  import ("@/components/notice/notice");
+const detailsNotice = () =>
+  import ("@/components/notice/detailsNotice/detailsNotice");
+const createNotice = () =>
+  import ("@/components/notice/createNotice/createNotice");
+const editNotice = () =>
+  import ("@/components/notice/editNotice/editNotice");
+const smsNotice = () =>
+  import ("@/components/notice/smsNotice/smsNotice");
+const detailSms = () =>
+  import ("@/components/notice/detailSms/detailSms");
 
-import aquaticStatistics from "@/components/aquaticStatistics/aquaticStatistics";
-import statisticsFarmers from "@/components/statisticsFarmers/statisticsFarmers";
+const aquaticStatistics = () =>
+  import ("@/components/aquaticStatistics/aquaticStatistics");
+const statisticsFarmers = () =>
+  import ("@/components/statisticsFarmers/statisticsFarmers");
 
-import greenProducts from "@/components/greenProducts/greenProducts";
+const greenProducts = () =>
+  import ("@/components/greenProducts/greenProducts");
 
-import internalMessage from "@/components/internalMessage/internalMessage";
-import addInternalMessage from "@/components/internalMessage/addInternalMessage/addInternalMessage";
+const internalMessage = () =>
+  import ("@/components/internalMessage/internalMessage");
+const addInternalMessage = () =>
+  import ("@/components/internalMessage/addInternalMessage/addInternalMessage");
 
-import trainingFunds from "@/components/trainingFunds/trainingFunds";
-import addTrainingFunds from "@/components/trainingFunds/addTrainingFunds/addTrainingFunds";
-import viewTrainingFunds from "@/components/trainingFunds/viewTrainingFunds/viewTrainingFunds";
+const trainingFunds = () =>
+  import ("@/components/trainingFunds/trainingFunds");
+const addTrainingFunds = () =>
+  import ("@/components/trainingFunds/addTrainingFunds/addTrainingFunds");
+const viewTrainingFunds = () =>
+  import ("@/components/trainingFunds/viewTrainingFunds/viewTrainingFunds");
 
-import inputManagement from "@/components/inputManagement/inputManagement";
-import addInputPurchase from "@/components/inputManagement/addInputManagement/addInputPurchase";
-import addInputUse from "@/components/inputManagement/addInputManagement/addInputUse";
-import viewInputManagement from "@/components/inputManagement/viewInputManagement/viewInputManagement";
-import uploadSituation from "@/components/uploadSituation/uploadSituation";
+const inputManagement = () =>
+  import ("@/components/inputManagement/inputManagement");
+const addInputPurchase = () =>
+  import ("@/components/inputManagement/addInputManagement/addInputPurchase");
+const addInputUse = () =>
+  import ("@/components/inputManagement/addInputManagement/addInputUse");
+const viewInputManagement = () =>
+  import ("@/components/inputManagement/viewInputManagement/viewInputManagement");
+const uploadSituation = () =>
+  import ("@/components/uploadSituation/uploadSituation");
 
-import statisticsCredit from "@/components/statisticsCredit/statisticsCredit";
-import statisticsSupervision from "@/components/statisticsSupervision/statisticsSupervision";
-import statisticsTracing from "@/components/statisticsTracing/statisticsTracing";
-import statisticsTracingCompany from "@/components/statisticsTracingCompany/statisticsTracingCompany";
+const statisticsCredit = () =>
+  import ("@/components/statisticsCredit/statisticsCredit");
+const statisticsSupervision = () =>
+  import ("@/components/statisticsSupervision/statisticsSupervision");
+const statisticsTracing = () =>
+  import ("@/components/statisticsTracing/statisticsTracing");
+const statisticsTracingCompany = () =>
+  import ("@/components/statisticsTracingCompany/statisticsTracingCompany");
 
 import Auth from "@/services/authentication/auth";
 Storage.set("creditMode", window.location.href.indexOf("creditMode"));
@@ -736,11 +858,11 @@ const router = window.location.href.indexOf("creditMode") < 0 ?
           }
         ]
       },
-      {
-        path: "/login",
-        name: "login",
-        component: login
-      },
+      // {
+      //   path: "/login",
+      //   name: "login",
+      //   component: login
+      // },
       { path: "*", redirect: "/", hidden: true }
     ]
   }) :
@@ -825,11 +947,11 @@ const router = window.location.href.indexOf("creditMode") < 0 ?
           }
         ]
       },
-      {
-        path: "/login",
-        name: "login",
-        component: login
-      },
+      // {
+      //   path: "/login",
+      //   name: "login",
+      //   component: login
+      // },
       { path: "*", redirect: "/", hidden: true }
     ]
   });

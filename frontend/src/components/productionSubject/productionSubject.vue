@@ -334,7 +334,7 @@
 
 <script>
 import Storage from "store";
-import Pagination from "@/components/common/pagination";
+const Pagination =()=> import("@/components/common/pagination");
 import Request from "@/services/api/request";
 import Auth from "@/services/authentication/auth.js";
 import Button1 from "@/assets/images/button1.png";
