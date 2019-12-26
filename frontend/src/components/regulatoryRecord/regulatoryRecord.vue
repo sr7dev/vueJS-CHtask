@@ -274,11 +274,8 @@ export default {
       else return val1.split(",").length + val2.split(",").length;
     },
     getItem8Status(val) {
-      console.log(val);
       val = val.replace(/\r?\n|\r/g, "");
-      console.log(val);
       let content = JSON.parse(val);
-      // console.log(content);
 
       if (content.item8 === true) return "合格";
       if (content.item8 === false) return "不合格";
