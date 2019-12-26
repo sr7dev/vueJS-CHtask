@@ -194,7 +194,7 @@ export default {
       detectTableData: [],
       listLoading: true,
       companyList: [],
-      companyId: 0,
+      companyId: -1,
       companyName: "",
       township: [{ id: -1, name: "全部" }],
       townName: "",

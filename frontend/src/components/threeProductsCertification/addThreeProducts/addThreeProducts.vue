@@ -227,7 +227,7 @@ export default {
         ]
       },
       file: null,
-      companyNameList: [],
+      companyNameList: [{ id: -1, name: "全部" }],
       productNameList: [],
       options: [
         { value: "1", label: "畜牧业" },

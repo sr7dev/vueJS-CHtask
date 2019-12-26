@@ -144,10 +144,10 @@ export default {
         projectName: "",
         appliedAmount: "",
         proposer: "",
-        companyId: "",
+        companyId: "-1",
         status: ""
       },
-      companyProduction: [],
+      companyProduction: [{ id: -1, name: "全部" }],
       loggedinUserType: null,
       fileName: "",
       file: null,

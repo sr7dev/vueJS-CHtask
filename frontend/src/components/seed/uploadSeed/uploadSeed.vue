@@ -133,13 +133,13 @@ export default {
       cityList: [],
       villageList: [],
       townList: [{ id: -1, name: "全部" }],
-      companyProduction: [],
+      companyProduction: [{ id: -1, name: "全部" }],
       listLoading: false,
       ruleFormValue: {
         cityId: null,
         townId: -1,
         villageId: null,
-        companyId: null
+        companyId: -1
       },
       rules: {
         cityId: [

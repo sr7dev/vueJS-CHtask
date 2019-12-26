@@ -170,7 +170,7 @@ export default {
       total: 0,
       tableData: [],
       listLoading: false,
-      companyProduction: null,
+      companyProduction: [{ id: -1, name: "全部" }],
       userTypeLsit: { 1: "市级管理员", 2: "乡镇管理员", 3: "普通用户" },
       loggedinUserType: ""
     };

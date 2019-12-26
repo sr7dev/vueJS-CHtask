@@ -76,7 +76,7 @@ export default {
   name: "RegulatoryRecord",
   data() {
     return {
-      companyId: 0,
+      companyId: -1,
       page: {
         pageIndex: 0,
         pageSize: 10
@@ -84,7 +84,7 @@ export default {
       total: 0,
       tableData: [],
       sortBy: "id",
-      companyList: [],
+      companyList: [{ id: -1, name: "全部" }],
       township: [{ id: -1, name: "全部" }],
       loading: false
     };

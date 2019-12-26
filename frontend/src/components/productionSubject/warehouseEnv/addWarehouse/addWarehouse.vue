@@ -60,7 +60,7 @@ export default {
   name: "addWarehouse",
   data() {
     return {
-      companyId: 0,
+      companyId: -1,
       listLoading: false,
       ruleFormValue: {
         warehouseAddress: "",

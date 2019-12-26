@@ -118,7 +118,7 @@ export default {
         userId: "",
         userType: null,
         townId: -1,
-        companyId: null
+        companyId: -1
       },
       rules: {
         creditCode: [
@@ -171,7 +171,7 @@ export default {
       ],
       loggedinUserType: null,
       township: [{ id: -1, name: "全部" }],
-      companyData: []
+      companyData: [{ id: -1, name: "全部" }]
     };
   },
   created() {

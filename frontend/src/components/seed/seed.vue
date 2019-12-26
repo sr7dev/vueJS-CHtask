@@ -84,7 +84,7 @@ export default {
       tableData: [],
       listLoading: false,
       isShowAddButton: null,
-      companyProduction: null
+      companyProduction: [{ id: -1, name: "全部" }]
     };
   },
   created() {

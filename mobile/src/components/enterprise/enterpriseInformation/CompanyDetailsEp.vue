@@ -39,7 +39,7 @@
             chargePerson: "",
             companyAddress: "",
             companyHonor: "",
-            companyId: 0,
+            companyId: -1,
             companyName: "",
             companyType: "1",
             contactMobile: "",

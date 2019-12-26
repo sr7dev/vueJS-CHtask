@@ -307,7 +307,7 @@ export default {
       ruleFormValue: {
         companyType: "1",
         townShip: "-1",
-        companyID: "",
+        companyID: "-1",
         date: "",
         checker: "",
         productionRecord: "1",
@@ -324,7 +324,7 @@ export default {
         otherProcessing: ""
       },
       township: [{ id: -1, name: "全部" }],
-      companyList: [],
+      companyList: [{ id: -1, name: "全部" }],
       imageUrl_Live: "",
       imageUrl_Sign: "",
       file_live_1: null,
