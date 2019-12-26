@@ -133,6 +133,7 @@ export default {
         pageSize: 20
       },
       listLoading: true,
+      downloadLoading:false,
       total: 0,
       tableData: [],
       productName: "",
@@ -184,7 +185,13 @@ export default {
     },
 
     downloadStandardProfiles(profile) {
-    
+       const loading = this.$loading({
+          lock: true,
+          text: '正在下载中...',
+          spinner: 'el-icon-loading',
+          background: 'rgba(255, 255, 255, 0.8)'
+        });
+      this.downloadLoading = true;
       axios({
         url: Urls.DOWNLOAD_URL() + profile,
         method: "GET",
@@ -208,8 +215,15 @@ export default {
         ); //or any other extension
       document.body.appendChild(link);
       link.click();
+      setTimeout(()=>{
+         loading.close();
+      },1000)
       link.remove();
       });
+       setTimeout(()=>{
+         if(this.downloadLoading)
+         loading.close();
+      },10000);
     },
 
     rowIndex({ row, rowIndex }) {
@@ -230,4 +244,13 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.el-loading-spinner i {
+  font-size: 3rem !important;
+  font-weight: bold!important;
+}
+.el-loading-spinner .el-loading-text {
+  font-size: 2rem!important;
+  font-weight: bold!important;
+}
+</style>

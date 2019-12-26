@@ -66,27 +66,23 @@ module.exports = {
         test: /\.css$/,
         use: [
           'vue-style-loader',
-          { loader: 'css-loader', options: { sourceMap: false } },
+          { loader: 'css-loader', options: { sourceMap: false, name: "css/[name].[hash:7].[ext]" } },
         ]
       },
       {
         test: /\.scss$/,
         use: [
           'vue-style-loader',
-          { loader: 'css-loader', options: { sourceMap: false } },
-          { loader: 'sass-loader', options: { sourceMap: false } }
-        ],
-        options: {
-          limit: 10000,
-          name: "css/[name].[hash:7].[ext]"
-        }
+          { loader: 'css-loader', options: { sourceMap: false, name: "css/[name].[hash:7].[ext]" } },
+          { loader: 'sass-loader', options: { sourceMap: false, name: "css/[name].[hash:7].[ext]" } }
+        ]
       },
       {
         test: /\.sass$/,
         use: [
           'vue-style-loader',
-          { loader: 'css-loader', options: { sourceMap: false } },
-          { loader: 'sass-loader', options: { sourceMap: false } }
+          { loader: 'css-loader', options: { sourceMap: false, name: "css/[name].[hash:7].[ext]" } },
+          { loader: 'sass-loader', options: { sourceMap: false, name: "css/[name].[hash:7].[ext]" } }
         ]
       }
     ]
