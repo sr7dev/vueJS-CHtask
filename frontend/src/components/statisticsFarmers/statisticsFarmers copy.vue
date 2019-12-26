@@ -142,10 +142,10 @@
             style="font-size:20px"
             class="gradient-colored chart-title margin-left-10"
             v-if="!is_ie"
-          >各站点衣残捡测上传数据统计</h1>
+          >各站点农残检测上传数据统计</h1>
           <h1 style="font-size:20px" v-else class="margin-left-10 chart-title">
-            <span style="color:#255ee3;opacity:0.8">各站点衣残</span>
-            <span style="color:#20beff;opacity:0.7">捡测上传数据统计</span>
+            <span style="color:#255ee3;opacity:0.8">各站点农残</span>
+            <span style="color:#20beff;opacity:0.7">检测上传数据统计</span>
           </h1>
           <div class="disability-chart chart-container margin-left-10 large" ref="chartdiv1"></div>
         </el-col>
@@ -157,9 +157,9 @@
               style="font-size:20px"
               class="gradient-colored chart-title"
               v-if="!is_ie"
-            >各站点衣残捡测上传数据的比例分布</h1>
+            >各站点农残检测上传数据的比例分布</h1>
             <h1 style="font-size:20px" v-else class="margin-left-10 chart-title">
-              <span style="color:#255ee3;opacity:0.8">各站点衣残捡测</span>
+              <span style="color:#255ee3;opacity:0.8">各站点农残检测</span>
               <span style="color:#20beff;opacity:0.7">上传数据的比例分布</span>
             </h1>
             <div class="w-50 inline-block-IE chart-div-IE" ref="chartdiv"></div>
