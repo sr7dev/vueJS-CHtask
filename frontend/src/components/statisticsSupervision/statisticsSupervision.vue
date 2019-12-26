@@ -130,12 +130,7 @@
           </h1>
           <div class="disability-chart chart-container margin-left-10 large" ref="chartpie">
             <figure>
-            <chart
-              :options="pie"
-              :init-options="initOptions"
-              ref="pie"
-              autoresize
-            />
+              <chart :options="pie" :init-options="initOptions" ref="pie" autoresize />
             </figure>
           </div>
         </el-col>
@@ -279,9 +274,9 @@ import Auth from "@/services/authentication/auth.js";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-const ECharts =()=>import('vue-echarts/components/ECharts.vue');
-import 'echarts/lib/chart/pie';
-import 'echarts/lib/component/tooltip';
+const ECharts = () => import("vue-echarts/components/ECharts.vue");
+import "echarts/lib/chart/pie";
+import "echarts/lib/component/tooltip";
 am4core.useTheme(am4themes_animated);
 
 export default {
@@ -291,9 +286,9 @@ export default {
   },
   data() {
     return {
-      pie:{},
+      pie: {},
       initOptions: {
-        renderer: 'canvas'
+        renderer: "canvas"
       },
       createTimeFrom: "",
       createTimeTo: "",
@@ -416,7 +411,7 @@ export default {
             tRate = 0,
             tCnt2 = 0,
             tSpecial = 0;
-            
+
           this.visionData.forEach(item => {
             let cnt = item[0],
               cnt_ok = item[1],
@@ -544,39 +539,44 @@ export default {
       this.tableData1.sort(function(a, b) {
         return b.townCnt - a.townCnt;
       });
-   
-      let chartData=[];
-      this.tableData1.map(item=>{
+
+      let chartData = [];
+      this.tableData1.map(item => {
         chartData.push({
-          value:item.townCnt,
-          name: item.chatName.length>10 ? item.chatName.substring(0,7)+"...":item.chatName
+          value: item.townCnt,
+          name:
+            item.chatName.length > 10
+              ? item.chatName.substring(0, 7) + "..."
+              : item.chatName
         });
       });
-      this.pie={
+      this.pie = {
         tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b} : {c} ({d}%)'
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
-        series: [{
-          name: '各乡镇监管记录上传数据的',
-          type: 'pie',
-          radius: '50%',
-          center: ['54%', '50%'],
-          data: chartData,
-          itemStyle: {
-            emphasis: {
-              shadowBlur: 10,
-              shadowOffsetX: 2,
-              shadowColor: 'rgba(0, 0, 0, 0.5)'
+        series: [
+          {
+            name: "各乡镇监管记录上传数据的",
+            type: "pie",
+            radius: "50%",
+            center: ["54%", "50%"],
+            data: chartData,
+            itemStyle: {
+              emphasis: {
+                shadowBlur: 10,
+                shadowOffsetX: 2,
+                shadowColor: "rgba(0, 0, 0, 0.5)"
+              }
+            },
+            label: {
+              fontSize: 14,
+              color: "#FFF",
+              formatter: "{d}%:{b}"
             }
-          },
-          label: {
-            fontSize:14,
-            color:"#FFF",
-            formatter:'{d}%:{b}'
           }
-        }],
-        color : this.colorList
+        ],
+        color: this.colorList
       };
       let dataIndex = -1;
       let pie = this.$refs.pie;
@@ -584,23 +584,23 @@ export default {
 
       setInterval(() => {
         pie.dispatchAction({
-          type: 'downplay',
+          type: "downplay",
           seriesIndex: 0,
           dataIndex
-        })
-        dataIndex = (dataIndex + 1) % dataLen
+        });
+        dataIndex = (dataIndex + 1) % dataLen;
         pie.dispatchAction({
-          type: 'highlight',
+          type: "highlight",
           seriesIndex: 0,
           dataIndex
-        })
+        });
         // 显示 tooltip
         pie.dispatchAction({
-          type: 'showTip',
+          type: "showTip",
           seriesIndex: 0,
           dataIndex
-        })
-      }, 1000)   
+        });
+      }, 1000);
     },
 
     makePieChat2() {
@@ -609,6 +609,7 @@ export default {
           createTimeFrom:
             this.createTimeFrom == null ? "" : this.createTimeFrom,
           createTimeTo: this.createTimeTo == null ? "" : this.createTimeTo,
+          certification_type: 0,
           sortBy: "cnt"
         })
         .then(res => {
@@ -672,7 +673,7 @@ export default {
           progress: this.tableData[i].specialProgress,
           label: this.tableData[i].specialLabel,
           townCnt: this.tableData[i].townCnt,
-          cntSpecial: this.tableData[i].cntSpecial,
+          cntSpecial: this.tableData[i].cntSpecial
         });
         if (i !== this.tableData.length - 1)
           this.specialData2.push({
@@ -680,7 +681,7 @@ export default {
             progress: this.tableData[i + 1].specialProgress,
             label: this.tableData[i + 1].specialLabel,
             townCnt: this.tableData[i + 1].townCnt,
-            cntSpecial: this.tableData[i + 1].cntSpecial,
+            cntSpecial: this.tableData[i + 1].cntSpecial
           });
       }
     },
@@ -695,7 +696,7 @@ export default {
 
 <style scoped>
 .echarts {
-  width: 650px!important;
-  height: 680px!important;
+  width: 650px !important;
+  height: 680px !important;
 }
 </style>
