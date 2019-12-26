@@ -36,11 +36,7 @@
               </el-col>
             </el-row>
             <el-container>
-              <el-table
-                :data="tableData"
-                style="width: 100%"
-                class="fixed-height chart-table"
-              >
+              <el-table :data="tableData" style="width: 100%" class="fixed-height chart-table">
                 <el-table-column prop="name" width="150" label="乡镇名称" class-name="white-colored"></el-table-column>
                 <el-table-column prop="cnt" label="溯源扫码数量/占比" width="400">
                   <template slot-scope="{ row }">
@@ -73,18 +69,13 @@
                   <b>合计</b>
                 </template>
               </el-table-column>
-              <el-table-column
-                prop="maxCnt"
-                label="不合"
-                width="400"
-              
-              >
+              <el-table-column prop="maxCnt" label="不合" width="400">
                 <template slot-scope="{ row }">
-                   <el-progress
-                      :percentage="getPercent(row.maxCnt, row.maxCnt,1)"
-                      :stroke-width="10"
-                      :show-text="false"
-                    ></el-progress>
+                  <el-progress
+                    :percentage="getPercent(row.maxCnt, row.maxCnt,1)"
+                    :stroke-width="10"
+                    :show-text="false"
+                  ></el-progress>
                 </template>
               </el-table-column>
               <el-table-column prop="maxCnt" label="合格率" width="150">
@@ -94,12 +85,7 @@
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column
-                label="检测数量"
-                prop="avg_maxCnt"
-                width="150"
-                class-name="blue-colored"
-              >
+              <el-table-column label="检测数量" prop="avg_maxCnt" width="150" class-name="blue-colored">
                 <template slot-scope="{ row }">
                   <h1 class="large-font italic-font">{{row.avg_maxCnt}}</h1>
                 </template>
@@ -123,9 +109,14 @@
           >
             <el-row style="margin-top:60px" class="margin-left-10" v-if="tableData1[0]">
               <el-col :span="1" class="red-colored padding-left-10">1</el-col>
-              
+
               <el-col :span="15" class="no-progress-outer red-colored">
-                <el-progress :percentage="95" :stroke-width="13" :show-text="false"></el-progress>
+                <el-progress
+                  :percentage="95"
+                  :stroke-width="13"
+                  :show-text="false"
+                  style="margin-bottom: 10px"
+                ></el-progress>
                 <div class="white-colored">
                   <b>{{getCompanyName(tableData1[0][1])}}</b>
                 </div>
@@ -138,9 +129,14 @@
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[1]">
               <el-col :span="1" class="yellow-colored padding-left-10">2</el-col>
-              
+
               <el-col :span="15" class="no-progress-outer yellow-colored">
-                <el-progress :percentage="90" :stroke-width="13" :show-text="false"></el-progress>
+                <el-progress
+                  :percentage="90"
+                  :stroke-width="13"
+                  :show-text="false"
+                  style="margin-bottom: 10px"
+                ></el-progress>
                 <div class="white-colored">
                   <b>{{getCompanyName(tableData1[1][1])}}</b>
                 </div>
@@ -153,9 +149,14 @@
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[2]">
               <el-col :span="1" class="yellow-colored padding-left-10">3</el-col>
-              
+
               <el-col :span="15" class="no-progress-outer yellow-colored">
-                <el-progress :percentage="86" :stroke-width="13" :show-text="false"></el-progress>
+                <el-progress
+                  :percentage="86"
+                  :stroke-width="13"
+                  :show-text="false"
+                  style="margin-bottom: 10px"
+                ></el-progress>
                 <div class="white-colored">
                   <b>{{getCompanyName(tableData1[2][1])}}</b>
                 </div>
@@ -168,9 +169,14 @@
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[3]">
               <el-col :span="1" class="blue-colored padding-left-10">4</el-col>
-              
+
               <el-col :span="15" class="no-progress-outer">
-                <el-progress :percentage="83" :stroke-width="13" :show-text="false"></el-progress>
+                <el-progress
+                  :percentage="83"
+                  :stroke-width="13"
+                  :show-text="false"
+                  style="margin-bottom: 10px"
+                ></el-progress>
                 <div class="white-colored">
                   <b>{{getCompanyName(tableData1[3][1])}}</b>
                 </div>
@@ -183,7 +189,7 @@
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[4]">
               <el-col :span="1" class="blue-colored padding-left-10">5</el-col>
-              
+
               <el-col :span="15" class="no-progress-outer">
                 <el-progress :percentage="80" :stroke-width="13" :show-text="false"></el-progress>
                 <div class="white-colored">
@@ -198,7 +204,7 @@
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[5]">
               <el-col :span="1" class="blue-colored padding-left-10">6</el-col>
-              
+
               <el-col :span="15" class="no-progress-outer">
                 <el-progress :percentage="78" :stroke-width="13" :show-text="false"></el-progress>
                 <div class="white-colored">
@@ -213,8 +219,7 @@
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[6]">
               <el-col :span="1" class="blue-colored padding-left-10">7</el-col>
-              
-              
+
               <el-col :span="15" class="no-progress-outer">
                 <el-progress :percentage="76" :stroke-width="13" :show-text="false"></el-progress>
                 <div class="white-colored">
@@ -229,7 +234,7 @@
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[7]">
               <el-col :span="1" class="blue-colored padding-left-10">8</el-col>
-              
+
               <el-col :span="15" class="no-progress-outer">
                 <el-progress :percentage="74" :stroke-width="13" :show-text="false"></el-progress>
                 <div class="white-colored">
@@ -244,7 +249,7 @@
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[8]">
               <el-col :span="1" class="blue-colored padding-left-10">9</el-col>
-              
+
               <el-col :span="15" class="no-progress-outer">
                 <el-progress :percentage="72" :stroke-width="13" :show-text="false"></el-progress>
                 <div class="white-colored">
@@ -259,7 +264,7 @@
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[9]">
               <el-col :span="1" class="blue-colored padding-left-10">10</el-col>
-              
+
               <el-col :span="15" class="no-progress-outer">
                 <el-progress :percentage="70" :stroke-width="13" :show-text="false"></el-progress>
                 <div class="white-colored">
@@ -317,20 +322,20 @@ export default {
         pageSize: 50
       },
       tableData: [],
-      tableData1:[],
+      tableData1: [],
       summaryData: [],
       listLoading: false,
       maxCnt: 0,
-      avg_maxCnt:0,
-      toMonth:null,
-      toYear:null,
-      companyList:null,
-      townList:null,
+      avg_maxCnt: 0,
+      toMonth: null,
+      toYear: null,
+      companyList: null,
+      townList: null,
       progressColor: "warning",
       is_ie: null
     };
   },
-async created() {
+  async created() {
     this.listLoading = true;
     await this.getCompanyList();
     await this.getTownList();
@@ -378,49 +383,50 @@ async created() {
     },
     async getData() {
       let tracingTimeTo;
-      tracingTimeTo = this.toMonth && this.toYear ?
-        new Date(this.toYear, this.toMonth, 0):
-        new Date(); 
+      tracingTimeTo =
+        this.toMonth && this.toYear
+          ? new Date(this.toYear, this.toMonth, 0)
+          : new Date();
       await Request()
         .get("/api/tracing/getTracingTownStatis", {
-          tracingTimeTo :  tracingTimeTo
+          tracingTimeTo: tracingTimeTo
         })
         .then(response => {
-           let tmpData = response.data;
-           let tmpMaxCnt = 0;
-           let tmpMaxCnt1 = 0;
-         for(let i in tmpData) {
-           let tmpTown = this.townList.find(x=>x.id == tmpData[i][2]);
-           tmpMaxCnt += tmpData[i][0];
-           tmpMaxCnt1 += tmpData[i][1];
-           this.tableData.push({
-            "name": tmpTown.name,
-            "cnt": tmpData[i][0],
-            "cnt1": tmpData[i][1]
+          let tmpData = response.data;
+          let tmpMaxCnt = 0;
+          let tmpMaxCnt1 = 0;
+          for (let i in tmpData) {
+            let tmpTown = this.townList.find(x => x.id == tmpData[i][2]);
+            tmpMaxCnt += tmpData[i][0];
+            tmpMaxCnt1 += tmpData[i][1];
+            this.tableData.push({
+              name: tmpTown.name,
+              cnt: tmpData[i][0],
+              cnt1: tmpData[i][1]
+            });
+          }
+          this.maxCnt = tmpMaxCnt;
+          this.summaryData.push({
+            maxCnt: tmpMaxCnt,
+            avg_maxCnt: tmpMaxCnt1
           });
-         }
-         this.maxCnt = tmpMaxCnt;
-         this.summaryData.push({
-           maxCnt:tmpMaxCnt,
-           avg_maxCnt:tmpMaxCnt1
-         })
-         
-         this.makeXYChart();
+
+          this.makeXYChart();
         })
         .catch(error => {
           console.log(error);
         });
       Request()
         .get("/api/tracing/getTracingCompanyStatis", {
-          tracingTimeTo :  tracingTimeTo
+          tracingTimeTo: tracingTimeTo
         })
         .then(response => {
-         this.tableData1 = response.data;
-         if(this.tableData1.length>0)
-         this.tableData1 = this.tableData1.slice(0,10);
-         setTimeout(()=>{
-           this.listLoading =false;
-         },500)
+          this.tableData1 = response.data;
+          if (this.tableData1.length > 0)
+            this.tableData1 = this.tableData1.slice(0, 10);
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 500);
         })
         .catch(error => {
           console.log(error);
