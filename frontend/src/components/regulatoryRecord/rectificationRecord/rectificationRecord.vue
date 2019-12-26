@@ -418,7 +418,6 @@
 </template>
 
 <script>
-import moment from "moment";
 import Request from "../../../services/api/request.js";
 import { Urls } from "../../../services/constants";
 import Auth from "@/services/authentication/auth.js";

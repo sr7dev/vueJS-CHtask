@@ -56,9 +56,10 @@ import Auth from "@/services/authentication/auth.js";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-const ECharts = () => import("vue-echarts");
-import "echarts/lib/chart/pie";
-import "echarts/lib/component/tooltip";
+const ECharts =()=>import('vue-echarts/components/ECharts.vue');
+import 'echarts/lib/chart/pie';
+import 'echarts/lib/component/tooltip';
+
 am4core.useTheme(am4themes_animated);
 
 export default {

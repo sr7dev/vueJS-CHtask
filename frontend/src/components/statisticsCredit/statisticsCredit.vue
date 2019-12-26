@@ -129,7 +129,7 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 // import chartData from "./chartData1";
 // import chartData1 from "./chartData2";
 import axios from "axios";
-const ECharts =()=>import('vue-echarts');
+const ECharts =()=>import('vue-echarts/components/ECharts.vue');
 import 'echarts/lib/chart/pie';
 import 'echarts/lib/component/tooltip';
 am4core.useTheme(am4themes_animated);
