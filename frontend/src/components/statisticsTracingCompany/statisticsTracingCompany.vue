@@ -27,12 +27,7 @@
           </h1>
           <div class="disability-chart chart-container margin-left-10" ref="chartpie2">
             <figure>
-              <chart
-                :options="pie"
-                :init-options="initOptions"
-                ref="pie"
-                autoresize
-              />
+              <chart :options="pie" :init-options="initOptions" ref="pie" autoresize />
             </figure>
           </div>
         </el-col>
@@ -61,9 +56,9 @@ import Auth from "@/services/authentication/auth.js";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-const ECharts =()=>import('vue-echarts');
-import 'echarts/lib/chart/pie';
-import 'echarts/lib/component/tooltip';
+const ECharts = () => import("vue-echarts");
+import "echarts/lib/chart/pie";
+import "echarts/lib/component/tooltip";
 am4core.useTheme(am4themes_animated);
 
 export default {
@@ -98,9 +93,9 @@ export default {
         "#7366f4"
       ],
       is_ie: null,
-      pie:{},
+      pie: {},
       initOptions: {
-        renderer: 'canvas'
+        renderer: "canvas"
       }
     };
   },
@@ -277,40 +272,42 @@ export default {
       this.tableData.sort(function(a, b) {
         return b.cnt - a.cnt;
       });
-      let chartData=[];
-      this.tableData.map(item=>{
+      let chartData = [];
+      this.tableData.map(item => {
         chartData.push({
-          value:item.companyCnt,
+          value: item.companyCnt,
           name: item.townName
         });
       });
-      this.pie={
+      this.pie = {
         tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b} : {c} ({d}%)'
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
-        series: [{
-          name:'各站点衣残捡测上传数据统计',
-          type: 'pie',
-          radius: '40%',
-          center: ['54%', '50%'],
-          data: chartData,
-          itemStyle: {
-            emphasis: {
-              shadowBlur: 10,
-              shadowOffsetX: 2,
-              shadowColor: 'rgba(0, 0, 0, 0.5)'
-            }
-          },
-          label: {
-            normal:{
-              fontSize:16,
-              color:"#FFF",
-              formatter:'{d}%: {b}'
+        series: [
+          {
+            name: "各站点农残检测上传数据统计",
+            type: "pie",
+            radius: "40%",
+            center: ["54%", "50%"],
+            data: chartData,
+            itemStyle: {
+              emphasis: {
+                shadowBlur: 10,
+                shadowOffsetX: 2,
+                shadowColor: "rgba(0, 0, 0, 0.5)"
+              }
+            },
+            label: {
+              normal: {
+                fontSize: 16,
+                color: "#FFF",
+                formatter: "{d}%: {b}"
+              }
             }
           }
-        }],
-        color : this.colorList
+        ],
+        color: this.colorList
       };
       let dataIndex = -1;
       let pie = this.$refs.pie;
@@ -318,23 +315,23 @@ export default {
 
       setInterval(() => {
         pie.dispatchAction({
-          type: 'downplay',
+          type: "downplay",
           seriesIndex: 0,
           dataIndex
-        })
-        dataIndex = (dataIndex + 1) % dataLen
+        });
+        dataIndex = (dataIndex + 1) % dataLen;
         pie.dispatchAction({
-          type: 'highlight',
+          type: "highlight",
           seriesIndex: 0,
           dataIndex
-        })
+        });
         // 显示 tooltip
         pie.dispatchAction({
-          type: 'showTip',
+          type: "showTip",
           seriesIndex: 0,
           dataIndex
-        })
-      }, 1000)  
+        });
+      }, 1000);
     },
 
     makeStickChat() {

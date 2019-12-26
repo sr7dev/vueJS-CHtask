@@ -483,7 +483,7 @@ export default {
           formatter: '{a} <br/>{b} : {c} ({d}%)'
         },
         series: [{
-          name:'各站点衣残捡测上传数据统计',
+          name:'各站点农残检测上传数据统计',
           type: 'pie',
           radius: '40%',
           center: ['54%', '50%'],
