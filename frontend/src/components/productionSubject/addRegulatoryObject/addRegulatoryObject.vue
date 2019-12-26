@@ -467,7 +467,7 @@ export default {
     ];
     return {
       createLoading: false,
-      townList: [],
+      townList: [{ id: -1, name: "全部" }],
       form: {
         agriculturalClassification: "1",
         chargePerson: "",
@@ -489,7 +489,7 @@ export default {
         qualityStandardId: 0,
         quality_standard: 0,
         remarks: "",
-        townId: "",
+        townId: -1,
         updateUserId: 0,
         productInfo: {
           data_0_0: "",

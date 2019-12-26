@@ -181,7 +181,7 @@ export default {
       listLoading: false,
       companyList: [],
       companyId: 0,
-      township: [],
+      township: [{ id: -1, name: "全部" }],
       isShowCheckbox: 0,
       selectedRows: [],
       alert_dialogVisible: false,

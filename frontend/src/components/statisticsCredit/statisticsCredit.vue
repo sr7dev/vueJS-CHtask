@@ -157,7 +157,7 @@ export default {
       rightTopData: [],
       redData: [],
       blackData: [],
-      township: [],
+      township: [{ id: -1, name: "全部" }],
       companyProduction: [],
       totalA: 0,
       totalB: 0,

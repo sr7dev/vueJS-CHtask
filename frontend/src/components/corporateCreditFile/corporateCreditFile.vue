@@ -217,7 +217,7 @@ export default {
   components: { Pagination },
   data() {
     return {
-      township: [{ id: 0, name: "全部" }],
+      township: [{ id: -1, name: "全部" }],
       publicOptions: [
         { id: 0, name: "全部" },
         { id: 1, name: "有" },

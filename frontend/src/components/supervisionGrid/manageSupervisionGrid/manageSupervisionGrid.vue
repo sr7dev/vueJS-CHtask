@@ -189,7 +189,7 @@ export default {
       },
       openDialog: false,
       checked: [],
-      selectedTownId: null,
+      selectedTownId: -1,
       total: 0,
       tableData: {},
       listLoading: false,

@@ -337,7 +337,7 @@ export default {
       confirm_dialogVisible: false,
       selectedTown: null,
       selectedRows: [],
-      township: [],
+      township: [{ id: -1, name: "全部" }],
       companyProduction: [],
       dynamicValidateForm: {
         rowDatas: [

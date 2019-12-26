@@ -90,11 +90,11 @@ export default {
       file: null,
       selectedId: null,
       workData: null,
-      township: [],
+      township: [{ id: -1, name: "全部" }],
       listLoading: false,
       pageLoading: true,
       ruleFormValue: {
-        townId: "",
+        townId: "-1",
         reportPerson: "",
         title: "",
         reportTime: ""

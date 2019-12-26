@@ -254,7 +254,7 @@ export default {
               password: this.ruleFormValue.password,
               userId: this.ruleFormValue.userId,
               userType: this.ruleFormValue.userType,
-              townId: this.ruleFormValue.townId ? this.ruleFormValue.townId : 0,
+              townId: this.ruleFormValue.townId ? this.ruleFormValue.townId : -1,
               companyId: this.ruleFormValue.companyId
                 ? this.ruleFormValue.companyId
                 : 0

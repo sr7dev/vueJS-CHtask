@@ -117,7 +117,7 @@ export default {
         contactWay: "",
         userId: "",
         userType: null,
-        townId: null,
+        townId: -1,
         companyId: null
       },
       rules: {
@@ -170,7 +170,7 @@ export default {
         { id: 3, name: "普通用户" }
       ],
       loggedinUserType: null,
-      township: [],
+      township: [{ id: -1, name: "全部" }],
       companyData: []
     };
   },
@@ -247,7 +247,7 @@ export default {
               password: "",
               userId: this.ruleFormValue.userId,
               userType: this.ruleFormValue.userType,
-              townId: this.ruleFormValue.townId ? this.ruleFormValue.townId : 0,
+              townId: this.ruleFormValue.townId ? this.ruleFormValue.townId : -1,
               companyId: this.ruleFormValue.companyId
                 ? this.ruleFormValue.companyId
                 : 0

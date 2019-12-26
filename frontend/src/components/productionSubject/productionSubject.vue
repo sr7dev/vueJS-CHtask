@@ -15,7 +15,7 @@
             style="width:150px;"
             @change="getList"
           >
-            <el-option label="全部" :value="0"></el-option>
+            <el-option label="全部" :value="-1"></el-option>
             <el-option
               v-for="item in townList"
               :key="item.id"
@@ -346,7 +346,7 @@ export default {
     return {
       Button1: Button1,
       Button2: Button2,
-      townId: 0,
+      townId: -1,
       companyType: 0,
       agriculturalClassification: 0,
       quality_standard: "全部",
@@ -359,7 +359,7 @@ export default {
       total: 0,
       radio: "1",
       listLoading: true,
-      townList: [],
+      townList: [{ id: -1, name: "全部" }],
       tableData: [],
       srcData: [],
       colors: { 1: "#f00", 2: "#F7BA2A", 3: "#0f0" },

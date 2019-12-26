@@ -103,8 +103,8 @@ export default {
         }
       ],
       activeTabName: "first",
-      township: [{ id: 0, name: "全部" }],
-      currTown: 0,
+      township: [{ id: -1, name: "全部" }],
+      currTown: -1,
       status: 1,
       nowGrade: "A",
       tableData: [],

@@ -306,7 +306,7 @@ export default {
       listLoading: false,
       ruleFormValue: {
         companyType: "1",
-        townShip: "",
+        townShip: "-1",
         companyID: "",
         date: "",
         checker: "",
@@ -323,7 +323,7 @@ export default {
         recommendPunishment: "",
         otherProcessing: ""
       },
-      township: [],
+      township: [{ id: -1, name: "全部" }],
       companyList: [],
       imageUrl_Live: "",
       imageUrl_Sign: "",

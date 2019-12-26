@@ -47,7 +47,7 @@
           tableData: [],
           sortBy: "id",
           companyList: [],
-          township: [],
+          township: [{ id: -1, name: "全部" }],
           loading:false
         }
       },

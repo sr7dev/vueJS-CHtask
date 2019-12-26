@@ -196,7 +196,7 @@ export default {
       companyList: [],
       companyId: 0,
       companyName: "",
-      township: [],
+      township: [{ id: -1, name: "全部" }],
       townName: "",
       year: "",
       supervisionRecordTimeFrom: "",
