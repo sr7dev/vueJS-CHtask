@@ -41,9 +41,9 @@
         >
           <el-table-column :formatter="order" label="序号" width="100"></el-table-column>
           <el-table-column prop="productStandard" label="标准">
-             <template slot-scope="{ row }">
-              {{row.productStandard.indexOf("png") > -1 ? row.productStandard.replace(".png","") : row.productStandard}}
-            </template>
+            <template
+              slot-scope="{ row }"
+            >{{row.productStandard.indexOf("png") > -1 ? row.productStandard.replace(".png","") : row.productStandard}}</template>
           </el-table-column>
           <!-- <el-table-column prop="category" label="类别">
             <template slot-scope="{ row }">{{ filterCategory(row.category) }}</template>
@@ -133,7 +133,7 @@ export default {
         pageSize: 20
       },
       listLoading: true,
-      downloadLoading:false,
+      downloadLoading: false,
       total: 0,
       tableData: [],
       productName: "",
@@ -185,45 +185,40 @@ export default {
     },
 
     downloadStandardProfiles(profile) {
-       const loading = this.$loading({
-          lock: true,
-          text: '正在下载中...',
-          spinner: 'el-icon-loading',
-          background: 'rgba(255, 255, 255, 0.8)'
-        });
+      const loading = this.$loading({
+        lock: true,
+        text: "正在下载中...",
+        spinner: "el-icon-loading",
+        background: "rgba(255, 255, 255, 0.8)"
+      });
       this.downloadLoading = true;
       axios({
         url: Urls.DOWNLOAD_URL() + profile,
         method: "GET",
         responseType: "blob" // important
       }).then(response => {
-       
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      // const url = "http://213.252.247.150/standard" + profile;
-      // window.open(
-      //   "http://localhost/download.php?file=" + encodeURIComponent(profile),
-      //   "_blank"
-      // );
-      const link = document.createElement("a");
-      link.href = url;
-      link.target = "_blank";
-      // profile.indexOf("jiangsu") > 0
-      //   ? link.setAttribute("download", profile.replace("/jiangsu/", ""))
-       link.setAttribute(
-          "download",
-          profile.replace("/uploads/", "")
-        ); //or any other extension
-      document.body.appendChild(link);
-      link.click();
-      setTimeout(()=>{
-         loading.close();
-      },1000)
-      link.remove();
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        // const url = "http://213.252.247.150/standard" + profile;
+        // window.open(
+        //   "http://localhost/download.php?file=" + encodeURIComponent(profile),
+        //   "_blank"
+        // );
+        const link = document.createElement("a");
+        link.href = url;
+        link.target = "_blank";
+        // profile.indexOf("jiangsu") > 0
+        //   ? link.setAttribute("download", profile.replace("/jiangsu/", ""))
+        link.setAttribute("download", profile.replace("/uploads/", "")); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+        setTimeout(() => {
+          loading.close();
+        }, 1000);
+        link.remove();
       });
-       setTimeout(()=>{
-         if(this.downloadLoading)
-         loading.close();
-      },10000);
+      setTimeout(() => {
+        if (this.downloadLoading) loading.close();
+      }, 8000);
     },
 
     rowIndex({ row, rowIndex }) {
@@ -247,10 +242,10 @@ export default {
 <style scoped>
 .el-loading-spinner i {
   font-size: 3rem !important;
-  font-weight: bold!important;
+  font-weight: bold !important;
 }
 .el-loading-spinner .el-loading-text {
-  font-size: 2rem!important;
-  font-weight: bold!important;
+  font-size: 2rem !important;
+  font-weight: bold !important;
 }
 </style>
