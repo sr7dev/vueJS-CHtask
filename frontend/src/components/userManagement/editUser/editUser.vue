@@ -117,8 +117,8 @@ export default {
         contactWay: "",
         userId: "",
         userType: null,
-        townId: null,
-        companyId: null
+        townId: -1,
+        companyId: -1
       },
       rules: {
         creditCode: [
@@ -170,8 +170,8 @@ export default {
         { id: 3, name: "普通用户" }
       ],
       loggedinUserType: null,
-      township: [],
-      companyData: []
+      township: [{ id: -1, name: "全部" }],
+      companyData: [{ id: -1, name: "全部" }]
     };
   },
   created() {
@@ -247,7 +247,7 @@ export default {
               password: "",
               userId: this.ruleFormValue.userId,
               userType: this.ruleFormValue.userType,
-              townId: this.ruleFormValue.townId ? this.ruleFormValue.townId : 0,
+              townId: this.ruleFormValue.townId ? this.ruleFormValue.townId : -1,
               companyId: this.ruleFormValue.companyId
                 ? this.ruleFormValue.companyId
                 : 0

@@ -48,7 +48,7 @@ export default {
     return {
       listLoading: false,
       rootId: null,
-      companyId: null,
+      companyId: -1,
       ruleFormValue: {
         id: 1,
         name: "",

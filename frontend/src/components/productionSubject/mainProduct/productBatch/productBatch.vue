@@ -530,7 +530,7 @@ export default {
       propertyList: [],
       selectedBatchRow: [],
       propertyValueList: [],
-      companyId: null,
+      companyId: -1,
       ruleFormValue1: {
         productTask: null,
         taskDate: ""

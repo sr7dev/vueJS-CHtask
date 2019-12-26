@@ -127,7 +127,7 @@ export default {
       listLoading: true,
       total: 0,
       tableData: [],
-      companyProduction: [],
+      companyProduction: [{ creditCode: "", companyName: "全部" }],
       productDetail: [],
       options: ["养殖业", "畜牧业", "种植业"],
       appStatus1: ["全部", "养殖业", "已同意", "畜牧业", "种植业"],
@@ -170,7 +170,7 @@ export default {
       Request()
         .get("/api/company_production/name")
         .then(response => {
-          this.companyProduction = response;
+          this.companyProduction = this.companyProduction.concat(response);
         })
         .catch(error => {
           console.log(error);

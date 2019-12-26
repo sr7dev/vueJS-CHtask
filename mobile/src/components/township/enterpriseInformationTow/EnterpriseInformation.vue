@@ -58,7 +58,7 @@
           //生产主体类型
           companyType:"",
           //乡镇
-          townId: 0,
+          townId: -1,
           page: {
             pageIndex: 0,
             pageSize: 20
@@ -70,7 +70,7 @@
             {value: 3, label: '种植业'}
           ],
           //乡镇列表
-          TonwList: [],
+          TonwList: [{ id: -1, name: "全部" }],
           //企业信息列表
           tableData: [],
           loading:false

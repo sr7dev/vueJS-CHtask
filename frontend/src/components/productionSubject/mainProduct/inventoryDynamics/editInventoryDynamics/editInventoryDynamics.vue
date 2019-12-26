@@ -97,7 +97,7 @@ export default {
         warehouseId: null,
         productName: "",
         id: 0,
-        companyId: 0
+        companyId: -1
       },
       rules: {
         variety: [

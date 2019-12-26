@@ -410,14 +410,14 @@ export default {
       file_live_1: null,
       file_live_2: null,
       file_live_3: null,
-      township: [],
-      companyList: [],
+      township: [{ id: -1, name: "全部" }],
+      companyList: [{ id: -1, name: "全部" }],
       conclusionData: {},
       isNanData: null,
       downloadURL: "",
       ruleFormValue: {
-        townId: "",
-        companyId: "",
+        townId: "-1",
+        companyId: "-1",
         createTime: "",
         inspector: "",
         conclusion: "0",
@@ -651,7 +651,7 @@ export default {
     console.log(this.$route);
     this.superId = this.$route.query.id;
     this.downloadURL = Urls.DOWNLOAD_URL();
-      
+
     this.getTown();
     this.getCompanyProduct();
     this.getData();

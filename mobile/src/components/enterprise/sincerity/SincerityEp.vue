@@ -44,7 +44,7 @@
           active:"tab-container1",
           List:[],
           bTypes: 0,
-          currTown: 0,
+          currTown: -1,
           enterpriseName:""
         }
       },

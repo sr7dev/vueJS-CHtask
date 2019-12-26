@@ -175,7 +175,7 @@ export default {
       appliedAmount: 0,
       proposer: "",
       createTime: "",
-      companyId: 0,
+      companyId: -1,
       status: "",
       page: {
         pageIndex: 1,
@@ -184,7 +184,7 @@ export default {
       listLoading: false,
       total: 0,
       tableData: [],
-      companyProduction: [],
+      companyProduction: [{ id: -1, name: "全部" }],
       appStatus: ["全部", "待审批", "已同意", "已拒绝"],
       isShowCheckbox: 0,
       isShowAddButton: null,

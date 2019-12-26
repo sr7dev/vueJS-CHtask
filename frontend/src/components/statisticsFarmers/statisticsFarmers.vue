@@ -59,7 +59,7 @@
                   prop="cnt_ok"
                   label="合格"
                   class-name="padding-left-20 blue-colored"
-                  width="100"
+                  width="100
                 ></el-table-column>
                 <el-table-column prop="cnt_ok" label="不合格" width="100" class-name="blue-colored">
                   <template slot-scope="{row}">{{row.cnt-row.cnt_ok}}</template>
@@ -183,9 +183,9 @@ import Auth from "@/services/authentication/auth.js";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-const ECharts = () => import("vue-echarts");
-import "echarts/lib/chart/pie";
-import "echarts/lib/component/tooltip";
+const ECharts =()=>import('vue-echarts/components/ECharts.vue');
+import 'echarts/lib/chart/pie';
+import 'echarts/lib/component/tooltip';
 
 am4core.useTheme(am4themes_animated);
 

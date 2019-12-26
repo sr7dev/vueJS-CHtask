@@ -87,7 +87,7 @@ export default {
       file: null,
       selectedId: null,
       workData: null,
-      township: []
+      township: [{ id: -1, name: "全部" }]
     };
   },
   created() {

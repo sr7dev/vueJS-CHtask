@@ -132,14 +132,14 @@ export default {
       file: null,
       cityList: [],
       villageList: [],
-      townList: [],
-      companyProduction: [],
+      townList: [{ id: -1, name: "全部" }],
+      companyProduction: [{ id: -1, name: "全部" }],
       listLoading: false,
       ruleFormValue: {
         cityId: null,
-        townId: null,
+        townId: -1,
         villageId: null,
-        companyId: null
+        companyId: -1
       },
       rules: {
         cityId: [
