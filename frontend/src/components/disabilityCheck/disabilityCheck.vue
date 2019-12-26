@@ -414,12 +414,12 @@ export default {
           townDivisionCode: this.currTown == -1 ? "" : this.currTown,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize,
-          sortBy: "id"
+          sortBy: "detect_time"
         })
         .then(response => {
           this.tableData = response.data;
           this.total = response.total;
-          this.totalNo = response.total * this.page.pageSize;
+          this.totalNo = response.total;
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);

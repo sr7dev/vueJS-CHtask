@@ -59,7 +59,7 @@
                   prop="cnt_ok"
                   label="合格"
                   class-name="padding-left-20 blue-colored"
-                  width="100
+                  width="100"
                 ></el-table-column>
                 <el-table-column prop="cnt_ok" label="不合格" width="100" class-name="blue-colored">
                   <template slot-scope="{row}">{{row.cnt-row.cnt_ok}}</template>
