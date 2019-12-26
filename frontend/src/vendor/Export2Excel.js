@@ -1,7 +1,6 @@
 /* eslint-disable */
 require('script-loader!file-saver');
-const XLSX = () =>
-  import ('xlsx');
+import XLSX from 'xlsx';
 
 function generateArray(table) {
   var out = [];
