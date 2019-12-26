@@ -123,11 +123,12 @@
           >
             <el-row style="margin-top:60px" class="margin-left-10" v-if="tableData1[0]">
               <el-col :span="1" class="red-colored padding-left-10">1</el-col>
-              <el-col :span="5" class="white-colored">
-                <b>{{getCompanyName(tableData1[0][1])}}</b>
-              </el-col>
+              
               <el-col :span="15" class="no-progress-outer red-colored">
                 <el-progress :percentage="95" :stroke-width="13" :show-text="false"></el-progress>
+                <div class="white-colored">
+                  <b>{{getCompanyName(tableData1[0][1])}}</b>
+                </div>
               </el-col>
               <el-col :span="3">
                 <p class="blue-colored italic-font">
@@ -137,11 +138,12 @@
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[1]">
               <el-col :span="1" class="yellow-colored padding-left-10">2</el-col>
-              <el-col :span="5" class="white-colored">
-                <b>{{getCompanyName(tableData1[1][1])}}</b>
-              </el-col>
+              
               <el-col :span="15" class="no-progress-outer yellow-colored">
                 <el-progress :percentage="90" :stroke-width="13" :show-text="false"></el-progress>
+                <div class="white-colored">
+                  <b>{{getCompanyName(tableData1[1][1])}}</b>
+                </div>
               </el-col>
               <el-col :span="3">
                 <p class="blue-colored italic-font">
@@ -151,11 +153,12 @@
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[2]">
               <el-col :span="1" class="yellow-colored padding-left-10">3</el-col>
-              <el-col :span="5" class="white-colored">
-                <b>{{getCompanyName(tableData1[2][1])}}</b>
-              </el-col>
+              
               <el-col :span="15" class="no-progress-outer yellow-colored">
                 <el-progress :percentage="86" :stroke-width="13" :show-text="false"></el-progress>
+                <div class="white-colored">
+                  <b>{{getCompanyName(tableData1[2][1])}}</b>
+                </div>
               </el-col>
               <el-col :span="3">
                 <p class="blue-colored italic-font">
@@ -165,11 +168,12 @@
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[3]">
               <el-col :span="1" class="blue-colored padding-left-10">4</el-col>
-              <el-col :span="5" class="white-colored">
-                <b>{{getCompanyName(tableData1[3][1])}}</b>
-              </el-col>
+              
               <el-col :span="15" class="no-progress-outer">
                 <el-progress :percentage="83" :stroke-width="13" :show-text="false"></el-progress>
+                <div class="white-colored">
+                  <b>{{getCompanyName(tableData1[3][1])}}</b>
+                </div>
               </el-col>
               <el-col :span="3">
                 <p class="blue-colored italic-font">
@@ -179,11 +183,12 @@
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[4]">
               <el-col :span="1" class="blue-colored padding-left-10">5</el-col>
-              <el-col :span="5" class="white-colored">
-                <b>{{getCompanyName(tableData1[4][1])}}</b>
-              </el-col>
+              
               <el-col :span="15" class="no-progress-outer">
                 <el-progress :percentage="80" :stroke-width="13" :show-text="false"></el-progress>
+                <div class="white-colored">
+                  <b>{{getCompanyName(tableData1[4][1])}}</b>
+                </div>
               </el-col>
               <el-col :span="3">
                 <p class="blue-colored italic-font">
@@ -193,11 +198,12 @@
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[5]">
               <el-col :span="1" class="blue-colored padding-left-10">6</el-col>
-              <el-col :span="5" class="white-colored">
-                <b>{{getCompanyName(tableData1[5][1])}}</b>
-              </el-col>
+              
               <el-col :span="15" class="no-progress-outer">
                 <el-progress :percentage="78" :stroke-width="13" :show-text="false"></el-progress>
+                <div class="white-colored">
+                  <b>{{getCompanyName(tableData1[5][1])}}</b>
+                </div>
               </el-col>
               <el-col :span="3">
                 <p class="blue-colored italic-font">
@@ -207,11 +213,13 @@
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[6]">
               <el-col :span="1" class="blue-colored padding-left-10">7</el-col>
-              <el-col :span="5" class="white-colored">
-                <b>{{getCompanyName(tableData1[6][1])}}</b>
-              </el-col>
+              
+              
               <el-col :span="15" class="no-progress-outer">
                 <el-progress :percentage="76" :stroke-width="13" :show-text="false"></el-progress>
+                <div class="white-colored">
+                  <b>{{getCompanyName(tableData1[6][1])}}</b>
+                </div>
               </el-col>
               <el-col :span="3">
                 <p class="blue-colored italic-font">
@@ -221,11 +229,12 @@
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[7]">
               <el-col :span="1" class="blue-colored padding-left-10">8</el-col>
-              <el-col :span="5" class="white-colored">
-                <b>{{getCompanyName(tableData1[7][1])}}</b>
-              </el-col>
+              
               <el-col :span="15" class="no-progress-outer">
                 <el-progress :percentage="74" :stroke-width="13" :show-text="false"></el-progress>
+                <div class="white-colored">
+                  <b>{{getCompanyName(tableData1[7][1])}}</b>
+                </div>
               </el-col>
               <el-col :span="3">
                 <p class="blue-colored italic-font">
@@ -235,11 +244,12 @@
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[8]">
               <el-col :span="1" class="blue-colored padding-left-10">9</el-col>
-              <el-col :span="5" class="white-colored">
-                <b>{{getCompanyName(tableData1[8][1])}}</b>
-              </el-col>
+              
               <el-col :span="15" class="no-progress-outer">
                 <el-progress :percentage="72" :stroke-width="13" :show-text="false"></el-progress>
+                <div class="white-colored">
+                  <b>{{getCompanyName(tableData1[8][1])}}</b>
+                </div>
               </el-col>
               <el-col :span="3">
                 <p class="blue-colored italic-font">
@@ -249,11 +259,12 @@
             </el-row>
             <el-row class="margin-left-10 margin-top-30" v-if="tableData1[9]">
               <el-col :span="1" class="blue-colored padding-left-10">10</el-col>
-              <el-col :span="5" class="white-colored">
-                <b>{{getCompanyName(tableData1[9][1])}}</b>
-              </el-col>
+              
               <el-col :span="15" class="no-progress-outer">
                 <el-progress :percentage="70" :stroke-width="13" :show-text="false"></el-progress>
+                <div class="white-colored">
+                  <b>{{getCompanyName(tableData1[9][1])}}</b>
+                </div>
               </el-col>
               <el-col :span="3">
                 <p class="blue-colored italic-font">
