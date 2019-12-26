@@ -224,8 +224,8 @@ const detailSms = () =>
 
 const aquaticStatistics = () =>
   import ("@/components/aquaticStatistics/aquaticStatistics");
-const statisticsFarmers = () =>
-  import ("@/components/statisticsFarmers/statisticsFarmers");
+
+import statisticsFarmers from "@/components/statisticsFarmers/statisticsFarmers";
 
 const greenProducts = () =>
   import ("@/components/greenProducts/greenProducts");
@@ -253,14 +253,23 @@ const viewInputManagement = () =>
 const uploadSituation = () =>
   import ("@/components/uploadSituation/uploadSituation");
 
-const statisticsCredit = () =>
-  import ("@/components/statisticsCredit/statisticsCredit");
-const statisticsSupervision = () =>
-  import ("@/components/statisticsSupervision/statisticsSupervision");
-const statisticsTracing = () =>
-  import ("@/components/statisticsTracing/statisticsTracing");
-const statisticsTracingCompany = () =>
-  import ("@/components/statisticsTracingCompany/statisticsTracingCompany");
+// const statisticsCredit = () =>
+//   import ("@/components/statisticsCredit/statisticsCredit");
+// const statisticsSupervision = () =>
+//   import ("@/components/statisticsSupervision/statisticsSupervision");
+// const statisticsTracing = () =>
+//   import ("@/components/statisticsTracing/statisticsTracing");
+// const statisticsTracingCompany = () =>
+//   import ("@/components/statisticsTracingCompany/statisticsTracingCompany");
+
+
+import statisticsCredit from "@/components/statisticsCredit/statisticsCredit";
+
+import statisticsSupervision from "@/components/statisticsSupervision/statisticsSupervision";
+
+import statisticsTracing from "@/components/statisticsTracing/statisticsTracing";
+
+import statisticsTracingCompany from "@/components/statisticsTracingCompany/statisticsTracingCompany";
 
 import Auth from "@/services/authentication/auth";
 Storage.set("creditMode", window.location.href.indexOf("creditMode"));
