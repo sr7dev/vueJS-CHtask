@@ -123,16 +123,14 @@
 import Request from "@/services/api/request.js";
 import Pagination from "@/components/common/pagination";
 import Auth from "@/services/authentication/auth.js";
-import * as am4core from "@amcharts/amcharts4/core";
-import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-// import chartData from "./chartData1";
-// import chartData1 from "./chartData2";
+// import * as am4core from "@amcharts/amcharts4/core";
+// import * as am4charts from "@amcharts/amcharts4/charts";
+// import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+
 import axios from "axios";
 const ECharts =()=>import('vue-echarts/components/ECharts.vue');
 import 'echarts/lib/chart/pie';
 import 'echarts/lib/component/tooltip';
-am4core.useTheme(am4themes_animated);
 
 export default {
   name: "statisticsCredit",
@@ -338,7 +336,16 @@ export default {
       }
     },
     makeChartLeftTop() {
-      let chart = am4core.create(this.$refs.chartdiv1, am4charts.XYChart);
+      Promise.all([
+        import("@amcharts/amcharts4/core"),
+        import("@amcharts/amcharts4/charts"),
+        import("@amcharts/amcharts4/themes/animated")
+      ]).then((modules) => {
+        const am4core = modules[0];
+        const am4charts = modules[1];
+        const am4themes_animated = modules[2].default;
+        am4core.useTheme(am4themes_animated);
+         let chart = am4core.create(this.$refs.chartdiv1, am4charts.XYChart);
       let data = [];
       this.leftTopData.map(item => {
         data.push({
@@ -451,6 +458,11 @@ export default {
 
       let columnTemplate = series.columns.template;
       columnTemplate.strokeOpacity = 0;
+        // Chart code goes here
+      }).catch((e) => {
+        console.error("Error when creating chart", e);
+      }) 
+     
       // this.createGrid1(0, valueAxis);
       // this.createGrid1(200, valueAxis);
       // this.createGrid1(400, valueAxis);
@@ -466,7 +478,7 @@ export default {
       //     townId: this.filterTownName(item[1])
       //   });
       // });
-      
+     
       this.leftTopData.sort(function(a, b) {
         return b.cnt - a.cnt;
       });
@@ -574,7 +586,16 @@ export default {
       // pieSeries.colors = colorSet;
     },
     makeChartLeftDown() {
-      let chart = am4core.create(this.$refs.chartdiv3, am4charts.XYChart);
+       Promise.all([
+        import("@amcharts/amcharts4/core"),
+        import("@amcharts/amcharts4/charts"),
+        import("@amcharts/amcharts4/themes/animated")
+      ]).then((modules) => {
+        const am4core = modules[0];
+        const am4charts = modules[1];
+        const am4themes_animated = modules[2].default;
+        am4core.useTheme(am4themes_animated);
+         let chart = am4core.create(this.$refs.chartdiv3, am4charts.XYChart);
       let data = [];
       this.leftDownData.map(item => {
         data.push({
@@ -635,6 +656,12 @@ export default {
       chart.cursor = new am4charts.XYCursor();
       let columnTemplate = series.columns.template;
       columnTemplate.strokeOpacity = 0;
+        // Chart code goes here
+      }).catch((e) => {
+        console.error("Error when creating chart", e);
+      }) 
+      
+     
       // this.createGrid(0, valueAxis);
       // this.createGrid(5000, valueAxis);
       // this.createGrid(10000, valueAxis);

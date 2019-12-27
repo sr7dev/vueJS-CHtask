@@ -21,7 +21,7 @@
                   placeholder="选择日期"
                   class="chart-input"
                   v-model="createTimeFrom"
-                  style="width: 300px;"
+                  style="width: 150px;"
                 ></el-date-picker>
               </el-col>
               <el-col :span="7" class="margin-left-20 flex-center margin-top-reverse-5-IE">
@@ -32,7 +32,7 @@
                   class="chart-input"
                   placeholder="选择日期"
                   v-model="createTimeTo"
-                  style="width: 300px;"
+                  style="width: 150px;"
                 ></el-date-picker>
               </el-col>
               <el-col :span="3" class="margin-left-20 margin-top-reverse-5-IE">
@@ -271,13 +271,13 @@
 <script>
 import Request from "@/services/api/request.js";
 import Auth from "@/services/authentication/auth.js";
-import * as am4core from "@amcharts/amcharts4/core";
-import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+// import * as am4core from "@amcharts/amcharts4/core";
+// import * as am4charts from "@amcharts/amcharts4/charts";
+// import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 const ECharts = () => import("vue-echarts/components/ECharts.vue");
 import "echarts/lib/chart/pie";
 import "echarts/lib/component/tooltip";
-am4core.useTheme(am4themes_animated);
+// am4core.useTheme(am4themes_animated);
 
 export default {
   name: "statisticsSupervision",
@@ -601,8 +601,17 @@ export default {
     },
 
     makePieChat2() {
-      Request()
-        .get("/api/quality_standard/statisType", {
+      Promise.all([
+        import("@amcharts/amcharts4/core"),
+        import("@amcharts/amcharts4/charts"),
+        import("@amcharts/amcharts4/themes/animated")
+      ]).then((modules) => {
+        const am4core = modules[0];
+        const am4charts = modules[1];
+        const am4themes_animated = modules[2].default;
+        am4core.useTheme(am4themes_animated);
+        Request()
+        .get("/api/quality_standard/statis", {
           createTimeFrom:
             this.createTimeFrom == null ? "" : this.createTimeFrom,
           createTimeTo: this.createTimeTo == null ? "" : this.createTimeTo,
@@ -667,6 +676,11 @@ export default {
           hs.properties.scale = 1;
           hs.properties.fillOpacity = 0.5;
         });
+        // Chart code goes here
+      }).catch((e) => {
+        console.error("Error when creating chart", e);
+      })
+      
     },
 
     makeQualityData() {

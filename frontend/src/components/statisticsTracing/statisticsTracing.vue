@@ -304,13 +304,13 @@
 import Request from "@/services/api/request.js";
 import Pagination from "@/components/common/pagination";
 import Auth from "@/services/authentication/auth.js";
-import * as am4core from "@amcharts/amcharts4/core";
-import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_kelly from "@amcharts/amcharts4/themes/kelly";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+// import * as am4core from "@amcharts/amcharts4/core";
+// import * as am4charts from "@amcharts/amcharts4/charts";
+// import am4themes_kelly from "@amcharts/amcharts4/themes/kelly";
+// import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
-am4core.useTheme(am4themes_kelly);
-am4core.useTheme(am4themes_animated);
+// am4core.useTheme(am4themes_kelly);
+// am4core.useTheme(am4themes_animated);
 
 export default {
   name: "statisticsTracing",
@@ -433,57 +433,74 @@ export default {
         });
     },
     makeXYChart() {
-      let chart = am4core.create(this.$refs.chartdiv, am4charts.XYChart);
-      chart.data = this.tableData;
-      chart.marginTop = 20;
-      let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-      let title = chart.titles.create();
-      title.text = "tmp";
-      title.fontSize = 5;
-      title.marginBottom = 40;
-      title.fill = am4core.color("#012f8a");
+      Promise.all([
+        import("@amcharts/amcharts4/core"),
+        import("@amcharts/amcharts4/charts"),
+        import ("@amcharts/amcharts4/themes/kelly"),
+        import ("@amcharts/amcharts4/themes/animated")
+      ]).then((modules) => {
+        const am4core = modules[0];
+        const am4charts = modules[1];
+        const am4themes_kelly = modules[2].default;
+        const am4themes_animated = modules[3].default;
+        am4core.useTheme(am4themes_kelly);
+        am4core.useTheme(am4themes_animated);
+        let chart = am4core.create(this.$refs.chartdiv, am4charts.XYChart);
+        chart.data = this.tableData;
+        chart.marginTop = 20;
+        let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+        let title = chart.titles.create();
+        title.text = "tmp";
+        title.fontSize = 5;
+        title.marginBottom = 40;
+        title.fill = am4core.color("#012f8a");
 
-      categoryAxis.dataFields.category = "name";
-      categoryAxis.renderer.grid.template.location = 0;
+        categoryAxis.dataFields.category = "name";
+        categoryAxis.renderer.grid.template.location = 0;
 
-      categoryAxis.renderer.minGridDistance = 10;
-      categoryAxis.renderer.grid.template.disabled = true;
-      categoryAxis.renderer.labels.template.fill = "white";
-      categoryAxis.renderer.labels.template.rotation = -45;
-      categoryAxis.renderer.labels.template.truncate = true;
-      categoryAxis.renderer.labels.template.maxWidth = 150;
-      categoryAxis.renderer.labels.template.fontSize = 15;
-      categoryAxis.renderer.labels.template.horizontalCenter = "right";
-      categoryAxis.renderer.line.strokeOpacity = 1;
-      categoryAxis.renderer.line.strokeWidth = 2;
-      categoryAxis.renderer.line.stroke = am4core.color("#3787ac");
-      let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-      // valueAxis.title.text = "镇农产品质量安全董监管站(管站)";
-      valueAxis.min = 0;
-      valueAxis.renderer.labels.template.fill = "white";
-      valueAxis.renderer.grid.template.stroke = am4core.color("#fff");
-      valueAxis.renderer.line.strokeOpacity = 1;
-      valueAxis.renderer.line.strokeWidth = 2;
-      valueAxis.renderer.line.stroke = am4core.color("#3787ac");
-      // Create series
-      let series = chart.series.push(new am4charts.ColumnSeries());
-      series.dataFields.valueY = "cnt";
-      series.dataFields.categoryX = "name";
-      series.name = "cnt";
-      series.columns.template.tooltipText = "{categoryX}: [bold]{valueY}[/]";
-      series.columns.template.fillOpacity = 1;
-      var gradient = new am4core.LinearGradient();
-      gradient.addColor(am4core.color("#08d3fc"));
-      gradient.addColor(am4core.color("#4687eb"));
-      gradient.rotation = 90;
-      series.fill = gradient;
-      let valueLabel = series.bullets.push(new am4charts.LabelBullet());
-      valueLabel.label.text = "{cnt}";
-      valueLabel.label.fill = am4core.color("#20beff");
-      valueLabel.label.rotation = -45;
-      valueLabel.label.dy = -20;
-      let columnTemplate = series.columns.template;
-      columnTemplate.strokeOpacity = 0;
+        categoryAxis.renderer.minGridDistance = 10;
+        categoryAxis.renderer.grid.template.disabled = true;
+        categoryAxis.renderer.labels.template.fill = "white";
+        categoryAxis.renderer.labels.template.rotation = -45;
+        categoryAxis.renderer.labels.template.truncate = true;
+        categoryAxis.renderer.labels.template.maxWidth = 150;
+        categoryAxis.renderer.labels.template.fontSize = 15;
+        categoryAxis.renderer.labels.template.horizontalCenter = "right";
+        categoryAxis.renderer.line.strokeOpacity = 1;
+        categoryAxis.renderer.line.strokeWidth = 2;
+        categoryAxis.renderer.line.stroke = am4core.color("#3787ac");
+        let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+        // valueAxis.title.text = "镇农产品质量安全董监管站(管站)";
+        valueAxis.min = 0;
+        valueAxis.renderer.labels.template.fill = "white";
+        valueAxis.renderer.grid.template.stroke = am4core.color("#fff");
+        valueAxis.renderer.line.strokeOpacity = 1;
+        valueAxis.renderer.line.strokeWidth = 2;
+        valueAxis.renderer.line.stroke = am4core.color("#3787ac");
+        // Create series
+        let series = chart.series.push(new am4charts.ColumnSeries());
+        series.dataFields.valueY = "cnt";
+        series.dataFields.categoryX = "name";
+        series.name = "cnt";
+        series.columns.template.tooltipText = "{categoryX}: [bold]{valueY}[/]";
+        series.columns.template.fillOpacity = 1;
+        var gradient = new am4core.LinearGradient();
+        gradient.addColor(am4core.color("#08d3fc"));
+        gradient.addColor(am4core.color("#4687eb"));
+        gradient.rotation = 90;
+        series.fill = gradient;
+        let valueLabel = series.bullets.push(new am4charts.LabelBullet());
+        valueLabel.label.text = "{cnt}";
+        valueLabel.label.fill = am4core.color("#20beff");
+        valueLabel.label.rotation = -45;
+        valueLabel.label.dy = -20;
+        let columnTemplate = series.columns.template;
+        columnTemplate.strokeOpacity = 0;
+        // Chart code goes here
+      }).catch((e) => {
+        console.error("Error when creating chart", e);
+      }) 
+      
     },
     beforeDestroy() {
       if (this.chart) {
