@@ -219,7 +219,7 @@
                     <div class="image-container">
                       <img
                         class="live_photo"
-                        :src="downloadUrl + data.scenePhotos"
+                        :src="downloadUrl +'/uploads/'+ data.scenePhotos"
                         v-if="data.scenePhotos"
                       />
                     </div>
@@ -234,7 +234,11 @@
                   <td width="30%">签名</td>
                   <td>
                     <div class="image-container">
-                      <img class="sign_photo" :src="downloadUrl + data.sign" v-if="data.sign" />
+                      <img
+                        class="sign_photo"
+                        :src="downloadUrl +'/uploads/'+ data.sign"
+                        v-if="data.sign"
+                      />
                     </div>
                     <el-link
                       style=" display: table"
@@ -313,7 +317,7 @@ export default {
         link.href = url;
         link.setAttribute(
           "download",
-          this.data.scenePhotos.replace("/uploads/", "")
+          this.data.scenePhotos.replace("/api", "/api/uploads/")
         ); //or any other extension
         document.body.appendChild(link);
         link.click();
@@ -329,7 +333,10 @@ export default {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", this.data.sign.replace("/uploads/", "")); //or any other extension
+        link.setAttribute(
+          "download",
+          this.data.sign.replace("/api", "/api/uploads/")
+        ); //or any other extension
         document.body.appendChild(link);
         link.click();
         link.remove();
