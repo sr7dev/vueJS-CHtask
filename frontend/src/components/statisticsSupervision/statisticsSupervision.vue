@@ -352,6 +352,7 @@ export default {
           sortBy: "cnt"
         })
         .then(res => {
+          console.log(res.data);
           this.visionData = res.data;
           this.getTown();
         })
@@ -445,10 +446,7 @@ export default {
               cntSpecial: item[2],
               rate: cnt - cnt_ok,
               progress: parseInt(((cnt - cnt_ok) * 100) / cnt),
-              chatName: townname,
-              specialLabel:
-                item[2] + "/" + parseInt((item[2] * 100) / cnt) + "%",
-              specialProgress: parseInt((item[2] * 100) / cnt)
+              chatName: townname             
             });
           });
 
@@ -459,10 +457,9 @@ export default {
               townCnt2: tCnt2,
               rate: tRate,
               progress: parseInt((tRate / tCnt) * 100),
-              specialLabel:
-                tSpecial + "/" + parseInt((tSpecial * 100) / tCnt) + "%",
-              specialProgress: parseInt((tSpecial * 100) / tCnt),
-              cntSpecial: tSpecial
+              specialLabel:"",
+              specialProgress: 0,
+              cntSpecial: 0              
             });
 
             this.makeQualityData();
@@ -622,15 +619,21 @@ export default {
           sortBy: "cnt"
         })
         .then(res => {
+          console.log(res.data);
           res.data.forEach(item => {
             let townname = "";
 
-            for (let i = 0; i < this.townlist.length; i++) {
-              if (this.townlist[i].id === item[1]) {
-                townname = this.townlist[i].name;
-                break;
-              }
+            switch(item[1]){
+              case "1": 
+              townname = "无公害产品"; break;
+              case "2": 
+              townname = "绿色食品"; break;
+              case "3": 
+              townname = "有机食品"; break;
+              case "4": 
+              townname = "绿色优质基地"; break;
             }
+                        
             this.qualityData.push({
               townName: townname,
               townCnt: item[0],
@@ -681,23 +684,70 @@ export default {
     },
 
     makeQualityData() {
-      for (let i = 0; i < this.tableData.length; i += 2) {
-        this.specialData1.push({
-          townName: this.tableData[i].townName,
-          progress: this.tableData[i].specialProgress,
-          label: this.tableData[i].specialLabel,
-          townCnt: this.tableData[i].townCnt,
-          cntSpecial: this.tableData[i].cntSpecial
-        });
-        if (i !== this.tableData.length - 1)
-          this.specialData2.push({
-            townName: this.tableData[i + 1].townName,
-            progress: this.tableData[i + 1].specialProgress,
-            label: this.tableData[i + 1].specialLabel,
-            townCnt: this.tableData[i + 1].townCnt,
-            cntSpecial: this.tableData[i + 1].cntSpecial
+
+      Request()
+        .get("/api/quality_standard/statis", {
+          certificationType: "0",
+          createTimeFrom: this.createTimeFrom == null ? "" : this.createTimeFrom,
+          createTimeTo: this.createTimeTo == null ? "" : this.createTimeTo
+        })
+        .then(res => {         
+          Request()
+          .get("/api/quality_standard/statis", {
+            certificationType: "4",
+            createTimeFrom: this.createTimeFrom == null ? "" : this.createTimeFrom,
+            createTimeTo: this.createTimeTo == null ? "" : this.createTimeTo
+          })
+          .then(res1 => {
+            let totalCnt = 0, t4Cnt = 0;
+              for (let i = 0; i < res.data.length; i += 2){
+                let tname = "", tname1 = "";
+                for (let j = 0; j < this.townlist.length; j++) {
+                  if (this.townlist[j].id === res.data[i][1]) {
+                    tname = this.townlist[j].name;
+                  }
+                  if (this.townlist[j].id === res.data[i+1][1]) {
+                    tname1 = this.townlist[j].name;
+                  }
+                }
+              
+              let tspec=0, tspec1 =0;
+              for (let k = 0; k < res1.data.length; k++){
+                if (res1.data[k][1] == res.data[i][1]){
+                  tspec = res1.data[k][0];                  
+                }
+
+                if (res1.data[k][1] == res.data[i+1][1]){
+                  tspec1 = res1.data[k][0];
+                }
+              }
+
+                this.specialData1.push({
+                  townName: tname,
+                  progress: parseInt((tspec * 100) / res.data[i][0]),
+                    label: res.data[i][0] + "/" + parseInt((tspec * 100) / res.data[i][0]) + "%",
+                  townCnt: res.data[i][0],
+                  cntSpecial: tspec
+                });
+                if (i !== this.tableData.length - 1)
+                  this.specialData2.push({
+                    townName: tname1,
+                    progress: parseInt((tspec1 * 100) / res.data[i+1][0]),
+                    label: res.data[i+1][0] + "/" + parseInt((tspec1 * 100) / res.data[i+1][0]) + "%",
+                    townCnt: res.data[i+1][0],
+                    cntSpecial: tspec1
+                  });
+
+                  t4Cnt += (tspec + tspec1);
+                  totalCnt += (res.data[i][0] + res.data[i+1][0]); 
+              }
+
+
+              this.totalData[0].specialLabel = totalCnt + "/" + parseInt((t4Cnt * 100) / totalCnt) + "%";
+              this.totalData[0].specialProgress = parseInt((t4Cnt * 100) / totalCnt);
+              this.totalData[0].cntSpecial = t4Cnt;
           });
-      }
+        })
     },
     isIE() {
       let ua = navigator.userAgent;
