@@ -48,9 +48,9 @@ class Auth {
     if (!this.getParameterByName("timestamp") ||
       !this.getParameterByName("accessToken") ||
       !this.getParameterByName("sign")
-    )
-      return false;
-
+    ) {
+      if (!TokenManager().accessToken) return false;
+    }
     //getting md5 hash value
     let md5 = require("blueimp-md5");
     let hash = md5(
@@ -58,10 +58,10 @@ class Auth {
       this.getParameterByName("accessToken") +
       "zhsnqualitysupervision"
     );
-    const accessToken = this.getParameterByName("accessToken").replace(
+    const accessToken = this.getParameterByName("accessToken") ? this.getParameterByName("accessToken").replace(
       "%20",
       " "
-    );
+    ) : TokenManager().accessToken;
     // const accessToken = this.getParameterByName("accessToken").replace(
     //   "%20",
     //   " "
