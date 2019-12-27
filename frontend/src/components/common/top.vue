@@ -87,7 +87,7 @@ export default {
       this.menuShowArr[index] = 1;
     }
     // this.userName = Auth().user().contactName;
-    this.userName = Storage.get("userData").username ? Storage.get("userData").username : Storage.get("userData").mobile;
+    this.userName = Storage.get("userData").name ? Storage.get("userData").name : Storage.get("userData").mobile;
   },
   methods: {
     quit: function() {
