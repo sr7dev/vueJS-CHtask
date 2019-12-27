@@ -99,7 +99,7 @@
           </el-table-column>
           <el-table-column prop="inspector" label="检查人"></el-table-column>
           <el-table-column prop="conclusion" label="结论" width="70">
-            <template slot-scope="{ row }">{{ getItem8Status(row.content) }}</template>
+            <template slot-scope="{ row }">{{ getItem8Status(row.conclusion) }}</template>
           </el-table-column>
           <el-table-column prop="otherProblems" label="其他" width="80"></el-table-column>
           <el-table-column prop="scenePhotos" label="照片" width="70" class-name="text-center">
@@ -274,11 +274,8 @@ export default {
       else return val1.split(",").length + val2.split(",").length;
     },
     getItem8Status(val) {
-      val = val.replace(/\r?\n|\r/g, "");
-      let content = JSON.parse(val);
-
-      if (content.item8 === true) return "合格";
-      if (content.item8 === false) return "不合格";
+      if (val == "1") return "合格";
+      if (val === "0") return "不合格";
       return "其他";
     },
     checkSign(val) {
