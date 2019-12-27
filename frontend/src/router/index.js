@@ -251,22 +251,22 @@ const viewInputManagement = () =>
 const uploadSituation = () =>
   import ("@/components/uploadSituation/uploadSituation");
 
-const statisticsFarmers = () =>
-  import ("@/components/statisticsFarmers/statisticsFarmers");
-const statisticsCredit = () =>
-  import ("@/components/statisticsCredit/statisticsCredit");
-const statisticsSupervision = () =>
-  import ("@/components/statisticsSupervision/statisticsSupervision");
-const statisticsTracing = () =>
-  import ("@/components/statisticsTracing/statisticsTracing");
-const statisticsTracingCompany = () =>
-  import ("@/components/statisticsTracingCompany/statisticsTracingCompany");
+// const statisticsFarmers = () =>
+//   import ("@/components/statisticsFarmers/statisticsFarmers");
+// const statisticsCredit = () =>
+//   import ("@/components/statisticsCredit/statisticsCredit");
+// const statisticsSupervision = () =>
+//   import ("@/components/statisticsSupervision/statisticsSupervision");
+// const statisticsTracing = () =>
+//   import ("@/components/statisticsTracing/statisticsTracing");
+// const statisticsTracingCompany = () =>
+//   import ("@/components/statisticsTracingCompany/statisticsTracingCompany");
 
-// import statisticsFarmers from "@/components/statisticsFarmers/statisticsFarmers";
-// import statisticsCredit from "@/components/statisticsCredit/statisticsCredit";
-// import statisticsSupervision from "@/components/statisticsSupervision/statisticsSupervision";
-// import statisticsTracing from "@/components/statisticsTracing/statisticsTracing";
-// import statisticsTracingCompany from "@/components/statisticsTracingCompany/statisticsTracingCompany";
+import statisticsFarmers from "@/components/statisticsFarmers/statisticsFarmers";
+import statisticsCredit from "@/components/statisticsCredit/statisticsCredit";
+import statisticsSupervision from "@/components/statisticsSupervision/statisticsSupervision";
+import statisticsTracing from "@/components/statisticsTracing/statisticsTracing";
+import statisticsTracingCompany from "@/components/statisticsTracingCompany/statisticsTracingCompany";
 
 import Auth from "@/services/authentication/auth";
 Storage.set("creditMode", window.location.href.indexOf("creditMode"));
