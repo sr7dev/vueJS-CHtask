@@ -21,7 +21,7 @@
                   placeholder="选择日期"
                   class="chart-input"
                   v-model="createTimeFrom"
-                  style="width: 150px;"
+                  style="width: 300px;"
                 ></el-date-picker>
               </el-col>
               <el-col :span="7" class="margin-left-20 flex-center margin-top-reverse-5-IE">
@@ -32,7 +32,7 @@
                   class="chart-input"
                   placeholder="选择日期"
                   v-model="createTimeTo"
-                  style="width: 150px;"
+                  style="width: 300px;"
                 ></el-date-picker>
               </el-col>
               <el-col :span="3" class="margin-left-20 margin-top-reverse-5-IE">
@@ -162,74 +162,72 @@
                   </h1>
                 </el-col>
               </el-row>
-              <div style="max-height: 305px; overflow-y: auto">
-                <el-row class="w-90 margin-left-60">
-                  <el-col :span="12">
-                    <el-table
-                      :data="specialData1"
-                      style="width: 100%; height: 293px;"
-                      :show-header="false"
-                      v-if="specialData1 !== null && specialData1.length > 0"
-                      class="fixed-height chart-table margin-top-10"
+              <el-row class="w-90 margin-left-60">
+                <el-col :span="12">
+                  <el-table
+                    :data="specialData1"
+                    style="width: 100%; height: 293px;"
+                    :show-header="false"
+                    v-if="specialData1 !== null && specialData1.length > 0"
+                    class="fixed-height chart-table margin-top-10"
+                  >
+                    <el-table-column
+                      prop="townName"
+                      class-name="no-border-bottom white-colored text-right"
+                    ></el-table-column>
+                    <el-table-column
+                      prop="progress"
+                      width="200"
+                      class-name="no-border-bottom blue-colored"
                     >
-                      <el-table-column
-                        prop="townName"
-                        class-name="no-border-bottom white-colored text-right"
-                      ></el-table-column>
-                      <el-table-column
-                        prop="progress"
-                        width="200"
-                        class-name="no-border-bottom blue-colored"
-                      >
-                        <template slot-scope="{ row }">
-                          <div>
-                            <h3>{{row.cntSpecial}}</h3>
-                          </div>
-                          <el-progress
-                            :percentage="row.progress"
-                            :stroke-width="10"
-                            :status="getColor(row.progress)"
-                            :show-text="false"
-                          ></el-progress>
-                        </template>
-                      </el-table-column>
-                      <el-table-column prop="label" class-name="no-border-bottom blue-colored"></el-table-column>
-                    </el-table>
-                  </el-col>
-                  <el-col :span="12">
-                    <el-table
-                      :data="specialData2"
-                      style="width: 100%; height: 293px;"
-                      :show-header="false"
-                      v-if="specialData2 !== null && specialData2.length > 0"
-                      class="fixed-height margin-top-10 chart-table"
+                      <template slot-scope="{ row }">
+                        <div>
+                          <h3>{{row.cntSpecial}}</h3>
+                        </div>
+                        <el-progress
+                          :percentage="row.progress"
+                          :stroke-width="10"
+                          :status="getColor(row.progress)"
+                          :show-text="false"
+                        ></el-progress>
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="label" class-name="no-border-bottom blue-colored"></el-table-column>
+                  </el-table>
+                </el-col>
+                <el-col :span="12">
+                  <el-table
+                    :data="specialData2"
+                    style="width: 100%; height: 293px;"
+                    :show-header="false"
+                    v-if="specialData2 !== null && specialData2.length > 0"
+                    class="fixed-height margin-top-10 chart-table"
+                  >
+                    <el-table-column
+                      prop="townName"
+                      class-name="no-border-bottom text-right white-colored"
+                    ></el-table-column>
+                    <el-table-column
+                      prop="progress"
+                      width="200"
+                      class-name="no-border-bottom blue-colored"
                     >
-                      <el-table-column
-                        prop="townName"
-                        class-name="no-border-bottom text-right white-colored"
-                      ></el-table-column>
-                      <el-table-column
-                        prop="progress"
-                        width="200"
-                        class-name="no-border-bottom blue-colored"
-                      >
-                        <template slot-scope="{ row }">
-                          <div>
-                            <h3>{{row.cntSpecial}}</h3>
-                          </div>
-                          <el-progress
-                            :percentage="row.progress"
-                            :stroke-width="10"
-                            :status="getColor(row.progress)"
-                            :show-text="false"
-                          ></el-progress>
-                        </template>
-                      </el-table-column>
-                      <el-table-column prop="label" class-name="no-border-bottom blue-colored"></el-table-column>
-                    </el-table>
-                  </el-col>
-                </el-row>
-              </div>
+                      <template slot-scope="{ row }">
+                        <div>
+                          <h3>{{row.cntSpecial}}</h3>
+                        </div>
+                        <el-progress
+                          :percentage="row.progress"
+                          :stroke-width="10"
+                          :status="getColor(row.progress)"
+                          :show-text="false"
+                        ></el-progress>
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="label" class-name="no-border-bottom blue-colored"></el-table-column>
+                  </el-table>
+                </el-col>
+              </el-row>
               <el-row class="w-90 margin-left-60">
                 <el-col :span="24">
                   <el-table
@@ -273,13 +271,13 @@
 <script>
 import Request from "@/services/api/request.js";
 import Auth from "@/services/authentication/auth.js";
-// import * as am4core from "@amcharts/amcharts4/core";
-// import * as am4charts from "@amcharts/amcharts4/charts";
-// import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 const ECharts = () => import("vue-echarts/components/ECharts.vue");
 import "echarts/lib/chart/pie";
 import "echarts/lib/component/tooltip";
-// am4core.useTheme(am4themes_animated);
+am4core.useTheme(am4themes_animated);
 
 export default {
   name: "statisticsSupervision",
@@ -354,6 +352,7 @@ export default {
           sortBy: "cnt"
         })
         .then(res => {
+          console.log(res.data);
           this.visionData = res.data;
           this.getTown();
         })
@@ -447,7 +446,7 @@ export default {
               cntSpecial: item[2],
               rate: cnt - cnt_ok,
               progress: parseInt(((cnt - cnt_ok) * 100) / cnt),
-              chatName: townname
+              chatName: townname             
             });
           });
 
@@ -458,9 +457,9 @@ export default {
               townCnt2: tCnt2,
               rate: tRate,
               progress: parseInt((tRate / tCnt) * 100),
-              specialLabel: "",
+              specialLabel:"",
               specialProgress: 0,
-              cntSpecial: 0
+              cntSpecial: 0              
             });
 
             this.makeQualityData();
@@ -602,17 +601,8 @@ export default {
     },
 
     makePieChat2() {
-      Promise.all([
-        import("@amcharts/amcharts4/core"),
-        import("@amcharts/amcharts4/charts"),
-        import("@amcharts/amcharts4/themes/animated")
-      ]).then((modules) => {
-        const am4core = modules[0];
-        const am4charts = modules[1];
-        const am4themes_animated = modules[2].default;
-        am4core.useTheme(am4themes_animated);
-        Request()
-        .get("/api/quality_standard/statis", {
+      Request()
+        .get("/api/quality_standard/statisType", {
           createTimeFrom:
             this.createTimeFrom == null ? "" : this.createTimeFrom,
           createTimeTo: this.createTimeTo == null ? "" : this.createTimeTo,
@@ -620,24 +610,21 @@ export default {
           sortBy: "cnt"
         })
         .then(res => {
+          
           res.data.forEach(item => {
             let townname = "";
 
-            switch (item[1]) {
-              case "1":
-                townname = "无公害产品";
-                break;
-              case "2":
-                townname = "绿色食品";
-                break;
-              case "3":
-                townname = "有机食品";
-                break;
-              case "4":
-                townname = "绿色优质基地";
-                break;
+            switch(item[1]){
+              case "1": 
+              townname = "无公害产品"; break;
+              case "2": 
+              townname = "绿色食品"; break;
+              case "3": 
+              townname = "有机食品"; break;
+              case "4": 
+              townname = "绿色优质基地"; break;
             }
-
+                        
             this.qualityData.push({
               townName: townname,
               townCnt: item[0],
@@ -680,92 +667,73 @@ export default {
           hs.properties.scale = 1;
           hs.properties.fillOpacity = 0.5;
         });
-        // Chart code goes here
-      }).catch((e) => {
-        console.error("Error when creating chart", e);
-      })
-      
     },
 
     makeQualityData() {
+
       Request()
         .get("/api/quality_standard/statis", {
           certificationType: "0",
-          createTimeFrom:
-            this.createTimeFrom == null ? "" : this.createTimeFrom,
+          createTimeFrom: this.createTimeFrom == null ? "" : this.createTimeFrom,
           createTimeTo: this.createTimeTo == null ? "" : this.createTimeTo
         })
-        .then(res => {
+        .then(res => {         
           Request()
-            .get("/api/quality_standard/statis", {
-              certificationType: "4",
-              createTimeFrom:
-                this.createTimeFrom == null ? "" : this.createTimeFrom,
-              createTimeTo: this.createTimeTo == null ? "" : this.createTimeTo
-            })
-            .then(res1 => {
-              let totalCnt = 0,
-                t4Cnt = 0;
-              for (let i = 0; i < res.data.length; i += 2) {
-                let tname = "",
-                  tname1 = "";
+          .get("/api/quality_standard/statis", {
+            certificationType: "4",
+            createTimeFrom: this.createTimeFrom == null ? "" : this.createTimeFrom,
+            createTimeTo: this.createTimeTo == null ? "" : this.createTimeTo
+          })
+          .then(res1 => {
+            let totalCnt = 0, t4Cnt = 0;
+              for (let i = 0; i < res.data.length; i += 2){
+                let tname = "", tname1 = "";
                 for (let j = 0; j < this.townlist.length; j++) {
                   if (this.townlist[j].id === res.data[i][1]) {
                     tname = this.townlist[j].name;
                   }
-                  if (this.townlist[j].id === res.data[i + 1][1]) {
+                  if (this.townlist[j].id === res.data[i+1][1]) {
                     tname1 = this.townlist[j].name;
                   }
                 }
-
-                let tspec = 0,
-                  tspec1 = 0;
-                for (let k = 0; k < res1.data.length; k++) {
-                  if (res1.data[k][1] == res.data[i][1]) {
-                    tspec = res1.data[k][0];
-                  }
-
-                  if (res1.data[k][1] == res.data[i + 1][1]) {
-                    tspec1 = res1.data[k][0];
-                  }
+              
+              let tspec=0, tspec1 =0;
+              for (let k = 0; k < res1.data.length; k++){
+                if (res1.data[k][1] == res.data[i][1]){
+                  tspec = res1.data[k][0];                  
                 }
+
+                if (res1.data[k][1] == res.data[i+1][1]){
+                  tspec1 = res1.data[k][0];
+                }
+              }
 
                 this.specialData1.push({
                   townName: tname,
                   progress: parseInt((tspec * 100) / res.data[i][0]),
-                  label:
-                    res.data[i][0] +
-                    "/" +
-                    parseInt((tspec * 100) / res.data[i][0]) +
-                    "%",
+                    label: res.data[i][0] + "/" + parseInt((tspec * 100) / res.data[i][0]) + "%",
                   townCnt: res.data[i][0],
                   cntSpecial: tspec
                 });
                 if (i !== this.tableData.length - 1)
                   this.specialData2.push({
                     townName: tname1,
-                    progress: parseInt((tspec1 * 100) / res.data[i + 1][0]),
-                    label:
-                      res.data[i + 1][0] +
-                      "/" +
-                      parseInt((tspec1 * 100) / res.data[i + 1][0]) +
-                      "%",
-                    townCnt: res.data[i + 1][0],
+                    progress: parseInt((tspec1 * 100) / res.data[i+1][0]),
+                    label: res.data[i+1][0] + "/" + parseInt((tspec1 * 100) / res.data[i+1][0]) + "%",
+                    townCnt: res.data[i+1][0],
                     cntSpecial: tspec1
                   });
 
-                t4Cnt += tspec + tspec1;
-                totalCnt += res.data[i][0] + res.data[i + 1][0];
+                  t4Cnt += (tspec + tspec1);
+                  totalCnt += (res.data[i][0] + res.data[i+1][0]); 
               }
 
-              this.totalData[0].specialLabel =
-                totalCnt + "/" + parseInt((t4Cnt * 100) / totalCnt) + "%";
-              this.totalData[0].specialProgress = parseInt(
-                (t4Cnt * 100) / totalCnt
-              );
+
+              this.totalData[0].specialLabel = totalCnt + "/" + parseInt((t4Cnt * 100) / totalCnt) + "%";
+              this.totalData[0].specialProgress = parseInt((t4Cnt * 100) / totalCnt);
               this.totalData[0].cntSpecial = t4Cnt;
-            });
-        });
+          });
+        })
     },
     isIE() {
       let ua = navigator.userAgent;
