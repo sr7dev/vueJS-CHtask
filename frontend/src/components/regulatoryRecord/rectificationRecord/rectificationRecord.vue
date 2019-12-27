@@ -441,8 +441,8 @@ export default {
       file_live_1: null,
       file_live_2: null,
       file_live_3: null,
-      township: [{ id: -1, name: "全部" }],
-      companyList: [{ id: -1, name: "全部" }],
+      township: [{ id: "-1", name: "全部" }],
+      companyList: [{ companyId: "-1", companyName: "全部" }],
       conclusionData: null,
       isNanData: null,
       downloadURL: "",
@@ -706,4 +706,5 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../addRegulatoryRecord/addRegulatoryRecord.scss";
 </style>
