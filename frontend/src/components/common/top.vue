@@ -1,7 +1,8 @@
 <template>
   <div class="xyh_top flex-box justify-right">
     <div class="changshu_left">
-      <img src="../../assets/images/logo.png" alt />
+      <img src="../../assets/images/logo.png" v-if="creditMode<0" alt />
+      <img src="../../assets/images/logo-credit.png" v-else alt />
     </div>
     <el-menu
       outer
