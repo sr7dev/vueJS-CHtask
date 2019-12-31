@@ -26,9 +26,9 @@
           ></el-option>
         </el-select>
         <div class="select_label" v-if="isShowAddButton">
-          <el-button size="small" disabled type="primary" plain
+          <!-- <el-button size="small" disabled type="primary" plain
             >同步数据</el-button
-          >
+          > -->
         </div>
       </div>
 
