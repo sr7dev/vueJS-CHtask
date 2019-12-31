@@ -50,14 +50,14 @@
           ></el-option>
         </el-select>
         <div class="select_label" v-if="isShowAddButton">
-          <el-button
+          <!-- <el-button
             size="small"
             type="primary"
             v-on:click="getList()"
             disabled
             plain
             >导入</el-button
-          >
+          > -->
         </div>
       </div>
 
