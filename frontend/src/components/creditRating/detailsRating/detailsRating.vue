@@ -16,7 +16,7 @@
         <div class="item-row">
           <div class="item inline-block-IE">
             <div class="item-label">评级时间</div>
-            <div class="item-value">{{ data.gradeTime }}</div>
+            <div class="item-value">{{ data.gradeTime | formatDate }}</div>
           </div>
           <div class="item inline-block-IE">
             <div class="item-label">名称</div>

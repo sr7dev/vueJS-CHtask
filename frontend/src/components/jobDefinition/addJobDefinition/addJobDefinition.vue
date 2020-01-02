@@ -157,5 +157,9 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped>
+.image-container {
+    border: 1px solid;
+    cursor: pointer;
+}
 </style>

@@ -81,6 +81,7 @@ export default {
   },
   created() {
     this.creditMode = Storage.get("creditMode");
+    document.title = this.creditMode>-1 ? "诚信体系" : "农产品质量监管";
      this.menuList = Storage.get("authList").filter(el => el.type == 1);
     for (let i = 0; i < this.menuList.length; i++) {
       let index = this.menuList[i].privilegeCode;

@@ -491,7 +491,7 @@ export default {
     };
   },
   created() {
-    this.companyId = Auth().user().companyId;
+    this.companyId = Auth().user().companyId ? Auth().user().companyId : 0;
     this.getBaseList();
     this.getVarietyData();
   },

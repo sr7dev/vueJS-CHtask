@@ -30,14 +30,16 @@
           <el-option v-for="item in items" :key="item.id" :label="item.item" :value="item.item"></el-option>
         </el-select>
         <div class="select_label">样品</div>
-        <el-select v-model="samplesValue" placeholder="全部" @change="getList">
+        <!-- <el-select v-model="samplesValue" placeholder="全部" @change="getList">
           <el-option
             v-for="item in samples"
             :key="item.id"
             :label="item.sample"
             :value="item.sample"
           ></el-option>
-        </el-select>
+        </el-select> -->
+        <el-input v-model="samplesValue" @change="getList" style="width:150px">
+        </el-input>
         <div class="select_label">定性</div>
         <el-select v-model="result" placeholder="全部" @change="getList">
           <el-option v-for="item in results" :key="item.id" :label="item.name" :value="item.id"></el-option>
@@ -45,7 +47,6 @@
         <div class="select_label" v-if="isShowSearchOption">检测单位</div>
         <el-select
           v-model="detectionUnitValue"
-          placeholder="全部"
           @change="getList"
           v-if="isShowSearchOption"
         >
@@ -233,23 +234,23 @@ export default {
           label: ""
         }
       ],
-      township: [{ id: -1, name: "全部", divisionCode: -1 }],
-      currTown: "",
+      township: [{ id: "-1", name: "全部", divisionCode: -1 }],
+      currTown: -1,
       status: 1,
       tableData: [],
-      items: [{ id: 0, item: "全部" }],
-      itemValue: "",
+      items: [{ id: "-1", item: "全部" }],
+      itemValue: "-1",
       samples: [{ id: 0, sample: "全部" }],
       samplesValue: "",
       results: [
-        { id: 0, name: "全部" },
-        { id: 1, name: "不合格" },
-        { id: 2, name: "合格 " },
-        { id: 3, name: "疑似" }
+        { id: -1, name: "全部" },
+        { id: 0, name: "不合格" },
+        { id: 1, name: "合格 " },
+        { id: 2, name: "疑似" }
       ],
-      result: "",
-      detectionUnit: [{ id: "0", detectUnit: "全部" }],
-      detectionUnitValue: "",
+      result: -1,
+      detectionUnit: [{ id: -1, detectUnit: "全部" }],
+      detectionUnitValue: -1,
       startDate: "",
       endDate: "",
       isShowCheckbox: 0,
@@ -404,11 +405,11 @@ export default {
         .get("/api/disability_check/all", {
           creditCode: this.$route.query.creditCode,
           detectUnit:
-            this.detectionUnitValue == "全部" ? "" : this.detectionUnitValue,
+            this.detectionUnitValue == "全部" ? "-1" : this.detectionUnitValue,
           detectTimeFrom: this.startDate,
           detectTimeTo: tempDateTime,
           sample: this.samplesValue == "全部" ? "" : this.samplesValue,
-          item: this.itemValue == "全部" ? "" : this.itemValue,
+          item: this.itemValue == "全部" ? "-1" : this.itemValue,
           // resultDx: this.result - 1,
           resultDx: this.result,
           townDivisionCode: this.currTown == -1 ? "" : this.currTown,

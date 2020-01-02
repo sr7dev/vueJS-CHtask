@@ -93,6 +93,7 @@ const threeProduction = () =>
   import ("@/components/corporateCreditFile/threeProduction/threeProduction");
 const ratingInfo = () =>
   import ("@/components/corporateCreditFile/ratingInfo/ratingInfo");
+// import ratingInfo from "@/components/corporateCreditFile/ratingInfo/ratingInfo";
 
 const productionSubject = () =>
   import ("@/components/productionSubject/productionSubject");

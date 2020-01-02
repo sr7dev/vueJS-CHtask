@@ -74,11 +74,11 @@ export default {
   data() {
     return {
         addForm: {
-            companyId: "-1",
+            companyId: 0,
             amount: "",
             sampleName: "",
         },
-        companyProduction: [{ id: -1, name: "全部" }],
+        companyProduction: [],
         rules: {
             amount: [
             {
@@ -109,10 +109,14 @@ export default {
   },
   methods: {
     getCompanyProduct() {
+        this.dataloading = true;
       Request()
         .get("/api/company_production/name")
         .then(response => {
             this.companyProduction = this.companyProduction.concat(response);
+            setTimeout(()=>{
+                this.dataloading = false;
+            },500);
         })
         .catch(error => {
             console.log(error);

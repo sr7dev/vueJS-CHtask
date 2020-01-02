@@ -306,8 +306,8 @@ export default {
       listLoading: false,
       ruleFormValue: {
         companyType: "1",
-        townShip: "-1",
-        companyID: "-1",
+        townShip: 0,
+        companyID: 0,
         date: "",
         checker: "",
         productionRecord: "1",
@@ -323,8 +323,8 @@ export default {
         recommendPunishment: "",
         otherProcessing: ""
       },
-      township: [{ id: -1, name: "全部" }],
-      companyList: [{ id: -1, name: "全部" }],
+      township: [],
+      companyList: [],
       imageUrl_Live: "",
       imageUrl_Sign: "",
       file_live_1: null,
@@ -371,14 +371,15 @@ export default {
       }
     };
   },
-  created() {
-    this.getTown();
-    this.getCompanyProduct();
+  async created() {
+    await this.getTown();
+    await this.getCompanyProduct();
     this.getWords();
   },
   methods: {
     getTown() {
-      Request()
+      this.listLoading = true;
+     return Request()
         .get("/api/town/all")
         .then(response => {
           this.township = this.township.concat(response);
@@ -388,7 +389,7 @@ export default {
         });
     },
     getCompanyProduct() {
-      Request()
+     return Request()
         .get("/api/company_production/name")
         .then(response => {
           this.companyList = this.companyList.concat(response);
@@ -517,12 +518,15 @@ export default {
       }
     },
     getWords() {
-      Request()
+     return Request()
         .get("/api/common_word/all", {
           sortBy: "id"
         })
         .then(response => {
           this.wordsList = this.wordsList.concat(response.data);
+          setTimeout(()=>{
+            this.listLoading = false;
+          },500)
         })
         .catch(error => {
           console.log(error);

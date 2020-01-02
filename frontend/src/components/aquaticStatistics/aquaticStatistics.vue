@@ -75,7 +75,7 @@ export default {
       total: 0,
       tableData: [],
       listLoading: false,
-      filesample: "AquaticSample.xlsx"
+      filesample: "/uploads/AquaticSample.xlsx"
     };
   },
 

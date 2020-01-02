@@ -12,17 +12,17 @@
           class="inline-block-IE"
           type="primary"
           plain
-          v-if="!companyId && isShowAddButton"
+          v-if="companyId<0 && isShowAddButton"
           v-on:click="$router.push(`/regulatoryRecord/create`)"
         >添加监管记录</el-button>
-        <div v-else-if="companyId" class="fixed-value margin-right-20 inline-block-IE">
+        <div v-else-if="companyId>-1" class="fixed-value margin-right-20 inline-block-IE">
           <p v-if="filterCompanyName(companyId)">{{ filterCompanyName(companyId) }}</p>
           <p v-else>没有数据</p>
         </div>
         <el-button size="small" type="primary" v-on:click="$router.push(`/commonWords`)" plain>常用语管理</el-button>
         <el-button size="small" type="primary" plain>扫码下载客户端</el-button>
         <el-button size="small" type="primary" plain>说明书下载</el-button>
-        <el-button size="small" type="primary" plain v-if="companyId" @click="$router.go(-1)">返回</el-button>
+        <el-button size="small" type="primary" plain v-if="companyId>-1" @click="$router.go(-1)">返回</el-button>
         <div class="special-container inline-block-IE float-right-IE" style="margin-left:auto">
           <el-button
             size="small"
@@ -190,7 +190,8 @@ export default {
     };
   },
   created() {
-    this.companyId = this.$route.query.companyId;
+    this.companyId = this.$route.query.companyId || this.$route.query.companyId===0 ? this.$route.query.companyId:-1;
+
     this.isShowAddButton = Storage.get("authList").find(
       x => x.privilegeCode == "addRegulatoryRecord"
     )
@@ -271,7 +272,7 @@ export default {
     },
     getCountElement(val1, val2) {
       if (!val1 && !val2) return 0;
-      else return val1.split(",").length + val2.split(",").length;
+      else return val1.split(";").length + val2.split(";").length;
     },
     getItem8Status(val) {
       if (val == "1") return "合格";

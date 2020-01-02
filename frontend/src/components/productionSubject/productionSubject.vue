@@ -127,7 +127,7 @@
           >
         </div>
         <div class="allCompany">
-          共计
+          总计
           <b class="blue-colored">{{ total }}</b> 家企业
         </div>
       </div>
@@ -401,8 +401,12 @@ export default {
       return this.townList[pos].name;
     },
     gotoCreditRatingPage(row) {
+      // this.$router.push({
+      //   path: `/corporateCreditFile/ratingInfo`,
+      //   query: { creditCode: row.creditCode }
+      // });
       this.$router.push({
-        path: `/corporateCreditFile/ratingInfo`,
+        path: `/productionSubject/addRegulatoryObject`,
         query: { creditCode: row.creditCode }
       });
     },

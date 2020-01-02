@@ -243,7 +243,7 @@
                     <div class="image-container">
                       <img
                         class="live_photo"
-                        :src="downloadUrl + '/uploads/' + data.scenePhotos"
+                        :src="downloadUrl + data.scenePhotos"
                         v-if="data.scenePhotos"
                       />
                     </div>
@@ -261,7 +261,7 @@
                     <div class="image-container">
                       <img
                         class="sign_photo"
-                        :src="downloadUrl + '/uploads/' + data.sign"
+                        :src="downloadUrl + data.sign"
                         v-if="data.sign"
                       />
                     </div>
@@ -330,6 +330,10 @@ export default {
           this.data = response;
           this.conclusionData = JSON.parse(this.data.conclusionFalseInfo);
           this.supervisionInfo = JSON.parse(this.data.supervisionInfo);
+          if(this.data.scenePhotos && this.data.scenePhotos.indexOf("/uploads/")<0)
+          this.data.scenePhotos =  "/uploads/"+this.data.scenePhotos;
+          if(this.data.sign && this.data.sign.indexOf("/uploads/")<0)
+          this.data.sign =  "/uploads/"+this.data.sign;
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
@@ -340,7 +344,7 @@ export default {
     },
     downloadFile_Live() {
       axios({
-        url: this.downloadUrl + "/uploads/" + this.data.scenePhotos,
+        url: this.downloadUrl + this.data.scenePhotos,
         method: "GET",
         responseType: "blob" // important
       }).then(response => {
@@ -349,7 +353,7 @@ export default {
         link.href = url;
         link.setAttribute(
           "download",
-          this.data.scenePhotos.replace("/api", "/api/uploads/")
+          this.data.scenePhotos.replace("/uploads/", "")
         ); //or any other extension
         document.body.appendChild(link);
         link.click();
@@ -358,7 +362,7 @@ export default {
     },
     downloadFile_Sign() {
       axios({
-        url: this.downloadUrl + "/uploads/" + this.data.sign,
+        url: this.downloadUrl + this.data.sign,
         method: "GET",
         responseType: "blob" // important
       }).then(response => {

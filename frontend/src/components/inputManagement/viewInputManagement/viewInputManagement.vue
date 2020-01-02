@@ -88,11 +88,11 @@ export default {
   data() {
     return {
         formData: {
-            companyId: "-1",
+            companyId: 0,
             amount: "",
             sampleName: "",
         },
-        companyProduction: [{ id: -1, name: "全部" }],
+        companyProduction: [],
         fileName: '',
         file: null,
         dataloading: false,
@@ -127,7 +127,7 @@ export default {
                     this.fileName = this.file.replace("/uploads/", "");
                     setTimeout(() => {
                         this.dataloading = false;
-                    }, 0.01 * 1000);
+                    }, 500);
                 })
                 .catch(error => {
                     console.log(error);

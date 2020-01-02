@@ -467,13 +467,13 @@ export default {
     ];
     return {
       createLoading: false,
-      townList: [{ id: -1, name: "全部" }],
+      townList: [],
       form: {
         agriculturalClassification: "1",
         chargePerson: "",
         companyAddress: "",
         companyHonor: "",
-        companyId: -1,
+        companyId: "-1",
         companyName: "",
         companyType: "1",
         contactMobile: "",
@@ -489,7 +489,7 @@ export default {
         qualityStandardId: 0,
         quality_standard: 0,
         remarks: "",
-        townId: -1,
+        townId: 0,
         updateUserId: 0,
         productInfo: {
           data_0_0: "",
