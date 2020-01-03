@@ -561,7 +561,48 @@ export default {
         .get("/api/company_production/get/" + id)
         .then(response => {
           this.form = response;
-          this.form.productInfo = JSON.parse(response.productInfo);
+          if(response.productInfo){
+            if(response.productInfo.indexOf("data_0_0")<0){
+              var regex = new RegExp(/(?<={planting:)(.*)(?=})/g),
+              results = regex.exec(response.productInfo);
+              const middleStr = results ? results[1] : "[]";
+              var regex1 = new RegExp(/(?<=name:")(.*)(?=, area:)/g),
+              results1 = regex1.exec(middleStr);
+              const data_0_0 = results1 ? results1[1] : "";
+              var regex2 = new RegExp(/(?<=area:)(.*)(?="})/g),
+              results2 = regex2.exec(middleStr);
+              const data_0_1 = results2 ? results2[1] : "";
+              this.form.productInfo = {
+                data_0_0: data_0_0,
+                data_0_1: data_0_1,
+                data_0_2: "",
+                data_0_3: "",
+                data_1_0: "",
+                data_1_1: "",
+                data_1_2: "",
+                data_2_0: "",
+                data_2_1: "",
+                data_3_0: "",
+                data_3_1: ""
+              }
+            }else{
+              this.form.productInfo = JSON.parse(response.productInfo);
+            }
+          }else{
+            this.form.productInfo = {
+              data_0_0: "",
+              data_0_1: "",
+              data_0_2: "",
+              data_0_3: "",
+              data_1_0: "",
+              data_1_1: "",
+              data_1_2: "",
+              data_2_0: "",
+              data_2_1: "",
+              data_3_0: "",
+              data_3_1: ""
+            }
+          }
           this.changeCompany();
         })
         .catch(error => {
