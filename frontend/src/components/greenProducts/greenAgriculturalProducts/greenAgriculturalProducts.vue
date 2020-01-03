@@ -40,16 +40,27 @@
               <el-form-item
                 label="板块："
                 :prop="'data.' + index + '.town'"
-                :rules="{ required: true, message: '请插入', trigger: 'blur' }"
+                :rules="{ required: true, message: '请选择', trigger: 'blur' }"
                 class="margin-left-10"
               >
-                <el-input v-model="rowData.town"></el-input>
+                <el-select v-model="rowData.town" class="w-100">
+                <el-option
+                  v-for="town in township"
+                  :key="town.id"
+                  :label="town.name"
+                  :value="town.id"
+                ></el-option>
+              </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="2">
               <el-form-item
                 label="种植业占比:"
-                :prop="'data.' + index + '.planting'"                
+                number
+                :prop="'data.' + index + '.planting'"
+                :rules="[                
+                { type: 'number', message: '插入号码' }
+              ]"                
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.planting"></el-input>
@@ -58,7 +69,10 @@
             <el-col :span="2">
               <el-form-item
                 label="畜牧业占比:"
-                :prop="'data.' + index + '.livestock'"                
+                :prop="'data.' + index + '.livestock'" 
+                :rules="[                
+                { type: 'number', message: '插入号码' }
+              ]"               
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.livestock"></el-input>
@@ -68,7 +82,10 @@
             <el-col :span="4">
               <el-form-item
                 label="绿色优质农产品占比:"
-                :prop="'data.' + index + '.highQuality'"                
+                :prop="'data.' + index + '.highQuality'"
+                :rules="[                
+                { type: 'number', message: '插入号码' }
+                 ]"                
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.highQuality"></el-input>
@@ -78,7 +95,10 @@
             <el-col :span="4">
               <el-form-item
                 label="下半年种植业预计占比:"
-                :prop="'data.' + index + '.plantingHalfPlan'"                
+                :prop="'data.' + index + '.plantingHalfPlan'"
+                :rules="[                
+                { type: 'number', message: '插入号码' }
+              ]"                
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.plantingHalfPlan"></el-input>
@@ -88,7 +108,10 @@
             <el-col :span="4">
               <el-form-item
                 label="下半年畜牧业预计占比:"
-                :prop="'data.' + index + '.livestockHalfPlan'"                
+                :prop="'data.' + index + '.livestockHalfPlan'"
+                :rules="[                
+                { type: 'number', message: '插入号码' }
+              ]"                
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.livestockHalfPlan"></el-input>
@@ -98,7 +121,10 @@
             <el-col :span="4">
               <el-form-item
                 label="绿色优质农产品预计占比:"
-                :prop="'data.' + index + '.highQualityPlan'"                
+                :prop="'data.' + index + '.highQualityPlan'"
+                :rules="[                
+                { type: 'number', message: '插入号码' }
+              ]"                
                 class="margin-left-10"
               >
                 <el-input v-model.number="rowData.highQualityPlan"></el-input>
@@ -124,6 +150,7 @@
               <el-date-picker
                 type="date"
                 v-model="registerTime"
+                style="width:180px"
               ></el-date-picker>
             </el-col>
             <el-col :span="2" v-show="dynamicValidateForm.data.length > 0">
@@ -163,9 +190,9 @@
     </el-dialog>
 
     <el-container>
-      <el-header>绿色优质农产品统计汇总</el-header>
+      <el-header class="margin-bottom-10">绿色优质农产品统计汇总</el-header>
       <div class="iptBox">
-        <el-row>
+        <el-row class="w-80">
           <el-col :span="2">
             <el-button
               size="small"
@@ -178,6 +205,7 @@
           <el-col :span="6">
             <span>开始日期:&nbsp;</span>
             <el-date-picker
+              style="width:150px"
               type="date"
               v-model="registerTimeFrom"
             ></el-date-picker>
@@ -185,6 +213,7 @@
           <el-col :span="6">
             <span>结束日期:&nbsp;</span>
             <el-date-picker
+              style="width:150px"
               type="date"
               v-model="registerTimeTo"
             ></el-date-picker>
@@ -287,6 +316,7 @@ export default {
         data: []
       },
       selectedRows: [],
+      township: [{ id: -1, name: "全部" }],
       confirm_dialogVisible: false,
       checked: [],
       registerTime: new Date().toString("YYYY-MM-DD"),
@@ -303,6 +333,7 @@ export default {
     };
   },
   created() {
+    this.getTown();
     // this.loggedinUserType = Auth().user().userType;
     this.getData();
   },
@@ -324,7 +355,16 @@ export default {
         })
         .catch(_ => {});
     },
-
+    getTown() {
+      Request()
+        .get("/api/town/all")
+        .then(response => {
+          this.township = this.township.concat(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     addFormRow() {
       this.dynamicValidateForm.data.push({
         town: "",
@@ -386,7 +426,7 @@ export default {
           "registerTime",
           this.registerTime.toString("YYYY-MM-DD")
         );
-        formdata.append("town", item.town);
+        formdata.append("town", this.filterTownship(item.town));
         formdata.append("updateTime", updateTime.toDateString("YYYY-MM-DD"));
         formdata.append("updateUserId", Auth().user().id);
         formdata.append("year", this.inYear);
@@ -406,7 +446,14 @@ export default {
     changeFilter() {
       this.getData();
     },
-
+    filterTownship(townId) {
+      let town = this.township.find(x => x.id === townId);
+      if (town) {
+        return town.name;
+      } else {
+        return "";
+      }
+    },
     handleChange() {
       if (this.searchYear > 1990) {
         this.registerTimeFrom = new Date(this.searchYear, 0, 1);

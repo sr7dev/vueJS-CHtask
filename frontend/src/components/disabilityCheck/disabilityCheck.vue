@@ -239,7 +239,7 @@ export default {
       status: 1,
       tableData: [],
       items: [{ id: "-1", item: "全部" }],
-      itemValue: "-1",
+      itemValue: "全部",
       samples: [{ id: 0, sample: "全部" }],
       samplesValue: "",
       results: [
@@ -250,7 +250,7 @@ export default {
       ],
       result: -1,
       detectionUnit: [{ id: -1, detectUnit: "全部" }],
-      detectionUnitValue: -1,
+      detectionUnitValue: "全部",
       startDate: "",
       endDate: "",
       isShowCheckbox: 0,

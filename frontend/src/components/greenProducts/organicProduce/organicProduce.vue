@@ -24,11 +24,18 @@
           </el-col>
           <el-col :span="3" class="margin-left-10">
             <el-form-item
-              label="所在镇(区)："
+              label="板块："
               :prop="'rowDatas.' + index + '.town'"
-              :rules="{ required: true, message: '请插入', trigger: 'blur' }"
+              :rules="{ required: true, message: '请选择', trigger: 'blur' }"
             >
-              <el-input v-model="rowData.town" class="w-100"></el-input>
+               <el-select v-model="rowData.town" class="w-100">
+                <el-option
+                  v-for="town in township"
+                  :key="town.id"
+                  :label="town.name"
+                  :value="town.id"
+                ></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="4" class="margin-left-10">
@@ -187,6 +194,7 @@
           </div>
           <el-date-picker
             v-model="registerTimeFrom"
+            style="width:150px"
             align="right"
             type="date"
             placeholder="插入时间 "
@@ -198,6 +206,7 @@
           </div>
           <el-date-picker
             v-model="registerTimeTo"
+            style="width:150px"
             align="right"
             type="date"
             placeholder="插入时间 "
@@ -359,6 +368,7 @@ export default {
   },
 
   created() {
+    this.getTown();
     this.getCompanyProduction();
     // this.loggedinUserType = Auth().user().userType;
     this.getData();
@@ -816,7 +826,7 @@ export default {
             this.dynamicValidateForm.rowDatas[i].productName
           );
           formdata.append("registerTime", this.registerTime);
-          formdata.append("town", this.dynamicValidateForm.rowDatas[i].town);
+          formdata.append("town", this.filterTownship(this.dynamicValidateForm.rowDatas[i].town));
           formdata.append("updateTime", updateTime);
           formdata.append("updateUserId", Auth().user().id);
           

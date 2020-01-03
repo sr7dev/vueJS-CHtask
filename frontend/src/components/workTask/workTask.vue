@@ -153,12 +153,17 @@ export default {
       this.listLoading = true;
       if (this.releaseTimeTo) {
         this.releaseTimeTo = new Date(this.releaseTimeTo);
-        this.releaseTimeTo.setDate(this.releaseTimeTo.getDate() + 1);
+        // releaseTimeTo.setDate(releaseTimeTo.getDate() + 1);
+        var toDate = new Date(this.releaseTimeTo.getFullYear(),
+                this.releaseTimeTo.getMonth(),
+                this.releaseTimeTo.getDate(),
+                23, 59, 59
+              );
       }
       Request()
         .get("/api/work_task/all", {
           fromDate: this.releaseTimeFrom,
-          toDate: this.releaseTimeTo,
+          toDate: toDate,
           pageNo: this.page.pageIndex - 1,
           pageSize: this.page.pageSize
         })

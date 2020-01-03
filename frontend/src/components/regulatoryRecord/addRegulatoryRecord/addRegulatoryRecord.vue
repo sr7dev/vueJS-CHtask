@@ -50,7 +50,7 @@
                   :value="item.companyId"
                 ></el-option>
               </el-select>
-              <el-button size="small" type="primary" plain icon="el-icon-plus" class="min-plus"></el-button>
+              <!-- <el-button size="small" type="primary" plain icon="el-icon-plus" class="min-plus"></el-button> -->
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -306,8 +306,8 @@ export default {
       listLoading: false,
       ruleFormValue: {
         companyType: "1",
-        townShip: 0,
-        companyID: 0,
+        townShip: "",
+        companyID: "",
         date: "",
         checker: "",
         productionRecord: "1",

@@ -181,6 +181,7 @@
           </div>
           <el-date-picker
             v-model="registerTimeFrom"
+            style="width:150px"
             align="right"
             type="date"
             placeholder="插入时间 "
@@ -192,6 +193,7 @@
           </div>
           <el-date-picker
             v-model="registerTimeTo"
+            style="width:150px"
             align="right"
             type="date"
             placeholder="插入时间 "
@@ -566,7 +568,7 @@ export default {
                 this.registerTimeTo.getDate(),
                 23, 59, 59
               );
-
+      console.log(this.registerTimeFrom, toDate);
       Request()
         .get("/api/green/green_food/all", {
           registerTimeTo: toDate,
