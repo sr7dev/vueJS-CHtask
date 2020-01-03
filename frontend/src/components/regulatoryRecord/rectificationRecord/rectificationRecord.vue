@@ -491,6 +491,8 @@ export default {
   },
   created() {
     this.superId = this.$route.params.id;
+    this.ruleFormValue.companyId = this.$route.query.company;
+    this.ruleFormValue.townId = this.$route.query.township;
     this.downloadURL = Urls.DOWNLOAD_URL();
     this.getTown();
     this.getCompanyProduct();

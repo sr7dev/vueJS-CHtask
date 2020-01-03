@@ -137,6 +137,7 @@
             <el-col :span="4" v-show="dynamicValidateForm.data.length > 0">
               <span>插入时间:&nbsp;</span>
               <el-date-picker
+              style="width:150px"
                 type="date"
                 v-model="registerTime"
               ></el-date-picker>
@@ -178,9 +179,9 @@
     </el-dialog>
 
     <el-container>
-      <el-header>建设中待验收种植业绿色优质基地</el-header>
+      <el-header class="margin-bottom-10">建设中待验收种植业绿色优质基地</el-header>
       <div class="iptBox">
-        <el-row>
+        <el-row class="w-80"> 
           <el-col :span="2">
             <el-button
               size="small"
@@ -193,6 +194,7 @@
           <el-col :span="6">
             <span>开始日期:&nbsp;</span>
             <el-date-picker
+              style="width:150px"
               type="date"
               v-model="registerTimeFrom"
             ></el-date-picker>
@@ -200,13 +202,14 @@
           <el-col :span="6">
             <span>结束日期:&nbsp;</span>
             <el-date-picker
+              style="width:150px"
               type="date"
               v-model="registerTimeTo"
             ></el-date-picker>
           </el-col>
           <el-col :span="9">
             <span>创建单位:&nbsp;</span>
-            <el-input v-model="companyName" class="w-80"></el-input>
+            <el-input v-model="companyName" class="w-60"></el-input>
           </el-col>
           <el-col :span="1">
             <el-button

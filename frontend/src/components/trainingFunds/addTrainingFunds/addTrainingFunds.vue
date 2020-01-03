@@ -84,9 +84,9 @@ export default {
             projectName: "",
             appliedAmount: "",
             proposer: "",
-            companyId: "-1",
+            companyId: "",
         },
-        companyProduction: { id: -1, name: "全部" },
+        companyProduction: [],
         rules: {
             projectName: [
             {

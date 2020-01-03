@@ -41,10 +41,17 @@
               <el-form-item
                 label="板块："
                 :prop="'data.' + index + '.town'"
-                :rules="{ required: true, message: '请插入', trigger: 'blur' }"
+                :rules="{ required: true, message: '请选择', trigger: 'blur' }"
                 class="margin-left-10"
               >
-                <el-input v-model="rowData.town" class="w-80"></el-input>
+                <el-select v-model="rowData.town" class="w-80">
+                <el-option
+                  v-for="town in township"
+                  :key="town.id"
+                  :label="town.name"
+                  :value="town.id"
+                ></el-option>
+              </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="5">
@@ -129,9 +136,9 @@
     </el-dialog>
 
     <el-container>
-      <el-header>镇（街道）、开发区推进高质量发展考核指标数据填报表</el-header>
+      <el-header class="margin-bottom-10">镇（街道）、开发区推进高质量发展考核指标数据填报表</el-header>
       <div class="iptBox">
-        <el-row>
+        <el-row class="w-80">
           <el-col :span="2">
             <el-button
               size="small"
@@ -144,6 +151,7 @@
           <el-col :span="6">
             <span>开始日期:&nbsp;</span>
             <el-date-picker
+              style="width:150px"
               type="date"
               v-model="registerTimeFrom"
             ></el-date-picker>
@@ -152,6 +160,7 @@
             <span>结束日期:&nbsp;</span>
             <el-date-picker
               type="date"
+              style="width:150px"
               v-model="registerTimeTo"
             ></el-date-picker>
           </el-col>
@@ -233,6 +242,7 @@ export default {
         data: []
       },
       selectedRows: [],
+      township: [{ id: -1, name: "全部" }],
       confirm_dialogVisible: false,
       checked: [],
       registerTime: new Date().toString("YYYY-MM-DD"),
@@ -249,6 +259,7 @@ export default {
     };
   },
   created() {
+    this.getTown();
     this.getData();
   },
   methods: {
@@ -259,6 +270,16 @@ export default {
       this.inYear = Number(new Date().getFullYear());
       this.addFormRow();
       this.openDialog = true;
+    },
+     getTown() {
+      Request()
+        .get("/api/town/all")
+        .then(response => {
+          this.township = this.township.concat(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
 
     handleClose(done) {
@@ -327,7 +348,7 @@ export default {
           "registerTime",
           this.registerTime.toString("YYYY-MM-DD")
         );
-        formdata.append("town", item.town);
+        formdata.append("town", this.filterTownship(item.town));
         formdata.append("year", this.inYear);
         formdata.append("updateTime", updateTime.toDateString("YYYY-MM-DD"));
         formdata.append("updateUserId", Auth().user().id);
@@ -386,7 +407,14 @@ export default {
           })
         });
     },
-
+    filterTownship(townId) {
+      let town = this.township.find(x => x.id === townId);
+      if (town) {
+        return town.name;
+      } else {
+        return "";
+      }
+    },
     calculateTotal() {
       let fnum = 0;
       let snum = 0;

@@ -132,7 +132,10 @@
               <el-button
                 size="small"
                 type="warning"
-                v-on:click="$router.push(`/regulatoryRecord/edit/${row.id}`)"
+                v-on:click="$router.push({path:`/regulatoryRecord/edit/${row.id}`,query: {
+                      company: row.companyId,
+                      township: row.townId
+                    }})"
                 plain
               >整改记录</el-button>
             </template>

@@ -26,10 +26,17 @@
               <el-form-item
                 label="板块："
                 :prop="'data.' + index + '.town'"
-                :rules="{ required: true, message: '请插入', trigger: 'blur' }"
+                :rules="{ required: true, message: '请选择', trigger: 'blur' }"
                 class="margin-left-10"
               >
-                <el-input v-model="rowData.town"></el-input>
+                <el-select v-model="rowData.town" class="w-100">
+                <el-option
+                  v-for="town in township"
+                  :key="town.id"
+                  :label="town.name"
+                  :value="town.id"
+                ></el-option>
+              </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="2">
@@ -137,6 +144,7 @@
             <el-col :span="4" v-show="dynamicValidateForm.data.length > 0">
               <span>插入时间:&nbsp;</span>
               <el-date-picker
+                style="width:180px"
                 type="date"
                 v-model="registerTime"
               ></el-date-picker>
@@ -178,9 +186,9 @@
     </el-dialog>
 
     <el-container>
-      <el-header>种植业绿色优质农产品统计汇总</el-header>
+      <el-header class="margin-bottom-10">种植业绿色优质农产品统计汇总</el-header>
       <div class="iptBox">
-        <el-row>
+        <el-row class="w-80">
           <el-col :span="2">
             <el-button
               size="small"
@@ -193,6 +201,7 @@
           <el-col :span="6">
             <span>开始日期:&nbsp;</span>
             <el-date-picker
+              style="width:150px"
               type="date"
               v-model="registerTimeFrom"
             ></el-date-picker>
@@ -200,13 +209,14 @@
           <el-col :span="6">
             <span>结束日期:&nbsp;</span>
             <el-date-picker
+              style="width:150px"
               type="date"
               v-model="registerTimeTo"
             ></el-date-picker>
           </el-col>
           <el-col :span="9">
             <span>创建单位:&nbsp;</span>
-            <el-input v-model="town" class="w-80"></el-input>
+            <el-input v-model="town" class="w-60"></el-input>
           </el-col>
           <el-col :span="1">
             <el-button
@@ -321,6 +331,7 @@ export default {
         data: []
       },
       selectedRows: [],
+      township: [{ id: -1, name: "全部" }],
       confirm_dialogVisible: false,
       checked: [],
       registerTime: new Date().toString("YYYY-MM-DD"),
@@ -338,9 +349,20 @@ export default {
   },
   created() {
     // this.loggedinUserType = Auth().user().userType;
+    this.getTown();
     this.getData();
   },
   methods: {
+    getTown() {
+      Request()
+        .get("/api/town/all")
+        .then(response => {
+          this.township = this.township.concat(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     showAddDialog() {
       this.dynamicValidateForm.data = [];
       this.selectedRows = [];
@@ -394,6 +416,14 @@ export default {
         }
       });
     },
+    filterTownship(townId) {
+      let town = this.township.find(x => x.id === townId);
+      if (town) {
+        return town.name;
+      } else {
+        return "";
+      }
+    },
 
     changeCheckStatus(rowIndex) {
       let index = this.selectedRows.indexOf(rowIndex);
@@ -431,7 +461,8 @@ export default {
         formdata.append("repeatArea", (item.repeatArea == "" || item.repeatArea == undefined? -1:item.repeatArea));
         formdata.append("sum", (item.sum == "" || item.sum == undefined? -1:item.sum));
         formdata.append("target", item.target);
-        formdata.append("town", item.town);
+        formdata.append("town", this.filterTownship(item.town));
+        
         formdata.append("updateTime", updateTime.toDateString("YYYY-MM-DD"));
         formdata.append("updateUserId", Auth().user().id);
 

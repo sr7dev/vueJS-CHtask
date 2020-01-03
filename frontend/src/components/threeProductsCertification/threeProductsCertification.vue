@@ -171,6 +171,10 @@ export default {
         .get("/api/company_production/name")
         .then(response => {
           this.companyProduction = this.companyProduction.concat(response);
+          for(let i in this.companyProduction) {
+            if(this.companyProduction[i].creditCode == "")
+            this.companyProduction.splice(i,1);
+          }
         })
         .catch(error => {
           console.log(error);

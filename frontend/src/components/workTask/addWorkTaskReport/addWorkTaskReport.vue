@@ -46,7 +46,7 @@
           </el-col>
           <el-col :span="4">
             <el-form-item label="汇报单位：" prop="townId">
-              <el-select placeholder="请选择" v-model="ruleFormValue.townId" disabled>
+              <el-select placeholder="请选择" v-model="ruleFormValue.townId">
                 <el-option
                   v-for="town in township"
                   :key="town.id"
@@ -90,7 +90,7 @@ export default {
       file: null,
       selectedId: null,
       workData: null,
-      township: [{ id: -1, name: "全部" }],
+      township: [],
       listLoading: false,
       pageLoading: true,
       ruleFormValue: {
@@ -135,7 +135,7 @@ export default {
     this.selectedId = this.$route.query.id;
     this.getData(this.$route.query.id);
     this.getTown();
-    this.ruleFormValue.townId = Auth().user().townId;
+    this.ruleFormValue.townId = Auth().user().townId ? Auth().user().townId : "";
   },
   methods: {
     getData(id) {

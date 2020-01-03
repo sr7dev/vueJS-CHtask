@@ -17,7 +17,7 @@
         v-loading="dataloading"
     >
         <el-form-item label="企业名称" prop="companyId" class="input-width label-align">
-            <el-select v-model="addForm.companyId">
+            <el-select v-model="addForm.companyId" placeholder="请选择">
                 <el-option
                     v-for="item in companyProduction"
                     :key="item.companyId"
@@ -74,7 +74,7 @@ export default {
   data() {
     return {
         addForm: {
-            companyId: 0,
+            companyId: "",
             amount: "",
             sampleName: "",
         },
