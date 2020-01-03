@@ -61,9 +61,14 @@
             <el-form-item
               label="年龄:"
               :prop="'rowDatas.'+index+'.age'"
+              :rules="{ type: 'number',message: '插入号码'}"
+            >
+            <!-- <el-form-item
+              label="年龄:"
+              :prop="'rowDatas.'+index+'.age'"
               :rules="[{required: true, message: '请插入'},
                 { type: 'number',message: '插入号码'}]"
-            >
+            > -->
               <el-input v-model.number="rowData.age"></el-input>
             </el-form-item>
           </el-col>
@@ -71,8 +76,12 @@
             <el-form-item
               label="手机号:"
               :prop="'rowDatas.'+index+'.phoneNumber'"
-              :rules="{ required: true, message: '请插入', trigger: 'blur' }"
             >
+            <!-- <el-form-item
+              label="手机号:"
+              :prop="'rowDatas.'+index+'.phoneNumber'"
+              :rules="{ required: true, message: '请插入', trigger: 'blur' }"
+            > -->
               <el-input v-model="rowData.phoneNumber"></el-input>
             </el-form-item>
           </el-col>
@@ -247,7 +256,7 @@ export default {
           var regex3 = new RegExp(/(?<="level3":)(.*)(?=,"level4")/g),
             results3 = regex3.exec(rawData.superviseSystem);
           const group3 = results3 ? results3[1] : "[]";
-          var regex4 = new RegExp(/(?<="level4":)(.*)(?=}")/g),
+          var regex4 = new RegExp(/(?<="level4":)(.*)(?=})/g),
             results4 = regex4.exec(rawData.superviseSystem);
           const group4 = results4 ? results4[1] : "[]";
           rawData["level2leader"] = JSON.parse(tmplevel2leader);
@@ -312,7 +321,7 @@ export default {
       }
     },
     onSubmit(formName) {
-      console.log(this.dynamicValidateForm.rowDatas);
+      // console.log(this.dynamicValidateForm.rowDatas);
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.confirm_dialogVisible = true;
@@ -322,10 +331,9 @@ export default {
     updateSelectedRows() {
       this.confirm_dialogVisible = false;
       this.openDialog = false;
-
-      if (this.dynamicValidateForm.rowDatas.length) {
         this.listLoading = true;
         let updateSuperData = {};
+        console.log(this.dynamicValidateForm.rowDatas);
         for (let i = 1; i < 5; i++) {
           if (this.selectedSupervisupervisorType == i)
             updateSuperData["level" + i] = this.dynamicValidateForm.rowDatas;
@@ -335,6 +343,7 @@ export default {
               name: this.dynamicValidateForm.webMaster
             };
         }
+        // console.log(updateSuperData);
         // updateSuperData["level1"] = this.dynamicValidateForm.rowDatas;
         // updateSuperData["level2leader"] = this.dynamicValidateForm.webMaster;
         // updateSuperData["level2"] = this.tableData.group2;
@@ -354,7 +363,6 @@ export default {
             }, 0.5 * 1000);
             this.getData();
           });
-      }
     },
     handleClose(done) {
       this.$confirm("您确定要关闭此对话框吗？")

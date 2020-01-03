@@ -398,7 +398,7 @@ export default {
           for (let i in tmpData) {
             let tmpTown = this.townList.find(x => x.id == tmpData[i][2]);
             tmpMaxCnt += tmpData[i][0];
-            tmpMaxCnt1 += tmpData[i][1];
+            tmpMaxCnt1 += tmpData[i][1]*10000;
             this.tableData.push({
               name: tmpTown.name,
               cnt: tmpData[i][0],
@@ -408,7 +408,7 @@ export default {
           this.maxCnt = tmpMaxCnt;
           this.summaryData.push({
             maxCnt: tmpMaxCnt,
-            avg_maxCnt: tmpMaxCnt1
+            avg_maxCnt: tmpMaxCnt1/10000
           });
 
           this.makeXYChart();

@@ -179,7 +179,7 @@ export default {
             var regex3 = new RegExp(/(?<="level3":)(.*)(?=,"level4")/g),
               results3 = regex3.exec(this.townList[i].superviseSystem);
             const group3 = results3 ? results3[1] : "[]";
-            var regex4 = new RegExp(/(?<="level4":)(.*)(?=}")/g),
+            var regex4 = new RegExp(/(?<="level4":)(.*)(?=})/g),
               results4 = regex4.exec(this.townList[i].superviseSystem);
             const group4 = results4 ? results4[1] : "[]";
             this.townList[i]["level2header"] = JSON.parse(tmplevel2leader);
