@@ -7,7 +7,7 @@
       </mt-header>
       <div class="header" v-if="data">
         <ul>
-          <li>标准名称 <span>{{data.productStandard.indexOf("png") > -1 ? data.productStandard.replace(".png","") : data.productStandard}}</span></li>
+          <li>标准名称 <span>{{data.productStandard && data.productStandard.indexOf("png") > -1 ? data.productStandard.replace(".png","") : data.productStandard}}</span></li>
           <li>发布日期<span>{{data.releaseTime}}</span></li>
           <li>发布者 <span>{{data.releasePerson}}</span></li>
         </ul>
@@ -108,17 +108,17 @@
 
 <style scoped>
   ul{
-    margin-left: -2rem;
+    margin-left: -2.5rem;
   }
   li{
     position: relative;
     line-height: 4rem;
-    padding-left: 2rem;
+    padding-left: 0.5rem;
     border-bottom: 0.03rem black solid;
   }
   span{
     position: absolute;
-    left: 11rem;
+    left: 7rem;
   }
   .mui-card-content-inner{
     height: 10rem;

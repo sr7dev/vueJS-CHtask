@@ -22,7 +22,7 @@
           </el-col>
         </el-row>
         <el-form-item label="认证类型">
-          <el-radio-group v-model="data.argriculturalClassification" disabled>
+          <el-radio-group v-model="data.certificationType" disabled>
             <el-radio label="1">无公害产品</el-radio>
             <el-radio label="2">绿色食品</el-radio>
             <el-radio label="3">有机食品</el-radio>
@@ -37,7 +37,7 @@
           </el-col>
           <el-col :span="7">
             <el-form-item label="农业分类">
-              <el-select v-model="data.certificationType" placeholder="请选择" disabled>
+              <el-select v-model="data.argriculturalClassification" placeholder="请选择" disabled>
                 <el-option
                   v-for="item in options"
                   :key="item.value"
@@ -136,10 +136,11 @@ export default {
       productName: "",
       listLoading: false,
       argriculturalClassification: 0,
-      options: [
-        { value: "2", label: "养殖业" },
-        { value: "1", label: "畜牧业" },
-        { value: "3", label: "种植业" }
+       options: [
+        { value: 1, label: "养殖业" },
+        { value: 2, label: "已同意" },
+        { value: 3, label: "畜牧业" },
+        { value: 4, label: "种植业" },
       ]
     };
   },

@@ -26,7 +26,7 @@
             v-model="townId"
             @change="getList(1)"
           >
-            <option label="全部" :value="0">全部</option>
+            <option label="全部" :value="-1">全部</option>
             <option v-for="item in TonwList" :key="item.id" :value="item.id">{{
               item.name
             }}</option>
@@ -64,7 +64,7 @@
             >
               <a class="mui-navigate-right">
                 <tr>
-                  <td style="width: 6rem">名称</td>
+                  <td style="width: 5rem">名称</td>
                   <td>{{ item.companyName }}</td>
                 </tr>
                 <tr>
@@ -104,8 +104,9 @@ export default {
       agricultural: [
         { value: 0, label: "全部" },
         { value: 1, label: "养殖业" },
-        { value: 2, label: "畜牧业" },
-        { value: 3, label: "种植业" }
+        { value: 2, label: "已同意" },
+        { value: 3, label: "畜牧业" },
+        { value: 4, label: "种植业" },
       ],
       //乡镇列表
       TonwList: [{ id: -1, name: "全部" }],
@@ -117,7 +118,6 @@ export default {
   methods: {
     //进入企业详细页面
     companyDetails(id) {
-      console.log(id);
       this.$router.push({ path: "/companyDetails", query: { companyId: id } });
     },
     //获取乡镇列表
@@ -125,7 +125,6 @@ export default {
       Request()
         .get("/api/town/all")
         .then(response => {
-          console.log(response);
           this.TonwList = response;
         });
     },
@@ -146,7 +145,6 @@ export default {
           townId: this.townId
         })
         .then(response => {
-          console.log(response);
           this.page.pageIndex = this.page.pageIndex + 1;
           this.tableData = this.tableData.concat(response);
           if (response.length < this.page.pageSize) {
@@ -200,5 +198,12 @@ export default {
 .mui-icon {
   margin-left: 50%;
   margin-top: 1rem;
+}
+.mui-card {
+    width: 93%;
+}
+td {
+  letter-spacing: -1px;
+  white-space: normal!important;
 }
 </style>

@@ -7,7 +7,7 @@
       </mt-header>
       <div class="header">
         <ul>
-          <li>企业名称<span>{{form.companyName}}</span></li>
+          <li>企业名称<span style="left:9rem">{{form.companyName}}</span></li>
           <li>乡镇 <span>{{filterTownship(form.townId)}}</span></li>
           <li>行业<span>{{form.agriculturalClassification|filter}}</span></li>
           <li>地址<span>{{form.companyAddress}}</span></li>
@@ -115,6 +115,48 @@
             .get("/api/company_production/get/"+id)
             .then(response => {
               this.form = response;
+               if(response.productInfo){
+                if(response.productInfo.indexOf("data_0_0")<0){
+                  var regex = new RegExp(/(?={planting:)(.*)(?=})/g),
+                  results = regex.exec(response.productInfo);
+                  const middleStr = results ? results[1] : "[]";
+                  var regex1 = new RegExp(/(?=name:")(.*)(?=, area:)/g),
+                  results1 = regex1.exec(middleStr);
+                  const data_0_0 = results1 ? results1[1] : "";
+                  var regex2 = new RegExp(/(?=area:)(.*)(?="})/g),
+                  results2 = regex2.exec(middleStr);
+                  const data_0_1 = results2 ? results2[1] : "";
+                  this.form.productInfo = {
+                    data_0_0: data_0_0.replace("name:\"",""),
+                    data_0_1: data_0_1.replace("area:",""),
+                    data_0_2: "",
+                    data_0_3: "",
+                    data_1_0: "",
+                    data_1_1: "",
+                    data_1_2: "",
+                    data_2_0: "",
+                    data_2_1: "",
+                    data_3_0: "",
+                    data_3_1: ""
+                  }
+                }else{
+                  this.form.productInfo = JSON.parse(response.productInfo);
+                }
+              }else{
+                this.form.productInfo = {
+                  data_0_0: "",
+                  data_0_1: "",
+                  data_0_2: "",
+                  data_0_3: "",
+                  data_1_0: "",
+                  data_1_1: "",
+                  data_1_2: "",
+                  data_2_0: "",
+                  data_2_1: "",
+                  data_3_0: "",
+                  data_3_1: ""
+                }
+              }
               //将后台JSON字符串转为一个对象
 
               // var regex = new RegExp(/(?<=name:\")(.*)(?=, )/g),
@@ -150,18 +192,24 @@
   ul{
     margin-top: 4rem;
     margin-left: -2rem;
+    padding-left:10px;
   }
   li{
     position: relative;
     border-bottom: 0.02rem black solid;
     line-height: 3rem;
-    padding-left: 1.5rem;
+    padding-left: 2rem;
+    letter-spacing: -1px;
   }
   span{
     position: absolute;
-    left: 12rem;
+    left: 11rem;
+    font-size: 0.9rem;
   }
   .mui-card-content-inner{
     height: 10rem;
+  }
+  .mui-card {
+    width: 95%;
   }
 </style>

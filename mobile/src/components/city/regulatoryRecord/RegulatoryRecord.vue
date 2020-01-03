@@ -26,7 +26,7 @@
                   >{{ item.createTime | formatDate }}
                   <span
                     class="title"
-                    style="margin-left: 1.5rem;margin-right: 1rem"
+                    style="margin-left: 0.5rem;margin-right: 0.5rem"
                     >乡镇</span
                   >{{ filterTownship(item.townId) }}</span
                 >
@@ -92,7 +92,6 @@ export default {
   methods: {
     //跳转整改详情页
     exit(id) {
-      console.log(id);
       this.$router.push({ path: "/rectificationDetails", query: { id: id } });
     },
     //跳转监管详情
@@ -116,7 +115,6 @@ export default {
           sortBy: "id"
         })
         .then(response => {
-          console.log(response.data);
           this.page.pageIndex = this.page.pageIndex + 1;
           this.tableData = this.tableData.concat(response.data);
           this.total = response.total;
@@ -166,7 +164,6 @@ export default {
     },
     //获取公司名
     filterCompanyName(companyId) {
-      console.log(companyId);
       let company = this.companyList.find(x => x.companyId === companyId);
       if (company) {
         return company.companyName;
@@ -214,24 +211,28 @@ ul {
 
 li {
   position: relative;
-  line-height: 3rem;
+  line-height: 2rem;
 }
 .title {
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 800;
 }
 
 .span {
   position: absolute;
-  left: 5.5rem;
+  left: 4.5rem;
 }
 
 .small-left {
-  left: 3.5rem;
+  left: 2.5rem;
 }
 
 .mui-icon {
   float: right;
   margin-top: 0.5rem;
+}
+
+.mui-card-content-inner {
+  padding:5px!important;
 }
 </style>

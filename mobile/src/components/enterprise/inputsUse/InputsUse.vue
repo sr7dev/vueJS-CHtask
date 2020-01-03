@@ -59,7 +59,6 @@ export default {
     //跳转详情页面
     go(id) {
       if (this.title == "投入品使用") {
-        console.log("使用");
         this.$router.push({
           path: "/inputsUseDetails",
           query: {
@@ -68,7 +67,6 @@ export default {
           }
         });
       } else {
-        console.log("采购");
         this.$router.push({
           path: "/inputsUseDetails",
           query: {
@@ -104,7 +102,6 @@ export default {
           sortBy: "id"
         })
         .then(response => {
-          console.log(response);
           this.total = response.total;
           this.page.pageIndex = this.page.pageIndex + 1;
           this.tableData = this.tableData.concat(response.data);
@@ -132,7 +129,6 @@ export default {
           sortBy: "id"
         })
         .then(response => {
-          console.log(response);
           this.total = response.total;
           this.total = response.total;
           this.page.pageIndex = this.page.pageIndex + 1;
@@ -155,7 +151,6 @@ export default {
       Request()
         .get("/api/company_production/name")
         .then(response => {
-          console.log(response);
           this.companyProduction = response;
         })
         .catch(error => {

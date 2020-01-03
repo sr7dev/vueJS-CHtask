@@ -50,8 +50,6 @@
           Request()
             .get("/api/inputsUse/get/" + id)
             .then(response => {
-              console.log(12333333);
-              console.log(response);
               this.formData = response;
               if(response.inputProfiles){
                 this.file = response.inputProfiles;
@@ -73,7 +71,6 @@
           Request()
             .get("/api/inputsPurchase/get/" + id)
             .then(response => {
-              console.log(response);
               this.formData = response;
               if(response.inputProfiles){
                 this.file = response.inputProfiles;
@@ -96,7 +93,6 @@
         Request()
           .get("/api/company_production/name")
           .then(response => {
-            console.log(response);
             this.companyProduction = response;
           })
           .catch(error => {
@@ -136,12 +132,10 @@
             message: '没有可下载的文件',
             duration: 3000
           });
-          console.log("图片不存在")
         }
       }
     },
     created() {
-      console.log(this.$route);
       let type = this.$route.query.type;
       let id = this.$route.query.id;
       this.getData(id, type);

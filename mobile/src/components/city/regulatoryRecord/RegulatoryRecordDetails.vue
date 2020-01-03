@@ -35,21 +35,23 @@
               生产记录（种养殖档案)
               <span
                 class="mui-input-row mui-radio mui-left"
-                style="margin-left:5.5rem;margin-top:-0.5rem"
+                style="margin-left:6rem;margin-top:-0.5rem"
               >
                 <label>有</label>
                 <input
                   type="radio"
+                  name="production"
                   :checked="supervisionInfo.production == 1"
                 />
               </span>
               <span
                 class="mui-input-row mui-radio mui-left"
-                style="margin-left:9rem; margin-top:-0.5rem"
+                style="margin-left:8rem; margin-top:-0.5rem"
               >
                 <label>真实完整</label>
                 <input
                   type="radio"
+                  name="production"
                   :checked="supervisionInfo.production == 2"
                 />
               </span>
@@ -59,21 +61,23 @@
               农产品产投入品记录（进、销、使用）
               <span
                 class="mui-input-row mui-radio mui-left"
-                style="margin-left:5.5rem;margin-top:-0.5rem"
+                style="margin-left:6rem;margin-top:-0.5rem"
               >
                 <label>有</label>
                 <input
                   type="radio"
+                  name="inspection"
                   :checked="supervisionInfo.inspection == 1"
                 />
               </span>
               <span
                 class="mui-input-row mui-radio mui-left"
-                style="margin-left:9rem; margin-top:-0.5rem"
+                style="margin-left:8rem; margin-top:-0.5rem"
               >
                 <label>真实完整</label>
                 <input
                   type="radio"
+                  name="inspection"
                   :checked="supervisionInfo.inspection == 2"
                 />
               </span>
@@ -83,17 +87,17 @@
               禁用投入品及滥用添加剂行为
               <span
                 class="mui-input-row mui-radio mui-left"
-                style="margin-left:5.5rem;margin-top:-0.5rem"
+                style="margin-left:6rem;margin-top:-0.5rem"
               >
                 <label>有</label>
-                <input type="radio" :checked="supervisionInfo.input == 1" />
+                <input type="radio" :checked="supervisionInfo.input == 1" name="input"/>
               </span>
               <span
                 class="mui-input-row mui-radio mui-left"
-                style="margin-left:9rem; margin-top:-0.5rem"
+                style="margin-left:8rem; margin-top:-0.5rem"
               >
                 <label>真实完整</label>
-                <input type="radio" :checked="supervisionInfo.input == 2" />
+                <input type="radio" :checked="supervisionInfo.input == 2" name="input"/>
               </span>
             </p>
 
@@ -101,17 +105,17 @@
               农产品产地准出证明（销售记录）
               <span
                 class="mui-input-row mui-radio mui-left"
-                style="margin-left:5.5rem;margin-top:-0.5rem"
+                style="margin-left:6rem;margin-top:-0.5rem"
               >
                 <label>有</label>
-                <input type="radio" :checked="supervisionInfo.abuse == 1" />
+                <input type="radio" :checked="supervisionInfo.abuse == 1" name="abuse"/>
               </span>
               <span
                 class="mui-input-row mui-radio mui-left"
-                style="margin-left:9rem; margin-top:-0.5rem"
+                style="margin-left:8rem; margin-top:-0.5rem"
               >
                 <label>真实完整</label>
-                <input type="radio" :checked="supervisionInfo.abuse == 2" />
+                <input type="radio" :checked="supervisionInfo.abuse == 2" name="abuse"/>
               </span>
             </p>
 
@@ -119,17 +123,17 @@
               检验记录
               <span
                 class="mui-input-row mui-radio mui-left"
-                style="margin-left:5.5rem;margin-top:-0.5rem"
+                style="margin-left:6rem;margin-top:-0.5rem"
               >
                 <label>有</label>
-                <input type="radio" :checked="supervisionInfo.origin == 1" />
+                <input type="radio" :checked="supervisionInfo.origin == 1" name="origin"/>
               </span>
               <span
                 class="mui-input-row mui-radio mui-left"
-                style="margin-left:9rem; margin-top:-0.5rem"
+                style="margin-left:8rem; margin-top:-0.5rem"
               >
                 <label>真实完整</label>
-                <input type="radio" :checked="supervisionInfo.origin == 2" />
+                <input type="radio" :checked="supervisionInfo.origin == 2" name="origin"/>
               </span>
             </p>
 
@@ -137,10 +141,10 @@
               “三品一标使用”
               <span
                 class="mui-input-row mui-radio mui-left"
-                style="margin-left:5.5rem;margin-top:-0.5rem"
+                style="margin-left:6rem;margin-top:-0.5rem"
               >
                 <label>合规</label>
-                <input type="radio" :checked="supervisionInfo.standard == 1" />
+                <input type="radio" :checked="supervisionInfo.standard == 1"/>
               </span>
             </p>
             <p style="font-size: 1rem;font-weight:500;color: black">其他</p>
@@ -154,7 +158,7 @@
               <input type="text" v-model="data.otherProblems" />
             </div>
             <p style="margin-left: 1rem;margin-top:2rem">
-              结论&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp不合格
+              结论&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不合格
             </p>
             <div class="mt-field">
               <mt-field
@@ -258,7 +262,6 @@ export default {
           id: this.id
         })
         .then(response => {
-          console.log(response);
           this.data = response;
           this.conclusionData = JSON.parse(this.data.conclusionFalseInfo);
           this.supervisionInfo = JSON.parse(this.data.supervisionInfo);
@@ -303,7 +306,6 @@ export default {
     }
   },
   created() {
-    console.log(this.$route);
     this.id = this.$route.query.id;
     this.townShip = this.$route.query.town;
     this.companyName = this.$route.query.company;
@@ -328,21 +330,29 @@ li {
 
 span {
   position: absolute;
-  left: 6rem;
+  left: 5rem;
   font-weight: 500;
+}
+.mui-radio input[type=radio] {
+  top:6px!important
+}
+.mui-radio input[type=radio]:before {
+  font-size: 15px!important;
 }
 
 .mui-card-content-inner {
-  margin-right: -2rem;
+  margin-right: -1rem;
+  padding:5px!important;
 }
 
 .Title {
   font-size: 0.8rem;
   margin-top: 1rem;
+  letter-spacing: -1.5px;
 }
 
 .scene {
-  height: 12.5rem;
+  height: 15.5rem;
   border: 0.01rem black solid;
   margin-top: 1rem;
   margin-right: 1.5rem;

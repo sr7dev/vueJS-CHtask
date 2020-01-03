@@ -38,7 +38,6 @@
           Request()
             .get("/api/production_record/get/" + id)
             .then(response => {
-              console.log(response);
               this.data = response;
               setTimeout(() => {
                 loader.hide();
@@ -51,7 +50,6 @@
         //下载
         downloadFile() {
           if(this.data.productionProfiles){
-            console.log(this.data.productionProfiles)
             axios({
               url: Urls.DOWNLOAD_URL() + this.data.productionProfiles,
               method: "GET",
@@ -69,7 +67,6 @@
               link.remove();
             });
           }else{
-            console.log("没有需要下载的文件");
             Toast({
               message: '没有可下载的文件',
               duration: 3000
@@ -80,7 +77,6 @@
       },
 
   created() {
-          console.log(this.$route.query.id)
     this.getData(this.$route.query.id);
   }
     }

@@ -96,7 +96,6 @@ export default {
             }
           });
           this.List = list;
-          console.log(this.List);
           setTimeout(() => {
             loader.hide();
           }, 500);
@@ -129,5 +128,9 @@ export default {
 .credit li {
   width: 50%;
   line-height: 3.5rem;
+}
+.mui-card {
+  width: 96%!important;
+  margin:5px!important;
 }
 </style>

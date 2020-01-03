@@ -155,7 +155,7 @@ export default {
         productId: "",
         certificationType: "",
         certificationCategory: "",
-        argriculturalClassification: "3",
+        argriculturalClassification: "1",
         certificationStartTime: "",
         certificationEndTime: "",
         output: ""
@@ -230,10 +230,12 @@ export default {
       companyNameList: [{ id: -1, name: "全部" }],
       productNameList: [],
       options: [
-        { value: "1", label: "畜牧业" },
-        { value: "2", label: "种植业" },
-        { value: "3", label: "养殖业" }
+        { value: "1", label: "养殖业" },
+        { value: "2", label: "已同意" },
+        { value: "3", label: "畜牧业" },
+        { value: "4", label: "种植业" },
       ]
+      // ["全部", "养殖业", "已同意", "畜牧业", "种植业"]
     };
   },
   created() {
@@ -277,6 +279,7 @@ export default {
 
           formData.append("creditCode", this.ruleFormValue.creditCode);
           formData.append("productId", this.ruleFormValue.productId);
+          formData.append("productName", this.filterProduct(this.ruleFormValue.productId));
           formData.append(
             "certificationType",
             this.ruleFormValue.certificationType
@@ -346,6 +349,14 @@ export default {
       let company = this.companyNameList.find(x => x.creditCode === credit);
       if (company) {
         return company.companyId;
+      } else {
+        return "";
+      }
+    },
+    filterProduct(id) {
+      let product = this.productNameList.find(x => x.productId === id);
+      if (product) {
+        return product.productName;
       } else {
         return "";
       }

@@ -70,7 +70,6 @@ export default {
           sortBy: "id"
         })
         .then(response => {
-          console.log(response);
           this.page.pageIndex = this.page.pageIndex + 1;
           this.tableData = this.tableData.concat(response.data);
           this.total = response.total;

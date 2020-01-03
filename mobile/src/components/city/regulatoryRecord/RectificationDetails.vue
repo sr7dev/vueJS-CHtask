@@ -413,14 +413,14 @@ export default {
       file_live_1: null,
       file_live_2: null,
       file_live_3: null,
-      township: [{ id: -1, name: "全部" }],
-      companyList: [{ id: -1, name: "全部" }],
+      township: [{ id: "", name: "请选择" }],
+      companyList: [{ companyId: "", companyName: "请选择" }],
       conclusionData: {},
       isNanData: null,
       downloadURL: "",
       ruleFormValue: {
-        townId: "-1",
-        companyId: "-1",
+        townId: "",
+        companyId: "",
         createTime: "",
         inspector: "",
         conclusion: "0",
@@ -442,7 +442,6 @@ export default {
     handleConfirm(value) {
       let date = new Date(value);
       let year = date.toDateString("YYYY-MM-DD");
-      console.log(year);
       this.$refs.picker.close();
     },
     //获取乡镇列表
@@ -450,12 +449,10 @@ export default {
       Request()
         .get("/api/town/all")
         .then(response => {
-          console.log(response);
           let townshipStr = [];
           response.forEach(function(item, key) {
             townshipStr.push(item.name);
           });
-          console.log(townshipStr);
           this.townshipStr = townshipStr;
           this.township = this.township.concat(response);
         })
@@ -470,12 +467,10 @@ export default {
         .then(response => {
           this.companyList = this.companyList.concat(response);
           let companyListStr = [];
-          console.log(this.companyList);
           this.companyList.forEach(function(item) {
             companyListStr.push(item.companyName);
           });
           this.companyListStr = companyListStr;
-          console.log(companyListStr);
         })
         .catch(error => {
           console.log(error);
@@ -483,7 +478,6 @@ export default {
     },
     //获取整改记录详情
     getData() {
-      console.log(this.superId);
       Indicator.open("加载中...");
       Request()
         .get(
@@ -493,10 +487,8 @@ export default {
           }
         )
         .then(response => {
-          console.log(response);
           let tmpdata = response.data;
           this.data = tmpdata[0];
-          console.log("tmpdata = ", this.data);
           this.isNanData = this.data ? false : true;
           if (!this.isNanData)
             this.conclusionData = JSON.parse(this.data.conclusionFalseInfo);
@@ -554,11 +546,9 @@ export default {
 
         var objData = {};
         formData.forEach((value, key) => {
-          console.log("key = ", key);
-          console.log("value = ", value);
+
           objData[key] = value;
         });
-        console.log(JSON.stringify(objData));
         this.listLoading = true;
         Request()
           .post("/api/rectification_record/create", formData)
@@ -600,11 +590,8 @@ export default {
 
         var objData = {};
         formData.forEach((value, key) => {
-          console.log("key = ", key);
-          console.log("value = ", value);
           objData[key] = value;
         });
-        console.log(JSON.stringify(objData));
         Request()
           .put("/api/rectification_record/update/" + this.data.id, formData)
           .then(response => {
@@ -693,7 +680,6 @@ export default {
     }
   },
   created() {
-    console.log(this.$route);
     this.superId = this.$route.query.id;
     this.downloadURL = Urls.DOWNLOAD_URL();
     this.getTown();
@@ -770,5 +756,9 @@ img {
 /*乡镇选择*/
 .mint-popup {
   width: 100%;
+}
+.mui-radio.mui-left label{
+  padding-right: 15px;
+  padding-left: 40px;
 }
 </style>

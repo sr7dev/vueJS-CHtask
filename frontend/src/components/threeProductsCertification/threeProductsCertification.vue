@@ -63,10 +63,10 @@
             }}-->
             <!-- </template> -->
           </el-table-column>
-          <el-table-column label="企业分类">
+          <el-table-column label="产品分类">
             <template slot-scope="{ row }">
               {{
-              options[row.argriculturalClassification-1]
+              appStatus1[row.argriculturalClassification]
               }}
             </template>
           </el-table-column>
@@ -171,10 +171,10 @@ export default {
         .get("/api/company_production/name")
         .then(response => {
           this.companyProduction = this.companyProduction.concat(response);
-          for(let i in this.companyProduction) {
-            if(this.companyProduction[i].creditCode == "")
-            this.companyProduction.splice(i,1);
-          }
+          // for(let i in this.companyProduction) {
+          //   if(this.companyProduction[i].creditCode == "")
+          //   this.companyProduction.splice(i,1);
+          // }
         })
         .catch(error => {
           console.log(error);

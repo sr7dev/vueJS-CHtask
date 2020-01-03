@@ -38,7 +38,11 @@
       <ul class="credit">
         <li>产品</li>
       </ul>
-      <div class="mui-card" style="margin-bottom: 35px;" v-if="data.length">
+      <div class="mui-card" style="margin-bottom: 35px;" v-if="data.length"
+      v-infinite-scroll="loadMore"
+      infinite-scroll-disabled="loading"
+      infinite-scroll-distance="10"
+      >
         <ul class="mui-table-view">
           <li
             class="mui-table-view-cell"
@@ -74,6 +78,11 @@ export default {
   data() {
     return {
       data: [],
+      page: {
+        pageIndex: 0,
+        pageSize: 10
+      },
+      total: 0,
       productName: "",
       categoryOption: [
         { name: "全部", value: "0" },
@@ -81,7 +90,8 @@ export default {
         { name: "养殖业", value: "2" },
         { name: "畜牧业", value: "3" }
       ],
-      category: "0"
+      category: "0",
+      loading: false
     };
   },
   methods: {
@@ -93,21 +103,34 @@ export default {
         }
       });
     },
-
+    loadMore() {
+      if (TokenManager().accessToken)
+        this.getProductionStandardList();
+    },
     //获取生产标准列表
     getProductionStandardList() {
       // let that = this;
       // let response = await that.util.productionStandard(apiConfig.production_standard, {});
       // console.log(response);
+      this.loading = true;
       let loader = this.$loading.show();
       Request()
         .get("/api/production_standard/all", {
           category: this.category,
           productName: this.productName,
+          pageNo: this.page.pageIndex,
+          pageSize: this.page.pageSize,
           sortBy: "id"
         })
         .then(response => {
-          this.data = response.data;
+          this.page.pageIndex = this.page.pageIndex + 1;
+          this.data = this.data.concat(response.data);
+          this.total = response.total;
+          if (response.data.length < this.page.pageSize) {
+            this.loading = true;
+          } else {
+            this.loading = false;
+          }
           setTimeout(() => {
             loader.hide();
           }, 500);
