@@ -30,16 +30,16 @@
           <el-option v-for="item in items" :key="item.id" :label="item.item" :value="item.item"></el-option>
         </el-select>
         <div class="select_label">样品</div>
-        <!-- <el-select v-model="samplesValue" placeholder="全部" @change="getList">
+        <el-select v-model="samplesValue" filterable placeholder="全部" @change="getList">
           <el-option
             v-for="item in samples"
             :key="item.id"
             :label="item.sample"
             :value="item.sample"
           ></el-option>
-        </el-select> -->
-        <el-input v-model="samplesValue" @change="getList" style="width:150px">
-        </el-input>
+        </el-select>
+        <!-- <el-input v-model="samplesValue" @change="getList" style="width:150px"> -->
+        <!-- </el-input> -->
         <div class="select_label">定性</div>
         <el-select v-model="result" placeholder="全部" @change="getList">
           <el-option v-for="item in results" :key="item.id" :label="item.name" :value="item.id"></el-option>
