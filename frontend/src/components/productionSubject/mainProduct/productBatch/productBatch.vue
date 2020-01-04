@@ -1098,15 +1098,27 @@ export default {
         method: "GET",
         responseType: "blob" // important
       }).then(response => {
+        if(!this.isIE()){
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
         link.setAttribute("download", fileUrl.replace("/uploads/", "")); //or any other extension
         document.body.appendChild(link);
-
         link.click();
         link.remove();
+        }else{
+          const newBlob = new Blob([response.data], {type: 'application/octet-stream'});
+          if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveOrOpenBlob(newBlob, fileUrl.replace("/uploads/", ""));
+            return;
+          }
+        }
       });
+    },
+    isIE() {
+      let ua = navigator.userAgent;
+      /* MSIE used to detect old browsers and Trident used to newer ones*/
+      return ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
     },
     formatData() {
       this.ruleFormValue1.taskDate = "";

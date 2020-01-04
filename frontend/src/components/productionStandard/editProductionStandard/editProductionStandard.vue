@@ -208,22 +208,35 @@ export default {
         method: "GET",
         responseType: "blob" // important
       }).then(response => {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute(
-          "download",
-          this.dataForm.productionStandardProfiles.replace("/uploads/", "")
-        ); //or any other extension
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
+        if(!this.isIE()){
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute(
+            "download",
+            this.dataForm.productionStandardProfiles.replace("/uploads/", "")
+          ); //or any other extension
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+        }else{
+          const newBlob = new Blob([response.data], {type: 'application/octet-stream'});
+          if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveOrOpenBlob(newBlob, this.data.productionStandardProfiles.replace("/uploads/", ""));
+            return;
+          }
+        }
       });
       // window.open(
       //   "http://localhost/download.php?file=" +
       //     encodeURIComponent(this.dataForm.productionStandardProfiles),
       //   "_blank"
       // );
+    },
+    isIE() {
+      let ua = navigator.userAgent;
+      /* MSIE used to detect old browsers and Trident used to newer ones*/
+      return ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
     },
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {

@@ -197,30 +197,43 @@ export default {
         method: "GET",
         responseType: "blob" // important
       }).then(response => {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        // const url = "http://213.252.247.150/standard" + profile;
-        // window.open(
-        //   "http://localhost/download.php?file=" + encodeURIComponent(profile),
-        //   "_blank"
-        // );
-        const link = document.createElement("a");
-        link.href = url;
-        link.target = "_blank";
-        // profile.indexOf("jiangsu") > 0
-        //   ? link.setAttribute("download", profile.replace("/jiangsu/", ""))
-        link.setAttribute("download", profile.replace("/uploads/", "")); //or any other extension
-        document.body.appendChild(link);
-        link.click();
+        console.log(this.isIE())
+        if(!this.isIE()){
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          // const url = "http://213.252.247.150/standard" + profile;
+          // window.open(
+          //   "http://localhost/download.php?file=" + encodeURIComponent(profile),
+          //   "_blank"
+          // );
+          const link = document.createElement("a");
+          link.href = url;
+          link.target = "_blank";
+          // profile.indexOf("jiangsu") > 0
+          //   ? link.setAttribute("download", profile.replace("/jiangsu/", ""))
+          link.setAttribute("download", profile.replace("/uploads/", "")); //or any other extension
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+        }else{
+          const newBlob = new Blob([response.data], {type: 'application/octet-stream'});
+          if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveOrOpenBlob(newBlob, profile.replace("/uploads/", ""));
+            return;
+          }
+        }
         setTimeout(() => {
           loading.close();
         }, 1000);
-        link.remove();
       });
       setTimeout(() => {
         if (this.downloadLoading) loading.close();
       }, 8000);
     },
-
+    isIE() {
+      let ua = navigator.userAgent;
+      /* MSIE used to detect old browsers and Trident used to newer ones*/
+      return ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
+    },
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
     },

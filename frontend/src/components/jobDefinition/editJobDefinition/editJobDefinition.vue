@@ -113,9 +113,12 @@ export default {
         images:[],
         file: null,
         dataloading: true,
-        id: 0
-
+        id: 0,
+        is_ie:null
     };
+  },
+  created(){
+    this.isIE();
   },
   mounted() {
     this.editForm.jobName = this.$route.query.jobName;
@@ -146,17 +149,25 @@ export default {
             method: "GET",
             responseType: "blob" // important
         }).then(response => {
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement("a");
-            link.href = url;
-            
-            link.setAttribute(
-                "download",
-                this.editForm.jobFile.replace("/uploads/", "")
-            ); //or any other extension
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
+            if(!this.is_ie){
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement("a");
+                link.href = url;
+                
+                link.setAttribute(
+                    "download",
+                    this.editForm.jobFile.replace("/uploads/", "")
+                ); //or any other extension
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+            }else{
+                const newBlob = new Blob([response.data], {type: 'application/octet-stream'});
+                if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+                    window.navigator.msSaveOrOpenBlob(newBlob, this.editForm.jobFile.replace("/uploads/", ""));
+                    return;
+                }
+            }
         });
     },
     onSubmit(formName) {
@@ -179,6 +190,11 @@ export default {
     },
     chooseFile() {
       document.getElementById('file').click()
+    },
+    isIE() {
+      let ua = navigator.userAgent;
+      /* MSIE used to detect old browsers and Trident used to newer ones*/
+      this.is_ie = ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
     },
     handleFileUpload() {
         this.file = this.$refs.file.files[0];

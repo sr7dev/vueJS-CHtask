@@ -105,10 +105,12 @@ export default {
       grades: ["A", "B", "C"],
       options: ["A级（守信）", "B级（基本守信）", "C级（失信）"],
       allStatus: ["待审批", "已同意", "已拒绝"],
-      companyName: ""
+      companyName: "",
+      is_ie:null
     };
   },
   created() {
+    this.isIE();
     this.companyName = this.$route.query.company;
     this.id = this.$route.params.id;
     this.getData(this.$route.params.id);
@@ -181,17 +183,30 @@ export default {
         method: "GET",
         responseType: "blob" // important
       }).then(response => {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute(
-          "download",
-          this.data.uploadFileName.replace("/uploads/", "")
-        ); //or any other extension
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
+        if(!this.is_ie){
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute(
+            "download",
+            this.data.uploadFileName.replace("/uploads/", "")
+          ); //or any other extension
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+        }else{
+          const newBlob = new Blob([response.data], {type: 'application/octet-stream'});
+          if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveOrOpenBlob(newBlob, this.data.uploadFileName.replace("/uploads/", ""));
+            return;
+          }
+        }
       });
+    },
+    isIE() {
+      let ua = navigator.userAgent;
+      /* MSIE used to detect old browsers and Trident used to newer ones*/
+      this.is_ie = ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
     }
   }
 };
