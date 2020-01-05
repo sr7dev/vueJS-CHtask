@@ -408,7 +408,7 @@ export default {
         valueLabel.label.truncate = true;
         valueLabel.label.maxWidth = 150;
         valueLabel.label.fontSize = 15;
-        valueLabel.label.rotation = -45;
+        valueLabel.label.truncate = false;
         valueLabel.label.dy = -10;
         let columnTemplate = series.columns.template;
         columnTemplate.strokeWidth = 2;

@@ -21,7 +21,7 @@
                   placeholder="选择日期"
                   class="chart-input"
                   v-model="createTimeFrom"
-                  style="width: 300px;"
+                  style="width: 150px;"
                 ></el-date-picker>
               </el-col>
               <el-col :span="7" class="margin-left-20 flex-center margin-top-reverse-5-IE">
@@ -32,7 +32,7 @@
                   class="chart-input"
                   placeholder="选择日期"
                   v-model="createTimeTo"
-                  style="width: 300px;"
+                  style="width: 150px;"
                 ></el-date-picker>
               </el-col>
               <el-col :span="3" class="margin-left-20 margin-top-reverse-5-IE">
@@ -352,7 +352,6 @@ export default {
           sortBy: "cnt"
         })
         .then(res => {
-          console.log(res.data);
           this.visionData = res.data;
           this.getTown();
         })
@@ -578,7 +577,6 @@ export default {
       let dataIndex = -1;
       let pie = this.$refs.pie;
       let dataLen = this.pie.series[0].data.length;
-
       setInterval(() => {
         pie.dispatchAction({
           type: "downplay",

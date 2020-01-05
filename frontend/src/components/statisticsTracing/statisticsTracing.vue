@@ -15,24 +15,30 @@
               </el-col>
               <el-col :span="4" class="margin-left-auto flex-center">
                 <div class="white-colored inline-block-IE">按年</div>
-                <el-input
+                <!-- <el-input
                   v-model="toYear"
                   class="w-50 margin-left-10 chart-input"
                   size="small"
                   type="number"
-                ></el-input>
+                ></el-input> -->
+                <el-date-picker
+                  class="w-60 margin-left-10 chart-input"
+                  size="small"
+                  v-model="toYear"
+                  type="year">
+                </el-date-picker>
               </el-col>
               <el-col :span="3" class="margin-left-20 flex-center">
                 <div class="white-colored inline-block-IE">按月</div>
-                <el-input
-                  v-model="toMonth"
-                  class="w-50 margin-left-10 chart-input"
-                  size="small"
-                  type="number"
-                ></el-input>
+                <el-select v-model="toMonth"
+              class="w-60 margin-left-10 chart-input"
+              size="small"
+              >
+                <el-option v-for="n in 12" :key="n" :label="n" :value="n"></el-option>
+              </el-select>
               </el-col>
               <el-col :span="3" class="margin-left-20">
-                <el-button type="primary" plain class="no-effect margin-top-reverse-5-IE">开始统计</el-button>
+                <el-button type="primary" plain class="no-effect margin-top-reverse-5-IE" @click="refresh">开始统计</el-button>
               </el-col>
             </el-row>
             <el-container>
@@ -336,6 +342,8 @@ export default {
     };
   },
   async created() {
+    this.toMonth = new Date().getMonth()+1;
+    this.toYear = new Date;
     this.listLoading = true;
     await this.getCompanyList();
     await this.getTownList();
@@ -345,6 +353,15 @@ export default {
     this.isIE();
   },
   methods: {
+    refresh() {
+      this.tableData= [];
+      this.tableData1 = [];
+      this.summaryData = [];
+      this.maxCnt = 0;
+      this.avg_maxCnt = 0;
+      this.listLoading = true;
+      this.getData();
+    },
     createGrid(value, valueAxis) {
       var range = valueAxis.axisRanges.create();
       range.value = value;
@@ -385,7 +402,7 @@ export default {
       let tracingTimeTo;
       tracingTimeTo =
         this.toMonth && this.toYear
-          ? new Date(this.toYear, this.toMonth, 0)
+          ? new Date(this.toYear.getFullYear(), this.toMonth, 0)
           : new Date();
       await Request()
         .get("/api/tracing/getTracingTownStatis", {
@@ -492,8 +509,10 @@ export default {
         let valueLabel = series.bullets.push(new am4charts.LabelBullet());
         valueLabel.label.text = "{cnt}";
         valueLabel.label.fill = am4core.color("#20beff");
-        valueLabel.label.rotation = -45;
-        valueLabel.label.dy = -20;
+        valueLabel.label.rotation = 0;
+        valueLabel.label.truncate = false;
+        valueLabel.label.dy = -7;
+        valueLabel.label.fontSize = 15;
         let columnTemplate = series.columns.template;
         columnTemplate.strokeOpacity = 0;
         // Chart code goes here

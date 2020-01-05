@@ -15,21 +15,33 @@
               </el-col>
               <el-col :span="4" class="margin-left-auto flex-center">
                 <div class="white-colored inline-block-IE">按年</div>
-                <el-input
+                <!-- <el-input
                   v-model="toYear"
                   class="w-50 margin-left-10 chart-input"
                   size="small"
                   type="number"
-                ></el-input>
+                ></el-input> -->
+                <el-date-picker
+                  class="w-60 margin-left-10 chart-input"
+                  size="small"
+                  v-model="toYear"
+                  type="year">
+                </el-date-picker>
               </el-col>
               <el-col :span="3" class="margin-left-20 flex-center">
                 <div class="white-colored inline-block-IE">按月</div>
-                <el-input
+                <!-- <el-input
                   v-model="toMonth"
                   class="w-50 margin-left-10 chart-input"
                   size="small"
                   type="number"
-                ></el-input>
+                ></el-input> -->
+              <el-select v-model="toMonth"
+              class="w-60 margin-left-10 chart-input"
+              size="small"
+              >
+                <el-option v-for="n in 12" :key="n" :label="n" :value="n"></el-option>
+              </el-select>
               </el-col>
               <el-col :span="3" class="margin-left-20">
                 <el-button
@@ -233,6 +245,10 @@ export default {
       is_ie: null
     };
   },
+  created() {
+    this.toMonth = new Date().getMonth()+1;
+    this.toYear = new Date;
+  },
   mounted() {
     this.isIE();
     this.getData();
@@ -242,6 +258,7 @@ export default {
     async refreshScreen() {
       this.lineChartLoading = true;
       await this.getData();
+      this.makeLineChart();
       this.lineChartLoading = false;
     },
     createGrid(value, valueAxis) {
@@ -256,7 +273,7 @@ export default {
       this.listLoading = true;
       let detectTimeTo;
       if (this.toYear && this.toMonth) {
-        detectTimeTo = new Date(this.toYear, this.toMonth, 0);
+        detectTimeTo = new Date(this.toYear.getFullYear(), this.toMonth, 0);
       } else {
         detectTimeTo = new Date();
       }
@@ -331,12 +348,13 @@ export default {
       tmpDate.setMonth(tmpDate.getMonth() - 11);
       let yearNo = tmpDate.getFullYear();
       let monthNo = tmpDate.getMonth();
-      let fromDate = new Date(yearNo, monthNo, 1);
-      tmpDate = new Date();
-      let toDate = new Date(tmpDate.getFullYear(), tmpDate.getMonth() + 1, 0);
+      
+      let toDate = new Date(this.toYear.getFullYear(), this.toMonth, 0);
+      console.log(toDate);
+      // tmpDate = new Date();
+      // let toDate = new Date(tmpDate.getFullYear(), tmpDate.getMonth() + 1, 0);
       await Request()
         .get("/api/disability_check/statis/monthlysum", {
-          detectTimeFrom: fromDate,
           detectTimeTo: toDate
         })
         .then(response => {
@@ -422,8 +440,10 @@ export default {
         let valueLabel = series.bullets.push(new am4charts.LabelBullet());
         valueLabel.label.text = "{cnt}";
         valueLabel.label.fill = am4core.color("#20beff");
-        valueLabel.label.rotation = -45;
-        valueLabel.label.dy = -10;
+        valueLabel.label.rotation = 0;
+        valueLabel.label.truncate = false;
+        valueLabel.label.dy = -7;
+        valueLabel.label.fontSize = 10;
         let columnTemplate = series.columns.template;
         columnTemplate.strokeOpacity = 0;
           // Chart code goes here

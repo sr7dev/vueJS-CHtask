@@ -331,7 +331,7 @@ export default {
         data: []
       },
       selectedRows: [],
-      township: [{ id: -1, name: "全部" }],
+      township: [],
       confirm_dialogVisible: false,
       checked: [],
       registerTime: new Date().toString("YYYY-MM-DD"),

@@ -650,8 +650,10 @@ export default {
       let valueLabel = series.bullets.push(new am4charts.LabelBullet());
       valueLabel.label.text = "{cnt}";
       valueLabel.label.fill = am4core.color("#20beff");
-      valueLabel.label.rotation = -45;
-      valueLabel.label.dy = -10;
+      valueLabel.label.rotation = 0;
+        valueLabel.label.truncate = false;
+        valueLabel.label.dy = -7;
+        valueLabel.label.fontSize = 10;
       // Add cursor
       chart.cursor = new am4charts.XYCursor();
       let columnTemplate = series.columns.template;

@@ -13,7 +13,7 @@
         <el-select
           v-if="typeof this.creditCode == 'undefined'"
           v-model="currTown"
-          placeholder="全部"
+          
           @change="getList"
         >
           <el-option
@@ -26,11 +26,11 @@
         </el-select>
         <div v-else class="select_label">{{ getCompanyName() }}</div>
         <div class="select_label">项目</div>
-        <el-select v-model="itemValue" placeholder="全部" @change="getList" filterable>
+        <el-select v-model="itemValue"  @change="getList" filterable>
           <el-option v-for="item in items" :key="item.id" :label="item.item" :value="item.item"></el-option>
         </el-select>
         <div class="select_label">样品</div>
-        <el-select v-model="samplesValue" filterable placeholder="全部" @change="getList">
+        <el-select v-model="samplesValue" filterable  @change="getList">
           <el-option
             v-for="item in samples"
             :key="item.id"
@@ -41,7 +41,7 @@
         <!-- <el-input v-model="samplesValue" @change="getList" style="width:150px"> -->
         <!-- </el-input> -->
         <div class="select_label">定性</div>
-        <el-select v-model="result" placeholder="全部" @change="getList">
+        <el-select v-model="result"  @change="getList">
           <el-option v-for="item in results" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
         <div class="select_label" v-if="isShowSearchOption">检测单位</div>
@@ -242,7 +242,7 @@ export default {
       items: [{ id: "-1", item: "全部" }],
       itemValue: "全部",
       samples: [{ id: 0, sample: "全部" }],
-      samplesValue: "",
+      samplesValue: "全部",
       results: [
         { id: -1, name: "全部" },
         { id: 0, name: "不合格" },
