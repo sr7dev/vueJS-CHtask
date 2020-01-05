@@ -26,7 +26,7 @@
         </el-select>
         <div v-else class="select_label">{{ getCompanyName() }}</div>
         <div class="select_label">项目</div>
-        <el-select v-model="itemValue" placeholder="全部" @change="getList">
+        <el-select v-model="itemValue" placeholder="全部" @change="getList" filterable>
           <el-option v-for="item in items" :key="item.id" :label="item.item" :value="item.item"></el-option>
         </el-select>
         <div class="select_label">样品</div>
@@ -46,6 +46,7 @@
         </el-select>
         <div class="select_label" v-if="isShowSearchOption">检测单位</div>
         <el-select
+          filterable
           v-model="detectionUnitValue"
           @change="getList"
           v-if="isShowSearchOption"

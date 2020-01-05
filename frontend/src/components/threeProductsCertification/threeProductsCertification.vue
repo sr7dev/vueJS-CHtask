@@ -14,7 +14,7 @@
           plain
         >添加</el-button>
         <div class="select_label">企业名称</div>
-        <el-select v-model="creditCode" @change="getList()">
+        <el-select v-model="creditCode" @change="getList()" filterable>
           <el-option
             v-for="item in companyProduction"
             :key="item.creditCode"
