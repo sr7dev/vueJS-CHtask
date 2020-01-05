@@ -402,15 +402,15 @@ export default {
           "T" +
           "23:59:59";
       }
+      
       Request()
         .get("/api/disability_check/all", {
           creditCode: this.$route.query.creditCode,
-          detectUnit:
-            this.detectionUnitValue == "全部" ? "-1" : this.detectionUnitValue,
+          detectUnit: this.identifyValue(this.detectionUnitValue),
           detectTimeFrom: this.startDate,
           detectTimeTo: tempDateTime,
-          sample: this.samplesValue == "全部" ? "" : this.samplesValue,
-          item: this.itemValue == "全部" ? "-1" : this.itemValue,
+          sample: this.identifyValue(this.samplesValue),
+          item: this.identifyValue(this.itemValue),
           // resultDx: this.result - 1,
           resultDx: this.result,
           townDivisionCode: this.currTown == -1 ? "" : this.currTown,
@@ -429,6 +429,11 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    identifyValue(val) {
+      if(val == "全部") return "-1";
+      if(val == "") return "";
+      else return val;
     },
     getCompanyName() {
       let product = this.companyData.find(
