@@ -19,7 +19,7 @@
             <el-input 
                 v-model="editForm.jobName" 
                 auto-complete="off"
-                style="width:22px"
+                style="width:220px"
             >
             </el-input>
         </el-form-item>
