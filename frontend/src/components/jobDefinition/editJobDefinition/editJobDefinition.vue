@@ -63,7 +63,7 @@
                 </el-link>
             </div>
             <div class="item-value" v-if="file">
-                ({{ file.name }})
+                {{ file.name }}
             </div>
         </el-form-item>
         <el-form-item class="left-margin">

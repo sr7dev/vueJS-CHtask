@@ -55,7 +55,7 @@
             <img v-if="imageSelectedUrl" :src="imageSelectedUrl" style="width: 7rem; height: 7rem;" />
           </div>
           <div class="item-value">
-            <div v-if="file" style>({{ file.name }})</div>
+            <div v-if="file" style>{{ file.name }}</div>
             <div v-else style>请选择需要上传的文件...</div>
           </div>
         </el-form-item>

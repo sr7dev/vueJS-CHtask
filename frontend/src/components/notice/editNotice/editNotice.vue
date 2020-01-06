@@ -82,15 +82,15 @@
             ref="file_live_1"
             v-on:change="handleFileUpload()"
           />
-          <el-button size="small" plain @click="chooseFile()"
+          <el-button size="small" plain @click="chooseFile()" type="primary"
             >添加附件</el-button
           >
-          <span class="item-value" v-if="!file_live_1">
-            <el-link @click="downloadFile()">
-              {{ fileName }}
-            </el-link>
+          <span class="item-value margin-left-10" v-if="!file_live_1">
+            请选择需要上传的文件...
           </span>
-          <span class="item-value" v-if="file_live_1"> ({{ fileName }}) </span>
+          <span class="item-value margin-left-10" v-if="file_live_1"> <el-link @click="downloadFile()">
+              {{ fileName }}
+            </el-link> </span>
         </el-form-item>
         <el-form-item>
           <el-button

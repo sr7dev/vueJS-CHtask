@@ -74,9 +74,9 @@
                 size="small"
                 type="success"
                 plain
-                v-if="
-                  row.productionStandardProfiles !== '' &&
-                    row.productionStandardProfiles !== undefined
+                :disabled="
+                  row.productionStandardProfiles == '' ||
+                    row.productionStandardProfiles == undefined
                 "
                 v-on:click="
                   downloadStandardProfiles(row.productionStandardProfiles)

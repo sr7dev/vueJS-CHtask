@@ -475,6 +475,7 @@ export default {
           it => it.disabilityCheck === 0 || it.disabilityCheck == null
         );
       }
+      this.total = this.tableData.length;
     },
 
     getList() {

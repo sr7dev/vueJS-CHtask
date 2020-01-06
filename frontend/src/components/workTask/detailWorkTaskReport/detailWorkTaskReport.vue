@@ -22,9 +22,9 @@
       <el-row class="w-100 text-center flex-justify-center margin-bottom-30">
         <el-col :span="12">{{workData.content}}</el-col>
       </el-row>
-      <el-row class="w-100 flex-justify-center margin-bottom-30" v-if="workData.workTaskProfiles">
+      <el-row class="w-100 flex-justify-center margin-bottom-30">
         <el-col :span="12">
-          <el-button size="small" type="warning" plain @click="downloadFile()">附件下载</el-button>
+          <el-button size="small" type="warning" plain @click="downloadFile()" :disabled="!workData.workTaskProfiles">附件下载</el-button>
           <span
             class="margin-left-20"
             v-if="workData.workTaskProfiles"

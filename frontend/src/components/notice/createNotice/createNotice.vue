@@ -83,7 +83,7 @@
             ref="file_live_1"
             v-on:change="handleFileUpload()"
           />
-          <el-button size="small" plain @click="chooseFile()"
+          <el-button size="small" plain @click="chooseFile()" type="primary"
             >添加附件</el-button
           >
           <span style="width: 300px;" class="margin-left-10">{{

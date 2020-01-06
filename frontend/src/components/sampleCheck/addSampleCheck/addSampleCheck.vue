@@ -27,9 +27,10 @@
                 ref="file"
                 v-on:change="handleFileUpload()"
               />
-              <el-button size="small" plain @click="chooseFile()">添加附件</el-button>
+              <el-button size="small" plain @click="chooseFile()" type="primary">添加附件</el-button>
             </div>
-            <span class="item-value" style="width: 500px;">{{data.checkFiles}}</span>
+            <span class="item-value margin-left-10" style="width: 500px;" v-if="data.checkFiles">{{data.checkFiles}}</span>
+            <span class="item-value margin-left-10" style="width: 500px;" v-else>请选择需要上传的文件...</span>
           </div>
         </el-form-item>
         <el-form-item label>

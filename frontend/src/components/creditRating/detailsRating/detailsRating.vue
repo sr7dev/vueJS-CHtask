@@ -60,16 +60,16 @@
                 ref="file"
                 v-on:change="handleFileUpload()"
               />
-              <el-button size="small" type="warning" plain @click="downloadFile()">下载附件</el-button>
+              <el-button size="small" type="warning" plain @click="downloadFile()" :disabled="!data.uploadFileName">下载附件</el-button>
             </div>
-            <div class="item-value" v-if="!file">
+            <div class="item-value" v-if="!file && data.uploadFileName">
               <el-link @click="downloadFile()">
                 {{
                 data.uploadFileName.replace("/uploads/", "")
                 }}
               </el-link>
             </div>
-            <div class="item-value" v-if="file">({{ file.name }})</div>
+            <div class="item-value" v-if="file">{{ file.name }}</div>
           </div>
         </div>
         <div class="item-row">

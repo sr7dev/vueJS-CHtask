@@ -118,6 +118,7 @@
                 size="small"
                 class="inline-block-IE float-right-IE"
                 type="primary"
+                style="height:40px"
                 plain
                 v-if="isShowAddButton"
                 @click="
@@ -161,7 +162,8 @@
                     <el-button
                       size="small"
                       type="success"
-                      plainv
+                      plain
+                      :disabled="!row.trainingFundsProfiles"
                       @click="downloadFile(row.trainingFundsProfiles)"
                       >下载附件</el-button
                     >
@@ -198,7 +200,7 @@ export default {
       companyName: "",
       township: [{ id: -1, name: "全部" }],
       townName: "",
-      year: "",
+      year: "全部",
       supervisionRecordTimeFrom: "",
       supervisionRecordTimeTo: "",
       detectTimeFrom: "",
@@ -207,6 +209,7 @@ export default {
       createTimeTo: "",
       specialFlag: -1,
       options: [
+        { value: "全部" },
         { value: "2018" },
         { value: "2019" },
         { value: "2020" },
@@ -296,18 +299,20 @@ export default {
         });
     },
     getYear() {
-      this.supervisionRecordTimeFrom =
-        this.year + "-" + "01" + "-" + "01" + " " + "00:00:00";
-      this.supervisionRecordTimeTo =
-        this.year + "-" + "12" + "-" + "31" + " " + "00:00:00";
-      this.detectTimeFrom =
-        this.year + "-" + "01" + "-" + "01" + " " + "00:00:00";
-      this.detectTimeTo =
-        this.year + "-" + "12" + "-" + "31" + " " + "00:00:00";
-      this.createTimeFrom =
-        this.year + "-" + "01" + "-" + "01" + " " + "00:00:00";
-      this.createTimeTo =
-        this.year + "-" + "12" + "-" + "31" + " " + "00:00:00";
+      if(this.year!=="全部"){
+        this.supervisionRecordTimeFrom =
+          this.year + "-" + "01" + "-" + "01" + " " + "00:00:00";
+        this.supervisionRecordTimeTo =
+          this.year + "-" + "12" + "-" + "31" + " " + "00:00:00";
+        this.detectTimeFrom =
+          this.year + "-" + "01" + "-" + "01" + " " + "00:00:00";
+        this.detectTimeTo =
+          this.year + "-" + "12" + "-" + "31" + " " + "00:00:00";
+        this.createTimeFrom =
+          this.year + "-" + "01" + "-" + "01" + " " + "00:00:00";
+        this.createTimeTo =
+          this.year + "-" + "12" + "-" + "31" + " " + "00:00:00";
+      }
       this.tableData = [];
       this.detectTableData = [];
       this.total = [];

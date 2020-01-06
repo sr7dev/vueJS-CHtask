@@ -69,7 +69,7 @@
                 }}
               </el-link>
             </div>
-            <div class="item-value" v-if="file">({{ file.name }})</div>
+            <div class="item-value" v-if="file">{{ file.name }}</div>
           </div>
         </div>
         <div class="item-row">

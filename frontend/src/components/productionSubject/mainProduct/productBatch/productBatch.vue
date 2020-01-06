@@ -84,7 +84,7 @@
                 fileName1.replace("/uploads/", "")
                 }}
               </el-link>
-              <p v-if="file_live_1">({{ file_live_1.name }})</p>
+              <p v-if="file_live_1">{{ file_live_1.name }}</p>
               <p v-if="!file_live_1 && !fileName1">请选择需要上传的文件...</p>
             </el-col>
             <el-col :span="5">
@@ -182,7 +182,7 @@
                 fileName2.replace("/uploads/", "")
                 }}
               </el-link>
-              <p v-if="file_live_2">({{ file_live_2.name }})</p>
+              <p v-if="file_live_2">{{ file_live_2.name }}</p>
               <p v-if="!file_live_2 && !fileName2">请选择需要上传的文件...</p>
             </el-col>
             <el-col :span="5">
@@ -335,7 +335,7 @@
                 fileName3.replace("/uploads/", "")
                 }}
               </el-link>
-              <p v-if="file_live_3">({{ file_live_3.name }})</p>
+              <p v-if="file_live_3">{{ file_live_3.name }}</p>
               <p v-if="!file_live_3 && !fileName3">请选择需要上传的文件...</p>
             </el-col>
             <el-col :span="5">

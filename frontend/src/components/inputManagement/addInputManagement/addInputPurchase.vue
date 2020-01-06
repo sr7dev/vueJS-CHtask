@@ -50,7 +50,7 @@
                 v-on:change="handleFileUpload()"
             />
             <el-button size="small" type="warning" plain @click="chooseFile()">添加附件</el-button>
-            <span v-if="file_live_1">({{ fileName }})</span>
+            <span v-if="file_live_1">{{ fileName }}</span>
             <span v-else>请选择需要上传的文件...</span>
         </el-form-item>
         <el-form-item class="left-margin">

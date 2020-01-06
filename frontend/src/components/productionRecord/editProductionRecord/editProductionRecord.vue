@@ -70,7 +70,7 @@
                       align-items: center;
                       padding-bottom: 20px;"
               >
-                <span v-if="file">({{ file.name }})</span>
+                <span v-if="file">{{ file.name }}</span>
                 <div class="item-value" v-else-if="data.productionProfiles">
                   <el-link @click="downloadFile()">
                     {{

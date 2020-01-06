@@ -22,7 +22,7 @@
             :value="item.creditCode"
           ></el-option>
         </el-select>
-        <div class="select_label">产品分类</div>
+        <div class="select_label">农业分类</div>
         <el-select v-model="productCategory" @change="getList()">
           <el-option v-for="(item, index) in appStatus1" :key="item" :label="item" :value="index"></el-option>
         </el-select>
@@ -63,7 +63,7 @@
             }}-->
             <!-- </template> -->
           </el-table-column>
-          <el-table-column label="产品分类">
+          <el-table-column label="农业分类">
             <template slot-scope="{ row }">
               {{
               appStatus1[row.argriculturalClassification]
@@ -85,7 +85,7 @@
                     path: `/threeProductsCertification/${row.id}`,
                     query: {
                       company: filterCompnay(row.creditCode),
-                      product: filterProduct(row.productId)
+                      product: row.productName
                     }
                   })
                 "

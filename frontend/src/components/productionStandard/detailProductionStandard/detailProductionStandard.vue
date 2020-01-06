@@ -72,7 +72,7 @@
             <span
               class="margin-left-20"
               v-if="data.productionStandardProfiles"
-            >{{data.productionStandardProfiles.replace("/uploads/", "")}}</span>
+            > <el-link @click="downloadFile()">{{data.productionStandardProfiles.replace("/uploads/", "")}}</el-link></span>
             <span class="margin-left-20" v-else>没有数据</span>
           </el-col>
         </el-form-item>

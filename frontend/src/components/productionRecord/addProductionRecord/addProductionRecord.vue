@@ -77,7 +77,7 @@
                       align-items: center;
                       padding-bottom: 20px;"
               >
-                <span v-if="ruleFormValue.file">({{ ruleFormValue.file.name }})</span>
+                <span v-if="ruleFormValue.file">{{ ruleFormValue.file.name }}</span>
                 <span v-else>请选择需要上传的文件...</span>
               </div>
             </div>

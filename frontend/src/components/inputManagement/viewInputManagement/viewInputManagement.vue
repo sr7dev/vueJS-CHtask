@@ -60,14 +60,16 @@
             </el-input>
         </el-form-item>
         <el-form-item label="">
-            <el-button size="small" plain @click="downloadFile()">附件下载</el-button>
+            <el-button size="small" plain @click="downloadFile()" :disabled="!file" type="primary">附件下载</el-button>
             <span class="item-value" v-if="!file">
                 <el-link @click="downloadFile()">
                     {{ fileName }}
                 </el-link>
             </span>
-            <span class="item-value" v-if="file">
-                ({{ fileName }})
+            <span class="item-value margin-left-10" v-if="file">
+                <el-link @click="downloadFile()">
+                    {{ fileName }}
+                </el-link>
             </span>
         </el-form-item>
         <el-form-item>
