@@ -126,6 +126,9 @@ export default {
         .get("/api/production_standard/get/" + id)
         .then(response => {
           this.data = response;
+          if(this.data.productStandard){
+            this.data.productStandard = this.data.productStandard.indexOf(".png") ? this.data.productStandard.replace(".png","") : this.data.productStandard
+          }
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);

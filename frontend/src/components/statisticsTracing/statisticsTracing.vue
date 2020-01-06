@@ -24,6 +24,7 @@
                 <el-date-picker
                   class="w-60 margin-left-10 chart-input"
                   size="small"
+                  :clearable="false"
                   v-model="toYear"
                   type="year">
                 </el-date-picker>
@@ -54,7 +55,7 @@
                   </template>
                 </el-table-column>
                 <el-table-column class-name="blue-colored">
-                  <template slot-scope="{row}">{{row.cnt}}/{{ Math.floor(row.cnt/maxCnt)}}%</template>
+                  <template slot-scope="{row}">{{row.cnt}}/{{ getPercent(row.cnt, maxCnt,1)}}%</template>
                 </el-table-column>
                 <el-table-column
                   prop="cnt1"
@@ -113,12 +114,12 @@
             class="disability-chart chart-container margin-left-10 large progress-customized"
             ref="chartdiv1"
           >
-            <el-row style="margin-top:60px" class="margin-left-10" v-if="tableData1[0]">
+            <el-row style="margin-top:60px" class="margin-left-10" v-if="tableData1[0] && tableData1[0][1]">
               <el-col :span="1" class="red-colored padding-left-10">1</el-col>
 
               <el-col :span="15" class="no-progress-outer red-colored">
                 <el-progress
-                  :percentage="95"
+                  :percentage="tableData1[0][1] ? getPercent(tableData1[0][1], tableData1[0][1],1)-3 : 0"
                   :stroke-width="13"
                   :show-text="false"
                   style="margin-bottom: 10px"
@@ -133,12 +134,12 @@
                 </p>
               </el-col>
             </el-row>
-            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[1]">
+            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[1] && tableData1[1][1]">
               <el-col :span="1" class="yellow-colored padding-left-10">2</el-col>
 
               <el-col :span="15" class="no-progress-outer yellow-colored">
                 <el-progress
-                  :percentage="90"
+                  :percentage="tableData1[1][1] ? getPercent(tableData1[1][1], tableData1[0][1],1)-3 : 0"
                   :stroke-width="13"
                   :show-text="false"
                   style="margin-bottom: 10px"
@@ -153,12 +154,12 @@
                 </p>
               </el-col>
             </el-row>
-            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[2]">
+            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[2] && tableData1[2][1]">
               <el-col :span="1" class="yellow-colored padding-left-10">3</el-col>
 
               <el-col :span="15" class="no-progress-outer yellow-colored">
                 <el-progress
-                  :percentage="86"
+                  :percentage="tableData1[2][1] ? getPercent(tableData1[2][1], tableData1[0][1],1)-3 : 0"
                   :stroke-width="13"
                   :show-text="false"
                   style="margin-bottom: 10px"
@@ -173,12 +174,12 @@
                 </p>
               </el-col>
             </el-row>
-            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[3]">
+            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[3] && tableData1[3][1]">
               <el-col :span="1" class="blue-colored padding-left-10">4</el-col>
 
               <el-col :span="15" class="no-progress-outer">
                 <el-progress
-                  :percentage="83"
+                  :percentage="tableData1[3][1] ? getPercent(tableData1[3][1], tableData1[0][1],1)-3 : 0"
                   :stroke-width="13"
                   :show-text="false"
                   style="margin-bottom: 10px"
@@ -193,10 +194,10 @@
                 </p>
               </el-col>
             </el-row>
-            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[4]">
+            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[4] && tableData1[4][1]">
               <el-col :span="1" class="blue-colored padding-left-10">5</el-col>
 
-              <el-col :span="15" class="no-progress-outer">
+              <el-col :span="tableData1[4][1] ? getPercent(tableData1[4][1], tableData1[0][1],1)-3 : 0" class="no-progress-outer">
                 <el-progress :percentage="80" :stroke-width="13" :show-text="false"></el-progress>
                 <div class="white-colored">
                   <b>{{getCompanyName(tableData1[4][1])}}</b>
@@ -208,11 +209,11 @@
                 </p>
               </el-col>
             </el-row>
-            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[5]">
+            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[5] && tableData1[5][1]">
               <el-col :span="1" class="blue-colored padding-left-10">6</el-col>
 
               <el-col :span="15" class="no-progress-outer">
-                <el-progress :percentage="78" :stroke-width="13" :show-text="false"></el-progress>
+                <el-progress :percentage="getPercent(tableData1[5][1], tableData1[0][1],1)" :stroke-width="13" :show-text="false"></el-progress>
                 <div class="white-colored">
                   <b>{{getCompanyName(tableData1[5][1])}}</b>
                 </div>
@@ -223,11 +224,11 @@
                 </p>
               </el-col>
             </el-row>
-            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[6]">
+            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[6] && tableData1[6][1]">
               <el-col :span="1" class="blue-colored padding-left-10">7</el-col>
 
               <el-col :span="15" class="no-progress-outer">
-                <el-progress :percentage="76" :stroke-width="13" :show-text="false"></el-progress>
+                <el-progress :percentage="getPercent(tableData1[6][1], tableData1[0][1],1)" :stroke-width="13" :show-text="false"></el-progress>
                 <div class="white-colored">
                   <b>{{getCompanyName(tableData1[6][1])}}</b>
                 </div>
@@ -238,11 +239,11 @@
                 </p>
               </el-col>
             </el-row>
-            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[7]">
+            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[7] && tableData1[7][1]">
               <el-col :span="1" class="blue-colored padding-left-10">8</el-col>
 
               <el-col :span="15" class="no-progress-outer">
-                <el-progress :percentage="74" :stroke-width="13" :show-text="false"></el-progress>
+                <el-progress :percentage="getPercent(tableData1[7][1], tableData1[0][1],1)" :stroke-width="13" :show-text="false"></el-progress>
                 <div class="white-colored">
                   <b>{{getCompanyName(tableData1[7][1])}}</b>
                 </div>
@@ -253,11 +254,11 @@
                 </p>
               </el-col>
             </el-row>
-            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[8]">
+            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[8] && tableData1[8][1]">
               <el-col :span="1" class="blue-colored padding-left-10">9</el-col>
 
               <el-col :span="15" class="no-progress-outer">
-                <el-progress :percentage="72" :stroke-width="13" :show-text="false"></el-progress>
+                <el-progress :percentage="getPercent(tableData1[8][1], tableData1[0][1],1)" :stroke-width="13" :show-text="false"></el-progress>
                 <div class="white-colored">
                   <b>{{getCompanyName(tableData1[8][1])}}</b>
                 </div>
@@ -268,11 +269,11 @@
                 </p>
               </el-col>
             </el-row>
-            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[9]">
+            <el-row class="margin-left-10 margin-top-30" v-if="tableData1[9] && tableData1[9][1]">
               <el-col :span="1" class="blue-colored padding-left-10">10</el-col>
 
               <el-col :span="15" class="no-progress-outer">
-                <el-progress :percentage="70" :stroke-width="13" :show-text="false"></el-progress>
+                <el-progress :percentage="getPercent(tableData1[9][1], tableData1[0][1],1)" :stroke-width="13" :show-text="false"></el-progress>
                 <div class="white-colored">
                   <b>{{getCompanyName(tableData1[9][1])}}</b>
                 </div>
@@ -310,6 +311,7 @@
 import Request from "@/services/api/request.js";
 import Pagination from "@/components/common/pagination";
 import Auth from "@/services/authentication/auth.js";
+import { log } from 'util';
 // import * as am4core from "@amcharts/amcharts4/core";
 // import * as am4charts from "@amcharts/amcharts4/charts";
 // import am4themes_kelly from "@amcharts/amcharts4/themes/kelly";
@@ -527,7 +529,7 @@ export default {
       }
     },
     getPercent(cnt1, cnt2, type) {
-      if (!cnt1 || !cnt2) return 0;
+      if (!cnt1 || !cnt2 || cnt2 == null || cnt1 == null) return 5;
       if (type === 2) {
         this.progressColor =
           parseInt((cnt1 / cnt2) * 100) < 100 ? "warning" : "success";

@@ -24,6 +24,7 @@
                 <el-date-picker
                   class="w-60 margin-left-10 chart-input"
                   size="small"
+                  :clearable="false"
                   v-model="toYear"
                   type="year">
                 </el-date-picker>
@@ -490,7 +491,7 @@ export default {
             },
             label: {
               normal: {
-                fontSize: 16,
+                fontSize: 14,
                 color: "#FFF",
                 formatter: "{d}%: {b}"
               }
@@ -637,5 +638,8 @@ export default {
 .echarts {
   width: 650px !important;
   height: 680px !important;
+}
+.el-icon-circle-close:before {
+  content: ""!important;
 }
 </style>
