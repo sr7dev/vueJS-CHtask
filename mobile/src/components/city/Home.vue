@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="root">
     <mt-header fixed title="首页"></mt-header>
     <div class="header">
       <img src="../../images/header.jpg" />
@@ -230,6 +230,9 @@ export default {
 </script>
 
 <style scoped>
+.root {
+  min-height: 550px;
+}
 .header {
   margin-top: 3rem;
   height: 12rem;
@@ -244,8 +247,8 @@ export default {
 .mint-tabbar{
   /* position: fixed!important;
   top: calc(100vh - 43px)!important; */
-  position: relative!important;
-    margin-top: 50px;
+  position: fixed!important;
+    /* margin-top: 50px; */
 }
 /*ul{*/
 /*display: flex;*/

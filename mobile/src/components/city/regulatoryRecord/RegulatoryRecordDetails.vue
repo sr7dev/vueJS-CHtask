@@ -399,4 +399,8 @@ img {
   max-width: 100%;
   height: 100%;
 }
+.mui-radio.mui-left label {
+  padding-right: 15px;
+  padding-left: 40px!important;
+}
 </style>
