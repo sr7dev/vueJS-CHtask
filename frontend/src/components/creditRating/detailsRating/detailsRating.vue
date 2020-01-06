@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item class="actived">修改评级</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">评级详情</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
