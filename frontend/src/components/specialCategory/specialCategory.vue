@@ -110,7 +110,7 @@
                   true-label="1"
                   false-label="0"
                   @change="showCheckbox"
-                  v-if="trainTableData.length > 0"
+                  v-if="trainTableData.length > 0 && !isShowAddButton"
                   style="margin-top: 10px; margin-left: 20px;"
                 />
               </div>
@@ -224,7 +224,7 @@ export default {
     };
   },
   created() {
-    this.companyId = 0;
+    this.companyId = -1;
     this.specialFlag = 1;
     this.supervisionRecordTimeFrom = "";
     this.supervisionRecordTimeTo = "";
@@ -266,6 +266,9 @@ export default {
       this.listLoading = true;
       Request()
         .get("/api/disability_check/all", {
+          detectUnit:-1,
+          item:-1,
+          sample:-1,
           specialFlag: this.specialFlag,
           detectTimeFrom: this.detectTimeFrom,
           detectTimeTo: this.detectTimeTo,
