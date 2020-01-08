@@ -136,7 +136,6 @@
 <script>
 import Request from "../../../services/api/request.js";
 import { Urls } from "../../../services/constants";
-import Auth from "@/services/authentication/auth.js";
 import Storage from "store";
 import axios from "axios";
 

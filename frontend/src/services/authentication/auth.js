@@ -4,7 +4,6 @@ import Request from "../api/request";
 import { User } from "../../models/user";
 import TokenManager from "./token-manager";
 import axios from "axios";
-import { privilegeList1, privilegeList2, privilegeList3 } from "./authList";
 
 class Auth {
   constructor() {}

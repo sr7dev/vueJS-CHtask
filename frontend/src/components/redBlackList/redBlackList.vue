@@ -21,8 +21,8 @@
             ></el-option>
           </el-select>
           <el-button-group class="margin-left-20" v-if="!isShowAddButton">
-            <el-button type="primary" size="medium" :disabled="tableData.length==0 || tableData[0].publishStatus>0" @click="setPublish(1)">公示</el-button>
-            <el-button type="danger" size="medium" :disabled="tableData.length==0 || tableData[0].publishStatus<1" @click="setPublish(0)">取消</el-button>
+            <el-button type="primary" plain size="medium" :disabled="tableData.length==0 || tableData[0].publishStatus>0" @click="setPublish(1)">公示</el-button>
+            <el-button type="info" plain size="medium" :disabled="tableData.length==0 || tableData[0].publishStatus<1" @click="setPublish(0)">取消</el-button>
           </el-button-group>
         </div>
         <el-container>

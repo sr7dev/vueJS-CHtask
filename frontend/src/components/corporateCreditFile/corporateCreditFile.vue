@@ -172,7 +172,7 @@
             </template>
           </el-table-column>
           <el-table-column
-            label="三品一标认证"
+            label="认证信息"
             width="200"
             class-name="text-center"
           >
