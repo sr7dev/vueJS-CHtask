@@ -277,6 +277,27 @@
             </table>
           </el-col>
         </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="left-margin">
+              <table>
+                <tbody>
+                  <tr>
+                    <td>GPS定位</td>
+                    <td>
+                      <baidu-map class="map" :center="center" :zoom="zoom" ak="xaM7HHYaG0KjyOcouj09IWHavrggGUH5" @ready="handler">
+                        <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
+                        <bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
+                          <bm-label :content="content" :labelStyle="{color: 'red', fontSize : '15px'}" :offset="{width: -35, height: 30}"/>
+                        </bm-marker>
+                      </baidu-map>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </el-col>
+        </el-row>
         <el-form-item class="left-margin">
           <el-button
             size="small"
@@ -298,9 +319,22 @@
 import Request from "../../../services/api/request.js";
 import { Urls } from "../../../services/constants";
 import axios from "axios";
+import BaiduMap from 'vue-baidu-map/components/map/Map.vue';
+import BmGeolocation from 'vue-baidu-map/components/controls/Geolocation.vue';
+import BmMarker from 'vue-baidu-map/components/overlays/Marker';
+import BmLabel from 'vue-baidu-map/components/overlays/Label';
 export default {
+  components: {
+    BaiduMap,
+    BmGeolocation,
+    BmMarker,
+    BmLabel
+  },
   data() {
     return {
+      content:"",
+      center: {lng: 0, lat: 0},  
+      zoom: 1,
       id: 0,
       townShip: "",
       companyName: "",
@@ -397,6 +431,11 @@ export default {
       let ua = navigator.userAgent;
       /* MSIE used to detect old browsers and Trident used to newer ones*/
       return ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
+    },
+    handler ({BMap, map}) {
+      this.center.lng = this.data.longitude ? this.data.longitude : 116.404
+      this.center.lat = this.data.latitude ? this.data.latitude : 39.915
+      this.zoom = 15
     }
   }
 };
