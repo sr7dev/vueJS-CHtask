@@ -123,7 +123,7 @@
               检验记录
               <span
                 class="mui-input-row mui-radio mui-left"
-                style="margin-left:6rem;margin-top:-0.5rem"
+                style="margin-left:6rem;margin-top:-0.6rem"
               >
                 <label>有</label>
                 <input type="radio" :checked="supervisionInfo.origin == 1" name="origin"/>
@@ -226,6 +226,9 @@
             </div>
             <div class="supervisor">
               <span>GPS定位</span>
+              <baidu-map class="map" :center="center" :zoom="zoom">
+          <!-- 　　　<bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation> -->
+          　　</baidu-map>
             </div>
           </div>
         </div>
@@ -238,11 +241,19 @@
 <script>
 import Request from "@/configs/request.js";
 import { Urls } from "@/configs/constants";
+import BaiduMap from 'vue-baidu-map/components/Map/Map.vue';
+import BmGeolocation from 'vue-baidu-map/components/controls/Geolocation.vue';
 import axios from "axios";
 export default {
   name: "RegulatoryRecordDetails",
+  components: {
+　　BaiduMap,
+　　BmGeolocation
+　},
   data() {
     return {
+      center: {lng: 0, lat: 0},  
+      zoom: 3　,
       id: 0,
       townShip: "",
       companyName: "",
@@ -310,7 +321,16 @@ export default {
     this.townShip = this.$route.query.town;
     this.companyName = this.$route.query.company;
     this.downloadUrl = Urls.DOWNLOAD_URL();
+     this.center.lng = 116.404
+    this.center.lat = 39.915
+    this.zoom = 15
     this.getData();
+  },
+  handler ({BMap, map}) {
+    console.log(BMap, map)
+    this.center.lng = 116.404
+    this.center.lat = 39.915
+    this.zoom = 15
   }
 };
 </script>
@@ -401,6 +421,10 @@ img {
 }
 .mui-radio.mui-left label {
   padding-right: 15px;
-  padding-left: 40px!important;
+  padding-left: 37px!important;
+}
+.map {
+  width: 100%;
+  height: 200px;
 }
 </style>

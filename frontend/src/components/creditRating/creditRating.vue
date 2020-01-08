@@ -102,7 +102,12 @@
             <template slot-scope="{ row }">
               <el-button
                 size="small"
-                v-on:click="$router.push(`/creditRating/${row.creditGradeId}`)"
+                v-on:click="
+                  $router.push({
+                    path: `/creditRating/${row.creditGradeId}`,
+                    query: { company: filterCompnay(row.creditCode) }
+                  })
+                "
                 plain
                 type="success"
                 v-if="isShowDetail"

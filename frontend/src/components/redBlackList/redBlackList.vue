@@ -20,6 +20,10 @@
               :value="item.id"
             ></el-option>
           </el-select>
+          <el-button-group class="margin-left-20" v-if="!isShowAddButton">
+            <el-button type="primary" size="medium" :disabled="tableData.length==0 || tableData[0].publishStatus>0" @click="setPublish(1)">公示</el-button>
+            <el-button type="danger" size="medium" :disabled="tableData.length==0 || tableData[0].publishStatus<1" @click="setPublish(0)">取消</el-button>
+          </el-button-group>
         </div>
         <el-container>
           <el-table
@@ -159,7 +163,8 @@ export default {
           pageSize: this.page.pageSize,
           townId: this.currTown,
           nowGrade: this.nowGrade,
-          sortBy: "creditGradeId"
+          sortBy: "creditGradeId",
+          publishStatus : this.isShowAddButton? 1 : -1
         })
         .then(response => {
           this.tableData = response.data;
@@ -167,6 +172,24 @@ export default {
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    setPublish(val) {
+       let newStatus = this.activeTabName === "first" ? 1 : 2;
+      if (this.status !== newStatus) {
+        this.status = newStatus;
+        this.nowGrade = this.status === 1 ? "A" : "C";
+      }
+       Request()
+        .put("/api/company_credit_grade/set_publish_status?townId="+this.currTown +
+              "&nowGrade=" +
+              this.nowGrade + 
+              "&publishStatus=" + val)
+        .then(response => {
+          this.getList();
         })
         .catch(error => {
           console.log(error);

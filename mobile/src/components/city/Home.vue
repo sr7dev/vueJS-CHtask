@@ -234,7 +234,7 @@ export default {
   min-height: 550px;
 }
 .header {
-  margin-top: 3rem;
+  margin-top: 2.5rem;
   height: 12rem;
 }
 .mui-grid-view.mui-grid-9 {

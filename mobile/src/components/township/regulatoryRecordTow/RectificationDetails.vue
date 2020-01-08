@@ -2,7 +2,7 @@
   <div>
     <mt-header fixed title="添加整改记录">
       <router-link to="/regulatoryRecordTow" slot="left">
-        <mt-button icon="back"></mt-button>
+        <mt-button icon="back">返回</mt-button>
       </router-link>
     </mt-header>
     <!--有数据-->

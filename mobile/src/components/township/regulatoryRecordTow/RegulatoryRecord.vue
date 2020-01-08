@@ -2,14 +2,14 @@
   <div>
     <mt-header fixed title="监管记录">
       <router-link to="/homeTow" slot="left">
-        <mt-button icon="back"></mt-button>
+        <mt-button icon="back">返回</mt-button>
       </router-link>
     </mt-header>
    <div class="header page-infinite-list"
         v-infinite-scroll="loadMore"
         infinite-scroll-disabled="loading"
         infinite-scroll-distance="10">
-     <div class="mui-card" v-for="item in tableData" @click="recordDetail(item.id,item.townId,item.companyId)">
+     <div class="mui-card" :key="item.id" v-for="item in tableData" @click="recordDetail(item.id,item.townId,item.companyId)">
        <div class="mui-card-content">
          <div class="mui-card-content-inner">
            <ul>

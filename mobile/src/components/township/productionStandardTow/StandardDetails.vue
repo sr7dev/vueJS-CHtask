@@ -2,7 +2,7 @@
     <div>
       <mt-header fixed title="生产标准详情">
         <router-link to="/productionPtandardTow" slot="left">
-          <mt-button icon="back"></mt-button>
+          <mt-button icon="back">返回</mt-button>
         </router-link>
       </mt-header>
       <div class="header" v-if="data">

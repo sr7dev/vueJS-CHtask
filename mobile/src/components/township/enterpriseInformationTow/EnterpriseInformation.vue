@@ -2,7 +2,7 @@
   <div>
     <mt-header fixed title="企业信息">
       <router-link to="/homeTow" slot="left">
-        <mt-button icon="back"></mt-button>
+        <mt-button icon="back">返回</mt-button>
       </router-link>
     </mt-header>
     <div class="header">

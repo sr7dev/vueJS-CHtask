@@ -2,7 +2,7 @@
     <div>
       <mt-header fixed title="生产标准详情">
         <router-link to="/productionPtandard" slot="left">
-          <mt-button icon="back"></mt-button>
+          <mt-button icon="back">返回</mt-button>
         </router-link>
       </mt-header>
       <div class="header" v-if="data">
@@ -15,7 +15,7 @@
           <div class="mui-card-header">生产标准</div>
           <div class="mui-card-content">
             <div class="mui-card-content-inner">
-              {{data.productStandard}}
+              {{data.productStandard && data.productStandard.indexOf("png") > -1 ? data.productStandard.replace(".png","") : data.productStandard}}
             </div>
           </div>
         </div>
@@ -118,7 +118,8 @@
   }
   span{
     position: absolute;
-    left: 7rem;
+    left: 6rem;
+    font-size: 0.9rem;
   }
   .mui-card-content-inner{
     height: 10rem;
