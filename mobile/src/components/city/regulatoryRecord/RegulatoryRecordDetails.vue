@@ -225,9 +225,12 @@
               </table>
             </div>
             <div class="supervisor">
-              <span>GPS定位</span>
-              <baidu-map class="map" :center="center" :zoom="zoom">
-          <!-- 　　　<bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation> -->
+              <p style="color:#000; padding:2px 5px 0 5px">GPS定位</p>
+              <baidu-map class="map" :center="center" :zoom="zoom" ak="xaM7HHYaG0KjyOcouj09IWHavrggGUH5" @ready="handler">
+          　　　<bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
+                <bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
+                  <bm-label :content="content" :labelStyle="{color: 'red', fontSize : '15px'}" :offset="{width: -35, height: 30}"/>
+                </bm-marker>
           　　</baidu-map>
             </div>
           </div>
@@ -243,17 +246,22 @@ import Request from "@/configs/request.js";
 import { Urls } from "@/configs/constants";
 import BaiduMap from 'vue-baidu-map/components/Map/Map.vue';
 import BmGeolocation from 'vue-baidu-map/components/controls/Geolocation.vue';
+import BmMarker from 'vue-baidu-map/components/overlays/Marker';
+import BmLabel from 'vue-baidu-map/components/overlays/Label';
 import axios from "axios";
 export default {
   name: "RegulatoryRecordDetails",
   components: {
 　　BaiduMap,
-　　BmGeolocation
+　　BmGeolocation,
+   BmMarker,
+   BmLabel
 　},
   data() {
     return {
+      content:"",
       center: {lng: 0, lat: 0},  
-      zoom: 3　,
+      zoom: 1,
       id: 0,
       townShip: "",
       companyName: "",
@@ -314,6 +322,11 @@ export default {
         link.click();
         link.remove();
       });
+    },
+    handler ({BMap, map}) {
+      this.center.lng = this.data.longitude ? this.data.longitude : 116.404
+      this.center.lat = this.data.latitude ? this.data.latitude : 39.915
+      this.zoom = 15
     }
   },
   created() {
@@ -321,16 +334,7 @@ export default {
     this.townShip = this.$route.query.town;
     this.companyName = this.$route.query.company;
     this.downloadUrl = Urls.DOWNLOAD_URL();
-     this.center.lng = 116.404
-    this.center.lat = 39.915
-    this.zoom = 15
     this.getData();
-  },
-  handler ({BMap, map}) {
-    console.log(BMap, map)
-    this.center.lng = 116.404
-    this.center.lat = 39.915
-    this.zoom = 15
   }
 };
 </script>
@@ -386,7 +390,8 @@ span {
 }
 
 .supervisor {
-  height: 8rem;
+  height: 185px;
+  widows: 100%;
   border: 0.01rem black solid;
   margin-bottom: 1rem;
   margin-right: 1.5rem;
@@ -424,7 +429,8 @@ img {
   padding-left: 37px!important;
 }
 .map {
-  width: 100%;
-  height: 200px;
+  width: 98%;
+  margin: 0 auto;
+  height: 150px;
 }
 </style>
