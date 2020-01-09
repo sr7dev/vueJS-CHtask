@@ -163,6 +163,10 @@ p {
 
 .map {
   width: 490px;
-  height: 160px;
+  height: 300px;
   margin: 0 auto;
+}
+
+.tangram-suggestion-main {
+  z-index: 1;
 }

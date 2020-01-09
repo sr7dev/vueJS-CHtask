@@ -91,17 +91,17 @@
           <el-table-column prop="createTime" label="日期" width="100">
             <template slot-scope="{ row }">{{ row.createTime | formatDate }}</template>
           </el-table-column>
-          <el-table-column prop="township" label="乡镇" width="120">
+          <el-table-column prop="township" label="乡镇" width="150">
             <template slot-scope="{ row }">{{ filterTownship(row.townId) }}</template>
           </el-table-column>
-          <el-table-column prop="unitinspec" label="受检单位" class-name="padding-left-20">
+          <el-table-column prop="unitinspec" label="受检单位" class-name="padding-left-20" width="300">
             <template slot-scope="{ row }">{{ filterCompanyName(row.companyId) }}</template>
           </el-table-column>
-          <el-table-column prop="inspector" label="检查人"></el-table-column>
+          <el-table-column prop="inspector" label="检查人" width="90"></el-table-column>
           <el-table-column prop="conclusion" label="结论" width="70">
             <template slot-scope="{ row }">{{ getItem8Status(row.conclusion) }}</template>
           </el-table-column>
-          <el-table-column prop="otherProblems" label="其他" width="80"></el-table-column>
+          <el-table-column prop="otherProblems" label="其他" width="300"></el-table-column>
           <el-table-column prop="scenePhotos" label="照片" width="70" class-name="text-center">
             <template slot-scope="{ row }">
               {{

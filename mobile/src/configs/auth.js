@@ -37,14 +37,8 @@ class Auth {
    * @return {Object} user data
    */
   user() {
-    if (this.loggedInUser) return this.loggedInUser;
     if (Storage.get("userData")) {
-      if (JSON.parse(Storage.get("userData")).tmp) {
-        //return User.create(JSON.parse(Storage.get("userData")));
-        return User.create(JSON.parse(Storage.get("userData")).tmp);
-      } else {
-        return User.create(JSON.parse(Storage.get("userData")));
-      }
+      return Storage.get("userData");
     }
     return null;
   }
@@ -151,12 +145,10 @@ class Auth {
   login(formData) {
     return Request()
       .post(
-        "/api/user/login",
-        {
+        "/api/user/login", {
           password: formData.password,
           username: formData.username
-        },
-        {},
+        }, {},
         true
       )
       .then(

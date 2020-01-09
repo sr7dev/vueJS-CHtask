@@ -184,6 +184,10 @@ export default {
                   "authData",
                   JSON.parse(success.authListInfo).result[0].roleCode
                 );
+                Storage.set(
+                  "userData",
+                  JSON.parse(success.userInfo).result
+                );
                 this.authData = JSON.parse(
                   success.authListInfo
                 ).result[0].roleCode;

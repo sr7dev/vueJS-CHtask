@@ -6,7 +6,6 @@
         <el-breadcrumb-item class="actived">添加监管记录</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-
     <div class="box">
       <el-dialog :visible.sync="dialogVisible" width="30%">
         <span>
@@ -150,8 +149,8 @@
         </el-row>
         <el-row>
           <el-col :span="10">
-            <el-form-item label="常用语" class="left-margin" prop="commonLang">
-              <el-select v-model="wordValue" multiple placeholder="请插入">
+            <el-form-item label="常用语" class="left-margin margin-top-10" prop="commonLang">
+              <el-select v-model="wordValue" multiple placeholder="请插入" class="w-50">
                 <el-option
                   v-for="item in wordsList"
                   :key="item.id"
@@ -281,7 +280,41 @@
             </table>
           </el-col>
         </el-row>
-
+        <el-row>
+          <el-col :span="12">
+            <div class="left-margin">
+              <table>
+                <tbody>
+                  <tr>
+                    <td>GPS定位</td>
+                    <td>
+                      <baidu-map class="map" :center="center" 
+                        :zoom="zoom"
+                        ak="xaM7HHYaG0KjyOcouj09IWHavrggGUH5" 
+                        @ready="handler"
+                        :double-click-zoom="false"
+                        :map-click="true"
+                        :auto-resize="true"
+                      >
+                        <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
+                        <bm-geolocation 
+                          anchor="BMAP_ANCHOR_BOTTOM_RIGHT" 
+                          :showAddressBar="true" 
+                          :autoLocation="true"
+                          @locationSuccess="locationSuccess"
+                          @locationError="locationError"
+                        ></bm-geolocation>
+                        <bm-marker :position="center" animation="BMAP_ANIMATION_BOUNCE">
+                          <bm-label :content="content" :offset="{width: -35, height: 30}"/>
+                        </bm-marker>
+                      </baidu-map>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </el-col>
+        </el-row>
         <el-form-item class="left-margin">
           <el-button size="small" type="success" plain @click="onSubmit('ruleForm')">保存</el-button>
           <el-button size="small" type="danger" plain v-on:click="$router.go(-1)">取消</el-button>
@@ -293,12 +326,29 @@
 
 <script>
 import Request from "../../../services/api/request.js";
+import { Message } from 'element-ui';
 import { Urls } from "../../../services/constants";
 import Auth from "@/services/authentication/auth.js";
+import BaiduMap from 'vue-baidu-map/components/map/Map.vue';
+import BmGeolocation from 'vue-baidu-map/components/controls/Geolocation.vue';
+import BmMarker from 'vue-baidu-map/components/overlays/Marker.vue';
+import BmLabel from 'vue-baidu-map/components/overlays/Label.vue';
+import BmNavigation from 'vue-baidu-map/components/controls/Navigation.vue';
 
 export default {
+  components: {
+    BmNavigation,
+    BaiduMap,
+    BmGeolocation,
+    BmMarker,
+    BmLabel
+  },
   data() {
     return {
+      content:"",
+      keyword: '',
+      center: {lng: 0, lat: 0},  
+      zoom: 1,
       images: [],
       fileName: "",
       signs: [],
@@ -321,7 +371,9 @@ export default {
         conclusion: "1",
         orderToAmend: "",
         recommendPunishment: "",
-        otherProcessing: ""
+        otherProcessing: "",
+        longitude:null,
+        latitude:null
       },
       township: [],
       companyList: [],
@@ -401,6 +453,14 @@ export default {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          if(!this.ruleFormValue.latitude || !this.ruleFormValue.longitude) {
+            this.$message({
+              showClose: true,
+              message: '点你的位置',
+              type: 'error'
+            });
+            return false;
+          }
           this.listLoading = true;
           var formData = new FormData();
           formData = this.makeFormData();
@@ -446,7 +506,8 @@ export default {
         standard: this.ruleFormValue.isThreeProduct
       };
       supervisionInfo = JSON.stringify(supervisionInfo);
-
+      mainFormData.append("latitude", this.ruleFormValue.latitude);
+      mainFormData.append("longitude", this.ruleFormValue.longitude);
       mainFormData.append("companyId", this.ruleFormValue.companyID);
       mainFormData.append("conclusion", this.ruleFormValue.conclusion);
       mainFormData.append("conclusionFalseInfo", conclusionData);
@@ -537,6 +598,25 @@ export default {
       strTemp = strTemp.substr(2, strTemp.length - 4);
       strTemp = strTemp.replace('","', ",");
       return strTemp;
+    },
+    handler ({BMap, map}) {
+      this.center.lng = this.ruleFormValue.longitude ? this.ruleFormValue.longitude : 116.404;
+      this.center.lat = this.ruleFormValue.latitude ? this.ruleFormValue.latitude : 39.915;
+      this.zoom = 15
+    },
+    locationSuccess (point, AddressComponent, marker) {
+      //定位成功后
+      this.ruleFormValue.longitude = point.point.lng;
+      this.ruleFormValue.latitude = point.point.lat;
+      const addr = point.addressComponent.city + point.addressComponent.district + point.addressComponent.province + point.addressComponent.street + point.addressComponent.streetNumber;
+      this.center = point.point
+    },
+    locationError(StatusCode) {
+      this.$message({
+        showClose: true,
+        message: '不能指出你的位置',
+        type: 'error'
+      });
     }
   }
 };

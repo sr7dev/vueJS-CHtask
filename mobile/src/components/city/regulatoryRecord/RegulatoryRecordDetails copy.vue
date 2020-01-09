@@ -6,20 +6,24 @@
       </router-link>
     </mt-header>
     <div class="header">
-      <div class="mui-card margin-top-3">
+      <div class="mui-card">
         <div class="mui-card-content">
           <div class="mui-card-content-inner">
             <ul>
               <li>
-               日期
-               <span>{{ data.createTime && data.createTime.substr(0,10) }}</span> 
-              </li>             
-                  <!-- <mt-datetime-picker
+                日期
+                <!-- <span>{{ data.createTime && data.createTime.substr(0,10) }}</span> -->              
+                  <mt-datetime-picker
                     v-model="data.createTime"
                     type="date"
+                    year-format="{value} 年"
+                    month-format="{value} 月"
+                    date-format="{value} 日"
                     @confirm="handleConfirm"
                   >
-                  </mt-datetime-picker> -->
+                  </mt-datetime-picker>
+      
+              </li>
               <li>
                 乡镇<span>{{ townShip }}</span>
               </li>
@@ -29,7 +33,7 @@
               <li style="border: none">
                 检查人<span>{{ data.inspector }}</span>
               </li>
-            </ul> 
+            </ul>
           </div>
         </div>
       </div>
@@ -48,8 +52,7 @@
                 <input
                   type="radio"
                   name="production"
-                  value="1"
-                  v-model="supervisionInfo.production"
+                  :checked="supervisionInfo.production == 1"
                 />
               </span>
               <span
@@ -60,8 +63,7 @@
                 <input
                   type="radio"
                   name="production"
-                  value="2"
-                  v-model="supervisionInfo.production"
+                  :checked="supervisionInfo.production == 2"
                 />
               </span>
             </p>
@@ -76,8 +78,7 @@
                 <input
                   type="radio"
                   name="inspection"
-                  value="1"
-                  v-model="supervisionInfo.inspection"
+                  :checked="supervisionInfo.inspection == 1"
                 />
               </span>
               <span
@@ -87,11 +88,12 @@
                 <label>真实完整</label>
                 <input
                   type="radio"
-                  value="2"
-                  v-model="supervisionInfo.inspection"
+                  name="inspection"
+                  :checked="supervisionInfo.inspection == 2"
                 />
               </span>
             </p>
+
             <p class="Title">
               禁用投入品及滥用添加剂行为
               <span
@@ -99,18 +101,17 @@
                 style="margin-left:6rem;margin-top:-0.5rem"
               >
                 <label>有</label>
-                <input type="radio" value="1"
-                  v-model="supervisionInfo.input" name="input"/>
+                <input type="radio" :checked="supervisionInfo.input == 1" name="input"/>
               </span>
               <span
                 class="mui-input-row mui-radio mui-left"
                 style="margin-left:8rem; margin-top:-0.5rem"
               >
                 <label>真实完整</label>
-                <input type="radio" value="0"
-                  v-model="supervisionInfo.input" name="input"/>
+                <input type="radio" :checked="supervisionInfo.input == 2" name="input"/>
               </span>
             </p>
+
             <p class="Title">
               农产品产地准出证明（销售记录）
               <span
@@ -118,16 +119,14 @@
                 style="margin-left:6rem;margin-top:-0.5rem"
               >
                 <label>有</label>
-                <input type="radio" value="1"
-                  v-model="supervisionInfo.abuse" name="abuse"/>
+                <input type="radio" :checked="supervisionInfo.abuse == 1" name="abuse"/>
               </span>
               <span
                 class="mui-input-row mui-radio mui-left"
                 style="margin-left:8rem; margin-top:-0.5rem"
               >
                 <label>真实完整</label>
-                <input type="radio" value="2"
-                  v-model="supervisionInfo.abuse" name="abuse"/>
+                <input type="radio" :checked="supervisionInfo.abuse == 2" name="abuse"/>
               </span>
             </p>
 
@@ -138,56 +137,52 @@
                 style="margin-left:6rem;margin-top:-0.6rem"
               >
                 <label>有</label>
-                <input type="radio" value="1"
-                  v-model="supervisionInfo.origin" name="origin"/>
+                <input type="radio" :checked="supervisionInfo.origin == 1" name="origin"/>
               </span>
               <span
                 class="mui-input-row mui-radio mui-left"
                 style="margin-left:8rem; margin-top:-0.5rem"
               >
                 <label>真实完整</label>
-                <input type="radio" value="2"
-                  v-model="supervisionInfo.origin" name="origin"/>
+                <input type="radio" :checked="supervisionInfo.origin == 2" name="origin"/>
               </span>
             </p>
+
             <p class="Title">
               “三品一标使用”
               <span
-                class="mui-input-row mui-checkbox mui-left"
+                class="mui-input-row mui-radio mui-left"
                 style="margin-left:6rem;margin-top:-0.5rem"
               >
                 <label>合规</label>
-                <input type="checkbox" v-model="supervisionInfo.standard"/>
+                <input type="radio" :checked="supervisionInfo.standard == 1"/>
               </span>
             </p>
-            <p style="font-size: 1rem;font-weight:500;color: black">常用语</p>
-            <div class="mui-text-row input">
-              <input type="text" v-model="data.usefulExpressions" disabled/>
+            <p style="font-size: 1rem;font-weight:500;color: black">其他</p>
+            <div class="mui-input-row input">
+              <input type="text" />
             </div>
             <p style="font-size: 1rem;font-weight:500;color: black">
               现场发现的其他问题
             </p>
             <div class="mui-input-row input">
-              <input type="text" v-model="data.otherProblems" disabled/>
+              <input type="text" v-model="data.otherProblems" />
             </div>
             <p style="margin-left: 1rem;margin-top:2rem">
-              结论&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{data.conclusion>0 ? "合格" : "不合格"}}
+              结论&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不合格
             </p>
             <div class="mt-field">
               <mt-field
                 v-model="conclusionData.order"
                 label="责令修改"
-                 disabled
               ></mt-field>
               <mt-field
                 v-model="conclusionData.suggestion"
                 label="建议处罚"
-                 disabled
               ></mt-field>
               <mt-field
                 v-model="conclusionData.others"
                 label="其他处理"
-                 disabled
               ></mt-field>
             </div>
             <div class="scene">
@@ -240,7 +235,7 @@
                 </tbody>
               </table>
             </div>
-            <div class="supervisor" v-if="data && data.id">
+            <div class="supervisor">
               <p style="color:#000; padding:2px 5px 0 5px">GPS定位</p>
               <baidu-map class="map" 
                 :center="center" 
@@ -260,7 +255,7 @@
                   @locationError="locationError"
                 ></bm-geolocation>
                 <bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
-                  <bm-label :content="content" :offset="{width: -35, height: 30}"/>
+                  <bm-label :content="content" :labelStyle="{color: 'red', fontSize : '15px'}" :offset="{width: -35, height: 30}"/>
                 </bm-marker>
           　　</baidu-map>
             </div>
@@ -268,7 +263,6 @@
         </div>
       </div>
       <div style="margin-left: 1rem"></div>
-      <mt-button size="large" type="primary" @click="onSubmit">保存</mt-button>
     </div>
   </div>
 </template>
@@ -276,7 +270,6 @@
 <script>
 import Request from "@/configs/request.js";
 import { Urls } from "@/configs/constants";
-import Auth from "@/configs/auth.js";
 import { DatetimePicker } from 'mint-ui';
 import BaiduMap from 'vue-baidu-map/components/Map/Map.vue';
 import BmGeolocation from 'vue-baidu-map/components/controls/Geolocation.vue';
@@ -313,7 +306,6 @@ export default {
   methods: {
     //监管记录详情
     getData() {
-      let loader = this.$loading.show();
       Request()
         .get("/api/supervision_record/get/" + this.id, {
           id: this.id
@@ -322,13 +314,6 @@ export default {
           this.data = response;
           this.conclusionData = JSON.parse(this.data.conclusionFalseInfo);
           this.supervisionInfo = JSON.parse(this.data.supervisionInfo);
-          this.data.scenePhotos = this.data.scenePhotos.indexOf("/uploads/") >-1 ?
-                             this.data.scenePhotos : "/uploads/"+this.data.scenePhotos;
-          this.data.sign = this.data.sign.indexOf("/uploads/") >-1 ?
-                             this.data.sign : "/uploads/"+this.data.sign;
-          setTimeout(() => {
-            loader.hide();
-          }, 0.5 * 1000);
         })
         .catch(error => {
           console.log(error);
@@ -346,7 +331,7 @@ export default {
         link.href = url;
         link.setAttribute(
           "download",
-          this.data.scenePhotos.indexOf("/uploads/") >-1 ? this.data.scenePhotos.replace("/uploads/", "") : this.data.scenePhotos   
+          this.data.scenePhotos.replace("/uploads/", "")
         ); //or any other extension
         document.body.appendChild(link);
         link.click();
@@ -362,20 +347,16 @@ export default {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute(
-          "download", 
-          this.data.sign.indexOf("/uploads/") >-1 ? this.data.sign.replace("/uploads/", "") :this.data.sign
-        ); //or any other extension
+        link.setAttribute("download", this.data.sign.replace("/uploads/", "")); //or any other extension
         document.body.appendChild(link);
         link.click();
         link.remove();
       });
     },
     handler ({BMap, map}) {
-      console.log(this.data);
       this.center.lng = this.data.longitude ? this.data.longitude : 116.404
       this.center.lat = this.data.latitude ? this.data.latitude : 39.915
-      this.zoom = 15;
+      this.zoom = 15
     },
     locationSuccess (point, AddressComponent, marker) {
       //定位成功后
@@ -394,83 +375,7 @@ export default {
     },
     handleConfirm() {
       console.log(this.data.createTime);
-    },
-    onSubmit() {
-      let loader = this.$loading.show();
-      var formData = new FormData();
-      formData = this.makeFormData();
-      console.log(formData);
-      Request()
-        .put("/api/supervision_record/update/"+ this.id, formData)
-        .then(response => {
-          setTimeout(() => {
-            loader.hide();
-          }, 0.5 * 1000);
-          this.$router.push({ path: "/regulatoryRecord" });
-        })
-        .catch(error => {
-          setTimeout(() => {
-            loader.hide();
-          }, 0.5 * 1000);
-        });
-    },
-    makeFormData() {
-      var mainFormData = new FormData();
-      var conclusionData =
-        this.data.conclusion == 1
-          ? {
-              order: " ",
-              suggestion: " ",
-              others: " "
-            }
-          : {
-              order: this.data.order
-                ? this.data.order
-                : " ",
-              suggestion: this.data.suggestion
-                ? this.data.suggestion
-                : " ",
-              others: this.data.others
-                ? this.data.others
-                : " "
-            };
-            console.log(conclusionData);
-      conclusionData = JSON.stringify(conclusionData);
-      var supervisionInfo = {
-        production: this.supervisionInfo.production ? this.supervisionInfo.production : "",
-        input: this.supervisionInfo.input ? this.supervisionInfo.input : "",
-        abuse: this.supervisionInfo.abuse ? this.supervisionInfo.abuse : "",
-        origin: this.supervisionInfo.origin ? this.supervisionInfo.origin : "",
-        inspection: this.supervisionInfo.inspection ? this.supervisionInfo.inspection : "",
-        standard: this.supervisionInfo.standard ? "1" : "0"
-      };
-      console.log(supervisionInfo);
-      supervisionInfo = JSON.stringify(supervisionInfo);
-      mainFormData.append("latitude", this.data.latitude);
-      mainFormData.append("longitude", this.data.longitude);
-      mainFormData.append("companyId", this.data.companyId);
-      mainFormData.append("conclusion", this.data.conclusion);
-      mainFormData.append("conclusionFalseInfo", conclusionData);
-      mainFormData.append("createTime", this.data.createTime);
-      mainFormData.append("inspector", this.data.inspector);
-      mainFormData.append("otherProblems", this.data.otherProblems);
-      mainFormData.append(
-        "productionSubjectType",
-        this.data.productionSubjectType
-      );
-      mainFormData.append("supervisionInfo", supervisionInfo);
-      mainFormData.append("townId", this.data.townId);
-      mainFormData.append("createUserId", Auth().user().id);
-      mainFormData.append("id", this.data.id);
-      mainFormData.append("supervisionRecordTime", new Date(this.data.supervisionRecordTime));
-      mainFormData.append("updateTime", this.data.updateTime);
-      mainFormData.append("updateUserId", Auth().user().id);
-      mainFormData.append(
-        "usefulExpressions",
-        this.data.usefulExpressions
-      );
-      return mainFormData;
-    },
+    }
   },
   created() {
     this.id = this.$route.query.id;
@@ -500,21 +405,11 @@ span {
   left: 5rem;
   font-weight: 500;
 }
-.mui-checkbox input[type=checkbox] {
-  top:6px!important
-}
 .mui-radio input[type=radio] {
   top:6px!important
 }
 .mui-radio input[type=radio]:before {
   font-size: 15px!important;
-}
-.mui-checkbox input[type=checkbox]:before {
-  font-size: 15px!important;
-}
-
-.margin-top-3 {
-  margin-top:3.5rem!important;
 }
 
 .mui-card-content-inner {
@@ -577,11 +472,10 @@ img {
   max-width: 100%;
   height: 100%;
 }
-.mui-checkbox.mui-left label, .mui-radio.mui-left label {
+.mui-radio.mui-left label {
   padding-right: 15px;
   padding-left: 37px!important;
 }
-
 .map {
   width: 98%;
   margin: 0 auto;

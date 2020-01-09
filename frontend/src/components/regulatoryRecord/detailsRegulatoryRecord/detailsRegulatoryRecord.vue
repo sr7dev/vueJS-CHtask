@@ -51,7 +51,7 @@
           </el-col>
           <el-col :span="7">
             <el-form-item label="检查人">
-              <el-input v-model="data.inspector" style="width:60%"></el-input>
+              <el-input v-model="data.inspector" style="width:60%" disabled></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -149,11 +149,13 @@
 
         <el-row>
           <el-col :span="10">
-            <el-form-item label="常用语" class="left-margin">
+            <el-form-item label="常用语" class="left-margin no-margin-top">
               <el-input
+                type="textarea"
                 disabled
+                :rows="5"
                 style="width:30%"
-                v-model="data.otherProblems"
+                v-model="data.usefulExpressions"
               ></el-input>
             </el-form-item>
           </el-col>
@@ -202,7 +204,7 @@
                               <el-input
                                 v-model="conclusionData.order"
                                 style="width:100%"
-                                :disabled="data.conclusion == 1"
+                                disabled
                               ></el-input>
                             </td>
                           </tr>
@@ -212,7 +214,7 @@
                               <el-input
                                 v-model="conclusionData.suggestion"
                                 style="width:100%"
-                                :disabled="data.conclusion == 1"
+                                disabled
                               ></el-input>
                             </td>
                           </tr>
@@ -222,7 +224,7 @@
                               <el-input
                                 v-model="conclusionData.others"
                                 style="width:100%"
-                                :disabled="data.conclusion == 1"
+                                disabled
                               ></el-input>
                             </td>
                           </tr>
@@ -285,10 +287,18 @@
                   <tr>
                     <td>GPS定位</td>
                     <td>
-                      <baidu-map class="map" :center="center" :zoom="zoom" ak="xaM7HHYaG0KjyOcouj09IWHavrggGUH5" @ready="handler">
+                      <baidu-map class="map" :center="center" 
+                        :zoom="zoom"
+                        ak="xaM7HHYaG0KjyOcouj09IWHavrggGUH5" 
+                        @ready="handler"
+                        :double-click-zoom="false"
+                        :map-click="true"
+                        :auto-resize="true"
+                      >
+                        <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
                         <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
-                        <bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
-                          <bm-label :content="content" :labelStyle="{color: 'red', fontSize : '15px'}" :offset="{width: -35, height: 30}"/>
+                        <bm-marker :position="center" animation="BMAP_ANIMATION_BOUNCE">
+                          <bm-label :content="content" :offset="{width: -35, height: 30}"/>
                         </bm-marker>
                       </baidu-map>
                     </td>
@@ -323,8 +333,11 @@ import BaiduMap from 'vue-baidu-map/components/map/Map.vue';
 import BmGeolocation from 'vue-baidu-map/components/controls/Geolocation.vue';
 import BmMarker from 'vue-baidu-map/components/overlays/Marker';
 import BmLabel from 'vue-baidu-map/components/overlays/Label';
+import BmNavigation from 'vue-baidu-map/components/controls/Navigation';
+
 export default {
   components: {
+    BmNavigation,
     BaiduMap,
     BmGeolocation,
     BmMarker,
@@ -333,6 +346,7 @@ export default {
   data() {
     return {
       content:"",
+      keyword: '',
       center: {lng: 0, lat: 0},  
       zoom: 1,
       id: 0,
@@ -433,8 +447,8 @@ export default {
       return ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
     },
     handler ({BMap, map}) {
-      this.center.lng = this.data.longitude ? this.data.longitude : 116.404
-      this.center.lat = this.data.latitude ? this.data.latitude : 39.915
+      this.center.lng = this.data.longitude ? this.data.longitude : 116.404;
+      this.center.lat = this.data.latitude ? this.data.latitude : 39.915;
       this.zoom = 15
     }
   }
