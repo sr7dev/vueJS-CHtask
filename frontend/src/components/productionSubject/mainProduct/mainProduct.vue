@@ -35,7 +35,7 @@
           width="70"
         ></el-table-column>
         <el-table-column prop="productName" label="产品名称"></el-table-column>
-        <el-table-column prop="doOrganic" label="是否为有机产品">
+        <el-table-column prop="doOrganic" label="是否为有机产品" class-name="text-center">
           <template slot-scope="{ row }">{{
             row.doOrganic ? "是" : "否"
           }}</template>
@@ -44,7 +44,11 @@
         <el-table-column prop="productArea" label="产地"></el-table-column>
         <el-table-column prop="variety" label="品种"></el-table-column>
         <el-table-column prop="specification" label="规格"></el-table-column>
-        <el-table-column prop="grade" label="评级"></el-table-column>
+        <el-table-column prop="grade" label="评级">
+          <template slot-scope="{ row }">
+            {{ filterGradeName(row.grade) }}
+          </template>
+        </el-table-column>
         <el-table-column
           prop="operations"
           label="操作"
@@ -153,6 +157,7 @@ export default {
   components: { Pagination },
   data() {
     return {
+      gradeData:null,
       id: -1,
       page: {
         pageIndex: 1,
@@ -165,13 +170,14 @@ export default {
       isShowAddButton: null
     };
   },
-  created() {
+  async created() {
     this.id = this.$route.params.id;
     this.isShowAddButton = Storage.get("authList").find(
       x => x.privilegeCode == "addMainProduct"
     )
       ? true
       : false;
+    await this.getProductGrade();
     this.getList();
   },
   methods: {
@@ -239,11 +245,29 @@ export default {
           console.error(error);
         });
     },
+    getProductGrade() {
+      return Request()
+        .get("/api/product_grade/all", {
+          sortBy: "gradeSort"
+        })
+        .then(response => {
+          this.gradeData = response.data;
+        })
+        .catch(error => {});
+    },
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
     },
     order(row) {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
+    },
+    filterGradeName(id) {
+      let grade = this.gradeData.find(x => x.id == id);
+      if (grade) {
+        return grade.gradeName;
+      } else {
+        return "";
+      }
     }
   }
 };

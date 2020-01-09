@@ -25,7 +25,7 @@
         </el-row>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="仓库地址" prop="taskType">
+            <el-form-item label="作业类型" prop="taskType">
               <el-select v-model="ruleFormValue.taskType" :disabled="!(options.length > 0)">
                 <el-option
                   v-for="item in options"

@@ -67,7 +67,7 @@
           </el-row>
           <el-row>
             <el-col :span="5">&nbsp;</el-col>
-            <el-col :span="10">
+            <el-col :span="9">
               <el-button
                 size="small"
                 type="warning"
@@ -87,7 +87,7 @@
               <p v-if="file_live_1">{{ file_live_1.name }}</p>
               <p v-if="!file_live_1 && !fileName1">请选择需要上传的文件...</p>
             </el-col>
-            <el-col :span="5">
+            <el-col :span="6">
               <div class="img-container no-margin-top margin-bottom-30 margin-left-10">
                 <img
                   :src="downloadUrl + fileName1"
@@ -429,7 +429,7 @@
           label="操作"
           v-if="isShowAddButton"
           class-name="text-center"
-          width="160"
+          width="260"
         >
           <template slot-scope="{ row }">
             <el-button

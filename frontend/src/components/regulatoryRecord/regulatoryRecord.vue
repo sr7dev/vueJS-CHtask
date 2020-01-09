@@ -274,8 +274,9 @@ export default {
       return this.page.pageSize * (this.page.pageIndex - 1) + row.rowIndex + 1;
     },
     getCountElement(val1, val2) {
-      if (!val1 && !val2) return 0;
-      else return val1.split(";").length + val2.split(";").length;
+      const photo1 = val1 ? val1.split(";").length : 0;
+      const photo2 = val2 ? val2.split(";").length : 0; 
+      return photo1+photo2;
     },
     getItem8Status(val) {
       if (val == "1") return "合格";

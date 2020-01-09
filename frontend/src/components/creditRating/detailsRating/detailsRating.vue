@@ -78,7 +78,8 @@
               <el-button size="small" type="success" plain @click="saveChanges()">保存修改</el-button>
             </div> -->
             <div class="item-value">
-              <el-button size="small" type="danger" plain @click="$router.go(-1)">返回</el-button>
+              <el-button size="small" type="success" plain @click="$router.go(-1)">同意</el-button>
+              <el-button size="small" type="danger" plain @click="$router.go(-1)">拒绝</el-button>
             </div>
           </div>
         </div>
@@ -104,7 +105,7 @@ export default {
       data: null,
       grades: ["A", "B", "C"],
       options: ["A级（守信）", "B级（基本守信）", "C级（失信）"],
-      allStatus: ["待审批", "已同意", "已拒绝"],
+      allStatus: ["待审批", "已通过", "已拒绝"],
       companyName: "",
       is_ie:null
     };

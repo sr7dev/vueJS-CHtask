@@ -156,7 +156,7 @@ export default {
     return {
       township: [{ id: -1, name: "全部" }],
       currTown: -1,
-      appStatus: ["全部", "待审批", "已同意", "已拒绝"],
+      appStatus: ["全部", "待审批", "已通过", "已拒绝"],
       status: 0,
       page: {
         pageIndex: 1,

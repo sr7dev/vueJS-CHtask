@@ -30,7 +30,14 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="评级" prop="grade">
-              <el-input v-model="ruleFormValue.grade"></el-input>
+              <el-select v-model="ruleFormValue.grade" class="w-100">
+                <el-option
+                  v-for="item in gradeData"
+                  :key="item.id"
+                  :label="item.gradeName"
+                  :value="item.id"
+                ></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -90,12 +97,13 @@ export default {
   name: "addMainProduct",
   data() {
     return {
+      gradeData:null,
       listLoading: true,
       companyId: -1,
       ruleFormValue: {
         productName: "",
         atunitprice: 0,
-        grade: "",
+        grade: null,
         productArea: "",
         variety: "",
         specification: "",
@@ -160,7 +168,7 @@ export default {
   },
   created() {
     this.companyId = this.$route.params.id;
-    this.listLoading = false;
+    this.getProductGrade();
   },
   methods: {
     onSubmit(formName) {
@@ -196,6 +204,22 @@ export default {
           return false;
         }
       });
+    },
+    getProductGrade() {
+      Request()
+        .get("/api/product_grade/all", {
+          sortBy: "gradeSort"
+        })
+        .then(response => {
+          this.gradeData = response.data;
+          this.gradeData.sort(function(a, b) {
+            return a.gradeSort - b.gradeSort;
+          });
+          setTimeout(() => {
+            this.listLoading = false;
+          }, 0.5 * 1000);
+        })
+        .catch(error => {});
     }
   }
 };
