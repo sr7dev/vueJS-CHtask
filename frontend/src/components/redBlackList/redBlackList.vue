@@ -118,14 +118,15 @@ export default {
     };
   },
   created() {
-    this.getTown();
-    this.getList();
-    this.getCompanyProduction();
-    this.isShowAddButton = Storage.get("authList").find(
+     this.isShowAddButton = Storage.get("authList").find(
       x => x.privilegeCode == "addTrainingFunds"
     )
       ? true
       : false;
+    this.getTown();
+    this.getList();
+    this.getCompanyProduction();
+   
   },
   methods: {
     getCompanyProduction() {
