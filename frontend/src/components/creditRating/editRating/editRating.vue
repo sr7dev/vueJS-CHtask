@@ -97,6 +97,7 @@ export default {
   name: "EditRating",
   data() {
     return {
+      curGrade:"",
       updateLoading: false,
       id: -1,
       file: null,
@@ -121,6 +122,7 @@ export default {
         .get("/api/company_credit_grade/get/" + id)
         .then(response => {
           this.data = response;
+          this.curGrade = response.nowGrade;
         })
         .catch(error => {
           console.log(error);
@@ -138,8 +140,11 @@ export default {
     saveChanges(event) {
       this.updateLoading = true;
       var formData = new FormData();
-      formData.append("updatedNowGrade", this.data.nowGrade);
+      formData.append("updatedNowGrade", this.curGrade);
       formData.append("id", this.data.creditGradeId);
+      formData.append("approvalGrade", this.data.nowGrade);
+      formData.append("originGrade", this.data.originGrade);
+      formData.append("approvalStatus", 0);
       if (this.file) {
         formData.append("file", this.file);
       }
@@ -166,9 +171,9 @@ export default {
         .put(
           "/api/company_production/updateGrade/" +
             this.data.creditCode +
-            "?approvalStatus=2" +
-            "&grade" +
-            this.data.nowGrade
+            "?approvalStatus=0" +
+            "&grade=" +
+            this.curGrade
         )
         .then(response => {
           this.updateLoading = false;

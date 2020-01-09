@@ -92,7 +92,7 @@
             >
           </template>
         </el-table-column>
-        <el-table-column prop="operations" label width="230" class="text-left">
+        <el-table-column prop="operations" label width="350" class="text-left">
           <template slot-scope="{ row }">
             <el-button
               size="small"
@@ -113,22 +113,30 @@
             >
             <el-button
               size="small"
-              v-on:click="showProductProperty(row)"
+              v-on:click="deleteBatch(row)"
               type="success"
               plain
               style="margin-bottom: 5px;"
-              class="no-margin-left"
-              v-if="isShowAddButton"
-              >属性管理</el-button
-            >
+              >删除</el-button
+            > 
             <el-button
               size="small"
               v-on:click="showProcessDefinition(row)"
               type="success"
               plain
+              class="no-margin-left"
               style="margin-bottom: 5px;"
               v-if="isShowAddButton"
               >作业定义</el-button
+            >
+            <el-button
+              size="small"
+              v-on:click="showProductProperty(row)"
+              type="success"
+              plain
+              style="margin-bottom: 5px;"
+              v-if="isShowAddButton"
+              >属性管理</el-button
             >
           </template>
         </el-table-column>
@@ -224,6 +232,16 @@ export default {
       this.$router.push({
         path: `/productionGrade/${row.productId}`
       });
+    },
+    deleteBatch(row) {
+      Request()
+        .delete("/api/product_production/delete/"+row.productId)
+        .then(response => {
+          this.getList();
+        })
+        .catch(error => {
+          console.error(error);
+        });
     },
     getList() {
       this.listLoading = true;

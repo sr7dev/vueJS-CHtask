@@ -123,6 +123,7 @@
 import Request from "@/services/api/request.js";
 import Pagination from "@/components/common/pagination";
 import Auth from "@/services/authentication/auth.js";
+import Storage from "store";
 // import * as am4core from "@amcharts/amcharts4/core";
 // import * as am4charts from "@amcharts/amcharts4/charts";
 // import am4themes_animated from "@amcharts/amcharts4/themes/animated";
@@ -150,6 +151,7 @@ export default {
       // maxCnt: null,
       maxCnt: 45,
       progressColor: "",
+      isShowAddButton: null,
       leftTopData: [],
       leftDownData: [],
       rightTopData: [],
@@ -192,6 +194,13 @@ export default {
     // this.makeXYChart();
     // this.makePieChart();
     // this.makeLineChart();
+  },
+  created() {
+    this.isShowAddButton = Storage.get("authList").find(
+      x => x.privilegeCode == "addTrainingFunds"
+    )
+      ? true
+      : false;
   },
   methods: {
     async getTown() {
@@ -267,9 +276,9 @@ export default {
     getRedData() {
       Request()
         .get("/api/company_credit_grade/all", {
-          approvalStatus: 2,
-          nowGrade: "A",
-          sortBy: "creditGradeId"
+          nowGrade: "A",  //approvalStatus: 2,
+          sortBy: "creditGradeId",
+          publishStatus : this.isShowAddButton? 1 : -1
         })
         .then(response => {
           // this.redData = response.data;
@@ -287,9 +296,9 @@ export default {
     getBlackData() {
       Request()
         .get("/api/company_credit_grade/all", {
-          approvalStatus: 2,
-          nowGrade: "C",
-          sortBy: "creditGradeId"
+          nowGrade: "C",  //approvalStatus: 2,
+          sortBy: "creditGradeId",
+          publishStatus : this.isShowAddButton? 1 : -1
         })
         .then(response => {
           // this.blackData = response.data;

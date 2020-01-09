@@ -30,7 +30,15 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="评级" prop="grade">
-              <el-input v-model="ruleFormValue.grade"></el-input>
+              <el-select v-model="ruleFormValue.grade" class="w-100">
+                <el-option
+                  v-for="item in gradeData"
+                  :key="item.id"
+                  :label="item.gradeName"
+                  :value="item.id"
+                ></el-option>
+              </el-select>
+              <!-- <el-input v-model="ruleFormValue.grade"></el-input> -->
             </el-form-item>
           </el-col>
         </el-row>
@@ -90,6 +98,7 @@ export default {
   name: "editMainProduct",
   data() {
     return {
+      gradeData:null,
       listLoading: true,
       companyId: -1,
       ruleFormValue: {
@@ -158,9 +167,9 @@ export default {
       }
     };
   },
-  created() {
+  async created() {
     this.productId = this.$route.params.id;
-    this.listLoading = false;
+    await this.getProductGrade();
     this.getData();
   },
   methods: {
@@ -205,14 +214,28 @@ export default {
       });
     },
     getData() {
-      this.listLoading = true;
       Request()
         .get("/api/product_production/name?productid=" + this.productId)
         .then(response => {
           this.ruleFormValue = response[0];
+          if(this.ruleFormValue.grade)
+          this.ruleFormValue.grade = parseInt(this.ruleFormValue.grade);
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
+        })
+        .catch(error => {});
+    },
+    getProductGrade() {
+      return Request()
+        .get("/api/product_grade/all", {
+          sortBy: "gradeSort"
+        })
+        .then(response => {
+          this.gradeData = response.data;
+          this.gradeData.sort(function(a, b) {
+            return a.gradeSort - b.gradeSort;
+          });
         })
         .catch(error => {});
     }

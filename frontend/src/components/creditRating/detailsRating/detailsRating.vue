@@ -33,7 +33,7 @@
           <div class="item">
             <div class="item-label">现信用评级</div>
             <div class="item-value">
-              <el-select v-model="data.nowGrade" placeholder="请选择" disabled>
+              <el-select v-model="data.approvalGrade" placeholder="请选择" disabled>
                 <el-option
                   v-for="(item, optionIndex) in options"
                   :key="item"
@@ -78,8 +78,9 @@
               <el-button size="small" type="success" plain @click="saveChanges()">保存修改</el-button>
             </div> -->
             <div class="item-value">
-              <el-button size="small" type="success" plain @click="$router.go(-1)">同意</el-button>
-              <el-button size="small" type="danger" plain @click="$router.go(-1)">拒绝</el-button>
+              <el-button size="small" type="success" plain @click="assignGrade()">同意</el-button>
+              <el-button size="small" type="danger" plain @click="rejectGrade()">拒绝</el-button>
+              <el-button size="small" type="danger" plain @click="$router.go(-1)">返回</el-button>
             </div>
           </div>
         </div>
@@ -136,11 +137,14 @@ export default {
       this.file = this.$refs.file.files[0];
     },
 
-    saveChanges(event) {
+    assignGrade() {
       this.updateLoading = true;
       var formData = new FormData();
-      formData.append("updatedNowGrade", this.data.nowGrade);
+      formData.append("updatedNowGrade", this.data.approvalGrade);
       formData.append("id", this.data.creditGradeId);
+      formData.append("approvalGrade", this.data.approvalGrade);
+      formData.append("originGrade", this.data.nowGrade);
+      formData.append("approvalStatus", 1);
       if (this.file) {
         formData.append("file", this.file);
       }
@@ -151,12 +155,35 @@ export default {
           formData
         )
         .then(response => {
-          this.saveChangeUpdateGrade();
+          this.saveChangeUpdateGrade(1, this.data.approvalGrade);
         })
         .catch(error => {});
     },
 
-    saveChangeUpdateGrade() {
+    rejectGrade() {
+      this.updateLoading = true;
+      var formData = new FormData();
+      formData.append("updatedNowGrade", this.data.nowGrade);
+      formData.append("id", this.data.creditGradeId);
+      formData.append("approvalGrade", this.data.nowGrade);
+      formData.append("originGrade", this.data.originGrade);
+      formData.append("approvalStatus", 2);
+      if (this.file) {
+        formData.append("file", this.file);
+      }
+      formData.append("data", this.data);
+      Request()
+        .put(
+          "/api/company_credit_grade/update/" + this.data.creditGradeId,
+          formData
+        )
+        .then(response => {
+          this.saveChangeUpdateGrade(2, this.data.nowGrade);
+        })
+        .catch(error => {});
+    },
+
+    saveChangeUpdateGrade(finalStatus,finalGrade) {
       let data = [];
       data.push({
         approvalStatus: 2,
@@ -167,9 +194,8 @@ export default {
         .put(
           "/api/company_production/updateGrade/" +
             this.data.creditCode +
-            "?approvalStatus=2" +
-            "&grade" +
-            this.data.nowGrade
+            "?approvalStatus=" + finalStatus +
+            "&grade" + finalGrade
         )
         .then(response => {
           this.updateLoading = false;

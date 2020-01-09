@@ -4,7 +4,7 @@
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>监管对象</el-breadcrumb-item>
         <el-breadcrumb-item>主营产品</el-breadcrumb-item>
-        <el-breadcrumb-item class="actived">/作业定义</el-breadcrumb-item>
+        <el-breadcrumb-item class="actived">作业定义</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="box">
