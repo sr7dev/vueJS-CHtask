@@ -42,8 +42,8 @@
                 {{ filterCompnay(row.creditCode) }}
               </template>
             </el-table-column>
-            <el-table-column label="名称">
-              <template slot-scope="{ row }" v-if="!isShowAddButton">
+            <el-table-column label="名称" v-if="!isShowAddButton">
+              <template slot-scope="{ row }">
                 {{ filterCompnay(row.creditCode) }}
               </template>
             </el-table-column>
