@@ -295,6 +295,7 @@
                         :double-click-zoom="false"
                         :map-click="true"
                         :auto-resize="true"
+                        @click="onClickMap"
                       >
                         <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
                         <bm-geolocation 
@@ -617,6 +618,11 @@ export default {
         message: '不能指出你的位置',
         type: 'error'
       });
+    },
+    onClickMap(e) {
+      this.ruleFormValue.longitude = e.point.lng;
+      this.ruleFormValue.latitude = e.point.lat;
+      this.center = e.point;
     }
   }
 };

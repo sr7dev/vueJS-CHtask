@@ -250,6 +250,7 @@
                 :double-click-zoom="false"
                 :map-click="true"
                 :auto-resize="true"
+                @click="onClickMap"
               >
           　　　<bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
                 <bm-geolocation 
@@ -372,7 +373,6 @@ export default {
       });
     },
     handler ({BMap, map}) {
-      console.log(this.data);
       this.center.lng = this.data.longitude ? this.data.longitude : 116.404
       this.center.lat = this.data.latitude ? this.data.latitude : 39.915
       this.zoom = 15;
@@ -381,7 +381,6 @@ export default {
       //定位成功后
       this.data.longitude = point.point.lng;
       this.data.latitude = point.point.lat;
-      console.log(this.data.longitude, this.data.latitude);
       const addr = point.addressComponent.city + point.addressComponent.district + point.addressComponent.province + point.addressComponent.street + point.addressComponent.streetNumber;
       this.center = point.point
     },
@@ -399,7 +398,6 @@ export default {
       let loader = this.$loading.show();
       var formData = new FormData();
       formData = this.makeFormData();
-      console.log(formData);
       Request()
         .put("/api/supervision_record/update/"+ this.id, formData)
         .then(response => {
@@ -434,7 +432,6 @@ export default {
                 ? this.data.others
                 : " "
             };
-            console.log(conclusionData);
       conclusionData = JSON.stringify(conclusionData);
       var supervisionInfo = {
         production: this.supervisionInfo.production ? this.supervisionInfo.production : "",
@@ -444,7 +441,6 @@ export default {
         inspection: this.supervisionInfo.inspection ? this.supervisionInfo.inspection : "",
         standard: this.supervisionInfo.standard ? "1" : "0"
       };
-      console.log(supervisionInfo);
       supervisionInfo = JSON.stringify(supervisionInfo);
       mainFormData.append("latitude", this.data.latitude);
       mainFormData.append("longitude", this.data.longitude);
@@ -471,6 +467,11 @@ export default {
       );
       return mainFormData;
     },
+    onClickMap(e) {
+      this.data.longitude = e.point.lng;
+      this.data.latitude = e.point.lat;
+      this.center = e.point;
+    }
   },
   created() {
     this.id = this.$route.query.id;
