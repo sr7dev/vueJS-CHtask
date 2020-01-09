@@ -78,8 +78,8 @@
               <el-button size="small" type="success" plain @click="saveChanges()">保存修改</el-button>
             </div> -->
             <div class="item-value">
-              <el-button size="small" type="success" plain @click="assignGrade()">同意</el-button>
-              <el-button size="small" type="danger" plain @click="rejectGrade()">拒绝</el-button>
+              <el-button size="small" type="success" plain @click="assignGrade()" :disabled="data.approvalStatus!=0">同意</el-button>
+              <el-button size="small" type="danger" plain @click="rejectGrade()" :disabled="data.approvalStatus!=0">拒绝</el-button>
               <el-button size="small" type="danger" plain @click="$router.go(-1)">返回</el-button>
             </div>
           </div>
