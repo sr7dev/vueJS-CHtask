@@ -41,7 +41,7 @@
       <div class="mui-card" style="margin-bottom: 35px;" v-if="data.length"
       v-infinite-scroll="loadMore"
       infinite-scroll-disabled="loading"
-      infinite-scroll-distance="10"
+      infinite-scroll-distance="20"
       >
         <ul class="mui-table-view">
           <li

@@ -19,8 +19,14 @@
             </div>
           </div>
         </div>
+        <mt-popup
+          v-model="popupVisible"
+          v-if="data.productionStandardProfiles"
+          popup-transition="popup-fade">
+          <img :src="baseUrl+data.productionStandardProfiles" style="width:200px;height:100vh"/>
+        </mt-popup>
         <mt-tabbar>
-          <mt-button  size="large" type="primary" @click="">查看</mt-button>
+          <mt-button  size="large" type="primary" @click="popupVisible=true" :disabled="!data.productionStandardProfiles">查看</mt-button>
           <mt-button  size="large" :disabled="!data.productionStandardProfiles" type="primary" @click="downloadFile">下载</mt-button>
         </mt-tabbar>
       </div>
@@ -36,7 +42,10 @@
       name: "StandardDetails",
     data() {
       return{
-        data:{}
+        baseUrl:Urls.DOWNLOAD_URL(),
+        popupVisible:false,
+        data:{
+        }
       }
     },
     created() {

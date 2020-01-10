@@ -269,7 +269,6 @@
         </div>
       </div>
       <div style="margin-left: 1rem"></div>
-      <mt-button size="large" type="primary" @click="onSubmit">保存</mt-button>
     </div>
   </div>
 </template>

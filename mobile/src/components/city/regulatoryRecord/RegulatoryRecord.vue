@@ -55,7 +55,7 @@
                 <mt-button
                   size="large"
                   type="primary"
-                  @click.stop="exit(item.id)"
+                  @click.stop="gotoRectification(item.id, item.townId, item.companyId)"
                   >整改详情</mt-button
                 >
               </li>
@@ -91,8 +91,8 @@ export default {
   },
   methods: {
     //跳转整改详情页
-    exit(id) {
-      this.$router.push({ path: "/rectificationDetails", query: { id: id } });
+    gotoRectification(id,townId, companyId) {
+      this.$router.push({ path: "/rectificationDetails", query: { id: id, townId:townId, companyId:companyId} });
     },
     //跳转监管详情
     recordDetail(id, townId, companyId) {

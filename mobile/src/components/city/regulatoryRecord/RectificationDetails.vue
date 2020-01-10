@@ -8,13 +8,13 @@
 
     <!--有数据-->
     <div class="header" v-if="!listLoading && !isNanData">
-      <div class="mui-card">
+      <div class="mui-card top-margin" >
         <div class="mui-card-content">
           <div class="mui-card-content-inner">
             <form class="mui-input-group">
-              <div class="mui-input-row" @click="openPicker">
-                <label>日期</label>
-                {{ data.updateTime }}
+              <div class="mui-input-row low-height" @click="openPicker">
+                <label style="padding:4px 15px">日期</label>
+                {{ formatDate(data.rectificationRecordTime) }}
               </div>
               <div class="mui-input-row">
                 <label>乡镇</label>
@@ -56,7 +56,6 @@
         @confirm="handleConfirm"
         ref="picker"
         type="date"
-        :startDate="new Date()"
         year-format="{value} 年"
         month-format="{value}月"
         date-format="{value} 日"
@@ -104,25 +103,31 @@
           <div class="mui-card-content-inner">
             <tr>
               <td style="padding-right: 2rem">结论</td>
-              <td>合格</td>
+              <td><span
+                  class="mui-input-row mui-checkbox mui-left"
+                  style="margin-top:-0.5rem;left:2.5rem"
+                >
+                <label>合规</label>
+                <input type="checkbox" v-model="data.conclusion" @change="onChangeCheck"/>
+              </span></td>
             </tr>
 
             <mt-field
               label="责令修改"
               placeholder="减少农药用量和频次"
               v-model="conclusionData.order"
-              :disabled="data.conclusion == 1"
+              :disabled="data.conclusion"
             ></mt-field>
             <mt-field
               label="责令处罚"
               placeholder="减少农药用量和频次"
               v-model="conclusionData.suggestion"
-              :disabled="data.conclusion == 1"
+              :disabled="data.conclusion"
             ></mt-field>
             <mt-field
               label="其他处理"
               v-model="conclusionData.others"
-              :disabled="data.conclusion == 1"
+              :disabled="data.conclusion"
             ></mt-field>
 
             <table class="image-upload-table">
@@ -241,13 +246,25 @@
     <div class="header" v-if="!listLoading && isNanData">
       <ul>
         <li>
-          日期
-          <input
+          <!-- <input
             style="margin-left:1.9rem;padding-top:0.5rem;width: 70%"
             v-model="ruleFormValue.createTime"
-          />
+          /> -->
+          <div class="mui-input-row" @click="openPicker">
+            <label style="padding-left:0;margin-top:1rem">日期</label>
+            {{ formatDate(ruleFormValue.rectificationRecordTime) }}
+          </div>
         </li>
-
+          <mt-datetime-picker
+            v-model="ruleFormValue.rectificationRecordTime"
+            @confirm="handleConfirm"
+            ref="picker"
+            type="date"
+            year-format="{value} 年"
+            month-format="{value}月"
+            date-format="{value} 日"
+          >
+        </mt-datetime-picker>
         <li>
           乡镇
           <select
@@ -265,7 +282,7 @@
         <li>
           受检单位
           <select
-            style="width: 50% ;margin-left: 0.5rem"
+            style="width: 70% ;margin-left: 0.5rem"
             v-model="ruleFormValue.companyId"
           >
             <option
@@ -291,22 +308,29 @@
             <!--<p style="margin-left: 1rem;">结论&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp不合格</p>-->
             <tr>
               <td style="padding-right: 2rem">结论</td>
-              <td>合格</td>
+              <td>
+                <span
+                  class="mui-input-row mui-checkbox mui-left"
+                  style="margin-top:-0.5rem;left:2.5rem"
+                >
+                <label>合规</label>
+                <input type="checkbox" v-model="ruleFormValue.conclusion" @change="onChangeCheck"/>
+              </span></td>
             </tr>
             <mt-field
               label="责令修改"
               v-model="ruleFormValue.order"
-              :disabled="ruleFormValue.conclusion == 1"
+              :disabled="ruleFormValue.conclusion"
             ></mt-field>
             <mt-field
               label="责令处罚"
               v-model="ruleFormValue.suggestion"
-              :disabled="ruleFormValue.conclusion == 1"
+              :disabled="ruleFormValue.conclusion"
             ></mt-field>
             <mt-field
               label="其他处理"
               v-model="ruleFormValue.others"
-              :disabled="ruleFormValue.conclusion == 1"
+              :disabled="ruleFormValue.conclusion"
             ></mt-field>
 
             <table class="image-upload-table">
@@ -419,11 +443,12 @@ export default {
       isNanData: null,
       downloadURL: "",
       ruleFormValue: {
+        rectificationRecordTime:new Date(),
         townId: "",
         companyId: "",
         createTime: "",
         inspector: "",
-        conclusion: "0",
+        conclusion: true,
         order: "",
         suggestion: "",
         others: ""
@@ -433,15 +458,50 @@ export default {
   components: {
     DatetimePicker
   },
+  created() {
+    this.superId = this.$route.query.id;
+    this.ruleFormValue.townId = this.$route.query.townId;
+    this.ruleFormValue.companyId = this.$route.query.companyId;
+    this.downloadURL = Urls.DOWNLOAD_URL();
+    this.getTown();
+    this.getCompanyProduct();
+    this.getData();
+  },
   methods: {
     //日期选择
     openPicker() {
       this.$refs.picker.open();
     },
+    onChangeCheck() {
+      if(this.ruleFormValue.conclusion) {
+        this.ruleFormValue.order = "";
+        this.ruleFormValue.suggestion = "";
+        this.ruleFormValue.others = "";
+      }
+      if(this.data.conclusion) {
+        this.conclusionData.order = "";
+        this.conclusionData.suggestion = "";
+        this.conclusionData.others = "";
+      }
+    },
+    formatDate(date) {
+      if(date){
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2) 
+            month = '0' + month;
+        if (day.length < 2) 
+            day = '0' + day;
+
+        return [year, month, day].join('-');
+      }
+      return "";
+    },
     //时间选择确认
     handleConfirm(value) {
-      let date = new Date(value);
-      let year = date.toDateString("YYYY-MM-DD");
       this.$refs.picker.close();
     },
     //获取乡镇列表
@@ -489,10 +549,11 @@ export default {
         .then(response => {
           let tmpdata = response.data;
           this.data = tmpdata[0];
-          console.log(this.data);
           this.isNanData = this.data ? false : true;
-          if (!this.isNanData)
+          if (!this.isNanData){
+            this.data.conclusion = this.data.conclusion == 1 ? true : false; 
             this.conclusionData = JSON.parse(this.data.conclusionFalseInfo);
+          }
           setTimeout(function() {
             Indicator.close();
           }, 500);
@@ -504,15 +565,15 @@ export default {
     //保存提交
     onSubmit() {
       var formData = new FormData();
-      formData.append("scenePhotoFile", this.file_live_1); //required
-      formData.append("signFile", this.file_live_2); //required
-      formData.append("confirmor", this.file_live_3); //required
+      this.file_live_1 && formData.append("scenePhotoFile", this.file_live_1); //required
+      this.file_live_2 && formData.append("signFile", this.file_live_2); //required
+      this.file_live_3 && formData.append("confirmor", this.file_live_3); //required
       formData.append("supervisionRecordId", this.superId); //required
       var newConclusionData;
       //没有数据
       if (this.isNanData) {
         newConclusionData =
-          this.ruleFormValue.conclusion == 1
+          this.ruleFormValue.conclusion
             ? {
                 order: " ",
                 suggestion: " ",
@@ -530,9 +591,10 @@ export default {
                   : " "
               };
         newConclusionData = JSON.stringify(newConclusionData);
+        formData.append("rectificationRecordTime", this.ruleFormValue.rectificationRecordTime);
         formData.append("id", 0); //required
-        formData.append("towId", this.ruleFormValue.townId);
-        formData.append("conclusion", this.ruleFormValue.conclusion);
+        formData.append("townId", this.ruleFormValue.townId);
+        formData.append("conclusion", this.ruleFormValue.conclusion ? 1:0);
         formData.append("inspector", this.ruleFormValue.inspector);
         formData.append("companyId", this.ruleFormValue.companyId);
         //formData.append("updateTime", this.ruleFormValue.createTime);
@@ -545,11 +607,6 @@ export default {
         // );
         formData.append("conclusionFalseInfo", newConclusionData);
 
-        var objData = {};
-        formData.forEach((value, key) => {
-
-          objData[key] = value;
-        });
         this.listLoading = true;
         Request()
           .post("/api/rectification_record/create", formData)
@@ -577,6 +634,8 @@ export default {
         formData.append("id", this.data.id); //required
         formData.append("inspector", this.data.inspector);
         formData.append("companyId", this.data.companyId);
+        formData.append("conclusion", this.data.conclusion ? 1 : 0);
+        formData.append("rectificationRecordTime", this.data.rectificationRecordTime);
         // this.data.rectificationRecordTime = new Date(
         //   this.data.rectificationRecordTime
         // ).toDateString("YYYY-MM-DD");
@@ -588,11 +647,6 @@ export default {
         formData.append("updateUserId", Auth().user().id);
         formData.append("conclusionFalseInfo", newConclusionData);
         this.pageLoading = true;
-
-        var objData = {};
-        formData.forEach((value, key) => {
-          objData[key] = value;
-        });
         Request()
           .put("/api/rectification_record/update/" + this.data.id, formData)
           .then(response => {
@@ -679,13 +733,6 @@ export default {
         link.remove();
       });
     }
-  },
-  created() {
-    this.superId = this.$route.query.id;
-    this.downloadURL = Urls.DOWNLOAD_URL();
-    this.getTown();
-    this.getCompanyProduct();
-    this.getData();
   }
 };
 </script>
@@ -693,7 +740,6 @@ export default {
 <style scoped>
 ul {
   margin-left: -2rem;
-  font-weight: 800;
 }
 
 li {
@@ -707,6 +753,25 @@ span {
   position: absolute;
   left: 8rem;
   font-weight: 500;
+}
+
+.mui-checkbox input[type=checkbox] {
+  top:6px;
+}
+
+.mui-checkbox input[type=checkbox]:before {
+  font-size: 22px;
+}
+
+.mui-checkbox.mui-left label {
+  padding-left: 45px;
+}
+
+.top-margin {
+  margin-top:3.5rem;
+}
+.low-height {
+  height: 30px;
 }
 .scene {
   height: 8rem;

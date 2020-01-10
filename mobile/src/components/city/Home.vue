@@ -74,9 +74,9 @@
         <img src="../../images/2019120207.jpg" />
       </li>
     </ul>
-    <mt-tabbar>
+    <!-- <mt-tabbar>
       <mt-button size="large" type="primary" @click="exit">退出登录</mt-button>
-    </mt-tabbar>
+    </mt-tabbar> -->
   </div>
 </template>
 
@@ -234,9 +234,9 @@ export default {
 </script>
 
 <style scoped>
-.root {
+/* .root {
   min-height: 550px;
-}
+} */
 .header {
   margin-top: 2.5rem;
   height: 12rem;
