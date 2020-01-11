@@ -682,61 +682,61 @@ export default {
         if (valid) {
           let tmpData = JSON.stringify(this.ruleFormValue2);
           this.qrValue = tmpData;
-          this.show_QRCode = true;
+          this.listLoading = true;
+          let targetbatchName = "";
+          let targetbatch = this.batchList.find(
+            x => x.batchNumber == this.ruleFormValue2.batchNumber
+          );
+          if (targetbatch) {
+            targetbatchName = targetbatch.batchName.split(" ");
+            targetbatchName = targetbatchName[1] + "," + targetbatchName[2];
+          }
+          Request()
+            .put("/api/tracing/update/" + this.selectedTracingRow.id, {
+              id: this.selectedTracingRow.id,
+              companyId: this.companyId,
+              createUserId: this.selectedTracingRow.createUserId,
+              createTime: new Date(this.selectedTracingRow.createTime),
+              batchNumber: this.ruleFormValue2.batchNumber,
+              batchName: targetbatchName,
+              printStatus: 1,
+              validTime: new Date(this.ruleFormValue2.validTime),
+              tracingAmount: this.ruleFormValue2.tracingAmount,
+              productId: this.ruleFormValue2.productId,
+              tracingTimeType: this.ruleFormValue2.tracingTimeType,
+              tracingTime: new Date(this.ruleFormValue2.tracingTime),
+              webTimeType: this.ruleFormValue2.webTimeType,
+              webTime: new Date(this.ruleFormValue2.webTime),
+              productionTime: new Date(this.selectedTracingRow.productionTime),
+              locationId: this.ruleFormValue2.locationId,
+              charge: this.ruleFormValue2.charge,
+              updateUserId: Auth().user().id
+            })
+            .then(response => {
+              // this.ruleFormValue2.productId = null;
+              // this.ruleFormValue2.batchNumber = null;
+              // this.ruleFormValue2.tracingTimeType = null;
+              // this.ruleFormValue2.tracingTime = null;
+              // this.ruleFormValue2.webTimeType = null;
+              // this.ruleFormValue2.webTime = null;
+              // this.ruleFormValue2.charge = null;
+              // this.ruleFormValue2.locationId = null;
+              // this.ruleFormValue2.validTime = null;
+              // this.ruleFormValue2.tracingAmount = null;
+              setTimeout(() => {
+                this.listLoading = false;
+                this.show_QRCode = true;
+                // document.getElementById("tab-tagQuery").click();
+              }, 0.5 * 1000);
+            })
+            .catch(error => {
+              console.error(error);
+            });
         }
       });
     },
     onPrint() {
-      this.show_QRCode = false;
-      this.listLoading = true;
-      let targetbatchName = "";
-      let targetbatch = this.batchList.find(
-        x => x.batchNumber == this.ruleFormValue2.batchNumber
-      );
-      if (targetbatch) {
-        targetbatchName = targetbatch.batchName.split(" ");
-        targetbatchName = targetbatchName[1] + "," + targetbatchName[2];
-      }
-      Request()
-        .put("/api/tracing/update/" + this.selectedTracingRow.id, {
-          id: this.selectedTracingRow.id,
-          companyId: this.companyId,
-          createUserId: this.selectedTracingRow.createUserId,
-          createTime: new Date(this.selectedTracingRow.createTime),
-          batchNumber: this.ruleFormValue2.batchNumber,
-          batchName: targetbatchName,
-          printStatus: 1,
-          validTime: new Date(this.ruleFormValue2.validTime),
-          tracingAmount: this.ruleFormValue2.tracingAmount,
-          productId: this.ruleFormValue2.productId,
-          tracingTimeType: this.ruleFormValue2.tracingTimeType,
-          tracingTime: new Date(this.ruleFormValue2.tracingTime),
-          webTimeType: this.ruleFormValue2.webTimeType,
-          webTime: new Date(this.ruleFormValue2.webTime),
-          productionTime: new Date(this.selectedTracingRow.productionTime),
-          locationId: this.ruleFormValue2.locationId,
-          charge: this.ruleFormValue2.charge,
-          updateUserId: Auth().user().id
-        })
-        .then(response => {
-          this.ruleFormValue2.productId = null;
-          this.ruleFormValue2.batchNumber = null;
-          this.ruleFormValue2.tracingTimeType = null;
-          this.ruleFormValue2.tracingTime = null;
-          this.ruleFormValue2.webTimeType = null;
-          this.ruleFormValue2.webTime = null;
-          this.ruleFormValue2.charge = null;
-          this.ruleFormValue2.locationId = null;
-          this.ruleFormValue2.validTime = null;
-          this.ruleFormValue2.tracingAmount = null;
-          setTimeout(() => {
-            this.listLoading = false;
-            document.getElementById("tab-tagQuery").click();
-          }, 0.5 * 1000);
-        })
-        .catch(error => {
-          console.error(error);
-        });
+      this.show_QRCode = false;    
     },
     rowIndex({ row, rowIndex }) {
       row.rowIndex = rowIndex;
