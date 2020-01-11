@@ -53,9 +53,8 @@ export default {
     },
     /* When recognize QRcode  */
     codeArrived (event) {
-      console.log(event);
-      MessageBox.alert(event, "提示").then(action => {
-        // this.$router.push("/");
+      MessageBox.alert(JSON.parse(event).batchNumber, "提示").then(action => {
+         this.$router.push("/sweepCode/"+JSON.parse(event).batchNumber);
       });
     },
     /* Detect Camera Status */
