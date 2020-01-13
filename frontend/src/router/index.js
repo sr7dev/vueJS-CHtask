@@ -844,11 +844,6 @@ const router = window.location.href.indexOf("creditMode") < 0 ?
             component: uploadSituation
           },
           {
-            path: "/statisticsCredit",
-            name: "statisticsCredit", // 上传情况
-            component: statisticsCredit
-          },
-          {
             path: "/statisticsSupervision",
             name: "statisticsSupervision", // 上传情况
             component: statisticsSupervision
@@ -951,6 +946,11 @@ const router = window.location.href.indexOf("creditMode") < 0 ?
             path: "/redBlackList",
             name: "redBlackList", // 红黑名单
             component: redBlackList
+          },
+          {
+            path: "/statisticsCredit",
+            name: "statisticsCredit", // 上传情况
+            component: statisticsCredit
           }
         ]
       },

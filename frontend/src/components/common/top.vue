@@ -11,9 +11,9 @@
       mode="horizontal"
       background-color="#253032"
       text-color="#ffffff"
-      v-if="menuShowArr['statisticsSupervision'] && creditMode<0"
+      v-if="menuShowArr['statisticsSupervision']"
     >
-      <el-menu-item index="/statisticsCredit">
+      <el-menu-item index="/statisticsCredit" v-if="creditMode>-1">
         <router-link slot="title" to="/statisticsCredit">
           <span>
             <i class="el-icon-data-analysis vertical-text-bottom"></i
@@ -21,28 +21,28 @@
           </span>
         </router-link>
       </el-menu-item>
-      <el-menu-item index="/statisticsSupervision">
+      <el-menu-item index="/statisticsSupervision" v-if="creditMode<0">
         <router-link slot="title" to="/statisticsSupervision">
           <span>
             <i class="el-icon-s-check vertical-text-bottom"></i>监管记录看板
           </span>
         </router-link>
       </el-menu-item>
-      <el-menu-item index="/statisticsTracing">
+      <el-menu-item index="/statisticsTracing" v-if="creditMode<0">
         <router-link slot="title" to="/statisticsTracing">
           <span>
             <i class="el-icon-s-data vertical-text-bottom"></i>溯源记录看板
           </span>
         </router-link>
       </el-menu-item>
-      <el-menu-item index="/statisticsTracingCompany">
+      <el-menu-item index="/statisticsTracingCompany" v-if="creditMode<0">
         <router-link slot="title" to="/statisticsTracingCompany">
           <span>
             <i class="el-icon-s-marketing vertical-text-bottom"></i>溯源企业看板
           </span>
         </router-link>
       </el-menu-item>
-      <el-menu-item index="/statisticsFarmers">
+      <el-menu-item index="/statisticsFarmers" v-if="creditMode<0">
         <router-link slot="title" to="/statisticsFarmers">
           <span>
             <i class="el-icon-pie-chart vertical-text-bottom"></i>农残检测看板
