@@ -17,7 +17,7 @@
         <router-link slot="title" to="/statisticsCredit">
           <span>
             <i class="el-icon-data-analysis vertical-text-bottom"></i
-            >诚信系统看板
+            >诚信体系
           </span>
         </router-link>
       </el-menu-item>

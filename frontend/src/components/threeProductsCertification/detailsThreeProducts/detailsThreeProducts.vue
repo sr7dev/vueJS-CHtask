@@ -138,9 +138,8 @@ export default {
       argriculturalClassification: 0,
        options: [
         { value: 1, label: "养殖业" },
-        { value: 2, label: "已同意" },
-        { value: 3, label: "畜牧业" },
-        { value: 4, label: "种植业" },
+        { value: 2, label: "畜牧业" },
+        { value: 3, label: "种植业" },
       ]
     };
   },

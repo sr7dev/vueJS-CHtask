@@ -130,7 +130,7 @@ export default {
       companyProduction: [{ creditCode: "", companyName: "全部" }],
       productDetail: [],
       options: ["养殖业", "畜牧业", "种植业"],
-      appStatus1: ["全部", "养殖业", "已同意", "畜牧业", "种植业"],
+      appStatus1: ["全部", "养殖业", "畜牧业", "种植业"],
       appStatus2: ["全部", "无公害产品", "绿色食品", "有机食品", "绿色优质基地"]
     };
   },

@@ -223,7 +223,7 @@ export default {
         { id: 1, name: "有" },
         { id: 2, name: "无" }
       ],
-      currTown: 0,
+      currTown: -1,
       isShowAddButton: null,
       isShowEditButton: null,
       isShowDetail: null,
