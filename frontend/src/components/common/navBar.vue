@@ -112,7 +112,7 @@
             <el-menu-item index="/companyBusiness">
               <router-link slot="title" to="/companyBusiness">经营主体</router-link>
             </el-menu-item>
-            <el-menu-item index="/shareFiles" v-if="menuShowArr['shareFiles'] && creditMode<0">
+            <el-menu-item index="/shareFiles" v-if="creditMode<0">
               <router-link slot="title" to="/shareFiles">内部资料</router-link>
             </el-menu-item>
             <el-menu-item
