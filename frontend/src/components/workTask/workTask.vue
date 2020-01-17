@@ -153,7 +153,6 @@ export default {
       this.listLoading = true;
       if (this.releaseTimeTo) {
         this.releaseTimeTo = new Date(this.releaseTimeTo);
-        // releaseTimeTo.setDate(releaseTimeTo.getDate() + 1);
         var toDate = new Date(this.releaseTimeTo.getFullYear(),
                 this.releaseTimeTo.getMonth(),
                 this.releaseTimeTo.getDate(),

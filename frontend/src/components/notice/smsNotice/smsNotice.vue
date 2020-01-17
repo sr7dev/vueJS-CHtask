@@ -17,7 +17,6 @@
         </el-row>
       </div>
       <div class="iptBox" style="margin-left:100px;width:800px">
-        <!-- <el-checkbox @change="selsChange">全选</el-checkbox> -->
         <span style="margin:0 auto; margin-right: 0;">
           共选择了{{ selectCount }}位联系人
           <el-button type="primary" @click="postData">发送</el-button>
@@ -75,7 +74,6 @@ export default {
   mounted() {
     this.getList();
     this.getTown();
-    // this.loggedinUserName = Auth().user().contactName;
     this.loggedinUserName = Auth().user().username;
     this.id = this.$route.params.id;
     this.getData(this.id);
@@ -145,17 +143,7 @@ export default {
     postData() {
       this.listLoading = true;
       let dataInfo = [];
-      // Request()
-      //   .post("/api/notice_record/create", {
-      //     noticeContents: this.content,
-      //     noticeId: this.id,
-      //     sendTime: new Date().toJSON(),
-      //     sender: this.loggedinUserName,
-      //     sendStatus: 1,
-      //     sendCount: 0,
-      //     receiverInfo: JSON.stringify(dataInfo),
-      //     id: 0
-      //   })
+      
       Request()
         .post("/api/sendMsg", {
           content: this.content,
@@ -165,8 +153,7 @@ export default {
           title: this.title
         })
         .then(response => {
-          // this.tableData = response.data;
-          // this.total = response.total;
+        
           setTimeout(() => {
             this.listLoading = false;
           }, 0.5 * 1000);
@@ -186,7 +173,6 @@ export default {
           this.receiver.push(this.sels[i].contactWay);
       }
       this.receiver.push("sdfsdfsf");
-      // console.log(Storage.get("userData").mobile);
       this.selectCount = this.sels.length;
     }
   }

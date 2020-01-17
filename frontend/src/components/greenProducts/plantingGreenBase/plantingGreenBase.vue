@@ -309,7 +309,6 @@ export default {
         }
       ],
       alert_dialogVisible: false,
-      // loggedinUserType: null,
 
       total: 0,
       tableData: [],
@@ -317,7 +316,6 @@ export default {
     };
   },
   created() {
-    // this.loggedinUserType = Auth().user().userType;
     this.getData();
   },
 

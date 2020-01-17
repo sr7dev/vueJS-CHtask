@@ -15,14 +15,6 @@
           plain
         >添加</el-button>
         <el-button size="small" type="primary" plain @click="$router.go(-1)">返回</el-button>
-        <!-- <div class="select_label">是否共享</div>
-        <el-select v-model="filter_Share" placeholder="请选择是否共享" @change="getList()">
-          <el-option  v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>-->
       </div>
 
       <el-container>
@@ -36,7 +28,6 @@
           <el-table-column prop="varietyName" label="品种名称"></el-table-column>
           <el-table-column prop="varietySort" label="品种排序"></el-table-column>
           <el-table-column prop="yield" label="操作" class-name="text-center">
-            <!-- <template slot-scope="scope"> -->
             <template slot-scope="{ row }">
               <el-button size="small"
                 @click="$router.push({path:`/productVariety/edit/${row.id}`})"
@@ -102,21 +93,7 @@ export default {
         .then(response => {
           var tempData = response.data;
           this.total = tempData.length;
-
-          // if (this.filter_Share == 1) {
-          //   this.tableData = tempData.filter(function(obj){
-          //       return obj.doShare == 0;
-          //   })
-          // }
-          // else if ( this.filter_Share == 2) {
-          //   this.tableData = tempData.filter(function(obj){
-          //       return obj.doShare == 1;
-          //   })
-          // }
-          // else {
           this.tableData = tempData;
-          // }
-
           setTimeout(() => {
             this.listLoading = false;
           }, 0.01 * 1000);

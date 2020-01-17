@@ -162,7 +162,6 @@
             id: this.id
           })
           .then(response => {
-            console.log(response);
             this.data = response;
             this.conclusionData = JSON.parse(this.data.conclusionFalseInfo);
             this.supervisionInfo = JSON.parse(this.data.supervisionInfo);
@@ -207,7 +206,6 @@
       },
     },
     created(){
-      console.log(this.$route);
       this.id = this.$route.query.id;
       this.townShip = this.$route.query.town;
       this.companyName = this.$route.query.company;

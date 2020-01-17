@@ -61,42 +61,6 @@
         date-format="{value} 日"
       >
       </mt-datetime-picker>
-      <!--<ul>-->
-      <!--<li @click="openPicker">-->
-      <!--日期 &nbsp&nbsp&nbsp&nbsp-->
-      <!--&lt;!&ndash;<input style="margin-left:2rem;padding-top:0.5rem;width: 70%" v-model="data.createTime">&ndash;&gt;-->
-      <!--{{data.updateTime}}-->
-      <!--</li>-->
-      <!--<li>乡镇-->
-      <!--<select style="width: 50% ;margin-left: 2.5rem" v-model="data.townId">-->
-      <!--<option-->
-      <!--v-for="item in township"-->
-      <!--:key="item.id"-->
-      <!--:value="item.id">-->
-      <!--{{item.name}}-->
-      <!--</option>-->
-      <!--</select>-->
-      <!--</li>-->
-
-      <!--<li>受检单位-->
-      <!--<select style="width: 50% ;margin-left: 0.5rem" v-model="data.companyId">-->
-      <!--<option-->
-      <!--v-for="item in companyList"-->
-      <!--:key="item.companyId"-->
-      <!--:value="item.companyId"-->
-      <!--&gt;-->
-      <!--{{item.companyName}}-->
-      <!--</option>-->
-      <!--</select>-->
-      <!--</li>-->
-      <!--<li style="border: none">-->
-      <!--&lt;!&ndash;<input style="margin-left: 1rem;padding-bottom:0.5rem;width: 70%" v-model="data.inspector">&ndash;&gt;-->
-      <!--<div class="mui-input-row">-->
-      <!--<label>检查人</label>-->
-      <!--<input type="text" placeholder="请输入检查人" v-model="data.inspector">-->
-      <!--</div>-->
-      <!--</li>-->
-      <!--</ul>-->
       <div class="mui-card">
         <div class="mui-card-header">整改记录</div>
         <div class="mui-card-content">
@@ -246,10 +210,6 @@
     <div class="header" v-if="!listLoading && isNanData">
       <ul>
         <li>
-          <!-- <input
-            style="margin-left:1.9rem;padding-top:0.5rem;width: 70%"
-            v-model="ruleFormValue.createTime"
-          /> -->
           <div class="mui-input-row" @click="openPicker">
             <label style="padding-left:0;margin-top:1rem">日期</label>
             {{ formatDate(ruleFormValue.rectificationRecordTime) }}
@@ -305,7 +265,6 @@
         <div class="mui-card-header">整改记录</div>
         <div class="mui-card-content">
           <div class="mui-card-content-inner">
-            <!--<p style="margin-left: 1rem;">结论&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp不合格</p>-->
             <tr>
               <td style="padding-right: 2rem">结论</td>
               <td>

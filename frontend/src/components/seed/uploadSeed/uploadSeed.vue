@@ -69,9 +69,6 @@
         <el-form-item>
           <el-col :span="18">
             <div class="item" style="display:flex">
-              <!-- <div class="item-label" style="margin-bottom:20px; margin-right:2rem;">
-                <el-button size="small" type="warning" plain @click="chooseDownLoadFile()">例文档下载</el-button>
-              </div>-->
               <div class="item-label" style="margin-bottom:20px;">
                 <input
                   type="file"
@@ -82,7 +79,6 @@
                   v-on:change="handleFileUpload()"
                 />
                 <el-button size="small" type="warning" plain @click="chooseFile()">添加附件</el-button>
-                <!-- <el-button size="small" type="warning" plain @click="downloadFile()">例文档下载</el-button> -->
               </div>
               <div
                 class="item-value"
@@ -93,7 +89,6 @@
               >
                 <span v-if="file">{{ file.name }}</span>
                 <span v-else>请选择需要上传的文件...</span>
-                <!-- <span>种子.xlsx</span> -->
               </div>
             </div>
             <div class="item" style="display:flex">

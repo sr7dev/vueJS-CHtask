@@ -51,13 +51,11 @@
 <script>
 import Pagination from "@/components/common/pagination";
 import Request from "@/services/api/request.js";
-// import Auth from "@/services/authentication/auth.js";
 export default {
   name: "detailSms",
   components: { Pagination },
   data() {
     return {
-      // loggedinUserType: null,
       sendTime: "",
       noticeContents: 0,
       sendStatus: "",
@@ -74,7 +72,6 @@ export default {
   },
   mounted() {
     this.getList();
-    // this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     order(row) {

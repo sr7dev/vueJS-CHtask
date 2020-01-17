@@ -86,9 +86,6 @@ export default {
     },
     //获取生产标准列表
     getProductionStandardList() {
-      // let that = this;
-      // let response = await that.util.productionStandard(apiConfig.production_standard, {});
-      // console.log(response);
       let loader = this.$loading.show();
       Request()
         .get("/api/production_standard/all", {
@@ -97,7 +94,6 @@ export default {
           sortBy: "id"
         })
         .then(response => {
-          console.log(response);
           this.data = response.data;
           setTimeout(() => {
             loader.hide();

@@ -241,7 +241,6 @@ export default {
               contactPerson: this.ruleFormValue.contactPerson,
               contactWay: this.ruleFormValue.contactWay,
               updateUserId: Auth().user().id,
-              // updateTime: new Date(),
               creditCode: this.ruleFormValue.creditCode,
               id: this.selectedId,
               password: "",

@@ -78,7 +78,6 @@ class Request {
   }
 
   makeRequest(method, url, options, refreshed = false, norefresh = false) {
-    // if (url.indexOf("/api/user/login") == -1) {
     if (url.indexOf("/api/user/getAuthByAliToken") == -1) {
       http.defaults.headers.common[
         "Authorization"
@@ -94,7 +93,6 @@ class Request {
       },
 
       error => {
-        // Toast.error("Token 已过期!!! 重新登入.");
         return Promise.reject({
           status: "error",
           message: "错误的用户名或密码!",

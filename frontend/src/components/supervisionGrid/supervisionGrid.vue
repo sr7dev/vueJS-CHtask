@@ -16,7 +16,6 @@
         >
           <el-table-column :formatter="order" label="序号" width="50"></el-table-column>
           <el-table-column prop="name" label="名称" width="120">
-            <!-- <template slot-scope="{row}">{{filterTown(row.id)}}</template> -->
           </el-table-column>
           <el-table-column prop="group1" label="分管副镇长">
             <template slot-scope="{row}">
@@ -122,7 +121,6 @@ export default {
   },
   created() {
     this.getTown();
-    // this.getData();
   },
   methods: {
     getData() {
@@ -150,7 +148,6 @@ export default {
             tmpData.id = this.townList[town].id;
             this.tableData.push(tmpData);
           }
-          console.log(this.tableData);
           this.total = this.tableData.length;
           setTimeout(() => {
             this.listLoading = false;

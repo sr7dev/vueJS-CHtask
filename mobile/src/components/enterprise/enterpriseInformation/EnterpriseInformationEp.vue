@@ -112,7 +112,6 @@ export default {
   methods: {
     //进入企业详细页面
     companyDetails(id) {
-      console.log(id);
       this.$router.push({
         path: "/companyDetailsEp",
         query: { companyId: id }
@@ -120,11 +119,9 @@ export default {
     },
     //获取乡镇列表
     getTonwList() {
-      console.log(111);
       Request()
         .get("/api/town/all")
         .then(response => {
-          console.log(response);
           this.TonwList = response;
         });
     },
@@ -145,7 +142,6 @@ export default {
           townId: this.townId
         })
         .then(response => {
-          console.log(response);
           this.page.pageIndex = this.page.pageIndex + 1;
           this.tableData = this.tableData.concat(response);
           if (response.length < this.page.pageSize) {

@@ -1,5 +1,4 @@
 let environment = "production";
-// let environment = "local";
 
 let Urls = {
   API_BASE_URL: () => {

@@ -111,7 +111,6 @@
           </el-table-column>
           <el-table-column prop="sign" label="确认" width="70" class-name="text-center">
             <template slot-scope="{ row }">{{ checkSign(row.sign) }}</template>
-            <!-- <template slot-scope="{ row }">{{ getCountElement(row.sign) }}</template> -->
           </el-table-column>
           <el-table-column label="操作" class-name="text-center">
             <template slot-scope="{ row }">

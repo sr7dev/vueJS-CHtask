@@ -227,11 +227,6 @@ export default {
           }
         }
       });
-      // window.open(
-      //   "http://localhost/download.php?file=" +
-      //     encodeURIComponent(this.dataForm.productionStandardProfiles),
-      //   "_blank"
-      // );
     },
     isIE() {
       let ua = navigator.userAgent;

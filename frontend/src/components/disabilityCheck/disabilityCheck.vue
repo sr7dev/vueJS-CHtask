@@ -38,8 +38,6 @@
             :value="item.sample"
           ></el-option>
         </el-select>
-        <!-- <el-input v-model="samplesValue" @change="getList" style="width:150px"> -->
-        <!-- </el-input> -->
         <div class="select_label">定性</div>
         <el-select v-model="result"  @change="getList">
           <el-option v-for="item in results" :key="item.id" :label="item.name" :value="item.id"></el-option>
@@ -411,7 +409,6 @@ export default {
           detectTimeTo: tempDateTime,
           sample: this.identifyValue(this.samplesValue),
           item: this.identifyValue(this.itemValue),
-          // resultDx: this.result - 1,
           resultDx: this.result,
           townDivisionCode: this.currTown == -1 ? "" : this.currTown,
           pageNo: this.page.pageIndex - 1,

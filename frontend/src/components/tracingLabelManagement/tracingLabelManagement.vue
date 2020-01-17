@@ -713,20 +713,9 @@ export default {
               updateUserId: Auth().user().id
             })
             .then(response => {
-              // this.ruleFormValue2.productId = null;
-              // this.ruleFormValue2.batchNumber = null;
-              // this.ruleFormValue2.tracingTimeType = null;
-              // this.ruleFormValue2.tracingTime = null;
-              // this.ruleFormValue2.webTimeType = null;
-              // this.ruleFormValue2.webTime = null;
-              // this.ruleFormValue2.charge = null;
-              // this.ruleFormValue2.locationId = null;
-              // this.ruleFormValue2.validTime = null;
-              // this.ruleFormValue2.tracingAmount = null;
               setTimeout(() => {
                 this.listLoading = false;
                 this.show_QRCode = true;
-                // document.getElementById("tab-tagQuery").click();
               }, 0.5 * 1000);
             })
             .catch(error => {

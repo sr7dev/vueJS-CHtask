@@ -75,7 +75,6 @@ export default {
           }
         });
       }
-      //this.$router.push('/inputsUseDetails')
     },
     //使用按钮事件
     use() {

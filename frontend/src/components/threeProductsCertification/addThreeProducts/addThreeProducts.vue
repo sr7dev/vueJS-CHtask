@@ -306,19 +306,11 @@ export default {
             "createDate",
             this.ruleFormValue.certificationStartTime
           );
-          // formData.append(
-          //   "createTime",
-          //   this.ruleFormValue.certificationStartTime
-          // );
           formData.append(
             "updateDate",
             this.ruleFormValue.certificationStartTime
           );
           formData.append("output", this.ruleFormValue.output);
-          // formData.append(
-          //   "updateTime",
-          //   this.ruleFormValue.certificationStartTime
-          // );
           formData.append("updater", "string");
           formData.append("updateUserId", Auth().user().id);
           formData.append("createUserId", Auth().user().id);

@@ -313,7 +313,6 @@
 </template>
 
 <script>
-import sampleData from "../_data";
 import Request from "@/services/api/request";
 export default {
   name: "detailsRegulatoryObject",

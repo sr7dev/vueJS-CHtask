@@ -79,17 +79,14 @@
       methods:{
         //进入企业详细页面
         companyDetails(id) {
-          console.log(id);
           this.$router.push({path:'/companyDetailsTow',query:{ companyId: id }})
         },
         //获取乡镇列表
         getTonwList() {
-          console.log(111);
           Request()
             .get("/api/town/all")
             .then(
               response => {
-                console.log(response);
                 this.TonwList = response;
               }
             )
@@ -112,7 +109,6 @@
             })
             .then(
               response => {
-                console.log(response);
                 this.page.pageIndex=this.page.pageIndex+1;
                 this.tableData = this.tableData.concat(response);
                 if(response.length<this.page.pageSize){

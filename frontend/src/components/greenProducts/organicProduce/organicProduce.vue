@@ -354,7 +354,6 @@ export default {
         ]
       },
       registerTime: new Date(),
-      // loggedinUserType: null,
       page: {
         pageIndex: 1,
         pageSize: 20
@@ -370,7 +369,6 @@ export default {
   created() {
     this.getTown();
     this.getCompanyProduction();
-    // this.loggedinUserType = Auth().user().userType;
     this.getData();
   },
   methods: {
@@ -783,8 +781,6 @@ export default {
 
       if (this.dynamicValidateForm.rowDatas.length) {
         for (let i = 0; i < this.dynamicValidateForm.rowDatas.length; i++) {
-          //create
-
           this.listLoading = true;
           let formdata = new FormData();
           

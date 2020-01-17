@@ -43,14 +43,12 @@ class Auth {
    */
 
   check() {
-    // return this.user() != null && Boolean(TokenManager().accessToken);
     if (!this.getParameterByName("timestamp") ||
       !this.getParameterByName("accessToken") ||
       !this.getParameterByName("sign")
     ) {
       if (!TokenManager().accessToken) return false;
     }
-    //getting md5 hash value
     let md5 = require("blueimp-md5");
     let hash = md5(
       this.getParameterByName("timestamp") +
@@ -61,11 +59,7 @@ class Auth {
       "%20",
       " "
     ) : TokenManager().accessToken;
-    // const accessToken = this.getParameterByName("accessToken").replace(
-    //   "%20",
-    //   " "
-    // );
-    // if (hash.localeCompare(this.getParameterByName("sign") !== 0)) return -2;
+
     return Request()
       .post("/api/user/getAuthByAliToken", {
         aliToken: accessToken
@@ -82,7 +76,6 @@ class Auth {
           );
           window.history.replaceState({}, document.title, "/");
           Storage.set("userData", JSON.parse(success.userInfo).result);
-          // TokenManager().accessToken = success.token;
           if (accessToken) TokenManager().accessToken = accessToken;
           return Promise.resolve(success);
         },
@@ -101,15 +94,8 @@ class Auth {
    * @return {Object} user data
    */
   user() {
-    // if (this.loggedInUser) return this.loggedInUser;
     if (Storage.get("userData")) {
-      // if (JSON.parse(Storage.get("userData")).tmp) {
-      //   //return User.create(JSON.parse(Storage.get("userData")));
-      //   return User.create(JSON.parse(Storage.get("userData")).tmp);
-      // } else {
-      // return User.create(JSON.parse(Storage.get("userData")));
       return Storage.get("userData");
-      // }
     }
 
     return null;
@@ -152,8 +138,6 @@ class Auth {
       townId: data["townId"],
       companyId: data["companyId"]
     });
-    // // save user locally
-    //Storage.set("userData", JSON.stringify(this.loggedInUser.attrs));
     Storage.set("userData", JSON.stringify(this.loggedInUser));
   }
 
@@ -265,31 +249,9 @@ class Auth {
       // remove user tokens
       TokenManager().removeAccessToken();
       TokenManager().removeAuthToken();
-      //TokenManager().removeRefreshToken();
     }
   }
 
-  /**
-   * Refresh access token for a new session
-   * @return {Promise} Response
-   */
-  // refreshAccessToken() {
-
-  // 	return Request().post('auth/refresh_token', {
-  // 		'refresh_token': TokenManager().refreshToken
-  // 	}).then(
-  // 		success => {
-  // 			// update access token
-  // 			TokenManager().accessToken = success['data']['id_token'];
-  // 			this.setToken();
-  // 			return Promise.resolve();
-  // 		},
-  // 		error => {
-  // 			return Promise.reject(error);
-  // 		}
-  // 	)
-
-  // }
 }
 
 export default () => {

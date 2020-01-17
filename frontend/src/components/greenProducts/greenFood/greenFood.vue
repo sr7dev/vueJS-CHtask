@@ -355,7 +355,6 @@ export default {
         ]
       },
       registerTime: new Date(),
-      // loggedinUserType: null,
       page: {
         pageIndex: 1,
         pageSize: 20
@@ -371,7 +370,6 @@ export default {
   created() {
     this.getTown();
     this.getCompanyProduction();
-    // this.loggedinUserType = Auth().user().userType;
     this.getData();
   },
   methods: {
@@ -568,7 +566,6 @@ export default {
                 this.registerTimeTo.getDate(),
                 23, 59, 59
               );
-      console.log(this.registerTimeFrom, toDate);
       Request()
         .get("/api/green/green_food/all", {
           registerTimeTo: toDate,

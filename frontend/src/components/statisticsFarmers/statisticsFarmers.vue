@@ -15,12 +15,6 @@
               </el-col>
               <el-col :span="4" class="margin-left-auto flex-center">
                 <div class="white-colored inline-block-IE">按年</div>
-                <!-- <el-input
-                  v-model="toYear"
-                  class="w-50 margin-left-10 chart-input"
-                  size="small"
-                  type="number"
-                ></el-input> -->
                 <el-date-picker
                   class="w-60 margin-left-10 chart-input"
                   size="small"
@@ -31,12 +25,6 @@
               </el-col>
               <el-col :span="3" class="margin-left-20 flex-center">
                 <div class="white-colored inline-block-IE">按月</div>
-                <!-- <el-input
-                  v-model="toMonth"
-                  class="w-50 margin-left-10 chart-input"
-                  size="small"
-                  type="number"
-                ></el-input> -->
               <el-select v-model="toMonth"
               class="w-60 margin-left-10 chart-input"
               size="small"
@@ -193,15 +181,11 @@
 import Request from "@/services/api/request.js";
 import Pagination from "@/components/common/pagination";
 import Auth from "@/services/authentication/auth.js";
-// import * as am4core from "@amcharts/amcharts4/core";
-// import * as am4charts from "@amcharts/amcharts4/charts";
-// import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 const ECharts =()=>import('vue-echarts/components/ECharts.vue');
 import 'echarts/lib/chart/pie';
 import 'echarts/lib/component/tooltip';
 export default {
   name: "statisticsFarmers",
-  // components: { Pagination },
   components: {
     chart: ECharts
   },
@@ -351,9 +335,6 @@ export default {
       let monthNo = tmpDate.getMonth();
       
       let toDate = new Date(this.toYear.getFullYear(), this.toMonth, 0);
-      console.log(toDate);
-      // tmpDate = new Date();
-      // let toDate = new Date(tmpDate.getFullYear(), tmpDate.getMonth() + 1, 0);
       await Request()
         .get("/api/disability_check/statis/monthlysum", {
           detectTimeTo: toDate
@@ -416,11 +397,7 @@ export default {
         categoryAxis.renderer.line.strokeWidth = 2;
         categoryAxis.renderer.line.stroke = am4core.color("#3787ac");
         let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-        // valueAxis.title.text = "镇农产品质量安全董监管站(管站)";
         valueAxis.min = 0;
-        // valueAxis.max = 15000;
-        // valueAxis.renderer.grid.template.disabled = true;
-        // valueAxis.renderer.labels.template.disabled = true;
         valueAxis.renderer.labels.template.fill = "white";
         valueAxis.renderer.grid.template.stroke = am4core.color("#fff");
         valueAxis.renderer.line.strokeOpacity = 1;
@@ -447,14 +424,9 @@ export default {
         valueLabel.label.fontSize = 10;
         let columnTemplate = series.columns.template;
         columnTemplate.strokeOpacity = 0;
-          // Chart code goes here
         }).catch((e) => {
           console.error("Error when creating chart", e);
         }) 
-      // this.createGrid(0, valueAxis);
-      // this.createGrid(5000, valueAxis);
-      // this.createGrid(10000, valueAxis);
-      // this.createGrid(15000, valueAxis);
     },
     makePieChart() {
       this.tableData.sort(function(a, b) {
@@ -566,7 +538,6 @@ export default {
 
         let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
         valueAxis.tooltip.disabled = true;
-        // valueAxis.title.text = "镇农产品质量安全董监管站(管站)";
         valueAxis.renderer.line.strokeOpacity = 1;
         valueAxis.renderer.line.strokeWidth = 2;
         valueAxis.renderer.line.stroke = am4core.color("#3787ac");
@@ -574,7 +545,6 @@ export default {
         valueAxis.renderer.grid.template.stroke = am4core.color("#fff");
         valueAxis.renderer.ticks.template.disabled = true;
         valueAxis.min = 0;
-        // valueAxis.max = 1700;
 
         let lineSeries = chart.series.push(new am4charts.LineSeries());
         lineSeries.dataFields.categoryX = "month";
@@ -597,9 +567,6 @@ export default {
         labelBullet.label.dy = -20;
 
         chart.cursor = new am4charts.XYCursor();
-        // chart.cursor.behavior = "panX";
-        // chart.cursor.lineX.opacity = 0;
-        // chart.cursor.lineY.opacity = 0;
         chart.scrollbarX = new am4core.Scrollbar();
         chart.scrollbarX.parent = chart.bottomAxesContainer;
         this.chart = chart;

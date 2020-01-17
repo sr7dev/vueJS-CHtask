@@ -63,21 +63,10 @@ import SincerityTow from "@/components/township/sincerityTow/Sincerity";
 import Auth from "../configs/auth";
 Vue.use(Router);
 export default new Router({
-  routes: [
-    {
+  routes: [{
       path: "/",
       name: "index",
       component: Home
-      // beforeEnter(to, from, next) {
-      //         if (!Auth().check()) {
-      //           next({
-      //             path: "/login",
-      //             query: { redirect: to.fullPath }
-      //           });
-      //         } else {
-      //           next();
-      //        }
-      //       }
     },
     {
       path: "/login",

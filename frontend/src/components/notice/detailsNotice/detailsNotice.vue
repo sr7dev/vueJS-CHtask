@@ -29,11 +29,6 @@
         <el-form-item label="" prop="file">
             <el-button size="small" v-if="file_live_1" plain @click="downloadFile()" type="primary">附件下载</el-button>
             <el-button size="small" v-else plain disabled>附件下载</el-button>
-            <!-- <span class="item-value" v-if="!file_live_1">
-                <el-link @click="downloadFile()">
-                    {{ fileName }}
-                </el-link>
-            </span> -->
             <span class="item-value margin-left-10" v-if="file_live_1">
                 <el-link @click="downloadFile()">
                     {{ fileName }}

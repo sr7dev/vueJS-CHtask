@@ -38,7 +38,6 @@
                   :value="item.id"
                 ></el-option>
               </el-select>
-              <!-- <el-input v-model="ruleFormValue.grade"></el-input> -->
             </el-form-item>
           </el-col>
         </el-row>

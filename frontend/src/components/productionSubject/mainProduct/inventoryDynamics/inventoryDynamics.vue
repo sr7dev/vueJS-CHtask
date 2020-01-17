@@ -183,9 +183,7 @@ export default {
         });
     },
     filterWarehouse(ID) {
-      console.log(this.warehouses, ID);
       let warehouse = this.warehouses.find(x => x.id === ID);
-      console.log(warehouse);
       if (warehouse) {
         return warehouse.warehouseName;
       } else {

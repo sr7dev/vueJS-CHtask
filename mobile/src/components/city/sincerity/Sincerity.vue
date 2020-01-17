@@ -43,11 +43,6 @@
           </div>
         </div>
       </div>
-      <!--<ul  v-for="row in List" :key="row.id">-->
-      <!--<li>名称<span>{{row.companyName}}</span></li>-->
-      <!--<li>社会统一信用代码 <span>{{row.creditCode}}</span></li>-->
-      <!--<li>信用评级 <span>{{row.Grade}}</span></li>-->
-      <!--</ul>-->
     </div>
   </div>
 </template>

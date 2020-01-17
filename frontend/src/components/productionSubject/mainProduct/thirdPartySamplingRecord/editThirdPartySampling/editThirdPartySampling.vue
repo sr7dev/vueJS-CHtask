@@ -203,7 +203,6 @@ export default {
               updateUserId: Auth().user().id
             })
             .then(response => {
-              //this.$router.push({ path: "/threeProductsCertification" });
               setTimeout(() => {
                 this.dataloading = false;
               }, 0.01 * 1000);

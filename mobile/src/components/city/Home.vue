@@ -4,13 +4,6 @@
     <div class="header">
       <img src="../../images/header.jpg" />
     </div>
-    <!--<ul>-->
-    <!--<li @click="regulatoryRecord"><img src="../../images/2019120208.jpg"></li>-->
-    <!--<li @click="productionPtandard"><img src="../../images/2019120201.jpg"></li>-->
-    <!--<li @click="companyDetails"><img src="../../images/2019120202.jpg"></li>-->
-    <!--<li @click="sincerity"><img src="../../images/2019120203.jpg"></li>-->
-    <!--<li><img src="../../images/2019120204.jpg"></li>-->
-    <!--</ul>-->
     <ul
       class="mui-table-view mui-grid-view mui-grid-9"
       v-if="token && authData"
@@ -74,9 +67,6 @@
         <img src="../../images/2019120207.jpg" />
       </li>
     </ul>
-    <!-- <mt-tabbar>
-      <mt-button size="large" type="primary" @click="exit">退出登录</mt-button>
-    </mt-tabbar> -->
   </div>
 </template>
 
@@ -104,7 +94,6 @@ export default {
       }, 500);
     },
     regulatoryRecord() {
-      console.log(111);
       this.$router.push("/regulatoryRecord");
     },
     //生产标准
@@ -121,7 +110,6 @@ export default {
     },
     recognizeQRCode() {
       this.$router.push("/recognizeQR");
-      // this.$router.push("/sweepCode/" + "test");
     },
     //生产记录
     productionRecord() {
@@ -161,18 +149,11 @@ export default {
         )
           return false;
 
-        //getting md5 hash value
-        // let md5 = require("blueimp-md5");
-        // let hash = md5(
-        //   this.getParameterByName("timestamp") +
-        //     this.getParameterByName("accessToken") +
-        //     "zhsnqualitysupervision"
-        // );
+    
         const accessToken = this.getParameterByName("accessToken").replace(
           "%20",
           " "
         );
-        // if (hash.localeCompare(this.getParameterByName("sign") !== 0)) return -2;
         return Request()
           .post("/api/user/getAuthByAliToken", {
             aliToken: accessToken

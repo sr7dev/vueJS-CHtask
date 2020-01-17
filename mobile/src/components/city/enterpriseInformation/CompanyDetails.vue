@@ -157,19 +157,7 @@
                   data_3_1: ""
                 }
               }
-              //将后台JSON字符串转为一个对象
-
-              // var regex = new RegExp(/(?<=name:\")(.*)(?=, )/g),
-              //   results = regex.exec(response.productInfo);
-              //   const tmpname = results ? results[1] :"";
-
-              // regex = new RegExp(/(?<=area:)(.*)(?=\"})/g),
-              //   results = regex.exec(response.productInfo);
-              //   const tmparea = results ? results[1] :"";
-              // this.form.productInfo = {
-              //   data_0_0 : tmpname,
-              //   data_0_1 : tmparea
-              // };
+           
               setTimeout(() => {
                 loader.hide();
               },500)

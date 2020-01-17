@@ -53,9 +53,6 @@
 <script>
 import Request from "@/services/api/request.js";
 import Auth from "@/services/authentication/auth.js";
-// import * as am4core from "@amcharts/amcharts4/core";
-// import * as am4charts from "@amcharts/amcharts4/charts";
-// import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 const ECharts =()=>import('vue-echarts/components/ECharts.vue');
 import 'echarts/lib/chart/pie';
 import 'echarts/lib/component/tooltip';
@@ -239,7 +236,6 @@ export default {
         let hs = pieSeries.slices.template.states.getKey("hover");
         hs.properties.scale = 1;
         hs.properties.fillOpacity = 0.5;
-          // Chart code goes here
         }).catch((e) => {
           console.error("Error when creating chart", e);
         }) 
@@ -247,41 +243,6 @@ export default {
     },
 
     makePieChat2() {
-      // let chart = am4core.create(this.$refs.chartpie2, am4charts.PieChart);
-      // chart.data = this.tableData;
-      // chart.responsive.enabled = true;
-      // let pieSeries = chart.series.push(new am4charts.PieSeries());
-
-      // let title = chart.titles.create();
-      // title.text = "各乡镇监管记录上传数据的比例分布";
-      // title.fontSize = 5;
-      // title.marginBottom = 40;
-      // title.marginTop = 10;
-      // title.fill = am4core.color("#012f8a");
-
-      // pieSeries.dataFields.value = "companyCnt";
-      // pieSeries.dataFields.category = "pie2Label";
-      // pieSeries.dataFields.radiusValue = "companyCnt";
-      // pieSeries.labels.template.fill = "white";
-      // pieSeries.labels.template.truncate = true;
-      // pieSeries.labels.template.fontSize = 15;
-      // pieSeries.labels.template.maxWidth = 180;
-      // pieSeries.labels.template.text =
-      //   "[bold '#20beff']{value.percent.formatNumber('#.0')}%[/] {category}";
-      // pieSeries.slices.template.strokeOpacity = 1;
-      // pieSeries.ticks.template.fill = am4core.color("#FFF");
-      // pieSeries.ticks.template.strokeWidth = 1;
-      // pieSeries.ticks.template.strokeOpacity = 0.7;
-      // pieSeries.ticks.template.fillOpacity = 1;
-      // // This creates initial animation
-      // pieSeries.hiddenState.properties.opacity = 1;
-      // pieSeries.hiddenState.properties.endAngle = -90;
-      // pieSeries.hiddenState.properties.startAngle = -90;
-      // let colorSet = new am4core.ColorSet();
-      // colorSet.list = this.colorList.map(color => {
-      //   return new am4core.color(color);
-      // });
-      // pieSeries.colors = colorSet;
       this.tableData.sort(function(a, b) {
         return b.cnt - a.cnt;
       });
@@ -380,17 +341,12 @@ export default {
         categoryAxis.renderer.line.strokeWidth = 2;
         categoryAxis.renderer.line.stroke = am4core.color("#3787ac");
         let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-        // valueAxis.title.text = "镇农产品质量安全董监管站(管站)";
         valueAxis.min = 0;
-        // valueAxis.max = 15000;
         valueAxis.renderer.labels.template.fill = "white";
         valueAxis.renderer.grid.template.stroke = am4core.color("#fff");
         valueAxis.renderer.line.strokeOpacity = 1;
         valueAxis.renderer.line.strokeWidth = 2;
         valueAxis.renderer.line.stroke = am4core.color("#3787ac");
-        // valueAxis.renderer.grid.template.disabled = true;
-        // valueAxis.renderer.labels.template.disabled = true;
-        // Create series
         let series = chart.series.push(new am4charts.ColumnSeries());
         series.dataFields.valueY = "companyCnt";
         series.dataFields.categoryX = "townName";
@@ -417,11 +373,6 @@ export default {
       }).catch((e) => {
         console.error("Error when creating chart", e);
       }) 
-      
-      // this.createGrid(0, valueAxis);
-      // this.createGrid(5000, valueAxis);
-      // this.createGrid(10000, valueAxis);
-      // this.createGrid(15000, valueAxis);
     },
 
     createGrid(value, valueAxis) {

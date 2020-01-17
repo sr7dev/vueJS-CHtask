@@ -3,14 +3,14 @@ export default {
   formatTime(date) {
     var date = new Date(date);
     var Y = date.getFullYear();
-    var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1);
+    var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
     var D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
     return Y + '-' + M + '-' + D;
   },
   formatTimeH(date) {
     var date = new Date(date);
     var Y = date.getFullYear();
-    var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1);
+    var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
     var D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
     var h = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
     var m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
@@ -31,14 +31,11 @@ export default {
   },
   /*--------Ajax--------*/
   //登录
-  Login(url,req) {
+  Login(url, req) {
     return new Promise((resolve, reject) => {
-      console.log("登录=>"+url);
-      console.log(req);
-      api.post(url,{
+      api.post(url, {
         data: req
       }).then(response => {
-        console.log(response);
         resolve(response)
       }).catch((error) => {
         reject(error)
@@ -46,16 +43,11 @@ export default {
     })
   },
   //监管记录
-  supervisionRecord(url,req) {
-    console.log("url",url)
-    console.log("req",req)
+  supervisionRecord(url, req) {
     return new Promise((resolve, reject) => {
-      console.log("url",url)
-      console.log("req",req)
-      api.get(url,{
+      api.get(url, {
         data: req
       }).then(response => {
-        console.log(response);
         resolve(response)
       }).catch((error) => {
         reject(error)
@@ -63,12 +55,11 @@ export default {
     })
   },
   //监管记录详情
-  supervisionRecordDetails(url,req) {
+  supervisionRecordDetails(url, req) {
     return new Promise((resolve, reject) => {
-      api.get(url,{
+      api.get(url, {
         data: req
       }).then(response => {
-        console.log(response);
         resolve(response)
       }).catch((error) => {
         reject(error)
@@ -76,12 +67,11 @@ export default {
     })
   },
   //整改记录详情
-  rectificationRecordDetails(url,req) {
+  rectificationRecordDetails(url, req) {
     return new Promise((resolve, reject) => {
-      api.get(url,{
+      api.get(url, {
         data: req
       }).then(response => {
-        console.log(response);
         resolve(response)
       }).catch((error) => {
         reject(error)
@@ -89,12 +79,11 @@ export default {
     })
   },
   //生产标准列表
-  productionStandard(url,req) {
+  productionStandard(url, req) {
     return new Promise((resolve, reject) => {
-      api.get(url,{
+      api.get(url, {
         data: req
       }).then(response => {
-        console.log(response);
         resolve(response)
       }).catch((error) => {
         reject(error)
@@ -102,12 +91,11 @@ export default {
     })
   },
   //生产标准详情
-  productionStandardDetails(url,req) {
+  productionStandardDetails(url, req) {
     return new Promise((resolve, reject) => {
-      api.get(url,{
+      api.get(url, {
         data: req
       }).then(response => {
-        console.log(response);
         resolve(response)
       }).catch((error) => {
         reject(error)
@@ -115,12 +103,11 @@ export default {
     })
   },
   //企业信息列表
-  enterpriseinformationList(url,req) {
+  enterpriseinformationList(url, req) {
     return new Promise((resolve, reject) => {
-      api.get(url,{
+      api.get(url, {
         data: req
       }).then(response => {
-        console.log(response);
         resolve(response)
       }).catch((error) => {
         reject(error)
@@ -128,12 +115,11 @@ export default {
     })
   },
   //获取乡镇列表
-  tonwList(url,req) {
+  tonwList(url, req) {
     return new Promise((resolve, reject) => {
-      api.get(url,{
+      api.get(url, {
         data: req
       }).then(response => {
-        console.log(response);
         resolve(response)
       }).catch((error) => {
         reject(error)
@@ -141,12 +127,11 @@ export default {
     })
   },
   //企业详情
-  enterpriseinformationDetails(url,req) {
+  enterpriseinformationDetails(url, req) {
     return new Promise((resolve, reject) => {
-      api.get(url,{
+      api.get(url, {
         data: req
       }).then(response => {
-        console.log(response);
         resolve(response)
       }).catch((error) => {
         reject(error)
@@ -155,12 +140,11 @@ export default {
   },
 
   //获取诚信公示列表
-  creditList(url,req) {
+  creditList(url, req) {
     return new Promise((resolve, reject) => {
-      api.get(url,{
+      api.get(url, {
         data: req
       }).then(response => {
-        console.log(response);
         resolve(response)
       }).catch((error) => {
         reject(error)
@@ -168,12 +152,11 @@ export default {
     })
   },
   //获取生产记录列表
-  production_record(url,req) {
+  production_record(url, req) {
     return new Promise((resolve, reject) => {
-      api.get(url,{
+      api.get(url, {
         data: req
       }).then(response => {
-        console.log(response);
         resolve(response)
       }).catch((error) => {
         reject(error)
@@ -181,25 +164,23 @@ export default {
     })
   },
   //生产记录详情
-  production_recordDetails(url,req) {
+  production_recordDetails(url, req) {
     return new Promise((resolve, reject) => {
-      api.get(url,{
+      api.get(url, {
         data: req
       }).then(response => {
-        console.log(response);
         resolve(response)
       }).catch((error) => {
         reject(error)
       });
     })
   },
-   //获取投入品使用列表
-  inputsUse(url,req) {
+  //获取投入品使用列表
+  inputsUse(url, req) {
     return new Promise((resolve, reject) => {
-      api.get(url,{
+      api.get(url, {
         data: req
       }).then(response => {
-        console.log(response);
         resolve(response)
       }).catch((error) => {
         reject(error)
@@ -207,12 +188,11 @@ export default {
     })
   },
   //获取采购信息列表
-  inputsPurchase(url,req) {
+  inputsPurchase(url, req) {
     return new Promise((resolve, reject) => {
-      api.get(url,{
+      api.get(url, {
         data: req
       }).then(response => {
-        console.log(response);
         resolve(response)
       }).catch((error) => {
         reject(error)
@@ -220,12 +200,11 @@ export default {
     })
   },
   //获取投入品使用详情
-  inputsUseDetails(url,req) {
+  inputsUseDetails(url, req) {
     return new Promise((resolve, reject) => {
-      api.get(url,{
+      api.get(url, {
         data: req
       }).then(response => {
-        console.log(response);
         resolve(response)
       }).catch((error) => {
         reject(error)
@@ -233,12 +212,11 @@ export default {
     })
   },
   //获取采购详情
-  inputsPurchaseDetails(url,req) {
+  inputsPurchaseDetails(url, req) {
     return new Promise((resolve, reject) => {
-      api.get(url,{
+      api.get(url, {
         data: req
       }).then(response => {
-        console.log(response);
         resolve(response)
       }).catch((error) => {
         reject(error)

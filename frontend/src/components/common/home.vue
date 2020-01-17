@@ -5,8 +5,6 @@
     </el-header>
     <el-container>
       <el-aside style="width:200px; background: #fff">
-        <!-- 左侧菜单 -->
-        <!--:style="{height:global.navMenuHeight+'px'}" style="background: #ccc"-->
         <navBar></navBar>
       </el-aside>
       <el-main>

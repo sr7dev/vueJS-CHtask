@@ -187,12 +187,9 @@ export default {
       fileName: "",
       file_live_1: null,
       dataloading: false
-      // loggedinUserType: null
     };
   },
-  mounted() {
-    // this.loggedinUserType = Auth().user().userType;
-  },
+
   methods: {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {

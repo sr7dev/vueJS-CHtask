@@ -156,7 +156,6 @@
 
 <script>
 import Storage from "store";
-import sampleData from "./_data";
 import Pagination from "@/components/common/pagination";
 import Request from "@/services/api/request";
 import Auth from "@/services/authentication/auth.js";

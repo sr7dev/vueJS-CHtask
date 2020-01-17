@@ -56,8 +56,6 @@
         {{ userName }}
       </span>
       <span @click="quit()">
-        <!-- <img src="../../assets/images/quit.png" alt />
-        退出 -->
       </span>
     </div>
   </div>
@@ -87,7 +85,6 @@ export default {
       let index = this.menuList[i].privilegeCode;
       this.menuShowArr[index] = 1;
     }
-    // this.userName = Auth().user().contactName;
     this.userName = Storage.get("userData").name ? Storage.get("userData").name : Storage.get("userData").mobile;
   },
   methods: {

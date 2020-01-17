@@ -3,8 +3,7 @@ import Router from "vue-router";
 import Storage from "store";
 
 import Toast from "@/utils/toast";
-// const login = () =>
-//   import ("@/components/login/login");
+
 const home = () =>
   import ("@/components/common/home");
 const threeProductsCertification = () =>
@@ -93,7 +92,6 @@ const threeProduction = () =>
   import ("@/components/corporateCreditFile/threeProduction/threeProduction");
 const ratingInfo = () =>
   import ("@/components/corporateCreditFile/ratingInfo/ratingInfo");
-// import ratingInfo from "@/components/corporateCreditFile/ratingInfo/ratingInfo";
 
 const productionSubject = () =>
   import ("@/components/productionSubject/productionSubject");
@@ -249,19 +247,6 @@ const addInputUse = () =>
   import ("@/components/inputManagement/addInputManagement/addInputUse");
 const viewInputManagement = () =>
   import ("@/components/inputManagement/viewInputManagement/viewInputManagement");
-const uploadSituation = () =>
-  import ("@/components/uploadSituation/uploadSituation");
-
-// const statisticsFarmers = () =>
-//   import ("@/components/statisticsFarmers/statisticsFarmers");
-// const statisticsCredit = () =>
-//   import ("@/components/statisticsCredit/statisticsCredit");
-// const statisticsSupervision = () =>
-//   import ("@/components/statisticsSupervision/statisticsSupervision");
-// const statisticsTracing = () =>
-//   import ("@/components/statisticsTracing/statisticsTracing");
-// const statisticsTracingCompany = () =>
-//   import ("@/components/statisticsTracingCompany/statisticsTracingCompany");
 
 import statisticsFarmers from "@/components/statisticsFarmers/statisticsFarmers";
 import statisticsCredit from "@/components/statisticsCredit/statisticsCredit";
@@ -280,20 +265,8 @@ const router = window.location.href.indexOf("creditMode") < 0 ?
         component: home,
         redirect: "productionSubject",
         beforeEnter(to, from, next) {
-          // if (!Auth().check()) {
-          //   next({
-          //     path: "/login",
-          //     query: { redirect: to.fullPath }
-          //   });
-          // } else {
-          //   next();
-          // }
           if (!Auth().check())
             Toast.error("确认 accessToken, sign, timestamp!!!");
-          // if (Auth().check() === -1)
-          //   Toast.error("确认 accessToken, sign, timestamp!!!");
-          // else if (Auth().check() === -2)
-          //   Toast.error("验证失败. 确认 accessToken!!!");
           else
             Auth()
             .check()
@@ -839,11 +812,6 @@ const router = window.location.href.indexOf("creditMode") < 0 ?
             component: manageSupervisionGrid
           },
           {
-            path: "/uploadSituation",
-            name: "uploadSituation", // 上传情况
-            component: uploadSituation
-          },
-          {
             path: "/statisticsSupervision",
             name: "statisticsSupervision", // 上传情况
             component: statisticsSupervision
@@ -860,11 +828,6 @@ const router = window.location.href.indexOf("creditMode") < 0 ?
           }
         ]
       },
-      // {
-      //   path: "/login",
-      //   name: "login",
-      //   component: login
-      // },
       { path: "*", redirect: "/", hidden: true }
     ]
   }) :
@@ -875,20 +838,8 @@ const router = window.location.href.indexOf("creditMode") < 0 ?
         component: home,
         redirect: "corporateCreditFile",
         beforeEnter(to, from, next) {
-          // if (!Auth().check()) {
-          //   next({
-          //     path: "/login",
-          //     query: { redirect: to.fullPath }
-          //   });
-          // } else {
-          //   next();
-          // }
           if (!Auth().check())
             Toast.error("确认 accessToken, sign, timestamp!!!");
-          // if (Auth().check() === -1)
-          //   Toast.error("确认 accessToken, sign, timestamp!!!");
-          // else if (Auth().check() === -2)
-          //   Toast.error("验证失败. 确认 accessToken!!!");
           else
             Auth()
             .check()
@@ -954,11 +905,6 @@ const router = window.location.href.indexOf("creditMode") < 0 ?
           }
         ]
       },
-      // {
-      //   path: "/login",
-      //   name: "login",
-      //   component: login
-      // },
       { path: "*", redirect: "/", hidden: true }
     ]
   });

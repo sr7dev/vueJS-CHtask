@@ -77,7 +77,6 @@
       //过滤器
       filters: {
         filter: function (value) {
-          console.log(value)
           switch (value) {
             case "1":
               return "养殖业";
@@ -94,7 +93,6 @@
           Request()
             .get("/api/town/all")
             .then(response => {
-              console.log(response);
               this.township = this.township.concat(response);
             })
             .catch(error => {
@@ -112,12 +110,10 @@
         },
         //企业详情
         getCompanyInfo(id) {
-          console.log(id);
           let loader = this.$loading.show();
           Request()
             .get("/api/company_production/get/"+id)
             .then(response => {
-              console.log(response)
               this.form = response;
               //将后台JSON字符串转为一个对象
               this.form.productInfo = JSON.parse(response.productInfo);

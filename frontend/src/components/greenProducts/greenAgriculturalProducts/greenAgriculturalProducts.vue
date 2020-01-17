@@ -323,10 +323,7 @@ export default {
       registerTimeFrom: new Date(new Date().getFullYear(), 0, 1),
       registerTimeTo: new Date(),
       sendcount: 0,
-
       alert_dialogVisible: false,
-      // loggedinUserType: null,
-
       total: 0,
       tableData: [],
       listLoading: true
@@ -334,7 +331,6 @@ export default {
   },
   created() {
     this.getTown();
-    // this.loggedinUserType = Auth().user().userType;
     this.getData();
   },
   methods: {

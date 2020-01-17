@@ -74,7 +74,6 @@
               sortBy: "id"
             })
             .then(response => {
-              console.log(response.data)
               this.page.pageIndex=this.page.pageIndex+1;
               this.tableData = this.tableData.concat(response.data);
               this.total = response.total;
@@ -133,7 +132,6 @@
         },
         //上拉加载更多
         loadMore(){
-          console.log(11)
           this.getData();
         }
       },

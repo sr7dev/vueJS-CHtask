@@ -341,14 +341,12 @@ export default {
       sendcount: 0,
 
       alert_dialogVisible: false,
-      // loggedinUserType: null,
 
       tableData: [],
       listLoading: true
     };
   },
   created() {
-    // this.loggedinUserType = Auth().user().userType;
     this.getTown();
     this.getData();
   },

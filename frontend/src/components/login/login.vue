@@ -63,7 +63,6 @@
           type="primary"
           @click.native.prevent="handleLogin"
         >登录</el-button>
-        <!-- <el-link>忘记密码?</el-link> -->
       </el-form>
     </div>
   </div>
@@ -126,7 +125,6 @@ export default {
     }
   },
   created() {
-    // window.addEventListener('storage', this.afterQRScan)
     this.loginForm.isRemember = Storage.get("isRemember");
     this.loginForm.password = Storage.get("password")
       ? Storage.get("password")
@@ -149,7 +147,6 @@ export default {
     }
   },
   destroyed() {
-    // window.removeEventListener('storage', this.afterQRScan)
   },
   methods: {
     checkCapslock({ shiftKey, key } = {}) {
@@ -181,23 +178,6 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true;
-          //   this.$store
-          //     .dispatch("user/login", this.loginForm)
-          //     .then(() => {
-          //       this.$router.push({
-          //         path: this.redirect || "/",
-          //         query: this.otherQuery
-          //       });
-          //       this.loading = false;
-          //     })
-          //     .catch(() => {
-          //       this.loading = false;
-          //     });
-          //   const params = this.$route.fullPath.split("?");
-          //   let redirect = false;
-          //   if (params.length === 2 && params[1].indexOf("redirect=") !== -1) {
-          //     redirect = decodeURIComponent(params[1].substr(9));
-          //   }
           Auth()
             .login(this.loginForm)
             .then(
@@ -207,7 +187,6 @@ export default {
                   path: this.redirect || "/",
                   query: this.otherQuery
                 });
-                // emit login event
                 this.loading = false;
                 EventBus().publish("App.loggedIn");
               },
@@ -231,24 +210,6 @@ export default {
         return acc;
       }, {});
     }
-    // afterQRScan() {
-    //   if (e.key === 'x-admin-oauth-code') {
-    //     const code = getQueryObject(e.newValue)
-    //     const codeMap = {
-    //       wechat: 'code',
-    //       tencent: 'code'
-    //     }
-    //     const type = codeMap[this.auth_type]
-    //     const codeName = code[type]
-    //     if (codeName) {
-    //       this.$store.dispatch('LoginByThirdparty', codeName).then(() => {
-    //         this.$router.push({ path: this.redirect || '/' })
-    //       })
-    //     } else {
-    //       alert('第三方登录失败')
-    //     }
-    //   }
-    // }
   }
 };
 </script>

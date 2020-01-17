@@ -63,14 +63,6 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <!-- <el-form-item label="申请状态：" prop="status" class="input-width label-align">
-             <el-input 
-                v-model="formData.appliedAmount" 
-                auto-complete="off"
-                disabled
-            >
-            </el-input>
-        </el-form-item>-->
         <el-form-item label prop="file">
           <span class="item-label">
             <input
@@ -165,7 +157,6 @@ export default {
     this.getData(this.$route.params.id);
   },
   created() {
-    // this.loggedinUserType = Auth().user().userType;
     this.isShowAddButton = Storage.get("authList").find(
       x => x.privilegeCode == "addTrainingFunds"
     )
@@ -200,7 +191,6 @@ export default {
         });
     },
     downloadFile() {
-      console.log(this.file);
       axios({
         url: Urls.DOWNLOAD_URL() + this.file,
         method: "GET",
@@ -210,7 +200,6 @@ export default {
           const url = window.URL.createObjectURL(new Blob([response.data]));
           const link = document.createElement("a");
           link.href = url;
-          console.log(link);
           link.setAttribute("download", this.file.replace("/uploads/", "")); //or any other extension
           document.body.appendChild(link);
           link.click();

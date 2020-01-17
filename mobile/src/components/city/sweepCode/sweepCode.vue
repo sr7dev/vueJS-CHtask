@@ -228,8 +228,6 @@ export default {
   async created() {
     let loader = this.$loading.show();
     this.productBatchNumber = this.$route.params.batchNumber; //getting batchnumber from path
-    // this.productBatchNumber = "FDBC201910211002000902";
-    // this.getData();
     await this.getTracingData();
     await this.getBatchTaskInfo();
     this.tracingData.locationId && this.getTracing_location();

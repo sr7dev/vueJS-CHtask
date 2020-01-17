@@ -135,8 +135,6 @@ export default {
         Request()
           .delete("/api/common_word/delete/" + row.id)
           .then(response => {
-            // this.tableData = response.data;
-            // this.total = response.total;
             this.getList();
           })
           .catch(error => {
@@ -161,8 +159,6 @@ export default {
               word: this.editForm.word
             })
             .then(response => {
-              // this.tableData = response.data;
-              // this.total = response.total;
               this.editLoading = false;
               this.editFormVisible = false;
               this.getList();
@@ -183,8 +179,6 @@ export default {
               word: this.addForm.word
             })
             .then(response => {
-              // this.tableData = response;
-              // this.total = this.tableData.length;
               this.addLoading = false;
               this.addFormVisible = false;
               this.getList();

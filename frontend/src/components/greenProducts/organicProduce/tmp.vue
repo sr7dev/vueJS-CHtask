@@ -79,7 +79,6 @@ export default {
       alert_dialogVisible: false,
       confirm_dialogVisible: false,
 
-      // loggedinUserType: null,
       page: {
         pageIndex: 1,
         pageSize: 20
@@ -188,7 +187,6 @@ export default {
     };
   },
   created() {
-    // this.loggedinUserType = Auth().user().userType;
     this.getData();
   },
   methods: {

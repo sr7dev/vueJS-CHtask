@@ -196,7 +196,6 @@ export default {
               updateUserId: Auth().user().id
             })
             .then(response => {
-              //this.$router.push({ path: "/threeProductsCertification" });
               this.$router.go(-1);
               setTimeout(() => {
                 this.listLoading = false;

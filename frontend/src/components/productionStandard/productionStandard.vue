@@ -22,12 +22,7 @@
             <el-input v-model="productName" class="w-80"></el-input>
           </el-col>
           <el-button size="small" type="primary" @click="getList()" plain>搜索</el-button>
-          <!-- <el-col :span="12">
-            <div class="select_label">类别</div>
-            <el-select v-model="category" @change="getList()">
-              <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item.id"></el-option>
-            </el-select>
-          </el-col>-->
+ 
         </el-row>
       </div>
 
@@ -45,9 +40,6 @@
               slot-scope="{ row }"
             >{{row.productStandard.indexOf("png") > -1 ? row.productStandard.replace(".png","") : row.productStandard}}</template>
           </el-table-column>
-          <!-- <el-table-column prop="category" label="类别">
-            <template slot-scope="{ row }">{{ filterCategory(row.category) }}</template>
-          </el-table-column>-->
 
           <el-table-column prop="releaseTime" label="发布时间" class-name="text-center">
             <template slot-scope="{ row }">
@@ -82,10 +74,7 @@
                   downloadStandardProfiles(row.productionStandardProfiles)
                 "
               >下载</el-button>
-              <!-- <a
-                :href="'http://localhost/standard'+row.productionStandardProfiles"
-                download
-              >{{row.productionStandardProfiles}}</a>-->
+            
               <el-button
                 size="small"
                 type="warning"
@@ -197,19 +186,12 @@ export default {
         method: "GET",
         responseType: "blob" // important
       }).then(response => {
-        console.log(this.isIE())
         if(!this.isIE()){
           const url = window.URL.createObjectURL(new Blob([response.data]));
-          // const url = "http://213.252.247.150/standard" + profile;
-          // window.open(
-          //   "http://localhost/download.php?file=" + encodeURIComponent(profile),
-          //   "_blank"
-          // );
+         
           const link = document.createElement("a");
           link.href = url;
           link.target = "_blank";
-          // profile.indexOf("jiangsu") > 0
-          //   ? link.setAttribute("download", profile.replace("/jiangsu/", ""))
           link.setAttribute("download", profile.replace("/uploads/", "")); //or any other extension
           document.body.appendChild(link);
           link.click();
@@ -231,7 +213,6 @@ export default {
     },
     isIE() {
       let ua = navigator.userAgent;
-      /* MSIE used to detect old browsers and Trident used to newer ones*/
       return ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
     },
     rowIndex({ row, rowIndex }) {

@@ -39,7 +39,6 @@
           </select>
         </li>
         <li style="border: none">
-          <!--<input style="margin-left: 1rem;padding-bottom:0.5rem;width: 70%" v-model="data.inspector">-->
           <div class="mui-input-row">
             <label>检查人</label>
             <input
@@ -247,7 +246,6 @@
           </select>
         </li>
         <li style="border: none">
-          <!--<input style="margin-left: 1rem;padding-bottom:0.5rem;width: 70%" v-model="data.inspector">-->
           <div class="mui-input-row">
             <label>检查人</label>
             <input
@@ -453,7 +451,6 @@ export default {
     },
     //获取整改记录详情
     getData() {
-      console.log(this.superId);
       Indicator.open("加载中...");
       Request()
         .get(
@@ -463,8 +460,6 @@ export default {
           }
         )
         .then(response => {
-          console.log("整改记录");
-          console.log(response);
           let tmpdata = response.data;
           this.data = tmpdata[0];
           this.isNanData = this.data ? false : true;
@@ -482,9 +477,6 @@ export default {
     //保存提交
     onSubmit(formName) {
       var formData = new FormData();
-      // formData.append("scenePhotoFile", this.file_live_1); //required
-      // formData.append("signFile", this.file_live_2); //required
-      // formData.append("confirmor", this.file_live_3); //required
       formData.append("supervisionRecordId", this.superId); //required
       var newConclusionData;
       //没有数据
@@ -553,14 +545,6 @@ export default {
         formData.append("id", this.data.id); //required
         formData.append("inspector", this.data.inspector);
         formData.append("companyId", this.data.companyId);
-        // this.data.rectificationRecordTime = new Date(
-        //   this.data.rectificationRecordTime
-        // ).toDateString("YYYY-MM-DD");
-        // formData.append("createTime", this.data.rectificationRecordTime);
-        // formData.append(
-        //   "rectificationRecordTime",
-        //   this.data.rectificationRecordTime
-        // );
         formData.append("updateUserId", Auth().user().id);
         formData.append("conclusionFalseInfo", newConclusionData);
         this.pageLoading = true;
@@ -648,10 +632,8 @@ export default {
     }
   },
   created() {
-    console.log(this.$route);
     this.superId = this.$route.query.id;
     this.downloadURL = Urls.DOWNLOAD_URL();
-
     this.getTown();
     this.getCompanyProduct();
     this.getData();

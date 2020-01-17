@@ -96,8 +96,6 @@ export default {
     },
     onSubmit(formName) {
       let formData = new FormData();
-      // console.log(this.getVarietyName(this.ruleFormdata.varietyId));
-      // console.log(this.getGradeName(this.ruleFormdata.varietyGrade));
       const createTime = new Date();
       this.$refs[formName].validate(valid => {
         if (valid) {

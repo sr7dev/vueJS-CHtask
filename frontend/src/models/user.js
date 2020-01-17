@@ -37,7 +37,6 @@ export class User extends BaseModel {
     user["townId"] = data["townId"];
     user["createTime"] = data["createTime"];
     user["createUserId"] = data["createUserId"];
-    //return user.fill(data);
     return user;
   }
 

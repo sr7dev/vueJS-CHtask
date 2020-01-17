@@ -2,92 +2,86 @@ import * as _ from 'lodash';
 
 export class BaseModel {
 
-	constructor() {
+  constructor() {
 
-		this.attrs = {};
+    this.attrs = {};
 
-	}
+  }
 
-	/**
-	 * Standard interface for creating a model
-	 * @param  {Object} Data to fill
-	 * @return {Mixed}
-	 */
-	static create(data) {}
+  /**
+   * Standard interface for creating a model
+   * @param  {Object} Data to fill
+   * @return {Mixed}
+   */
+  static create(data) {}
 
-	/**
-	 * Take the constructor data and load into model
-	 * @param  {Object} data Data to fill
-	 * @return {Mixed} this
-	 */
-	fill(data) {
+  /**
+   * Take the constructor data and load into model
+   * @param  {Object} data Data to fill
+   * @return {Mixed} this
+   */
+  fill(data) {
 
-		for (var key in data) {
-			
-			if (this.fillables.includes(key.split('.')[0])) {
-					
-				this.setAttr(key, data[key]);
-				
-			}
-			
-		}
+    for (var key in data) {
 
-		return this;
-	}
+      if (this.fillables.includes(key.split('.')[0])) {
 
-	/**
-	 * Set an attribute for this model
-	 * @param {String} key   Name of this attribute
-	 * @param {Mixed} value Value of this attibute
-	 * @return this
-	 */
-	setAttr(key, value) {
+        this.setAttr(key, data[key]);
 
-		_.set(this.attrs, key, value);
+      }
 
-		return this;
+    }
 
-	}
+    return this;
+  }
 
-	/**
-	 * Get an attribute for this model
-	 * @param  {String} key Name of this attributes
-	 * @return {Mixed}     Value of this attribute
-	 */
-	getAttr(key) {
+  /**
+   * Set an attribute for this model
+   * @param {String} key   Name of this attribute
+   * @param {Mixed} value Value of this attibute
+   * @return this
+   */
+  setAttr(key, value) {
 
-		return _.get(this.attrs, key);
+    _.set(this.attrs, key, value);
 
-	}
+    return this;
 
-	/**
-	 * Overloads JSON.Stringify behaviour
-	 * @return {Object} Objects then to be stringified
-	 */
-	toJSON() {
+  }
 
-		var obj = {
-			attrs : this.attrs,
-			tmp : {
+  /**
+   * Get an attribute for this model
+   * @param  {String} key Name of this attributes
+   * @return {Mixed}     Value of this attribute
+   */
+  getAttr(key) {
 
-			}
-		};
+    return _.get(this.attrs, key);
 
-		// check for tmp variables associated
-		for (var key in this) {
+  }
 
-			if (key != 'attrs') {
+  /**
+   * Overloads JSON.Stringify behaviour
+   * @return {Object} Objects then to be stringified
+   */
+  toJSON() {
 
-				obj['tmp'][key] = this[key];
+    var obj = {
+      attrs: this.attrs,
+      tmp: {
 
-			}
+      }
+    };
+    for (var key in this) {
+      if (key != 'attrs') {
+        obj['tmp'][key] = this[key];
+      }
+    }
 
-		}
+    obj['__serializedtype'] = "model";
+    obj['__serializedclass'] = this.className;
 
-		obj['__serializedtype'] = "model";
-		obj['__serializedclass'] = this.className;
+    return obj;
 
-		return obj;
-
-	}
+  }
 }

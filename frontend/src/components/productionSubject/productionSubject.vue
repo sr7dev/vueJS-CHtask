@@ -401,10 +401,6 @@ export default {
       return this.townList[pos].name;
     },
     gotoCreditRatingPage(row) {
-      // this.$router.push({
-      //   path: `/corporateCreditFile/ratingInfo`,
-      //   query: { creditCode: row.creditCode }
-      // });
       this.$router.push({
         path: `/productionSubject/addRegulatoryObject`,
         query: { creditCode: row.creditCode }

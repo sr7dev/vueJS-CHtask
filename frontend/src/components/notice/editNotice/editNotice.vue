@@ -159,12 +159,6 @@ export default {
             trigger: "change"
           }
         ],
-        // timingRelease: [
-        // {
-        //     required: true,
-        //     message: "请插入",
-        //     trigger: "change"
-        // }],
         emergencyDegree: [
           {
             required: true,
@@ -192,13 +186,11 @@ export default {
       file_live_1: null,
       id: 0,
       dataloading: true
-      // loggedinUserType: null,
     };
   },
   beforeMount() {
     this.id = this.$route.params.id;
     this.getData(this.$route.params.id);
-    // this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     getData(id) {

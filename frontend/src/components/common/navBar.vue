@@ -20,10 +20,6 @@
             <el-menu-item index="/companyBusiness">
               <router-link slot="title" to="/companyBusiness">经营主体</router-link>
             </el-menu-item>
-            <!-- <el-menu-item index="/productionSubject">
-              生产主体
-            </el-menu-item>
-            <el-menu-item index="/companyBusiness">经营主体</el-menu-item>-->
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="/regulatoryContent">
@@ -227,9 +223,6 @@ export default {
   },
   methods: {
     handleSelect(key) {
-      //let that = this;
-      // that.SET_ACTIVEMENU(key)
-      /*防止刷新后拿不到对应显示的栏目*/
       sessionStorage.setItem("activeMenu", key);
     },
     IsMenuExists(menuName) {

@@ -7,7 +7,6 @@
  * @FilePath: /mobile/src/services/constants.js
  */
 let environment = "production";
-// let environment = "local";
 
 let Urls = {
   API_BASE_URL: () => {
@@ -23,19 +22,6 @@ let Urls = {
     return process.env.VUE_APP_DOWNLOAD
   }
 };
-
-// let StorageKeys = {
-
-//   ACCESS_TOKEN_KEY: "access_token",
-
-//   REFRESH_TOKEN_KEY: "refresh_token"
-
-// };
-
-// export {
-//   Urls,
-//   StorageKeys
-// };
 
 export {
   Urls

@@ -143,7 +143,6 @@
 </template>
 
 <script>
-import sampleData from "../_data";
 import Pagination from "@/components/common/pagination";
 import Request from "../../../services/api/request.js";
 export default {
@@ -157,7 +156,7 @@ export default {
       },
       listLoading: true,
       total: 0,
-      tableData: sampleData,
+      tableData: null,
       creditCode: -1
     };
   },

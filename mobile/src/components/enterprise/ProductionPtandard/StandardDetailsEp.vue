@@ -46,7 +46,6 @@
           Request()
             .get("/api/production_standard/get/" + id)
             .then(response => {
-              console.log(response);
               this.data = response;
               if(response.releaseTime){
                 this.data.releaseTime = response.releaseTime.substring(0, response.releaseTime.lastIndexOf('T'));

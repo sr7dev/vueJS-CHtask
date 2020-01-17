@@ -15,12 +15,6 @@
               </el-col>
               <el-col :span="4" class="margin-left-auto flex-center">
                 <div class="white-colored inline-block-IE">按年</div>
-                <!-- <el-input
-                  v-model="toYear"
-                  class="w-50 margin-left-10 chart-input"
-                  size="small"
-                  type="number"
-                ></el-input> -->
                 <el-date-picker
                   class="w-60 margin-left-10 chart-input"
                   size="small"
@@ -312,17 +306,9 @@ import Request from "@/services/api/request.js";
 import Pagination from "@/components/common/pagination";
 import Auth from "@/services/authentication/auth.js";
 import { log } from 'util';
-// import * as am4core from "@amcharts/amcharts4/core";
-// import * as am4charts from "@amcharts/amcharts4/charts";
-// import am4themes_kelly from "@amcharts/amcharts4/themes/kelly";
-// import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-
-// am4core.useTheme(am4themes_kelly);
-// am4core.useTheme(am4themes_animated);
 
 export default {
   name: "statisticsTracing",
-  // components: { Pagination },
   data() {
     return {
       page: {
@@ -489,14 +475,12 @@ export default {
         categoryAxis.renderer.line.strokeWidth = 2;
         categoryAxis.renderer.line.stroke = am4core.color("#3787ac");
         let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-        // valueAxis.title.text = "镇农产品质量安全董监管站(管站)";
         valueAxis.min = 0;
         valueAxis.renderer.labels.template.fill = "white";
         valueAxis.renderer.grid.template.stroke = am4core.color("#fff");
         valueAxis.renderer.line.strokeOpacity = 1;
         valueAxis.renderer.line.strokeWidth = 2;
         valueAxis.renderer.line.stroke = am4core.color("#3787ac");
-        // Create series
         let series = chart.series.push(new am4charts.ColumnSeries());
         series.dataFields.valueY = "cnt";
         series.dataFields.categoryX = "name";
@@ -517,7 +501,6 @@ export default {
         valueLabel.label.fontSize = 15;
         let columnTemplate = series.columns.template;
         columnTemplate.strokeOpacity = 0;
-        // Chart code goes here
       }).catch((e) => {
         console.error("Error when creating chart", e);
       }) 

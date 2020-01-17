@@ -12,9 +12,6 @@
       </div>
     </div>
     <el-dialog :visible.sync="openDialog" width="60%" :before-close="handleClose" :title="header">
-      <!-- <el-row>
-        <el-col :span="3" class="margin-bottom-30 margin-left-30">{{header}}</el-col>
-      </el-row>-->
       <el-form ref="dynamicValidateForm" :model="dynamicValidateForm" label-width="100px">
         <el-row v-if="showWebMaster">
           <el-col :span="5">
@@ -63,12 +60,6 @@
               :prop="'rowDatas.'+index+'.age'"
               :rules="{ type: 'number',message: '插入号码'}"
             >
-            <!-- <el-form-item
-              label="年龄:"
-              :prop="'rowDatas.'+index+'.age'"
-              :rules="[{required: true, message: '请插入'},
-                { type: 'number',message: '插入号码'}]"
-            > -->
               <el-input v-model.number="rowData.age"></el-input>
             </el-form-item>
           </el-col>
@@ -77,11 +68,6 @@
               label="手机号:"
               :prop="'rowDatas.'+index+'.phoneNumber'"
             >
-            <!-- <el-form-item
-              label="手机号:"
-              :prop="'rowDatas.'+index+'.phoneNumber'"
-              :rules="{ required: true, message: '请插入', trigger: 'blur' }"
-            > -->
               <el-input v-model="rowData.phoneNumber"></el-input>
             </el-form-item>
           </el-col>
@@ -154,16 +140,6 @@
                 </el-table-column>
               </el-table>
             </el-container>
-
-            <!-- <div class="pageBox">
-              <pagination
-                v-show="total > 0"
-                :total="total"
-                :page.sync="page.pageIndex"
-                :limit.sync="page.pageSize"
-                @pagination="getData"
-              />
-            </div>-->
           </div>
         </el-col>
       </el-row>
@@ -177,7 +153,6 @@ import Pagination from "@/components/common/pagination";
 import Auth from "@/services/authentication/auth.js";
 export default {
   name: "manageSupervisionGrid",
-  // components: { Pagination },
   data() {
     return {
       page: {
@@ -225,25 +200,7 @@ export default {
         .get("/api/town/get/" + this.selectedTownId)
         .then(response => {
           let rawData = response;
-          // for (let i = 1; i < 5; i++) {
-          //   let row = rawData.filter(el => el.supervisorType === i);
-          //   if (row) {
-          //     if (i === 2) {
-          //       // let tmp = row.find(x => x.function === "站长");
-          //       let tmp = row.find(x => x.function === "站长");
-          //       if (tmp) {
-          //         this.webMasterData = tmp;
-          //         this.dynamicValidateForm.webMaster = tmp.name;
-          //       } else {
-          //         this.webMasterData = "";
-          //         this.dynamicValidateForm.webMaster = "";
-          //       }
-          //       let index = row.indexOf(tmp);
-          //       if (index > -1) row.splice(index, 1);
-          //     }
-          //     this.tableData["group" + i] = row;
-          //   } else this.tableData["group" + i] = [];
-          // }
+        
           var regex = new RegExp(/(?<="level1":)(.*)(?=,"level2leader")/g),
             results = regex.exec(rawData.superviseSystem);
           const group1 = results ? results[1] : "[]";
@@ -321,7 +278,6 @@ export default {
       }
     },
     onSubmit(formName) {
-      // console.log(this.dynamicValidateForm.rowDatas);
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.confirm_dialogVisible = true;
@@ -333,7 +289,6 @@ export default {
       this.openDialog = false;
         this.listLoading = true;
         let updateSuperData = {};
-        console.log(this.dynamicValidateForm.rowDatas);
         for (let i = 1; i < 5; i++) {
           if (this.selectedSupervisupervisorType == i)
             updateSuperData["level" + i] = this.dynamicValidateForm.rowDatas;
@@ -343,13 +298,6 @@ export default {
               name: this.dynamicValidateForm.webMaster
             };
         }
-        // console.log(updateSuperData);
-        // updateSuperData["level1"] = this.dynamicValidateForm.rowDatas;
-        // updateSuperData["level2leader"] = this.dynamicValidateForm.webMaster;
-        // updateSuperData["level2"] = this.tableData.group2;
-        // updateSuperData["level3"] = this.tableData.group3;
-        // updateSuperData["level4"] = this.tableData.group4;
-
         Request()
           .put("/api/town/update/" + this.selectedTownId, {
             divisionCode: this.tableData.divisionCode,

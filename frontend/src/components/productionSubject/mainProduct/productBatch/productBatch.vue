@@ -771,7 +771,6 @@ export default {
               .get("/api/tracing/getByBatchNumber/"+this.selectedBatchRow.batchNumber)
               .then(response => {
                 if(!response) {
-                   //adding tracing data
                   let tracingFormData = new FormData();
                   const batchSubName1 = this.getVarietyName(
                     this.selectedBatchRow.varietyId
@@ -811,9 +810,7 @@ export default {
                     batchSubName1 + "," + batchSubName2
                   );
                   tracingFormData.append("tracingNumber", "");
-                  // tracingFormData.append("tracingTime", createTime);
                   tracingFormData.append("tracingTimeType", 0);
-                  // tracingFormData.append("webTime", createTime);
                   tracingFormData.append("webTimeType", 0);
                   tracingFormData.append("tracingAmount", 0);
                   tracingFormData.append("printStatus", 0);
@@ -1242,7 +1239,6 @@ export default {
       this.ruleFormValue4.productSaleDestination = this.ruleFormValue4.selProductSaleDestination;
     },
     makePropertyValueList() {
-      // this.ruleFormValue3.propertyValue = null;
       let property = this.propertyList.find(
         x => x.id === this.ruleFormValue3.propertyName
       );

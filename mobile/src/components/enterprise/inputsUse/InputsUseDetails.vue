@@ -44,7 +44,6 @@
       //获取投入品使用详情
       getData(id, type) {
         if (type == 1) {
-          //let loader = this.$loading.show();
           Indicator.open('数据加载中...');
           this.title = "投入品使用详情";
           Request()

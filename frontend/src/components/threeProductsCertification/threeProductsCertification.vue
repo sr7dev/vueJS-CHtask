@@ -57,11 +57,6 @@
             </template>
           </el-table-column>
           <el-table-column prop="productName" label="产品名称">
-            <!-- <template slot-scope="{ row }">
-              {{
-              filterProduct(row.productId)
-            }}-->
-            <!-- </template> -->
           </el-table-column>
           <el-table-column label="农业分类">
             <template slot-scope="{ row }">
@@ -171,10 +166,6 @@ export default {
         .get("/api/company_production/name")
         .then(response => {
           this.companyProduction = this.companyProduction.concat(response);
-          // for(let i in this.companyProduction) {
-          //   if(this.companyProduction[i].creditCode == "")
-          //   this.companyProduction.splice(i,1);
-          // }
         })
         .catch(error => {
           console.log(error);

@@ -124,10 +124,6 @@ import Request from "@/services/api/request.js";
 import Pagination from "@/components/common/pagination";
 import Auth from "@/services/authentication/auth.js";
 import Storage from "store";
-// import * as am4core from "@amcharts/amcharts4/core";
-// import * as am4charts from "@amcharts/amcharts4/charts";
-// import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-
 import axios from "axios";
 const ECharts =()=>import('vue-echarts/components/ECharts.vue');
 import 'echarts/lib/chart/pie';
@@ -148,7 +144,6 @@ export default {
       totalLoading: true,
       toYear: null,
       toMonth: null,
-      // maxCnt: null,
       maxCnt: 45,
       progressColor: "",
       isShowAddButton: null,
@@ -191,9 +186,6 @@ export default {
     this.isIE();
     await this.getTown();
     this.getCompanyProduction();
-    // this.makeXYChart();
-    // this.makePieChart();
-    // this.makeLineChart();
   },
   created() {
     this.isShowAddButton = Storage.get("authList").find(
@@ -281,8 +273,6 @@ export default {
           publishStatus : this.isShowAddButton? 1 : -1
         })
         .then(response => {
-          // this.redData = response.data;
-          // this.total = response.total;
           setTimeout(() => {}, 0.5 * 1000);
           let index = 0;
           this.redData = response.data.map(item => {
@@ -301,8 +291,6 @@ export default {
           publishStatus : this.isShowAddButton? 1 : -1
         })
         .then(response => {
-          // this.blackData = response.data;
-          // this.total = response.total;
           setTimeout(() => {}, 0.5 * 1000);
           let index = 0;
           this.blackData = response.data.map(item => {
@@ -390,14 +378,11 @@ export default {
       categoryAxis.renderer.line.stroke = am4core.color("#3787ac");
       let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
       valueAxis.min = 0;
-      // valueAxis.max = 600;
-      // valueAxis.renderer.minGridDistance = 2;
       valueAxis.renderer.labels.template.fill = "white";
       valueAxis.renderer.grid.template.stroke = am4core.color("#fff");
       valueAxis.renderer.line.strokeOpacity = 1;
       valueAxis.renderer.line.strokeWidth = 2;
       valueAxis.renderer.line.stroke = am4core.color("#3787ac");
-      // Create series
       let series = chart.series.push(new am4charts.ColumnSeries());
       series.dataFields.valueY = "A级";
       series.dataFields.categoryX = "townId";
@@ -449,7 +434,6 @@ export default {
       valueLabel3.label.rotation = -45;
       valueLabel3.label.dy = -10;
 
-      // Add cursor
       chart.cursor = new am4charts.XYCursor();
       chart.legend = new am4charts.Legend();
       chart.legend.position = "top";
@@ -471,23 +455,8 @@ export default {
       }).catch((e) => {
         console.error("Error when creating chart", e);
       }) 
-     
-      // this.createGrid1(0, valueAxis);
-      // this.createGrid1(200, valueAxis);
-      // this.createGrid1(400, valueAxis);
-      // this.createGrid1(600, valueAxis);
     },
     makeChartRightTop() {
-      // let chart = am4core.create(this.$refs.chartdiv2, am4charts.PieChart);
-
-      // let data = [];
-      // this.leftTopData.map(item => {
-      //   data.push({
-      //     cnt: item[0],
-      //     townId: this.filterTownName(item[1])
-      //   });
-      // });
-     
       this.leftTopData.sort(function(a, b) {
         return b.cnt - a.cnt;
       });
@@ -549,50 +518,6 @@ export default {
           dataIndex
         })
       }, 1000)  
-      // chart.data = data;
-      // chart.responsive.enabled = true;
-      // chart.addClassName = true;
-      // chart.width = am4core.percent(55);
-      // chart.height = am4core.percent(100);
-      // chart.align = "center";
-
-      // // Add and configure Series
-      // let pieSeries = chart.series.push(new am4charts.PieSeries());
-      // let title = chart.titles.create();
-      // title.text = "各站点诚信等级上传数据的比例分布";
-      // title.fontSize = 5;
-      // title.marginBottom = 20;
-      // title.marginTop = 10;
-      // title.fill = am4core.color("#012f8a");
-      // // pieSeries.radius = 100;
-      // pieSeries.dataFields.value = "cnt";
-
-      // pieSeries.dataFields.category = "townId";
-      // pieSeries.dataFields.radiusValue = "cnt";
-
-      // pieSeries.labels.template.truncate = true;
-      // pieSeries.labels.template.fontSize = 15;
-      // pieSeries.labels.template.maxWidth = 180;
-      // pieSeries.labels.template.fill = "white";
-      // pieSeries.labels.template.text =
-      //   "[bold '#20beff']{value.percent.formatNumber('#.0')}%[/] {category}";
-      // pieSeries.ticks.template.strokeWidth = 1;
-      // pieSeries.ticks.template.strokeOpacity = 0.7;
-      // pieSeries.ticks.template.fill = am4core.color("#012f8a");
-      // pieSeries.ticks.template.fillOpacity = 1;
-      // // Add cursor
-      // chart.cursor = new am4charts.XYCursor();
-      // // chart.legend = new am4charts.Legend()
-
-      // // This creates initial animation
-      // pieSeries.hiddenState.properties.opacity = 1;
-      // pieSeries.hiddenState.properties.endAngle = -90;
-      // pieSeries.hiddenState.properties.startAngle = -90;
-      // let colorSet = new am4core.ColorSet();
-      // colorSet.list = this.colorList.map(color => {
-      //   return new am4core.color(color);
-      // });
-      // pieSeries.colors = colorSet;
     },
     makeChartLeftDown() {
        Promise.all([
@@ -636,7 +561,6 @@ export default {
       categoryAxis.renderer.labels.template.horizontalCenter = "right";
       let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
       valueAxis.min = 0;
-      // valueAxis.max = 15000;
       valueAxis.renderer.minGridDistance = 40;
       valueAxis.renderer.labels.template.fill = "white";
       valueAxis.renderer.grid.template.stroke = am4core.color("#fff");
@@ -667,16 +591,10 @@ export default {
       chart.cursor = new am4charts.XYCursor();
       let columnTemplate = series.columns.template;
       columnTemplate.strokeOpacity = 0;
-        // Chart code goes here
       }).catch((e) => {
         console.error("Error when creating chart", e);
       }) 
-      
-     
-      // this.createGrid(0, valueAxis);
-      // this.createGrid(5000, valueAxis);
-      // this.createGrid(10000, valueAxis);
-      // this.createGrid(15000, valueAxis);
+   
     },
     getPercent(cnt1, cnt2, type) {
       if (!cnt1 || !cnt2) return 0;

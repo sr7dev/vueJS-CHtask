@@ -75,10 +75,6 @@
             </li>
           </ul>
         </div>
-        <!--<ul v-for="item in tableData" @click="companyDetails(item.companyId)">-->
-        <!--<li>名称<span>{{item.companyName}}</span><span class="mui-icon mui-icon-arrowright"></span></li>-->
-        <!--<li>信用评级 <span>{{item.creditCode}}</span></li>-->
-        <!--</ul>-->
       </div>
     </div>
   </div>

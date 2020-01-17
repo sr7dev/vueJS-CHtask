@@ -26,9 +26,6 @@
           ></el-option>
         </el-select>
         <div class="select_label" v-if="isShowAddButton">
-          <!-- <el-button size="small" disabled type="primary" plain
-            >同步数据</el-button
-          > -->
         </div>
       </div>
 
@@ -88,7 +85,6 @@
             </template>
           </el-table-column>
           <el-table-column prop="gradeUnit" label="评级单位"></el-table-column>
-          <!-- <el-table-column prop="approvalStatus" label="状态" width="100"></el-table-column> -->
           <el-table-column label="状态" width="100">
             <template slot-scope="{ row }">
               {{ getStatus(row.approvalStatus) }}

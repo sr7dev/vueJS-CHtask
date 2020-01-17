@@ -29,7 +29,6 @@
           <el-table-column prop="gradeName" label="等级名称"></el-table-column>
           <el-table-column prop="gradeSort" label="等级排序"></el-table-column>
           <el-table-column prop="yield" label="操作" class-name="text-center">
-            <!-- <template slot-scope="scope"> -->
             <template slot-scope="{ row }">
               <el-button
                 size="small"

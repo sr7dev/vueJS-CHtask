@@ -177,7 +177,6 @@ export default {
   },
   created() {
     this.getData();
-    // this.loggedinUserType = Auth().user().userType;
   },
   methods: {
     getData() {

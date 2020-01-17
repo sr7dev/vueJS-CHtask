@@ -82,7 +82,6 @@ class Auth {
       companyId: data["companyId"]
     });
     // // save user locally
-    //Storage.set("userData", JSON.stringify(this.loggedInUser.attrs));
     Storage.set("userData", JSON.stringify(this.loggedInUser));
   }
 

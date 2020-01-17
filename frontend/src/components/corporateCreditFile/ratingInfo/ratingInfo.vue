@@ -50,7 +50,6 @@
               ></el-rate>
             </template>
           </el-table-column>
-          <!-- <el-table-column prop="punishTypeF" label="评级有效期" width="150"></el-table-column> -->
           <el-table-column prop="gradeUnit" label="评级单位"></el-table-column>
         </el-table>
       </el-container>

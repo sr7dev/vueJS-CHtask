@@ -14,12 +14,6 @@
                日期
                <span>{{ data.createTime && data.createTime.substr(0,10) }}</span> 
               </li>             
-                  <!-- <mt-datetime-picker
-                    v-model="data.createTime"
-                    type="date"
-                    @confirm="handleConfirm"
-                  >
-                  </mt-datetime-picker> -->
               <li>
                 乡镇<span>{{ townShip }}</span>
               </li>
@@ -191,14 +185,6 @@
               ></mt-field>
             </div>
             <div class="scene">
-              <!--<span class="scenetitle">-->
-              <!--现场图片-->
-              <!--<img-->
-              <!--class="live_photo"-->
-              <!--:src="downloadUrl + data.scenePhotos"-->
-              <!--v-if="data.scenePhotos"/>-->
-              <!--</span>-->
-              <!--<p style="margin-top: 8rem;margin-left: 2rem">签名<img class="sign_photo" :src="downloadUrl + data.sign" v-if="data.sign" /></p>-->
               <table class="image-upload-table">
                 <tbody>
                   <tr>

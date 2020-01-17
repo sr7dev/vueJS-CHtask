@@ -56,11 +56,6 @@
           </li>
         </ul>
       </div>
-      <!--<ul v-if="data.length">-->
-      <!--<li v-for="row in data" :key="row.id" @click="standardDetails(row.id)">{{row.productName}}<span class="mui-icon mui-icon-arrowright"-->
-      <!--style="margin-left: 8rem;margin-top: 1.6rem"></span></li>-->
-      <!--</ul>-->
-
       <div class="no-data" v-else>
         <p>没有数据</p>
       </div>
@@ -109,9 +104,6 @@ export default {
     },
     //获取生产标准列表
     getProductionStandardList() {
-      // let that = this;
-      // let response = await that.util.productionStandard(apiConfig.production_standard, {});
-      // console.log(response);
       this.loading = true;
       let loader = this.$loading.show();
       Request()

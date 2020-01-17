@@ -5,15 +5,6 @@
         <img src="../../images/header.jpg">
       </div>
 
-        <!--<ul>-->
-          <!--<li @click="productionPtandard"><img src="../../images/2019120201.jpg"></li>-->
-          <!--<li @click="companyDetails"><img src="../../images/2019120202.jpg"></li>-->
-          <!--<li @click="sincerity"><img src="../../images/2019120203.jpg"></li>-->
-          <!--<li><img src="../../images/2019120204.jpg"></li>-->
-          <!--<li @click="productionRecord"><img src="../../images/2019120205.jpg"></li>-->
-          <!--<li @click="inputsUse"><img src="../../images/2019120206.jpg"></li>-->
-          <!--<li @click="complaintCommunication"><img src="../../images/2019120207.jpg"></li>-->
-        <!--</ul>-->
       <ul class="mui-table-view mui-grid-view mui-grid-9">
         <li @click="productionPtandard" class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
           <img src="../../images/2019120201.jpg"></li>

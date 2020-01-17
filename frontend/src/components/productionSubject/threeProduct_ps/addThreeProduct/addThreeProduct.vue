@@ -65,13 +65,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <!-- <el-row>
-          <el-col :span="6">
-            <el-form-item label="证书编号" prop="certificationNo">
-              <el-input v-model="ruleFormValue.certificationNo"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>-->
         <el-form-item label="认证有效期" style="text-align: center" required>
           <el-col :span="4" class="text-left">
             <el-form-item prop="certificationStartTime">
@@ -284,21 +277,11 @@ export default {
             "createDate",
             this.ruleFormValue.certificationStartTime
           );
-          // formData.append(
-          //   "createTime",
-          //   this.ruleFormValue.certificationStartTime
-          // );
           formData.append(
             "updateDate",
             this.ruleFormValue.certificationStartTime
           );
-          // formData.append(
-          //   "updateTime",
-          //   this.ruleFormValue.certificationStartTime
-          // );
           formData.append("updater", "string");
-          // formData.append("updateUserId", 0);
-          // formData.append("createUserId", 0);
           formData.append("creater", "string");
           formData.append("id", 0);
           if (this.file) {

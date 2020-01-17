@@ -80,7 +80,6 @@
                 }
               });
               this.List=list;
-              console.log(this.List);
               setTimeout(() => {
                 loader.hide();
               },500)

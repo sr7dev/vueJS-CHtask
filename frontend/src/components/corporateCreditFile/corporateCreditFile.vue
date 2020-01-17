@@ -50,14 +50,6 @@
           ></el-option>
         </el-select>
         <div class="select_label" v-if="isShowAddButton">
-          <!-- <el-button
-            size="small"
-            type="primary"
-            v-on:click="getList()"
-            disabled
-            plain
-            >导入</el-button
-          > -->
         </div>
       </div>
 
@@ -81,7 +73,6 @@
             v-if="isShowEditButton"
             prop="companyName"
           >
-            <!-- <template slot-scope="{row}">{{filterCompnay(row.creditCode)}}</template> -->
           </el-table-column>
           <el-table-column
             label="名称"
@@ -89,7 +80,6 @@
             prop="companyName"
             v-if="isShowDetail"
           >
-            <!-- <template slot-scope="{row}">{{filterCompnay(row.creditCode)}}</template> -->
           </el-table-column>
           <el-table-column
             prop="creditCode"
@@ -294,21 +284,6 @@ export default {
       this.tableData = [];
       this.tableData = tmpData;
     },
-    // onSelectPubPunish() {
-    //   var tmpData = this.tableDataOrigin;
-    //   if (this.ppCount == 1) {
-    //     tmpData = tmpData.filter(function(punish) {
-    //       return punish.ppCount > 0;
-    //     });
-    //   } else if (this.public_punish == 2) {
-    //     tmpData = tmpData.filter(function(punish) {
-    //       return punish.ppCount == 0;
-    //     });
-    //   }
-
-    //   this.tableData = [];
-    //   this.tableData = tmpData;
-    // },
     getCompanyProduction() {
       Request()
         .get("/api/company_production/name")
@@ -335,47 +310,11 @@ export default {
       Request()
         .get("/api/company_production/getCreditList", {
           companyType: this.bTypes,
-          // approvalStatus: this.status - 1,
-          // pageNo: this.page.pageIndex - 1,
-          // pageSize: this.page.pageSize,
           townId: this.currTown
         })
         .then(response => {
-          // var tmpData = response.data;
-          // if (this.public_license == 1) {
-          //   tmpData = tmpData.filter(function(licesnse) {
-          //     return licesnse.public_license > 0;
-          //   });
-          // } else if (this.public_license == 2) {
-          //   tmpData = tmpData.filter(function(licesnse) {
-          //     return licesnse.public_license == 0;
-          //   });
-          // }
-          // if (this.public_punish == 1) {
-          //   tmpData = tmpData.filter(function(punish) {
-          //     return punish.public_punish > 0;
-          //   });
-          // } else if (this.public_punish == 2) {
-          //   tmpData = tmpData.filter(function(punish) {
-          //     return punish.public_punish == 0;
-          //   });
-          // }
-          // this.tableData = [];
-          // tmpData.forEach(e => {
-          //   e.nowGrade = this.getGradeString(e);
-          // });
           this.tableDataOrigin = response;
           this.tableData = response;
-          // let indexItem = 0;
-          // tmpData.map(item => {
-          //   let gradeArrayName = "credit_grade_data_" + indexItem;
-          //   this.getNowGrade(response[gradeArrayName]).then(res => {
-          //     item.nowGrade = this.getGradeString(res);
-          //     this.tableData.push(item);
-          //     this.total = this.tableData.length;
-          //   });
-          //   indexItem++;
-          // });
           this.total = this.tableData.length;
           setTimeout(() => {
             this.listLoading = false;
@@ -409,29 +348,7 @@ export default {
       }
       return nowGrade;
     },
-    // getGrade(dataTable) {
-    //   let strGrade = "";
-    //   Request()
-    //     .get("/api/company_credit_grade/all", {
-    //       approvalStatus: this.status - 1,
-    //       creditCode: dataTable.creditCode,
-    //       pageNo: this.page.pageIndex - 1,
-    //       pageSize: this.page.pageSize,
-    //       townId: this.currTown
-    //     })
-    //     .then(response => {
-    //       this.gradData = response;
-    //       let nSIze = this.gradData.length;
-    //       strGrade = this.getGradeString(this.gradData[nSIze - 1].nowGrade);
-    //       dataTable.nowGrade = strGrade;
-    //     })
-    //     .catch(error => {
-    //       console.log(error);
-    //       return "";
-    //     });
-
-    //   return dataTable.nowGrade;
-    // },
+   
     getGradeString(grade) {
       let strGrade = "";
       switch (grade) {

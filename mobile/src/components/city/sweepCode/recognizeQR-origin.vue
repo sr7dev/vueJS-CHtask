@@ -43,7 +43,6 @@ export default {
     onDecode(decodedString) {
       if (decodedString.indexOf("{") > -1) {
         this.result = JSON.parse(decodedString).batchNumber;
-        //getting batchnumber from QRcode information
         setTimeout(() => {
           this.$router.push("/sweepCode/" + this.result); //go to SweepCode page
         }, 1000);

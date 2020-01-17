@@ -163,7 +163,6 @@ export default {
           formData.append("companyId", this.companyId);
           formData.append("createTime", new Date());
           formData.append("createUserId", Auth().user().id);
-          // formData.append("file", "");
           formData.append("grade", this.ruleFormValue.grade);
           formData.append("id", 0);
           formData.append("productArea", this.ruleFormValue.productArea);
