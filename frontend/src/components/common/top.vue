@@ -1,8 +1,8 @@
 <template>
   <div class="xyh_top flex-box justify-right">
     <div class="changshu_left">
-      <img src="../../assets/images/logo.png" v-if="creditMode<0" alt />
-      <img src="../../assets/images/logo-credit.png" v-else alt />
+      <img src="../../assets/images/logo-supervisionsystem.png" v-if="creditMode<0" alt />
+      <img src="../../assets/images/logo-creditsystem.png" v-else alt />
     </div>
     <el-menu
       outer
@@ -52,7 +52,7 @@
     </el-menu>
     <div class="quit">
       <span style="padding-right: 20px">
-        <img src="../../assets/images/head.png" alt />
+        <img src="../../assets/images/icon-user.png" alt />
         {{ userName }}
       </span>
       <span @click="quit()">
