@@ -1,4 +1,5 @@
 <template>
+<!-- 重写逻辑 开始 -->
   <div class="root">
     <mt-header fixed title="首页"></mt-header>
     <div class="header">
@@ -68,6 +69,7 @@
       </li>
     </ul>
   </div>
+  <!-- 重写逻辑 结束 -->
 </template>
 
 <script>
@@ -215,9 +217,6 @@ export default {
 </script>
 
 <style scoped>
-/* .root {
-  min-height: 550px;
-} */
 .header {
   margin-top: 2.5rem;
   height: 12rem;
@@ -230,23 +229,9 @@ export default {
   border: none;
 }
 .mint-tabbar{
-  /* position: fixed!important;
-  top: calc(100vh - 43px)!important; */
   position: fixed!important;
-    /* margin-top: 50px; */
 }
-/*ul{*/
-/*display: flex;*/
-/*flex-wrap: wrap;*/
-/*align-items: center;*/
-/*margin-top: 3rem;*/
-/*}*/
-/*ul li{*/
-/*list-style-type:none;*/
-/*width:33.33%;*/
-/*height: 6rem;*/
-/*margin-top:1rem ;*/
-/*}*/
+
 img {
   width: 100%;
   height: 100%;

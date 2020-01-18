@@ -522,6 +522,7 @@ export default {
         });
     },
     //保存提交
+    // --------- 重写逻辑 开始------// 
     onSubmit() {
       var formData = new FormData();
       this.file_live_1 && formData.append("scenePhotoFile", this.file_live_1); //required
@@ -556,14 +557,8 @@ export default {
         formData.append("conclusion", this.ruleFormValue.conclusion ? 1:0);
         formData.append("inspector", this.ruleFormValue.inspector);
         formData.append("companyId", this.ruleFormValue.companyId);
-        //formData.append("updateTime", this.ruleFormValue.createTime);
         formData.append("updateUserId", Auth().user().id);
         formData.append("createUserId", Auth().user().id);
-        //formData.append("createTime", this.ruleFormValue.createTime);
-        // formData.append(
-        //   "rectificationRecordTime",
-        //   this.ruleFormValue.createTime
-        // );
         formData.append("conclusionFalseInfo", newConclusionData);
 
         this.listLoading = true;
@@ -595,14 +590,6 @@ export default {
         formData.append("companyId", this.data.companyId);
         formData.append("conclusion", this.data.conclusion ? 1 : 0);
         formData.append("rectificationRecordTime", this.data.rectificationRecordTime);
-        // this.data.rectificationRecordTime = new Date(
-        //   this.data.rectificationRecordTime
-        // ).toDateString("YYYY-MM-DD");
-        // formData.append("createTime",  this.data.rectificationRecordTime);
-        // formData.append(
-        //   "rectificationRecordTime",
-        //    this.data.rectificationRecordTime
-        // );
         formData.append("updateUserId", Auth().user().id);
         formData.append("conclusionFalseInfo", newConclusionData);
         this.pageLoading = true;
@@ -621,7 +608,7 @@ export default {
           .catch(error => {});
       }
     },
-    //
+    //-------------重写逻辑 结束 -------//
     chooseFile_Live() {
       document.getElementById("file").click();
     },

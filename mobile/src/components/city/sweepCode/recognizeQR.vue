@@ -1,4 +1,5 @@
 <template>
+ <!-- // --------- 重写逻辑 开始------//  -->
   <div>
     <mt-header fixed title="溯源详情">
       <router-link to="/" slot="left">
@@ -18,9 +19,11 @@
       <p v-if="!errorMessage">将相机设置在QR Code上</p>
     </div>
   </div>
+  <!-- //-------------重写逻辑 结束 -------// -->
 </template>
 
 <script>
+// --------- 重写逻辑 开始------//
  import VueQrReader from 'vue-qr-reader/dist/lib/vue-qr-reader.umd.js';
 import { MessageBox } from "mint-ui";
 import TokenManager from "@/configs/token-manager";
@@ -47,17 +50,18 @@ export default {
     }
   },
   methods: {
+    // 检查摄影机是否存在
     hasGetUserMedia() {
       return !!(navigator.mediaDevices &&
         navigator.mediaDevices.getUserMedia);
     },
-    /* When recognize QRcode  */
+    /* 当摄像机工作时  */
     codeArrived (event) {
       MessageBox.alert(JSON.parse(event).batchNumber, "提示").then(action => {
          this.$router.push("/sweepCode/"+JSON.parse(event).batchNumber);
       });
     },
-    /* Detect Camera Status */
+    /* 探测摄像机误差 */
     errorCaptured(error) {
       switch (error.name) {
           case 'NotAllowedError':
@@ -86,6 +90,7 @@ export default {
     }
   }
 };
+//-------------重写逻辑 结束 -------//
 </script>
 <style scoped>
 .qrboard {

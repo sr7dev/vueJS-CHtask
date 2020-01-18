@@ -1,4 +1,5 @@
 <template>
+<!-- 重写逻辑 开始 -->
   <div>
     <mt-header fixed title="溯源详情">
       <router-link to="/home" slot="left">
@@ -102,9 +103,11 @@
       <p style="text-align:center">没有数据</p>
     </div>
   </div>
+  <!-- 重写逻辑 结束 -->
 </template>
 
 <script>
+// 重写逻辑 开始
 import Request from "@/configs/request.js";
 import { Urls } from "@/configs/constants.js";
 export default {
@@ -239,6 +242,7 @@ export default {
     }, 1000);
   }
 };
+// 重写逻辑 结束
 </script>
 
 <style scoped>

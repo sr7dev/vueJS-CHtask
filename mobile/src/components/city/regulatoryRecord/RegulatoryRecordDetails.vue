@@ -1,4 +1,5 @@
 <template>
+ <!-- // --------- 重写逻辑 开始------//  -->
   <div>
     <mt-header fixed title="监管记录详情">
       <router-link to="/regulatoryRecord" slot="left">
@@ -257,6 +258,7 @@
       <div style="margin-left: 1rem"></div>
     </div>
   </div>
+  <!-- //-------------重写逻辑 结束 -------// -->
 </template>
 
 <script>
@@ -298,6 +300,7 @@ export default {
   },
   methods: {
     //监管记录详情
+     // --------- 重写逻辑 开始------// 
     getData() {
       let loader = this.$loading.show();
       Request()
@@ -376,6 +379,7 @@ export default {
         type: 'error'
       });
     },
+    //-------------重写逻辑 结束 -------//
     handleConfirm() {
       console.log(this.data.createTime);
     },

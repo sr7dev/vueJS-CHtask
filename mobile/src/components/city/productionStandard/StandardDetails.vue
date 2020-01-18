@@ -92,6 +92,7 @@
           console.log(error);
         });
       },
+      // 重写逻辑 开始 //
       downloadFile() {
         axios({
           url: Urls.DOWNLOAD_URL() + this.data.productionStandardProfiles,
@@ -110,6 +111,7 @@
           link.remove();
         });
       }
+      // 重写逻辑 结束 //
     }
   }
 </script>

@@ -178,24 +178,7 @@ option {
 .mui-table-view-cell {
   line-height: 2rem;
 }
-/*ul {*/
-/*margin-left: -2rem;*/
-/*}*/
-/*.no-data {*/
-/*text-align: center;*/
-/*}*/
-/*li {*/
-/*position: relative;*/
-/*margin-bottom: 1rem;*/
-/*line-height: 5rem;*/
-/*padding-left: 2rem;*/
-/*border-bottom: 0.03rem black solid;*/
-/*}*/
 
-/*span {*/
-/*position: absolute;*/
-/*left: 12rem;*/
-/*}*/
 
 .right {
   margin-left: 8rem;

@@ -171,6 +171,7 @@ export default {
 </script>
 
 <style scoped>
+/* 重写逻辑 开始 */
 .select {
   width: 84.5%;
   height: 100%;
@@ -202,4 +203,5 @@ td {
   letter-spacing: -1px;
   white-space: normal!important;
 }
+/* 重写逻辑 结束 */
 </style>

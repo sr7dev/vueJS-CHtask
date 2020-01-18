@@ -204,6 +204,7 @@ export default {
 </script>
 
 <style scoped>
+/* // --------- 重写逻辑 开始------//  */
 ul {
   font-weight: 100;
   margin-left: -1.8rem;
@@ -235,4 +236,5 @@ li {
 .mui-card-content-inner {
   padding:5px!important;
 }
+/* //-------------重写逻辑 结束 -------// */
 </style>

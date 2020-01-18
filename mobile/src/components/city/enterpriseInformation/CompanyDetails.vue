@@ -116,6 +116,7 @@
             .then(response => {
               this.form = response;
                if(response.productInfo){
+                 // --------- 重写逻辑 开始------// 
                 if(response.productInfo.indexOf("data_0_0")<0){
                   var regex = new RegExp(/(?={planting:)(.*)(?=})/g),
                   results = regex.exec(response.productInfo);
@@ -126,6 +127,7 @@
                   var regex2 = new RegExp(/(?=area:)(.*)(?="})/g),
                   results2 = regex2.exec(middleStr);
                   const data_0_1 = results2 ? results2[1] : "";
+                //-------------重写逻辑 结束 -------//
                   this.form.productInfo = {
                     data_0_0: data_0_0.replace("name:\"",""),
                     data_0_1: data_0_1.replace("area:",""),
@@ -177,6 +179,7 @@
 </script>
 
 <style scoped>
+/*  重写逻辑 开始  */
   ul{
     margin-top: 4rem;
     margin-left: -2rem;
@@ -200,4 +203,5 @@
   .mui-card {
     width: 95%;
   }
+/*  重写逻辑 结束  */
 </style>
