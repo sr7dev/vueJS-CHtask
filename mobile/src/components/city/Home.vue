@@ -73,7 +73,6 @@
 </template>
 
 <script>
-import Auth from "@/configs/auth.js";
 import Request from "@/configs/request.js";
 import Storage from "store";
 import TokenManager from "@/configs/token-manager";
@@ -88,7 +87,6 @@ export default {
   },
   methods: {
     exit() {
-      Auth().logout();
       setTimeout(() => {
         this.$router.push({
           path: "/login"

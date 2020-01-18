@@ -166,7 +166,7 @@
           <template slot-scope="{ row }">
             <el-image
               class="button-img small-size"
-              :src="Button2"
+              :src="icon_supervisionrecord"
               @click="
                 $router.push({
                   path: `/productionSubject/threeProduct`,
@@ -205,7 +205,7 @@
           <template slot-scope="{ row }">
             <el-image
               class="button-img"
-              :src="Button1"
+              :src="icon_certification"
               v-on:click="
                 $router.push({
                   path: `/regulatoryRecord/`,
@@ -237,7 +237,7 @@
           <template slot-scope="{ row }">
             <el-image
               class="button-img"
-              :src="Button1"
+              :src="icon_certification"
               v-on:click="
                 $router.push({
                   path: `/disabilityCheck/`,
@@ -337,15 +337,15 @@ import Storage from "store";
 const Pagination =()=> import("@/components/common/pagination");
 import Request from "@/services/api/request";
 import Auth from "@/services/authentication/auth.js";
-import Button1 from "@/assets/images/button1.png";
-import Button2 from "@/assets/images/button2.png";
+import icon_certification from "@/assets/images/icon-certification.png";
+import icon_supervisionrecord from "@/assets/images/icon-supervisionrecord.png";
 export default {
   name: "productionSubject",
   components: { Pagination },
   data() {
     return {
-      Button1: Button1,
-      Button2: Button2,
+      icon_certification: icon_certification,
+      icon_supervisionrecord: icon_supervisionrecord,
       townId: -1,
       companyType: 0,
       agriculturalClassification: 0,

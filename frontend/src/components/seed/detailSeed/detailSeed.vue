@@ -2,7 +2,7 @@
   <div class="container">
     <div class="title">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item>种子管理</el-breadcrumb-item>
+        <el-breadcrumb-item>种子管控</el-breadcrumb-item>
         <el-breadcrumb-item class="actived">查看详情</el-breadcrumb-item>
       </el-breadcrumb>
     </div>

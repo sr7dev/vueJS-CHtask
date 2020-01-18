@@ -1,7 +1,6 @@
 import * as _ from "lodash";
 import Storage from "store";
 import Request from "./request";
-import { User } from "../models/user";
 import TokenManager from "./token-manager";
 import axios from "axios";
 

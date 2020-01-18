@@ -1,6 +1,5 @@
 import axios from "axios";
 import { Urls } from "../constants";
-import EventBus from "../../utils/event";
 import TokenManager from "../authentication/token-manager";
 import Toast from "@/utils/toast";
 

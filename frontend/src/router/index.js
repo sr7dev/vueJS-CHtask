@@ -22,12 +22,6 @@ const detailsRegulatoryRecord = () =>
   import ("@/components/regulatoryRecord/detailsRegulatoryRecord/detailsRegulatoryRecord");
 const commonWords = () =>
   import ("@/components/regulatoryRecord/commonWords/commonWords");
-const management = () =>
-  import ("@/components/management/management");
-const businessProducts = () =>
-  import ("@/components/management/businessProducts");
-const companyDetails = () =>
-  import ("@/components/management/companyDetails");
 const redBlackList = () =>
   import ("@/components/redBlackList/redBlackList");
 const disabilityCheck = () =>
@@ -525,21 +519,6 @@ const router = window.location.href.indexOf("creditMode") < 0 ?
             path: "/commonWords",
             name: "commonWords",
             component: commonWords
-          },
-          {
-            path: "/management",
-            name: "management",
-            component: management
-          },
-          {
-            path: "/businessProducts",
-            name: "businessProducts",
-            component: businessProducts
-          },
-          {
-            path: "/companyDetails",
-            name: "companyDetails",
-            component: companyDetails
           },
           {
             path: "/disabilityCheck",

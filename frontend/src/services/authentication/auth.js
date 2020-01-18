@@ -1,7 +1,6 @@
 import * as _ from "lodash";
 import Storage from "store";
 import Request from "../api/request";
-import { User } from "../../models/user";
 import TokenManager from "./token-manager";
 import axios from "axios";
 
@@ -123,21 +122,6 @@ class Auth {
     this.setToken();
 
     // // instantiate current user
-    this.loggedInUser = User.create({
-      id: data["id"],
-      userId: data["userId"],
-      userType: data["userType"],
-      contactName: data["contactName"],
-      contactPerson: data["contactPerson"],
-      contactWay: data["contactWay"],
-      createTime: data["createTime"],
-      createUserId: data["createUserId"],
-      creditCode: data["creditCode"],
-      updateTime: data["updateTime"],
-      updateUserId: data["updateUserId"],
-      townId: data["townId"],
-      companyId: data["companyId"]
-    });
     Storage.set("userData", JSON.stringify(this.loggedInUser));
   }
 

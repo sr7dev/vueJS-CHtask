@@ -31,7 +31,6 @@
 </template>
 
 <script>
-import apiConfig from "@/configs/api";
 import Storage from "store";
 import Request from "@/configs/request.js";
 import TokenManager from "@/configs/token-manager";

@@ -17,7 +17,7 @@
         <router-link slot="title" to="/statisticsCredit">
           <span>
             <i class="el-icon-data-analysis vertical-text-bottom"></i
-            >诚信体系
+            >诚信体系看板
           </span>
         </router-link>
       </el-menu-item>
@@ -63,7 +63,6 @@
 
 <script type="text/ecmascript-6">
 import Toast from "@/utils/toast";
-import EventBus from "@/utils/event";
 import Storage from "store";
 import Auth from "@/services/authentication/auth";
 export default {
